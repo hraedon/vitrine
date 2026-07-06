@@ -90,25 +90,25 @@ assumptions = ["nominal-values"]
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
+id = "us-2020s-food-prices"
+panel = "table"
+label = "Retail food prices, December 2024"
+value = "Bread $1.71/lb, flour $1.91/lb, round steak $5.58/lb, milk $6.92/gal, potatoes $4.15/lb, coffee $0.62/lb"
+unit = "USD, nominal, BLS average price survey (APU series)"
+source = "bls-api"
+tier = "A"
+notes = "From BLS Public Data API v2, series APU0000712211 (bread), APU0000702111 (flour), APU0000703111 (round steak), APU0000704111 (milk), APU0000708111 (potatoes), APU0000711211 (coffee). Values are December 2024 monthly averages. Some series (eggs, butter, bananas, sugar) returned N/A for 2024 — possibly discontinued. For comparison with 1980: bread $0.48/lb (3.5x), milk $1.71/gal (4.0x), round steak $1.86/lb (3.0x). CPI ratio 1980→2024 is ~3.4x, so food prices tracked inflation roughly."
+assumptions = ["nominal-values"]
+
+[[fact]]
 id = "us-2020s-food-expenditure-gap"
 panel = "table"
 label = "Food expenditure share, 2020s"
-value = "data available via BLS CEX — not transcribed"
+value = "data available via BLS CEX tables — not yet transcribed"
 unit = "—"
 source = "bls-cex"
 tier = "D"
-notes = "The BLS Consumer Expenditure Survey (CEX) publishes annual expenditure shares including food at home and food away from home. Data is at https://www.bls.gov/cex/ but BLS blocks automated requests (403). For context: food's share of expenditure has fallen dramatically from 42% in 1903 to under 15% in the 2020s. Specific figure needs browser access to CEX tables."
-assumptions = ["income-vs-consumption"]
-
-[[fact]]
-id = "us-2020s-food-basket-gap"
-panel = "table"
-label = "Food basket composition, 2020s"
-value = "data available via BLS CEX — not transcribed"
-unit = "—"
-source = "bls-cex"
-tier = "D"
-notes = "The CEX provides detailed food expenditure data. BLS also publishes average food prices (CPI detailed commodity data). Both require browser access to BLS website (403-blocked for automated requests)."
+notes = "The BLS Consumer Expenditure Survey publishes annual expenditure shares at https://www.bls.gov/cex/tables.htm. The CEX data is not available as time series via the BLS API — it requires accessing the HTML/PDF tables directly. For context: food's share of expenditure has fallen from 42.54% in 1901 to under 15% in the 2020s."
 assumptions = ["income-vs-consumption"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────

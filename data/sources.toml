@@ -331,6 +331,18 @@ url = "https://www2.census.gov/programs-surveys/decennial/tables/time-series/cen
 population = "All U.S. occupied housing units (decennial census)"
 notes = "Time series of homeownership rates from 1900 to 2000 by state and nationally. 1950 national rate: 55.0%. 1940: 43.6%. 1960: 61.9%. Also see companion table: https://www2.census.gov/programs-surveys/decennial/tables/time-series/census-housing-tables/ownerchar.pdf"
 
+# ── BLS Public Data API ───────────────────────────────────────────────────
+
+[[source]]
+id = "bls-api"
+title = "BLS Public Data API v2"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 2024
+url = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
+short_cite = "U.S. Bureau of Labor Statistics, Public Data API"
+population = "Depends on series (CPI: all urban consumers; food prices: urban consumers)"
+notes = "Direct API access to BLS time series. Used for: average food prices (APU series), CPI-U (CUUR0000SA0), wage and hours data. API key registered. Food price series (APU) available from ~1970s onward — no 1950 data. Rate limit: 100 queries/day for registered users."
+
 # ── Other ─────────────────────────────────────────────────────────────────
 
 [[source]]
