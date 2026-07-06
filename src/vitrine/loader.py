@@ -68,6 +68,7 @@ def _load_sources(path: Path) -> dict[str, Source]:
             url=_get_str(table, "url", ctx),
             population=_get_str(table, "population", ctx),
             notes=_get_str_opt(table, "notes", ctx),
+            short_cite=_get_str_opt(table, "short_cite", ctx),
         )
         if source.id in sources:
             raise LoadError(f"{path}: duplicate source id {source.id!r}")

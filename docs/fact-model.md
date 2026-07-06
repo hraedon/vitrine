@@ -45,6 +45,7 @@ An entry in the global registry `data/sources.toml`.
 | `url` | str | Where a visitor can verify (stable/archival link preferred) |
 | `population` | str | **Who was actually measured** — the anti-composite field |
 | `notes` | str | Access date, edition, table number, caveats |
+| `short_cite` | str | Brief inline citation for footnote display on visualizations |
 
 `population` is mandatory and load-bearing: "all US families, CPS money
 income" vs "urban wage-earner families with a male head" is the difference

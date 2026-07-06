@@ -25,7 +25,8 @@ notes = "Landing page listing Tables F-1 through F-23. Continuously updated. Las
 
 [[source]]
 id = "census-f08-allraces"
-title = "Historical Income Table F-8: Median Income of Families by Number of Earners and Family Size, All Races"
+title = "Census Historical Income Table F-8: Families by Size and Median and Mean Income (All Races)"
+short_cite = "U.S. Census Bureau, CPS Historical Income Tables (Table F-8)"
 publisher = "U.S. Census Bureau"
 year = 2024
 url = "https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-families/f08a.xlsx"
@@ -63,7 +64,8 @@ notes = "Real (inflation-adjusted) median family income. Coverage: 1953-2024. CP
 
 [[source]]
 id = "fred-ahetpi"
-title = "Average Hourly Earnings of Production and Nonsupervisory Employees, Total Private (AHETPI)"
+title = "Average Hourly Earnings of All Employees, Total Private (AHETPI)"
+short_cite = "BLS via FRED, Federal Reserve Bank of St. Louis (AHETPI)"
 publisher = "Federal Reserve Bank of St. Louis (source: BLS Current Employment Statistics)"
 year = 2024
 url = "https://fred.stlouisfed.org/series/AHETPI"
@@ -145,6 +147,7 @@ title = "IPUMS USA: Integrated Public Use Microdata Series"
 publisher = "IPUMS, University of Minnesota"
 year = 2024
 url = "https://usa.ipums.org/usa/"
+short_cite = "IPUMS USA, University of Minnesota, www.ipums.org"
 population = "Decennial census respondents (sample or full count, depending on year) + ACS 2001-present"
 notes = "Harmonized census microdata 1850-2020 + ACS. Tier B: statistics computed by this project from microdata. COMPLIANCE: See docs/ipums-compliance.md. IPUMS USA Sample data: may publish subsets for journal requirements; contact IPUMS for other redistribution. IPUMS USA Full Count data (1850-1950): WILL NOT BE REPUBLISHED. Vitrine publishes only derived aggregate statistics (medians, percentages), never raw microdata. Raw IPUMS extracts live in gitignored samples/ and are never committed. PREFERRED CITATION: Steven Ruggles, Sarah Flood, Matthew Sobek, Daniel Backman, Grace Cooper, Julia A. Rivera Drew, Stephanie Richards, Renae Rodgers, Jonathan Schroeder, and Kari C.W. Williams. IPUMS USA: Version 16.0 [dataset]. Minneapolis, MN: IPUMS, 2025. https://doi.org/10.18128/D010.V16.0. Add publication to IPUMS bibliography at https://www.ipums.org/bibliography."
 
@@ -152,6 +155,7 @@ notes = "Harmonized census microdata 1850-2020 + ACS. Tier B: statistics compute
 id = "ipums-1940-census"
 title = "IPUMS USA: 1940 Decennial Census (Full Count)"
 publisher = "IPUMS, University of Minnesota"
+short_cite = "IPUMS USA, University of Minnesota, www.ipums.org"
 year = 2024
 url = "https://usa.ipums.org/usa/"
 population = "All US residents, 1940 (132 million records, full count)"
@@ -226,7 +230,8 @@ notes = "Provides calculators for relative value of money (CPI, GDP deflator, un
 
 [[source]]
 id = "umizzou-prices-wages"
-title = "Prices and Wages by Decade (Library Guide)"
+title = "Prices and Wages by Decade"
+short_cite = "University of Missouri Libraries, Prices and Wages by Decade"
 publisher = "University of Missouri Libraries"
 year = 2024
 url = "https://libraryguides.missouri.edu/pricesandwages/quotable-facts"
@@ -264,7 +269,8 @@ notes = "Conducted in: 1997, 2000, 2001, 2003, 2007, 2009-2013, 2015, 2017, 2019
 
 [[source]]
 id = "pew-internet-broadband"
-title = "Internet, Broadband Fact Sheet"
+title = "Pew Research Center: Internet & Broadband Fact Sheet"
+short_cite = "Pew Research Center"
 publisher = "Pew Research Center"
 year = 2025
 url = "https://www.pewresearch.org/internet/fact-sheet/internet-broadband/"
@@ -276,6 +282,7 @@ notes = "Pew's Internet & Technology program tracks internet, broadband, and sma
 [[source]]
 id = "fred-awhman"
 title = "Average Weekly Hours of Production and Nonsupervisory Employees, Manufacturing (AWHMAN)"
+short_cite = "BLS via FRED, Federal Reserve Bank of St. Louis (AWHMAN)"
 publisher = "Federal Reserve Bank of St. Louis (source: BLS Current Employment Statistics)"
 year = 2024
 url = "https://fred.stlouisfed.org/series/AWHMAN"
@@ -285,6 +292,7 @@ notes = "Coverage: Jan 1939–present, monthly. BLS source code: CES3000000006. 
 [[source]]
 id = "fred-ces-manuf-earnings"
 title = "Average Hourly Earnings of Production and Nonsupervisory Employees, Manufacturing (CES3000000008)"
+short_cite = "BLS via FRED, Federal Reserve Bank of St. Louis (CES3000000008)"
 publisher = "Federal Reserve Bank of St. Louis (source: BLS Current Employment Statistics)"
 year = 2024
 url = "https://fred.stlouisfed.org/series/CES3000000008"
@@ -296,6 +304,7 @@ notes = "Coverage: 1939–present, monthly. Pre-1964 earnings series (AHETPI sta
 [[source]]
 id = "census-hc5-02-1950"
 title = "1950 Census of Housing: Series HC-5, No. 2 — Year Built, Household Equipment, and Cooking and Heating Fuel, for Dwelling Units in the United States: April 1, 1950"
+short_cite = "U.S. Census Bureau, 1950 Census of Housing (HC-5, No. 2)"
 publisher = "U.S. Census Bureau, Bureau of the Census"
 year = 1951
 url = "https://www2.census.gov/library/publications/decennial/1950/hc-5/hc-5-02.pdf"
@@ -305,6 +314,7 @@ notes = "Preliminary sample data. Contains: year built, television, kitchen sink
 [[source]]
 id = "census-homeownership-historical"
 title = "Homeownership Rate by State: 1900 to 2000"
+short_cite = "U.S. Census Bureau, Historical Homeownership Rates"
 publisher = "U.S. Census Bureau"
 year = 2000
 url = "https://www2.census.gov/programs-surveys/decennial/tables/time-series/census-housing-tables/owner.pdf"

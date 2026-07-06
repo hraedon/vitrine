@@ -78,6 +78,7 @@ class Source:
     url: str
     population: str  # who was actually measured — the anti-composite field
     notes: str = ""
+    short_cite: str = ""  # brief inline citation for footnote display
 
 
 @dataclass(frozen=True, slots=True)
