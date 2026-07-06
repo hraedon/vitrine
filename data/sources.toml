@@ -1,6 +1,8 @@
 # Global source registry. Every fact's `source` field resolves here.
 # `population` is mandatory: say who was actually measured.
 
+# ── Seed (existing) ──────────────────────────────────────────────────────
+
 [[source]]
 id = "census-p60-009"
 title = "Current Population Reports, Consumer Income, Series P-60 No. 9: Income of Families and Persons in the United States: 1950"
@@ -9,3 +11,273 @@ year = 1951
 url = "https://www.census.gov/library/publications/1951/demo/p60-009.html"
 population = "All US families (two or more related persons living together), CPS money income"
 notes = "Seed source for the skeleton. Plan 001 WI-1 supersedes the all-family median with the by-family-size series (Historical Income Tables, Table F-8) where its coverage window allows."
+
+# ── Census: income ────────────────────────────────────────────────────────
+
+[[source]]
+id = "census-hist-income-families"
+title = "Historical Income Tables: Families"
+publisher = "U.S. Census Bureau"
+year = 2024
+url = "https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-families.html"
+population = "All US families (two or more related persons), CPS money income"
+notes = "Landing page listing Tables F-1 through F-23. Continuously updated. Last revision Sep 2025 (2024 data)."
+
+[[source]]
+id = "census-f08-allraces"
+title = "Historical Income Table F-8: Median Income of Families by Number of Earners and Family Size, All Races"
+publisher = "U.S. Census Bureau"
+year = 2024
+url = "https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-families/f08a.xlsx"
+population = "All US families by family size (2, 3, 4, 5, 6, 7+ persons), CPS money income"
+notes = "Excel file. The 4-person-family column is the primary source for the museum's family-of-four medians. Coverage window starts at 1947 — verify the 4-person column covers the full window. Also available: f08ar (All Races revised), f08w (White), f08b (Black), f08h (Hispanic), f08wnh (White not Hispanic)."
+
+[[source]]
+id = "census-p60-series"
+title = "Current Population Reports, Consumer Income, Series P-60 (publication series)"
+publisher = "U.S. Census Bureau"
+year = 2024
+url = "https://www.census.gov/library/publications/time-series/p60.1989.List_1930924763.html"
+population = "All US families and persons, CPS money income"
+notes = "Series landing page listing individual P-60 reports from 1947 to present. Individual reports are also at www2.census.gov/library/publications/<year>/demographics/p60-<no>.pdf. Example: P-60 No. 69 (1970) at https://www2.census.gov/library/publications/1970/demographics/p60-69.pdf."
+
+# ── FRED (data republished from Census/BLS) ───────────────────────────────
+
+[[source]]
+id = "fred-mefainusa646n"
+title = "Median Family Income in the United States (MEFAINUSA646N)"
+publisher = "Federal Reserve Bank of St. Louis (source: U.S. Census Bureau)"
+year = 2024
+url = "https://fred.stlouisfed.org/series/MEFAINUSA646N"
+population = "All US families, CPS money income (nominal)"
+notes = "FRED republishes Census data. For provenance, cite the Census source (P-60 or Historical Income Tables) as primary. Coverage: 1953-2024. Useful for programmatic access and cross-referencing with wage/CPI series."
+
+[[source]]
+id = "fred-mefainusa672n"
+title = "Real Median Family Income in the United States (MEFAINUSA672N)"
+publisher = "Federal Reserve Bank of St. Louis (source: U.S. Census Bureau)"
+year = 2024
+url = "https://fred.stlouisfed.org/series/MEFAINUSA672N"
+population = "All US families, CPS money income (CPI-adjusted to 2024 dollars)"
+notes = "Real (inflation-adjusted) median family income. Coverage: 1953-2024. CPI-U deflation applied by FRED."
+
+[[source]]
+id = "fred-ahetpi"
+title = "Average Hourly Earnings of Production and Nonsupervisory Employees, Total Private (AHETPI)"
+publisher = "Federal Reserve Bank of St. Louis (source: BLS Current Employment Statistics)"
+year = 2024
+url = "https://fred.stlouisfed.org/series/AHETPI"
+population = "Production and nonsupervisory employees, total private sector"
+notes = "Average (not median) hourly earnings. Coverage: 1964-present, monthly. BLS source code: CES0500000008. Useful for work-buys panel as proxy for median worker purchasing power."
+
+[[source]]
+id = "fred-cpiaucns"
+title = "Consumer Price Index for All Urban Consumers: All Items in U.S. City Average (CPIAUCNS)"
+publisher = "Federal Reserve Bank of St. Louis (source: BLS)"
+year = 2024
+url = "https://fred.stlouisfed.org/series/CPIAUCNS"
+population = "All Urban Consumers (CPI-U), U.S. city average, all items"
+notes = "Not seasonally adjusted. Coverage: 1913-present, monthly. Use for deflation and real-wage calculations across all decades."
+
+[[source]]
+id = "fred-cpiaucsl"
+title = "Consumer Price Index for All Urban Consumers: All Items in U.S. City Average (CPIAUCSL)"
+publisher = "Federal Reserve Bank of St. Louis (source: BLS)"
+year = 2024
+url = "https://fred.stlouisfed.org/series/CPIAUCSL"
+population = "All Urban Consumers (CPI-U), U.S. city average, all items"
+notes = "Seasonally adjusted. Coverage: 1947-present, monthly. Use for trend analysis; use CPIAUCNS for historical deflation pre-1947."
+
+# ── BLS ────────────────────────────────────────────────────────────────────
+
+[[source]]
+id = "bls-cpi"
+title = "Consumer Price Index (CPI)"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 2024
+url = "https://www.bls.gov/cpi/"
+population = "All Urban Consumers (CPI-U)"
+notes = "BLS CPI homepage. Historical data and supplemental files at https://www.bls.gov/cpi/tables/supplemental-files/. BLS 403-blocks automated requests — URL valid, access via browser. Historical article: https://www.bls.gov/opub/mlr/2014/article/one-hundred-years-of-price-change-the-consumer-price-index-and-the-american-inflation-experience.htm"
+
+[[source]]
+id = "bls-cex"
+title = "Consumer Expenditure Survey (CEX)"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 2024
+url = "https://www.bls.gov/cex/"
+population = "Consumer units (households) in the civilian noninstitutionalized population"
+notes = "Continuous since 1980 (Interview + Diary surveys). Earlier surveys: 1960-61, 1972-73. Historical predecessors date to Commissioner of Labor surveys. FRASER has 1980-81 and 1982-83 reports. BLS 403-blocks automated requests — URL valid, access via browser."
+
+[[source]]
+id = "bls-atus"
+title = "American Time Use Survey (ATUS)"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 2024
+url = "https://www.bls.gov/tus/"
+population = "Civilian noninstitutionalized population age 15+"
+notes = "Started 2003, annual. Covers work hours, commute time, daily activities. Primary source for the 'day' panel from 2000s onward. BLS 403-blocks automated requests — URL valid, access via browser."
+
+# ── Census: housing ───────────────────────────────────────────────────────
+
+[[source]]
+id = "census-ahs"
+title = "American Housing Survey (AHS)"
+publisher = "U.S. Census Bureau (sponsored by HUD)"
+year = 2024
+url = "https://www.census.gov/programs-surveys/ahs.html"
+population = "U.S. housing units (national sample)"
+notes = "Started 1973, biennial/annual. Tracks tenure, rooms, amenities (plumbing, kitchen, telephone, automobile in some years), housing costs. Table Creator: https://www.census.gov/programs-surveys/ahs/data/interactive/ahstablecreator.html. Historical reports at HUDUser: https://www.huduser.gov/portal/datasets/ahs/ahs_1999.pdf"
+
+[[source]]
+id = "census-decennial-pubs"
+title = "Census of Population and Housing — Decennial Publications"
+publisher = "U.S. Census Bureau"
+year = 2024
+url = "https://www2.census.gov/prod2/www/decennial.html"
+population = "All US housing units and residents (decennial census)"
+notes = "Historical Census publications. Census of Housing 1940 was first to ask about amenities (plumbing, electricity, radio, refrigerator). Census 1930 asked about radio ownership — first census technology-diffusion question. Census 1950/1960 asked about TV, telephone, automobile, refrigerator, washing machine."
+
+# ── IPUMS ─────────────────────────────────────────────────────────────────
+
+[[source]]
+id = "ipums-usa"
+title = "IPUMS USA: Integrated Public Use Microdata Series"
+publisher = "IPUMS, University of Minnesota"
+year = 2024
+url = "https://usa.ipums.org/usa/"
+population = "Decennial census respondents (full count or sample, depending on year)"
+notes = "Harmonized census microdata 1850-2020 + ACS 2001-present. 1940 census (full count, released 2012) includes wage/salary income and housing variables. 1950 census (released 2022) adds more income detail. Tier B: statistics computed by this project from microdata."
+
+[[source]]
+id = "ipums-1940-census"
+title = "IPUMS USA: 1940 Decennial Census (Full Count)"
+publisher = "IPUMS, University of Minnesota"
+year = 2024
+url = "https://usa.ipums.org/usa/"
+population = "All US residents, 1940 (132 million records, full count)"
+notes = "1940 census was first to ask about income (wage/salary only — does not include self-employment, property income, or transfers). Housing variables: tenure, rooms, plumbing, electricity, radio, refrigerator, heating fuel. Procedural history: https://usa.ipums.org/usa/resources/voliii/enumproc1940.pdf"
+
+# ── Pre-1940 historical surveys ───────────────────────────────────────────
+
+[[source]]
+id = "commissioner-labor-6th-1890"
+title = "Sixth Annual Report of the Commissioner of Labor, 1890: Cost of Living of Industrial Workers in the United States and Europe"
+publisher = "U.S. Department of Labor, Commissioner of Labor"
+year = 1891
+url = "https://archive.org/details/sixthannualrepor0000unse_l7h8"
+population = "Industrial workers in selected industries (iron/steel, textiles, glass, coal) in 24 states — NOT a national median"
+notes = "Surveyed 9,000+ families. The FRASER series page for Commissioner of Labor annual reports: https://fraser.stlouisfed.org/title/annual-report-commissioner-labor-6306. Every fact from this survey must carry the proxy-population caveat."
+
+[[source]]
+id = "commissioner-labor-18th-1903"
+title = "Eighteenth Annual Report of the Commissioner of Labor, 1903: Cost of Living and Retail Prices of Food"
+publisher = "U.S. Department of Labor, Commissioner of Labor (Carroll D. Wright)"
+year = 1903
+url = "https://fraser.stlouisfed.org/title/annual-report-commissioner-labor-6306"
+population = "Wage-earner families in selected industrial centers, 33 states — NOT a national median"
+notes = "Data collected 1901, published 1903. Surveyed ~25,000 families. Sometimes called 'the 1901 survey.' Referenced in BLS 'How American Buying Habits Change' (1959, on FRASER) and academic literature. Direct Internet Archive link not yet found — access via FRASER series page or library copy. Government Printing Office, 1904."
+
+[[source]]
+id = "bls-1918-cost-of-living"
+title = "Changes in Cost of Living 1914-1919 (Monthly Labor Review, August 1919)"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 1919
+url = "https://archive.org/stream/changesincostofl00bure/changesincostofl00bure_djvu.txt"
+population = "Families of wage-earners in shipbuilding centers + 13 large cities — NOT a national median"
+notes = "Conducted during WWI — prices and availability distorted by wartime. FRASER: https://fraser.stlouisfed.org/title/monthly-labor-review-6130/august-1919-604874/fulltext. Digitized microdata: ICPSR 8299, 'Cost of Living in the United States, 1917-1919' (BLS 1986) — Tier B potential with ICPSR access."
+
+[[source]]
+id = "bls-1935-consumer-purchases"
+title = "Consumer Expenditures in the United States: Estimates for 1935-36 (Study of Consumer Purchases)"
+publisher = "U.S. Bureau of Labor Statistics / NBER"
+year = 1939
+url = "https://archive.org/stream/consumerexpendit1939unitrich/consumerexpendit1939unitrich_djvu.txt"
+population = "Urban and rural families in 42 cities + 66 rural areas — broadest pre-war survey but NOT a national median"
+notes = "Covered ~300,000 families. FRASER: 'Family Expenditures in Selected Cities, 1935-36' (Bulletin No. 648) at https://fraser.stlouisfed.org/title/family-expenditures-selected-cities-1935-36-4161. Digitized microdata: ICPSR 8908 (Tier B potential). NBER chapters use this data."
+
+# ── Historical compendia ─────────────────────────────────────────────────
+
+[[source]]
+id = "hist-stats-colonial-1970"
+title = "Historical Statistics of the United States, Colonial Times to 1970 (Bicentennial Edition)"
+publisher = "U.S. Census Bureau"
+year = 1975
+url = "https://archive.org/details/HistoricalStatisticsOfTheUnitedStatesColonialTimesTo1970/page/n1231/mode/2up"
+population = "Various national aggregates (depends on table)"
+notes = "Free on Internet Archive. Contains population, labor, prices, housing, and diffusion series spanning colonial times to 1970. Essential for pre-1940 decades where no dedicated survey exists. Predecessor to the Millennial Edition."
+
+[[source]]
+id = "hist-stats-millennial"
+title = "Historical Statistics of the United States, Millennial Edition"
+publisher = "Cambridge University Press"
+year = 2006
+url = "http://hsus.cambridge.org/"
+population = "Various national aggregates (depends on table)"
+notes = "Behind institutional access. Expanded and revised edition of the Bicentennial Edition. 5 volumes. Some tables go back to 1790. Use Colonial Times to 1970 (free) where coverage overlaps; use this for post-1970 extensions and more detailed series."
+
+[[source]]
+id = "measuringworth"
+title = "MeasuringWorth: Calculators for the Relative Value of Money Over Time"
+publisher = "MeasuringWorth (Lawrence Officer & Samuel Williamson)"
+year = 2024
+url = "https://www.measuringworth.com/"
+population = "Various (composite of BLS/Census historical series)"
+notes = "Provides calculators for relative value of money (CPI, GDP deflator, unskilled wage, etc.) and historical wage/price series. Useful for work-buys panel (converting wages to purchasing power) and cross-era deflation."
+
+[[source]]
+id = "umizzou-prices-wages"
+title = "Prices and Wages by Decade (Library Guide)"
+publisher = "University of Missouri Libraries"
+year = 2024
+url = "https://libraryguides.missouri.edu/pricesandwages/quotable-facts"
+population = "Various (links to primary sources)"
+notes = "Secondary source — librarian-curated guide to primary sources by decade (1890s-2020s). Use as a finding aid; cite the underlying primary source, not this guide."
+
+# ── Diffusion: internet/technology ───────────────────────────────────────
+
+[[source]]
+id = "ntia-fttn-2000"
+title = "Falling Through the Net: Toward Digital Inclusion (October 2000)"
+publisher = "National Telecommunications and Information Administration (U.S. Dept. of Commerce)"
+year = 2000
+url = "https://www.ntia.gov/sites/default/files/data/fttn00/front00.htm"
+population = "U.S. households and individuals"
+notes = "Fourth in the 'Falling Through the Net' series (1995, 1998, 1999, 2000). Measures telephone, computer, and internet access. 1995 report on Wayback Machine: https://web.archive.org/web/19970620103641/https://www.ntia.doc.gov/ntiahome/fallingthru.html"
+
+[[source]]
+id = "ntia-data-central"
+title = "NTIA Data Central"
+publisher = "National Telecommunications and Information Administration"
+year = 2024
+url = "https://www.ntia.gov/topics/data-central"
+population = "U.S. households and individuals (via CPS supplements)"
+notes = "NTIA sponsors the CPS Computer and Internet Use supplement and publishes data and reports. Data Central hosts downloadable datasets and visualizations."
+
+[[source]]
+id = "cps-computer-internet"
+title = "Current Population Survey: Computer and Internet Use Supplement"
+publisher = "U.S. Census Bureau (sponsored by NTIA)"
+year = 2023
+url = "https://www.census.gov/data/datasets/2023/demo/cps/cps-computer.html"
+population = "U.S. households and individuals, civilian noninstitutionalized"
+notes = "Conducted in: 1997, 2000, 2001, 2003, 2007, 2009-2013, 2015, 2017, 2019, 2021-2023. Measures household access to computers, internet, broadband, and devices. Time series page: https://www.census.gov/data/datasets/time-series/demo/cps/cps-supp_cps-repwgt/cps-computer.html"
+
+[[source]]
+id = "pew-internet-broadband"
+title = "Internet, Broadband Fact Sheet"
+publisher = "Pew Research Center"
+year = 2025
+url = "https://www.pewresearch.org/internet/fact-sheet/internet-broadband/"
+population = "U.S. adults (survey samples)"
+notes = "Pew's Internet & Technology program tracks internet, broadband, and smartphone adoption via periodic surveys. Compiles time-series adoption percentages. Coverage: ~2000-present. Pew 403-blocks automated requests — URL valid, access via browser."
+
+# ── Other ─────────────────────────────────────────────────────────────────
+
+[[source]]
+id = "eia-recs"
+title = "Residential Energy Consumption Survey (RECS)"
+publisher = "U.S. Energy Information Administration"
+year = 2020
+url = "https://www.eia.gov/consumption/residential/index.php"
+population = "U.S. housing units (sampled)"
+notes = "Started 1978, triennial/quadrennial. Tracks appliance ownership (refrigerator, washing machine, air conditioning) and housing characteristics. Useful for diffusion and home panels as complement to AHS."
