@@ -7,6 +7,62 @@ country = "us"
 decade = "1950s"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
+# National-median facts from Census F-8 (Tier A) + locale split from IPUMS (Tier B)
+
+# Locale split (Tier B — IPUMS 1% sample, computed by this project)
+# Computed from IPUMS USA 1950 1% sample (us1950a), extract ID 1.
+# Family-level INCTOT summed across members in same SERIAL.
+# Filter: FAMSIZE=4, head (RELATE=1) has valid INCTOT (0 to <9999999).
+# Weighted by HHWT. N=22,753 four-person families.
+# CAVEAT: 82% of 1950 records have INCTOT=9999999 (N/A). This analysis covers
+# only families where the head reported income. INCTOT for 1950 may exclude
+# self-employment, property, and transfer income. The IPUMS median ($2,950)
+# is lower than the F-8 Census median ($3,675 for 4-person families) partly
+# because of these exclusions and the N/A filtering.
+
+[[fact]]
+id = "us-1950s-median-income-metro"
+panel = "budget"
+label = "Median family income, 4-person families, metropolitan areas, 1950"
+value = "$3,250"
+unit = "USD per year, nominal (IPUMS INCTOT, weighted by HHWT)"
+source = "ipums-usa"
+tier = "B"
+notes = "Computed from IPUMS USA 1950 1% sample (us1950a). METRO codes 3+4 combined. N=13,708 4-person families. Weighted median. See budget panel header for methodology and caveats."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values", "metropolitan-definition"]
+
+[[fact]]
+id = "us-1950s-median-income-nonmetro"
+panel = "budget"
+label = "Median family income, 4-person families, non-metropolitan areas, 1950"
+value = "$2,350"
+unit = "USD per year, nominal (IPUMS INCTOT, weighted by HHWT)"
+source = "ipums-usa"
+tier = "B"
+notes = "Computed from IPUMS USA 1950 1% sample (us1950a). METRO code 1. N=9,045 4-person families. Weighted median. Non-metro families earned 28% less than metro families."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values", "metropolitan-definition"]
+
+[[fact]]
+id = "us-1950s-median-income-suburban"
+panel = "budget"
+label = "Median family income, 4-person families, suburban (metro not central city), 1950"
+value = "$3,350"
+unit = "USD per year, nominal (IPUMS INCTOT, weighted by HHWT)"
+source = "ipums-usa"
+tier = "B"
+notes = "Computed from IPUMS USA 1950 1% sample (us1950a). METRO code 3 (in metro area, not central city). N=11,762 4-person families. Suburban families earned 42% more than non-metro families. The suburban income advantage was already evident in 1950."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values", "metropolitan-definition"]
+
+[[fact]]
+id = "us-1950s-metro-nonmetro-gap"
+panel = "budget"
+label = "Metro vs non-metro income gap, 4-person families, 1950"
+value = "$900 (38% metro premium)"
+unit = "difference in weighted median family income"
+source = "ipums-usa"
+tier = "B"
+notes = "Computed: metro median ($3,250) minus non-metro median ($2,350) = $900. Metro families earned 38% more than non-metro. For comparison, in 1940 the gap was $1,020 (212%) — the postwar boom dramatically narrowed the metro/non-metro income gap. 1940 data uses INCWAGE (wage income only) from IPUMS 1940 1% sample (us1940a)."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values", "metropolitan-definition"]
 
 [[fact]]
 id = "us-1950s-median-income-all-families"

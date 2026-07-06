@@ -31,3 +31,8 @@ statement = "In rationed or shortage economies (the USSR, PRL-era Poland), money
 id = "urban-rural-split"
 title = "Urban/rural splits"
 statement = "Where the urban/rural divide dominates the distribution (China, India), a single national median is misleading; rooms carry separate urban and rural facts instead of a blended number. Early US sources have the opposite bias: the 1890s-1930s surveys measured urban wage-earner families specifically, and their facts are tiered and labeled accordingly."
+
+[[assumption]]
+id = "metropolitan-definition"
+title = "Metropolitan area definition"
+statement = "The IPUMS METRO variable classifies households as in/not-in a metropolitan area based on Census-defined metropolitan statistical areas (MSAs). MSAs did not exist before 1949; pre-1950 metro classification uses retrospective assignments. 'Suburban' is operationalized as METRO code 3 (in metro area, not central city), which is a derived category — the Census does not use 'suburban' as an official classification. Metro/non-metro income splits use IPUMS 1% sample microdata (Tier B), weighted by HHWT."
