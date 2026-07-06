@@ -294,6 +294,24 @@ artifact data (especially historical lifespans), not building the UI.
 
 ---
 
+## Note: dwelling-size metric (rooms vs. square feet)
+
+House/apartment size belongs in the existing `home` panel, not the artifact
+model — but it carries a data floor worth stating before curation so a curator
+doesn't reach for a number the record never held. The **durable cross-decade
+size axis is number of rooms** (Census of Housing 1940→; IPUMS; the pre-1940
+cost-of-living surveys recorded rooms too). **Square footage is late:** it
+exists only for *new construction* from 1973 (Census SOC / Characteristics of
+New Housing) and for existing stock from roughly 1985 (AHS unit square
+footage). So rooms is the comparable metric across the whole span; sq ft is
+shown only where the record has it, never back-filled. This is captured as the
+`dwelling-size-metric` assumption in Plan 003 (WI-3). The affordability axis
+from Plan 003 also applies here — median home value and rent become
+hours-of-work-to-afford / years-of-income figures on the same consistent basis
+as every other priced item.
+
+---
+
 ## Phased rollout
 
 ### Phase 1 — Current plan (WI-1, WI-2, WI-3, WI-4)
