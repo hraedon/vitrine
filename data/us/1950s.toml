@@ -190,40 +190,72 @@ tier = "A"
 notes = "Computed: weekly earnings ($53.29) × 50 weeks. Assumes 2 weeks unpaid time off, which is a convention — the actual weeks worked varied. This is a rough annualization, not an official series. Compare to median family income of $3,319 (all families) — manufacturing wages alone do not cover the median family income, implying a second earner or non-manufacturing employment."
 assumptions = ["nominal-values", "composite-family"]
 
-# ── Diffusion panel ────────────────────────────────────────────────────────
+# ── Diffusion panel (upgraded to Tier A via tesseract OCR of Census HC-5-02) ─
 
 [[fact]]
 id = "us-1950s-radio-diffusion"
 panel = "diffusion"
 label = "Households with radio, 1950"
-value = "~96%"
-unit = "% of households with a radio set"
-source = "umizzou-prices-wages"
-tier = "D"
-notes = "Radio was asked in the 1950 Census of Housing. The ~96% figure is cited by Ancestry.com citing Census data. Tier D: figure confirmed in secondary literature but not transcribed from the primary Census source in this session (scanned PDF). Radio was asked in 1930, 1940, 1950, 1960, 1970 censuses."
+value = "95.6%"
+unit = "% of dwelling units with a radio (40,093,000 of 41,932,000 reporting)"
+source = "census-hc5-02-1950"
+tier = "A"
+notes = "From 1950 Census of Housing, HC-5 No. 2, Table 2. OCR'd from scanned image PDF at 400 DPI. Up from 82.8% in 1940. Urban: 96.0%, rural nonfarm: 93.2%, rural farm: 93.1%. Preliminary sample data — sampling variability ~8%."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-tv-diffusion"
 panel = "diffusion"
 label = "Households with television, 1950"
-value = "~9%"
-unit = "% of households with a TV"
-source = "umizzou-prices-wages"
-tier = "D"
-notes = "TV ownership was asked in the 1950 Census of Housing. The ~9% figure is cited in secondary sources. By 1960, TV ownership exceeded 87%. Tier D: not transcribed from primary Census source in this session."
+value = "12.3%"
+unit = "% of dwelling units with a TV (5,120,000 of 41,704,000 reporting)"
+source = "census-hc5-02-1950"
+tier = "A"
+notes = "From 1950 Census of Housing, HC-5 No. 2, Table 1. OCR'd from scanned image PDF. Urban: 13.7%, rural nonfarm: 6.8%, rural farm: 3.0%. TV was new — the 1940 census did not ask about it. By 1960, TV ownership exceeded 87%."
 assumptions = ["composite-family"]
 
 [[fact]]
-id = "us-1950s-other-diffusion-gap"
+id = "us-1950s-refrigerator-diffusion"
 panel = "diffusion"
-label = "Refrigerator, telephone, automobile, washing machine ownership"
-value = "no reliable record accessible online"
-unit = "—"
-source = "census-decennial-pubs"
-tier = "D"
-notes = "The 1950 Census of Housing asked about refrigerator, telephone, automobile, and washing machine ownership. The data is in the Census publications (HC-5 series) but as scanned image PDFs — not text-extractable. IPUMS microdata could compute these (Tier B). Primary source exists but not accessible in text format from this curation session."
+label = "Households with mechanical refrigeration, 1950"
+value = "80.0%"
+unit = "% of dwelling units with mechanical refrigeration (33,521,000 of 41,903,000 reporting)"
+source = "census-hc5-02-1950"
+tier = "A"
+notes = "From 1950 Census of Housing, HC-5 No. 2, Table 2. OCR'd from scanned image PDF. Up from 44.0% in 1940 — mechanical refrigeration nearly doubled in a decade. Additionally 10.7% had ice refrigeration, 0.6% other, 8.7% none. Urban: 83.1%, rural nonfarm: 71.7%, rural farm: 60.9%."
 assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1950s-electricity-diffusion"
+panel = "diffusion"
+label = "Households with electric lighting, 1950"
+value = "94.0%"
+unit = "% of dwelling units with electric lights (42,264,000 of 44,942,000 reporting)"
+source = "census-hc5-02-1950"
+tier = "A"
+notes = "From 1950 Census of Housing, HC-5 No. 2, Table 2. OCR'd from scanned image PDF. Up from 78.7% in 1940. 6.0% had no electric lights. Urban: 96.7%, rural nonfarm: 90.4%, rural farm: 77.7%. The rural electrification gap was closing but still significant."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1950s-central-heating-diffusion"
+panel = "diffusion"
+label = "Households with central heating, 1950"
+value = "50.0%"
+unit = "% of occupied dwelling units with central heating (20,870,000 of 41,702,000 reporting)"
+source = "census-hc5-02-1950"
+tier = "A"
+notes = "From 1950 Census of Housing, HC-5 No. 2, Table 3. OCR'd from scanned image PDF. Up from 42.0% in 1940. Coal was the primary heating fuel (45.5% of central heating). 50.0% had non-central heating or no heating."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1950s-telephone-automobile-gap"
+panel = "diffusion"
+label = "Telephone and automobile ownership"
+value = "not asked in 1950 census"
+unit = "—"
+source = "census-hc5-02-1950"
+tier = "D"
+notes = "The 1950 Census of Housing did NOT ask about telephone or automobile ownership. These questions were added in the 1960 census. Historical Statistics of the United States (Colonial Times to 1970, free on Internet Archive) has aggregate series for telephone and automobile adoption that can be used as Tier C/D estimates."
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 

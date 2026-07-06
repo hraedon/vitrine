@@ -294,6 +294,15 @@ notes = "Coverage: 1939–present, monthly. Pre-1964 earnings series (AHETPI sta
 # ── Census: housing ───────────────────────────────────────────────────────
 
 [[source]]
+id = "census-hc5-02-1950"
+title = "1950 Census of Housing: Series HC-5, No. 2 — Year Built, Household Equipment, and Cooking and Heating Fuel, for Dwelling Units in the United States: April 1, 1950"
+publisher = "U.S. Census Bureau, Bureau of the Census"
+year = 1951
+url = "https://www2.census.gov/library/publications/decennial/1950/hc-5/hc-5-02.pdf"
+population = "All U.S. dwelling units (preliminary sample data from 1950 Census of Housing, April 1, 1950)"
+notes = "Preliminary sample data. Contains: year built, television, kitchen sink, electric lighting, radio, refrigeration equipment (mechanical/ice/other/none), cooking fuel, heating equipment, heating fuel. Urban/rural-nonfarm/rural-farm breakouts. Published June 10, 1951. 8-page scanned image PDF — text extracted via tesseract OCR at 400 DPI (pdftotext and pymupdf returned 0 chars because pages are scanned images). Sampling variability ~8% for some categories. 1940 comparison data included."
+
+[[source]]
 id = "census-homeownership-historical"
 title = "Homeownership Rate by State: 1900 to 2000"
 publisher = "U.S. Census Bureau"

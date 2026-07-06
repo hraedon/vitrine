@@ -162,23 +162,23 @@ assumptions = ["composite-family"]
 [[fact]]
 id = "us-2020s-internet-diffusion"
 panel = "diffusion"
-label = "Households with internet access, 2023"
-value = "~93%"
-unit = "% of households with internet"
-source = "cps-computer-internet"
+label = "Adults who use the internet, 2025"
+value = "96%"
+unit = "% of U.S. adults who use the internet (at least occasionally)"
+source = "pew-internet-broadband"
 tier = "A"
-notes = "From CPS Computer and Internet Use Supplement, 2023 (most recent). Census.gov publishes this at https://www.census.gov/data/datasets/2023/demo/cps/cps-computer.html. The ~93% figure is from the CPS supplement; specific percentage should be verified from the Census tables. For comparison: the first NTIA 'Falling Through the Net' report (1995) found ~10-14% of households with internet."
+notes = "From Pew Research Center Internet/Broadband Fact Sheet, data extracted from embedded JSON (survey data through June 2025). Up from 52% in 2000 (first Pew measurement). By community type (2024): Urban 96%, Suburban 98%, Rural 95%. By age (2025): 18-29: 99%, 30-49: 99%, 50-64: 96%, 65+: 90%."
 assumptions = ["composite-family"]
 
 [[fact]]
-id = "us-2020s-smartphone-diffusion"
+id = "us-2020s-broadband-diffusion"
 panel = "diffusion"
-label = "Adults with smartphones, ~2024"
-value = "~85-90%"
-unit = "% of U.S. adults"
+label = "Adults with home broadband, 2025"
+value = "78%"
+unit = "% of U.S. adults with home broadband subscription"
 source = "pew-internet-broadband"
 tier = "A"
-notes = "From Pew Research Center Internet/Broadband Fact Sheet. Pew 403-blocks automated requests — URL valid but not accessible from this host. The specific percentage should be verified from Pew's website. Range given because the exact figure was not transcribed."
+notes = "From Pew Research Center Internet/Broadband Fact Sheet, data extracted from embedded JSON (survey June 2025). Down from 80% in 2023 — broadband adoption has plateaued. By race (2025): White 81%, Black 71%, Hispanic 68%, Asian 86%. The gap between internet use (96%) and home broadband (78%) reflects mobile-only access."
 assumptions = ["composite-family"]
 
 [[fact]]
