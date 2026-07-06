@@ -271,6 +271,37 @@ url = "https://www.pewresearch.org/internet/fact-sheet/internet-broadband/"
 population = "U.S. adults (survey samples)"
 notes = "Pew's Internet & Technology program tracks internet, broadband, and smartphone adoption via periodic surveys. Compiles time-series adoption percentages. Coverage: ~2000-present. Pew 403-blocks automated requests — URL valid, access via browser."
 
+# ── FRED: labor market series ─────────────────────────────────────────────
+
+[[source]]
+id = "fred-awhman"
+title = "Average Weekly Hours of Production and Nonsupervisory Employees, Manufacturing (AWHMAN)"
+publisher = "Federal Reserve Bank of St. Louis (source: BLS Current Employment Statistics)"
+year = 2024
+url = "https://fred.stlouisfed.org/series/AWHMAN"
+population = "Production and nonsupervisory employees in manufacturing"
+notes = "Coverage: Jan 1939–present, monthly. BLS source code: CES3000000006. CSV API: https://fred.stlouisfed.org/graph/fredgraph.csv?id=AWHMAN. 1950 annual average: 40.5 hours. 2024 annual average: 40.7 hours."
+
+[[source]]
+id = "fred-ces-manuf-earnings"
+title = "Average Hourly Earnings of Production and Nonsupervisory Employees, Manufacturing (CES3000000008)"
+publisher = "Federal Reserve Bank of St. Louis (source: BLS Current Employment Statistics)"
+year = 2024
+url = "https://fred.stlouisfed.org/series/CES3000000008"
+population = "Production and nonsupervisory employees in manufacturing"
+notes = "Coverage: 1939–present, monthly. Pre-1964 earnings series (AHETPI starts 1964). 1950 annual average: $1.32/hour. CSV API: https://fred.stlouisfed.org/graph/fredgraph.csv?id=CES3000000008."
+
+# ── Census: housing ───────────────────────────────────────────────────────
+
+[[source]]
+id = "census-homeownership-historical"
+title = "Homeownership Rate by State: 1900 to 2000"
+publisher = "U.S. Census Bureau"
+year = 2000
+url = "https://www2.census.gov/programs-surveys/decennial/tables/time-series/census-housing-tables/owner.pdf"
+population = "All U.S. occupied housing units (decennial census)"
+notes = "Time series of homeownership rates from 1900 to 2000 by state and nationally. 1950 national rate: 55.0%. 1940: 43.6%. 1960: 61.9%. Also see companion table: https://www2.census.gov/programs-surveys/decennial/tables/time-series/census-housing-tables/ownerchar.pdf"
+
 # ── Other ─────────────────────────────────────────────────────────────────
 
 [[source]]

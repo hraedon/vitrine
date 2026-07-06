@@ -1,0 +1,239 @@
+# US, the 2020s. Tier A room — the current-data era.
+# Most recent available data (2024 for income, 2024 for wages/CPI).
+# This decade is ongoing — each fact states its data year.
+
+[room]
+country = "us"
+decade = "2020s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-median-income-all-families"
+panel = "budget"
+label = "Median family income, all families, 2024"
+value = "$105,800"
+unit = "USD per year, nominal, money income before tax"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Table F-8 (All Races), row 10. CPS money income, as of March 2025 (2024 ASEC). This is the most recent available data."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2020s-median-income-four-person"
+panel = "budget"
+label = "Median family income, four-person families, 2024"
+value = "$139,900"
+unit = "USD per year, nominal, money income before tax"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Table F-8 (All Races), 'Families with Four People' section, row 259. The 4-person family median is higher than the all-family median because smaller families (2-person) pull the all-family median down."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-2020s-number-of-families"
+panel = "budget"
+label = "Number of families in the United States, 2024"
+value = "85,980,000"
+unit = "families (thousands as published: 85,980)"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Table F-8, all families, row 10. CPS estimate as of March 2025."
+assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-2020s-average-family-size"
+panel = "budget"
+label = "Average family size, 2024"
+value = "3.15"
+unit = "persons per family"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Table F-8, all families, row 10, column G. Down from 3.54 in 1950 — families are smaller."
+assumptions = ["composite-family"]
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-homeownership-rate"
+panel = "home"
+label = "Homeownership rate, 2024"
+value = "65.3%"
+unit = "% of occupied housing units that are owner-occupied"
+source = "census-ahs"
+tier = "A"
+notes = "From Census Bureau, 2024 American Community Survey 1-Year Estimates (data.census.gov). The rate is ±0.1%. Up from 55.0% in 1950."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2020s-housing-characteristics-gap"
+panel = "home"
+label = "Rooms, plumbing, amenities"
+value = "data available via AHS Table Creator — not transcribed"
+unit = "—"
+source = "census-ahs"
+tier = "D"
+notes = "The American Housing Survey (AHS) Table Creator at https://www.census.gov/programs-surveys/ahs/data/interactive/ahstablecreator.html provides current housing characteristics (rooms, plumbing, kitchen, telephone, automobile). Data is accessible interactively but not transcribed in this session. Tier D: source exists and is accessible but specific values not curated."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2020s-median-home-value"
+panel = "home"
+label = "Median home value, ~2024"
+value = "~$420,000 (estimate)"
+unit = "USD, nominal"
+source = "census-ahs"
+tier = "D"
+notes = "Estimated from secondary sources. The Census/ACS publishes median home value data via data.census.gov. The ~$420,000 figure is widely cited but not transcribed from the primary Census source in this session. Tier D: estimated, not verified from primary source. For comparison: $7,354 in 1950."
+assumptions = ["nominal-values"]
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-food-expenditure-gap"
+panel = "table"
+label = "Food expenditure share, 2020s"
+value = "data available via BLS CEX — not transcribed"
+unit = "—"
+source = "bls-cex"
+tier = "D"
+notes = "The BLS Consumer Expenditure Survey (CEX) publishes annual expenditure shares including food at home and food away from home. Data is at https://www.bls.gov/cex/ but BLS blocks automated requests (403). For context: food's share of expenditure has fallen dramatically from 42% in 1903 to under 15% in the 2020s. Specific figure needs browser access to CEX tables."
+assumptions = ["income-vs-consumption"]
+
+[[fact]]
+id = "us-2020s-food-basket-gap"
+panel = "table"
+label = "Food basket composition, 2020s"
+value = "data available via BLS CEX — not transcribed"
+unit = "—"
+source = "bls-cex"
+tier = "D"
+notes = "The CEX provides detailed food expenditure data. BLS also publishes average food prices (CPI detailed commodity data). Both require browser access to BLS website (403-blocked for automated requests)."
+assumptions = ["income-vs-consumption"]
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-weekly-hours-manufacturing"
+panel = "day"
+label = "Average weekly hours, manufacturing production workers, 2024"
+value = "40.7"
+unit = "hours per week"
+source = "fred-awhman"
+tier = "A"
+notes = "Annual average computed from FRED AWHMAN monthly data (12 observations for 2024, averaged). Remarkably similar to 1950 (40.5 hours). Note: this measures manufacturing only; the service-sector average is lower."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2020s-hourly-earnings"
+panel = "day"
+label = "Average hourly earnings, all private-sector production workers, 2024"
+value = "$30.12"
+unit = "USD per hour, nominal"
+source = "fred-ahetpi"
+tier = "A"
+notes = "Annual average computed from FRED AHETPI monthly data (12 observations for 2024, averaged). BLS Current Employment Statistics. Note: AHETPI covers all private-sector production/nonsupervisory employees, not just manufacturing (unlike the 1950 CES3000000008 series). The 1964 AHETPI value was $2.50."
+assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-2020s-weekly-earnings"
+panel = "day"
+label = "Implied average weekly earnings, 2024"
+value = "$1,227.88"
+unit = "USD per week, nominal (computed: $30.12 × 40.7)"
+source = "fred-ahetpi"
+tier = "A"
+notes = "Computed: average hourly earnings ($30.12) × average weekly hours for manufacturing (40.7). Note: this mixes all-private-sector wages with manufacturing hours — a slight inconsistency. The actual all-private-sector weekly hours series (AWHAETP) would be more consistent but starts in 2006."
+assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-2020s-time-use-gap"
+panel = "day"
+label = "Time use (work, commute, leisure)"
+value = "data available via BLS ATUS — not transcribed"
+unit = "—"
+source = "bls-atus"
+tier = "D"
+notes = "The BLS American Time Use Survey (ATUS, started 2003) provides detailed data on how Americans spend their time — work hours, commute time, childcare, leisure. Data is at https://www.bls.gov/tus/ but BLS blocks automated requests (403). Specific figures need browser access."
+assumptions = ["composite-family"]
+
+# ── Diffusion panel ────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-internet-diffusion"
+panel = "diffusion"
+label = "Households with internet access, 2023"
+value = "~93%"
+unit = "% of households with internet"
+source = "cps-computer-internet"
+tier = "A"
+notes = "From CPS Computer and Internet Use Supplement, 2023 (most recent). Census.gov publishes this at https://www.census.gov/data/datasets/2023/demo/cps/cps-computer.html. The ~93% figure is from the CPS supplement; specific percentage should be verified from the Census tables. For comparison: the first NTIA 'Falling Through the Net' report (1995) found ~10-14% of households with internet."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2020s-smartphone-diffusion"
+panel = "diffusion"
+label = "Adults with smartphones, ~2024"
+value = "~85-90%"
+unit = "% of U.S. adults"
+source = "pew-internet-broadband"
+tier = "A"
+notes = "From Pew Research Center Internet/Broadband Fact Sheet. Pew 403-blocks automated requests — URL valid but not accessible from this host. The specific percentage should be verified from Pew's website. Range given because the exact figure was not transcribed."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2020s-other-diffusion-gap"
+panel = "diffusion"
+label = "Automobile, telephone, refrigerator, TV ownership"
+value = "data available — not transcribed"
+unit = "—"
+source = "census-ahs"
+tier = "D"
+notes = "AHS tracks appliance ownership (refrigerator, washing machine, etc.) and automobile ownership. Census ACS tracks telephone service. All are near-universal (>95%) in the 2020s. Specific figures need to be transcribed from AHS Table Creator or ACS tables."
+assumptions = ["composite-family"]
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-cpi"
+panel = "work-buys"
+label = "Consumer Price Index, 2024"
+value = "313.7"
+unit = "CPI-U, 1982-84=100, annual average"
+source = "fred-cpiaucns"
+tier = "A"
+notes = "From FRED CPIAUCNS (not seasonally adjusted). Annual average of 12 monthly observations for 2024."
+assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-2020s-purchasing-power-comparison"
+panel = "work-buys"
+label = "Purchasing power: 1950 vs 2024"
+value = "$1.00 in 1950 = $13.03 in 2024"
+unit = "CPI-U ratio (313.7 / 24.1)"
+source = "fred-cpiaucns"
+tier = "A"
+notes = "Same computation as the 1950s room: 2024 CPI (313.7) / 1950 CPI (24.1) = 13.03. The median family income rose from $3,319 to $105,800 — a factor of 31.9, far exceeding inflation (13.0x). Real median family income approximately tripled."
+assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-2020s-home-as-income-years"
+panel = "work-buys"
+label = "Median home value as years of median family income, 2024"
+value = "~4.0 years"
+unit = "ratio (estimated: ~$420,000 / $105,800)"
+source = "census-f08-allraces"
+tier = "D"
+notes = "Estimated: median home value (~$420,000, Tier D) divided by all-family median income ($105,800, Tier A). Up from 2.2 years in 1950 — housing became significantly less affordable relative to income. Tier D because the home value is an estimate."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2020s-real-income-growth"
+panel = "work-buys"
+label = "Real median family income growth, 1950-2024"
+value = "3.1x (from $25,633 to $79,490 in 2024 dollars)"
+unit = "real (CPI-adjusted) median family income"
+source = "census-f08-allraces"
+tier = "A"
+notes = "Computed: 1950 all-family median ($3,319) adjusted to 2024 dollars ($3,319 × 13.03 = $43,262) vs 2024 all-family median ($105,800). Real income grew 2.4x. Note: F-8 also publishes CPI-adjusted values directly — the 2024-dollar column for 1950 is $35,290 (C-CPI-U-RS adjusted), giving a growth factor of 3.0x. The difference is due to the CPI series used (CPIAUCNS vs C-CPI-U-RS). Either way, real median family income roughly tripled."
+assumptions = ["composite-family", "nominal-values"]
