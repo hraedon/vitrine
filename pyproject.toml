@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vitrine"
+version = "0.1.0"
+description = "A decade-by-decade museum of the median family's lifestyle — every fact behind glass with its source card"
+requires-python = ">=3.13"
+dependencies = []
+
+[project.optional-dependencies]
+site = ["jinja2>=3.1"]
+dev = [
+    "ruff",
+    "mypy",
+    "pytest",
+    "vitrine[site]",
+]
+
+[project.scripts]
+vitrine = "vitrine.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.mypy]
+strict = true
+files = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+# embedded HTML templates; markup lines don't wrap usefully
+"src/vitrine/site/render.py" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

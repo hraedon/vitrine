@@ -1,0 +1,21 @@
+# environments / build artifacts
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+
+# rendered site — a projection, never committed
+_site/
+
+# downloaded raw source material — cite it, don't commit it
+samples/
+
+# runtime data
+*.sqlite3
+*.db
+
+# identifier gate local denylist — never committed
+.identifiers-denylist.local

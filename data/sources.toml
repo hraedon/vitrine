@@ -1,0 +1,11 @@
+# Global source registry. Every fact's `source` field resolves here.
+# `population` is mandatory: say who was actually measured.
+
+[[source]]
+id = "census-p60-009"
+title = "Current Population Reports, Consumer Income, Series P-60 No. 9: Income of Families and Persons in the United States: 1950"
+publisher = "U.S. Census Bureau"
+year = 1951
+url = "https://www.census.gov/library/publications/1951/demo/p60-009.html"
+population = "All US families (two or more related persons living together), CPS money income"
+notes = "Seed source for the skeleton. Plan 001 WI-1 supersedes the all-family median with the by-family-size series (Historical Income Tables, Table F-8) where its coverage window allows."

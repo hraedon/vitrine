@@ -1,0 +1,33 @@
+# The assumption ledger: every methodological choice that would mislead if
+# left implicit, written once, referenced by every fact it touches.
+# The `composite-family` entry is special: it renders on every room page.
+
+[[assumption]]
+id = "composite-family"
+title = "The composite family"
+statement = "Each room is a statistical composite, assembled from separate distributions with separate sources. The family at the median income did not also have the median house, the median car, and the median diet. No single family described here ever existed; each fact tells you, in its provenance drawer, which real population it was measured from."
+
+[[assumption]]
+id = "four-person-normalization"
+title = "Getting to a family of four"
+statement = "Most sources publish medians for all families or all households, not for four-person families. Where a by-size series exists (e.g. US Census Historical Income Tables, Table F-8) it is used directly; otherwise the all-family median is shown and labeled as such, or equivalized using the OECD-modified scale with the arithmetic shown. The fact's label always states which population the number describes."
+
+[[assumption]]
+id = "income-vs-consumption"
+title = "Income vs consumption"
+statement = "Some countries and eras measure household consumption, not income (India's National Sample Survey; the pre-1940 US cost-of-living surveys). Rooms built on consumption data say so; consumption and income medians are never mixed in one comparison without a note."
+
+[[assumption]]
+id = "nominal-values"
+title = "Values are shown in period money"
+statement = "Values display in nominal, contemporaneous local units — what the family actually saw. Any inflation adjustment is computed by code in this repository with the price index series named, never applied by hand in the data files."
+
+[[assumption]]
+id = "shortage-economy"
+title = "Shortage economies"
+statement = "In rationed or shortage economies (the USSR, PRL-era Poland), money income overstates lifestyle: the binding constraint was availability, not price. Rooms for these eras pair income facts with availability facts (rationing, queue time, waiting lists) so the income number cannot be read as if it bought a Western basket."
+
+[[assumption]]
+id = "urban-rural-split"
+title = "Urban/rural splits"
+statement = "Where the urban/rural divide dominates the distribution (China, India), a single national median is misleading; rooms carry separate urban and rural facts instead of a blended number. Early US sources have the opposite bias: the 1890s-1930s surveys measured urban wage-earner families specifically, and their facts are tiered and labeled accordingly."

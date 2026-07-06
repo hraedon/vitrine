@@ -1,0 +1,17 @@
+# US, the 1950s. Skeleton seed: one fact proving the pipeline.
+# Plan 001 WI-2 curates this room fully (all six panels).
+
+[room]
+country = "us"
+decade = "1950s"
+
+[[fact]]
+id = "us-1950s-median-family-income"
+panel = "budget"
+label = "Median family income, all families, 1950"
+value = "$3,319"
+unit = "USD per year, nominal, money income before tax"
+source = "census-p60-009"
+tier = "A"
+notes = "All-family median, not four-person; see the four-person-normalization assumption. To be superseded by the by-size series in WI-1."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values"]

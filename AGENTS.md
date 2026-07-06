@@ -1,0 +1,78 @@
+# AGENTS.md
+
+Conventions and quick reference for agents (and humans) working on vitrine.
+
+## What this is
+
+A decade-by-decade virtual museum of the median-income four-person family's
+lifestyle, built as a deterministic static-site generator over hand-curated,
+fully-cited data files. The exhibit mechanic is provenance: every rendered
+fact carries a source card and a confidence tier, enforced by a mechanical
+build gate. See `README.md` for the full charter.
+
+## Orient
+
+1. **Read the fact model.** `docs/fact-model.md` is the design spine: the
+   entities (Fact / Source / Assumption / Room), the tier taxonomy, the file
+   layout under `data/`, and the invariants `vitrine check` enforces. It
+   dictates what the site is allowed to display.
+2. **Read the current plan.** `plans/` holds numbered plans; work items and
+   acceptance criteria live there.
+3. **Facts come from sources, full stop.** Curating a room means reading the
+   primary source and transcribing, not recalling. Model memory is a lead
+   generator for finding sources, never a source.
+
+## Hard rules
+
+- **No AI in the truth path.** Every number in `data/` is transcribed from a
+  cited source a human can follow. LLM narration, if ever added, is an
+  optional layer that imports the core, never the reverse (architecture
+  test), and may not introduce numbers.
+- **No unsourced facts.** Every fact carries `source` (resolving to the
+  registry), `tier`, and the source's surveyed population. `vitrine check`
+  fails the build otherwise; CI runs it. If a fact can't be sourced, it
+  doesn't ship — **render the gap** ("no reliable record") instead.
+- **The composite-family disclaimer always renders.** Every room states that
+  the portrait is a statistical composite assembled from separate
+  distributions. Removing or hiding it is a charter violation.
+- **Numbers are never invented or "adjusted by feel."** Permitted arithmetic
+  (deflation, equivalization) is documented in the assumption ledger and
+  applied by code in the repo, not by hand in the data files.
+- **Respect source licensing.** Cite and extract facts; link to the source.
+  Do not commit bulk third-party datasets. Downloaded raw source material
+  lives in gitignored `samples/` and is never committed.
+- **Stdlib-only core.** The fact model, loader, and `check` use stdlib only
+  (`tomllib`, `dataclasses`, `argparse`). Rendering is the `[site]` extra
+  (jinja2) and imports the core, never the reverse.
+- **Correctness by construction.** `mypy --strict` in CI;
+  `typing.assert_never()` in the default branch of every dispatch over a
+  closed set (`Tier`, `Panel`). When a new variant is added, the type checker
+  finds every site that must handle it.
+- **No work-domain identifiers in committed files.** Enforced by the
+  identifier gate (pre-commit hook + CI job). Homelab identifiers
+  (`hraedon`, `mvm*`) are allowed; the work-domain set is not.
+
+## Build / test / lint
+
+```bash
+uv venv && uv pip install -e ".[dev]"
+.venv/bin/pytest -q
+.venv/bin/ruff check .
+.venv/bin/mypy src
+.venv/bin/vitrine check          # the provenance gate, same as CI runs
+.venv/bin/vitrine build          # static site → _site/ (gitignored)
+```
+
+## Data authoring
+
+- One room file per (country, decade): `data/<country>/<decade>.toml`.
+- Global registries: `data/sources.toml`, `data/assumptions.toml`.
+- Fact ids are globally unique: `<country>-<decade>-<slug>`.
+- Tiers: A official series / B official microdata (computed) / C period-survey
+  reconstruction / D scholarly estimate. When in doubt, tier *down* and note why.
+
+## Repo hygiene
+
+- Private until a written sanitization review (`docs/publication-review.md`).
+- Breadcrumbs live in the agent-notes DB (`agent-notes` CLI), not in-repo dirs.
+- Plans in `plans/NNN-*.md`; keep headers honest or trust git log over them.
