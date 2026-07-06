@@ -41,6 +41,13 @@ build gate. See `README.md` for the full charter.
 - **Respect source licensing.** Cite and extract facts; link to the source.
   Do not commit bulk third-party datasets. Downloaded raw source material
   lives in gitignored `samples/` and is never committed.
+- **IPUMS compliance.** IPUMS USA data is used under a legally binding
+  agreement. Read `docs/ipums-compliance.md` before using IPUMS data. Key
+  rules: (1) raw microdata is never committed — it lives in gitignored
+  `samples/`; (2) only aggregate statistics (medians, percentages, counts)
+  are published as Facts; (3) Full Count data (1850-1950) will not be
+  republished — only derived statistics computed from it; (4) cite IPUMS
+  properly; (5) add vitrine to the IPUMS bibliography when published.
 - **Stdlib-only core.** The fact model, loader, and `check` use stdlib only
   (`tomllib`, `dataclasses`, `argparse`). Rendering is the `[site]` extra
   (jinja2) and imports the core, never the reverse.
