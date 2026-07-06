@@ -164,6 +164,16 @@ notes = "1940 census was first to ask about income (wage/salary only — does no
 # ── Pre-1940 historical surveys ───────────────────────────────────────────
 
 [[source]]
+id = "bls-bulletin-49-1903"
+title = "BLS Bulletin No. 49: Cost of Living and Retail Prices of Food (18th Annual Report of the Commissioner of Labor)"
+publisher = "U.S. Department of Commerce and Labor, Bureau of Labor"
+year = 1903
+url = "https://fraser.stlouisfed.org/title/annual-report-commissioner-labor-6306/eighteenth-annual-report-commissioner-labor-608452"
+short_cite = "U.S. Bureau of Labor, Bulletin No. 49 (1903)"
+population = "2,567 wage-earner families in 33 states, head earning <=$1,200/year, year 1901"
+notes = "Primary source for 1900s room. Average income $827.19, average expenditure $768.54, food $326.90 (42.54%). Rent 12.95%, clothing 14.04%, fuel and light 5.25%. Average family size 5.31. NOTE: the University of Missouri guide cited average income as $749 — the primary source says $827.19. The $749 figure is WRONG; this is the correct figure from the report itself. File: bls_v08_0049_1903.pdf (268 pages, text-extractable via pdftotext)."
+
+[[source]]
 id = "commissioner-labor-6th-1890"
 title = "Sixth Annual Report of the Commissioner of Labor, 1890: Cost of Living of Industrial Workers in the United States and Europe"
 publisher = "U.S. Department of Labor, Commissioner of Labor"
