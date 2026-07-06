@@ -87,15 +87,15 @@ If IPUMS interprets "republish" more broadly, vitrine will:
 
 ## Citation format
 
-When using IPUMS USA data, cite as:
+IPUMS requires the following citation for their data:
 
-> Steven Ruggles, Katie Genadek, Ronald Goeken, Josiah Grover, and Matthew B.
-> Brocks. "Integrated Public Use Microdata Series: Version [X.0]" [dataset].
-> Minneapolis: University of Minnesota, [year].
-> https://doi.org/10.18128/D010.V[X.0]
+> Steven Ruggles, Sarah Flood, Matthew Sobek, Daniel Backman, Grace Cooper,
+> Julia A. Rivera Drew, Stephanie Richards, Renae Rodgers, Jonathan Schroeder,
+> and Kari C.W. Williams. IPUMS USA: Version 16.0 [dataset]. Minneapolis, MN:
+> IPUMS, 2025. https://doi.org/10.18128/D010.V16.0
 
-Replace `[X.0]` with the actual version number accessed. The current version
-and citation can be found at https://usa.ipums.org/usa/citation.shtml.
+This citation must appear on any page that presents IPUMS-derived statistics.
+The full citations list is at `docs/citations.md`.
 
 ## Preferred data strategy
 
