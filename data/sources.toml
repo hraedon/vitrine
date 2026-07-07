@@ -498,6 +498,26 @@ notes = "Draft version of Ramey (2009). 63 pages. Data tables numerically identi
 # ── Other ─────────────────────────────────────────────────────────────────
 
 [[source]]
+id = "worldbank-itu-telecom"
+title = "Mobile Cellular Subscriptions (World Bank/ITU)"
+short_cite = "World Bank/ITU, FRED series ITCELSETSP2USA"
+publisher = "World Bank (International Telecommunication Union data)"
+year = 2024
+url = "https://fred.stlouisfed.org/series/ITCELSETSP2USA"
+population = "All mobile cellular subscriptions in the United States"
+notes = "Subscriptions per 100 people. Source: ITU (International Telecommunication Union) via World Bank. US data originally from CTIA/FCC filings. 1990: 2.1, 1995: 12.7, 1998: 25.1, 2000: 38.9 per 100 people. Does not equal household penetration (multiple subscriptions per household are common after 2000)."
+
+[[source]]
+id = "ncta-cable-history"
+title = "Cable History Timeline (NCTA/Syndeo Institute)"
+short_cite = "NCTA/Syndeo Institute, Cable History Timeline"
+publisher = "Syndeo Institute (formerly NCTA Foundation)"
+year = 2022
+url = "https://syndeoinstitute.org/wp-content/uploads/2022/12/Cable-History-Timeline-Narrative_2022.pdf"
+population = "U.S. households with cable television subscriptions"
+notes = "National cable penetration milestones from industry trade association. 1989: 53M households. 1992: 60% of all US households. 1997: 66.7M subscribers. Tier C: industry self-reported statistics, but the standard reference for historical cable penetration."
+
+[[source]]
 id = "eia-recs"
 title = "Residential Energy Consumption Survey (RECS)"
 publisher = "U.S. Energy Information Administration"
