@@ -495,6 +495,18 @@ url = "https://www.nber.org/papers/w13985"
 population = "Prime-age women and men, ages 18–64 (benchmark years 1900–2005); also all-ages per-capita and per-household aggregates"
 notes = "Draft version of Ramey (2009). 63 pages. Data tables numerically identical to published version. Cited as draft companion; the published version (ramey-2009) is the primary source for all facts."
 
+# ── Census: computer/internet use ──────────────────────────────────────────
+
+[[source]]
+id = "census-cps-computer"
+title = "Computer Use in the United States: October 1997 (CPS P20-522)"
+short_cite = "Census Bureau, P20-522, 1999"
+publisher = "U.S. Census Bureau"
+year = 1999
+url = "https://www.census.gov/content/dam/Census/library/publications/1999/demo/p20-522.pdf"
+population = "Civilian noninstitutional population, households and adults 18+"
+notes = "Current Population Survey (CPS) Computer Use Supplement, October 1997. By Eric C. Newburger. First CPS to include Internet questions. Household computer ownership: 8.2% (1984), 15.0% (1989), 22.8% (1993), 36.6% (1997). Table A: households with computers. Table C: adults 18+ by computer and Internet use."
+
 # ── Other ─────────────────────────────────────────────────────────────────
 
 [[source]]

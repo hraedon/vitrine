@@ -174,12 +174,22 @@ notes = "NCTA (National Cable & Telecommunications Association, now the Syndeo I
 [[fact]]
 id = "us-1990s-computer"
 panel = "diffusion"
-label = "Households with a computer, 1990s"
-value = "no reliable record"
+label = "Households with a computer, 1997 (Census CPS)"
+value = "36.6%"
 unit = "% of households with a computer"
+source = "census-cps-computer"
+tier = "A"
+notes = "Census Bureau, Current Population Reports P20-522, 'Computer Use in the United States: October 1997' (Sept 1999). 37.4M households (36.6%) had computers in Oct 1997. Historical trend: 8.2% (1984), 15.0% (1989), 22.8% (1993), 36.6% (1997). The 1997 CPS was the first to include Internet questions. NTIA 'Falling Through the Net' reports ~42% computer ownership (1998) and ~51% (2000). Internet access: ~18% of households (1997, NTIA), ~26% (1998), ~41% (2000). Internet figures are widely cited from NTIA/CPS but the exact household-level percentage hasn't been directly transcribed from the primary Census table in this session."
+
+[[fact]]
+id = "us-1990s-internet-households"
+panel = "diffusion"
+label = "Households with internet access, 1997-1998"
+value = "~18% (1997) → ~26% (1998)"
+unit = "% of households with internet access"
 source = "ntia-fttn-2000"
-tier = "D"
-notes = "Census CPS Computer/Internet Use Supplement first measured computer use in 1984, internet in 1997. NTIA 'Falling Through the Net' series reports: 1994 CPS ~24% of households had a computer, 1997 CPS ~36% had a computer and ~18% had internet access, 1998 CPS ~42% had a computer and ~26% had internet. These are widely cited but not yet transcribed from the primary Census P23-208 report (font encoding issues in the PDF). The 2000s room carries 'Internet: 46% (2000)' from Pew."
+tier = "C"
+notes = "NTIA 'Falling Through the Net' series, based on Census CPS supplements (Nov 1994, Oct 1997, Dec 1998, Aug 2000). Internet access was first measured in the 1997 CPS. The 2000s room carries 'Internet: 46% (2000)' from Pew. The Census P20-522 report (Table C) shows 70.9% of adults with a home computer used the Internet somewhere (home/work/school), but this is individual-level use, not household penetration."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 

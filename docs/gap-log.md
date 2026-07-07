@@ -4,7 +4,7 @@ Tracking unsourced facts (Tier D) across all US decade rooms.
 
 ## Current state (after 2026-07-07 gap-closing round)
 
-**15 gaps remaining** (was 20; 5 filled this round)
+**14 gaps remaining** (was 20; 6 filled this round)
 
 | Room | Gaps | Type |
 |------|------|------|
@@ -13,7 +13,7 @@ Tracking unsourced facts (Tier D) across all US decade rooms.
 | 1930s | 4 | Structural permanent |
 | 1940s | 2 | Wartime permanent (no CEX, wartime controls) |
 | 1950s | 1 | Estimate with value (car price) — subagent searching |
-| 1990s | 2 | 1 computer/internet (fillable, subagent searching) + 1 Ramey (permanent) |
+| 1990s | 1 | 1 Ramey (permanent, 1992-94 survey excluded by author) |
 | 2010s | 1 | Ramey series ends 2005; ATUS is a concept splice (permanent) |
 | 2020s | 0 | — |
 
@@ -81,10 +81,9 @@ non-representative. Expenditure shares and food basket are permanent gaps.
 ### 1950s (1 estimate)
 Average new car price, 1950 (~$1,511) — could upgrade via NADA or BLS.
 
-### 1990s (1 fillable + 1 permanent)
-- **Cell phone**: ✅ Tier A — FRED/ITU subscriptions per 100 people (2.1→38.9, 1990→2000)
-- **Cable TV**: ✅ Tier C — NCTA: 60% of households had cable (1992)
-- **Computer/internet**: ⏳ Census CPS 1997 supplement — subagent searching
+### 1990s (1 permanent)
+- **Computer**: ✅ Tier A — Census P20-522: 36.6% of households had computers (1997)
+- **Internet**: ✅ Tier C — NTIA: ~18% (1997) → ~26% (1998) of households
 - **Ramey home production**: permanent (author excluded 1992-94 survey)
 
 ## Data sources discovered this session
