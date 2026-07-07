@@ -2,21 +2,33 @@
 
 Tracking unsourced facts (Tier D) across all US decade rooms.
 
-## Current state (after 2026-07-07 session, Ramey ingestion)
+## Current state (after 2026-07-07 gap-closing round)
 
-**20 gaps remaining** (18 prior + 2 new Ramey gap facts: 1990s + 2010s home production)
+**19 gaps remaining** (was 20; 1 filled: 1990s RECS AC → Tier A)
 
 | Room | Gaps | Type |
 |------|------|------|
-| 1900s | 2 | Estimates with values (could upgrade to Tier A) |
 | 1910s | 4 | Structural permanent (no surveys before 1947) |
 | 1920s | 4 | Structural permanent |
 | 1930s | 4 | Structural permanent |
 | 1940s | 2 | Wartime permanent (no CEX, wartime controls) |
-| 1950s | 1 | Estimate with value (car price) |
-| 1990s | 2 | 1 RECS AC (fillable) + 1 Ramey (1992-94 survey excluded by author) |
-| 2010s | 1 | Ramey series ends 2005; ATUS is a concept splice |
+| 1950s | 1 | Estimate with value (car price) — subagent searching |
+| 1990s | 4 | 1 Ramey (permanent) + cell phone, cable TV, computer (fillable) |
+| 2010s | 1 | Ramey series ends 2005; ATUS is a concept splice (permanent) |
 | 2020s | 0 | — |
+
+### Filled this round
+
+- **1900s women's wages**: Tier D → **Tier A**. Source: 1905 Census of Manufactures,
+  Part I, page lxxxix. Women $6.17/week, men $11.16/week (55% gap).
+- **1900s car price**: Tier D → **Tier C**. Oldsmobile Curved Dash $650 (best-selling
+  1901–1904), Ford Model A $750 (1903). Manufacturer list prices.
+- **1990s AC**: Tier D placeholder → **Tier A**. RECS 1993: 68% of households had AC.
+- **1990s telephone**: Tier D placeholder → **Tier A**. Census 1990: 94.8% of housing
+  units had telephone.
+- **1990s diffusion split**: 1 combined placeholder → 5 individual facts (AC, telephone,
+  cell phone, cable TV, computer). Cell phone/cable/computer remain Tier D with
+  sourcing leads in notes.
 
 ### Ramey (2009) home-production hours ingested
 
@@ -53,9 +65,9 @@ Tracking unsourced facts (Tier D) across all US decade rooms.
 
 ## Remaining gaps detail
 
-### 1900s (2 estimates — could upgrade to Tier A)
-1. Women's weekly earnings, 1905 ($6.17) — BLS Bulletin 49
-2. New automobile price, 1904 ($750-$1,500) — contemporary auto records
+### ~~1900s (2 estimates — could upgrade to Tier A)~~ ✅ FILLED
+1. ~~Women's weekly earnings, 1905 ($6.17)~~ → Tier A (1905 Census of Manufactures)
+2. ~~New automobile price, 1904 ($750-$1,500)~~ → Tier C (manufacturer records)
 
 ### 1910s/1920s/1930s (12 structural permanent)
 No consumer expenditure survey existed before 1947. No Census of Housing
@@ -69,11 +81,10 @@ non-representative. Expenditure shares and food basket are permanent gaps.
 ### 1950s (1 estimate)
 Average new car price, 1950 (~$1,511) — could upgrade via NADA or BLS.
 
-### 1990s (1 fillable — needs RECS PDF OCR)
-Cell phone, AC, cable TV, computer. RECS 1993/2001 data available as PDFs
-on EIA.gov but not in HTML table format (only 2015 RECS has HTML tables).
-AC data found in 2015 RECS: 86.9% of homes. Need 1990s equivalent.
-New OCR tools (parser2 pro, flash) would help extract from RECS PDFs.
+### 1990s (3 fillable — data available but not yet transcribed)
+- **Cell phone**: CTIA subscription data on FRED; Census telephone access 94.8% (1990)
+- **Cable TV**: Statistical Abstract 1997 reports ~66%; Nielsen data available
+- **Computer/internet**: Census CPS 1997 supplement — subagent searching for exact %
 
 ## Data sources discovered this session
 
