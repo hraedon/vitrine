@@ -177,6 +177,17 @@ notes = "Computed: 2010 ACS median home value ($179,900) / 2010 Census F-8 media
 assumptions = ["affordability-normalization", "nominal-values"]
 
 [[fact]]
+id = "us-2010s-cpi"
+panel = "work-buys"
+label = "Consumer Price Index and purchasing power, 2010"
+value = "CPI 218.1 (2010) → 313.7 (2024) = 1.4x. $1 in 2010 = $1.44 in 2024. Real median family income grew 1.22x."
+unit = "CPI-U (1982-84=100), annual average"
+source = "bls-cpi"
+tier = "A"
+notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 2010: 218.1. 2024: 313.7. Ratio: 1.44x. Nominal median family income: $60,240 (2010) → $105,800 (2024) = 1.76x. Real growth: 1.76/1.44 = 1.22x. Recovery from the Great Recession was slow — real income growth was modest but stronger than the 2000s (1.14x)."
+assumptions = ["nominal-values", "affordability-normalization"]
+
+[[fact]]
 id = "us-2010s-home-production-women"
 panel = "day"
 label = "Women's weekly unpaid home-production hours, 2010s"

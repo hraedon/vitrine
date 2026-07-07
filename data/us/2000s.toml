@@ -187,6 +187,17 @@ tier = "C"
 notes = "Computed: 2000 median home value ($119,600) / 2000 median family income ($50,730). The housing bubble (2002-2006) would push this ratio far higher before the crash."
 assumptions = ["affordability-normalization", "nominal-values"]
 
+[[fact]]
+id = "us-2000s-cpi"
+panel = "work-buys"
+label = "Consumer Price Index and purchasing power, 2000"
+value = "CPI 172.2 (2000) → 313.7 (2024) = 1.8x. $1 in 2000 = $1.82 in 2024. Real median family income grew 1.14x."
+unit = "CPI-U (1982-84=100), annual average"
+source = "bls-cpi"
+tier = "A"
+notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 2000: 172.2. 2024: 313.7. Ratio: 1.82x. Nominal median family income: $50,730 (2000) → $105,800 (2024) = 2.09x. Real growth: 2.09/1.82 = 1.14x — the weakest real income growth of any postwar decade, reflecting two recessions (2001, 2008-09) and the housing crash."
+assumptions = ["nominal-values", "affordability-normalization"]
+
 
 # ── Home production hours (Ramey 2009) ─────────────────────────────────────
 # Plan 005 WI-2: women's + men's weekly unpaid home-production hours.

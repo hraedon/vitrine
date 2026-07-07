@@ -218,6 +218,17 @@ notes = "Computed: 1990 median home value ($79,100) / 1990 median family income 
 assumptions = ["affordability-normalization", "nominal-values"]
 
 [[fact]]
+id = "us-1990s-cpi"
+panel = "work-buys"
+label = "Consumer Price Index and purchasing power, 1990"
+value = "CPI 130.7 (1990) → 313.7 (2024) = 2.4x. $1 in 1990 = $2.40 in 2024. Real median family income grew 1.25x."
+unit = "CPI-U (1982-84=100), annual average"
+source = "bls-cpi"
+tier = "A"
+notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1990: 130.7. 2024: 313.7. Ratio: 2.40x. Nominal median family income: $35,350 (1990) → $105,800 (2024) = 2.99x. Real growth: 2.99/2.40 = 1.25x. Real income growth was slowing — the 1990s-2020s saw the lowest real gains in the century."
+assumptions = ["nominal-values", "affordability-normalization"]
+
+[[fact]]
 id = "us-1990s-home-production-women"
 panel = "day"
 label = "Women's weekly unpaid home-production hours, 1990s"

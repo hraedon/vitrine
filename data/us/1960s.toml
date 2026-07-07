@@ -41,6 +41,26 @@ tier = "A"
 notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.8). Food $1,309 (24.3%), housing $1,594 (29.6%), shelter/fuel/light $991, food away from home $274, household operations $319, local telephone $69. Housing became the largest category — up from 12.95% in 1901. Food dropped from 42.54% (1901) to 24.3%."
 assumptions = ["composite-family", "nominal-values", "income-vs-consumption"]
 
+[[fact]]
+id = "us-1960s-number-of-families"
+panel = "budget"
+label = "Number of families in the United States, 1960"
+value = "45,540,000"
+unit = "families (all races)"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8 (Table F-8). Up from 39,930,000 in 1950. By 1970: 52,230,000."
+
+[[fact]]
+id = "us-1960s-average-family-size"
+panel = "budget"
+label = "Average family size, 1960"
+value = "3.7"
+unit = "persons per family"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8 (Table F-8). Down from 3.54 in 1950 — families were shrinking as the baby boom ended. By 1970: 3.57."
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]
