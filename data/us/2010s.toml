@@ -87,14 +87,14 @@ notes = "ACS data available. The post-crash median was ~$170,000-$180,000 (2010 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-2010s-life-expectancy-gap"
+id = "us-2010s-life-expectancy"
 panel = "day"
 label = "Life expectancy at birth, 2010"
-value = "data available via NCHS — not yet transcribed"
-unit = "n/a"
+value = "76.2 male, 81.0 female (78.7 total, all races)"
+unit = "years"
 source = "nchs-nvss"
-tier = "D"
-notes = "NCHS data available. Life expectancy peaked ~78.9 in 2014, then declined through 2017 due to the opioid crisis (drug overdose deaths) and suicide. By 2019: ~78.8 (pre-COVID)."
+tier = "A"
+notes = "From NCHS National Vital Statistics System (NVSR Vol 63 No 7). Up from 74.3/79.7 in 2000. Life expectancy peaked at 78.9 in 2014, then declined through 2017 due to the opioid crisis (drug overdose deaths) and suicide. By 2019: 78.8 (pre-COVID). COVID-19 would drop it to 77.0 in 2020 and 76.1 in 2021."
 
 [[fact]]
 id = "us-2010s-wages-gap"

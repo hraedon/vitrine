@@ -111,11 +111,11 @@ notes = "The AHS began in 1973. Census 1970 housing data available. AC adoption 
 id = "us-1970s-life-expectancy"
 panel = "day"
 label = "Life expectancy at birth, 1970"
-value = "68.0 male, 75.6 female (white)"
+value = "67.1 male, 74.8 female (70.8 total, all races)"
 unit = "years"
-source = "hist-stats-colonial-1970"
+source = "nchs-nvss"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series B 116-117 (white population, at birth). Up from 66.3/72.0 in 1949-51. For all races, life expectancy was ~67 (male) / ~75 (female) in 1970."
+notes = "From NCHS National Vital Statistics System (all races). Up from 66.6/73.1 in 1960. The white-only figure from Historical Statistics Vol 1 was 68.0/75.6 — the all-races figure is lower due to lower nonwhite life expectancy."
 
 [[fact]]
 id = "us-1970s-manufacturing-earnings"

@@ -383,13 +383,13 @@ notes = "Complete plumbing = hot and cold piped water + flush toilet + bathtub/s
 
 [[source]]
 id = "nchs-nvss"
-title = "Mortality in the United States, 2023 (NCHS Data Brief No. 521)"
-short_cite = "NCHS, National Vital Statistics System, Data Brief No. 521"
+title = "National Vital Statistics System: United States Life Tables"
+short_cite = "NCHS, National Vital Statistics System"
 publisher = "National Center for Health Statistics (CDC)"
 year = 2024
-url = "https://www.cdc.gov/nchs/products/databriefs/db521.htm"
+url = "https://www.cdc.gov/nchs/nvss/life-expectancy.htm"
 population = "U.S. resident population (death certificates)"
-notes = "Final 2023 mortality data. Life expectancy at birth: 78.4 total, 75.8 male, 81.1 female. Provisional 2024 (Data Brief No. 548): male 76.5, female 81.4."
+notes = "NCHS publishes annual life tables via the National Vital Statistics Reports series. Life expectancy at birth (all races): 1960: 69.7 total / 66.6M / 73.1F; 1970: 70.8 / 67.1M / 74.8F; 1980: 73.7 / 70.0M / 77.5F; 1990: 75.4 / 71.8M / 78.8F; 2000: 77.0 / 74.3M / 79.7F; 2010: 78.7 / 76.2M / 81.0F; 2023: 78.4 / 75.8M / 81.1F (Data Brief No. 521). 2024 provisional: 79.0 / 76.5M / 81.4F."
 
 # ── Census ACS (via Census Reporter) ─────────────────────────────────────
 

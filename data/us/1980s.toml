@@ -108,14 +108,14 @@ notes = "AHS data continuous from 1973. Census 1980 housing data available. AC a
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-1980s-life-expectancy-gap"
+id = "us-1980s-life-expectancy"
 panel = "day"
 label = "Life expectancy at birth, 1980"
-value = "data available via NCHS — not yet transcribed"
-unit = "n/a"
+value = "70.0 male, 77.5 female (73.7 total, all races)"
+unit = "years"
 source = "nchs-nvss"
-tier = "D"
-notes = "NCHS life expectancy data is available for 1980 (~70 male, ~77.5 female, all races). Historical Statistics Vol 1 ends at 1970. The NCHS Data Brief series covers this period."
+tier = "A"
+notes = "From NCHS National Vital Statistics System. Up from ~67.1/74.8 in 1970 (all races). The 1980s saw continued gains from cardiovascular disease treatment advances."
 
 [[fact]]
 id = "us-1980s-wages-gap"

@@ -98,14 +98,14 @@ notes = "From Census Historical Housing Tables: Plumbing. Estimated from the ser
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-2000s-life-expectancy-gap"
+id = "us-2000s-life-expectancy"
 panel = "day"
 label = "Life expectancy at birth, 2000"
-value = "data available via NCHS — not yet transcribed"
-unit = "n/a"
+value = "74.3 male, 79.7 female (77.0 total, all races)"
+unit = "years"
 source = "nchs-nvss"
-tier = "D"
-notes = "NCHS data available for 2000 (~74 male, ~80 female, all races). Life expectancy continued rising through the 2000s before the opioid crisis and COVID-19."
+tier = "A"
+notes = "From NCHS National Vital Statistics System. Up from 71.8/78.8 in 1990. Life expectancy would peak at 78.9 in 2014 before the opioid crisis and COVID-19."
 
 [[fact]]
 id = "us-2000s-wages-gap"

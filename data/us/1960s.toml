@@ -93,22 +93,21 @@ assumptions = ["nominal-values", "income-vs-consumption"]
 id = "us-1960s-life-expectancy"
 panel = "day"
 label = "Life expectancy at birth, 1960"
-value = "~67 years (white male), ~74 years (white female)"
+value = "66.6 male, 73.1 female (69.7 total, all races)"
 unit = "years at birth"
-source = "hist-stats-colonial-1970"
+source = "nchs-nvss"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series B 116-117 (p.76, OCR'd via GLM-OCR). 1960 data. Note: OCR may have misread '67.4' as '57.4' — needs verification against primary source. For context: 1900-02 was 48.2/51.1, 1950 was ~66/72, 1970 was 67.6/74.7."
-assumptions = []
+notes = "From NCHS National Vital Statistics System (all races). The Historical Statistics Vol 1 (white) shows 67.4 male / 74.1 female for 1960 — the all-races figure is lower. Up from 66.3/72.0 (1949-51). By 1970: 67.1/74.8."
 
 [[fact]]
-id = "us-1960s-wages-gap"
+id = "us-1960s-wages"
 panel = "day"
-label = "Average hourly earnings and weekly hours"
-value = "data available via FRED — not yet transcribed"
-unit = "—"
-source = "fred-ahetpi"
-tier = "D"
-notes = "FRED AHETPI (average hourly earnings, total private) starts 1964. FRED CES manufacturing series starts 1939. Historical Statistics Series D 802-810 has manufacturing data through 1935. For 1960s: AHETPI was ~$2.50/hr (1964), AWHMAN was ~40 hrs/week."
+label = "Manufacturing earnings and CPI, 1960"
+value = "Manufacturing: $5,352/yr. CPI: 29.6 (1982-84=100)."
+unit = "USD/year (earnings) and index (CPI)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "Manufacturing annual earnings from Historical Statistics Vol 1, Series D 740 (p.186): $5,352 in 1960, rising to $8,150 by 1970. CPI from BLS series CUUR0000SA0 (confirmed via BLS API): 29.6 in 1960, rising to 38.8 by 1970. CPI ratio 1960 to 2024: 313.7/29.6 = 10.6x. Real income growth 1960 to 2024: $5,620 to $105,800 = 18.8x nominal / 10.6x CPI = 1.77x real."
 assumptions = ["nominal-values"]
 
 # ── Diffusion panel ────────────────────────────────────────────────────────
@@ -127,12 +126,12 @@ assumptions = ["composite-family", "urban-rural-split"]
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-1960s-cpi-gap"
+id = "us-1960s-affordability"
 panel = "work-buys"
-label = "Consumer Price Index and affordability"
-value = "data available via FRED — not yet transcribed"
-unit = "—"
-source = "fred-cpiaucns"
-tier = "D"
-notes = "FRED CPIAUCNS has monthly CPI data from 1913 onward. CPI in 1960 was ~29.6, in 1969 ~36.7. CPI ratio 1960→2024 is ~10.6x (vs 13.0x for 1950→2024). Real income growth 1960→2024: $5,620→$105,800 nominal = 18.8x, CPI ratio 10.6x = 1.77x real growth."
-assumptions = ["nominal-values"]
+label = "Consumer Price Index and real income growth, 1960-2024"
+value = "CPI 29.6 (1960) → 313.7 (2024) = 10.6x. Real median family income grew 1.77x."
+unit = "CPI index (1982-84=100) and real growth factor"
+source = "bls-cpi"
+tier = "A"
+notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1960: 29.6. 2024: 313.7. Ratio: 10.6x. Nominal median family income: $5,620 (1960) → $105,800 (2024) = 18.8x. Real growth: 18.8/10.6 = 1.77x. For comparison: 1950-2024 CPI ratio was 13.0x, real growth 3.1x — the 1960s-2020s saw slower real income growth than the 1950s-2020s."
+assumptions = ["nominal-values", "affordability-normalization"]
