@@ -12,7 +12,7 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
-from vitrine.model import Assumption, Corpus, Fact, Panel, Room, Source, Tier
+from vitrine.model import Assumption, Basis, Corpus, Fact, Panel, Room, Source, Tier
 
 
 class LoadError(Exception):
@@ -45,6 +45,15 @@ def _get_int(table: Mapping[str, Any], key: str, ctx: str) -> int:
     value = table.get(key)
     if not isinstance(value, int):
         raise LoadError(f"{ctx}: field {key!r} missing or not an integer")
+    return value
+
+
+def _get_int_opt(table: Mapping[str, Any], key: str, ctx: str) -> int | None:
+    if key not in table:
+        return None
+    value = table[key]
+    if not isinstance(value, int):
+        raise LoadError(f"{ctx}: field {key!r} must be an integer")
     return value
 
 
@@ -99,6 +108,16 @@ def _parse_enum(raw: str, values: dict[str, Any], kind: str, ctx: str) -> Any:
     return values[raw]
 
 
+def _parse_basis(table: Mapping[str, Any], ctx: str) -> Basis | None:
+    if "basis" not in table:
+        return None
+    raw = table["basis"]
+    if not isinstance(raw, str):
+        raise LoadError(f"{ctx}: field 'basis' must be a string")
+    basis: Basis = _parse_enum(raw, {b.value: b for b in Basis}, "basis", ctx)
+    return basis
+
+
 def _load_room(path: Path) -> Room:
     data = _read_toml(path)
     meta = data.get("room")
@@ -129,9 +148,19 @@ def _load_room(path: Path) -> Room:
                 tier=tier,
                 notes=_get_str_opt(table, "notes", ctx),
                 assumptions=_get_str_list(table, "assumptions", ctx),
+                amount_minor=_get_int_opt(table, "amount_minor", ctx),
+                currency=_get_str_opt(table, "currency", ctx),
+                price_year=_get_int_opt(table, "price_year", ctx),
+                basis=_parse_basis(table, ctx),
             )
         )
-    return Room(country=country, decade=decade, facts=tuple(facts))
+    return Room(
+        country=country,
+        decade=decade,
+        facts=tuple(facts),
+        wage_anchor=_get_str_opt(meta, "wage_anchor", f"{path} [room]"),
+        income_anchor=_get_str_opt(meta, "income_anchor", f"{path} [room]"),
+    )
 
 
 def load_corpus(data_dir: Path) -> Corpus:

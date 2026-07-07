@@ -5,6 +5,8 @@
 [room]
 country = "us"
 decade = "1950s"
+wage_anchor = "us-1950s-hourly-earnings-manufacturing"
+income_anchor = "us-1950s-median-income-four-person"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 # National-median facts from Census F-8 (Tier A) + locale split from IPUMS (Tier B)
@@ -72,8 +74,12 @@ value = "$3,319"
 unit = "USD per year, nominal, money income before tax"
 source = "census-f08-allraces"
 tier = "A"
+amount_minor = 331900
+currency = "USD"
+price_year = 1950
+basis = "annual"
 notes = "All-family median from Table F-8 (All Races), row 86. Downloaded as f08ar.xlsx — verified 4-person column covers 1947→. CPS money income."
-assumptions = ["composite-family", "nominal-values"]
+assumptions = ["composite-family", "nominal-values", "affordability-normalization"]
 
 [[fact]]
 id = "us-1950s-median-income-four-person"
@@ -83,8 +89,12 @@ value = "$3,675"
 unit = "USD per year, nominal, money income before tax"
 source = "census-f08-allraces"
 tier = "A"
+amount_minor = 367500
+currency = "USD"
+price_year = 1950
+basis = "annual"
 notes = "Four-person family median from Table F-8 (All Races), 'Families with Four People' section, row 335. The 4-person column covers the full 1947→ window — no normalization assumption needed for this decade."
-assumptions = ["composite-family", "four-person-normalization", "nominal-values"]
+assumptions = ["composite-family", "four-person-normalization", "nominal-values", "affordability-normalization"]
 
 [[fact]]
 id = "us-1950s-number-of-families"
@@ -140,8 +150,12 @@ value = "$7,354"
 unit = "USD, nominal"
 source = "umizzou-prices-wages"
 tier = "C"
+amount_minor = 735400
+currency = "USD"
+price_year = 1950
+basis = "total"
 notes = "From the University of Missouri Prices and Wages guide, citing Census. Median value of owner-occupied single-family homes. Tier C because the guide is a secondary source linking to Census data."
-assumptions = ["nominal-values"]
+assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 [[fact]]
 id = "us-1950s-plumbing-rooms-gap"
@@ -151,18 +165,18 @@ value = "no reliable record accessible online"
 unit = "—"
 source = "census-decennial-pubs"
 tier = "D"
-notes = "The 1950 Census of Housing (Volume 1, General Characteristics) asked about rooms, plumbing, electricity, radio, refrigerator, telephone, automobile, and heating fuel. The publication is available at census.gov but as scanned image PDFs (HC-5 series) — not text-extractable. IPUMS 1940/1950 microdata could compute these (Tier B). Primary source exists but not accessible in text format from this curation session."
-assumptions = ["composite-family"]
+notes = "The 1950 Census of Housing (HC-5 series) asked about rooms, plumbing, electricity, radio, refrigerator, telephone, automobile, and heating fuel. Electricity (94.0%), central heating (50.0%), and radio (95.6%) were OCR'd from HC-5 No. 2 — see diffusion panel. Room count and detailed plumbing data are in the HC-5 publications but not yet transcribed; IPUMS 1950 microdata could compute these (Tier B). The 1950 census did NOT ask about telephone or automobile (added 1960)."
+assumptions = ["composite-family", "dwelling-size-metric"]
 
 [[fact]]
 id = "us-1950s-television-arrival"
 panel = "home"
 label = "Television in the home, 1950"
-value = "arriving — 9% of households (1950 census)"
+value = "arriving — 12.3% of households (1950 census)"
 unit = "% of households with TV"
-source = "umizzou-prices-wages"
-tier = "D"
-notes = "TV ownership was asked in the 1950 Census of Housing. The ~9% figure is widely cited (Ancestry, Encyclopedia.com) but the primary source (scanned Census PDF) was not text-extractable. Tier D: figure confirmed in secondary literature but not transcribed from primary source in this session."
+source = "census-hc5-02-1950"
+tier = "A"
+notes = "From 1950 Census of Housing, HC-5 No. 2, Table 1. OCR'd from scanned image PDF at 400 DPI. TV was new — the 1940 census did not ask about it. Urban: 13.7%, rural nonfarm: 6.8%, rural farm: 3.0%. See diffusion panel for full detail."
 assumptions = ["composite-family"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
@@ -197,8 +211,12 @@ value = "~$1,511"
 unit = "USD, nominal"
 source = "umizzou-prices-wages"
 tier = "D"
+amount_minor = 151100
+currency = "USD"
+price_year = 1950
+basis = "total"
 notes = "From secondary sources cited by the Missouri guide. Tier D: the figure is widely cited but not transcribed from a primary BLS or industry source in this session. The actual primary source may be a trade publication or NADA data."
-assumptions = ["nominal-values"]
+assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -221,8 +239,12 @@ value = "$1.32"
 unit = "USD per hour, nominal"
 source = "fred-ces-manuf-earnings"
 tier = "A"
+amount_minor = 132
+currency = "USD"
+price_year = 1950
+basis = "hourly"
 notes = "Annual average computed from FRED CES3000000008 monthly data (12 observations for 1950, averaged). BLS Current Employment Statistics."
-assumptions = ["nominal-values"]
+assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency"]
 
 [[fact]]
 id = "us-1950s-weekly-earnings"
@@ -232,6 +254,10 @@ value = "$53.29"
 unit = "USD per week, nominal (computed: $1.32 × 40.5)"
 source = "fred-ces-manuf-earnings"
 tier = "A"
+amount_minor = 5329
+currency = "USD"
+price_year = 1950
+basis = "weekly"
 notes = "Computed: average hourly earnings ($1.32) × average weekly hours (40.5). This is a simple multiplication of two Tier A series — no adjustment or estimation. The result is the implied average weekly paycheck for a manufacturing production worker."
 assumptions = ["nominal-values"]
 
@@ -341,12 +367,12 @@ assumptions = ["nominal-values"]
 id = "us-1950s-home-as-income-years"
 panel = "work-buys"
 label = "Median home value as years of median family income, 1950"
-value = "2.2 years"
-unit = "ratio (computed: $7,354 / $3,319)"
+value = "~2.0 years"
+unit = "years of four-person median family income"
 source = "census-f08-allraces"
 tier = "C"
-notes = "Computed: median home value ($7,354, Tier C) divided by all-family median income ($3,319, Tier A). The result is the number of years of median family income needed to buy the median home. Tier C because the home value is Tier C. For comparison, in 2024 the median home value is approximately $420,000 (NAR) and median family income is $105,800 — a ratio of ~4.0 years."
-assumptions = ["composite-family", "nominal-values"]
+notes = "Median home value ($7,354, Tier C) relative to four-person median family income ($3,675, Tier A). Computed by afford() — see the home panel's affordability display. For comparison, in 2024 the ratio is ~3.0 years."
+assumptions = ["composite-family", "nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 [[fact]]
 id = "us-1950s-week-of-work-buys"

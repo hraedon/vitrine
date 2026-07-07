@@ -33,6 +33,15 @@ class Panel(enum.Enum):
     WORK_BUYS = "work-buys"
 
 
+class Basis(enum.Enum):
+    """What a structured amount is measured against — closed set."""
+
+    TOTAL = "total"      # a one-time price ($1,511 for a car)
+    HOURLY = "hourly"    # a wage rate ($1.32/hr)
+    WEEKLY = "weekly"    # a weekly figure ($53.29/wk)
+    ANNUAL = "annual"    # an annual figure ($3,319/yr)
+
+
 def tier_label(tier: Tier) -> str:
     """Visitor-facing description of a confidence tier."""
     match tier:
@@ -65,6 +74,21 @@ def panel_title(panel: Panel) -> str:
             return "A day's work buys"
         case _:
             assert_never(panel)
+
+
+def basis_label(basis: Basis) -> str:
+    """Visitor-facing description of a structured amount's basis."""
+    match basis:
+        case Basis.TOTAL:
+            return "One-time price"
+        case Basis.HOURLY:
+            return "Hourly rate"
+        case Basis.WEEKLY:
+            return "Weekly figure"
+        case Basis.ANNUAL:
+            return "Annual figure"
+        case _:
+            assert_never(basis)
 
 
 @dataclass(frozen=True, slots=True)
@@ -103,6 +127,10 @@ class Fact:
     tier: Tier
     notes: str = ""
     assumptions: tuple[str, ...] = field(default=())
+    amount_minor: int | None = None  # integer minor units (cents) — no float drift
+    currency: str = ""  # "USD"; required iff amount_minor is set
+    price_year: int | None = None  # year the amount is quoted in
+    basis: Basis | None = None  # required iff amount_minor is set
 
 
 @dataclass(frozen=True, slots=True)
@@ -112,6 +140,8 @@ class Room:
     country: str  # lowercase slug: us, uk, pl, ru, cn, in, jp
     decade: str  # "1890s" … "2020s"
     facts: tuple[Fact, ...]
+    wage_anchor: str = ""  # fact id → a HOURLY basis fact in this room
+    income_anchor: str = ""  # fact id → an ANNUAL basis fact in this room
 
     @property
     def slug(self) -> str:

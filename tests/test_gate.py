@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from vitrine.check import check_corpus
+from vitrine.check import check_corpus, check_render_coverage
 from vitrine.loader import LoadError, load_corpus
 
 DATA = Path(__file__).parent.parent / "data"
@@ -59,3 +59,271 @@ def test_wrong_id_prefix_fails_gate(tmp_path: Path) -> None:
     room.write_text(room.read_text().replace('id = "us-1950s-x"', 'id = "uk-1950s-x"'))
     problems = check_corpus(load_corpus(data))
     assert any("must start with" in p for p in problems)
+
+
+# ── Render-coverage gate (Plan 001 WI-4) ────────────────────────────────────
+
+
+def test_render_coverage_passes_when_manifest_matches(tmp_path: Path) -> None:
+    data = _write_minimal(tmp_path)
+    corpus = load_corpus(data)
+    build_dir = tmp_path / "_site"
+    build_dir.mkdir()
+    (build_dir / "facts-manifest.txt").write_text("us-1950s-x\n")
+    assert check_render_coverage(corpus, build_dir) == []
+
+
+def test_render_coverage_fails_when_fact_missing_from_manifest(tmp_path: Path) -> None:
+    data = _write_minimal(tmp_path)
+    corpus = load_corpus(data)
+    build_dir = tmp_path / "_site"
+    build_dir.mkdir()
+    (build_dir / "facts-manifest.txt").write_text("")
+    problems = check_render_coverage(corpus, build_dir)
+    assert any("curated but not rendered" in p for p in problems)
+
+
+def test_render_coverage_fails_when_manifest_has_extra_fact(tmp_path: Path) -> None:
+    data = _write_minimal(tmp_path)
+    corpus = load_corpus(data)
+    build_dir = tmp_path / "_site"
+    build_dir.mkdir()
+    (build_dir / "facts-manifest.txt").write_text("us-1950s-x\nus-1950s-ghost\n")
+    problems = check_render_coverage(corpus, build_dir)
+    assert any("rendered but not curated" in p for p in problems)
+
+
+def test_render_coverage_fails_when_manifest_missing(tmp_path: Path) -> None:
+    data = _write_minimal(tmp_path)
+    corpus = load_corpus(data)
+    build_dir = tmp_path / "_site"
+    build_dir.mkdir()
+    problems = check_render_coverage(corpus, build_dir)
+    assert any("not found" in p for p in problems)
+
+
+def test_render_coverage_on_committed_corpus(tmp_path: Path) -> None:
+    """Build the real corpus and verify coverage end-to-end."""
+    from vitrine.site.render import render_site
+
+    corpus = load_corpus(DATA)
+    render_site(corpus, tmp_path)
+    assert check_render_coverage(corpus, tmp_path) == []
+
+
+# ── Structured amount + anchor invariants (Plan 003 WI-2) ────────────────────
+
+
+def _write_structured_room(
+    tmp_path: Path,
+    room_toml: str,
+) -> Path:
+    (tmp_path / "sources.toml").write_text(
+        '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "all families"\n'
+    )
+    (tmp_path / "assumptions.toml").write_text(
+        '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
+    )
+    room_dir = tmp_path / "us"
+    room_dir.mkdir()
+    (room_dir / "1950s.toml").write_text(room_toml)
+    return tmp_path
+
+
+_TOTAL_FACT_NO_ANCHOR = """\
+[room]
+country = "us"
+decade = "1950s"
+
+[[fact]]
+id = "us-1950s-car"
+panel = "table"
+label = "Car price"
+value = "$1,511"
+unit = "USD"
+source = "src-1"
+tier = "D"
+amount_minor = 151100
+currency = "USD"
+price_year = 1950
+basis = "total"
+"""
+
+
+def test_priced_fact_without_anchor_fails_gate(tmp_path: Path) -> None:
+    data = _write_structured_room(tmp_path, _TOTAL_FACT_NO_ANCHOR)
+    problems = check_corpus(load_corpus(data))
+    assert any("no wage_anchor or income_anchor" in p for p in problems)
+
+
+_MIS_TYPED_ANCHOR = """\
+[room]
+country = "us"
+decade = "1950s"
+wage_anchor = "us-1950s-car"
+
+[[fact]]
+id = "us-1950s-car"
+panel = "table"
+label = "Car price"
+value = "$1,511"
+unit = "USD"
+source = "src-1"
+tier = "D"
+amount_minor = 151100
+currency = "USD"
+price_year = 1950
+basis = "total"
+"""
+
+
+def test_mis_typed_anchor_fails_gate(tmp_path: Path) -> None:
+    data = _write_structured_room(tmp_path, _MIS_TYPED_ANCHOR)
+    problems = check_corpus(load_corpus(data))
+    assert any("wage_anchor" in p and "expected 'hourly'" in p for p in problems)
+
+
+_ANCHOR_NONEXISTENT = """\
+[room]
+country = "us"
+decade = "1950s"
+wage_anchor = "us-1950s-no-such-fact"
+
+[[fact]]
+id = "us-1950s-car"
+panel = "table"
+label = "Car price"
+value = "$1,511"
+unit = "USD"
+source = "src-1"
+tier = "D"
+amount_minor = 151100
+currency = "USD"
+price_year = 1950
+basis = "total"
+"""
+
+
+def test_nonexistent_anchor_fails_gate(tmp_path: Path) -> None:
+    data = _write_structured_room(tmp_path, _ANCHOR_NONEXISTENT)
+    problems = check_corpus(load_corpus(data))
+    assert any("does not resolve" in p for p in problems)
+
+
+_VALID_PRICED_ROOM = """\
+[room]
+country = "us"
+decade = "1950s"
+wage_anchor = "us-1950s-wage"
+income_anchor = "us-1950s-income"
+
+[[fact]]
+id = "us-1950s-car"
+panel = "table"
+label = "Car price"
+value = "$1,511"
+unit = "USD"
+source = "src-1"
+tier = "D"
+amount_minor = 151100
+currency = "USD"
+price_year = 1950
+basis = "total"
+
+[[fact]]
+id = "us-1950s-wage"
+panel = "day"
+label = "Hourly wage"
+value = "$1.32"
+unit = "USD/hr"
+source = "src-1"
+tier = "A"
+amount_minor = 132
+currency = "USD"
+price_year = 1950
+basis = "hourly"
+
+[[fact]]
+id = "us-1950s-income"
+panel = "budget"
+label = "Median income"
+value = "$3,319"
+unit = "USD/yr"
+source = "src-1"
+tier = "A"
+amount_minor = 331900
+currency = "USD"
+price_year = 1950
+basis = "annual"
+"""
+
+
+def test_valid_priced_room_passes_gate(tmp_path: Path) -> None:
+    data = _write_structured_room(tmp_path, _VALID_PRICED_ROOM)
+    assert check_corpus(load_corpus(data)) == []
+
+
+_INCONSISTENT_CURRENCY = """\
+[room]
+country = "us"
+decade = "1950s"
+wage_anchor = "us-1950s-wage"
+
+[[fact]]
+id = "us-1950s-car"
+panel = "table"
+label = "Car price"
+value = "£1,200"
+unit = "GBP"
+source = "src-1"
+tier = "D"
+amount_minor = 120000
+currency = "GBP"
+price_year = 1950
+basis = "total"
+
+[[fact]]
+id = "us-1950s-wage"
+panel = "day"
+label = "Hourly wage"
+value = "$1.32"
+unit = "USD/hr"
+source = "src-1"
+tier = "A"
+amount_minor = 132
+currency = "USD"
+price_year = 1950
+basis = "hourly"
+"""
+
+
+def test_inconsistent_currency_fails_gate(tmp_path: Path) -> None:
+    data = _write_structured_room(tmp_path, _INCONSISTENT_CURRENCY)
+    problems = check_corpus(load_corpus(data))
+    assert any("inconsistent currencies" in p for p in problems)
+
+
+_MISSING_REQUIRED_FIELDS = """\
+[room]
+country = "us"
+decade = "1950s"
+
+[[fact]]
+id = "us-1950s-car"
+panel = "table"
+label = "Car price"
+value = "$1,511"
+unit = "USD"
+source = "src-1"
+tier = "D"
+amount_minor = 151100
+"""
+
+
+def test_amount_minor_without_currency_year_basis_fails(tmp_path: Path) -> None:
+    data = _write_structured_room(tmp_path, _MISSING_REQUIRED_FIELDS)
+    problems = check_corpus(load_corpus(data))
+    assert any("currency is empty" in p for p in problems)
+    assert any("price_year is missing" in p for p in problems)
+    assert any("basis is missing" in p for p in problems)

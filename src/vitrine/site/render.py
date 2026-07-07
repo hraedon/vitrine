@@ -6,11 +6,14 @@ for the render-coverage invariant (Plan 001 WI-4).
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from pathlib import Path
 
 from jinja2 import DictLoader, Environment, select_autoescape
 
-from vitrine.model import Corpus, Panel, Room, panel_title, tier_label
+from vitrine.affordability import afford
+from vitrine.compare import Comparison, compare_item
+from vitrine.model import Basis, Corpus, Panel, Room, basis_label, panel_title, tier_label
 
 _BASE = """<!doctype html>
 <html lang="en">
@@ -30,6 +33,9 @@ _BASE = """<!doctype html>
   .panel { margin: 2rem 0; }
   .fact { margin: 0.8rem 0; }
   .fact .value { font-size: 1.15em; }
+  .afford { color: #5a4632; }
+  .comparison { margin: 2rem 0; }
+  .comparison ul { list-style: none; padding-left: 0; }
   details { margin-top: 0.2rem; }
   details summary { cursor: pointer; color: #5a4632; font-size: 0.85em; }
   .card { font-size: 0.85em; background: #fff; border: 1px solid #ddd;
@@ -57,6 +63,34 @@ Every fact is behind glass: open its drawer to see who measured it, when, and ho
 {% endfor %}
 </ul>
 {% endfor %}
+{% if comparisons %}
+<hr>
+<h2>Cross-decade comparisons</h2>
+{% for comp in comparisons %}
+<div class="comparison">
+<h3>{{ comp.label }}</h3>
+<ul>
+{% for row in comp.rows %}
+<li>
+{% if row.has_data %}
+<strong>{{ row.decade }}</strong>: {{ row.price_display }}
+{% if row.hours_display %} — {{ row.hours_display }}{% endif %}
+{% if row.pct_display %} · {{ row.pct_display }}{% endif %}
+<span class="tier">{{ row.tier }}</span>
+{% else %}
+<strong>{{ row.decade }}</strong>: <em>no record</em>
+{% endif %}
+</li>
+{% endfor %}
+</ul>
+{% for row in comp.rows %}
+{% if row.has_data and row.anchor_note %}
+<p><small>{{ row.decade }} anchors: {{ row.anchor_note }}</small></p>
+{% endif %}
+{% endfor %}
+</div>
+{% endfor %}
+{% endif %}
 {% endblock %}
 """
 
@@ -74,6 +108,15 @@ _ROOM = """{% extends "base" %}
   <span class="value"><strong>{{ fact.value }}</strong> — {{ fact.label }}</span>
   <span class="tier" title="{{ tier_label(fact.tier) }}">{{ fact.tier.value }}</span>
   <br><small>{{ fact.unit }}</small>
+  {% if fact.id in affordability %}
+  {% set aff = affordability[fact.id] %}
+  {% if aff.hours %}
+  <br><small class="afford">{{ aff.hours }} <span class="tier" title="affordability confidence">{{ aff.tier }}</span></small>
+  {% endif %}
+  {% if aff.pct %}
+  <br><small class="afford">{{ aff.pct }}</small>
+  {% endif %}
+  {% endif %}
   <details>
     <summary>provenance</summary>
     <div class="card">
@@ -82,6 +125,12 @@ _ROOM = """{% extends "base" %}
       {{ src.publisher }}, {{ src.year }} · <a href="{{ src.url }}">source</a><br>
       <em>Population measured:</em> {{ src.population }}<br>
       <em>Confidence:</em> {{ fact.tier.value }} — {{ tier_label(fact.tier) }}
+      {% if fact.basis is not none %}
+      <br><em>Basis:</em> {{ basis_label(fact.basis) }}
+      {% endif %}
+      {% if fact.id in affordability and affordability[fact.id].anchor_note %}
+      <br><em>Affordability anchors:</em> {{ affordability[fact.id].anchor_note }}
+      {% endif %}
       {% if fact.notes %}<br><em>Curator note:</em> {{ fact.notes }}{% endif %}
       {% if src.notes %}<br><em>Source note:</em> {{ src.notes }}{% endif %}
       {% for aid in fact.assumptions %}
@@ -114,6 +163,120 @@ def _panels_for(room: Room) -> list[tuple[Panel, list[object]]]:
     return [(panel, [f for f in room.facts if f.panel is panel]) for panel in Panel]
 
 
+@dataclass(frozen=True, slots=True)
+class _ComparisonRow:
+    decade: str
+    price_display: str
+    hours_display: str
+    pct_display: str
+    tier: str
+    anchor_note: str
+    has_data: bool
+
+
+@dataclass(frozen=True, slots=True)
+class _ComparisonView:
+    label: str
+    rows: tuple[_ComparisonRow, ...]
+
+
+def _format_hours(hours: float) -> str:
+    if hours < 100:
+        return f"≈ {hours:.1f} hours of work"
+    return f"≈ {hours:,.0f} hours of work"
+
+
+def _format_pct(pct: float) -> str:
+    return f"≈ {pct:.1f}% of annual income"
+
+
+def _affordability_for_room(corpus: Corpus, room: Room) -> dict[str, dict[str, str]]:
+    """Compute affordability display for each TOTAL-basis fact in a room."""
+    display: dict[str, dict[str, str]] = {}
+    if not room.wage_anchor and not room.income_anchor:
+        return display
+
+    by_id = {f.id: f for f in room.facts}
+    wage_fact = by_id.get(room.wage_anchor) if room.wage_anchor else None
+    income_fact = by_id.get(room.income_anchor) if room.income_anchor else None
+
+    wage_pop = ""
+    income_pop = ""
+    if wage_fact is not None:
+        src = corpus.sources.get(wage_fact.source)
+        if src is not None:
+            wage_pop = src.population
+    if income_fact is not None:
+        src = corpus.sources.get(income_fact.source)
+        if src is not None:
+            income_pop = src.population
+
+    for fact in room.facts:
+        if fact.basis is not Basis.TOTAL or fact.amount_minor is None:
+            continue
+        aff = afford(
+            fact,
+            wage=wage_fact,
+            income=income_fact,
+            wage_population=wage_pop,
+            income_population=income_pop,
+        )
+
+        hours_str = ""
+        if aff.hours_to_afford is not None:
+            hours_str = _format_hours(aff.hours_to_afford)
+        pct_str = ""
+        if aff.pct_of_income is not None:
+            pct_str = _format_pct(aff.pct_of_income)
+
+        display[fact.id] = {
+            "hours": hours_str,
+            "pct": pct_str,
+            "tier": aff.tier.value,
+            "anchor_note": aff.anchor_note,
+        }
+
+    return display
+
+
+def _build_comparison_view(comparison: Comparison, decades: list[str]) -> _ComparisonView:
+    point_map = {p.decade: p for p in comparison.points}
+    rows: list[_ComparisonRow] = []
+    for decade in decades:
+        point = point_map.get(decade)
+        if point is None:
+            rows.append(
+                _ComparisonRow(
+                    decade=decade,
+                    price_display="",
+                    hours_display="",
+                    pct_display="",
+                    tier="",
+                    anchor_note="",
+                    has_data=False,
+                )
+            )
+        else:
+            hours_str = ""
+            if point.afford.hours_to_afford is not None:
+                hours_str = _format_hours(point.afford.hours_to_afford)
+            pct_str = ""
+            if point.afford.pct_of_income is not None:
+                pct_str = _format_pct(point.afford.pct_of_income)
+            rows.append(
+                _ComparisonRow(
+                    decade=decade,
+                    price_display=point.price_display,
+                    hours_display=hours_str,
+                    pct_display=pct_str,
+                    tier=point.afford.tier.value,
+                    anchor_note=point.afford.anchor_note,
+                    has_data=True,
+                )
+            )
+    return _ComparisonView(label=comparison.label, rows=tuple(rows))
+
+
 def render_site(corpus: Corpus, out_dir: Path) -> None:
     env = Environment(
         loader=DictLoader(
@@ -123,6 +286,7 @@ def render_site(corpus: Corpus, out_dir: Path) -> None:
     )
     env.globals["panel_title"] = panel_title
     env.globals["tier_label"] = tier_label
+    env.globals["basis_label"] = basis_label
 
     disclaimer_entry = corpus.assumptions.get("composite-family")
     if disclaimer_entry is None:
@@ -138,8 +302,25 @@ def render_site(corpus: Corpus, out_dir: Path) -> None:
     for room in corpus.rooms:
         by_country.setdefault(room.country, []).append(room)
 
+    decades = sorted({room.decade for room in corpus.rooms})
+    comparisons = [
+        compare_item(
+            corpus,
+            "A median home, in hours of work",
+            {
+                "1950s": "us-1950s-median-home-value",
+                "2020s": "us-2020s-median-home-value",
+            },
+        ),
+    ]
+    comparison_views = [_build_comparison_view(c, decades) for c in comparisons]
+
     (out_dir / "index.html").write_text(
-        env.get_template("index").render(root="", by_country=sorted(by_country.items()))
+        env.get_template("index").render(
+            root="",
+            by_country=sorted(by_country.items()),
+            comparisons=comparison_views,
+        )
     )
     (out_dir / "methodology.html").write_text(
         env.get_template("methodology").render(
@@ -157,6 +338,7 @@ def render_site(corpus: Corpus, out_dir: Path) -> None:
                 sources=corpus.sources,
                 assumptions=corpus.assumptions,
                 disclaimer=disclaimer_entry.statement,
+                affordability=_affordability_for_room(corpus, room),
             )
         )
         rendered_ids.extend(fact.id for fact in room.facts)

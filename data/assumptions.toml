@@ -36,3 +36,23 @@ statement = "Where the urban/rural divide dominates the distribution (China, Ind
 id = "metropolitan-definition"
 title = "Metropolitan area definition"
 statement = "The IPUMS METRO variable classifies households as in/not-in a metropolitan area based on Census-defined metropolitan statistical areas (MSAs). MSAs did not exist before 1949; pre-1950 metro classification uses retrospective assignments. 'Suburban' is operationalized as METRO code 3 (in metro area, not central city), which is a derived category — the Census does not use 'suburban' as an official classification. Metro/non-metro income splits use IPUMS 1% sample microdata (Tier B), weighted by HHWT."
+
+[[assumption]]
+id = "affordability-normalization"
+title = "The affordability axis"
+statement = "\"Hours to afford\" = item price ÷ that decade's representative hourly wage. \"% of income\" = item price ÷ median annual family income. Both are computed by repo code (affordability.py), never hand-authored in data files. The named wage and income anchors are shown in each fact's provenance drawer so the visitor can see which population the denominator was drawn from."
+
+[[assumption]]
+id = "hours-vs-income-denominator"
+title = "Why hours, not budget share"
+statement = "The primary affordability axis is hours of median work — it is inflation-free, needing no CPI splice to compare 1900 to 2024, and it reads intuitively (\"a 1950 refrigerator ≈ 230 hours; a 2024 one ≈ 40\"). The secondary axis is share of annual income, not true expenditure share: real expenditure share (a good as a fraction of what the family actually spent) needs CEX weights, continuous only from 1980. True \"% of budget\" is offered only where CEX expenditure weights exist, clearly labelled as such — never mislabelled as \"budget\" where only an income denominator is available."
+
+[[assumption]]
+id = "wage-anchor-consistency"
+title = "The wage anchor changes across the span"
+statement = "The hourly-wage anchor's measured population changes across the span: production/unskilled wage reconstructions before 1909 (Tier C); manufacturing production-worker earnings 1909–1963 (Tier A, BLS CES); total-private production/nonsupervisory earnings 1964→ (Tier A, BLS AHETPI). Cross-decade comparisons therefore carry the weaker tier and flag the splice rather than pretending one continuous series. A comparison is never more confident than its shakiest input."
+
+[[assumption]]
+id = "dwelling-size-metric"
+title = "Rooms, not square feet"
+statement = "The durable cross-decade dwelling-size axis is number of rooms (Census of Housing 1940→, IPUMS, and the pre-1940 cost-of-living surveys all recorded it). Square footage exists only for new construction from 1973 (Census SOC / Characteristics of New Housing) and for existing stock from roughly 1985 (AHS unit square footage). The home panel uses rooms as the comparable size metric across the whole span and shows square footage only where the record has it — never back-filled."

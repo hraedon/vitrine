@@ -5,6 +5,8 @@
 [room]
 country = "us"
 decade = "2020s"
+wage_anchor = "us-2020s-hourly-earnings"
+income_anchor = "us-2020s-median-income-four-person"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 # National-median facts from Census F-8 (Tier A) + CEX expenditure shares (Tier A)
@@ -56,8 +58,12 @@ value = "$105,800"
 unit = "USD per year, nominal, money income before tax"
 source = "census-f08-allraces"
 tier = "A"
+amount_minor = 10580000
+currency = "USD"
+price_year = 2024
+basis = "annual"
 notes = "From Table F-8 (All Races), row 10. CPS money income, as of March 2025 (2024 ASEC). This is the most recent available data."
-assumptions = ["composite-family", "nominal-values"]
+assumptions = ["composite-family", "nominal-values", "affordability-normalization"]
 
 [[fact]]
 id = "us-2020s-median-income-four-person"
@@ -67,8 +73,12 @@ value = "$139,900"
 unit = "USD per year, nominal, money income before tax"
 source = "census-f08-allraces"
 tier = "A"
+amount_minor = 13990000
+currency = "USD"
+price_year = 2024
+basis = "annual"
 notes = "From Table F-8 (All Races), 'Families with Four People' section, row 259. The 4-person family median is higher than the all-family median because smaller families (2-person) pull the all-family median down."
-assumptions = ["composite-family", "four-person-normalization", "nominal-values"]
+assumptions = ["composite-family", "four-person-normalization", "nominal-values", "affordability-normalization"]
 
 [[fact]]
 id = "us-2020s-number-of-families"
@@ -114,7 +124,7 @@ unit = "—"
 source = "census-ahs"
 tier = "D"
 notes = "The American Housing Survey (AHS) Table Creator at https://www.census.gov/programs-surveys/ahs/data/interactive/ahstablecreator.html provides current housing characteristics (rooms, plumbing, kitchen, telephone, automobile). Data is accessible interactively but not transcribed in this session. Tier D: source exists and is accessible but specific values not curated."
-assumptions = ["composite-family"]
+assumptions = ["composite-family", "dwelling-size-metric"]
 
 [[fact]]
 id = "us-2020s-median-home-value"
@@ -124,8 +134,12 @@ value = "~$420,000 (estimate)"
 unit = "USD, nominal"
 source = "census-ahs"
 tier = "D"
+amount_minor = 42000000
+currency = "USD"
+price_year = 2024
+basis = "total"
 notes = "Estimated from secondary sources. The Census/ACS publishes median home value data via data.census.gov. The ~$420,000 figure is widely cited but not transcribed from the primary Census source in this session. Tier D: estimated, not verified from primary source. For comparison: $7,354 in 1950."
-assumptions = ["nominal-values"]
+assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -172,8 +186,12 @@ value = "$30.12"
 unit = "USD per hour, nominal"
 source = "fred-ahetpi"
 tier = "A"
+amount_minor = 3012
+currency = "USD"
+price_year = 2024
+basis = "hourly"
 notes = "Annual average computed from FRED AHETPI monthly data (12 observations for 2024, averaged). BLS Current Employment Statistics. Note: AHETPI covers all private-sector production/nonsupervisory employees, not just manufacturing (unlike the 1950 CES3000000008 series). The 1964 AHETPI value was $2.50."
-assumptions = ["nominal-values"]
+assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency"]
 
 [[fact]]
 id = "us-2020s-weekly-earnings"
@@ -183,6 +201,10 @@ value = "$1,227.88"
 unit = "USD per week, nominal (computed: $30.12 × 40.7)"
 source = "fred-ahetpi"
 tier = "A"
+amount_minor = 122788
+currency = "USD"
+price_year = 2024
+basis = "weekly"
 notes = "Computed: average hourly earnings ($30.12) × average weekly hours for manufacturing (40.7). Note: this mixes all-private-sector wages with manufacturing hours — a slight inconsistency. The actual all-private-sector weekly hours series (AWHAETP) would be more consistent but starts in 2006."
 assumptions = ["nominal-values"]
 
@@ -260,12 +282,12 @@ assumptions = ["nominal-values"]
 id = "us-2020s-home-as-income-years"
 panel = "work-buys"
 label = "Median home value as years of median family income, 2024"
-value = "~4.0 years"
-unit = "ratio (estimated: ~$420,000 / $105,800)"
+value = "~3.0 years"
+unit = "years of four-person median family income"
 source = "census-f08-allraces"
 tier = "D"
-notes = "Estimated: median home value (~$420,000, Tier D) divided by all-family median income ($105,800, Tier A). Up from 2.2 years in 1950 — housing became significantly less affordable relative to income. Tier D because the home value is an estimate."
-assumptions = ["composite-family", "nominal-values"]
+notes = "Median home value (~$420,000, Tier D) relative to four-person median family income ($139,900, Tier A). Computed by afford() — see the home panel's affordability display. Up from ~2.0 years in 1950 — housing became significantly less affordable relative to income. Tier D because the home value is an estimate."
+assumptions = ["composite-family", "nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 [[fact]]
 id = "us-2020s-real-income-growth"

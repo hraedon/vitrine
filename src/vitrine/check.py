@@ -8,7 +8,9 @@ and nothing verifiability-critical is blank.
 
 from __future__ import annotations
 
-from vitrine.model import Corpus
+from pathlib import Path
+
+from vitrine.model import Basis, Corpus, Fact
 
 
 def check_corpus(corpus: Corpus) -> list[str]:
@@ -24,12 +26,17 @@ def check_corpus(corpus: Corpus) -> list[str]:
     seen: dict[str, str] = {}
     for room in corpus.rooms:
         prefix = f"{room.country}-{room.decade}-"
+        room_slug = room.slug
+        by_id: dict[str, Fact] = {f.id: f for f in room.facts}
+        currencies: set[str] = set()
+        has_priced = False
+
         for fact in room.facts:
-            where = f"room {room.slug}, fact {fact.id!r}"
+            where = f"room {room_slug}, fact {fact.id!r}"
 
             if fact.id in seen:
                 problems.append(f"{where}: duplicate fact id (also in room {seen[fact.id]})")
-            seen[fact.id] = room.slug
+            seen[fact.id] = room_slug
 
             if not fact.id.startswith(prefix):
                 problems.append(f"{where}: id must start with {prefix!r}")
@@ -49,4 +56,93 @@ def check_corpus(corpus: Corpus) -> list[str]:
                 if not value.strip():
                     problems.append(f"{where}: empty {field_name}")
 
+            if fact.amount_minor is not None:
+                has_priced = True
+                if not fact.currency.strip():
+                    problems.append(f"{where}: amount_minor set but currency is empty")
+                if fact.price_year is None:
+                    problems.append(f"{where}: amount_minor set but price_year is missing")
+                if fact.basis is None:
+                    problems.append(f"{where}: amount_minor set but basis is missing")
+                elif fact.currency.strip():
+                    currencies.add(fact.currency)
+            elif fact.basis is not None:
+                problems.append(f"{where}: basis set but amount_minor is missing")
+
+        if has_priced:
+            has_total = any(f.basis is Basis.TOTAL for f in room.facts)
+            if has_total and not room.wage_anchor and not room.income_anchor:
+                problems.append(
+                    f"room {room_slug}: has a priced fact (basis total) but no "
+                    f"wage_anchor or income_anchor declared"
+                )
+
+            if len(currencies) > 1:
+                problems.append(
+                    f"room {room_slug}: inconsistent currencies {sorted(currencies)} "
+                    f"among structured facts"
+                )
+
+        for anchor_field, expected_basis, label in (
+            ("wage_anchor", Basis.HOURLY, "wage_anchor"),
+            ("income_anchor", Basis.ANNUAL, "income_anchor"),
+        ):
+            anchor_id = getattr(room, anchor_field)
+            if not anchor_id:
+                continue
+            if anchor_id not in by_id:
+                problems.append(
+                    f"room {room_slug}: {label} {anchor_id!r} does not resolve "
+                    f"to a fact in this room"
+                )
+                continue
+            anchor_fact = by_id[anchor_id]
+            if anchor_fact.basis is not expected_basis:
+                actual = (
+                    anchor_fact.basis.value
+                    if anchor_fact.basis is not None
+                    else "none"
+                )
+                problems.append(
+                    f"room {room_slug}: {label} {anchor_id!r} has basis "
+                    f"{actual!r}, expected {expected_basis.value!r}"
+                )
+            if anchor_fact.amount_minor is None:
+                problems.append(
+                    f"room {room_slug}: {label} {anchor_id!r} has no amount_minor"
+                )
+            elif anchor_fact.amount_minor == 0:
+                problems.append(
+                    f"room {room_slug}: {label} {anchor_id!r} has amount_minor = 0 "
+                    f"(would cause division by zero)"
+                )
+
+    return problems
+
+
+def check_render_coverage(corpus: Corpus, build_dir: Path) -> list[str]:
+    """Invariant 7: the set of facts rendered must equal the set curated.
+
+    Compares ``facts-manifest.txt`` in *build_dir* against the loaded corpus.
+    An empty list means every curated fact was rendered and nothing extra
+    was injected.
+    """
+    manifest_path = build_dir / "facts-manifest.txt"
+    if not manifest_path.is_file():
+        return [
+            f"render-coverage: {manifest_path} not found — run 'vitrine build' first"
+        ]
+
+    rendered_ids = {
+        line.strip()
+        for line in manifest_path.read_text().splitlines()
+        if line.strip()
+    }
+    curated_ids = {fact.id for room in corpus.rooms for fact in room.facts}
+
+    problems: list[str] = []
+    for fid in sorted(curated_ids - rendered_ids):
+        problems.append(f"render-coverage: fact {fid!r} curated but not rendered")
+    for fid in sorted(rendered_ids - curated_ids):
+        problems.append(f"render-coverage: fact {fid!r} rendered but not curated")
     return problems

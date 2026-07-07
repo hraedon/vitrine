@@ -5,6 +5,7 @@
 [room]
 country = "us"
 decade = "1900s"
+income_anchor = "us-1900s-annual-family-income"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -16,8 +17,12 @@ value = "$827.19"
 unit = "USD per year, nominal"
 source = "bls-bulletin-49-1903"
 tier = "A"
+amount_minor = 82719
+currency = "USD"
+price_year = 1901
+basis = "annual"
 notes = "From BLS Bulletin No. 49, p.1138. This is an AVERAGE, not a median — the report did not compute medians. Population: 2,567 wage-earner families in 33 states, head earning ≤$1,200/year. NOTE: the University of Missouri guide cited this as $749 — the primary source says $827.19. The Missouri figure was wrong."
-assumptions = ["composite-family", "nominal-values", "income-vs-consumption"]
+assumptions = ["composite-family", "nominal-values", "income-vs-consumption", "affordability-normalization"]
 
 [[fact]]
 id = "us-1900s-survey-income-cap"
@@ -154,6 +159,10 @@ value = "$11.00"
 unit = "USD per week, nominal"
 source = "umizzou-prices-wages"
 tier = "D"
+amount_minor = 1100
+currency = "USD"
+price_year = 1905
+basis = "weekly"
 notes = "From the Missouri guide citing 1905 Census of Manufactures. Population: male wage-earners in manufacturing. Average, not median. Still Tier D — not transcribed from primary source."
 assumptions = ["nominal-values"]
 
