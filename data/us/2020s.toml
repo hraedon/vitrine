@@ -299,3 +299,40 @@ source = "census-f08-allraces"
 tier = "A"
 notes = "Computed: 1950 all-family median ($3,319) adjusted to 2024 dollars ($3,319 × 13.03 = $43,262) vs 2024 all-family median ($105,800). Real income grew 2.4x. Note: F-8 also publishes CPI-adjusted values directly — the 2024-dollar column for 1950 is $35,290 (C-CPI-U-RS adjusted), giving a growth factor of 3.0x. The difference is due to the CPI series used (CPIAUCNS vs C-CPI-U-RS). Either way, real median family income roughly tripled."
 assumptions = ["composite-family", "nominal-values"]
+
+# ── Day panel: life expectancy ────────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-life-expectancy"
+panel = "day"
+label = "Life expectancy at birth, 2023"
+value = "75.8 male, 81.1 female (78.4 total)"
+unit = "years"
+source = "nchs-nvss"
+tier = "A"
+notes = "From NCHS Data Brief No. 521 (Dec 2024), final 2023 mortality data. Male: 75.8 (up 1.0 from 74.8 in 2022). Female: 81.1 (up 0.9 from 80.2 in 2022). The 2020-21 COVID decline (78.8 → 76.1) has largely recovered. Provisional 2024 (Data Brief No. 548, Jan 2026): male 76.5, female 81.4. For cross-decade comparison: 1900-02: 48.2M/51.1F; 1939-41: 62.8M/67.3F; 1949-51: 66.3M/72.0F; 1960: 66.6M/73.1F (white)."
+
+# ── Diffusion panel: vehicle ownership ───────────────────────────────────
+
+[[fact]]
+id = "us-2020s-vehicle-ownership"
+panel = "diffusion"
+label = "Households with at least one vehicle, 2023"
+value = "91.5% (8.5% with no vehicle)"
+unit = "% of occupied households"
+source = "census-acs-vehicle"
+tier = "A"
+notes = "From ACS Table B25045 (latest 5-year estimates via Census Reporter). 132.7M households total. No vehicle: 11.3M (8.5%). Owner-occupied no-vehicle: 2.88M (3.3% of owners). Renter-occupied no-vehicle: 8.43M (18.3% of renters). Vehicle access tracks tenure and income — car-free households are concentrated in dense urban areas and among renters."
+
+# ── Budget panel: poverty rate ────────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-poverty-rate"
+panel = "budget"
+label = "Official poverty rate, 2024"
+value = "10.6% (35.9 million people)"
+unit = "% of U.S. population below official poverty threshold"
+source = "census-p60-287"
+tier = "A"
+notes = "From Census P-60 No. 287 (Sep 2025). Official poverty rate: 10.6% (down from 11.1% in 2023). 35.9M people in poverty. Supplemental Poverty Measure (SPM): 12.9% (unchanged from 2023). For families: married-couple 3.5%, female-householder 18.6%. The official poverty threshold for a 4-person family with 2 children was ~$32,000 in 2024."
+assumptions = ["composite-family"]
