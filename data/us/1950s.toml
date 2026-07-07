@@ -224,7 +224,7 @@ amount_minor = 151100
 currency = "USD"
 price_year = 1950
 basis = "total"
-notes = "From secondary sources cited by the Missouri guide. Tier D: the figure is widely cited but not transcribed from a primary BLS or industry source in this session. The actual primary source may be a trade publication or NADA data."
+notes = "Figure widely cited across multiple sources (Humble ISD, Morris County Library, Missouri prices guide). Consistent with era: a new Henry J (budget car) was $1,299 in 1950 (Morris County Library newspaper ads). The $1,511 likely represents the average transaction price, weighted down by budget models. Likely primary source: BLS 1950 Consumer Expenditure Survey (Bulletin 1097) or Census Statistical Abstract 1953 edition (Table on New Passenger Car Sales). Tier D: figure not yet directly verified from primary document. Note: some web sources cite ~$2,200 for 1950, but that appears to be a confusion with 1959 prices ($2,200 is the 1959 figure, not 1950)."
 assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
