@@ -7,6 +7,46 @@ country = "us"
 decade = "2020s"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
+# National-median facts from Census F-8 (Tier A) + CEX expenditure shares (Tier A)
+
+# CEX expenditure breakdown for 4-person consumer units, 2024.
+# Computed from CEX Table 1400 (Size of CU): aggregate expenditure shares.
+# Method: (category share × category aggregate) / (total exp share × total exp aggregate).
+# 4-person CUs: 16,718 thousand (12.3% of all CUs). Average expenditure: $109,622.
+# Source file: cu-size-2024.xlsx (from https://www.bls.gov/cex/tables.htm)
+
+[[fact]]
+id = "us-2020s-expenditure-breakdown-4p"
+panel = "budget"
+label = "Expenditure breakdown, 4-person families, 2024"
+value = "Housing 31.3%, transportation 17.9%, food 13.5%, insurance/pensions 14.8%, healthcare 7.0%, entertainment 4.6%, apparel 2.5%, education 2.4%, cash contributions 2.0%"
+unit = "% of total annual expenditure"
+source = "bls-cex"
+tier = "A"
+notes = "Computed from CEX Table 1400 (Size of CU, 2024). 4-person CUs: 16,718 thousand. Average annual expenditure: $109,622. Average income before taxes: $161,632. Expenditure = 68% of gross income. Compared to 1901: food dropped from 42.54% to 13.5%, apparel from 14.04% to 2.5%, while housing rose from 12.95% to 31.3% and transportation emerged as a major category (17.9%). Source: bls.gov/cex/tables.htm, file cu-size-2024.xlsx."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
+
+[[fact]]
+id = "us-2020s-food-share-comparison"
+panel = "budget"
+label = "Food share of expenditure: 1901 vs 2024"
+value = "42.54% (1901) -> 13.5% (2024) — food's share dropped by two-thirds"
+unit = "% of total family expenditure"
+source = "bls-bulletin-49-1903"
+tier = "A"
+notes = "1901 figure from BLS Bulletin No. 49 (18th Annual Report). 2024 figure computed from CEX Table 1400. This is Engels' Law in action: as income rises, the share spent on food decreases. The absolute food budget increased ($326.90 in 1901 vs ~$14,797 in 2024 for a 4-person family) but its share of total expenditure fell dramatically."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
+
+[[fact]]
+id = "us-2020s-housing-share-comparison"
+panel = "budget"
+label = "Housing share of expenditure: 1901 vs 2024"
+value = "12.95% (1901) -> 31.3% (2024) — housing's share nearly tripled"
+unit = "% of total family expenditure"
+source = "bls-bulletin-49-1903"
+tier = "A"
+notes = "1901 rent from BLS Bulletin No. 49. 2024 from CEX Table 1400 (includes shelter, utilities, furnishings, household operations). Housing became the largest expenditure category, driven by rising real estate costs and larger homes. In 1901 food was the largest category; by 2024 it was housing."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-2020s-median-income-all-families"
