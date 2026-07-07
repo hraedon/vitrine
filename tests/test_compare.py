@@ -86,8 +86,8 @@ def test_compare_tier_inheritance_weakest_wins() -> None:
     assert point.afford.tier == Tier.C
 
 
-def test_compare_2020s_home_tier_d() -> None:
-    """2020s home: price Tier D, wage Tier A, income Tier A → weakest is D."""
+def test_compare_2020s_home_tier_a() -> None:
+    """2020s home: price Tier A, wage Tier A, income Tier A → weakest is A."""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
@@ -96,7 +96,7 @@ def test_compare_2020s_home_tier_d() -> None:
     )
     assert len(comparison.points) == 1
     point = comparison.points[0]
-    assert point.afford.tier == Tier.D
+    assert point.afford.tier == Tier.A
 
 
 def test_compare_1950s_car_hours() -> None:
@@ -147,7 +147,7 @@ def test_compare_1950s_home_values() -> None:
 
 
 def test_compare_2020s_home_values() -> None:
-    """$420,000 / $30.12/hr ≈ 13,944 hours; $420,000 / $139,900 ≈ 300.2%."""
+    """$360,600 / $30.12/hr ≈ 11,972 hours; $360,600 / $139,900 ≈ 257.8%."""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
@@ -157,10 +157,10 @@ def test_compare_2020s_home_values() -> None:
     assert len(comparison.points) == 1
     point = comparison.points[0]
     assert point.afford.hours_to_afford is not None
-    assert point.afford.hours_to_afford == pytest.approx(42000000 / 3012, rel=1e-6)
+    assert point.afford.hours_to_afford == pytest.approx(36060000 / 3012, rel=1e-6)
     assert point.afford.pct_of_income is not None
-    assert point.afford.pct_of_income == pytest.approx(42000000 / 13990000 * 100, rel=1e-6)
-    assert point.afford.pct_of_income == pytest.approx(300.2, abs=0.1)
+    assert point.afford.pct_of_income == pytest.approx(36060000 / 13990000 * 100, rel=1e-6)
+    assert point.afford.pct_of_income == pytest.approx(257.8, abs=0.1)
 
 
 def test_compare_points_ordered_by_decade() -> None:

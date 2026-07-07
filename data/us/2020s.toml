@@ -129,17 +129,17 @@ assumptions = ["composite-family", "dwelling-size-metric"]
 [[fact]]
 id = "us-2020s-median-home-value"
 panel = "home"
-label = "Median home value, ~2024"
-value = "~$420,000 (estimate)"
-unit = "USD, nominal"
+label = "Median home value, 2024 (ACS)"
+value = "$360,600"
+unit = "USD, nominal (median value of owner-occupied housing units)"
 source = "census-ahs"
-tier = "D"
-amount_minor = 42000000
+tier = "A"
+amount_minor = 36060000
 currency = "USD"
 price_year = 2024
 basis = "total"
-notes = "Estimated from secondary sources. The Census/ACS publishes median home value data via data.census.gov. The ~$420,000 figure is widely cited but not transcribed from the primary Census source in this session. Tier D: estimated, not verified from primary source. For comparison: $7,354 in 1950."
-assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
+notes = "From Census ACS 1-Year Estimates, Table B25077 (Median value of owner-occupied housing units), 2024. Margin of error: ±$618. Time series: $179,900 (2010), $181,200 (2014), $240,500 (2019), $360,600 (2024) — doubled in 14 years. For comparison: $7,354 in 1950 (Tier C)."
+assumptions = ["nominal-values", "dwelling-size-metric"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -282,11 +282,11 @@ assumptions = ["nominal-values"]
 id = "us-2020s-home-as-income-years"
 panel = "work-buys"
 label = "Median home value as years of median family income, 2024"
-value = "~3.0 years"
+value = "2.58 years"
 unit = "years of four-person median family income"
 source = "census-f08-allraces"
-tier = "D"
-notes = "Median home value (~$420,000, Tier D) relative to four-person median family income ($139,900, Tier A). Computed by afford() — see the home panel's affordability display. Up from ~2.0 years in 1950 — housing became significantly less affordable relative to income. Tier D because the home value is an estimate."
+tier = "A"
+notes = "Computed: $360,600 (ACS B25077, 2024) ÷ $139,900 (Census F-8, 4-person median family income, 2024) = 2.58 years. Previous Tier D estimate was ~3.0 years using $420,000 home value — the ACS shows $360,600, which is lower. For comparison: ~2.2 years in 1950 ($7,354 ÷ $3,319) and ~2.0 years using 4-person median ($7,354 ÷ $3,675). Housing affordability has worsened modestly since 1950, not dramatically — but the composition shifted (mortgage rates, property taxes, and home size all changed)."
 assumptions = ["composite-family", "nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 [[fact]]

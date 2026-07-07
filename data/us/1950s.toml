@@ -193,15 +193,15 @@ notes = "From BLS Bulletin No. 1055, Table 4 (p.9), 'Average retail prices of pr
 assumptions = ["nominal-values"]
 
 [[fact]]
-id = "us-1950s-food-basket-gap"
+id = "us-1950s-food-basket"
 panel = "table"
-label = "Food basket composition, 1950"
-value = "no reliable record accessible online"
-unit = "—"
+label = "Food basket and expenditure breakdown, 1960-61 (CEX)"
+value = "Food $1,309/yr (24.3% of expenditure), housing $1,594 (29.6%), food away from home $274, local telephone $69/yr. Total expenditure: $5,393."
+unit = "USD per family per year, nominal (urban families, 1960-61)"
 source = "bls-cex"
-tier = "D"
-notes = "The Consumer Expenditure Survey did not run continuously in the 1950s. The 1960-61 CEX is the closest expenditure survey. However, BLS Bulletin 1055 (now transcribed as Tier A — see us-1950s-food-prices) provides retail food prices for 1950, which combined with the expenditure shares from the 1948-50 Consumer Price Index detailed data, can partially reconstruct the food basket. Full expenditure breakdown by food category would still require the 1960-61 CEX."
-assumptions = ["income-vs-consumption"]
+tier = "A"
+notes = "From the 1960-61 Consumer Expenditure Survey data tables (ce_196061_tables.pdf, p.8), OCR'd via GLM-OCR. US average for all urban families. Food share dropped from 42.54% (1901) to 24.3% (1960-61) — Engels' Law. Housing became the largest category at 29.6%. The survey also shows durable goods ownership (p.15): TV 91.4%, refrigerator 84.7%, washing machine 70.0%, air conditioner 18.8%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%. TV adoption went from 12.3% (1950 Census) to 91.4% (1960-61) in one decade."
+assumptions = ["income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-1950s-car-price"
