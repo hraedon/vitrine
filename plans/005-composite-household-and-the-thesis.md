@@ -9,19 +9,52 @@ vitrine is not a neutral catalogue; it argues against a specific, widespread
 historical amnesia — *"the world was always basically like this."* Two claims
 the data supports, made in sourced facts rather than narration:
 
-1. **Technology freed women from a lifetime of grinding domestic labour.** The
-   arrival of running water, the washing machine, the refrigerator, and central
-   heat did not just add convenience — it collapsed the hours of unpaid work
-   that ran a household, work that fell overwhelmingly on women. This is not
-   broadly understood; the appliances read as gadgets, not emancipation.
+1. **Technology transformed domestic labour — and the dividend was spent on
+   higher standards, not leisure.** (Revised 2026-07-07; see "What Ramey
+   actually shows" below.) Running water, the washing machine, the
+   refrigerator, and central heat removed the physically grinding chores —
+   hauling water, boiling laundry, tending fires — that fell overwhelmingly on
+   women. But home-production *hours* fell far less before ~1965 than the
+   appliance narrative predicts: the freed time was reallocated into cleaner
+   clothes, more elaborate meals, more shopping, and far more childcare. This
+   mirrors the market economy exactly — vastly improved productivity did not
+   shorten the workweek proportionally either; the surplus went into
+   consumption and standards. Progress is real in both cases, and it looks
+   like *transformation and enrichment of the work*, not its disappearance.
+   The steep per-woman hours decline comes after 1965, coinciding with women's
+   move into market work.
 2. **The single-earner mid-century family lived small and spartan.** The
    "one income used to be enough" nostalgia quietly assumes the 1950s family
    lived like we do, minus a paycheck. They did not: a small house, one
-   bathroom (and a third of homes lacked complete plumbing), half without
-   central heat, a modest food-heavy budget, few possessions, one car or none.
+   bathroom (and more than a third of homes lacked complete plumbing), half
+   without central heat, a modest food-heavy budget, few possessions, one car
+   or none.
 
 The amnesia is about *our own baseline*, so the exhibit's most important
 comparison is the **long transect to the 2020s**, not any single decade.
+
+### What Ramey actually shows (read before designing the exhibit)
+
+Ramey (2009) — this plan's spine source — is a **revisionist** paper: its
+headline argument is *against* the "engines of liberation" story (Greenwood,
+Seshadri & Yorukoglu 2005) this plan's first draft assumed. Her estimates
+show prime-age women's home-production hours roughly flat-to-modestly-falling
+from 1900 to the mid-1960s while appliances diffused massively; the sharp
+decline is post-1965. The adjacent literature agrees on the reallocation
+(Vanek 1974's near-constant housewife hours; Ruth Schwartz Cowan, *More Work
+for Mother*: mechanization raised standards rather than freeing time).
+
+Consequences:
+
+- The exhibit **argues the revised claim #1**, which Ramey supports, not the
+  "hours collapsed" claim, which she rebuts.
+- The **chore-composition breakdown is the centerpiece**, not the total-hours
+  meter: laundry hours collapse (a full day per week pre-machine), while
+  shopping and childcare hours rise. The composition shift *is* the
+  higher-standards story, made visible.
+- The owner's judgment, stated for the record and fair game to render as an
+  editorial caption outside the truth path: shopping is less unpleasant than
+  pre-mechanized laundry. The data shows the swap; the visitor can weigh it.
 
 ## The honesty guardrail (the counterweight)
 
@@ -71,7 +104,9 @@ benchmark year Ramey reports:
 
 1. **Women's weekly hours of home production** — the thesis spine. Record the
    exact age range Ramey uses (e.g. prime-age 25–54, or 14+) as the
-   **population** string; do not blur it. This is the falling series.
+   **population** string; do not blur it. Extract the series *as published* —
+   its shape (roughly level to the mid-1960s, falling after) is itself the
+   finding; do not assume a pre-1965 fall.
 2. **Men's weekly hours of home production** — the honest counterpoint (men's
    rose); needed so the household total is not misread.
 3. **Total / per-capita household home-production hours** — Ramey stresses the
@@ -119,10 +154,16 @@ age-range population verbatim.
 
 ## Design work (WI-4, prototyped in the concept demo)
 
-- **Falling labour-hours meter.** The mother's weekly unpaid-labour hours
-  rendered as a bar that shrinks across decades *in inverse lockstep* with the
-  appliance-diffusion glow rising. One glance = claim #1. Historical points are
-  provisional/Tier-C (Ramey pending); the modern point anchors on ATUS.
+- **Labour-hours meter + chore composition.** The mother's weekly unpaid-labour
+  hours rendered as a bar across decades beside the appliance-diffusion glow —
+  drawn to whatever shape Ramey's series actually delivers (likely: hours
+  roughly level while diffusion soars, then falling post-1965), NOT presupposed
+  to move in inverse lockstep. A meter engineered so "one glance = the claim"
+  is a causal assertion moved from prose into design, and the first draft of
+  this plan made exactly that mistake. The composition sub-bars (laundry /
+  cooking / cleaning / childcare / shopping) carry the real story: segments
+  swap while the total resists. Historical points are Tier-C (Ramey pending);
+  the modern point anchors on ATUS.
 - **True-scale house size.** The cutaway scales with sourced floor area while
   the family stays constant — the 1950s home reads visibly cramped beside the
   2020s. Powers claim #2 spatially.
@@ -147,8 +188,10 @@ age-range population verbatim.
 
 ## Acceptance criteria
 
-1. The mother's home-production hours fall across the transect, every point
-   tier-badged, the Ramey↔ATUS splice caveated. ✅ when WI-2/WI-4/WI-5 land.
+1. The mother's home-production hours render across the transect **in the
+   shape the source delivers** (no presupposed fall pre-1965), every point
+   tier-badged, the Ramey↔ATUS splice caveated, the chore-composition
+   breakdown present. ✅ when WI-2/WI-4/WI-5 land.
 2. The 1950s house renders visibly smaller than the 2020s, driven by sourced
    floor area with the new-vs-stock basis stated. ✅
 3. No thesis figure appears without a tier and a population; provisional/unsourced

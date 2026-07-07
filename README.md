@@ -12,10 +12,12 @@ day's work bought. The distinguishing mechanic is **provenance under glass**:
 every rendered fact carries a source citation and a confidence tier, and the
 build fails mechanically if any fact lacks one.
 
-- **v1 (US):** rooms from the 1890s through the 2020s, tier-badged. Official
-  median family income exists only from 1947 (Census P-60); the 1940s room
-  leans on census microdata; 1890s–1930s rooms are reconstructed from period
-  cost-of-living surveys; the museum stops where the record does, and says so.
+- **v1 (US):** rooms from the 1900s through the 2020s, tier-badged (an 1890s
+  room is planned; the 1890–91 Commissioner of Labor survey is already in the
+  source registry). Official median family income exists only from 1947
+  (Census P-60); the 1940s room leans on census microdata; the early rooms are
+  reconstructed from period cost-of-living surveys; the museum stops where the
+  record does, and says so.
 - **v2 (world):** United Kingdom, Poland, Russia, China, India, Japan — each
   with its own honest data floor and country-specific caveats (consumption vs
   income in India, shortage economies in the PRL/USSR, urban/rural splits in
@@ -88,5 +90,6 @@ Charter stage. See `docs/fact-model.md` (design spine) and
 uv venv && uv pip install -e ".[dev]"
 .venv/bin/vitrine check            # validate data/ against the fact model
 .venv/bin/vitrine build            # render the static site to _site/
+.venv/bin/vitrine gaps             # mechanical gap inventory (never hand-kept)
 .venv/bin/pytest -q
 ```
