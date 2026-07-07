@@ -453,6 +453,28 @@ url = "https://www.census.gov/library/publications/2025/demo/p60-287.html"
 population = "U.S. resident population and families (CPS ASEC)"
 notes = "Official poverty rate 2024: 10.6% (35.9M people). SPM: 12.9%. Down from 11.1% official in 2023. For families: 7.0% poverty rate (married-couple 3.5%, female-householder 18.6%)."
 
+# ── Scholarly reconstructions ─────────────────────────────────────────────
+
+[[source]]
+id = "ramey-2009"
+title = "Time Spent in Home Production in the Twentieth-Century United States: New Estimates from Old Data"
+short_cite = "Ramey, J. Econ. History 69(1), 2009"
+publisher = "Cambridge University Press (Journal of Economic History)"
+year = 2009
+url = "https://econweb.ucsd.edu/~vramey/research/Home_Production_published.pdf"
+population = "Prime-age women and men, ages 18–64 (benchmark years 1900–2005); also all-ages per-capita and per-household aggregates"
+notes = "Valerie A. Ramey, JEconHist 69(1), March 2009, pp. 1–47. Reconstruction from historical time-diary studies (Purnell Act studies 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS modern surveys. Draft version: NBER Working Paper w13985 (May 2008, 63pp) — data tables are numerically identical to the published version; differences are prose tightening and table reformatting (5→5A/5B, etc.). Tier C (period-survey reconstruction). Key tables: Table 5A (nonemployed women), Table 6A (all women, prime-age), Table 7 (men, prime-age), Table 8A (all ages), Table 3 (component breakdown). Note: Ramey does not use the 1992-94 survey (missing data), so no 1990s benchmark. Splice point to ATUS: Ramey measures women-specific home production ages 18-64; ATUS measures all-adult household activities age 15+ — a concept splice that must caveat (Plan 004 Measure guard)."
+
+[[source]]
+id = "ramey-2008-nber"
+title = "Time Spent in Home Production in the 20th Century: New Estimates from Old Data (NBER Working Paper w13985)"
+short_cite = "Ramey, NBER w13985, 2008"
+publisher = "National Bureau of Economic Research"
+year = 2008
+url = "https://www.nber.org/papers/w13985"
+population = "Prime-age women and men, ages 18–64 (benchmark years 1900–2005); also all-ages per-capita and per-household aggregates"
+notes = "Draft version of Ramey (2009). 63 pages. Data tables numerically identical to published version. Cited as draft companion; the published version (ramey-2009) is the primary source for all facts."
+
 # ── Other ─────────────────────────────────────────────────────────────────
 
 [[source]]

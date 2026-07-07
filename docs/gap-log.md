@@ -2,9 +2,9 @@
 
 Tracking unsourced facts (Tier D) across all US decade rooms.
 
-## Current state (after 2026-07-07 session)
+## Current state (after 2026-07-07 session, Ramey ingestion)
 
-**18 gaps remaining** (down from 37 at session start)
+**20 gaps remaining** (18 prior + 2 new Ramey gap facts: 1990s + 2010s home production)
 
 | Room | Gaps | Type |
 |------|------|------|
@@ -14,8 +14,25 @@ Tracking unsourced facts (Tier D) across all US decade rooms.
 | 1930s | 4 | Structural permanent |
 | 1940s | 2 | Wartime permanent (no CEX, wartime controls) |
 | 1950s | 1 | Estimate with value (car price) |
-| 1990s | 1 | Fillable — RECS AC data needs PDF OCR |
+| 1990s | 2 | 1 RECS AC (fillable) + 1 Ramey (1992-94 survey excluded by author) |
+| 2010s | 1 | Ramey series ends 2005; ATUS is a concept splice |
 | 2020s | 0 | — |
+
+### Ramey (2009) home-production hours ingested
+
+28 facts added across 13 rooms (Plan 005 WI-2). Source: Valerie A. Ramey,
+"Time Spent in Home Production in the Twentieth-Century United States,"
+*J. Econ. History* 69(1), 2009. Tier C (period-survey reconstruction).
+
+- Women's + men's weekly unpaid home-production hours (Tables 6A & 7)
+  for benchmark years 1900–2005 across 10 decade rooms.
+- Per-household total: 78→49 hrs/week (1900→2005, -37%).
+- Component breakdown: 1920s housewife's week (Table 3).
+- 1990s: gap rendered (Ramey excludes 1992-94 survey; no benchmark).
+- 2010s: gap rendered (series ends 2005; ATUS is a concept splice).
+- 2020s: splice-note fact connecting Ramey endpoint to existing ATUS fact.
+- Draft (NBER w13985) ingested for comparison; data tables numerically
+  identical to published version.
 
 ## Filled this session (19 gaps)
 

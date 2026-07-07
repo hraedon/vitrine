@@ -155,3 +155,25 @@ source = "census-acs-homevalue"
 tier = "C"
 notes = "Computed: 2010 ACS median home value ($179,900) / 2010 Census F-8 median family income ($60,240). Post-crash: home values had dropped but incomes stagnated, making housing less affordable than the 1990s ratio (~2.3). By 2024: $360,600 / ~$104,000 = ~3.5 years."
 assumptions = ["affordability-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-2010s-home-production-women"
+panel = "day"
+label = "Women's weekly unpaid home-production hours, 2010s"
+value = "no reliable record"
+unit = "hours per week, prime-age women (ages 18–64)"
+source = "ramey-2009"
+tier = "D"
+notes = "Ramey's series ends at 2005. ATUS (available 2010s) measures all-adult household activities, not women-specific home production — a concept splice (Plan 004 Measure guard). The 2020s room carries the ATUS figure (us-2020s-time-use) for the modern endpoint."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2010s-home-production-men"
+panel = "day"
+label = "Men's weekly unpaid home-production hours, 2010s"
+value = "no reliable record"
+unit = "hours per week, prime-age men (ages 18–64)"
+source = "ramey-2009"
+tier = "D"
+notes = "Ramey's series ends at 2005. See us-2010s-home-production-women note re: ATUS concept splice."
+assumptions = ["composite-family"]

@@ -166,3 +166,45 @@ source = "census-homeownership-historical"
 tier = "C"
 notes = "Computed: 2000 median home value ($119,600) / 2000 median family income ($50,730). The housing bubble (2002-2006) would push this ratio far higher before the crash."
 assumptions = ["affordability-normalization", "nominal-values"]
+
+
+# ── Home production hours (Ramey 2009) ─────────────────────────────────────
+# Plan 005 WI-2: women's + men's weekly unpaid home-production hours.
+# Source: Ramey (2009), Table 6A (women) & Table 7 (men), "All Prime-Age" cols.
+# Population: ages 18–64, weighted by employment-population ratio.
+# Tier C: reconstruction from period time-diary studies linked to modern surveys.
+# Note: actor/hours_kind fields pending Plan 005 WI-1 model changes.
+
+[[fact]]
+id = "us-2000s-home-production-women"
+panel = "day"
+label = "Women's weekly unpaid home-production hours, 2005"
+value = "29.3"
+unit = "hours per week, prime-age women (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2000s-home-production-men"
+panel = "day"
+label = "Men's weekly unpaid home-production hours, 2005"
+value = "16.8"
+unit = "hours per week, prime-age men (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-2000s-home-production-household"
+panel = "day"
+label = "Total home-production hours per household, 2005"
+value = "49"
+unit = "hours per week, all household members combined"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009), aggregate home-production hours divided by number of households. Fell from 78 hrs/week (1900) to 49 hrs/week (2005), a 37% decline. Household size fell 45% (4.7→2.6 persons) over the same period, so per-household hours fell proportionally less than household size. Per-capita (all ages) was 18.5 hrs/week — slightly higher in 2005 than 1900 because fewer children (who do little home production) are in the population."
+assumptions = ["composite-family"]

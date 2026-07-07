@@ -394,3 +394,33 @@ source = "fred-ces-manuf-earnings"
 tier = "A"
 notes = "Computed: weekly earnings ($53.29) divided by annual median family income ($3,319). A week of manufacturing wages bought about 1.6% of the median family's annual income. This illustrates that a single manufacturing wage did not cover the median family income — a second earner or higher-paying job was needed."
 assumptions = ["composite-family", "nominal-values"]
+
+
+# ── Home production hours (Ramey 2009) ─────────────────────────────────────
+# Plan 005 WI-2: women's + men's weekly unpaid home-production hours.
+# Source: Ramey (2009), Table 6A (women) & Table 7 (men), "All Prime-Age" cols.
+# Population: ages 18–64, weighted by employment-population ratio.
+# Tier C: reconstruction from period time-diary studies linked to modern surveys.
+# Note: actor/hours_kind fields pending Plan 005 WI-1 model changes.
+
+[[fact]]
+id = "us-1950s-home-production-women"
+panel = "day"
+label = "Women's weekly unpaid home-production hours, 1950"
+value = "41.5"
+unit = "hours per week, prime-age women (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1950s-home-production-men"
+panel = "day"
+label = "Men's weekly unpaid home-production hours, 1950"
+value = "9.0"
+unit = "hours per week, prime-age men (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+assumptions = ["composite-family"]

@@ -166,3 +166,25 @@ source = "census-homeownership-historical"
 tier = "C"
 notes = "Computed: 1990 median home value ($79,100) / 1990 median family income ($35,350). Flat from 2.24 in 1980 — both home values and incomes roughly doubled in the 1980s."
 assumptions = ["affordability-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-1990s-home-production-women"
+panel = "day"
+label = "Women's weekly unpaid home-production hours, 1990s"
+value = "no reliable record"
+unit = "hours per week, prime-age women (ages 18–64)"
+source = "ramey-2009"
+tier = "D"
+notes = "Ramey (2009) does not report a 1990s benchmark. She explicitly excludes the 1992-94 time use survey ('I do not use the 1992-94 survey because of key missing data such as marital status and the problems with that survey discussed by Robinson and Godbey'). The series jumps from 1985 (28.4 hrs) to 2003 (29.7 hrs). Interpolation would be misleading given the non-monotonic trend. ATUS begins 2003 but measures all adults, not women-specifically."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1990s-home-production-men"
+panel = "day"
+label = "Men's weekly unpaid home-production hours, 1990s"
+value = "no reliable record"
+unit = "hours per week, prime-age men (ages 18–64)"
+source = "ramey-2009"
+tier = "D"
+notes = "Ramey (2009) does not report a 1990s benchmark for men (same gap as women: 1992-94 survey excluded). Series jumps from 1985 (13.9 hrs) to 2003 (17.2 hrs)."
+assumptions = ["composite-family"]
