@@ -2,9 +2,45 @@
 
 Tracking unsourced facts (Tier D) across all US decade rooms.
 
-## Current state (after 2026-07-07 gap-closing round)
+## Current state (after 2026-07-07 enrichment round)
 
-**14 gaps remaining** (was 20; 6 filled this round)
+**14 gaps remaining** (unchanged — all permanent)
+
+**19 new facts added this session** (236 → 255)
+
+### New facts added (2026-07-07)
+
+**AC diffusion arc completed (6 facts):**
+- 1960s: 18.8% (CEX 1960-61) — split from combined diffusion fact
+- 1970s: 23% central AC (1978 RECS, first survey)
+- 1980s: arc 1978→1993 (23% central → 68% total)
+- 2000s: 87% (2009 RECS, 61% central)
+- 2010s: 87% (2015 RECS, 64% central)
+- (1990s and 2020s already had AC facts)
+
+**Heating fuel arc extended to 2020s (2 facts):**
+- 2000s: RECS 2009 (gas 49%, electric 34%)
+- 2010s: RECS 2015 (gas 51%, electric 36%)
+- 1990s: RECS 1993 data inaccessible (EIA 503 on old URLs)
+
+**CPI/purchasing power arc (5 facts):**
+- 1970s-2010s: CPI + purchasing power for work-buys panel
+- 1970: $1=$8.09, real income +1.33x
+- 1980: $1=$3.81, real income +1.32x
+- 1990: $1=$2.40, real income +1.25x
+- 2000: $1=$1.82, real income +1.14x
+- 2010: $1=$1.44, real income +1.22x
+
+**1980s diffusion enrichment (3 facts):**
+- Cable TV (1989: 53M households, NCTA)
+- Computer (1984: 8.2% → 1989: 15.0%, Census CPS)
+- AC arc (1978→1993)
+
+**1960s room enrichment (5 facts):**
+- Median home value ($11,900, Census Historical Housing Tables)
+- Number of families (45,540,000, F-8)
+- Average family size (3.7, F-8)
+- Split combined diffusion into 4 separate facts (TV, telephone, AC, appliances)
 
 | Room | Gaps | Type |
 |------|------|------|
