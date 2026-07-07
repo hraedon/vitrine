@@ -387,6 +387,26 @@ url = "https://www.census.gov/data/tables/time-series/dec/coh-plumbing.html"
 population = "All occupied housing units in the United States (decennial census)"
 notes = "Complete plumbing = hot and cold piped water + flush toilet + bathtub/shower for exclusive use. Lacked complete plumbing: 1940 ~45% (55% had), 1950 ~33% (67% had), 1960 ~17% (83% had), 1970 ~6% (94% had), 1990 ~1% (99% had). The 1940 Census of Housing was the first to ask about plumbing."
 
+[[source]]
+id = "census-hist-housing-fuels"
+title = "Historical Census of Housing Tables: House Heating Fuel"
+short_cite = "U.S. Census Bureau, Historical Census of Housing Tables: House Heating Fuel"
+publisher = "U.S. Census Bureau"
+year = 2000
+url = "https://www.census.gov/data/tables/time-series/dec/coh-fuels.html"
+population = "Occupied housing units reporting heating fuel (decennial census)"
+notes = "Heating fuel data from 1940-1980 decennial census. Files: fuels1940.txt through fuels1980.txt at www2.census.gov. Coal dominated 1940 (55%), gas overtook by 1960 (43%), electricity rose from 0.7% (1950) to 18.4% (1980)."
+
+[[source]]
+id = "census-hist-housing-phone"
+title = "Historical Census of Housing Tables: Telephones"
+short_cite = "U.S. Census Bureau, Historical Census of Housing Tables: Telephones"
+publisher = "U.S. Census Bureau"
+year = 2000
+url = "https://www.census.gov/data/tables/time-series/dec/coh-phone.html"
+population = "Occupied housing units (decennial census)"
+notes = "Telephone in unit: 1960 78.5%, 1970 87.0%, 1980 92.9%, 1990 94.8%. Note: 1970 Census figure (87.0%) differs from Historical Statistics Vol 2 (90.5%) due to population definition (housing units vs households)."
+
 # ── NCHS mortality ───────────────────────────────────────────────────────
 
 [[source]]
@@ -410,6 +430,16 @@ year = 2023
 url = "https://censusreporter.org/tables/B25045/"
 population = "All occupied housing units in the United States"
 notes = "Retrieved via Census Reporter API. 132.7M households: 91.5% with 1+ vehicles, 8.5% with no vehicle. Owner no-vehicle: 2.88M (3.3% of owners). Renter no-vehicle: 8.43M (18.3% of renters)."
+
+[[source]]
+id = "census-acs-homevalue"
+title = "ACS Table B25077: Median Value of Owner-Occupied Housing Units"
+short_cite = "U.S. Census Bureau, American Community Survey (B25077)"
+publisher = "U.S. Census Bureau"
+year = 2024
+url = "https://censusreporter.org/tables/B25077/"
+population = "Owner-occupied housing units (ACS 1-year estimates)"
+notes = "Median home value: 2010 $179,900, 2014 $181,200, 2019 $240,500, 2024 $360,600. Retrieved via Census Reporter API."
 
 # ── Census poverty ───────────────────────────────────────────────────────
 

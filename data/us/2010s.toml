@@ -76,14 +76,14 @@ notes = "From Census Bureau. Down from the bubble peak (~69% in 2004-06) due to 
 assumptions = ["composite-family"]
 
 [[fact]]
-id = "us-2010s-median-home-value-gap"
+id = "us-2010s-median-home-value"
 panel = "home"
 label = "Median home value, 2010"
-value = "data available via ACS — not yet transcribed"
-unit = "n/a"
-source = "census-ahs"
-tier = "D"
-notes = "ACS data available. The post-crash median was ~$170,000-$180,000 (2010 ACS). The Census Historical Housing Tables (values-unadj.txt) series ends at 2000."
+value = "$179,900"
+unit = "USD, nominal (owner-occupied)"
+source = "census-acs-homevalue"
+tier = "A"
+notes = "From ACS Table B25077, 2010 1-year estimates. Post-housing-crash median: down from $240,500 (2019) and $360,600 (2024). The Census Historical Housing Tables (values-unadj.txt) decennial series ends at 2000 ($119,600). Source: censusreporter.org/tables/B25077/."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 

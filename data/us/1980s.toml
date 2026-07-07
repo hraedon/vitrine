@@ -97,14 +97,14 @@ tier = "A"
 notes = "From Census Historical Housing Tables: Plumbing. Estimated from the series: 1970: 6% lacked, 1990: 1% lacked. By 1980, only ~3% lacked complete plumbing."
 
 [[fact]]
-id = "us-1980s-housing-gap"
+id = "us-1980s-heating-fuel"
 panel = "home"
-label = "Rooms, heating fuel, AC"
-value = "data available via AHS / Census 1980 — not yet transcribed"
-unit = "n/a"
-source = "census-ahs"
-tier = "D"
-notes = "AHS data continuous from 1973. Census 1980 housing data available. AC adoption was ~50-55% by 1980 (RECS 1978)."
+label = "House heating fuel, 1980"
+value = "Utility gas 53%, electricity 18%, fuel oil/kerosene 18%, bottled/LP gas 6%, wood 3%, coal 1%"
+unit = "% of occupied housing units reporting heating fuel"
+source = "census-hist-housing-fuels"
+tier = "A"
+notes = "From the 1980 Census of Housing. Electricity surged to 18.4% (up from 7.7% in 1970) as heat pumps became affordable. Gas remained dominant but plateaued at 53%. Coal was essentially eliminated (0.6%). Source: fuels1980.txt, www2.census.gov."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -132,14 +132,14 @@ assumptions = ["nominal-values"]
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-1980s-diffusion-gap"
+id = "us-1980s-telephone"
 panel = "diffusion"
-label = "Telephone, television, AC, computer"
-value = "data available via Census/AHS/RECS — not yet transcribed"
-unit = "n/a"
-source = "census-ahs"
-tier = "D"
-notes = "Telephone was ~91% by 1980 (estimated from Historical Statistics trend). Cable TV was growing (~20% of households by 1980). Personal computer adoption began (~8% by 1984). AC ~50-55% (RECS 1978). VCR ~1% in 1980, ~50% by 1988."
+label = "Telephone in housing unit, 1980"
+value = "92.9% (7.1% without telephone)"
+unit = "% of occupied housing units with telephone"
+source = "census-hist-housing-phone"
+tier = "A"
+notes = "From the 1980 Census of Housing, Historical Census of Housing Tables: Telephones. Up from 87.0% (1970), reaching 94.8% by 1990. Telephone was nearly universal by 1980. Source: phone-tab.txt, www2.census.gov."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 

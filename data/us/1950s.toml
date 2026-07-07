@@ -168,15 +168,14 @@ tier = "A"
 notes = "From Census Historical Housing Tables: Plumbing. Down from 45% lacking in 1940 to 33% lacking in 1950 — the postwar building boom and suburban expansion were starting to close the gap, but one in three American homes still lacked complete plumbing. Rural areas lagged badly. By 1960: 17% lacked (83% had)."
 
 [[fact]]
-id = "us-1950s-rooms-plumbing-gap"
+id = "us-1950s-heating-fuel"
 panel = "home"
-label = "Rooms, heating fuel"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "census-decennial-pubs"
-tier = "D"
-notes = "The 1950 Census of Housing collected data on number of rooms, heating fuel, and lighting fuel. Not yet transcribed. We already have: electricity 94.0%, central heating 50.0%, mechanical refrigeration 80.0% from the 1950 Census (Historical Statistics Vol 2)."
-assumptions = ["composite-family", "dwelling-size-metric"]
+label = "House heating fuel, 1950"
+value = "Coal 35%, utility gas 27%, fuel oil/kerosene 23%, wood 10%, bottled/LP gas 2%, electricity 1%"
+unit = "% of occupied housing units reporting heating fuel"
+source = "census-hist-housing-fuels"
+tier = "A"
+notes = "From the 1950 Census of Housing, Historical Census of Housing Tables: House Heating Fuel. Coal was still the leading fuel at 35% but dropping rapidly (from 55% in 1940). Utility gas rose from 11% (1940) to 27% (1950) as pipeline networks expanded. Electricity was barely present (0.7%). Source: fuels1950.txt, www2.census.gov."
 
 [[fact]]
 id = "us-1950s-television-arrival"

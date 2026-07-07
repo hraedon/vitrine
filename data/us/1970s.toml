@@ -97,14 +97,14 @@ tier = "A"
 notes = "From Census Historical Housing Tables: Plumbing. Down from 17% lacking in 1960 to 6% lacking in 1970. By 1980: ~3% lacked."
 
 [[fact]]
-id = "us-1970s-housing-gap"
+id = "us-1970s-heating-fuel"
 panel = "home"
-label = "Rooms, heating fuel, AC"
-value = "data available via Census 1970 / AHS 1973 — not yet transcribed"
-unit = "n/a"
-source = "census-ahs"
-tier = "D"
-notes = "The AHS began in 1973. Census 1970 housing data available. AC adoption was growing rapidly in the 1970s (from ~34% in 1970 to ~50% by 1980 per RECS)."
+label = "House heating fuel, 1970"
+value = "Utility gas 55%, fuel oil/kerosene 26%, electricity 8%, bottled/LP gas 6%, coal 3%, wood 1%"
+unit = "% of occupied housing units reporting heating fuel"
+source = "census-hist-housing-fuels"
+tier = "A"
+notes = "From the 1970 Census of Housing. Gas was now the majority heating fuel at 55%. Coal was nearly eliminated at 3% (down from 55% in 1940). Electricity was rising (7.7%, up from 1.8% in 1960). Source: fuels1970.txt, www2.census.gov."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -142,14 +142,14 @@ tier = "A"
 notes = "From Historical Statistics Vol 2, Series R 3. 120,218 thousand total phones (583.4 per 1,000 population). Up from 78.3% in 1960. Telephone was nearly universal by 1970."
 
 [[fact]]
-id = "us-1970s-television-gap"
+id = "us-1970s-telephone-census"
 panel = "diffusion"
-label = "Television, AC, appliances"
-value = "data available via Census 1970 / RECS — not yet transcribed"
-unit = "n/a"
-source = "eia-recs"
-tier = "D"
-notes = "TV was ~95% of households by 1970 (up from 91.4% in 1960). AC was growing rapidly. RECS began in 1978. Color TV had replaced B&W as the standard."
+label = "Telephone in housing unit, 1970"
+value = "87.0% (13.0% without telephone)"
+unit = "% of occupied housing units with telephone"
+source = "census-hist-housing-phone"
+tier = "A"
+notes = "From the 1970 Census of Housing, Historical Census of Housing Tables: Telephones. Note: this figure (87.0%) differs from the Historical Statistics Vol 2 figure (90.5%) because the Census measures 'telephone in unit' (housing units) while Hist Stats measures 'households with telephone.' Up from 78.5% (1960), reaching 92.9% by 1980. Source: phone-tab.txt, www2.census.gov."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 

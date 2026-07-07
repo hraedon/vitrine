@@ -125,14 +125,14 @@ notes = "From Census Historical Housing Tables: Plumbing. Complete plumbing = ho
 assumptions = ["composite-family"]
 
 [[fact]]
-id = "us-1940s-housing-characteristics-gap"
+id = "us-1940s-heating-fuel"
 panel = "home"
-label = "Rooms, electricity, heating fuel"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "census-decennial-pubs"
-tier = "D"
-notes = "The 1940 Census of Housing (Volume 2, General Characteristics) collected data on rooms, lighting fuel (electricity vs kerosene vs gas), and heating fuel. In 1940, ~11% of farms had electricity (up from 2% in 1910); urban/non-farm homes were ~85% electrified by 1930. Coal was the dominant heating fuel. Full tabulations not yet transcribed into our data files."
+label = "House heating fuel, 1940"
+value = "Coal 55%, wood 23%, fuel oil/kerosene 10%, utility gas 11%, other 1%"
+unit = "% of occupied housing units reporting heating fuel"
+source = "census-hist-housing-fuels"
+tier = "A"
+notes = "From the 1940 Census of Housing, Historical Census of Housing Tables: House Heating Fuel. Coal dominated American heating in 1940 — over half of all homes. Utility gas and bottled/LP gas were combined in 1940 (electricity was collected but not tabulated separately). By 1950, coal dropped to 35% as gas rose to 27%. Source: fuels1940.txt, www2.census.gov."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
