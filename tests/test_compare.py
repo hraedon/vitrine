@@ -8,9 +8,87 @@ import pytest
 
 from vitrine.compare import compare_item
 from vitrine.loader import load_corpus
-from vitrine.model import Tier
+from vitrine.model import (
+    Basis,
+    Corpus,
+    Fact,
+    Measure,
+    Panel,
+    Room,
+    Source,
+    Tier,
+)
 
 DATA = Path(__file__).parent.parent / "data"
+
+
+def _income_room(decade: str, source_id: str, price_year: int = 0) -> Room:
+    """A room with a priced fact + an income anchor, for caveat tests."""
+    yr = price_year or int(decade[:4])
+    price = Fact(
+        id=f"us-{decade}-thing", panel=Panel.WORK_BUYS, label="A thing",
+        value="$100", unit="USD", source=source_id, tier=Tier.A,
+        amount_minor=10000, currency="USD", price_year=int(decade[:4]), basis=Basis.TOTAL,
+    )
+    income = Fact(
+        id=f"us-{decade}-income", panel=Panel.BUDGET, label="Income",
+        value="$1000", unit="USD/yr", source=source_id, tier=Tier.A,
+        amount_minor=100000, currency="USD", price_year=yr, basis=Basis.ANNUAL,
+    )
+    return Room(
+        country="us", decade=decade, facts=(price, income),
+        income_anchor=income.id,
+    )
+
+
+def _corpus(rooms: tuple[Room, ...], sources: dict[str, Source]) -> Corpus:
+    return Corpus(sources=sources, assumptions={}, rooms=rooms)
+
+
+_MONEY = Source(
+    id="money", title="T", publisher="P", year=2000, url="u",
+    population="families, money income", measure=Measure.MONEY_INCOME,
+)
+_SURVEY = Source(
+    id="survey", title="T", publisher="P", year=1901, url="u",
+    population="wage-earner families, survey", measure=Measure.SURVEY_FAMILY_INCOME,
+)
+
+
+def test_compare_flags_mixed_income_concept() -> None:
+    corpus = _corpus(
+        (_income_room("1900s", "survey"), _income_room("1950s", "money")),
+        {"survey": _SURVEY, "money": _MONEY},
+    )
+    comparison = compare_item(
+        corpus, "A thing, share of income",
+        {"1900s": "us-1900s-thing", "1950s": "us-1950s-thing"},
+    )
+    assert len(comparison.points) == 2
+    assert any("income concept" in c.lower() for c in comparison.caveats)
+
+
+def test_compare_no_caveat_when_income_concept_shared() -> None:
+    corpus = _corpus(
+        (_income_room("1950s", "money"), _income_room("2020s", "money")),
+        {"money": _MONEY},
+    )
+    comparison = compare_item(
+        corpus, "A thing, share of income",
+        {"1950s": "us-1950s-thing", "2020s": "us-2020s-thing"},
+    )
+    assert comparison.caveats == ()
+
+
+def test_compare_flags_wide_year_gap() -> None:
+    corpus = _corpus(
+        (_income_room("1940s", "money", price_year=1932),),  # 1940 price vs 1932 anchor
+        {"money": _MONEY},
+    )
+    comparison = compare_item(
+        corpus, "A thing", {"1940s": "us-1940s-thing"},
+    )
+    assert any("years" in c.lower() for c in comparison.caveats)
 
 
 def test_compare_median_home_across_decades() -> None:

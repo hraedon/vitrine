@@ -5,7 +5,7 @@ from __future__ import annotations
 import pytest
 
 from vitrine.affordability import afford
-from vitrine.model import Basis, Fact, Panel, Tier, basis_label
+from vitrine.model import Basis, Fact, Measure, Panel, Tier, basis_label
 
 
 def _fact(
@@ -203,6 +203,51 @@ def test_tier_weakest_of_three() -> None:
     assert result.tier == Tier.D
 
 
+def test_afford_carries_anchor_measures() -> None:
+    price = _fact(amount_minor=151100, currency="USD", price_year=1950, basis=Basis.TOTAL)
+    wage = _fact(
+        fact_id="us-1950s-wage", amount_minor=132, currency="USD",
+        price_year=1950, basis=Basis.HOURLY,
+    )
+    income = _fact(
+        fact_id="us-1950s-income", amount_minor=331900, currency="USD",
+        price_year=1950, basis=Basis.ANNUAL,
+    )
+    result = afford(
+        price, wage=wage, income=income,
+        wage_measure=Measure.HOURLY_EARNINGS, income_measure=Measure.MONEY_INCOME,
+    )
+    assert result.hours_measure is Measure.HOURLY_EARNINGS
+    assert result.pct_measure is Measure.MONEY_INCOME
+
+
+def test_afford_measure_none_when_figure_absent() -> None:
+    """No wage anchor → hours figure is None and carries no measure."""
+    price = _fact(amount_minor=151100, currency="USD", price_year=1950, basis=Basis.TOTAL)
+    income = _fact(
+        fact_id="us-1950s-income", amount_minor=331900, currency="USD",
+        price_year=1950, basis=Basis.ANNUAL,
+    )
+    result = afford(price, income=income, income_measure=Measure.MONEY_INCOME)
+    assert result.hours_to_afford is None
+    assert result.hours_measure is None
+    assert result.pct_measure is Measure.MONEY_INCOME
+
+
+def test_afford_year_gap_is_largest_used() -> None:
+    price = _fact(amount_minor=151100, currency="USD", price_year=1947, basis=Basis.TOTAL)
+    wage = _fact(
+        fact_id="us-1940s-wage", amount_minor=132, currency="USD",
+        price_year=1939, basis=Basis.HOURLY,  # 8-year gap
+    )
+    income = _fact(
+        fact_id="us-1940s-income", amount_minor=331900, currency="USD",
+        price_year=1946, basis=Basis.ANNUAL,  # 1-year gap
+    )
+    result = afford(price, wage=wage, income=income)
+    assert result.year_gap == 8
+
+
 def test_affordability_is_frozen() -> None:
     result = afford(_fact())
     with pytest.raises((AttributeError, TypeError)):
@@ -222,3 +267,30 @@ def test_basis_label_returns_labels() -> None:
     assert basis_label(Basis.HOURLY) == "Hourly rate"
     assert basis_label(Basis.WEEKLY) == "Weekly figure"
     assert basis_label(Basis.ANNUAL) == "Annual figure"
+
+
+def test_measure_label_covers_every_variant() -> None:
+    from vitrine.model import measure_label
+
+    for measure in Measure:
+        assert measure_label(measure)  # non-empty, and dispatch is total
+
+
+def test_measure_axis_pairs_with_basis() -> None:
+    from vitrine.model import measure_axis
+
+    assert measure_axis(Measure.MONEY_INCOME) is Basis.ANNUAL
+    assert measure_axis(Measure.WAGES_SALARIES) is Basis.ANNUAL
+    assert measure_axis(Measure.SURVEY_FAMILY_INCOME) is Basis.ANNUAL
+    assert measure_axis(Measure.CONSUMPTION) is Basis.ANNUAL
+    assert measure_axis(Measure.HOURLY_EARNINGS) is Basis.HOURLY
+
+
+def test_measure_label_assert_never_reachable() -> None:
+    from vitrine.model import measure_label
+
+    class FakeMeasure:
+        pass
+
+    with pytest.raises(AssertionError):
+        measure_label(FakeMeasure())  # type: ignore[arg-type]
