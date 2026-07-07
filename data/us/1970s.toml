@@ -171,6 +171,16 @@ source = "eia-recs"
 tier = "A"
 notes = "From the 1978 RECS — the first Residential Energy Consumption Survey. 23% of households had central AC. Total AC (including window/wall units) was higher — in 1960, only 18.8% of households had AC (mostly window units, per CEX 1960-61). By 1993, total AC reached 68%. The 1978 RECS is the closest available data point for the decade. Source: EIA RECS 2009 report, citing 1978 RECS."
 
+[[fact]]
+id = "us-1970s-vehicle-ownership"
+panel = "diffusion"
+label = "Vehicle ownership, 1972-73"
+value = "80.1% of families had at least one automobile (avg 1.3 per family)"
+unit = "% of families with at least one automobile"
+source = "bls-cex"
+tier = "A"
+notes = "From CEX 1972-73 (Integrated Diary and Interview Survey, Table 1, p.31). 80.1% of all families had at least one automobile. Average: 1.3 automobiles per family. By income: under $3,000 → 47.3% had auto; $15,000+ → 94.3%. By 2023: 91.5% of households had at least one vehicle (ACS B25045). Population note: CEX measures 'families'; ACS measures 'households' — close but not identical."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
