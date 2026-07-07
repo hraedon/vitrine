@@ -1,4 +1,4 @@
-"""Command-line entry point: `vitrine check` (the gate) and `vitrine build`."""
+"""Command-line entry point: `vitrine check` (the gate), `vitrine build`, `vitrine gaps`."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 from vitrine.check import check_corpus, check_render_coverage
+from vitrine.gaps import format_report, room_gaps
 from vitrine.loader import LoadError, load_corpus
 
 
@@ -25,12 +26,13 @@ def _cmd_check(data_dir: Path, build_dir: Path | None = None) -> int:
         print(f"{len(problems)} problem(s).", file=sys.stderr)
         return 1
     n_facts = sum(len(room.facts) for room in corpus.rooms)
+    n_derived = sum(len(room.derived) for room in corpus.rooms)
     print(
-        f"ok: {len(corpus.rooms)} room(s), {n_facts} fact(s), "
+        f"ok: {len(corpus.rooms)} room(s), {n_facts} fact(s), {n_derived} derived, "
         f"{len(corpus.sources)} source(s), {len(corpus.assumptions)} assumption(s)"
     )
     if build_dir is not None:
-        print(f"render-coverage: verified ({n_facts} facts match build)")
+        print(f"render-coverage: verified ({n_facts + n_derived} exhibits match build)")
     return 0
 
 
@@ -53,6 +55,16 @@ def _cmd_build(data_dir: Path, out_dir: Path) -> int:
     return 0
 
 
+def _cmd_gaps(data_dir: Path) -> int:
+    try:
+        corpus = load_corpus(data_dir)
+    except LoadError as exc:
+        print(f"LOAD ERROR: {exc}", file=sys.stderr)
+        return 1
+    print(format_report(room_gaps(corpus)))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="vitrine")
     parser.add_argument(
@@ -70,12 +82,15 @@ def main(argv: list[str] | None = None) -> int:
     build.add_argument(
         "--out", type=Path, default=Path("_site"), help="output directory (default: ./_site)"
     )
+    sub.add_parser("gaps", help="print the mechanical gap inventory (generated, never hand-kept)")
 
     args = parser.parse_args(argv)
     if args.command == "check":
         return _cmd_check(args.data, args.against_build)
     if args.command == "build":
         return _cmd_build(args.data, args.out)
+    if args.command == "gaps":
+        return _cmd_gaps(args.data)
     raise AssertionError(f"unhandled command {args.command!r}")
 
 
