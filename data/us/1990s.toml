@@ -109,12 +109,12 @@ notes = "From Census Historical Housing Tables: Plumbing. Down from ~3% lacking 
 [[fact]]
 id = "us-1990s-heating-fuel"
 panel = "home"
-label = "House heating fuel, 2001 RECS (closest accessible to 1990s)"
-value = "Natural gas 55.2%, electricity 28.9%, fuel oil 7.5%, LPG 4.6%, wood 1.9%"
-unit = "% of U.S. households using each fuel as main space heating source"
+label = "House heating fuel, 1993 RECS"
+value = "Natural gas 53.2%, electricity 25.8%, fuel oil 10.5%, LPG 4.8%"
+unit = "% of U.S. households using each fuel as main space heating source (weighted, RECS 1993 microdata)"
 source = "eia-recs"
 tier = "A"
-notes = "From the 2001 RECS (Table HC3-1b), the closest accessible RECS survey to the 1990s decade. RECS 1993 and 1997 data exist but are inaccessible (EIA restructured website, 503 errors). Gas held steady at ~55% from 1970-2001, then declined to 49% by 2009. Electricity rose from 18% (1980 Census) to 29% (2001) to 34% (2009). Fuel oil fell from 20%+ (1970) to 7.5% (2001) to 6% (2009). The 2001 data point bridges the 1980 Census and 2009 RECS, showing the 1990s as a transition decade from oil to electric heating."
+notes = "Computed from RECS 1993 microdata (file2_asc.txt, FUELHEAT variable, weighted with NWEIGHT). 7,111 households sampled. Gas: 53.2% (up from 55% in 1980 Census — roughly stable). Electricity: 25.8% (up from 18% in 1980). Fuel oil: 10.5% (down from 19% in 1980). LPG: 4.8%. Other (wood, kerosene, etc.): 4.8%. None: 0.9%. The 1990s were a transition decade: fuel oil declining, electricity rising. By 2001: gas 55.2%, electricity 28.9%, fuel oil 7.5%. By 2009: gas 49%, electricity 34%, fuel oil 6%."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
