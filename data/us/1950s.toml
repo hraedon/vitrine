@@ -182,14 +182,14 @@ assumptions = ["composite-family"]
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-1950s-food-prices-gap"
+id = "us-1950s-food-prices"
 panel = "table"
-label = "Retail food prices, 1950"
-value = "no reliable record accessible online"
-unit = "—"
-source = "bls-cpi"
-tier = "D"
-notes = "BLS published 'Retail Prices of Food' covering 1951-52 (on FRASER: bls_1141_1953.pdf). The 1950 data is in the 1950 edition, which is on FRASER but not accessible from this host (connection blocked). BLS CPI detailed commodity data may also have 1950 food prices. Gap: the data exists but could not be transcribed in this session."
+label = "Retail food prices, 1950 (annual average)"
+value = "Flour 49.1¢/5lb, bread 14.3¢/lb, round steak 93.6¢/lb, rib roast 74.3¢/lb, pork chops 75.4¢/lb, bacon 63.7¢/lb, butter 72.9¢/lb, milk 20.6¢/qt, eggs 60.4¢/doz, sugar 10.2¢/lb, coffee 79.4¢/lb, potatoes 5.9¢/lb"
+unit = "cents per unit, nominal (56 large U.S. cities)"
+source = "bls-bulletin-1055-1952"
+tier = "A"
+notes = "From BLS Bulletin No. 1055, Table 4 (p.9), 'Average retail prices of principal foods in large cities combined, by month, 1950.' Text layer extracted directly via pymupdf — no OCR needed. Annual averages across 56 cities. For comparison with 1901: flour was ~49¢/5lb (the 1903 report collected prices 1890-1902 but per-item prices are in the full 18th Annual Report tables, not the Bulletin summary). For comparison with 2024: round steak 93.6¢→$5.58/lb (6.0x), milk 20.6¢/qt→$6.92/gal (3.4x per quart equivalent), bread 14.3¢→$1.71/lb (12x)."
 assumptions = ["nominal-values"]
 
 [[fact]]
@@ -200,7 +200,7 @@ value = "no reliable record accessible online"
 unit = "—"
 source = "bls-cex"
 tier = "D"
-notes = "The Consumer Expenditure Survey did not run continuously in the 1950s. The 1960-61 CEX is the closest expenditure survey. Food basket detail for 1950 would need to be reconstructed from BLS retail price publications or the 1950 Census of Housing (which asked about refrigerator ownership but not food consumption)."
+notes = "The Consumer Expenditure Survey did not run continuously in the 1950s. The 1960-61 CEX is the closest expenditure survey. However, BLS Bulletin 1055 (now transcribed as Tier A — see us-1950s-food-prices) provides retail food prices for 1950, which combined with the expenditure shares from the 1948-50 Consumer Price Index detailed data, can partially reconstruct the food basket. Full expenditure breakdown by food category would still require the 1960-61 CEX."
 assumptions = ["income-vs-consumption"]
 
 [[fact]]

@@ -343,6 +343,30 @@ short_cite = "U.S. Bureau of Labor Statistics, Public Data API"
 population = "Depends on series (CPI: all urban consumers; food prices: urban consumers)"
 notes = "Direct API access to BLS time series. Used for: average food prices (APU series), CPI-U (CUUR0000SA0), wage and hours data. API key registered. Food price series (APU) available from ~1970s onward — no 1950 data. Rate limit: 100 queries/day for registered users."
 
+# ── BLS Bulletin 1055 ─────────────────────────────────────────────────────
+
+[[source]]
+id = "bls-bulletin-1055-1952"
+title = "Retail Prices of Food, 1950: Including Historical Tables of Item Indexes, 1939-50"
+short_cite = "U.S. Bureau of Labor Statistics, Bulletin No. 1055"
+publisher = "U.S. Department of Labor, Bureau of Labor Statistics"
+year = 1952
+url = "https://fraser.stlouisfed.org/title/retail-prices-food-1950-4182"
+population = "56 large U.S. cities (retail price survey)"
+notes = "Annual average retail prices for ~40 principal food items in 1950, by month and by city. Historical item indexes 1939-50. Text layer is machine-readable (extracted via pymupdf). Prices in cents per pound/quart/dozen."
+
+# ── Census P60-001 ────────────────────────────────────────────────────────
+
+[[source]]
+id = "census-p60-001"
+title = "Income of Nonfarm Families and Individuals: 1946"
+short_cite = "U.S. Census Bureau, Current Population Reports, Series P-60, No. 1"
+publisher = "U.S. Department of Commerce, Bureau of the Census"
+year = 1947
+url = "https://fraser.stlouisfed.org/title/income-nonfarm-families-individuals-1946-5683"
+population = "Urban and rural-nonfarm families and individuals in private households (1946 CPS)"
+notes = "First P60 report. Median money income: $2,659 (1946), $2,410 (1944), $2,595 (1945). Civilian wages: $1,389 (1939) to $2,697 (1944). Scanned images — OCR'd via GLM-OCR. 11 pages."
+
 # ── Other ─────────────────────────────────────────────────────────────────
 
 [[source]]

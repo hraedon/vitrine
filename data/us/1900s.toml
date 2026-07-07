@@ -93,15 +93,15 @@ notes = "From BLS Bulletin No. 49, p.1140. The report notes no retail prices wer
 assumptions = ["composite-family", "income-vs-consumption"]
 
 [[fact]]
-id = "us-1900s-housing-gap"
+id = "us-1900s-housing-rooms-rent"
 panel = "home"
-label = "Housing tenure, rooms, amenities"
-value = "data in report — not yet transcribed"
-unit = "—"
-source = "bls-bulletin-49-1903"
-tier = "D"
-notes = "The 268-page report likely contains housing data (rent amounts, rooms) for the surveyed families, but only the summary table (p.1138) and expenditure breakdown (pp.1140-1141) have been transcribed so far. No Census of Housing existed until 1940."
-assumptions = ["composite-family"]
+label = "Housing: rooms, rent, and tenure, 1901"
+value = "Renting: 4.73 rooms/family, $24.60/room/yr avg rent. Owning: 5.92 rooms/family. Rent was 12.95% of expenditure."
+unit = "rooms per family; USD per room per year"
+source = "commissioner-labor-18th-1903"
+tier = "A"
+notes = "From the 18th Annual Report, Table III-K (p.370-371), OCR'd via GLM-OCR. Summary of families renting and owning homes by state and nativity. National narrative (p.73): families owning homes averaged 5.92 rooms vs 4.73 for renters; 1.16 rooms per individual (owners) vs 1.01 (renters). Average cost of rent per room was ~$24.60/yr ($24.66 native, $24.55 foreign). The survey covered 2,567 normal families in 33 states; families with boarders excluded from the housing table."
+assumptions = ["composite-family", "urban-rural-split"]
 
 [[fact]]
 id = "us-1900s-homeownership-gap"
@@ -128,42 +128,42 @@ notes = "From BLS Bulletin No. 49, p.1138. This is the total food expenditure pe
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
-id = "us-1900s-food-prices-gap"
+id = "us-1900s-food-basket"
 panel = "table"
-label = "Retail food prices, 1901"
-value = "data in report — not yet transcribed"
-unit = "—"
-source = "bls-bulletin-49-1903"
-tier = "D"
-notes = "The report collected retail prices for staple articles of food from 814 retail merchants in the same localities as the family expenditure survey. Items include flour, beef, milk, butter, eggs, potatoes, sugar, coffee, rice. Prices cover 1890-1902. The table exists in the PDF but prices are in columns that pdftotext doesn't align well — may need OCR at higher resolution or manual transcription."
-assumptions = ["nominal-values"]
+label = "Food basket: expenditure per family by item, 1901"
+value = "Beef (fresh) $46.38, beef (salt) $10.61, hog (fresh) $15.64, hog (salt) $17.60, other meat $13.29, poultry $9.91, fish $8.35, eggs $16.17, milk $20.03, butter $27.73"
+unit = "USD per family per year, nominal (avg among families buying each item)"
+source = "commissioner-labor-18th-1903"
+tier = "A"
+notes = "From the 18th Annual Report, Table IV-M (p.499), OCR'd via GLM-OCR. Summary of expenditure per family for various items of food, by nativity of head of family. National totals for 1,578 families. These 10 categories total $185.71 — 56.8% of the $326.90 total food expenditure. The remainder covers flour, bread, vegetables, fruits, sugar, coffee, etc. Beef (fresh) was the single largest food expenditure at $46.38. Butter ($27.73) exceeded milk ($20.03) — reflecting the era's dietary patterns."
+assumptions = ["composite-family", "nominal-values"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-1900s-weekly-hours"
 panel = "day"
-label = "Average weekly hours, non-farm employees, 1900"
-value = "56"
+label = "Average weekly hours, manufacturing, 1900"
+value = "59.0"
 unit = "hours per week"
-source = "umizzou-prices-wages"
-tier = "D"
-notes = "From the Missouri guide citing BLS Staff Paper #2. Average across all non-farm employees. This figure is still Tier D — the primary source (BLS Staff Paper) was not accessed directly. The 1903 report itself may contain work hours data for the surveyed families."
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics of the United States (Colonial Times to 1970), Series D 765, p.76 (OCR'd via GLM-OCR). Total manufacturing, all workers. Union workers averaged 53.0 hrs; payroll workers 62.1 hrs. By 1910, hours had fallen to 56.6. The previous Tier D figure of '56' from the Missouri guide was close but unsourced."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1900s-mens-weekly-wages"
 panel = "day"
-label = "Average weekly earnings, wage-earning men, 1905"
-value = "$11.00"
-unit = "USD per week, nominal"
-source = "umizzou-prices-wages"
-tier = "D"
-amount_minor = 1100
+label = "Average hourly earnings, manufacturing, 1900"
+value = "$0.216/hour ($12.74/week at 59.0 hrs)"
+unit = "USD per hour, nominal"
+source = "hist-stats-colonial-1970"
+tier = "A"
+amount_minor = 22
 currency = "USD"
-price_year = 1905
-basis = "weekly"
-notes = "From the Missouri guide citing 1905 Census of Manufactures. Population: male wage-earners in manufacturing. Average, not median. Still Tier D — not transcribed from primary source."
+price_year = 1900
+basis = "hourly"
+notes = "From Historical Statistics of the United States, Series D 766 (hourly earnings), p.76 (OCR'd via GLM-OCR). Weekly earnings computed: $0.216 × 59.0 hrs = $12.74. Union workers earned $0.341/hr; payroll workers $0.152/hr. By 1910: $0.260/hr ($14.72/week at 56.6 hrs). Previous Tier D figure was $11.00/week from the Missouri guide (1905) — close but unsourced."
 assumptions = ["nominal-values"]
 
 [[fact]]
@@ -180,12 +180,12 @@ assumptions = ["nominal-values"]
 [[fact]]
 id = "us-1900s-life-expectancy"
 panel = "day"
-label = "Life expectancy at birth, ~1900"
-value = "48 years"
-unit = "years"
-source = "umizzou-prices-wages"
-tier = "D"
-notes = "From the Missouri guide citing BLS. Context for the era. Still Tier D."
+label = "Life expectancy at birth, 1900-02"
+value = "48.2 years (white male), 51.1 years (white female)"
+unit = "years at birth"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics of the United States, Series B 116-117 (Expectation of Life at Specified Ages), p.76 (OCR'd via GLM-OCR). Period 1900-02. At age 20: male 42.2, female 43.8. At age 40: male 27.7, female 29.2. By 1909-11: male 50.2, female 53.6. The previous Tier D figure of '48 years' from the Missouri guide was accurate."
 assumptions = []
 
 # ── Diffusion panel ────────────────────────────────────────────────────────
@@ -206,12 +206,12 @@ assumptions = ["composite-family"]
 [[fact]]
 id = "us-1900s-weekly-earnings-context"
 panel = "work-buys"
-label = "What a week of work bought, ~1905"
-value = "$11.00/week (men) = 0.69 weeks per $768.54 annual expenditure"
+label = "What a week of work bought, 1900"
+value = "$12.74/week (manufacturing) = 1.66% of $768.54 annual expenditure → 60 weeks to cover annual expenses"
 unit = "ratio of weekly wages to annual expenditure"
-source = "umizzou-prices-wages"
-tier = "D"
-notes = "Computed: men's weekly wages ($11.00) divided by average annual expenditure ($768.54 from the 1903 report). A man's weekly wages covered about 1.4% of annual family expenditure — implying ~70 weeks of work to cover annual expenses, consistent with multiple earners or year-round work. Tier D because the wage figure is from the Missouri guide."
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "Computed from primary sources: hourly earnings $0.216 × 59.0 hrs = $12.74/week (Historical Statistics Series D 765-766). Annual expenditure $768.54 from the 18th Annual Report (Bulletin No. 49, p.1138). $12.74 covers 1.66% of annual expenditure — implying ~60 weeks of work to cover expenses, consistent with year-round work by multiple family earners. Previous Tier D used $11.00/week from the Missouri guide."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
@@ -233,5 +233,5 @@ value = "$750–$1,500"
 unit = "USD, nominal (typical range)"
 source = "umizzou-prices-wages"
 tier = "D"
-notes = "From the Missouri guide citing Frank Leslie's Popular Monthly (1904) and Handbook of Gasoline Automobiles. A $750 automobile = 68 weeks of a man's wages ($11/week) = ~91% of annual family income. Tier D."
+notes = "From the Missouri guide citing Frank Leslie's Popular Monthly (1904) and Handbook of Gasoline Automobiles. A $750 automobile = 59 weeks of manufacturing wages ($12.74/week) = ~91% of annual family income ($827.19). Tier D: car price from secondary source, but wage figure now Tier A from Historical Statistics."
 assumptions = ["nominal-values"]

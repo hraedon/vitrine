@@ -116,14 +116,14 @@ notes = "From Census Bureau, 2024 American Community Survey 1-Year Estimates (da
 assumptions = ["composite-family"]
 
 [[fact]]
-id = "us-2020s-housing-characteristics-gap"
+id = "us-2020s-housing-characteristics"
 panel = "home"
-label = "Rooms, plumbing, amenities"
-value = "data available via AHS Table Creator — not transcribed"
-unit = "—"
+label = "Housing characteristics, 2023 (AHS)"
+value = "Median 1,500 sq ft. 99.9% have complete bathroom. 89.3% public water, 80.9% public sewer. Median 5 rooms. 67.6% have garage/carport."
+unit = "percent of 133.2M occupied units (AHS 2023 National)"
 source = "census-ahs"
-tier = "D"
-notes = "The American Housing Survey (AHS) Table Creator at https://www.census.gov/programs-surveys/ahs/data/interactive/ahstablecreator.html provides current housing characteristics (rooms, plumbing, kitchen, telephone, automobile). Data is accessible interactively but not transcribed in this session. Tier D: source exists and is accessible but specific values not curated."
+tier = "A"
+notes = "From American Housing Survey 2023 National tables (AHS Table Creator, generated 2026-07-06). Data parsed from Excel exports. Total occupied units: 133,231 thousand. Complete bathroom: 133,096K (99.9%). Public water: 119,015K (89.3%). Public sewer: 107,884K (80.9%). Garage or carport: 90,044K (67.6%). Median square footage: 1,500 (mean: 1,809). For comparison with 1950 Census of Housing: near-universal plumbing and electricity, dramatically larger homes (1950 median ~1,000 sq ft estimated)."
 assumptions = ["composite-family", "dwelling-size-metric"]
 
 [[fact]]
@@ -155,14 +155,14 @@ notes = "From BLS Public Data API v2, series APU0000712211 (bread), APU000070211
 assumptions = ["nominal-values"]
 
 [[fact]]
-id = "us-2020s-food-expenditure-gap"
+id = "us-2020s-food-expenditure-share"
 panel = "table"
-label = "Food expenditure share, 2020s"
-value = "data available via BLS CEX tables — not yet transcribed"
-unit = "—"
+label = "Food expenditure share, 2024 (CEX Table 1400)"
+value = "Food 17.8% of expenditure for 4-person families (13.5% overall). Down from 42.54% in 1901."
+unit = "% share of total annual expenditure"
 source = "bls-cex"
-tier = "D"
-notes = "The BLS Consumer Expenditure Survey publishes annual expenditure shares at https://www.bls.gov/cex/tables.htm. The CEX data is not available as time series via the BLS API — it requires accessing the HTML/PDF tables directly. For context: food's share of expenditure has fallen from 42.54% in 1901 to under 15% in the 2020s."
+tier = "A"
+notes = "From CEX Table 1400 (Size of consumer unit: Shares of annual expenditures, 2024), cu-size-2024.xlsx. 4-person families: food 17.8%, housing 16.5%, transportation 17.3%, healthcare 15.9%, entertainment 16.7%. Average income before taxes: $131,798 for 4-person families. Compared to 1901: food dropped from 42.54% to 17.8% — Engels' Law in action. The overall food share (all CU sizes) is 16.7%. Time series available: cu-size-2012 through cu-size-2024 Excel files in vitrine-research."
 assumptions = ["income-vs-consumption"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -244,14 +244,14 @@ notes = "From Pew Research Center Internet/Broadband Fact Sheet, data extracted 
 assumptions = ["composite-family"]
 
 [[fact]]
-id = "us-2020s-other-diffusion-gap"
+id = "us-2020s-phone-vehicle-diffusion"
 panel = "diffusion"
-label = "Automobile, telephone, refrigerator, TV ownership"
-value = "data available — not transcribed"
-unit = "—"
+label = "Phone service and vehicle access, 2023 (AHS)"
+value = "Cell phone 92.7%, landline 20.1%, garage/carport 67.6%"
+unit = "percent of 133.2M occupied units"
 source = "census-ahs"
-tier = "D"
-notes = "AHS tracks appliance ownership (refrigerator, washing machine, etc.) and automobile ownership. Census ACS tracks telephone service. All are near-universal (>95%) in the 2020s. Specific figures need to be transcribed from AHS Table Creator or ACS tables."
+tier = "A"
+notes = "From AHS 2023 National Table 2 (Rooms, Size, and Amenities). Cell phone available: 123,462K (92.7%). Landline available: 26,749K (20.1%) — landline has become a secondary channel. Garage or carport: 90,044K (67.6%). No complete bathroom: only 135K units (0.1%). For comparison with 1950: telephone was not asked in the 1950 Census (added 1960); automobile was also not asked (added 1960). The 1950 Census did ask about radio (95.6%), TV (12.3%), refrigerator (80.0%)."
 assumptions = ["composite-family"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
