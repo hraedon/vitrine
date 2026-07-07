@@ -52,14 +52,15 @@ tier = "A"
 notes = "From Census F-8. Down from 3.18 in 1990. By 2010: 3.14 (flat)."
 
 [[fact]]
-id = "us-2000s-expenditure-gap"
+id = "us-2000s-expenditure-shares"
 panel = "budget"
-label = "Expenditure shares, 2000s"
-value = "data available via CEX — not yet transcribed"
-unit = "n/a"
+label = "Expenditure breakdown, 4-person families, 2005"
+value = "Housing 32.2%, transportation 18.6%, food 13.9%, insurance/pensions 12.1%, entertainment 5.1%, healthcare 4.5%, apparel 4.6%, cash contributions 2.6%, education 2.4%"
+unit = "% of total annual expenditure"
 source = "bls-cex"
-tier = "D"
-notes = "CEX data available. The 2000s saw cell phones, internet, and cable/satellite TV become standard household expenditures."
+tier = "A"
+notes = "From the 2005 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 15,807 thousand 4-person CUs. Total expenditures: $62,215. Income before taxes: $78,183. Expenditure = 80% of gross income. Insurance/pensions crossed 12%. Source: BLS CEX Table 4, 2005 (cusize.pdf via Wayback Machine, web.archive.org)."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -143,14 +144,15 @@ notes = "From Pew Research Center. Cell phone adoption was rapid: ~40% in 2000, 
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-2000s-food-basket-gap"
+id = "us-2000s-food-basket"
 panel = "table"
-label = "The food basket, 2000s"
-value = "data available via CEX — not yet transcribed"
-unit = "n/a"
+label = "Food basket and expenditure breakdown, 2005 (CEX)"
+value = "Food $8,622/yr (13.9% of expenditure). Food at home $4,846 (56% of food), food away from home $3,776 (44%). Key items: meats/poultry/fish/eggs $1,140, fruits/vegetables $780, cereals/bakery $666, dairy $556, beef $344. Total expenditure: $62,215."
+unit = "USD per family per year, nominal"
 source = "bls-cex"
-tier = "D"
-notes = "CEX data available."
+tier = "A"
+notes = "From the 2005 CEX, Table 4. 15,807 thousand 4-person CUs. Food at home share: 56%, food away: 44%. Food away from home approaching half of food spending. Source: BLS CEX Table 4, 2005 (via Wayback Machine)."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 

@@ -52,14 +52,15 @@ tier = "A"
 notes = "From Census F-8. Down from 3.27 in 1980. By 2000: 3.14."
 
 [[fact]]
-id = "us-1990s-expenditure-gap"
+id = "us-1990s-expenditure-shares"
 panel = "budget"
-label = "Expenditure shares, 1990s"
-value = "data available via CEX — not yet transcribed"
-unit = "n/a"
+label = "Expenditure breakdown, 4-person families, 1996"
+value = "Housing 31.3%, transportation 18.7%, food 15.0%, insurance/pensions 10.1%, entertainment 6.0%, healthcare 4.3%, apparel 5.7%, cash contributions 2.1%, education 1.8%"
+unit = "% of total annual expenditure"
 source = "bls-cex"
-tier = "D"
-notes = "CEX data available. The 1990s saw the diffusion of cell phones, personal computers, and internet service into household budgets."
+tier = "A"
+notes = "From the 1996 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 15,261 thousand 4-person CUs. Total expenditures: $43,670. Income before taxes: $50,836. Expenditure = 86% of gross income. Housing crossed 31% for the first time. Source: BLS CEX Table 4, 1996 (cusize.pdf via Wayback Machine, web.archive.org)."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -143,14 +144,15 @@ notes = "Cell phone adoption was ~10% by 1995, ~40% by 2000. Cable TV ~60% by 19
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-1990s-food-basket-gap"
+id = "us-1990s-food-basket"
 panel = "table"
-label = "The food basket, 1990s"
-value = "data available via CEX — not yet transcribed"
-unit = "n/a"
+label = "Food basket and expenditure breakdown, 1996 (CEX)"
+value = "Food $6,535/yr (15.0% of expenditure). Food at home $4,046 (62% of food), food away from home $2,489 (38%). Key items: meats/poultry/fish/eggs $1,064, cereals/bakery $658, fruits/vegetables $638, dairy $448, beef $319. Total expenditure: $43,670."
+unit = "USD per family per year, nominal"
 source = "bls-cex"
-tier = "D"
-notes = "CEX data available. Food away from home continued growing as a share of total food expenditure."
+tier = "A"
+notes = "From the 1996 CEX, Table 4. 15,261 thousand 4-person CUs. Food at home share: 62%, food away: 38%. Source: BLS CEX Table 4, 1996 (via Wayback Machine)."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
