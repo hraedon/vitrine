@@ -96,6 +96,16 @@ source = "census-hist-housing-plumbing"
 tier = "A"
 notes = "From Census Historical Housing Tables: Plumbing. Estimated from the series: 1990: 1% lacked, approaching 0% by 2000. Plumbing was universally available."
 
+[[fact]]
+id = "us-2000s-heating-fuel"
+panel = "home"
+label = "House heating fuel, 2009 (RECS)"
+value = "Natural gas 49%, electricity 34%, fuel oil 6%, propane 5%, other 6%"
+unit = "% of homes using each fuel as main space heating source"
+source = "eia-recs"
+tier = "A"
+notes = "From the 2009 RECS. Natural gas remained the dominant heating fuel but was declining (from 51% in 2005). Electricity continued its long-term rise (from 29% in 2005 to 34% in 2009). Fuel oil was down to ~6% (from 10%+ in 1993), concentrated in the Northeast. Coal was gone as a heating fuel. Source: EIA RECS 2009."
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -140,6 +150,16 @@ unit = "% of adults who own a cell phone"
 source = "pew-internet-broadband"
 tier = "A"
 notes = "From Pew Research Center. Cell phone adoption was rapid: ~40% in 2000, ~65% in 2004, ~85% by 2009. The iPhone (2007) and Android (2008) began the smartphone transition."
+
+[[fact]]
+id = "us-2000s-air-conditioning"
+panel = "diffusion"
+label = "Air conditioning, 2009 (RECS)"
+value = "87% of homes had AC (61% central AC)"
+unit = "% of occupied housing units with air conditioning"
+source = "eia-recs"
+tier = "A"
+notes = "From the 2009 RECS. 87% of US homes used air conditioning — up from 68% in 1993. Central AC alone reached 61% (nearly tripled from 23% in 1978). AC was approaching universality. By 2015, AC remained at 87%, and by 2020, reached 88%. Source: EIA RECS 2009."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 

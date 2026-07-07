@@ -85,6 +85,16 @@ source = "census-acs-homevalue"
 tier = "A"
 notes = "From ACS Table B25077, 2010 1-year estimates. Post-housing-crash median: down from $240,500 (2019) and $360,600 (2024). The Census Historical Housing Tables (values-unadj.txt) decennial series ends at 2000 ($119,600). Source: censusreporter.org/tables/B25077/."
 
+[[fact]]
+id = "us-2010s-heating-fuel"
+panel = "home"
+label = "House heating fuel, 2015 (RECS)"
+value = "Natural gas 51%, electricity 36%, propane 4%, fuel oil 4%, other 5%"
+unit = "% of heated homes using each fuel as main space heating source"
+source = "eia-recs"
+tier = "A"
+notes = "From the 2015 RECS. Natural gas remained dominant but was slowly declining (49% in 2009). Electricity continued its rise (34% in 2009 → 36% in 2015), gaining on gas. Fuel oil fell further to ~4% (concentrated in the Northeast at 23%). The long arc: coal dominated in 1940 (55%), gas by 1960 (43%), electricity rising from 2% (1960) to 36% (2015). Source: EIA RECS 2015."
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -129,6 +139,16 @@ unit = "% of adults"
 source = "pew-internet-broadband"
 tier = "A"
 notes = "From Pew Research Center. Internet adoption plateaued in the 2010s (~90% saturation). Home broadband growth slowed — many low-income households adopted smartphones instead of home broadband, creating a 'smartphone-only' digital divide."
+
+[[fact]]
+id = "us-2010s-air-conditioning"
+panel = "diffusion"
+label = "Air conditioning, 2015 (RECS)"
+value = "87% of homes had AC (64% central AC)"
+unit = "% of occupied housing units with air conditioning"
+source = "eia-recs"
+tier = "A"
+notes = "From the 2015 RECS. 87% of US homes used AC — flat from 2009 (87%). Central AC rose to 64% (76M households, up from 59%/66M in 2005). The AC diffusion curve had plateaued: from 18.8% (1960) → 68% (1993) → 87% (2009/2015) → 88% (2020). AC was now a standard feature of American housing. Source: EIA RECS 2015 overview."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 

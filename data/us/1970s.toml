@@ -151,6 +151,16 @@ source = "census-hist-housing-phone"
 tier = "A"
 notes = "From the 1970 Census of Housing, Historical Census of Housing Tables: Telephones. Note: this figure (87.0%) differs from the Historical Statistics Vol 2 figure (90.5%) because the Census measures 'telephone in unit' (housing units) while Hist Stats measures 'households with telephone.' Up from 78.5% (1960), reaching 92.9% by 1980. Source: phone-tab.txt, www2.census.gov."
 
+[[fact]]
+id = "us-1970s-air-conditioning"
+panel = "diffusion"
+label = "Air conditioning, 1978 (first RECS)"
+value = "23% of households had central AC"
+unit = "% of households with central air-conditioning equipment"
+source = "eia-recs"
+tier = "A"
+notes = "From the 1978 RECS — the first Residential Energy Consumption Survey. 23% of households had central AC. Total AC (including window/wall units) was higher — in 1960, only 18.8% of households had AC (mostly window units, per CEX 1960-61). By 1993, total AC reached 68%. The 1978 RECS is the closest available data point for the decade. Source: EIA RECS 2009 report, citing 1978 RECS."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]

@@ -141,6 +141,36 @@ source = "census-hist-housing-phone"
 tier = "A"
 notes = "From the 1980 Census of Housing, Historical Census of Housing Tables: Telephones. Up from 87.0% (1970), reaching 94.8% by 1990. Telephone was nearly universal by 1980. Source: phone-tab.txt, www2.census.gov."
 
+[[fact]]
+id = "us-1980s-air-conditioning"
+panel = "diffusion"
+label = "Air conditioning, 1980s"
+value = "Central AC 23% (1978 RECS) → total AC 68% (1993 RECS)"
+unit = "% of households with air conditioning"
+source = "eia-recs"
+tier = "A"
+notes = "No RECS survey falls within the 1980s decade that reports total AC. The 1978 RECS (first survey) found 23% had central AC; by the 1993 RECS, total AC (central + window units) reached 68%. The 1980s were the transition decade when AC shifted from luxury to common. Source: EIA RECS 1978 and 1993."
+
+[[fact]]
+id = "us-1980s-cable-tv"
+panel = "diffusion"
+label = "Cable TV, 1989"
+value = "53 million households (≈57% of all households)"
+unit = "households with cable TV subscription"
+source = "ncta-cable-history"
+tier = "C"
+notes = "From NCTA/Syndeo Institute Cable History Timeline. 53 million households subscribed to cable TV in 1989, out of approximately 93 million total US households. Cable grew rapidly in the 1980s — from 20% penetration in 1980 to ~57% by 1989. By 1992, penetration reached 60%. Source: NCTA Cable History Timeline."
+
+[[fact]]
+id = "us-1980s-computer"
+panel = "diffusion"
+label = "Household computer ownership, 1980s"
+value = "8.2% (1984) → 15.0% (1989)"
+unit = "% of households with a computer"
+source = "census-cps-computer"
+tier = "A"
+notes = "From Census CPS Computer Use Supplements (reported in P20-522). Household computer ownership doubled in five years: 8.2% in 1984 (first measurement) to 15.0% in 1989. By 1993: 22.8%, by 1997: 36.6%. The personal computer was entering American homes in the 1980s, driven by falling prices and the rise of IBM PC compatibles. Source: Census P20-522, Table A."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
