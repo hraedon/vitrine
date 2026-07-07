@@ -13,7 +13,19 @@ from jinja2 import DictLoader, Environment, select_autoescape
 
 from vitrine.affordability import afford
 from vitrine.compare import Comparison, compare_item
-from vitrine.model import Basis, Corpus, Panel, Room, basis_label, panel_title, tier_label
+from vitrine.derive import ComputedFact, evaluate_room
+from vitrine.model import (
+    Basis,
+    Corpus,
+    Fact,
+    Measure,
+    Panel,
+    Room,
+    basis_label,
+    measure_label,
+    panel_title,
+    tier_label,
+)
 
 _BASE = """<!doctype html>
 <html lang="en">
@@ -104,10 +116,10 @@ _ROOM = """{% extends "base" %}
 {% block body %}
 <h1>{{ room.country | upper }} — the {{ room.decade }}</h1>
 <div class="disclaimer">{{ disclaimer }}</div>
-{% for panel, facts in panels %}
+{% for panel, facts, computed in panels %}
 <div class="panel">
 <h2>{{ panel_title(panel) }}</h2>
-{% if not facts %}<p><em>Not yet curated.</em></p>{% endif %}
+{% if not facts and not computed %}<p><em>Not yet curated.</em></p>{% endif %}
 {% for fact in facts %}
 <div class="fact">
   <span class="value"><strong>{{ fact.value }}</strong> — {{ fact.label }}</span>
@@ -136,9 +148,34 @@ _ROOM = """{% extends "base" %}
       {% if fact.id in affordability and affordability[fact.id].anchor_note %}
       <br><em>Affordability anchors:</em> {{ affordability[fact.id].anchor_note }}
       {% endif %}
+      {% if fact.id in affordability and affordability[fact.id].measures %}
+      <br><em>Denominators measure:</em> {{ affordability[fact.id].measures }}
+      {% endif %}
       {% if fact.notes %}<br><em>Curator note:</em> {{ fact.notes }}{% endif %}
       {% if src.notes %}<br><em>Source note:</em> {{ src.notes }}{% endif %}
       {% for aid in fact.assumptions %}
+      <br><em>Assumption:</em> <a href="{{ root }}methodology.html#{{ aid }}">{{ assumptions[aid].title }}</a>
+      {% endfor %}
+    </div>
+  </details>
+</div>
+{% endfor %}
+{% for cf in computed %}
+<div class="fact">
+  <span class="value"><strong>{{ cf.value }}</strong> — {{ cf.label }}</span>
+  <span class="tier" title="{{ tier_label(cf.tier) }} (weakest input)">{{ cf.tier.value }}</span>
+  <br><small>{{ cf.unit }}</small>
+  <details>
+    <summary>derivation</summary>
+    <div class="card">
+      <em>Computed by vitrine</em> ({{ cf.op.value }}) — never authored by hand:<br>
+      <em>Numerator:</em> {{ cf.numerator.value }} — {{ cf.numerator.label }}
+      <span class="tier">{{ cf.numerator.tier.value }}</span><br>
+      <em>Denominator:</em> {{ cf.denominator.value }} — {{ cf.denominator.label }}
+      <span class="tier">{{ cf.denominator.tier.value }}</span><br>
+      <em>Confidence:</em> {{ cf.tier.value }} — {{ tier_label(cf.tier) }}, the weakest input tier
+      {% if cf.notes %}<br><em>Curator note:</em> {{ cf.notes }}{% endif %}
+      {% for aid in cf.assumptions %}
       <br><em>Assumption:</em> <a href="{{ root }}methodology.html#{{ aid }}">{{ assumptions[aid].title }}</a>
       {% endfor %}
     </div>
@@ -164,8 +201,17 @@ here once and linked from every fact it touches.</p>
 """
 
 
-def _panels_for(room: Room) -> list[tuple[Panel, list[object]]]:
-    return [(panel, [f for f in room.facts if f.panel is panel]) for panel in Panel]
+def _panels_for(
+    room: Room, computed: tuple[ComputedFact, ...]
+) -> list[tuple[Panel, list[Fact], list[ComputedFact]]]:
+    return [
+        (
+            panel,
+            [f for f in room.facts if f.panel is panel],
+            [c for c in computed if c.panel is panel],
+        )
+        for panel in Panel
+    ]
 
 
 @dataclass(frozen=True, slots=True)
@@ -208,14 +254,18 @@ def _affordability_for_room(corpus: Corpus, room: Room) -> dict[str, dict[str, s
 
     wage_pop = ""
     income_pop = ""
+    wage_measure: Measure | None = None
+    income_measure: Measure | None = None
     if wage_fact is not None:
         src = corpus.sources.get(wage_fact.source)
         if src is not None:
             wage_pop = src.population
+            wage_measure = src.measure
     if income_fact is not None:
         src = corpus.sources.get(income_fact.source)
         if src is not None:
             income_pop = src.population
+            income_measure = src.measure
 
     for fact in room.facts:
         if fact.basis is not Basis.TOTAL or fact.amount_minor is None:
@@ -226,6 +276,8 @@ def _affordability_for_room(corpus: Corpus, room: Room) -> dict[str, dict[str, s
             income=income_fact,
             wage_population=wage_pop,
             income_population=income_pop,
+            wage_measure=wage_measure,
+            income_measure=income_measure,
         )
 
         hours_str = ""
@@ -235,11 +287,18 @@ def _affordability_for_room(corpus: Corpus, room: Room) -> dict[str, dict[str, s
         if aff.pct_of_income is not None:
             pct_str = _format_pct(aff.pct_of_income)
 
+        measure_parts: list[str] = []
+        if aff.hours_to_afford is not None and aff.hours_measure is not None:
+            measure_parts.append(f"hours axis: {measure_label(aff.hours_measure)}")
+        if aff.pct_of_income is not None and aff.pct_measure is not None:
+            measure_parts.append(f"income axis: {measure_label(aff.pct_measure)}")
+
         display[fact.id] = {
             "hours": hours_str,
             "pct": pct_str,
             "tier": aff.tier.value,
             "anchor_note": aff.anchor_note,
+            "measures": "; ".join(measure_parts),
         }
 
     return display
@@ -338,11 +397,12 @@ def render_site(corpus: Corpus, out_dir: Path) -> None:
 
     rendered_ids: list[str] = []
     for room in corpus.rooms:
+        computed = evaluate_room(room)
         (out_dir / "rooms" / f"{room.slug}.html").write_text(
             env.get_template("room").render(
                 root="../",
                 room=room,
-                panels=_panels_for(room),
+                panels=_panels_for(room, computed),
                 sources=corpus.sources,
                 assumptions=corpus.assumptions,
                 disclaimer=disclaimer_entry.statement,
@@ -350,5 +410,6 @@ def render_site(corpus: Corpus, out_dir: Path) -> None:
             )
         )
         rendered_ids.extend(fact.id for fact in room.facts)
+        rendered_ids.extend(cf.id for cf in computed)
 
     (out_dir / "facts-manifest.txt").write_text("\n".join(rendered_ids) + "\n")

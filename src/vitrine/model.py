@@ -62,6 +62,23 @@ class Measure(enum.Enum):
     HOURLY_EARNINGS = "hourly_earnings"  # avg hourly earnings, production/nonsupervisory workers
 
 
+class DerivedOp(enum.Enum):
+    """How a derived fact combines its two operands — closed set.
+
+    Derivations are code (fact-model.md): a curator authors the *structure*
+    (operand fact ids and an op), never the resulting number. Both operands
+    must be structured facts in the same room with the same currency.
+    """
+
+    RATIO = "ratio"    # numerator / denominator
+    PCT_OF = "pct_of"  # numerator / denominator * 100
+
+
+def weakest_tier(*tiers: Tier) -> Tier:
+    """The weakest (least confident) of the given tiers — A < B < C < D."""
+    return max(tiers, key=lambda t: t.value)
+
+
 def tier_label(tier: Tier) -> str:
     """Visitor-facing description of a confidence tier."""
     match tier:
@@ -193,12 +210,33 @@ class Fact:
 
 
 @dataclass(frozen=True, slots=True)
+class DerivedFact:
+    """A fact whose displayed value is computed by repo code, never authored.
+
+    The tier is computed too (weakest operand tier) — a curator cannot badge
+    a derivation stronger than its inputs. See plan 006.
+    """
+
+    id: str
+    panel: Panel
+    label: str
+    unit: str
+    op: DerivedOp
+    numerator: str  # Fact.id in the same room; must be structured
+    denominator: str  # Fact.id in the same room; must be structured
+    precision: int = 1  # decimal places in the rendered value
+    notes: str = ""
+    assumptions: tuple[str, ...] = field(default=())
+
+
+@dataclass(frozen=True, slots=True)
 class Room:
     """One (country, decade) exhibit room."""
 
     country: str  # lowercase slug: us, uk, pl, ru, cn, in, jp
     decade: str  # "1890s" … "2020s"
     facts: tuple[Fact, ...]
+    derived: tuple[DerivedFact, ...] = field(default=())
     wage_anchor: str = ""  # fact id → a HOURLY basis fact in this room
     income_anchor: str = ""  # fact id → an ANNUAL basis fact in this room
 

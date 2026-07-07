@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from vitrine.model import Basis, Fact, Measure, Tier
+from vitrine.model import Basis, Fact, Measure, Tier, weakest_tier
 
 
 @dataclass(frozen=True, slots=True)
@@ -25,10 +25,6 @@ class Affordability:
     hours_measure: Measure | None = None  # what the wage denominator measures (iff hours computed)
     pct_measure: Measure | None = None  # what the income denominator measures (iff pct computed)
     year_gap: int | None = None  # largest |price_year - anchor_year| among used anchors
-
-
-def _weakest(*tiers: Tier) -> Tier:
-    return max(tiers, key=lambda t: t.value)
 
 
 def _year_gap(price: Fact, anchor: Fact) -> int | None:
@@ -96,7 +92,7 @@ def afford(
     return Affordability(
         hours_to_afford=hours_to_afford,
         pct_of_income=pct_of_income,
-        tier=_weakest(*used_tiers),
+        tier=weakest_tier(*used_tiers),
         anchor_note="; ".join(anchor_parts),
         hours_measure=hours_measure,
         pct_measure=pct_measure,

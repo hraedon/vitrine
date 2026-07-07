@@ -86,6 +86,31 @@ Seed ledger (grows as rooms are curated):
 - `urban-rural-split` — where the split dominates (China, India), rooms carry
   separate facts rather than a misleading national blend.
 
+### Derived fact (plan 006)
+
+A `[[derived]]` entry in a room file authors **structure, never a number**:
+two operand fact ids and an op. The displayed value and the tier are computed
+at build (tier = weakest operand tier — a curator cannot badge a derivation
+stronger than its inputs). Operands must be structured facts in the same
+room with the same currency.
+
+| Field | Type | Meaning |
+|---|---|---|
+| `id` | str | Same rules as fact ids (prefix, uniqueness — shared namespace) |
+| `panel` | Panel | Which room panel it renders in |
+| `label` | str | Visitor-facing caption |
+| `unit` | str | Carries the semantics ("years of four-person median family income") |
+| `op` | DerivedOp | `ratio` or `pct_of` (closed set) |
+| `numerator` | str | Fact id in this room; must have `amount_minor` |
+| `denominator` | str | Fact id in this room; must have `amount_minor`, non-zero |
+| `precision` | int | Decimal places in the rendered value (0–4, default 1) |
+| `notes` | str | Curator note — **must not hand-quote numbers**; the drawer shows operands |
+| `assumptions` | list[str] | Ids resolving into the ledger |
+
+Cross-room operands, non-monetary quantities (hours, index points), and
+scaled ops are deliberately out of v1 scope — see plan 006. Until they land,
+the remaining authored-arithmetic facts are enumerated there as visible debt.
+
 ### Room
 
 One file per (country, decade): `data/<country>/<decade>.toml`, e.g.
@@ -187,6 +212,9 @@ The gate loads everything under `data/` and fails on any of:
    or whose measure sits on the wrong axis (a wage anchor measuring an income
    concept, or vice versa). You cannot divide by a denominator without saying
    what it measures.
+9. A `[[derived]]` entry whose operands don't resolve in-room, aren't
+   structured, mix currencies, or divide by zero (plan 006). Derived ids obey
+   the same prefix/uniqueness rules as fact ids.
 
 CI runs `vitrine check` alongside ruff/mypy/pytest; a red gate blocks merge.
 

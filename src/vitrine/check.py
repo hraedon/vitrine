@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from vitrine.model import Basis, Corpus, Fact, measure_axis
+from vitrine.model import Basis, Corpus, Fact, Room, measure_axis
 
 
 def check_corpus(corpus: Corpus) -> list[str]:
@@ -83,6 +83,8 @@ def check_corpus(corpus: Corpus) -> list[str]:
                     f"among structured facts"
                 )
 
+        problems.extend(_check_derived(corpus, room, by_id, seen))
+
         for anchor_field, expected_basis, label in (
             ("wage_anchor", Basis.HOURLY, "wage_anchor"),
             ("income_anchor", Basis.ANNUAL, "income_anchor"),
@@ -140,6 +142,73 @@ def check_corpus(corpus: Corpus) -> list[str]:
     return problems
 
 
+def _check_derived(
+    corpus: Corpus,
+    room: Room,
+    by_id: dict[str, Fact],
+    seen: dict[str, str],
+) -> list[str]:
+    """Derived facts author structure, never numbers — check the structure.
+
+    Operands must resolve to structured facts in the same room, share a
+    currency, and never divide by zero; ids share the fact namespace and
+    prefix rules. The value and tier are computed (plan 006), so there is
+    nothing else a curator could get numerically wrong here.
+    """
+    problems: list[str] = []
+    prefix = f"{room.country}-{room.decade}-"
+    for derived in room.derived:
+        where = f"room {room.slug}, derived {derived.id!r}"
+
+        if derived.id in seen:
+            problems.append(f"{where}: duplicate id (also in room {seen[derived.id]})")
+        seen[derived.id] = room.slug
+
+        if not derived.id.startswith(prefix):
+            problems.append(f"{where}: id must start with {prefix!r}")
+
+        for field_name, value in (("label", derived.label), ("unit", derived.unit)):
+            if not value.strip():
+                problems.append(f"{where}: empty {field_name}")
+
+        for assumption_id in derived.assumptions:
+            if assumption_id not in corpus.assumptions:
+                problems.append(f"{where}: unknown assumption {assumption_id!r}")
+
+        operands: list[Fact] = []
+        for role, operand_id in (
+            ("numerator", derived.numerator),
+            ("denominator", derived.denominator),
+        ):
+            operand = by_id.get(operand_id)
+            if operand is None:
+                problems.append(
+                    f"{where}: {role} {operand_id!r} does not resolve to a fact "
+                    f"in this room"
+                )
+                continue
+            if operand.amount_minor is None:
+                problems.append(
+                    f"{where}: {role} {operand_id!r} has no amount_minor — "
+                    f"derivations divide structured amounts only"
+                )
+                continue
+            operands.append(operand)
+
+        if len(operands) == 2:
+            numerator, denominator = operands
+            if denominator.amount_minor == 0:
+                problems.append(
+                    f"{where}: denominator {denominator.id!r} has amount_minor = 0"
+                )
+            if numerator.currency != denominator.currency:
+                problems.append(
+                    f"{where}: currency mismatch ({numerator.currency!r} vs "
+                    f"{denominator.currency!r})"
+                )
+    return problems
+
+
 def check_render_coverage(corpus: Corpus, build_dir: Path) -> list[str]:
     """Invariant 7: the set of facts rendered must equal the set curated.
 
@@ -159,6 +228,7 @@ def check_render_coverage(corpus: Corpus, build_dir: Path) -> list[str]:
         if line.strip()
     }
     curated_ids = {fact.id for room in corpus.rooms for fact in room.facts}
+    curated_ids |= {derived.id for room in corpus.rooms for derived in room.derived}
 
     problems: list[str] = []
     for fid in sorted(curated_ids - rendered_ids):

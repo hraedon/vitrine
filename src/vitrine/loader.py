@@ -16,6 +16,8 @@ from vitrine.model import (
     Assumption,
     Basis,
     Corpus,
+    DerivedFact,
+    DerivedOp,
     Fact,
     Measure,
     Panel,
@@ -175,10 +177,39 @@ def _load_room(path: Path) -> Room:
                 basis=_parse_basis(table, ctx),
             )
         )
+    derived: list[DerivedFact] = []
+    for table in data.get("derived", []):
+        ctx = f"{path} [[derived]]"
+        derived_id = _get_str(table, "id", ctx)
+        ctx = f"{path} derived {derived_id!r}"
+        derived_panel: Panel = _parse_enum(
+            _get_str(table, "panel", ctx), {p.value: p for p in Panel}, "panel", ctx
+        )
+        op: DerivedOp = _parse_enum(
+            _get_str(table, "op", ctx), {o.value: o for o in DerivedOp}, "op", ctx
+        )
+        precision = _get_int_opt(table, "precision", ctx)
+        if precision is not None and not 0 <= precision <= 4:
+            raise LoadError(f"{ctx}: precision must be between 0 and 4")
+        derived.append(
+            DerivedFact(
+                id=derived_id,
+                panel=derived_panel,
+                label=_get_str(table, "label", ctx),
+                unit=_get_str(table, "unit", ctx),
+                op=op,
+                numerator=_get_str(table, "numerator", ctx),
+                denominator=_get_str(table, "denominator", ctx),
+                precision=precision if precision is not None else 1,
+                notes=_get_str_opt(table, "notes", ctx),
+                assumptions=_get_str_list(table, "assumptions", ctx),
+            )
+        )
     return Room(
         country=country,
         decade=decade,
         facts=tuple(facts),
+        derived=tuple(derived),
         wage_anchor=_get_str_opt(meta, "wage_anchor", f"{path} [room]"),
         income_anchor=_get_str_opt(meta, "income_anchor", f"{path} [room]"),
     )
