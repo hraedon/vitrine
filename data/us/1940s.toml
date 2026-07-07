@@ -117,11 +117,11 @@ assumptions = ["nominal-values"]
 id = "us-1940s-plumbing"
 panel = "home"
 label = "Complete plumbing facilities, 1940"
-value = "55% of homes had complete plumbing (45% lacked)"
+value = "54.7% of homes had complete plumbing (45.3% lacked)"
 unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
 source = "census-hist-housing-plumbing"
 tier = "A"
-notes = "From Census Historical Housing Tables: Plumbing. Complete plumbing = hot and cold piped water + flush toilet + bathtub/shower for exclusive use. The 1940 Census of Housing was the first to ask about plumbing. ~45% of American homes lacked complete plumbing — the worst decade in the series. By 1950: 33% lacked (67% had). By 1960: 17% lacked (83% had). Rural areas were far worse: many farm homes still used outhouses and hand pumps."
+notes = "From Census Historical Housing Tables: Plumbing (plumbing-tab.txt, US row: 15,852,098 of 35,026,442 occupied units lacking). Complete plumbing = hot and cold piped water + flush toilet + bathtub/shower for exclusive use. The 1940 Census of Housing was the first to ask about plumbing. 45.3% of American homes lacked complete plumbing — the worst point in the series. By 1950: 35.5% lacked (64.5% had). By 1960: 16.8% lacked (83.2% had). Rural areas were far worse: many farm homes still used outhouses and hand pumps. Figures verified against the Census time-series file 2026-07-07."
 assumptions = ["composite-family"]
 
 [[fact]]

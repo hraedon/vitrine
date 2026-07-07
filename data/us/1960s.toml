@@ -58,11 +58,11 @@ assumptions = ["composite-family"]
 id = "us-1960s-plumbing"
 panel = "home"
 label = "Complete plumbing facilities, 1960"
-value = "83% of homes had complete plumbing (17% lacked)"
+value = "83.2% of homes had complete plumbing (16.8% lacked)"
 unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
 source = "census-hist-housing-plumbing"
 tier = "A"
-notes = "From Census Historical Housing Tables: Plumbing. Down from 33% lacking in 1950 to 17% lacking in 1960 — the suburban building boom was closing the gap rapidly. One in six American homes still lacked complete plumbing in 1960. By 1970: only 6% lacked (94% had)."
+notes = "From Census Historical Housing Tables: Plumbing (plumbing-tab.txt, US row: 9,777,783 of 58,314,784 occupied units lacking). Down from 35.5% lacking in 1950 to 16.8% lacking in 1960 — the suburban building boom was closing the gap rapidly. One in six American homes still lacked complete plumbing in 1960. By 1970: 6.9% lacked (93.1% had). Figures verified against the Census time-series file 2026-07-07."
 
 [[fact]]
 id = "us-1960s-housing-characteristics-gap"

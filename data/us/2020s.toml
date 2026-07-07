@@ -110,9 +110,9 @@ panel = "home"
 label = "Homeownership rate, 2024"
 value = "65.3%"
 unit = "% of occupied housing units that are owner-occupied"
-source = "census-ahs"
+source = "census-acs"
 tier = "A"
-notes = "From Census Bureau, 2024 American Community Survey 1-Year Estimates (data.census.gov). The rate is ±0.1%. Up from 55.0% in 1950."
+notes = "From Census Bureau, 2024 American Community Survey 1-Year Estimates (data.census.gov). The rate is ±0.1%. Up from 55.0% in 1950. (Source re-pointed from census-ahs 2026-07-07: this is ACS data, not AHS.)"
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -132,7 +132,7 @@ panel = "home"
 label = "Median home value, 2024 (ACS)"
 value = "$360,600"
 unit = "USD, nominal (median value of owner-occupied housing units)"
-source = "census-ahs"
+source = "census-acs"
 tier = "A"
 amount_minor = 36060000
 currency = "USD"
@@ -158,11 +158,11 @@ assumptions = ["nominal-values"]
 id = "us-2020s-food-expenditure-share"
 panel = "table"
 label = "Food expenditure share, 2024 (CEX Table 1400)"
-value = "Food 17.8% of expenditure for 4-person families (13.5% overall). Down from 42.54% in 1901."
+value = "Food 13.5% of expenditure for 4-person families (~$14,800 of $109,622/yr). Down from 42.54% in 1901."
 unit = "% share of total annual expenditure"
 source = "bls-cex"
 tier = "A"
-notes = "From CEX Table 1400 (Size of consumer unit: Shares of annual expenditures, 2024), cu-size-2024.xlsx. 4-person families: food 17.8%, housing 16.5%, transportation 17.3%, healthcare 15.9%, entertainment 16.7%. Average income before taxes: $131,798 for 4-person families. Compared to 1901: food dropped from 42.54% to 17.8% — Engels' Law in action. The overall food share (all CU sizes) is 16.7%. Time series available: cu-size-2012 through cu-size-2024 Excel files in vitrine-research."
+notes = "From CEX Table 1400 (Size of CU, 2024), cu-size-2024.xlsx — same computation as us-2020s-expenditure-breakdown-4p: food's within-budget share for 4-person CUs is 13.5% of $109,622 average annual expenditure. CORRECTION 2026-07-07: this fact previously displayed 17.8%, a misread of Table 1400's aggregate-share column (the share of NATIONAL food spending attributable to 4-person CUs — they are 12.3% of CUs and outspend the average, so their aggregate shares cluster at 15-18% in every category); that column is not a budget share. Compared to 1901: food dropped from 42.54% to 13.5% — Engel's Law in action."
 assumptions = ["income-vs-consumption"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -278,26 +278,27 @@ tier = "A"
 notes = "Same computation as the 1950s room: 2024 CPI (313.7) / 1950 CPI (24.1) = 13.03. The median family income rose from $3,319 to $105,800 — a factor of 31.9, far exceeding inflation (13.0x). Real median family income approximately tripled."
 assumptions = ["nominal-values"]
 
-[[fact]]
+[[derived]]
 id = "us-2020s-home-as-income-years"
 panel = "work-buys"
 label = "Median home value as years of median family income, 2024"
-value = "2.58 years"
+op = "ratio"
+numerator = "us-2020s-median-home-value"
+denominator = "us-2020s-median-income-four-person"
 unit = "years of four-person median family income"
-source = "census-f08-allraces"
-tier = "A"
-notes = "Computed: $360,600 (ACS B25077, 2024) ÷ $139,900 (Census F-8, 4-person median family income, 2024) = 2.58 years. Previous Tier D estimate was ~3.0 years using $420,000 home value — the ACS shows $360,600, which is lower. For comparison: ~2.2 years in 1950 ($7,354 ÷ $3,319) and ~2.0 years using 4-person median ($7,354 ÷ $3,675). Housing affordability has worsened modestly since 1950, not dramatically — but the composition shifted (mortgage rates, property taxes, and home size all changed)."
+precision = 2
+notes = "Both inputs Tier A (ACS B25077 home value; Census F-8 four-person income). Modestly above the 1950 ratio (see us-1950s-home-as-income-years) — but the composition shifted: mortgage rates, property taxes, and home size all changed, so 'years of income' understates the difference in monthly carrying cost. An earlier hand-authored version used a ~$420,000 home value from a secondary source; the ACS figure is lower."
 assumptions = ["composite-family", "nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 [[fact]]
 id = "us-2020s-real-income-growth"
 panel = "work-buys"
 label = "Real median family income growth, 1950-2024"
-value = "3.1x (from $25,633 to $79,490 in 2024 dollars)"
+value = "3.0x ($35,290 → $105,800 in 2024 dollars, Census-published real series)"
 unit = "real (CPI-adjusted) median family income"
 source = "census-f08-allraces"
 tier = "A"
-notes = "Computed: 1950 all-family median ($3,319) adjusted to 2024 dollars ($3,319 × 13.03 = $43,262) vs 2024 all-family median ($105,800). Real income grew 2.4x. Note: F-8 also publishes CPI-adjusted values directly — the 2024-dollar column for 1950 is $35,290 (C-CPI-U-RS adjusted), giving a growth factor of 3.0x. The difference is due to the CPI series used (CPIAUCNS vs C-CPI-U-RS). Either way, real median family income roughly tripled."
+notes = "From Table F-8's own 2024-dollar column (C-CPI-U-RS adjusted): 1950 all-family median = $35,290 in 2024 dollars vs 2024 median = $105,800, a factor of 3.0. Alternative deflator: using raw CPI-U (CPIAUCNS, 13.03x per us-2020s-purchasing-power-comparison) gives $3,319 × 13.03 = $43,246, a factor of 2.4x — CPI-U-RS corrects known overstatement of early inflation, so the published 3.0x is primary. CORRECTION 2026-07-07: this fact previously displayed '3.1x ($25,633 → $79,490)', figures traceable to no source in the registry."
 assumptions = ["composite-family", "nominal-values"]
 
 # ── Day panel: life expectancy ────────────────────────────────────────────
@@ -355,6 +356,6 @@ panel = "diffusion"
 label = "Primary heating fuel, 2024"
 value = "Natural gas 47%, electricity 42%, other 11%"
 unit = "% of households by primary space heating fuel"
-source = "eia-recs"
+source = "census-acs"
 tier = "A"
-notes = "From 2024 ACS estimates (Census Bureau). Natural gas: 47% (down from 49% in 2010). Electricity: 42% (up sharply, gaining on gas). Other: propane, fuel oil, wood. The shift from coal to gas to electricity is a century-long arc: in 1940 coal was dominant, by 1950 gas and oil were replacing it, by 2020s electricity is gaining. Fuel oil heating is now <5% nationally but persists in older Northeast housing stock."
+notes = "From 2024 ACS 1-year estimates, Table B25040 (House Heating Fuel). Natural gas: 47% (down from 49% in 2010). Electricity: 42% (up sharply, gaining on gas). Other: propane, fuel oil, wood. (Source re-pointed from eia-recs 2026-07-07: the figures are ACS, not RECS.) The shift from coal to gas to electricity is a century-long arc: in 1940 coal was dominant, by 1950 gas and oil were replacing it, by 2020s electricity is gaining. Fuel oil heating is now <5% nationally but persists in older Northeast housing stock."

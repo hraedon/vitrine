@@ -161,11 +161,11 @@ assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income
 id = "us-1950s-plumbing"
 panel = "home"
 label = "Complete plumbing facilities, 1950"
-value = "67% of homes had complete plumbing (33% lacked)"
+value = "64.5% of homes had complete plumbing (35.5% lacked)"
 unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
 source = "census-hist-housing-plumbing"
 tier = "A"
-notes = "From Census Historical Housing Tables: Plumbing. Down from 45% lacking in 1940 to 33% lacking in 1950 — the postwar building boom and suburban expansion were starting to close the gap, but one in three American homes still lacked complete plumbing. Rural areas lagged badly. By 1960: 17% lacked (83% had)."
+notes = "From Census Historical Housing Tables: Plumbing (plumbing-tab.txt, US row). Down from 45.3% lacking in 1940 to 35.5% lacking in 1950 (15,772,717 of 44,502,192 occupied units) — the postwar building boom and suburban expansion were starting to close the gap, but more than one in three American homes still lacked complete plumbing. Rural areas lagged badly. By 1960: 16.8% lacked (83.2% had). Figures verified against the Census time-series file 2026-07-07."
 
 [[fact]]
 id = "us-1950s-rooms-plumbing-gap"
@@ -374,24 +374,25 @@ tier = "A"
 notes = "Computed: 2024 CPI-U annual average (313.7) divided by 1950 CPI-U annual average (24.1). This means a good costing $1 in 1950 would cost approximately $13.03 in 2024, assuming the same relative price."
 assumptions = ["nominal-values"]
 
-[[fact]]
+[[derived]]
 id = "us-1950s-home-as-income-years"
 panel = "work-buys"
 label = "Median home value as years of median family income, 1950"
-value = "~2.0 years"
+op = "ratio"
+numerator = "us-1950s-median-home-value"
+denominator = "us-1950s-median-income-four-person"
 unit = "years of four-person median family income"
-source = "census-f08-allraces"
-tier = "C"
-notes = "Median home value ($7,354, Tier C) relative to four-person median family income ($3,675, Tier A). Computed by afford() — see the home panel's affordability display. For comparison, in 2024 the ratio is ~3.0 years."
+precision = 1
+notes = "The home value is Tier C (secondary source), so the ratio is too — the weakest input wins, mechanically. For the 2020s counterpart see us-2020s-home-as-income-years; the number is deliberately not repeated here (hand-quoted cross-room echoes rot — one did, in this very note, before plan 006)."
 assumptions = ["composite-family", "nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 [[fact]]
 id = "us-1950s-week-of-work-buys"
 panel = "work-buys"
 label = "What a week of manufacturing work bought, 1950"
-value = "$53.29 = 1.6% of median family income"
-unit = "weekly earnings as % of annual median income"
+value = "$53.29/week — a full year of it (×52) ≈ 83% of median family income"
+unit = "weekly manufacturing earnings vs annual median family income"
 source = "fred-ces-manuf-earnings"
 tier = "A"
-notes = "Computed: weekly earnings ($53.29) divided by annual median family income ($3,319). A week of manufacturing wages bought about 1.6% of the median family's annual income. This illustrates that a single manufacturing wage did not cover the median family income — a second earner or higher-paying job was needed."
+notes = "Computed: weekly earnings ($53.29) × 52 = $2,771, which is 83.5% of the all-family median income ($3,319). A lone manufacturing wage fell about 17% short of the median family's income — the gap implies second earners or higher-paying work. (Reframed 2026-07-07 from '$53.29 = 1.6% of annual income', which was correct but only meaningful against the unstated benchmark of 1/52 ≈ 1.9%.)"
 assumptions = ["composite-family", "nominal-values"]

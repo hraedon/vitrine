@@ -137,6 +137,15 @@ population = "U.S. housing units (national sample)"
 notes = "Started 1973, biennial/annual. Tracks tenure, rooms, amenities (plumbing, kitchen, telephone, automobile in some years), housing costs. Table Creator: https://www.census.gov/programs-surveys/ahs/data/interactive/ahstablecreator.html. Historical reports at HUDUser: https://www.huduser.gov/portal/datasets/ahs/ahs_1999.pdf"
 
 [[source]]
+id = "census-acs"
+title = "American Community Survey (ACS) 1-Year Estimates"
+publisher = "U.S. Census Bureau"
+year = 2024
+url = "https://data.census.gov/"
+population = "All US households / occupied housing units (ACS 1-year national sample)"
+notes = "Annual survey replacing the decennial long form (2005→). Used here for homeownership rate, median home value (B25077), house heating fuel (B25040). Distinct from the AHS (census-ahs): different sample, different sponsor, different questionnaire — do not conflate the two."
+
+[[source]]
 id = "census-decennial-pubs"
 title = "Census of Population and Housing — Decennial Publications"
 publisher = "U.S. Census Bureau"
@@ -385,7 +394,7 @@ publisher = "U.S. Census Bureau"
 year = 2000
 url = "https://www.census.gov/data/tables/time-series/dec/coh-plumbing.html"
 population = "All occupied housing units in the United States (decennial census)"
-notes = "Complete plumbing = hot and cold piped water + flush toilet + bathtub/shower for exclusive use. Lacked complete plumbing: 1940 ~45% (55% had), 1950 ~33% (67% had), 1960 ~17% (83% had), 1970 ~6% (94% had), 1990 ~1% (99% had). The 1940 Census of Housing was the first to ask about plumbing."
+notes = "Complete plumbing = hot and cold piped water + flush toilet + bathtub/shower for exclusive use. Lacked complete plumbing (US row of plumbing-tab.txt, verified 2026-07-07): 1940 45.3%, 1950 35.5%, 1960 16.8%, 1970 6.9%, 1980 2.7%, 1990 1.1%. Exact data file: https://www2.census.gov/programs-surveys/decennial/tables/time-series/coh-plumbing/plumbing-tab.txt. The 1940 Census of Housing was the first to ask about plumbing."
 
 # ── NCHS mortality ───────────────────────────────────────────────────────
 
