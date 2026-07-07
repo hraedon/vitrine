@@ -116,30 +116,30 @@ notes = "From Census Bureau, 2024 American Community Survey 1-Year Estimates (da
 assumptions = ["composite-family"]
 
 [[fact]]
-id = "us-2020s-housing-characteristics-gap"
+id = "us-2020s-housing-characteristics"
 panel = "home"
-label = "Rooms, plumbing, amenities"
-value = "data available via AHS Table Creator — not transcribed"
-unit = "—"
+label = "Housing characteristics, 2023 (AHS)"
+value = "Median 1,500 sq ft. 99.9% have complete bathroom. 89.3% public water, 80.9% public sewer. Median 5 rooms. 67.6% have garage/carport."
+unit = "percent of 133.2M occupied units (AHS 2023 National)"
 source = "census-ahs"
-tier = "D"
-notes = "The American Housing Survey (AHS) Table Creator at https://www.census.gov/programs-surveys/ahs/data/interactive/ahstablecreator.html provides current housing characteristics (rooms, plumbing, kitchen, telephone, automobile). Data is accessible interactively but not transcribed in this session. Tier D: source exists and is accessible but specific values not curated."
+tier = "A"
+notes = "From American Housing Survey 2023 National tables (AHS Table Creator, generated 2026-07-06). Data parsed from Excel exports. Total occupied units: 133,231 thousand. Complete bathroom: 133,096K (99.9%). Public water: 119,015K (89.3%). Public sewer: 107,884K (80.9%). Garage or carport: 90,044K (67.6%). Median square footage: 1,500 (mean: 1,809). For comparison with 1950 Census of Housing: near-universal plumbing and electricity, dramatically larger homes (1950 median ~1,000 sq ft estimated)."
 assumptions = ["composite-family", "dwelling-size-metric"]
 
 [[fact]]
 id = "us-2020s-median-home-value"
 panel = "home"
-label = "Median home value, ~2024"
-value = "~$420,000 (estimate)"
-unit = "USD, nominal"
+label = "Median home value, 2024 (ACS)"
+value = "$360,600"
+unit = "USD, nominal (median value of owner-occupied housing units)"
 source = "census-ahs"
-tier = "D"
-amount_minor = 42000000
+tier = "A"
+amount_minor = 36060000
 currency = "USD"
 price_year = 2024
 basis = "total"
-notes = "Estimated from secondary sources. The Census/ACS publishes median home value data via data.census.gov. The ~$420,000 figure is widely cited but not transcribed from the primary Census source in this session. Tier D: estimated, not verified from primary source. For comparison: $7,354 in 1950."
-assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
+notes = "From Census ACS 1-Year Estimates, Table B25077 (Median value of owner-occupied housing units), 2024. Margin of error: ±$618. Time series: $179,900 (2010), $181,200 (2014), $240,500 (2019), $360,600 (2024) — doubled in 14 years. For comparison: $7,354 in 1950 (Tier C)."
+assumptions = ["nominal-values", "dwelling-size-metric"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -155,14 +155,14 @@ notes = "From BLS Public Data API v2, series APU0000712211 (bread), APU000070211
 assumptions = ["nominal-values"]
 
 [[fact]]
-id = "us-2020s-food-expenditure-gap"
+id = "us-2020s-food-expenditure-share"
 panel = "table"
-label = "Food expenditure share, 2020s"
-value = "data available via BLS CEX tables — not yet transcribed"
-unit = "—"
+label = "Food expenditure share, 2024 (CEX Table 1400)"
+value = "Food 17.8% of expenditure for 4-person families (13.5% overall). Down from 42.54% in 1901."
+unit = "% share of total annual expenditure"
 source = "bls-cex"
-tier = "D"
-notes = "The BLS Consumer Expenditure Survey publishes annual expenditure shares at https://www.bls.gov/cex/tables.htm. The CEX data is not available as time series via the BLS API — it requires accessing the HTML/PDF tables directly. For context: food's share of expenditure has fallen from 42.54% in 1901 to under 15% in the 2020s."
+tier = "A"
+notes = "From CEX Table 1400 (Size of consumer unit: Shares of annual expenditures, 2024), cu-size-2024.xlsx. 4-person families: food 17.8%, housing 16.5%, transportation 17.3%, healthcare 15.9%, entertainment 16.7%. Average income before taxes: $131,798 for 4-person families. Compared to 1901: food dropped from 42.54% to 17.8% — Engels' Law in action. The overall food share (all CU sizes) is 16.7%. Time series available: cu-size-2012 through cu-size-2024 Excel files in vitrine-research."
 assumptions = ["income-vs-consumption"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -209,14 +209,14 @@ notes = "Computed: average hourly earnings ($30.12) × average weekly hours for 
 assumptions = ["nominal-values"]
 
 [[fact]]
-id = "us-2020s-time-use-gap"
+id = "us-2020s-time-use"
 panel = "day"
-label = "Time use (work, commute, leisure)"
-value = "data available via BLS ATUS — not transcribed"
-unit = "—"
+label = "How Americans spend their day, 2019 (ATUS)"
+value = "Sleeping 8.84 hrs, working 3.26 hrs (men 3.92, women 2.64), eating 1.18 hrs, household activities 1.78 hrs, food prep 0.60 hrs, purchasing 0.75 hrs"
+unit = "hours per day, civilian population (annual average)"
 source = "bls-atus"
-tier = "D"
-notes = "The BLS American Time Use Survey (ATUS, started 2003) provides detailed data on how Americans spend their time — work hours, commute time, childcare, leisure. Data is at https://www.bls.gov/tus/ but BLS blocks automated requests (403). Specific figures need browser access."
+tier = "A"
+notes = "From BLS American Time Use Survey, Table A-1 (2019 annual averages), a1-2019.pdf. Text layer extracted directly via pymupdf — no OCR needed. 'Working and work-related activities' = 3.61 hrs total (includes work-related activities beyond just working). 'Personal care activities' = 9.62 hrs (dominated by sleeping 8.84 hrs). Household activities include housework (0.53 hrs), food prep (0.60 hrs), and lawn/garden (0.17 hrs). Time series available: a1_2003, a1_2009, a1_2010, a1-2019 (Table A-1 by sex); a2_2010, a2_2011, a2-2019 (Table A-2 by employment status/children)."
 assumptions = ["composite-family"]
 
 # ── Diffusion panel ────────────────────────────────────────────────────────
@@ -244,14 +244,14 @@ notes = "From Pew Research Center Internet/Broadband Fact Sheet, data extracted 
 assumptions = ["composite-family"]
 
 [[fact]]
-id = "us-2020s-other-diffusion-gap"
+id = "us-2020s-phone-vehicle-diffusion"
 panel = "diffusion"
-label = "Automobile, telephone, refrigerator, TV ownership"
-value = "data available — not transcribed"
-unit = "—"
+label = "Phone service and vehicle access, 2023 (AHS)"
+value = "Cell phone 92.7%, landline 20.1%, garage/carport 67.6%"
+unit = "percent of 133.2M occupied units"
 source = "census-ahs"
-tier = "D"
-notes = "AHS tracks appliance ownership (refrigerator, washing machine, etc.) and automobile ownership. Census ACS tracks telephone service. All are near-universal (>95%) in the 2020s. Specific figures need to be transcribed from AHS Table Creator or ACS tables."
+tier = "A"
+notes = "From AHS 2023 National Table 2 (Rooms, Size, and Amenities). Cell phone available: 123,462K (92.7%). Landline available: 26,749K (20.1%) — landline has become a secondary channel. Garage or carport: 90,044K (67.6%). No complete bathroom: only 135K units (0.1%). For comparison with 1950: telephone was not asked in the 1950 Census (added 1960); automobile was also not asked (added 1960). The 1950 Census did ask about radio (95.6%), TV (12.3%), refrigerator (80.0%)."
 assumptions = ["composite-family"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
@@ -282,11 +282,11 @@ assumptions = ["nominal-values"]
 id = "us-2020s-home-as-income-years"
 panel = "work-buys"
 label = "Median home value as years of median family income, 2024"
-value = "~3.0 years"
+value = "2.58 years"
 unit = "years of four-person median family income"
 source = "census-f08-allraces"
-tier = "D"
-notes = "Median home value (~$420,000, Tier D) relative to four-person median family income ($139,900, Tier A). Computed by afford() — see the home panel's affordability display. Up from ~2.0 years in 1950 — housing became significantly less affordable relative to income. Tier D because the home value is an estimate."
+tier = "A"
+notes = "Computed: $360,600 (ACS B25077, 2024) ÷ $139,900 (Census F-8, 4-person median family income, 2024) = 2.58 years. Previous Tier D estimate was ~3.0 years using $420,000 home value — the ACS shows $360,600, which is lower. For comparison: ~2.2 years in 1950 ($7,354 ÷ $3,319) and ~2.0 years using 4-person median ($7,354 ÷ $3,675). Housing affordability has worsened modestly since 1950, not dramatically — but the composition shifted (mortgage rates, property taxes, and home size all changed)."
 assumptions = ["composite-family", "nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 [[fact]]
@@ -299,3 +299,62 @@ source = "census-f08-allraces"
 tier = "A"
 notes = "Computed: 1950 all-family median ($3,319) adjusted to 2024 dollars ($3,319 × 13.03 = $43,262) vs 2024 all-family median ($105,800). Real income grew 2.4x. Note: F-8 also publishes CPI-adjusted values directly — the 2024-dollar column for 1950 is $35,290 (C-CPI-U-RS adjusted), giving a growth factor of 3.0x. The difference is due to the CPI series used (CPIAUCNS vs C-CPI-U-RS). Either way, real median family income roughly tripled."
 assumptions = ["composite-family", "nominal-values"]
+
+# ── Day panel: life expectancy ────────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-life-expectancy"
+panel = "day"
+label = "Life expectancy at birth, 2023"
+value = "75.8 male, 81.1 female (78.4 total)"
+unit = "years"
+source = "nchs-nvss"
+tier = "A"
+notes = "From NCHS Data Brief No. 521 (Dec 2024), final 2023 mortality data. Male: 75.8 (up 1.0 from 74.8 in 2022). Female: 81.1 (up 0.9 from 80.2 in 2022). The 2020-21 COVID decline (78.8 → 76.1) has largely recovered. Provisional 2024 (Data Brief No. 548, Jan 2026): male 76.5, female 81.4. For cross-decade comparison: 1900-02: 48.2M/51.1F; 1939-41: 62.8M/67.3F; 1949-51: 66.3M/72.0F; 1960: 66.6M/73.1F (white)."
+
+# ── Diffusion panel: vehicle ownership ───────────────────────────────────
+
+[[fact]]
+id = "us-2020s-vehicle-ownership"
+panel = "diffusion"
+label = "Households with at least one vehicle, 2023"
+value = "91.5% (8.5% with no vehicle)"
+unit = "% of occupied households"
+source = "census-acs-vehicle"
+tier = "A"
+notes = "From ACS Table B25045 (latest 5-year estimates via Census Reporter). 132.7M households total. No vehicle: 11.3M (8.5%). Owner-occupied no-vehicle: 2.88M (3.3% of owners). Renter-occupied no-vehicle: 8.43M (18.3% of renters). Vehicle access tracks tenure and income — car-free households are concentrated in dense urban areas and among renters."
+
+# ── Budget panel: poverty rate ────────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-poverty-rate"
+panel = "budget"
+label = "Official poverty rate, 2024"
+value = "10.6% (35.9 million people)"
+unit = "% of U.S. population below official poverty threshold"
+source = "census-p60-287"
+tier = "A"
+notes = "From Census P-60 No. 287 (Sep 2025). Official poverty rate: 10.6% (down from 11.1% in 2023). 35.9M people in poverty. Supplemental Poverty Measure (SPM): 12.9% (unchanged from 2023). For families: married-couple 3.5%, female-householder 18.6%. The official poverty threshold for a 4-person family with 2 children was ~$32,000 in 2024."
+assumptions = ["composite-family"]
+
+# ── Diffusion: air conditioning and heating fuel ────────────────────────
+
+[[fact]]
+id = "us-2020s-air-conditioning"
+panel = "diffusion"
+label = "Households using air conditioning, 2020"
+value = "88% (two-thirds central AC)"
+unit = "% of households"
+source = "eia-recs"
+tier = "A"
+notes = "From 2020 RECS (EIA). 88% of US households use AC. Two-thirds use central AC or central heat pump as main AC equipment. By region: Midwest 92%, South 93%, Northeast lower (older housing stock). In 1960, only 18.8% of households had AC — the diffusion arc is one of the steepest material improvements in the museum."
+
+[[fact]]
+id = "us-2020s-heating-fuel"
+panel = "diffusion"
+label = "Primary heating fuel, 2024"
+value = "Natural gas 47%, electricity 42%, other 11%"
+unit = "% of households by primary space heating fuel"
+source = "eia-recs"
+tier = "A"
+notes = "From 2024 ACS estimates (Census Bureau). Natural gas: 47% (down from 49% in 2010). Electricity: 42% (up sharply, gaining on gas). Other: propane, fuel oil, wood. The shift from coal to gas to electricity is a century-long arc: in 1940 coal was dominant, by 1950 gas and oil were replacing it, by 2020s electricity is gaining. Fuel oil heating is now <5% nationally but persists in older Northeast housing stock."

@@ -1,0 +1,165 @@
+# US, the 1980s. Primary sources: Census F-8 (income), Census historical housing
+# (homeownership, home value, plumbing), CEX (expenditure, continuous from 1980).
+# RECS began 1978. FRED data available. No Historical Statistics (ends 1970).
+# Data year anchors: 1980 (Census), 1980 (F-8).
+
+[room]
+country = "us"
+decade = "1980s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1980s-median-family-income"
+panel = "budget"
+label = "Median family income, all families, 1980"
+value = "$21,020"
+unit = "USD per year, nominal"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. All families: 60,310 thousand, median $21,020 ($71,470 in 2024 dollars). The stagflation of the 1970s had eroded real wages; the 1980s would see recovery in nominal terms but rising inequality."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1980s-median-income-four-person"
+panel = "budget"
+label = "Median family income, four-person families, 1980"
+value = "$24,330"
+unit = "USD per year, nominal"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. 4-person families: median $24,330 ($82,720 in 2024 dollars). Average family size: 3.27."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-1980s-number-of-families"
+panel = "budget"
+label = "Number of families in the United States, 1980"
+value = "60,310,000"
+unit = "families"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8."
+
+[[fact]]
+id = "us-1980s-average-family-size"
+panel = "budget"
+label = "Average family size, 1980"
+value = "3.27"
+unit = "persons per family"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. Down from 3.57 in 1970. By 1990: 3.18."
+
+[[fact]]
+id = "us-1980s-expenditure-gap"
+panel = "budget"
+label = "Expenditure shares, 1980s"
+value = "data available via CEX (continuous from 1980) — not yet transcribed"
+unit = "n/a"
+source = "bls-cex"
+tier = "D"
+notes = "The CEX has been conducted continuously since 1980 (quarterly interview + diary). Data available from BLS. The 1980s saw the personal computer, VCR, and microwave oven diffuse into middle-class homes."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1980s-homeownership"
+panel = "home"
+label = "Homeownership rate, 1980"
+value = "64.4%"
+unit = "% of occupied dwelling units (owner-occupied)"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Bureau decennial time series (owner.pdf). Up from 62.9% in 1970. High interest rates (mortgage rates peaked ~18% in 1981) would pressure homeownership later in the decade."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1980s-median-home-value"
+panel = "home"
+label = "Median value of owner-occupied homes, 1980"
+value = "$47,200"
+unit = "USD, nominal"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Historical Housing Tables (values-unadj.txt). Up from $17,000 in 1970 — nearly tripling in nominal terms due to 1970s inflation. By 1990: $79,100."
+assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-1980s-plumbing"
+panel = "home"
+label = "Complete plumbing facilities, 1980"
+value = "~97% of homes had complete plumbing (~3% lacked)"
+unit = "% of occupied housing units"
+source = "census-hist-housing-plumbing"
+tier = "A"
+notes = "From Census Historical Housing Tables: Plumbing. Estimated from the series: 1970: 6% lacked, 1990: 1% lacked. By 1980, only ~3% lacked complete plumbing."
+
+[[fact]]
+id = "us-1980s-housing-gap"
+panel = "home"
+label = "Rooms, heating fuel, AC"
+value = "data available via AHS / Census 1980 — not yet transcribed"
+unit = "n/a"
+source = "census-ahs"
+tier = "D"
+notes = "AHS data continuous from 1973. Census 1980 housing data available. AC adoption was ~50-55% by 1980 (RECS 1978)."
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1980s-life-expectancy"
+panel = "day"
+label = "Life expectancy at birth, 1980"
+value = "70.0 male, 77.5 female (73.7 total, all races)"
+unit = "years"
+source = "nchs-nvss"
+tier = "A"
+notes = "From NCHS National Vital Statistics System. Up from ~67.1/74.8 in 1970 (all races). The 1980s saw continued gains from cardiovascular disease treatment advances."
+
+[[fact]]
+id = "us-1980s-wages-gap"
+panel = "day"
+label = "Average hourly earnings and weekly hours"
+value = "data available via FRED — not yet transcribed"
+unit = "n/a"
+source = "fred-ahetpi"
+tier = "D"
+notes = "FRED series AHETPI (average hourly earnings of production and nonsupervisory employees) covers 1964-present. FRED AWHMAN (average weekly hours, manufacturing) also available."
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1980s-diffusion-gap"
+panel = "diffusion"
+label = "Telephone, television, AC, computer"
+value = "data available via Census/AHS/RECS — not yet transcribed"
+unit = "n/a"
+source = "census-ahs"
+tier = "D"
+notes = "Telephone was ~91% by 1980 (estimated from Historical Statistics trend). Cable TV was growing (~20% of households by 1980). Personal computer adoption began (~8% by 1984). AC ~50-55% (RECS 1978). VCR ~1% in 1980, ~50% by 1988."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1980s-food-basket-gap"
+panel = "table"
+label = "The food basket, 1980s"
+value = "data available via CEX — not yet transcribed"
+unit = "n/a"
+source = "bls-cex"
+tier = "D"
+notes = "CEX continuous from 1980. Food away from home was growing as a share of food expenditure."
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1980s-home-as-income-years"
+panel = "work-buys"
+label = "Median home value as years of median family income, 1980"
+value = "2.24 years ($47,200 home vs $21,020 income)"
+unit = "years of median family income (nominal)"
+source = "census-homeownership-historical"
+tier = "C"
+notes = "Computed: 1980 median home value ($47,200) / 1980 median family income ($21,020). Up from 1.72 in 1970 — 1970s inflation had pushed home prices ahead of incomes."
+assumptions = ["affordability-normalization", "nominal-values"]

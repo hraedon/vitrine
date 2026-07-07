@@ -1,0 +1,205 @@
+# US, the 1940s. Primary sources: Census F-8 (income, from 1947), Census P-60 #1
+# (1946 nonfarm family income + 1939/1944 comparisons), Historical Statistics Vol 1
+# (life expectancy, manufacturing earnings), Historical Statistics Vol 2 (telephone),
+# Census historical homeownership and home-value series.
+#
+# The 1940s are a bifurcated decade: wartime command economy (1941-45) and postwar
+# normalization (1946-49). Income data from CPS/F-8 begins in 1947; pre-war income
+# is available from the 1940 Census (wage/salary only, P-60 #1). Telephone data is
+# continuous throughout. No CEX expenditure survey exists for the 1940s — the food
+# basket and expenditure shares are rendered as gaps.
+
+[room]
+country = "us"
+decade = "1940s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1940s-median-family-income"
+panel = "budget"
+label = "Median family income, all families, 1947"
+value = "$3,031"
+unit = "USD per year, nominal"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8 (Table F-8, Size of Family--All Families by Median Income). All families: 37,240 thousand, median $3,031 ($35,010 in 2024 dollars). This is the first year of the CPS income series. By 1950: all-family median $3,319."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1940s-median-income-four-person"
+panel = "budget"
+label = "Median family income, four-person families, 1947"
+value = "$3,292"
+unit = "USD per year, nominal"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. 4-person families: median $3,292 ($38,020 in 2024 dollars). By 1950: 4-person median $3,675. Average family size in 1947: 3.64 persons."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-1940s-number-of-families"
+panel = "budget"
+label = "Number of families in the United States, 1947"
+value = "37,240,000"
+unit = "families"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. All families: 37,240 thousand in 1947, rising to 39,930 thousand by 1950."
+
+[[fact]]
+id = "us-1940s-average-family-size"
+panel = "budget"
+label = "Average family size, 1947"
+value = "3.64"
+unit = "persons per family"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. Declining from 3.64 in 1947 to 3.54 by 1950 as the postwar baby boom changed family composition."
+
+[[fact]]
+id = "us-1940s-prewar-wages"
+panel = "budget"
+label = "Median civilian money wages and salaries, primary families, 1939"
+value = "$1,389"
+unit = "USD per year, nominal (wages and salaries only)"
+source = "census-p60-001"
+tier = "A"
+notes = "From P-60 No. 1 (1947), reporting 1940 Census data. Median civilian money wages and salaries of primary families: $1,389 in 1939, rising to $2,697 by 1944 — nearly doubling during wartime. This is wages/salaries only, not total money income. The P-60 notes: 'The comparison of 1946, 1944, and 1939 income data is restricted to civilian money wages or salaries of primary families and individuals in private households because these were the family and income concepts used in the 1940 census.'"
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1940s-1946-family-income"
+panel = "budget"
+label = "Average income of nonfarm families, 1946"
+value = "~$3,000"
+unit = "USD per year, nominal (urban and rural-nonfarm families)"
+source = "census-p60-001"
+tier = "A"
+notes = "From P-60 No. 1 (1947): 'The average income of nonfarm families in 1946 was about $3,000.' Median total money income of urban and rural-nonfarm families and individuals: $2,410 (1944), $2,595 (1945), $2,659 (1946). This predates the CPS F-8 series (begins 1947) and covers nonfarm families only."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1940s-expenditure-gap"
+panel = "budget"
+label = "Expenditure shares, 1940s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "bls-cex"
+tier = "D"
+notes = "No Consumer Expenditure Survey was conducted for the 1940s. The CEX series runs 1960-61, then continuously from 1980. BLS Bulletin 1055 (1952) covers retail food prices 1939-50 but not full expenditure shares. The wartime economy (price controls, rationing, victory gardens) makes expenditure patterns non-comparable to peacetime decades."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1940s-homeownership-rate"
+panel = "home"
+label = "Homeownership rate, 1940"
+value = "43.6%"
+unit = "% of occupied dwelling units (owner-occupied)"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Bureau decennial time series (owner.pdf). The 1940 rate was the lowest of the century — the Great Depression had driven it down from 47.8% in 1930. By 1950 it would surge to 55.0% with postwar GI Bill financing and suburban expansion."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1940s-median-home-value"
+panel = "home"
+label = "Median value of owner-occupied single-family homes, 1940"
+value = "$2,938"
+unit = "USD, nominal"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Historical Housing Tables (values-unadj.txt). National median value of owner-occupied homes. Adjusted for inflation: $30,600 in 2000 dollars. By 1950: $7,354 nominal — more than doubling as postwar construction and inflation reshaped the market."
+assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-1940s-plumbing"
+panel = "home"
+label = "Complete plumbing facilities, 1940"
+value = "55% of homes had complete plumbing (45% lacked)"
+unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
+source = "census-hist-housing-plumbing"
+tier = "A"
+notes = "From Census Historical Housing Tables: Plumbing. Complete plumbing = hot and cold piped water + flush toilet + bathtub/shower for exclusive use. The 1940 Census of Housing was the first to ask about plumbing. ~45% of American homes lacked complete plumbing — the worst decade in the series. By 1950: 33% lacked (67% had). By 1960: 17% lacked (83% had). Rural areas were far worse: many farm homes still used outhouses and hand pumps."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1940s-housing-characteristics-gap"
+panel = "home"
+label = "Rooms, electricity, heating fuel"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "census-decennial-pubs"
+tier = "D"
+notes = "The 1940 Census of Housing (Volume 2, General Characteristics) collected data on rooms, lighting fuel (electricity vs kerosene vs gas), and heating fuel. In 1940, ~11% of farms had electricity (up from 2% in 1910); urban/non-farm homes were ~85% electrified by 1930. Coal was the dominant heating fuel. Full tabulations not yet transcribed into our data files."
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1940s-life-expectancy"
+panel = "day"
+label = "Life expectancy at birth, 1939-41 and 1949-51"
+value = "1939-41: 62.8 male, 67.3 female | 1949-51: 66.3 male, 72.0 female"
+unit = "years (white population)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series B 116-117 (life expectancy at birth, white population). The 1940s saw dramatic gains: +3.5 years male, +4.7 years female in a single decade — driven by sulfa drugs, penicillin, and improved public health. For comparison: 1929-31 was 59.1 male, 62.7 female; 1900-02 was 48.2 male, 51.1 female."
+
+[[fact]]
+id = "us-1940s-manufacturing-earnings"
+panel = "day"
+label = "Average annual earnings, manufacturing production workers, 1947"
+value = "$2,793"
+unit = "USD per year, nominal (full-time equivalent)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 740 (average annual earnings per full-time equivalent employee in manufacturing). 1947: $2,793; 1948: $3,038; 1949: $3,095; 1950: $3,302. Wartime manufacturing earnings: 1945: $2,517; 1944: $2,621. For context, median family income (all families) in 1947 was $3,031."
+assumptions = ["nominal-values"]
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1940s-telephone"
+panel = "diffusion"
+label = "Households with telephone, 1944-1950"
+value = "45.1% (1944) → 61.8% (1950)"
+unit = "% of households with telephone"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 2, Series R 1-3 (telephones). Households with telephone: 1944: 45.1%; 1945: 46.2%; 1946: 51.4%; 1947: 54.9%; 1948: 58.2%; 1949: 60.2%; 1950: 61.8%. Total telephones in 1947: 34,867 thousand (239.7 per 1,000 population). The postwar surge added ~17 percentage points in six years as the Bell System expanded residential service."
+
+[[fact]]
+id = "us-1940s-no-television"
+panel = "diffusion"
+label = "Television diffusion, 1940s"
+value = "~1% of households (1948), negligible before 1947"
+unit = "% of households with television"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "Commercial television broadcasting began in the US in 1941 but was suspended during WWII. The Historical Statistics Vol 2 television series begins in 1950 at 9.0% of households. By the late 1940s, fewer than 1% of households had a TV set — the mass diffusion belongs to the 1950s. For the 1940s family, radio was the dominant broadcast medium."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1940s-food-basket-gap"
+panel = "table"
+label = "The food basket, 1940s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "bls-bulletin-1055-1952"
+tier = "D"
+notes = "BLS Bulletin 1055 (1952) covers retail food prices 1939-50 but does not provide a household food basket comparable to the CEX-based baskets in other rooms. The wartime economy (rationing from 1942-46, price controls) makes 1940s food expenditure patterns fundamentally different from peacetime decades. A food basket for the 1940s would need to be reconstructed from the 1942 wartime consumption survey, which is not yet in our source collection."
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1940s-home-as-income-years"
+panel = "work-buys"
+label = "Median home value as years of median family income, 1947"
+value = "0.97 years ($2,938 home vs ~$3,031 income)"
+unit = "years of median family income (nominal)"
+source = "census-homeownership-historical"
+tier = "C"
+notes = "Computed: 1940 median home value ($2,938, from Census Historical Housing Tables) divided by 1947 median family income ($3,031, from F-8). A home cost roughly one year's income — the lowest ratio in the museum. Caveat: the home value is from 1940 and the income from 1947; wartime inflation had driven incomes up while the housing stock (and controlled prices) had not yet adjusted. By 1950: $7,354 home / $3,319 income = 2.2 years."
+assumptions = ["affordability-normalization", "nominal-values"]

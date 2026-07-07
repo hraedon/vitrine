@@ -343,6 +343,78 @@ short_cite = "U.S. Bureau of Labor Statistics, Public Data API"
 population = "Depends on series (CPI: all urban consumers; food prices: urban consumers)"
 notes = "Direct API access to BLS time series. Used for: average food prices (APU series), CPI-U (CUUR0000SA0), wage and hours data. API key registered. Food price series (APU) available from ~1970s onward — no 1950 data. Rate limit: 100 queries/day for registered users."
 
+# ── BLS Bulletin 1055 ─────────────────────────────────────────────────────
+
+[[source]]
+id = "bls-bulletin-1055-1952"
+title = "Retail Prices of Food, 1950: Including Historical Tables of Item Indexes, 1939-50"
+short_cite = "U.S. Bureau of Labor Statistics, Bulletin No. 1055"
+publisher = "U.S. Department of Labor, Bureau of Labor Statistics"
+year = 1952
+url = "https://fraser.stlouisfed.org/title/retail-prices-food-1950-4182"
+population = "56 large U.S. cities (retail price survey)"
+notes = "Annual average retail prices for ~40 principal food items in 1950, by month and by city. Historical item indexes 1939-50. Text layer is machine-readable (extracted via pymupdf). Prices in cents per pound/quart/dozen."
+
+# ── Census P60-001 ────────────────────────────────────────────────────────
+
+[[source]]
+id = "census-p60-001"
+title = "Income of Nonfarm Families and Individuals: 1946"
+short_cite = "U.S. Census Bureau, Current Population Reports, Series P-60, No. 1"
+publisher = "U.S. Department of Commerce, Bureau of the Census"
+year = 1947
+url = "https://fraser.stlouisfed.org/title/income-nonfarm-families-individuals-1946-5683"
+population = "Urban and rural-nonfarm families and individuals in private households (1946 CPS)"
+notes = "First P60 report. Median money income: $2,659 (1946), $2,410 (1944), $2,595 (1945). Civilian wages: $1,389 (1939) to $2,697 (1944). Scanned images — OCR'd via GLM-OCR. 11 pages."
+
+# ── Census Historical Housing Tables ─────────────────────────────────────
+
+[[source]]
+id = "census-hist-housing-plumbing"
+title = "Historical Census of Housing Tables: Plumbing"
+short_cite = "U.S. Census Bureau, Historical Census of Housing Tables: Plumbing"
+publisher = "U.S. Census Bureau"
+year = 2000
+url = "https://www.census.gov/data/tables/time-series/dec/coh-plumbing.html"
+population = "All occupied housing units in the United States (decennial census)"
+notes = "Complete plumbing = hot and cold piped water + flush toilet + bathtub/shower for exclusive use. Lacked complete plumbing: 1940 ~45% (55% had), 1950 ~33% (67% had), 1960 ~17% (83% had), 1970 ~6% (94% had), 1990 ~1% (99% had). The 1940 Census of Housing was the first to ask about plumbing."
+
+# ── NCHS mortality ───────────────────────────────────────────────────────
+
+[[source]]
+id = "nchs-nvss"
+title = "National Vital Statistics System: United States Life Tables"
+short_cite = "NCHS, National Vital Statistics System"
+publisher = "National Center for Health Statistics (CDC)"
+year = 2024
+url = "https://www.cdc.gov/nchs/nvss/life-expectancy.htm"
+population = "U.S. resident population (death certificates)"
+notes = "NCHS publishes annual life tables via the National Vital Statistics Reports series. Life expectancy at birth (all races): 1960: 69.7 total / 66.6M / 73.1F; 1970: 70.8 / 67.1M / 74.8F; 1980: 73.7 / 70.0M / 77.5F; 1990: 75.4 / 71.8M / 78.8F; 2000: 77.0 / 74.3M / 79.7F; 2010: 78.7 / 76.2M / 81.0F; 2023: 78.4 / 75.8M / 81.1F (Data Brief No. 521). 2024 provisional: 79.0 / 76.5M / 81.4F."
+
+# ── Census ACS (via Census Reporter) ─────────────────────────────────────
+
+[[source]]
+id = "census-acs-vehicle"
+title = "ACS Table B25045: Tenure by Vehicles Available by Age of Householder"
+short_cite = "U.S. Census Bureau, American Community Survey (latest 5-year estimates)"
+publisher = "U.S. Census Bureau"
+year = 2023
+url = "https://censusreporter.org/tables/B25045/"
+population = "All occupied housing units in the United States"
+notes = "Retrieved via Census Reporter API. 132.7M households: 91.5% with 1+ vehicles, 8.5% with no vehicle. Owner no-vehicle: 2.88M (3.3% of owners). Renter no-vehicle: 8.43M (18.3% of renters)."
+
+# ── Census poverty ───────────────────────────────────────────────────────
+
+[[source]]
+id = "census-p60-287"
+title = "Poverty in the United States: 2024 (Current Population Reports P60-287)"
+short_cite = "U.S. Census Bureau, P-60 No. 287"
+publisher = "U.S. Census Bureau"
+year = 2025
+url = "https://www.census.gov/library/publications/2025/demo/p60-287.html"
+population = "U.S. resident population and families (CPS ASEC)"
+notes = "Official poverty rate 2024: 10.6% (35.9M people). SPM: 12.9%. Down from 11.1% official in 2023. For families: 7.0% poverty rate (married-couple 3.5%, female-householder 18.6%)."
+
 # ── Other ─────────────────────────────────────────────────────────────────
 
 [[source]]

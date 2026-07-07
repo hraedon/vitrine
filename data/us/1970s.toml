@@ -1,0 +1,176 @@
+# US, the 1970s. Primary sources: Census F-8 (income), Historical Statistics
+# Vol 1 (life expectancy, manufacturing earnings), Historical Statistics Vol 2
+# (telephone), Census historical housing (homeownership, home value, plumbing).
+# Data year anchors: 1970 (Census), 1970 (F-8).
+
+[room]
+country = "us"
+decade = "1970s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1970s-median-family-income"
+panel = "budget"
+label = "Median family income, all families, 1970"
+value = "$9,867"
+unit = "USD per year, nominal"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. All families: 52,230 thousand, median $9,867 ($66,700 in 2024 dollars). The 1970s would see stagflation: nominal incomes rose but real purchasing power stagnated."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1970s-median-income-four-person"
+panel = "budget"
+label = "Median family income, four-person families, 1970"
+value = "$11,170"
+unit = "USD per year, nominal"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. 4-person families: median $11,170 ($75,490 in 2024 dollars). Average family size: 3.57."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-1970s-number-of-families"
+panel = "budget"
+label = "Number of families in the United States, 1970"
+value = "52,230,000"
+unit = "families"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8."
+
+[[fact]]
+id = "us-1970s-average-family-size"
+panel = "budget"
+label = "Average family size, 1970"
+value = "3.57"
+unit = "persons per family"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. Declining from 3.64 in 1947. By 1980: 3.27."
+
+[[fact]]
+id = "us-1970s-expenditure-gap"
+panel = "budget"
+label = "Expenditure shares, 1970s"
+value = "data available via CEX 1972-73 — not yet transcribed"
+unit = "n/a"
+source = "bls-cex"
+tier = "D"
+notes = "The CEX was conducted in 1972-73 (next after 1960-61). Data available from BLS but not yet transcribed. The 1970s saw the oil shocks (1973, 1979) reshape energy and transportation expenditures."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1970s-homeownership"
+panel = "home"
+label = "Homeownership rate, 1970"
+value = "62.9%"
+unit = "% of occupied dwelling units (owner-occupied)"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Bureau decennial time series (owner.pdf). Up from 61.9% in 1960."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1970s-median-home-value"
+panel = "home"
+label = "Median value of owner-occupied homes, 1970"
+value = "$17,000"
+unit = "USD, nominal"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Historical Housing Tables (values-unadj.txt). Up from $11,900 in 1960. By 1980: $47,200 — the inflation of the 1970s hit housing hard."
+assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-1970s-plumbing"
+panel = "home"
+label = "Complete plumbing facilities, 1970"
+value = "94% of homes had complete plumbing (6% lacked)"
+unit = "% of occupied housing units"
+source = "census-hist-housing-plumbing"
+tier = "A"
+notes = "From Census Historical Housing Tables: Plumbing. Down from 17% lacking in 1960 to 6% lacking in 1970. By 1980: ~3% lacked."
+
+[[fact]]
+id = "us-1970s-housing-gap"
+panel = "home"
+label = "Rooms, heating fuel, AC"
+value = "data available via Census 1970 / AHS 1973 — not yet transcribed"
+unit = "n/a"
+source = "census-ahs"
+tier = "D"
+notes = "The AHS began in 1973. Census 1970 housing data available. AC adoption was growing rapidly in the 1970s (from ~34% in 1970 to ~50% by 1980 per RECS)."
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1970s-life-expectancy"
+panel = "day"
+label = "Life expectancy at birth, 1970"
+value = "67.1 male, 74.8 female (70.8 total, all races)"
+unit = "years"
+source = "nchs-nvss"
+tier = "A"
+notes = "From NCHS National Vital Statistics System (all races). Up from 66.6/73.1 in 1960. The white-only figure from Historical Statistics Vol 1 was 68.0/75.6 — the all-races figure is lower due to lower nonwhite life expectancy."
+
+[[fact]]
+id = "us-1970s-manufacturing-earnings"
+panel = "day"
+label = "Average annual earnings, manufacturing, 1970"
+value = "$8,150"
+unit = "USD per year, nominal (full-time equivalent)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 740. Up from $3,302 in 1950. Manufacturing was still a major employer, but the 1970s would begin the long decline of US manufacturing employment."
+assumptions = ["nominal-values"]
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1970s-telephone"
+panel = "diffusion"
+label = "Households with telephone, 1970"
+value = "90.5%"
+unit = "% of households with telephone"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 2, Series R 3. 120,218 thousand total phones (583.4 per 1,000 population). Up from 78.3% in 1960. Telephone was nearly universal by 1970."
+
+[[fact]]
+id = "us-1970s-television-gap"
+panel = "diffusion"
+label = "Television, AC, appliances"
+value = "data available via Census 1970 / RECS — not yet transcribed"
+unit = "n/a"
+source = "eia-recs"
+tier = "D"
+notes = "TV was ~95% of households by 1970 (up from 91.4% in 1960). AC was growing rapidly. RECS began in 1978. Color TV had replaced B&W as the standard."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1970s-food-basket-gap"
+panel = "table"
+label = "The food basket, 1970s"
+value = "data available via CEX 1972-73 — not yet transcribed"
+unit = "n/a"
+source = "bls-cex"
+tier = "D"
+notes = "CEX 1972-73 has detailed food expenditure data. Not yet transcribed."
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1970s-home-as-income-years"
+panel = "work-buys"
+label = "Median home value as years of median family income, 1970"
+value = "1.72 years ($17,000 home vs $9,867 income)"
+unit = "years of median family income (nominal)"
+source = "census-homeownership-historical"
+tier = "C"
+notes = "Computed: 1970 median home value ($17,000) / 1970 median family income ($9,867). Up from 0.97 in 1947. The 1970s inflation would push this ratio higher."
+assumptions = ["affordability-normalization", "nominal-values"]

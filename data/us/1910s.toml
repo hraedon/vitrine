@@ -1,0 +1,112 @@
+# US, the 1910s. Primary sources: Census historical homeownership, Historical
+# Statistics Vol 1 (life expectancy, manufacturing wages). No income survey
+# exists (CPS/F-8 begins 1947). No Census of Housing until 1940.
+# Data year anchors: 1910 (Census), 1909-11 (life expectancy).
+
+[room]
+country = "us"
+decade = "1910s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1910s-income-gap"
+panel = "budget"
+label = "Median family income, 1910s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "census-hist-income-families"
+tier = "D"
+notes = "No national income survey existed before 1947. The Census of Manufactures collected wage data but not family income. The first CPS income question was 1945 (P-60 No. 1). For 1910, the best available proxy is manufacturing wages: $0.260/hr, ~56.6 hrs/week (Historical Statistics Vol 1, Series D 765). See day panel."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1910s-homeownership"
+panel = "home"
+label = "Homeownership rate, 1910"
+value = "45.9%"
+unit = "% of occupied dwelling units (owner-occupied)"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Bureau decennial time series (owner.pdf). Down from 46.7% in 1900 — the long slow decline from 1900 to 1920. By 1920: 45.6%."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1910s-housing-gap"
+panel = "home"
+label = "Home value, rooms, plumbing, electricity"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "census-decennial-pubs"
+tier = "D"
+notes = "The 1910 Census did not collect housing characteristics. The first Census of Housing was 1940. Most urban homes in the 1910s had electricity (~85% of urban/non-farm by 1920); rural homes were almost entirely unelectrified (~2% of farms in 1910). Indoor plumbing was available in cities but rare in rural areas."
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1910s-life-expectancy"
+panel = "day"
+label = "Life expectancy at birth, 1909-11"
+value = "50.2 male, 53.6 female (white)"
+unit = "years"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series B 116-117 (white population, at birth). The 1910s were devastated by the 1918-19 influenza pandemic, which killed ~675,000 Americans and temporarily reduced life expectancy by ~12 years. Pre-pandemic baseline: 50.2 male, 53.6 female."
+
+[[fact]]
+id = "us-1910s-manufacturing-wages"
+panel = "day"
+label = "Manufacturing production worker wages, 1910"
+value = "$0.260/hr, 56.6 hrs/week, ~$14.72/wk"
+unit = "USD, nominal (hourly earnings, weekly hours, implied weekly earnings)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 765-767 (manufacturing production workers). Hourly: $0.260, weekly hours: 56.6, implied weekly earnings: $14.72. By 1915: $0.287/hr, 55.0 hrs/week. These are the pre-WWI wage levels; wartime demand would push wages up sharply by 1917-18."
+assumptions = ["nominal-values"]
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1910s-telephone"
+panel = "diffusion"
+label = "Telephone diffusion, 1910s"
+value = "~13 per 1,000 population (1915)"
+unit = "telephones per 1,000 population"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 2, Series R 1-2. In 1915: ~13 per 1,000 population (~5.5 million total phones). Household percentage not directly reported until 1944, but estimated at well under 10% of households. The Bell System was expanding but telephone remained a business and upper-class amenity."
+
+[[fact]]
+id = "us-1910s-electricity-gap"
+panel = "diffusion"
+label = "Electricity, radio, automobile"
+value = "Electricity ~5-10% of homes (urban only). Radio not yet commercial. Automobile <2%."
+unit = "n/a"
+source = "hist-stats-colonial-1970"
+tier = "C"
+notes = "Historical Statistics does not track household electrification directly until the 1940 Census. Urban electrification was growing rapidly (Edison's Pearl Street station opened 1882); by 1910, most city homes had electric lighting. Rural homes were almost entirely unelectrified. Commercial radio broadcasting began 1920 (KDKA Pittsburgh). Automobile registrations were growing but still under 2% of households."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1910s-food-basket-gap"
+panel = "table"
+label = "The food basket, 1910s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "bls-bulletin-49-1903"
+tier = "D"
+notes = "The BLS Bulletin No. 49 (1903) and 18th Annual Report (1903) cover the 1900s. No comparable survey exists for the 1910s. The next major consumer expenditure survey would be the 1918-19 study, conducted during wartime."
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1910s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 1910s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "hist-stats-colonial-1970"
+tier = "D"
+notes = "Without a median family income figure, affordability comparisons cannot be computed. Manufacturing wages ($0.26/hr, ~$765/yr) provide a wage anchor, but without expenditure data, the purchasing-power comparison is incomplete."

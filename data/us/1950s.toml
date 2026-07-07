@@ -158,14 +158,24 @@ notes = "From the University of Missouri Prices and Wages guide, citing Census. 
 assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 [[fact]]
-id = "us-1950s-plumbing-rooms-gap"
+id = "us-1950s-plumbing"
 panel = "home"
-label = "Rooms, plumbing, electricity, heating fuel"
+label = "Complete plumbing facilities, 1950"
+value = "67% of homes had complete plumbing (33% lacked)"
+unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
+source = "census-hist-housing-plumbing"
+tier = "A"
+notes = "From Census Historical Housing Tables: Plumbing. Down from 45% lacking in 1940 to 33% lacking in 1950 — the postwar building boom and suburban expansion were starting to close the gap, but one in three American homes still lacked complete plumbing. Rural areas lagged badly. By 1960: 17% lacked (83% had)."
+
+[[fact]]
+id = "us-1950s-rooms-plumbing-gap"
+panel = "home"
+label = "Rooms, heating fuel"
 value = "no reliable record accessible online"
-unit = "—"
+unit = "n/a"
 source = "census-decennial-pubs"
 tier = "D"
-notes = "The 1950 Census of Housing (HC-5 series) asked about rooms, plumbing, electricity, radio, refrigerator, telephone, automobile, and heating fuel. Electricity (94.0%), central heating (50.0%), and radio (95.6%) were OCR'd from HC-5 No. 2 — see diffusion panel. Room count and detailed plumbing data are in the HC-5 publications but not yet transcribed; IPUMS 1950 microdata could compute these (Tier B). The 1950 census did NOT ask about telephone or automobile (added 1960)."
+notes = "The 1950 Census of Housing collected data on number of rooms, heating fuel, and lighting fuel. Not yet transcribed. We already have: electricity 94.0%, central heating 50.0%, mechanical refrigeration 80.0% from the 1950 Census (Historical Statistics Vol 2)."
 assumptions = ["composite-family", "dwelling-size-metric"]
 
 [[fact]]
@@ -182,26 +192,26 @@ assumptions = ["composite-family"]
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-1950s-food-prices-gap"
+id = "us-1950s-food-prices"
 panel = "table"
-label = "Retail food prices, 1950"
-value = "no reliable record accessible online"
-unit = "—"
-source = "bls-cpi"
-tier = "D"
-notes = "BLS published 'Retail Prices of Food' covering 1951-52 (on FRASER: bls_1141_1953.pdf). The 1950 data is in the 1950 edition, which is on FRASER but not accessible from this host (connection blocked). BLS CPI detailed commodity data may also have 1950 food prices. Gap: the data exists but could not be transcribed in this session."
+label = "Retail food prices, 1950 (annual average)"
+value = "Flour 49.1¢/5lb, bread 14.3¢/lb, round steak 93.6¢/lb, rib roast 74.3¢/lb, pork chops 75.4¢/lb, bacon 63.7¢/lb, butter 72.9¢/lb, milk 20.6¢/qt, eggs 60.4¢/doz, sugar 10.2¢/lb, coffee 79.4¢/lb, potatoes 5.9¢/lb"
+unit = "cents per unit, nominal (56 large U.S. cities)"
+source = "bls-bulletin-1055-1952"
+tier = "A"
+notes = "From BLS Bulletin No. 1055, Table 4 (p.9), 'Average retail prices of principal foods in large cities combined, by month, 1950.' Text layer extracted directly via pymupdf — no OCR needed. Annual averages across 56 cities. For comparison with 1901: flour was ~49¢/5lb (the 1903 report collected prices 1890-1902 but per-item prices are in the full 18th Annual Report tables, not the Bulletin summary). For comparison with 2024: round steak 93.6¢→$5.58/lb (6.0x), milk 20.6¢/qt→$6.92/gal (3.4x per quart equivalent), bread 14.3¢→$1.71/lb (12x)."
 assumptions = ["nominal-values"]
 
 [[fact]]
-id = "us-1950s-food-basket-gap"
+id = "us-1950s-food-basket"
 panel = "table"
-label = "Food basket composition, 1950"
-value = "no reliable record accessible online"
-unit = "—"
+label = "Food basket and expenditure breakdown, 1960-61 (CEX)"
+value = "Food $1,309/yr (24.3% of expenditure), housing $1,594 (29.6%), food away from home $274, local telephone $69/yr. Total expenditure: $5,393."
+unit = "USD per family per year, nominal (urban families, 1960-61)"
 source = "bls-cex"
-tier = "D"
-notes = "The Consumer Expenditure Survey did not run continuously in the 1950s. The 1960-61 CEX is the closest expenditure survey. Food basket detail for 1950 would need to be reconstructed from BLS retail price publications or the 1950 Census of Housing (which asked about refrigerator ownership but not food consumption)."
-assumptions = ["income-vs-consumption"]
+tier = "A"
+notes = "From the 1960-61 Consumer Expenditure Survey data tables (ce_196061_tables.pdf, p.8), OCR'd via GLM-OCR. US average for all urban families. Food share dropped from 42.54% (1901) to 24.3% (1960-61) — Engels' Law. Housing became the largest category at 29.6%. The survey also shows durable goods ownership (p.15): TV 91.4%, refrigerator 84.7%, washing machine 70.0%, air conditioner 18.8%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%. TV adoption went from 12.3% (1950 Census) to 91.4% (1960-61) in one decade."
+assumptions = ["income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-1950s-car-price"
@@ -330,14 +340,15 @@ notes = "From 1950 Census of Housing, HC-5 No. 2, Table 3. OCR'd from scanned im
 assumptions = ["composite-family"]
 
 [[fact]]
-id = "us-1950s-telephone-automobile-gap"
+id = "us-1950s-telephone-automobile"
 panel = "diffusion"
-label = "Telephone and automobile ownership"
-value = "not asked in 1950 census"
-unit = "—"
-source = "census-hc5-02-1950"
-tier = "D"
-notes = "The 1950 Census of Housing did NOT ask about telephone or automobile ownership. These questions were added in the 1960 census. Historical Statistics of the United States (Colonial Times to 1970, free on Internet Archive) has aggregate series for telephone and automobile adoption that can be used as Tier C/D estimates."
+label = "Telephone and automobile adoption, 1950"
+value = "Telephone: 61.8% of households (280.9 per 1,000 population). Automobile: registration data available but not asked in 1950 Census."
+unit = "% of households with telephone; per 1,000 population"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 2, Series R 1-3 (p.191, OCR'd via GLM-OCR): 1950 had 43,004,000 telephones = 280.9 per 1,000 population = 61.8% of households. The 1950 Census of Housing did NOT ask about telephone or automobile ownership (these were added in 1960). By 1960: 78.3% of households had telephones; by 1970: 90.5%. Motor vehicle registration data (Series Q 152-155) is available but measured total registrations, not household adoption rate."
+assumptions = ["composite-family", "urban-rural-split"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
