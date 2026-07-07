@@ -29,6 +29,43 @@ values but could be upgraded with primary sources. No rendered gaps.
 
 ---
 
+## 1910s (facts, 3 rendered gaps)
+
+| # | Panel | Fact | Type | Source needed | Status |
+|---|-------|------|------|---------------|--------|
+| 1 | budget | Median family income, 1910s | Rendered gap | No survey existed before 1947. Structural permanent gap. | 🔴 |
+| 2 | home | Home value, rooms, plumbing, electricity | Rendered gap | Pre-Census housing data limited. Structural. | 🔴 |
+| 3 | table | The food basket, 1910s | Rendered gap | No consumer expenditure survey. Structural. | 🔴 |
+
+**Notes:** All three gaps are structural — no consumer surveys existed before 1947,
+and Census housing data starts in 1940. These are permanent rendered gaps.
+
+---
+
+## 1920s (facts, 3 rendered gaps)
+
+| # | Panel | Fact | Type | Source needed | Status |
+|---|-------|------|------|---------------|--------|
+| 1 | budget | Median family income, 1920s | Rendered gap | No survey existed before 1947. Structural permanent gap. | 🔴 |
+| 2 | home | Home value, rooms, plumbing, electricity | Rendered gap | Pre-Census housing data limited. Structural. | 🔴 |
+| 3 | table | The food basket, 1920s | Rendered gap | No consumer expenditure survey. Structural. | 🔴 |
+
+**Notes:** Same structural limitations as 1910s. Permanent rendered gaps.
+
+---
+
+## 1930s (facts, 3 rendered gaps)
+
+| # | Panel | Fact | Type | Source needed | Status |
+|---|-------|------|------|---------------|--------|
+| 1 | budget | Median family income, 1930s | Rendered gap | No survey existed before 1947. Structural permanent gap. | 🔴 |
+| 2 | home | Home value, rooms, plumbing, electricity | Rendered gap | Pre-Census housing data limited. Structural. | 🔴 |
+| 3 | table | The food basket, 1930s | Rendered gap | No consumer expenditure survey. Structural. | 🔴 |
+
+**Notes:** Same structural limitations as 1910s/1920s. Permanent rendered gaps.
+
+---
+
 ## 1940s (16 facts, 3 rendered gaps)
 
 | # | Panel | Fact | Type | Source needed | Status |
@@ -55,60 +92,105 @@ and car price estimate are the only weaknesses.
 
 ---
 
-## 1960s (10 facts, 3 rendered gaps)
+## 1960s (10 facts, 1 placeholder)
 
 | # | Panel | Fact | Type | Source needed | Status |
 |---|-------|------|------|---------------|--------|
-| 1 | home | Home value, rooms, plumbing | Placeholder | Census 1960 housing data + AHS historical. Data exists, needs transcription. | 🔴 |
-| 2 | day | Average hourly earnings and weekly hours | Placeholder | FRED series (AHETPI, AWHMAN). Data exists, needs pull. | 🔴 |
-| 3 | work-buys | Consumer Price Index and affordability | Placeholder | FRED CPIAUCNS. Data exists, needs pull. | 🔴 |
+| 1 | home | Home value, rooms, detailed housing characteristics | Placeholder | Census 1960 housing data + AHS historical. Data exists, needs transcription. | 🔴 |
 
-**Notes:** 7 of 10 Tier A. Thinnest room. All three gaps are "data exists but not
-transcribed" — these are the easiest to fill since the sources are already
-registered (FRED, Census). **Priority target for gap-filling.**
+**Notes:** 7 of 10 Tier A. Thinnest room. The housing gap is "data exists but not
+transcribed" — the source is already registered (Census, AHS).
 
 ---
 
-## 2020s (26 facts, 0 rendered gaps)
+## 1970s (facts, 2 gaps)
 
-All Tier A. No gaps. Enriched 2025-07-07 with life expectancy, vehicle ownership, and poverty rate.
+| # | Panel | Fact | Type | Source needed | Status |
+|---|-------|------|------|---------------|--------|
+| 1 | home | Rooms, heating fuel, AC | Placeholder | Census 1970 / AHS 1973. Data exists, needs transcription. | 🔴 |
+| 2 | diffusion | Television, AC, appliances | Placeholder | Census 1970 / RECS. Data exists, needs transcription. | 🔴 |
 
-| # | Panel | Fact | Source | Status |
-|---|-------|------|--------|--------|
-| 1 | day | Life expectancy at birth, 2023 (75.8M/81.1F) | NCHS Data Brief No. 521 | 🟢 Filled |
-| 2 | diffusion | Vehicle ownership 91.5% (8.5% no vehicle) | Census ACS B25045 | 🟢 Filled |
-| 3 | budget | Official poverty rate 10.6% (2024) | Census P-60-287 | 🟢 Filled |
+**Notes:** CEX expenditure shares and food basket filled from 1972-73 CEX Bulletin 1992
+(FRASER). Remaining gaps are housing characteristics and appliance diffusion.
 
-Remaining enrichment areas (lower priority):
+---
 
-| # | Panel | Potential fact | Source | Priority |
-|---|-------|---------------|--------|----------|
-| 1 | day | Commute time / mode | ACS S0802 | Medium |
-| 2 | budget | Income distribution / Gini coefficient | Census P-60 / ACS | Low |
-| 3 | home | Homeownership by age/race | Census AHS | Low — already have headline rate |
-| 4 | diffusion | Smartphone ownership | Pew Research | Low — have internet/broadband |
+## 1980s (facts, 2 gaps)
 
-**Notes:** 2020s is now the most complete room (26 Tier A facts). Life expectancy closes the last cross-decade comparability gap — every room now has this fact.
+| # | Panel | Fact | Type | Source needed | Status |
+|---|-------|------|------|---------------|--------|
+| 1 | home | Rooms, heating fuel, AC | Placeholder | AHS / Census 1980. Data exists, needs transcription. | 🔴 |
+| 2 | diffusion | Telephone, television, AC, computer | Placeholder | Census/AHS/RECS. Data exists, needs transcription. | 🔴 |
+
+**Notes:** CEX expenditure shares and food basket filled from 1985 CEX Table 4
+(Wayback Machine). Remaining gaps are housing characteristics and appliance diffusion.
+
+---
+
+## 1990s (facts, 1 gap)
+
+| # | Panel | Fact | Type | Source needed | Status |
+|---|-------|------|------|---------------|--------|
+| 1 | diffusion | Cell phone, AC, cable TV, computer | Placeholder | Census/AHS/RECS/Pew. Data exists, needs transcription. | 🔴 |
+
+**Notes:** CEX expenditure shares and food basket filled from 1996 CEX Table 4
+(Wayback Machine). Only remaining gap is appliance diffusion.
+
+---
+
+## 2000s (facts, 0 gaps)
+
+All Tier A. CEX expenditure shares and food basket filled from 2005 CEX Table 4
+(Wayback Machine). No remaining gaps.
+
+---
+
+## 2010s (facts, 2 gaps)
+
+| # | Panel | Fact | Type | Source needed | Status |
+|---|-------|------|------|---------------|--------|
+| 1 | home | Median home value, 2010 | Placeholder | ACS. Data exists, needs transcription. | 🔴 |
+| 2 | work-buys | (check needed) | Placeholder | TBD | 🔴 |
+
+**Notes:** CEX expenditure shares and food basket filled from 2013 CEX Table 1400
+(cu-size-2013.xlsx). Remaining gaps need investigation.
+
+---
+
+## 2020s (26 facts, 0 gaps)
+
+All Tier A. No gaps. Most complete room.
 
 ---
 
 ## Summary
 
-| Room | Facts | Tier A | Gaps (rendered) | Gaps (placeholder) | Estimates (D) |
-|------|-------|--------|-----------------|--------------------|---------------| 
-| 1900s | 19 | 17 | 0 | 0 | 2 |
-| 1940s | 16 | 11 | 3 | 0 | 0 |
-| 1950s | 30 | 25 | 1 | 0 | 1 |
-| 1960s | 10 | 7 | 0 | 3 | 0 |
-| 2020s | 26 | 26 | 0 | 0 | 0 |
-| **Total** | **101** | **86** | **4** | **3** | **3** |
+| Room | Gaps (remaining) | Estimates (D) |
+|------|-----------------|---------------|
+| 1900s | 0 | 2 |
+| 1910s | 3 (structural) | 0 |
+| 1920s | 3 (structural) | 0 |
+| 1930s | 3 (structural) | 0 |
+| 1940s | 3 (wartime) | 0 |
+| 1950s | 1 | 1 |
+| 1960s | 1 | 0 |
+| 1970s | 2 | 0 |
+| 1980s | 2 | 0 |
+| 1990s | 1 | 0 |
+| 2000s | 0 | 0 |
+| 2010s | 2 | 0 |
+| 2020s | 0 | 0 |
+| **Total** | **21** | **3** |
 
-**Total gaps: 7** (4 rendered + 3 placeholder)
+**Total gaps: 21** (12 structural/permanent + 9 fillable)
 **Total estimates: 3** (Tier D with values)
 
 ### Priority order for gap-filling:
-1. **1960s placeholders** — sources already registered, data exists on FRED/Census, just needs transcription. Highest ROI.
-2. **2020s life expectancy** — NCHS data available online, every other room has this fact.
-3. **1950s housing characteristics** — 1950 Census Housing data available via IPUMS/Census pubs.
-4. **1940s gaps** — may be permanent (wartime economy, no CEX). Lowest priority.
-5. **1900s/1950s estimates** — could upgrade Tier D→A with primary sources, but values are already displayed.
+
+1. **1970s-1980s housing + diffusion (4 gaps)** — Census/AHS/RECS data available, needs transcription
+2. **1990s diffusion (1 gap)** — Census/Pew data available
+3. **1960s housing (1 gap)** — Census data available
+4. **2010s home value (1 gap)** — ACS data available
+5. **1950s housing (1 gap)** — 1950 Census Housing data available
+6. **1900s/1950s estimates** — could upgrade Tier D→A with primary sources
+7. **1910s-1930s + 1940s structural gaps (12)** — likely permanent, no surveys existed
