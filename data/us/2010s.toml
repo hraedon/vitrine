@@ -97,14 +97,15 @@ tier = "A"
 notes = "From NCHS National Vital Statistics System (NVSR Vol 63 No 7). Up from 74.3/79.7 in 2000. Life expectancy peaked at 78.9 in 2014, then declined through 2017 due to the opioid crisis (drug overdose deaths) and suicide. By 2019: 78.8 (pre-COVID). COVID-19 would drop it to 77.0 in 2020 and 76.1 in 2021."
 
 [[fact]]
-id = "us-2010s-wages-gap"
+id = "us-2010s-wages"
 panel = "day"
-label = "Average hourly earnings and weekly hours"
-value = "data available via FRED — not yet transcribed"
-unit = "n/a"
+label = "Average hourly earnings and weekly hours, 2010"
+value = "$19.07/hr, 33.4 hrs/week (total private). Manufacturing: $18.61/hr, 41.1 hrs/week."
+unit = "USD/hour and hours/week, nominal"
 source = "fred-ahetpi"
-tier = "D"
-notes = "FRED AHETPI and AWHMAN available for 2010s."
+tier = "A"
+notes = "From BLS CES, series CES0500000008 and CES0500000007 (total private), CES3000000008 and CES3000000007 (manufacturing), accessed via BLS API. Annual averages from 12 monthly observations. Implied weekly earnings: $636.94 (total private), $764.87 (manufacturing). By 2024: $30.12/hr."
+assumptions = ["nominal-values"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 

@@ -108,14 +108,15 @@ tier = "A"
 notes = "From NCHS National Vital Statistics System. Up from 71.8/78.8 in 1990. Life expectancy would peak at 78.9 in 2014 before the opioid crisis and COVID-19."
 
 [[fact]]
-id = "us-2000s-wages-gap"
+id = "us-2000s-wages"
 panel = "day"
-label = "Average hourly earnings and weekly hours"
-value = "data available via FRED — not yet transcribed"
-unit = "n/a"
+label = "Average hourly earnings and weekly hours, 2000"
+value = "$13.98/hr, 34.3 hrs/week (total private). Manufacturing: $14.33/hr, 41.2 hrs/week."
+unit = "USD/hour and hours/week, nominal"
 source = "fred-ahetpi"
-tier = "D"
-notes = "FRED AHETPI and AWHMAN available for 2000s."
+tier = "A"
+notes = "From BLS CES, series CES0500000008 and CES0500000007 (total private), CES3000000008 and CES3000000007 (manufacturing), accessed via BLS API. Annual averages from 12 monthly observations. Implied weekly earnings: $479.51 (total private), $590.40 (manufacturing)."
+assumptions = ["nominal-values"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
