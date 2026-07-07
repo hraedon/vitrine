@@ -453,7 +453,27 @@ url = "https://www.census.gov/library/publications/2025/demo/p60-287.html"
 population = "U.S. resident population and families (CPS ASEC)"
 notes = "Official poverty rate 2024: 10.6% (35.9M people). SPM: 12.9%. Down from 11.1% official in 2023. For families: 7.0% poverty rate (married-couple 3.5%, female-householder 18.6%)."
 
+[[source]]
+id = "census-manufactures-1905"
+title = "Census of Manufactures, 1905: Part I"
+short_cite = "U.S. Census Bureau, Census of Manufactures, 1905"
+publisher = "U.S. Census Bureau"
+year = 1907
+url = "https://www2.census.gov/prod2/decennial/documents/03421399v4ch6.pdf"
+population = "Wage-earners in manufacturing establishments, United States"
+notes = "1905 special Census of Manufactures. Part I, page lxxxix reports average weekly earnings by sex: men $11.16/week, women $6.17/week — a 55% gap. Women's earnings were $4.17 above the minimum and $4.90 below the maximum. Cited in 'Earnings of Wage-Earners' chapter (Census.gov PDF). Also confirmed by Hutchinson, 'Women's Wages' (archive.org) and Missouri Prices & Wages guide."
+
 # ── Scholarly reconstructions ─────────────────────────────────────────────
+
+[[source]]
+id = "early-auto-prices"
+title = "Early American Automobile Manufacturer Prices (1901–1910)"
+short_cite = "Automotive historical records (Oldsmobile, Ford, Rambler)"
+publisher = "Manufacturer records compiled by automotive historians"
+year = 2008
+url = "https://www.conceptcarz.com/vehicle/v31303,10036/1902-oldsmobile-model-r-curved-dash.aspx"
+population = "Manufacturer list prices for the US market"
+notes = "Oldsmobile Curved Dash Runabout: $650 (1901–1904), best-selling car in America. Ford Model A (first Ford): $750–$850 (1903). Rambler: $650 (1902–1913). Prices from manufacturer records compiled by ConceptCarz, RM Sotheby's, and PreWarCar. Tier C: manufacturer list prices verified through multiple automotive history sources."
 
 [[source]]
 id = "ramey-2009"
@@ -484,4 +504,4 @@ publisher = "U.S. Energy Information Administration"
 year = 2020
 url = "https://www.eia.gov/consumption/residential/index.php"
 population = "U.S. housing units (sampled)"
-notes = "Started 1978, triennial/quadrennial. Tracks appliance ownership (refrigerator, washing machine, air conditioning) and housing characteristics. Useful for diffusion and home panels as complement to AHS."
+notes = "Started 1978, triennial/quadrennial. Tracks appliance ownership (refrigerator, washing machine, air conditioning) and housing characteristics. AC diffusion: 1993 RECS 68%, 2009 RECS 87%, 2015 RECS 87%. Useful for diffusion and home panels as complement to AHS."

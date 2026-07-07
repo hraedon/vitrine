@@ -132,14 +132,54 @@ tier = "A"
 notes = "From Pew Research Center Internet & American Life Project. The World Wide Web went public ~1993-94. By 1995, ~14% of adults used the internet; by 2000, ~46%. The 1990s were the decade when the internet entered American homes — initially via dial-up modem."
 
 [[fact]]
-id = "us-1990s-diffusion-gap"
+id = "us-1990s-air-conditioning"
 panel = "diffusion"
-label = "Cell phone, AC, cable TV, computer"
-value = "data available via Census/AHS/RECS/Pew — not yet transcribed"
-unit = "n/a"
+label = "Homes with air conditioning, 1993 (RECS)"
+value = "68%"
+unit = "% of occupied housing units with AC"
+source = "eia-recs"
+tier = "A"
+notes = "RECS 1993: 68% of all occupied housing units had AC. Rose to 87% by 2009 RECS. EIA: 'As recently as 1993, only 68% of all occupied housing units had AC. The latest results from the 2009 RECS show that 87% of U.S. households are now equipped with AC.' (EIA.gov/consumption/residential/reports.php). South region: 89% in 1993 (65% central, 27% room)."
+
+[[fact]]
+id = "us-1990s-telephone"
+panel = "diffusion"
+label = "Housing units with telephone, 1990"
+value = "94.8%"
+unit = "% of occupied housing units with telephone"
+source = "census-hist-housing-phone"
+tier = "A"
+notes = "1990 Census: 5.2% of housing units without telephone. Down from 7.1% in 1980. By 2000: only 2.4% without telephone. Census notes: 'Increased cell phone usage probably played a major role in this dramatic change.'"
+
+[[fact]]
+id = "us-1990s-cell-phone"
+panel = "diffusion"
+label = "Cell phone adoption, 1990s"
+value = "no reliable record"
+unit = "% of adults or households with cell phone"
+source = "pew-internet-broadband"
+tier = "D"
+notes = "Cell phone subscriptions grew rapidly through the 1990s. CTIA reported ~340K subscribers in 1985, ~11M by 1992, ~69M by 1998, ~109M by 2000. FRED has mobile cellular subscriptions per 100 people. The 2000s room carries '~40% (2000)' from Pew. No single official percentage for households with cell phones in the 1990s — CTIA counts subscriptions, not households."
+
+[[fact]]
+id = "us-1990s-cable-tv"
+panel = "diffusion"
+label = "Cable TV penetration, 1990s"
+value = "no reliable record"
+unit = "% of households with cable TV"
 source = "census-ahs"
 tier = "D"
-notes = "Cell phone adoption was ~10% by 1995, ~40% by 2000. Cable TV ~60% by 1990. Personal computer ~30% by 1995. AC ~70%+ by 1990 (RECS)."
+notes = "Cable TV penetration ~60% by 1990, ~66% by 1997 (Statistical Abstract 1997). Primary source: Census Statistical Abstract Table, but not yet transcribed from a primary publication. Nielsen data also available."
+
+[[fact]]
+id = "us-1990s-computer"
+panel = "diffusion"
+label = "Households with a computer, 1990s"
+value = "no reliable record"
+unit = "% of households with a computer"
+source = "ntia-fttn-2000"
+tier = "D"
+notes = "Census CPS Computer/Internet Use Supplement first measured computer use in 1984, internet in 1997. NTIA 'Falling Through the Net' series reports: 1994 CPS ~24% of households had a computer, 1997 CPS ~36% had a computer and ~18% had internet access, 1998 CPS ~42% had a computer and ~26% had internet. These are widely cited but not yet transcribed from the primary Census P23-208 report (font encoding issues in the PDF). The 2000s room carries 'Internet: 46% (2000)' from Pew."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
