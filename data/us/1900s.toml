@@ -191,15 +191,15 @@ assumptions = []
 # ── Diffusion panel ────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-1900s-diffusion-gap"
+id = "us-1900s-diffusion"
 panel = "diffusion"
-label = "Technology diffusion (electricity, telephone, automobile, radio)"
-value = "no reliable record"
-unit = "—"
+label = "Technology diffusion: telephone, automobile, electricity (~1900)"
+value = "Telephone: 9.2 per 1,000 population (1898), ~5% of households. Automobile: <1% (registration incomplete pre-1910). Electricity: <5% of homes (urban only). Radio: not yet commercial."
+unit = "per 1,000 population or % of households"
 source = "hist-stats-colonial-1970"
-tier = "D"
-notes = "No decennial census asked about technology ownership until 1930 (radio). Historical Statistics of the United States (Colonial Times to 1970, free on Internet Archive) has aggregate diffusion series for electricity, telephone, and automobile adoption. These are national aggregates, not family-level. The 1900s saw <5% of households with electricity, <5% with telephones, and <1% with automobiles."
-assumptions = ["composite-family"]
+tier = "A"
+notes = "From Historical Statistics Vol 2, Series R 1-2 (p.192, OCR'd via GLM-OCR): 1898 had 681,000 telephones = 9.2 per 1,000 population. With avg family size 5.31, this translates to roughly 5% of households. The report notes motor-vehicle registration data for early years is 'incomplete, largely because few States required their registration' (p.113). By 1907, telephone penetration reached ~7% of households. Electricity diffusion was limited to urban areas; rural electrification didn't begin until the 1930s. Radio broadcasting began ~1920."
+assumptions = ["composite-family", "urban-rural-split"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 

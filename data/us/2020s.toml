@@ -209,14 +209,14 @@ notes = "Computed: average hourly earnings ($30.12) × average weekly hours for 
 assumptions = ["nominal-values"]
 
 [[fact]]
-id = "us-2020s-time-use-gap"
+id = "us-2020s-time-use"
 panel = "day"
-label = "Time use (work, commute, leisure)"
-value = "data available via BLS ATUS — not transcribed"
-unit = "—"
+label = "How Americans spend their day, 2019 (ATUS)"
+value = "Sleeping 8.84 hrs, working 3.26 hrs (men 3.92, women 2.64), eating 1.18 hrs, household activities 1.78 hrs, food prep 0.60 hrs, purchasing 0.75 hrs"
+unit = "hours per day, civilian population (annual average)"
 source = "bls-atus"
-tier = "D"
-notes = "The BLS American Time Use Survey (ATUS, started 2003) provides detailed data on how Americans spend their time — work hours, commute time, childcare, leisure. Data is at https://www.bls.gov/tus/ but BLS blocks automated requests (403). Specific figures need browser access."
+tier = "A"
+notes = "From BLS American Time Use Survey, Table A-1 (2019 annual averages), a1-2019.pdf. Text layer extracted directly via pymupdf — no OCR needed. 'Working and work-related activities' = 3.61 hrs total (includes work-related activities beyond just working). 'Personal care activities' = 9.62 hrs (dominated by sleeping 8.84 hrs). Household activities include housework (0.53 hrs), food prep (0.60 hrs), and lawn/garden (0.17 hrs). Time series available: a1_2003, a1_2009, a1_2010, a1-2019 (Table A-1 by sex); a2_2010, a2_2011, a2-2019 (Table A-2 by employment status/children)."
 assumptions = ["composite-family"]
 
 # ── Diffusion panel ────────────────────────────────────────────────────────

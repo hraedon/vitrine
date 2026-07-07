@@ -330,14 +330,15 @@ notes = "From 1950 Census of Housing, HC-5 No. 2, Table 3. OCR'd from scanned im
 assumptions = ["composite-family"]
 
 [[fact]]
-id = "us-1950s-telephone-automobile-gap"
+id = "us-1950s-telephone-automobile"
 panel = "diffusion"
-label = "Telephone and automobile ownership"
-value = "not asked in 1950 census"
-unit = "—"
-source = "census-hc5-02-1950"
-tier = "D"
-notes = "The 1950 Census of Housing did NOT ask about telephone or automobile ownership. These questions were added in the 1960 census. Historical Statistics of the United States (Colonial Times to 1970, free on Internet Archive) has aggregate series for telephone and automobile adoption that can be used as Tier C/D estimates."
+label = "Telephone and automobile adoption, 1950"
+value = "Telephone: 61.8% of households (280.9 per 1,000 population). Automobile: registration data available but not asked in 1950 Census."
+unit = "% of households with telephone; per 1,000 population"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 2, Series R 1-3 (p.191, OCR'd via GLM-OCR): 1950 had 43,004,000 telephones = 280.9 per 1,000 population = 61.8% of households. The 1950 Census of Housing did NOT ask about telephone or automobile ownership (these were added in 1960). By 1960: 78.3% of households had telephones; by 1970: 90.5%. Motor vehicle registration data (Series Q 152-155) is available but measured total registrations, not household adoption rate."
+assumptions = ["composite-family", "urban-rural-split"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
