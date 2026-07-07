@@ -62,6 +62,16 @@ tier = "A"
 notes = "From the 1985 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 13,671 thousand 4-person CUs. Total expenditures: $31,408. Income before taxes: $34,414. Expenditure = 91% of gross income. Transportation share peaked in the 1980s at 20.6%. Source: BLS CEX Table 4, 1985 (cusize.pdf via Wayback Machine, web.archive.org)."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
+[[fact]]
+id = "us-1980s-poverty-rate"
+panel = "budget"
+label = "Official poverty rate, 1980"
+value = "13.0% (29.3 million people in poverty)"
+unit = "% of all people below official poverty level"
+source = "census-poverty-historical"
+tier = "A"
+notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 13.0%. Family poverty: 11.5%. Poverty rose from 12.6% (1970) due to stagflation and the early 1980s recessions. By 1985: 14.0%."
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]

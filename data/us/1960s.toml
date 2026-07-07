@@ -61,6 +61,16 @@ source = "census-f08-allraces"
 tier = "A"
 notes = "From Census F-8 (Table F-8). Down from 3.54 in 1950 — families were shrinking as the baby boom ended. By 1970: 3.57."
 
+[[fact]]
+id = "us-1960s-poverty-rate"
+panel = "budget"
+label = "Official poverty rate, 1960"
+value = "22.2% (39.9 million people in poverty)"
+unit = "% of all people below official poverty level"
+source = "census-poverty-historical"
+tier = "A"
+notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 22.2%. Family poverty: 20.7%. First year of the official poverty measure (1959: 22.4%). The War on Poverty (1964+) would cut this nearly in half by 1970."
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]

@@ -62,6 +62,16 @@ tier = "A"
 notes = "From the 2013 Consumer Expenditure Survey, Table 1400 (Size of consumer unit). 16,226 thousand 4-person CUs. Total expenditures: $68,299. Income before taxes: $88,828. Expenditure = 77% of gross income. Housing reached 33%. Source: BLS CEX Table 1400, 2013 (cu-size-2013.xlsx from bls.gov/cex/tables.htm)."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
+[[fact]]
+id = "us-2010s-poverty-rate"
+panel = "budget"
+label = "Official poverty rate, 2010"
+value = "15.1% (46.2 million people in poverty)"
+unit = "% of all people below official poverty level"
+source = "census-poverty-historical"
+tier = "A"
+notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 15.1%. Family poverty: 13.2%. Highest poverty rate since 1993 — the Great Recession's impact. Recovery was slow: by 2015 still 13.5%, by 2019: 10.5% (pre-COVID). By 2024: 10.6%."
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]

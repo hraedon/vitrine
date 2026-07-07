@@ -62,6 +62,16 @@ tier = "A"
 notes = "From the 1972-73 Consumer Expenditure Survey, Bulletin 1992, Table 2 (by family size). 10,668 thousand 4-person families. Total expenditures: $12,226 (current consumption $10,710 + personal insurance/pensions $1,063 + gifts/contributions $453). Income before taxes: $16,155. Expenditure = 76% of gross income. Source: BLS Bulletin 1992, Table 2, accessed via FRASER (fraser.stlouisfed.org)."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
+[[fact]]
+id = "us-1970s-poverty-rate"
+panel = "budget"
+label = "Official poverty rate, 1970"
+value = "12.6% (25.5 million people in poverty)"
+unit = "% of all people below official poverty level"
+source = "census-poverty-historical"
+tier = "A"
+notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 12.6%. Family poverty: 10.9%. Down sharply from 22.4% (1959) — War on Poverty programs (Medicaid, food stamps, expanded Social Security) and economic growth cut poverty nearly in half."
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]

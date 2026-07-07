@@ -537,3 +537,13 @@ year = 2020
 url = "https://www.eia.gov/consumption/residential/index.php"
 population = "U.S. housing units (sampled)"
 notes = "Started 1978, triennial/quadrennial. Tracks appliance ownership (refrigerator, washing machine, air conditioning) and housing characteristics. AC diffusion: 1993 RECS 68%, 2009 RECS 87%, 2015 RECS 87%. Useful for diffusion and home panels as complement to AHS."
+
+[[source]]
+id = "census-poverty-historical"
+title = "Historical Poverty Tables (Census API: histpov2)"
+short_cite = "U.S. Census Bureau, Historical Poverty Tables"
+publisher = "U.S. Census Bureau"
+year = 2024
+url = "https://api.census.gov/data/timeseries/poverty/histpov2.html"
+population = "All U.S. population (official poverty measure, CPS ASEC)"
+notes = "Official poverty rate from the Current Population Survey Annual Social and Economic Supplement (CPS ASEC), accessed via Census API endpoint histpov2. Covers 1959-present. PCTPOV = percentage of all people below poverty level. PCTFAMPOV = percentage of people in families below poverty level. The official poverty measure uses pre-tax money income vs. poverty thresholds by family size and age. Data starts 1959 (first year of official poverty measure)."
