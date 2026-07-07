@@ -1,0 +1,129 @@
+# US, the 1960s. Primary sources: Census F-8 (income), CEX 1960-61 (expenditure),
+# Historical Statistics Vol 2 (telephone/diffusion), Census homeownership series.
+# Data years: 1960-61. Urban families surveyed by CEX; all families by CPS/F-8.
+
+[room]
+country = "us"
+decade = "1960s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1960s-median-family-income"
+panel = "budget"
+label = "Median family income, 1960"
+value = "$5,620 (all families), $6,295 (4-person families)"
+unit = "USD per year, nominal"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8 (Table F-8, Size of Family--All Families by Median Income). All families: 45,540 thousand, median $5,620 ($48,760 in 2024 dollars). 4-person families: 9,288 thousand, median $6,295 ($54,620 in 2024 dollars). Average family size: 3.7. By 1969: all-family median $9,433, 4-person median $7,490."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1960s-total-expenditure"
+panel = "budget"
+label = "Average annual expenditure, 1960-61"
+value = "$5,393"
+unit = "USD per family per year, nominal (urban families)"
+source = "bls-cex"
+tier = "A"
+notes = "From the 1960-61 Consumer Expenditure Survey data tables (ce_196061_tables.pdf, p.8), OCR'd via GLM-OCR. US average for all urban families. By region: Northeast $5,834, North Central $5,272, South $4,769, West $5,777."
+assumptions = ["composite-family", "nominal-values", "income-vs-consumption"]
+
+[[fact]]
+id = "us-1960s-expenditure-breakdown"
+panel = "budget"
+label = "Expenditure breakdown, 1960-61"
+value = "Food 24.3%, housing 29.6%, food away from home 5.1%, local telephone $69/yr"
+unit = "% of total expenditure ($5,393)"
+source = "bls-cex"
+tier = "A"
+notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.8). Food $1,309 (24.3%), housing $1,594 (29.6%), shelter/fuel/light $991, food away from home $274, household operations $319, local telephone $69. Housing became the largest category — up from 12.95% in 1901. Food dropped from 42.54% (1901) to 24.3%."
+assumptions = ["composite-family", "nominal-values", "income-vs-consumption"]
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1960s-homeownership-rate"
+panel = "home"
+label = "Homeownership rate, 1960"
+value = "61.9%"
+unit = "% of occupied housing units owner-occupied"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census homeownership time series (owner.pdf). Up from 55.0% in 1950 and 43.6% in 1940. The postwar boom and suburbanization drove homeownership above 60% for the first time."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1960s-housing-characteristics-gap"
+panel = "home"
+label = "Home value, rooms, plumbing"
+value = "data available via Census 1960 — not yet transcribed"
+unit = "—"
+source = "census-decennial-pubs"
+tier = "D"
+notes = "The 1960 Census of Housing asked about rooms, plumbing, telephone, automobile, and heating fuel — the first census to ask about telephone and automobile ownership. Data available at census.gov but requires transcription. IPUMS 1960 microdata could also compute these (Tier B)."
+assumptions = ["composite-family"]
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1960s-food-basket"
+panel = "table"
+label = "Food expenditure and basket, 1960-61"
+value = "Food $1,309/yr (24.3% of expenditure). Food away from home $274 (20.9% of food). Local telephone $69/yr."
+unit = "USD per family per year, nominal"
+source = "bls-cex"
+tier = "A"
+notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.8). Food was 24.3% of total expenditure — down from 42.54% in 1901. Housing was the largest category at 29.6%. The survey also shows durable goods ownership (p.15): TV 91.4%, refrigerator 84.7%, washing machine 70.0%, air conditioner 18.8%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%."
+assumptions = ["nominal-values", "income-vs-consumption"]
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1960s-life-expectancy"
+panel = "day"
+label = "Life expectancy at birth, 1960"
+value = "~67 years (white male), ~74 years (white female)"
+unit = "years at birth"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series B 116-117 (p.76, OCR'd via GLM-OCR). 1960 data. Note: OCR may have misread '67.4' as '57.4' — needs verification against primary source. For context: 1900-02 was 48.2/51.1, 1950 was ~66/72, 1970 was 67.6/74.7."
+assumptions = []
+
+[[fact]]
+id = "us-1960s-wages-gap"
+panel = "day"
+label = "Average hourly earnings and weekly hours"
+value = "data available via FRED — not yet transcribed"
+unit = "—"
+source = "fred-ahetpi"
+tier = "D"
+notes = "FRED AHETPI (average hourly earnings, total private) starts 1964. FRED CES manufacturing series starts 1939. Historical Statistics Series D 802-810 has manufacturing data through 1935. For 1960s: AHETPI was ~$2.50/hr (1964), AWHMAN was ~40 hrs/week."
+assumptions = ["nominal-values"]
+
+# ── Diffusion panel ────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1960s-diffusion"
+panel = "diffusion"
+label = "Technology adoption, 1960-61"
+value = "Telephone 78.3% of households. TV 91.4%. Refrigerator 84.7%. Washing machine 70.0%. Air conditioner 18.8%. Dishwasher 5.7%."
+unit = "% of households/families"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "Telephone from Historical Statistics Vol 2, Series R 1-3 (p.191, OCR'd via GLM-OCR): 1960 had 74,342K telephones = 407.8 per 1,000 population = 78.3% of households. Durable goods from CEX 1960-61 (ce_196061_tables.pdf, p.15, OCR'd via GLM-OCR): TV 91.4% (up from 12.3% in 1950!), refrigerator 84.7%, washing machine 70.0%, air conditioner 18.8%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%. Census 1960 also confirms: washing machine 72.2%, TV 90.5%, refrigerator 86.1%."
+assumptions = ["composite-family", "urban-rural-split"]
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1960s-cpi-gap"
+panel = "work-buys"
+label = "Consumer Price Index and affordability"
+value = "data available via FRED — not yet transcribed"
+unit = "—"
+source = "fred-cpiaucns"
+tier = "D"
+notes = "FRED CPIAUCNS has monthly CPI data from 1913 onward. CPI in 1960 was ~29.6, in 1969 ~36.7. CPI ratio 1960→2024 is ~10.6x (vs 13.0x for 1950→2024). Real income growth 1960→2024: $5,620→$105,800 nominal = 18.8x, CPI ratio 10.6x = 1.77x real growth."
+assumptions = ["nominal-values"]
