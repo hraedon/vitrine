@@ -224,7 +224,7 @@ amount_minor = 151100
 currency = "USD"
 price_year = 1950
 basis = "total"
-notes = "Figure widely cited across multiple sources (Humble ISD, Morris County Library, Missouri prices guide). Consistent with era: a new Henry J (budget car) was $1,299 in 1950 (Morris County Library newspaper ads). The $1,511 likely represents the average transaction price, weighted down by budget models. Likely primary source: BLS 1950 Consumer Expenditure Survey (Bulletin 1097) or Census Statistical Abstract 1953 edition (Table on New Passenger Car Sales). Tier D: figure not yet directly verified from primary document. Note: some web sources cite ~$2,200 for 1950, but that appears to be a confusion with 1959 prices ($2,200 is the 1959 figure, not 1950)."
+notes = "The $1,511 figure is specifically the price of a Ford Custom in 1950, widely cited as a representative new car price. Sources: Reader's Digest (cited by CarZing: 'in 1950, a Ford Custom was $1,511'); Fifties Web ('average cost of a new car in 1950 was approximately $1,510'); Brilliantio ('Ford Custom had a price tag of roughly $1,511'). The Ford Custom was a mid-range model — budget cars like the Henry J were $1,299, while higher-end models like the 1951 Ford Mercury were $2,189. The true average transaction price across all new cars was likely ~$1,800-$2,000. Primary source would be Ford's 1950 MSRP or NADA historical data, not yet directly verified. Tier D: secondary source, specific model price used as representative."
 assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
