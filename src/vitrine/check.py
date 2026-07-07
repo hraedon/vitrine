@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from vitrine.model import Basis, Corpus, Fact
+from vitrine.model import Basis, Corpus, Fact, measure_axis
 
 
 def check_corpus(corpus: Corpus) -> list[str]:
@@ -116,6 +116,26 @@ def check_corpus(corpus: Corpus) -> list[str]:
                     f"room {room_slug}: {label} {anchor_id!r} has amount_minor = 0 "
                     f"(would cause division by zero)"
                 )
+
+            # An anchor's source must declare what it *measures*: you cannot
+            # divide by a denominator without saying whether it is money income,
+            # wages-only, a survey reconstruction, etc. The cross-decade
+            # comparator relies on this to refuse incomparable series.
+            anchor_source = corpus.sources.get(anchor_fact.source)
+            if anchor_source is not None:
+                if anchor_source.measure is None:
+                    problems.append(
+                        f"room {room_slug}: {label} {anchor_id!r} source "
+                        f"{anchor_fact.source!r} declares no measure — an anchor "
+                        f"denominator must say what it measures"
+                    )
+                elif measure_axis(anchor_source.measure) is not expected_basis:
+                    problems.append(
+                        f"room {room_slug}: {label} {anchor_id!r} source measures "
+                        f"{anchor_source.measure.value!r}, which belongs to the "
+                        f"{measure_axis(anchor_source.measure).value!r} axis, not "
+                        f"{expected_basis.value!r}"
+                    )
 
     return problems
 

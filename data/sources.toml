@@ -11,6 +11,7 @@ year = 1951
 url = "https://www.census.gov/library/publications/1951/demo/p60-009.html"
 population = "All US families (two or more related persons living together), CPS money income"
 notes = "Seed source for the skeleton. Plan 001 WI-1 supersedes the all-family median with the by-family-size series (Historical Income Tables, Table F-8) where its coverage window allows."
+measure = "money_income"
 
 # ── Census: income ────────────────────────────────────────────────────────
 
@@ -22,6 +23,7 @@ year = 2024
 url = "https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-families.html"
 population = "All US families (two or more related persons), CPS money income"
 notes = "Landing page listing Tables F-1 through F-23. Continuously updated. Last revision Sep 2025 (2024 data)."
+measure = "money_income"
 
 [[source]]
 id = "census-f08-allraces"
@@ -32,6 +34,7 @@ year = 2024
 url = "https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-families/f08a.xlsx"
 population = "All US families by family size (2, 3, 4, 5, 6, 7+ persons), CPS money income"
 notes = "Excel file. The 4-person-family column is the primary source for the museum's family-of-four medians. Coverage window starts at 1947 — verify the 4-person column covers the full window. Also available: f08ar (All Races revised), f08w (White), f08b (Black), f08h (Hispanic), f08wnh (White not Hispanic)."
+measure = "money_income"
 
 [[source]]
 id = "census-p60-series"
@@ -41,6 +44,7 @@ year = 2024
 url = "https://www.census.gov/library/publications/time-series/p60.1989.List_1930924763.html"
 population = "All US families and persons, CPS money income"
 notes = "Series landing page listing individual P-60 reports from 1947 to present. Individual reports are also at www2.census.gov/library/publications/<year>/demographics/p60-<no>.pdf. Example: P-60 No. 69 (1970) at https://www2.census.gov/library/publications/1970/demographics/p60-69.pdf."
+measure = "money_income"
 
 # ── FRED (data republished from Census/BLS) ───────────────────────────────
 
@@ -52,6 +56,7 @@ year = 2024
 url = "https://fred.stlouisfed.org/series/MEFAINUSA646N"
 population = "All US families, CPS money income (nominal)"
 notes = "FRED republishes Census data. For provenance, cite the Census source (P-60 or Historical Income Tables) as primary. Coverage: 1953-2024. Useful for programmatic access and cross-referencing with wage/CPI series."
+measure = "money_income"
 
 [[source]]
 id = "fred-mefainusa672n"
@@ -71,6 +76,7 @@ year = 2024
 url = "https://fred.stlouisfed.org/series/AHETPI"
 population = "Production and nonsupervisory employees, total private sector"
 notes = "Average (not median) hourly earnings. Coverage: 1964-present, monthly. BLS source code: CES0500000008. Useful for work-buys panel as proxy for median worker purchasing power."
+measure = "hourly_earnings"
 
 [[source]]
 id = "fred-cpiaucns"
@@ -172,6 +178,7 @@ url = "https://fraser.stlouisfed.org/title/annual-report-commissioner-labor-6306
 short_cite = "U.S. Bureau of Labor, Bulletin No. 49 (1903)"
 population = "2,567 wage-earner families in 33 states, head earning <=$1,200/year, year 1901"
 notes = "Primary source for 1900s room. Average income $827.19, average expenditure $768.54, food $326.90 (42.54%). Rent 12.95%, clothing 14.04%, fuel and light 5.25%. Average family size 5.31. NOTE: the University of Missouri guide cited average income as $749 — the primary source says $827.19. The $749 figure is WRONG; this is the correct figure from the report itself. File: bls_v08_0049_1903.pdf (268 pages, text-extractable via pdftotext)."
+measure = "survey_family_income"
 
 [[source]]
 id = "commissioner-labor-6th-1890"
@@ -308,6 +315,7 @@ year = 2024
 url = "https://fred.stlouisfed.org/series/CES3000000008"
 population = "Production and nonsupervisory employees in manufacturing"
 notes = "Coverage: 1939–present, monthly. Pre-1964 earnings series (AHETPI starts 1964). 1950 annual average: $1.32/hour. CSV API: https://fred.stlouisfed.org/graph/fredgraph.csv?id=CES3000000008."
+measure = "hourly_earnings"
 
 # ── Census: housing ───────────────────────────────────────────────────────
 

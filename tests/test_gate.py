@@ -121,6 +121,10 @@ def _write_structured_room(
     (tmp_path / "sources.toml").write_text(
         '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
         'url = "https://example.org"\npopulation = "all families"\n'
+        '[[source]]\nid = "src-wage"\ntitle = "W"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "workers"\nmeasure = "hourly_earnings"\n'
+        '[[source]]\nid = "src-income"\ntitle = "I"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "families"\nmeasure = "money_income"\n'
     )
     (tmp_path / "assumptions.toml").write_text(
         '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
@@ -237,7 +241,7 @@ panel = "day"
 label = "Hourly wage"
 value = "$1.32"
 unit = "USD/hr"
-source = "src-1"
+source = "src-wage"
 tier = "A"
 amount_minor = 132
 currency = "USD"
@@ -250,7 +254,7 @@ panel = "budget"
 label = "Median income"
 value = "$3,319"
 unit = "USD/yr"
-source = "src-1"
+source = "src-income"
 tier = "A"
 amount_minor = 331900
 currency = "USD"
@@ -262,6 +266,34 @@ basis = "annual"
 def test_valid_priced_room_passes_gate(tmp_path: Path) -> None:
     data = _write_structured_room(tmp_path, _VALID_PRICED_ROOM)
     assert check_corpus(load_corpus(data)) == []
+
+
+def test_anchor_source_without_measure_fails_gate(tmp_path: Path) -> None:
+    """An anchor whose source declares no measure is rejected: you cannot
+    divide by a denominator without saying what it measures."""
+    room = _VALID_PRICED_ROOM.replace(
+        'id = "us-1950s-income"\npanel = "budget"\nlabel = "Median income"\n'
+        'value = "$3,319"\nunit = "USD/yr"\nsource = "src-income"',
+        'id = "us-1950s-income"\npanel = "budget"\nlabel = "Median income"\n'
+        'value = "$3,319"\nunit = "USD/yr"\nsource = "src-1"',
+    )
+    data = _write_structured_room(tmp_path, room)
+    problems = check_corpus(load_corpus(data))
+    assert any("declares no measure" in p and "income_anchor" in p for p in problems)
+
+
+def test_anchor_measure_wrong_axis_fails_gate(tmp_path: Path) -> None:
+    """A wage anchor whose source measures an income concept is rejected —
+    same-basis is necessary but the measure must sit on the right axis."""
+    room = _VALID_PRICED_ROOM.replace(
+        'id = "us-1950s-wage"\npanel = "day"\nlabel = "Hourly wage"\n'
+        'value = "$1.32"\nunit = "USD/hr"\nsource = "src-wage"',
+        'id = "us-1950s-wage"\npanel = "day"\nlabel = "Hourly wage"\n'
+        'value = "$1.32"\nunit = "USD/hr"\nsource = "src-income"',
+    )
+    data = _write_structured_room(tmp_path, room)
+    problems = check_corpus(load_corpus(data))
+    assert any("belongs to the" in p and "axis" in p for p in problems)
 
 
 _INCONSISTENT_CURRENCY = """\

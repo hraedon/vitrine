@@ -42,6 +42,26 @@ class Basis(enum.Enum):
     ANNUAL = "annual"    # an annual figure ($3,319/yr)
 
 
+class Measure(enum.Enum):
+    """What economic quantity an affordability *anchor* measures — closed set.
+
+    Same ``Basis`` (hourly vs annual) is necessary but *not sufficient* to chain
+    two anchors into one cross-decade series. Dividing a price by wages-and-
+    salaries in one decade and by total money income in another and calling both
+    "share of income" is a lie by juxtaposition even though both are annual. The
+    comparator refuses to present a series as comparable unless every point
+    shares a Measure. See docs/fact-model.md "Comparability".
+    """
+
+    # ── income-axis denominators (share-of-income; Basis.ANNUAL) ──
+    MONEY_INCOME = "money_income"  # total money income (CPS: Census F-8/P-60/FRED-MEFAIN)
+    WAGES_SALARIES = "wages_salaries"  # wages and salaries only — narrower than money income
+    SURVEY_FAMILY_INCOME = "survey_family_income"  # family income from a period survey (pre-CPS)
+    CONSUMPTION = "consumption"  # consumption expenditure as an income proxy (v2 rooms)
+    # ── wage-axis denominator (hours-to-afford; Basis.HOURLY) ──
+    HOURLY_EARNINGS = "hourly_earnings"  # avg hourly earnings, production/nonsupervisory workers
+
+
 def tier_label(tier: Tier) -> str:
     """Visitor-facing description of a confidence tier."""
     match tier:
@@ -76,6 +96,44 @@ def panel_title(panel: Panel) -> str:
             assert_never(panel)
 
 
+def measure_label(measure: Measure) -> str:
+    """Visitor-facing description of what an anchor denominator measures."""
+    match measure:
+        case Measure.MONEY_INCOME:
+            return "total money income"
+        case Measure.WAGES_SALARIES:
+            return "wages and salaries only"
+        case Measure.SURVEY_FAMILY_INCOME:
+            return "family income (period cost-of-living survey)"
+        case Measure.CONSUMPTION:
+            return "consumption expenditure"
+        case Measure.HOURLY_EARNINGS:
+            return "average hourly earnings"
+        case _:
+            assert_never(measure)
+
+
+def measure_axis(measure: Measure) -> Basis:
+    """The anchor ``Basis`` a Measure belongs to — closed dispatch.
+
+    Income measures denominate the share-of-income axis (an ANNUAL anchor);
+    HOURLY_EARNINGS denominates the hours-to-afford axis (an HOURLY anchor).
+    Adding a Measure variant breaks the build here until its axis is declared.
+    """
+    match measure:
+        case (
+            Measure.MONEY_INCOME
+            | Measure.WAGES_SALARIES
+            | Measure.SURVEY_FAMILY_INCOME
+            | Measure.CONSUMPTION
+        ):
+            return Basis.ANNUAL
+        case Measure.HOURLY_EARNINGS:
+            return Basis.HOURLY
+        case _:
+            assert_never(measure)
+
+
 def basis_label(basis: Basis) -> str:
     """Visitor-facing description of a structured amount's basis."""
     match basis:
@@ -103,6 +161,7 @@ class Source:
     population: str  # who was actually measured — the anti-composite field
     notes: str = ""
     short_cite: str = ""  # brief inline citation for footnote display
+    measure: Measure | None = None  # what it measures, iff used as an affordability anchor
 
 
 @dataclass(frozen=True, slots=True)
