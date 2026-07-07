@@ -55,15 +55,24 @@ notes = "From Census homeownership time series (owner.pdf). Up from 55.0% in 195
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1960s-plumbing"
+panel = "home"
+label = "Complete plumbing facilities, 1960"
+value = "83% of homes had complete plumbing (17% lacked)"
+unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
+source = "census-hist-housing-plumbing"
+tier = "A"
+notes = "From Census Historical Housing Tables: Plumbing. Down from 33% lacking in 1950 to 17% lacking in 1960 — the suburban building boom was closing the gap rapidly. One in six American homes still lacked complete plumbing in 1960. By 1970: only 6% lacked (94% had)."
+
+[[fact]]
 id = "us-1960s-housing-characteristics-gap"
 panel = "home"
-label = "Home value, rooms, plumbing"
+label = "Home value, rooms, detailed housing characteristics"
 value = "data available via Census 1960 — not yet transcribed"
-unit = "—"
+unit = "n/a"
 source = "census-decennial-pubs"
 tier = "D"
-notes = "The 1960 Census of Housing asked about rooms, plumbing, telephone, automobile, and heating fuel — the first census to ask about telephone and automobile ownership. Data available at census.gov but requires transcription. IPUMS 1960 microdata could also compute these (Tier B)."
-assumptions = ["composite-family"]
+notes = "The 1960 Census of Housing asked about rooms, plumbing, telephone, automobile, and heating fuel — the first census to ask about telephone and automobile ownership. We have: homeownership 61.9%, plumbing 83%, telephone 78.3%, TV 91.4%, refrigerator 84.7%, washing machine 70.0%, AC 18.8%, dishwasher 5.7% (all Tier A). Home value and room count not yet transcribed. IPUMS 1960 microdata could compute these (Tier B)."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 

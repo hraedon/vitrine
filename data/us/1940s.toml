@@ -114,14 +114,25 @@ notes = "From Census Historical Housing Tables (values-unadj.txt). National medi
 assumptions = ["nominal-values"]
 
 [[fact]]
+id = "us-1940s-plumbing"
+panel = "home"
+label = "Complete plumbing facilities, 1940"
+value = "55% of homes had complete plumbing (45% lacked)"
+unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
+source = "census-hist-housing-plumbing"
+tier = "A"
+notes = "From Census Historical Housing Tables: Plumbing. Complete plumbing = hot and cold piped water + flush toilet + bathtub/shower for exclusive use. The 1940 Census of Housing was the first to ask about plumbing. ~45% of American homes lacked complete plumbing — the worst decade in the series. By 1950: 33% lacked (67% had). By 1960: 17% lacked (83% had). Rural areas were far worse: many farm homes still used outhouses and hand pumps."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1940s-housing-characteristics-gap"
 panel = "home"
-label = "Rooms, plumbing, electricity, heating fuel"
+label = "Rooms, electricity, heating fuel"
 value = "no reliable record accessible online"
 unit = "n/a"
 source = "census-decennial-pubs"
 tier = "D"
-notes = "The 1940 Census of Housing (Volume 2, General Characteristics) collected detailed data on structural characteristics, plumbing, and heating, but the full tabulations are not yet transcribed into our data files. The Census did report that in 1940, approximately 55% of dwelling units lacked complete plumbing facilities."
+notes = "The 1940 Census of Housing (Volume 2, General Characteristics) collected data on rooms, lighting fuel (electricity vs kerosene vs gas), and heating fuel. In 1940, ~11% of farms had electricity (up from 2% in 1910); urban/non-farm homes were ~85% electrified by 1930. Coal was the dominant heating fuel. Full tabulations not yet transcribed into our data files."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 

@@ -367,6 +367,18 @@ url = "https://fraser.stlouisfed.org/title/income-nonfarm-families-individuals-1
 population = "Urban and rural-nonfarm families and individuals in private households (1946 CPS)"
 notes = "First P60 report. Median money income: $2,659 (1946), $2,410 (1944), $2,595 (1945). Civilian wages: $1,389 (1939) to $2,697 (1944). Scanned images — OCR'd via GLM-OCR. 11 pages."
 
+# ── Census Historical Housing Tables ─────────────────────────────────────
+
+[[source]]
+id = "census-hist-housing-plumbing"
+title = "Historical Census of Housing Tables: Plumbing"
+short_cite = "U.S. Census Bureau, Historical Census of Housing Tables: Plumbing"
+publisher = "U.S. Census Bureau"
+year = 2000
+url = "https://www.census.gov/data/tables/time-series/dec/coh-plumbing.html"
+population = "All occupied housing units in the United States (decennial census)"
+notes = "Complete plumbing = hot and cold piped water + flush toilet + bathtub/shower for exclusive use. Lacked complete plumbing: 1940 ~45% (55% had), 1950 ~33% (67% had), 1960 ~17% (83% had), 1970 ~6% (94% had), 1990 ~1% (99% had). The 1940 Census of Housing was the first to ask about plumbing."
+
 # ── NCHS mortality ───────────────────────────────────────────────────────
 
 [[source]]
