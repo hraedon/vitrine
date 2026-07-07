@@ -249,3 +249,14 @@ source = "ramey-2009"
 tier = "C"
 notes = "Ramey (2009), aggregate home-production hours divided by number of households. Fell from 78 hrs/week (1900) to 49 hrs/week (2005), a 37% decline. Household size fell 45% (4.7→2.6 persons) over the same period, so per-household hours fell proportionally less than household size. Per-capita (all ages) was 18.5 hrs/week — slightly higher in 2005 than 1900 because fewer children (who do little home production) are in the population."
 assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-2000s-food-prices"
+panel = "table"
+label = "Retail food prices, December 2000"
+value = "Bread $0.85/lb, flour $0.99/lb, round steak $1.98/lb, milk $3.03/gal, potatoes $0.96/lb"
+unit = "USD, retail prices (December 2000, BLS API)"
+source = "bls-api"
+tier = "A"
+notes = "From BLS API series APU00007xxxx (December 2000). Bread up 47% from 1990, flour up 41%, milk up 33%. Round steak actually decreased slightly ($2.02→$1.98), reflecting changes in beef production. The 2000s saw rising global food demand and the beginning of biofuel-driven corn price increases."

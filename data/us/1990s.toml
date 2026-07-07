@@ -269,3 +269,14 @@ source = "ramey-2009"
 tier = "D"
 notes = "Ramey (2009) does not report a 1990s benchmark for men (same gap as women: 1992-94 survey excluded). Series jumps from 1985 (13.9 hrs) to 2003 (17.2 hrs)."
 assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-1990s-food-prices"
+panel = "table"
+label = "Retail food prices, December 1990"
+value = "Bread $0.58/lb, flour $0.70/lb, round steak $2.02/lb, milk $2.28/gal, potatoes $1.00/lb"
+unit = "USD, retail prices (December 1990, BLS API)"
+source = "bls-api"
+tier = "A"
+notes = "From BLS API series APU00007xxxx (December 1990). Food price inflation moderated in the 1980s after the Volcker disinflation. Bread up 20% from 1980, round steak up 9%, milk up 33%. The 1990s would see continued modest food price increases."

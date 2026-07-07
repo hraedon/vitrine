@@ -228,3 +228,14 @@ source = "ramey-2009"
 tier = "D"
 notes = "Ramey's series ends at 2005. See us-2010s-home-production-women note re: ATUS concept splice."
 assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-2010s-food-prices"
+panel = "table"
+label = "Retail food prices, December 2010"
+value = "Bread $0.99/lb, flour $1.39/lb, round steak $2.93/lb, milk $4.16/gal, potatoes $1.79/lb"
+unit = "USD, retail prices (December 2010, BLS API)"
+source = "bls-api"
+tier = "A"
+notes = "From BLS API series APU00007xxxx (December 2010). Bread up 17% from 2000, flour up 40%, round steak up 48%, milk up 37%. The 2007-08 and 2010-11 global food price crises drove significant increases. By December 2024: bread $1.71/lb, round steak $5.58/lb, milk $6.92/gal — food prices continued rising sharply in the 2020s."

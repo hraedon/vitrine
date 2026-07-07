@@ -247,3 +247,14 @@ source = "ramey-2009"
 tier = "C"
 notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
 assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-1980s-food-prices"
+panel = "table"
+label = "Retail food prices, December 1980"
+value = "Bread $0.48/lb, flour $0.52/lb, round steak $1.86/lb, milk $1.71/gal, potatoes $1.03/lb"
+unit = "USD, retail prices (December 1980, BLS API)"
+source = "bls-api"
+tier = "A"
+notes = "From BLS API series APU00007xxxx (December 1980). Milk is per gallon (not per quart as in earlier decades). Bread at $0.48/lb is 2.4× the 1970 price (23.9¢). Round steak at $1.86/lb is 1.4× the 1970 price. Food prices surged in the late 1970s due to inflation: the CPI for food rose 8.6% in 1978, 10.9% in 1979, and 8.6% in 1980."

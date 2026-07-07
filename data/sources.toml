@@ -557,3 +557,13 @@ year = 2017
 url = "https://www.fcc.gov/document/annual-assessment-status-competition-market-delivery-video-0"
 population = "U.S. households subscribing to multichannel video programming distributor (MVPD) services"
 notes = "FCC's annual report on video competition. Subscriber data from SNL Kagan (industry analyst). Key data: 1997: 64.2M cable, 73.6M total MVPD, 75.9% of TV households (FCC 1997 report). 2015: 53.2M cable (53.1% of MVPD), 33.1M DBS, 13.0M telco, 99.4M total MVPD (FCC DA 17-71, 2017). MVPD subscriber losses began 2013 — cord-cutting era. Cable's share of MVPD declined from 89% (1997) to 53.1% (2015)."
+
+[[source]]
+id = "statab-food-prices"
+title = "Statistical Abstract of the United States: Average Retail Prices of Selected Foods"
+short_cite = "Statistical Abstract, Table: Average Retail Prices of Selected Foods"
+publisher = "U.S. Census Bureau (data from BLS)"
+year = 1970
+url = "https://www.census.gov/library/publications/time-series/statistical_abstracts.html"
+population = "U.S. urban households, retail food prices collected by BLS in 51-56 cities"
+notes = "Table 530 in the 1970 Statistical Abstract (91st edition). Data originally from BLS Retail Food Prices by Cities. Prices in cents per pound unless otherwise indicated. Covers 1950-1970 (April). Milk in cents per quart (delivered). Eggs in cents per dozen. Coffee in cents per 10 oz. Cross-checked against BLS Bulletin 1055 for 1950 values — exact match."

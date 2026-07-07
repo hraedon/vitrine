@@ -247,3 +247,14 @@ source = "ramey-2009"
 tier = "C"
 notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
 assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-1970s-food-prices"
+panel = "table"
+label = "Retail food prices, April 1970"
+value = "Bread 23.9¢/lb, round steak $1.34/lb, milk 66.5¢/qt, potatoes 9.0¢/lb, eggs 57.3¢/doz"
+unit = "retail food prices (cents per pound/quart/dozen, April 1970)"
+source = "statab-food-prices"
+tier = "A"
+notes = "From 1970 Statistical Abstract Table 530 (BLS data, April 1970 — most recent available). Milk is per quart, delivered. By April 1970, food inflation was accelerating: bread up 18% from 1960, round steak up 27%, milk up 156% (from 26.0¢ to 66.5¢/qt). The 1970s would bring double-digit food price inflation, especially after the 1973-74 oil shock and Soviet grain purchases."

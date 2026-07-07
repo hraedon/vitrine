@@ -128,6 +128,17 @@ tier = "A"
 notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.8). Food was 24.3% of total expenditure — down from 42.54% in 1901. Housing was the largest category at 29.6%. The survey also shows durable goods ownership (p.15): TV 91.4%, refrigerator 84.7%, washing machine 70.0%, air conditioner 18.8%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%."
 assumptions = ["nominal-values", "income-vs-consumption"]
 
+
+[[fact]]
+id = "us-1960s-food-prices"
+panel = "table"
+label = "Retail food prices, 1960"
+value = "Bread 20.3¢/lb, round steak $1.06/lb, milk 26.0¢/qt, potatoes 7.2¢/lb, eggs 57.3¢/doz"
+unit = "retail food prices (cents per pound/quart/dozen, 1960 annual average)"
+source = "statab-food-prices"
+tier = "A"
+notes = "From 1970 Statistical Abstract Table 530 (BLS Retail Food Prices by Cities). 1960 annual averages for 51 cities. Milk is per quart, delivered. Bread 20.3¢/lb vs 14.3¢/lb in 1950 (+42%). Round steak $1.06/lb vs $0.94/lb in 1950 (+13%). Potatoes 7.2¢/lb vs 4.6¢/lb in 1950 (+57%). The 1950→1960 food price increase was modest compared to the inflation that followed in the 1970s."
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
