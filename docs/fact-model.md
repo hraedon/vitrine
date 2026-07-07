@@ -99,7 +99,7 @@ slugs (`us`, `uk`, `pl`, `ru`, `cn`, `in`, `jp`); decades are
 
 ## Closed sets
 
-Both are Python enums; every dispatch over them ends in
+Each is a Python enum; every dispatch over them ends in
 `typing.assert_never()` so adding a variant breaks the build at every
 unhandled site.
 
@@ -136,6 +136,39 @@ affordability axis dispatches on it:
 | `weekly` | A weekly figure | $53.29/wk |
 | `annual` | An annual figure | $3,319/yr |
 
+**Measure** — what an affordability *anchor* denominator measures. Set on the
+`Source`, optional in general but **required on any source used as a
+`wage_anchor` or `income_anchor`**. Same `Basis` is necessary but not
+sufficient to chain two anchors into one series (see Comparability):
+
+| Measure | Axis | Meaning |
+|---|---|---|
+| `money_income` | annual | Total money income (CPS: Census F-8/P-60/FRED-MEFAIN) |
+| `wages_salaries` | annual | Wages and salaries only — narrower than money income |
+| `survey_family_income` | annual | Family income reconstructed from a period cost-of-living survey (pre-CPS) |
+| `consumption` | annual | Consumption expenditure used as an income proxy (v2 world rooms) |
+| `hourly_earnings` | hourly | Average hourly earnings of production/nonsupervisory workers |
+
+## Comparability
+
+The affordability axes invite cross-decade comparison, which is where an honest
+museum can still lie *by juxtaposition* — with no fabricated number anywhere.
+Two guards, both surfaced rather than hidden (the "render the gap" ethos applied
+to comparison):
+
+- **Concept homogeneity.** The comparator (`compare_item`) attaches a **caveat**
+  to any series whose points do not share a `Measure` on a given axis — e.g. a
+  "share of income" line that divides by *wages-and-salaries* in one decade and
+  *total money income* in another. It flags; it does not drop the point.
+- **Temporal proximity.** Within one decade room a price and its anchor should be
+  near-contemporaneous; a gap wider than a few years (e.g. a 1947 price against a
+  1939 wage in the bifurcated 1940s) folds a real-wage change into an axis
+  presented as inflation-free, and earns a caveat.
+
+Sub-concept nuance below the `Measure` level (e.g. *manufacturing* vs
+*all-private* hourly earnings, both `hourly_earnings`) is carried by the source's
+verbatim `population` string in the anchor note, not by a caveat.
+
 ## Invariants (`vitrine check`)
 
 The gate loads everything under `data/` and fails on any of:
@@ -150,6 +183,10 @@ The gate loads everything under `data/` and fails on any of:
 7. (Once the renderer lands) render coverage: the set of facts rendered must
    equal the set of facts checked — nothing displayed that wasn't gated,
    nothing curated that silently vanished.
+8. A declared `wage_anchor`/`income_anchor` whose source declares no `measure`,
+   or whose measure sits on the wrong axis (a wage anchor measuring an income
+   concept, or vice versa). You cannot divide by a denominator without saying
+   what it measures.
 
 CI runs `vitrine check` alongside ruff/mypy/pytest; a red gate blocks merge.
 

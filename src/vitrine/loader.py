@@ -12,7 +12,17 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
-from vitrine.model import Assumption, Basis, Corpus, Fact, Panel, Room, Source, Tier
+from vitrine.model import (
+    Assumption,
+    Basis,
+    Corpus,
+    Fact,
+    Measure,
+    Panel,
+    Room,
+    Source,
+    Tier,
+)
 
 
 class LoadError(Exception):
@@ -78,6 +88,7 @@ def _load_sources(path: Path) -> dict[str, Source]:
             population=_get_str(table, "population", ctx),
             notes=_get_str_opt(table, "notes", ctx),
             short_cite=_get_str_opt(table, "short_cite", ctx),
+            measure=_parse_measure(table, ctx),
         )
         if source.id in sources:
             raise LoadError(f"{path}: duplicate source id {source.id!r}")
@@ -116,6 +127,16 @@ def _parse_basis(table: Mapping[str, Any], ctx: str) -> Basis | None:
         raise LoadError(f"{ctx}: field 'basis' must be a string")
     basis: Basis = _parse_enum(raw, {b.value: b for b in Basis}, "basis", ctx)
     return basis
+
+
+def _parse_measure(table: Mapping[str, Any], ctx: str) -> Measure | None:
+    if "measure" not in table:
+        return None
+    raw = table["measure"]
+    if not isinstance(raw, str):
+        raise LoadError(f"{ctx}: field 'measure' must be a string")
+    measure: Measure = _parse_enum(raw, {m.value: m for m in Measure}, "measure", ctx)
+    return measure
 
 
 def _load_room(path: Path) -> Room:

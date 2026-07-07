@@ -36,6 +36,8 @@ _BASE = """<!doctype html>
   .afford { color: #5a4632; }
   .comparison { margin: 2rem 0; }
   .comparison ul { list-style: none; padding-left: 0; }
+  .caveat { border-left: 3px solid #b08a3c; background: #faf5e9; padding: 0.5rem 0.75rem;
+            margin: 0.5rem 0; font-size: 0.9rem; color: #5a4632; }
   details { margin-top: 0.2rem; }
   details summary { cursor: pointer; color: #5a4632; font-size: 0.85em; }
   .card { font-size: 0.85em; background: #fff; border: 1px solid #ddd;
@@ -69,6 +71,9 @@ Every fact is behind glass: open its drawer to see who measured it, when, and ho
 {% for comp in comparisons %}
 <div class="comparison">
 <h3>{{ comp.label }}</h3>
+{% for caveat in comp.caveats %}
+<p class="caveat">⚠ {{ caveat }}</p>
+{% endfor %}
 <ul>
 {% for row in comp.rows %}
 <li>
@@ -178,6 +183,7 @@ class _ComparisonRow:
 class _ComparisonView:
     label: str
     rows: tuple[_ComparisonRow, ...]
+    caveats: tuple[str, ...]
 
 
 def _format_hours(hours: float) -> str:
@@ -274,7 +280,9 @@ def _build_comparison_view(comparison: Comparison, decades: list[str]) -> _Compa
                     has_data=True,
                 )
             )
-    return _ComparisonView(label=comparison.label, rows=tuple(rows))
+    return _ComparisonView(
+        label=comparison.label, rows=tuple(rows), caveats=comparison.caveats
+    )
 
 
 def render_site(corpus: Corpus, out_dir: Path) -> None:
