@@ -22,11 +22,18 @@ The atomic exhibit unit. One claim, one source, one tier.
 | `tier` | Tier | Confidence tier (closed set, below) |
 | `notes` | str | Optional curator note shown in the provenance drawer |
 | `assumptions` | list[str] | Ids resolving into `data/assumptions.toml` |
+| `amount_minor` | int? | Structured value in integer minor units (cents) — no float drift |
+| `currency` | str | e.g. `"USD"`; required iff `amount_minor` is set |
+| `price_year` | int? | Year the amount is quoted in |
+| `basis` | Basis? | What the amount is measured against (closed set, below); required iff `amount_minor` is set |
 
-`value` is a display string by design at this stage: the museum shows what
-the source said, in the source's own terms. Structured numeric values (for
-charts and cross-decade comparators) are a planned extension — they will be
-*additional* fields, never a replacement for the as-authored display value.
+`value` is always the as-authored display string: the museum shows what the
+source said, in the source's own terms. The structured fields
+(`amount_minor`/`currency`/`price_year`/`basis`) are *additional*, never a
+replacement — they are optional, and when present they feed the affordability
+axis (see `src/vitrine/affordability.py`) and cross-decade comparators. A fact
+with no structured amount still renders; it just carries no derived
+affordability figure.
 
 A fact whose honest value is "the record is silent" is written with
 `value = "no reliable record"` and tiered `D` with a note explaining why.
@@ -82,9 +89,13 @@ Seed ledger (grows as rooms are curated):
 ### Room
 
 One file per (country, decade): `data/<country>/<decade>.toml`, e.g.
-`data/us/1950s.toml`. A room is `[room]` metadata (country, decade) plus a
-list of `[[fact]]` tables. Country codes are lowercase ISO-ish slugs
-(`us`, `uk`, `pl`, `ru`, `cn`, `in`, `jp`); decades are `"1890s"`…`"2020s"`.
+`data/us/1950s.toml`. A room is `[room]` metadata plus a list of `[[fact]]`
+tables. The `[room]` table carries `country` and `decade` and, optionally,
+the affordability anchors `wage_anchor` (a fact id whose `basis` is `hourly`)
+and `income_anchor` (a fact id whose `basis` is `annual`); the affordability
+axis divides each priced fact by these. Country codes are lowercase ISO-ish
+slugs (`us`, `uk`, `pl`, `ru`, `cn`, `in`, `jp`); decades are
+`"1890s"`…`"2020s"`.
 
 ## Closed sets
 
@@ -114,6 +125,16 @@ and countries compare at a glance:
 | `day` | Work hours, earners per family, commute |
 | `diffusion` | % of families with car / phone / radio / TV / fridge / internet at that date |
 | `work-buys` | What an hour/day/week of the median family's work buys, in local terms |
+
+**Basis** — what a fact's structured `amount_minor` is measured against; the
+affordability axis dispatches on it:
+
+| Basis | Meaning | Example |
+|---|---|---|
+| `total` | A one-time price | $1,511 for a car |
+| `hourly` | A wage rate | $1.32/hr |
+| `weekly` | A weekly figure | $53.29/wk |
+| `annual` | An annual figure | $3,319/yr |
 
 ## Invariants (`vitrine check`)
 
