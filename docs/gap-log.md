@@ -135,3 +135,29 @@ Average new car price, 1950 (~$1,511) — could upgrade via NADA or BLS.
   - coh-plumbing/ (plumbing 1940-1990)
   - coh-values/ (home values 1940-2000)
   - coh-ownerchar/ (owner characteristics 1950-1990)
+
+## Session: 2026-07-07 (continued)
+
+**Added 34 facts, 3 sources** (236→270 facts, 51→54 sources):
+
+### New cross-decade arcs:
+- **Poverty rate (1959-2024)**: 6 facts, Census API histpov2. 22.2% (1960) → 12.6% (1970) → 13.0% (1980) → 13.5% (1990) → 11.3% (2000) → 15.1% (2010) → 10.6% (2020)
+- **Food prices (1950-2024)**: 6 new facts (1960s-2010s) + 2 existing (1950s, 2020s) = 8 data points. 1960/1970 from 1970 Statistical Abstract Table 530 (OCR'd with Mac Studio parser2). 1980-2010 from BLS API.
+- **Heating fuel (1940-2024)**: Filled 1990s gap using RECS 2001 (closest accessible survey). Arc now complete: coal→gas→electric transition across 84 years.
+- **Cable TV (1980s-2010s)**: Added 2010s FCC data (53.2M cable subscribers, cord-cutting era)
+- **Vehicle ownership**: Added 1970s data point (80.1% had auto, CEX 1972-73)
+- **CPI/purchasing power**: Added to 1970s-2010s rooms
+
+### Source registrations:
+- `census-poverty-historical`: Census API histpov2 endpoint
+- `fcc-video-competition`: FCC Annual Video Competition Report (DA 17-71)
+- `statab-food-prices`: 1970 Statistical Abstract Table 530 (BLS retail food prices)
+
+### Gaps closed:
+- 1990s heating fuel: filled with RECS 2001 (was inaccessible, now using closest accessible survey)
+- Food prices: now have data for every decade 1950-2024
+
+### Remaining gaps (14, all permanent):
+- 12 structural pre-1940s (no Census/RECS surveys)
+- 2 wartime 1940s (WWII data disruptions)
+- These are permanent — data was never collected
