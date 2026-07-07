@@ -547,3 +547,13 @@ year = 2024
 url = "https://api.census.gov/data/timeseries/poverty/histpov2.html"
 population = "All U.S. population (official poverty measure, CPS ASEC)"
 notes = "Official poverty rate from the Current Population Survey Annual Social and Economic Supplement (CPS ASEC), accessed via Census API endpoint histpov2. Covers 1959-present. PCTPOV = percentage of all people below poverty level. PCTFAMPOV = percentage of people in families below poverty level. The official poverty measure uses pre-tax money income vs. poverty thresholds by family size and age. Data starts 1959 (first year of official poverty measure)."
+
+[[source]]
+id = "fcc-video-competition"
+title = "Annual Assessment of the Status of Competition in the Market for the Delivery of Video Programming"
+short_cite = "FCC, Annual Video Competition Report"
+publisher = "Federal Communications Commission"
+year = 2017
+url = "https://www.fcc.gov/document/annual-assessment-status-competition-market-delivery-video-0"
+population = "U.S. households subscribing to multichannel video programming distributor (MVPD) services"
+notes = "FCC's annual report on video competition. Subscriber data from SNL Kagan (industry analyst). Key data: 1997: 64.2M cable, 73.6M total MVPD, 75.9% of TV households (FCC 1997 report). 2015: 53.2M cable (53.1% of MVPD), 33.1M DBS, 13.0M telco, 99.4M total MVPD (FCC DA 17-71, 2017). MVPD subscriber losses began 2013 — cord-cutting era. Cable's share of MVPD declined from 89% (1997) to 53.1% (2015)."

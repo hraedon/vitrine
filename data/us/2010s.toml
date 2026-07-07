@@ -160,6 +160,16 @@ source = "eia-recs"
 tier = "A"
 notes = "From the 2015 RECS. 87% of US homes used AC — flat from 2009 (87%). Central AC rose to 64% (76M households, up from 59%/66M in 2005). The AC diffusion curve had plateaued: from 18.8% (1960) → 68% (1993) → 87% (2009/2015) → 88% (2020). AC was now a standard feature of American housing. Source: EIA RECS 2015 overview."
 
+[[fact]]
+id = "us-2010s-cable-tv"
+panel = "diffusion"
+label = "Cable TV, 2015 (FCC)"
+value = "53.2 million cable subscribers (declining). Total MVPD: 99.4 million. Cord-cutting began 2013."
+unit = "subscribers (cable MVPD, year-end 2015)"
+source = "fcc-video-competition"
+tier = "A"
+notes = "From FCC 19th Video Competition Report (DA 17-71, data as of year-end 2015, SNL Kagan subscriber data). Cable MVPDs: 53.2M (53.1% of all MVPD). DBS: 33.1M. Telco: 13.0M. Total MVPD: 99.4M. MVPDs lost 1.1M subscribers in 2015 — cord-cutting accelerating. Cable's share of MVPD declined from 89% (1997, 64.2M subscribers) to 53.1% (2015) as satellite (DIRECTV/DISH) and then streaming (Netflix: 46M subscribers by 2016) grew. Over-the-air only: 12.4M TV households."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
