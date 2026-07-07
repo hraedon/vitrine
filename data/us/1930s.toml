@@ -1,0 +1,113 @@
+# US, the 1930s. Primary sources: Census historical homeownership, Historical
+# Statistics Vol 1 (life expectancy, manufacturing wages), Historical Statistics
+# Vol 2 (telephone). The Great Depression: 25% unemployment, deflation, New Deal.
+# No income survey. The 1935 Consumer Purchases Survey is the closest expenditure data.
+# Data year anchors: 1930 (Census), 1929-31 (life expectancy), 1935 (wages).
+
+[room]
+country = "us"
+decade = "1930s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1930s-income-gap"
+panel = "budget"
+label = "Median family income, 1930s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "census-hist-income-families"
+tier = "D"
+notes = "No national family income survey before 1947. The 1940 Census asked about wage/salary income in 1939: median civilian wages of primary families was $1,389 (P-60 No. 1). Simon Kuznets produced retrospective national income estimates showing aggregate income fell ~47% from 1929 to 1932. Manufacturing wages: $0.55/hr in 1930, falling to $0.44/hr in 1933."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1930s-homeownership"
+panel = "home"
+label = "Homeownership rate, 1930"
+value = "47.8%"
+unit = "% of occupied dwelling units (owner-occupied)"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Bureau decennial time series (owner.pdf). Up from 45.6% in 1920 — the 1920s boom had raised the rate. The Depression would drive it down to 43.6% by 1940 (foreclosures, ~1,000/day at peak). The Home Owners' Loan Corporation (HOLC, 1933) and FHA (1934) were created to stabilize the housing market."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1930s-housing-gap"
+panel = "home"
+label = "Home value, rooms, plumbing, electricity"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "census-decennial-pubs"
+tier = "D"
+notes = "No Census of Housing until 1940. The 1930s saw the beginning of rural electrification (REA, 1936): ~11% of farms had electricity in 1935, rising to ~25% by 1940. Indoor plumbing remained rare in rural areas. New Deal housing programs built greenbelt towns and public housing."
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1930s-life-expectancy"
+panel = "day"
+label = "Life expectancy at birth, 1929-31"
+value = "59.1 male, 62.7 female (white)"
+unit = "years"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series B 116-117 (white population, at birth). Despite the Depression, life expectancy continued to rise: up from 56.3/58.5 in 1919-21. By 1939-41: 62.8 male, 67.3 female — the decade saw +3.7 male, +4.6 female years."
+
+[[fact]]
+id = "us-1930s-manufacturing-wages"
+panel = "day"
+label = "Manufacturing production worker wages, 1930 and 1933"
+value = "1930: $0.55/hr, 42.1 hrs/wk, $23.00/wk | 1933: $0.44/hr, 38.1 hrs/wk, $16.65/wk"
+unit = "USD, nominal (hourly earnings, weekly hours, weekly earnings)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 802-804. The Depression crushed wages: hourly earnings fell 20% from 1930 to 1933, and weekly hours fell from 42.1 to 38.1 (part-time work, layoffs). Recovery: by 1935: $0.54/hr, 36.6 hrs/wk, $19.91/wk. The NIRA (1933) established minimum wages and maximum hours."
+assumptions = ["nominal-values", "shortage-economy"]
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1930s-telephone"
+panel = "diffusion"
+label = "Telephone diffusion, 1930s"
+value = "~41 per 1,000 population (1935)"
+unit = "telephones per 1,000 population"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 2, Series R 1-2. In 1935: ~41 per 1,000 population (~16.2 million total phones). Telephone growth slowed during the Depression as households cut discretionary spending. By 1940: ~47 per 1,000. Household percentage not directly reported until 1944."
+
+[[fact]]
+id = "us-1930s-radio-automobile"
+panel = "diffusion"
+label = "Radio and automobile, 1930s"
+value = "Radio: ~40% of households (1930), ~80% by 1940. Automobile: ~26.7M registrations (1930)."
+unit = "n/a"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 2. Radio was the dominant new technology of the era — FDR's fireside chats (1933- ) reached millions. Automobile registrations stagnated during the Depression (new car sales fell 75% from 1929 to 1932) but the installed base remained high."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1930s-food-basket-gap"
+panel = "table"
+label = "The food basket, 1930s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "bls-1935-consumer-purchases"
+tier = "D"
+notes = "The BLS 1935-36 Consumer Purchases Survey collected detailed expenditure data, but it has not been transcribed into our data files. Wartime food controls and the 1935-36 survey bracket the decade. Food prices collapsed during the Depression (farm prices fell ~60% from 1929 to 1932)."
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1930s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 1930s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "hist-stats-colonial-1970"
+tier = "D"
+notes = "Without a median family income figure, affordability comparisons cannot be computed. The Depression makes the 1930s unusual: deflation meant nominal prices fell, but incomes fell faster. Unemployment reached 25% in 1933."

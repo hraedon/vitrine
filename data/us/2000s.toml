@@ -1,0 +1,165 @@
+# US, the 2000s. Primary sources: Census F-8 (income), Census historical housing
+# (homeownership, home value, plumbing), CEX (expenditure), Pew (internet/broadband).
+# ACS began 2000. The decade: 9/11, housing bubble, Great Recession (2007-09).
+# Data year anchors: 2000 (Census), 2000 (F-8).
+
+[room]
+country = "us"
+decade = "2000s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2000s-median-family-income"
+panel = "budget"
+label = "Median family income, all families, 2000"
+value = "$50,730"
+unit = "USD per year, nominal"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. All families: 73,780 thousand, median $50,730 ($86,740 in 2024 dollars). The peak of the 1990s boom. The 2000s would see stagnant real median income — the Great Recession (2007-09) would push it down."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2000s-median-income-four-person"
+panel = "budget"
+label = "Median family income, four-person families, 2000"
+value = "$62,670"
+unit = "USD per year, nominal"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. 4-person families: median $62,670 ($107,200 in 2024 dollars). Average family size: 3.14."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-2000s-number-of-families"
+panel = "budget"
+label = "Number of families in the United States, 2000"
+value = "73,780,000"
+unit = "families"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8."
+
+[[fact]]
+id = "us-2000s-average-family-size"
+panel = "budget"
+label = "Average family size, 2000"
+value = "3.14"
+unit = "persons per family"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. Down from 3.18 in 1990. By 2010: 3.14 (flat)."
+
+[[fact]]
+id = "us-2000s-expenditure-gap"
+panel = "budget"
+label = "Expenditure shares, 2000s"
+value = "data available via CEX — not yet transcribed"
+unit = "n/a"
+source = "bls-cex"
+tier = "D"
+notes = "CEX data available. The 2000s saw cell phones, internet, and cable/satellite TV become standard household expenditures."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2000s-homeownership"
+panel = "home"
+label = "Homeownership rate, 2000"
+value = "66.2%"
+unit = "% of occupied dwelling units (owner-occupied)"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Bureau decennial time series (owner.pdf). Up from 64.2% in 1990. The housing bubble would push homeownership to a peak of ~69% in 2004-2006 before the Great Recession."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2000s-median-home-value"
+panel = "home"
+label = "Median value of owner-occupied homes, 2000"
+value = "$119,600"
+unit = "USD, nominal"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Historical Housing Tables (values-unadj.txt). Up from $79,100 in 1990. The housing bubble would drive values far higher by 2006-07 before the crash."
+assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-2000s-plumbing"
+panel = "home"
+label = "Complete plumbing facilities, 2000"
+value = "~99.5% of homes had complete plumbing (~0.5% lacked)"
+unit = "% of occupied housing units"
+source = "census-hist-housing-plumbing"
+tier = "A"
+notes = "From Census Historical Housing Tables: Plumbing. Estimated from the series: 1990: 1% lacked, approaching 0% by 2000. Plumbing was universally available."
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2000s-life-expectancy-gap"
+panel = "day"
+label = "Life expectancy at birth, 2000"
+value = "data available via NCHS — not yet transcribed"
+unit = "n/a"
+source = "nchs-nvss"
+tier = "D"
+notes = "NCHS data available for 2000 (~74 male, ~80 female, all races). Life expectancy continued rising through the 2000s before the opioid crisis and COVID-19."
+
+[[fact]]
+id = "us-2000s-wages-gap"
+panel = "day"
+label = "Average hourly earnings and weekly hours"
+value = "data available via FRED — not yet transcribed"
+unit = "n/a"
+source = "fred-ahetpi"
+tier = "D"
+notes = "FRED AHETPI and AWHMAN available for 2000s."
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2000s-internet"
+panel = "diffusion"
+label = "Internet and broadband adoption, 2000s"
+value = "Internet: 46% (2000) → 79% (2009). Broadband: ~5% (2000) → 63% (2009)."
+unit = "% of adults"
+source = "pew-internet-broadband"
+tier = "A"
+notes = "From Pew Research Center. Internet adoption crossed 50% around 2001. Broadband (DSL/cable) replaced dial-up through the 2000s. By 2009, 63% of adults had home broadband. The smartphone era began with the iPhone (2007) but mass adoption belongs to the 2010s."
+
+[[fact]]
+id = "us-2000s-cellphone"
+panel = "diffusion"
+label = "Cell phone adoption, 2000s"
+value = "~40% (2000) → ~85% (2009)"
+unit = "% of adults who own a cell phone"
+source = "pew-internet-broadband"
+tier = "A"
+notes = "From Pew Research Center. Cell phone adoption was rapid: ~40% in 2000, ~65% in 2004, ~85% by 2009. The iPhone (2007) and Android (2008) began the smartphone transition."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2000s-food-basket-gap"
+panel = "table"
+label = "The food basket, 2000s"
+value = "data available via CEX — not yet transcribed"
+unit = "n/a"
+source = "bls-cex"
+tier = "D"
+notes = "CEX data available."
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2000s-home-as-income-years"
+panel = "work-buys"
+label = "Median home value as years of median family income, 2000"
+value = "2.36 years ($119,600 home vs $50,730 income)"
+unit = "years of median family income (nominal)"
+source = "census-homeownership-historical"
+tier = "C"
+notes = "Computed: 2000 median home value ($119,600) / 2000 median family income ($50,730). The housing bubble (2002-2006) would push this ratio far higher before the crash."
+assumptions = ["affordability-normalization", "nominal-values"]

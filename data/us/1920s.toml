@@ -1,0 +1,112 @@
+# US, the 1920s. Primary sources: Census historical homeownership, Historical
+# Statistics Vol 1 (life expectancy, manufacturing wages), Historical Statistics
+# Vol 2 (telephone, motor vehicles). No income survey. Roaring twenties.
+# Data year anchors: 1920 (Census), 1919-21 (life expectancy).
+
+[room]
+country = "us"
+decade = "1920s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1920s-income-gap"
+panel = "budget"
+label = "Median family income, 1920s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "census-hist-income-families"
+tier = "D"
+notes = "No national income survey before 1947. Manufacturing wages provide a proxy: $0.55/hr, ~47.4 hrs/week in 1920 ($26.02/week, ~$1,353/yr). By 1929: wages were similar in nominal terms but real wages had risen due to deflation. The NBER and Simon Kuznets produced retrospective national income estimates for the 1920s, but these are aggregate, not family-level."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1920s-homeownership"
+panel = "home"
+label = "Homeownership rate, 1920"
+value = "45.6%"
+unit = "% of occupied dwelling units (owner-occupied)"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Bureau decennial time series (owner.pdf). The low point of the early-century decline. Homeownership had been falling since 1900 (46.7%) as urbanization and renting increased. The 1920s boom would start the recovery."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1920s-housing-gap"
+panel = "home"
+label = "Home value, rooms, plumbing, electricity"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "census-decennial-pubs"
+tier = "D"
+notes = "No Census of Housing until 1940. Urban electrification was spreading rapidly in the 1920s; by 1930, ~85% of urban/non-farm homes had electricity. Rural electrification remained minimal (~11% of farms by 1935). Indoor plumbing was standard in new urban construction but rare in rural areas."
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1920s-life-expectancy"
+panel = "day"
+label = "Life expectancy at birth, 1919-21"
+value = "56.3 male, 58.5 female (white)"
+unit = "years"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series B 116-117 (white population, at birth). Up from 50.2/53.6 in 1909-11 — a gain of ~6 years in a decade. The 1920s would see further gains as public health measures (clean water, sanitation) expanded. By 1929-31: 59.1 male, 62.7 female."
+
+[[fact]]
+id = "us-1920s-manufacturing-wages"
+panel = "day"
+label = "Manufacturing production worker wages, 1920"
+value = "$0.55/hr, 47.4 hrs/week, $26.02/wk"
+unit = "USD, nominal (hourly earnings, weekly hours, weekly earnings)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 802-804 (all manufacturing). Hourly: $0.55, weekly hours: 47.4, weekly earnings: $26.02. By 1925: $0.54/hr, 44.5 hrs/week, $24.11/wk. By 1929: $0.56/hr, 44.2 hrs/week, $24.76/wk. The 1920s saw flat nominal wages but rising real wages (deflation) and shorter hours."
+assumptions = ["nominal-values"]
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1920s-telephone"
+panel = "diffusion"
+label = "Telephone diffusion, 1920s"
+value = "~33 per 1,000 population (1925)"
+unit = "telephones per 1,000 population"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 2, Series R 1-2. In 1925: ~33 per 1,000 population (~14.4 million total phones). Household percentage not directly reported until 1944. The 1920s saw rapid telephone expansion — the Bell System nearly tripled its subscriber base."
+
+[[fact]]
+id = "us-1920s-radio-automobile"
+panel = "diffusion"
+label = "Radio and automobile, 1920s"
+value = "Radio: commercial broadcasting began 1920, ~40% of households by 1930. Automobile: ~26M registrations by 1930."
+unit = "n/a"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 2. Commercial radio began with KDKA (Pittsburgh) in November 1920. By 1930, ~40% of households had a radio — one of the fastest technology diffusions in history. Automobile registrations: 1910: ~458K, 1920: ~8.1M, 1930: ~26.7M. The Model T (1908-1927) made car ownership accessible to the middle class."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1920s-food-basket-gap"
+panel = "table"
+label = "The food basket, 1920s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "bls-bulletin-49-1903"
+tier = "D"
+notes = "No consumer expenditure survey for the 1920s. The 1918-19 wartime study and the 1934-36 study bracket the decade. BLS retail food price data exists for the 1920s but not in a household basket format."
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1920s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 1920s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "hist-stats-colonial-1970"
+tier = "D"
+notes = "Without a median family income figure, affordability comparisons cannot be computed. Manufacturing wages (~$1,353/yr in 1920) provide a partial anchor."

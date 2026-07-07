@@ -1,0 +1,153 @@
+# US, the 2010s. Primary sources: Census F-8 (income), ACS (home value, housing),
+# CEX (expenditure), Pew (internet/broadband/smartphone). The decade: smartphone
+# ubiquity, streaming, gig economy, opioid crisis, COVID-19 at the end (2020).
+# Data year anchors: 2010 (F-8), 2019 (pre-COVID).
+
+[room]
+country = "us"
+decade = "2010s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2010s-median-family-income"
+panel = "budget"
+label = "Median family income, all families, 2010"
+value = "$60,240"
+unit = "USD per year, nominal"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. All families: 79,560 thousand, median $60,240 ($83,640 in 2024 dollars). The Great Recession had reduced real median income from the 2007 peak. Recovery was slow — by 2019, median family income reached ~$86,000 (nominal)."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2010s-median-income-four-person"
+panel = "budget"
+label = "Median family income, four-person families, 2010"
+value = "$74,750"
+unit = "USD per year, nominal"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. 4-person families: median $74,750 ($103,800 in 2024 dollars). Average family size: 3.14."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-2010s-number-of-families"
+panel = "budget"
+label = "Number of families in the United States, 2010"
+value = "79,560,000"
+unit = "families"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. Up from 73,780,000 in 2000."
+
+[[fact]]
+id = "us-2010s-average-family-size"
+panel = "budget"
+label = "Average family size, 2010"
+value = "3.14"
+unit = "persons per family"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8. Flat from 3.14 in 2000."
+
+[[fact]]
+id = "us-2010s-expenditure-gap"
+panel = "budget"
+label = "Expenditure shares, 2010s"
+value = "data available via CEX — not yet transcribed"
+unit = "n/a"
+source = "bls-cex"
+tier = "D"
+notes = "CEX data available. The 2010s saw streaming services (Netflix, Spotify), smartphones, and ride-sharing apps enter household budgets."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2010s-homeownership"
+panel = "home"
+label = "Homeownership rate, 2010"
+value = "65.1%"
+unit = "% of occupied dwelling units (owner-occupied)"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Bureau. Down from the bubble peak (~69% in 2004-06) due to the foreclosure crisis. The 2010s saw a slow recovery in homeownership."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2010s-median-home-value-gap"
+panel = "home"
+label = "Median home value, 2010"
+value = "data available via ACS — not yet transcribed"
+unit = "n/a"
+source = "census-ahs"
+tier = "D"
+notes = "ACS data available. The post-crash median was ~$170,000-$180,000 (2010 ACS). The Census Historical Housing Tables (values-unadj.txt) series ends at 2000."
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2010s-life-expectancy-gap"
+panel = "day"
+label = "Life expectancy at birth, 2010"
+value = "data available via NCHS — not yet transcribed"
+unit = "n/a"
+source = "nchs-nvss"
+tier = "D"
+notes = "NCHS data available. Life expectancy peaked ~78.9 in 2014, then declined through 2017 due to the opioid crisis (drug overdose deaths) and suicide. By 2019: ~78.8 (pre-COVID)."
+
+[[fact]]
+id = "us-2010s-wages-gap"
+panel = "day"
+label = "Average hourly earnings and weekly hours"
+value = "data available via FRED — not yet transcribed"
+unit = "n/a"
+source = "fred-ahetpi"
+tier = "D"
+notes = "FRED AHETPI and AWHMAN available for 2010s."
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2010s-smartphone"
+panel = "diffusion"
+label = "Smartphone ownership, 2010s"
+value = "~35% (2011) → 81% (2019)"
+unit = "% of adults who own a smartphone"
+source = "pew-internet-broadband"
+tier = "A"
+notes = "From Pew Research Center. The smartphone was the defining technology of the 2010s. iPhone launched 2007, Android 2008. By 2011, ~35% of adults had a smartphone. By 2019, 81%. Smartphone ownership crossed 50% around 2013."
+
+[[fact]]
+id = "us-2010s-internet"
+panel = "diffusion"
+label = "Internet and broadband, 2010s"
+value = "Internet: 79% (2009) → 90% (2019). Broadband: 63% (2009) → 73% (2019)."
+unit = "% of adults"
+source = "pew-internet-broadband"
+tier = "A"
+notes = "From Pew Research Center. Internet adoption plateaued in the 2010s (~90% saturation). Home broadband growth slowed — many low-income households adopted smartphones instead of home broadband, creating a 'smartphone-only' digital divide."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2010s-food-basket-gap"
+panel = "table"
+label = "The food basket, 2010s"
+value = "data available via CEX — not yet transcribed"
+unit = "n/a"
+source = "bls-cex"
+tier = "D"
+notes = "CEX data available. Food away from home exceeded 50% of total food expenditure during the 2010s."
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2010s-home-as-income-years-gap"
+panel = "work-buys"
+label = "Median home value as years of median family income, 2010"
+value = "data available — home value not yet transcribed"
+unit = "n/a"
+source = "census-homeownership-historical"
+tier = "D"
+notes = "Cannot compute without 2010 median home value. Rough estimate: ~$174,000 home / $60,240 income = ~2.9 years. The 2010s saw home values recover and then exceed pre-crash levels."
