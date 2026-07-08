@@ -1,7 +1,13 @@
-"""Minimal V0 renderer: lobby, room pages, methodology. Schematic on purpose.
+"""The production renderer — three surfaces on the demo's design language.
 
-Every rendered fact id is also written to _site/facts-manifest.txt — the seed
-for the render-coverage invariant (Plan 001 WI-4).
+Plan 007: rooms (the gallery proper), corridors (cross-decade arcs and the
+pairwise comparison set), and the walkthrough (Plan 005's transect). All
+pre-rendered, no ``<script>`` anywhere; the demo's click-to-inspect is anchor +
+CSS ``:target``, so every placard is a citable URL. Every chart mark carries
+``data-fact-id`` and the gate scans the built HTML (check_mark_coverage).
+
+Every rendered fact id is written to _site/facts-manifest.txt — the
+render-coverage invariant unchanged from Plan 001.
 """
 
 from __future__ import annotations
@@ -10,6 +16,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from jinja2 import DictLoader, Environment, select_autoescape
+from markupsafe import Markup
 
 from vitrine.affordability import afford
 from vitrine.compare import Comparison, compare_item
@@ -26,6 +33,9 @@ from vitrine.model import (
     panel_title,
     tier_label,
 )
+from vitrine.site import curation, svg, symbols, tokens
+
+# ── page shell ────────────────────────────────────────────────────────────────
 
 _BASE = """<!doctype html>
 <html lang="en">
@@ -34,202 +44,657 @@ _BASE = """<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}vitrine{% endblock %}</title>
 <style>
-  body { font-family: Georgia, serif; max-width: 60rem; margin: 2rem auto; padding: 0 1rem;
-         background: #faf8f4; color: #222; }
-  a { color: #5a4632; }
-  h1, h2 { font-weight: normal; }
-  .tier { font-family: monospace; font-size: 0.8em; border: 1px solid #999;
-          border-radius: 3px; padding: 0 0.3em; margin-left: 0.4em; }
-  .disclaimer { border: 1px solid #c9b8a0; background: #f3ecdf; padding: 0.8rem 1rem;
-                font-style: italic; margin: 1.5rem 0; }
-  .panel { margin: 2rem 0; }
-  .fact { margin: 0.8rem 0; }
-  .fact .value { font-size: 1.15em; }
-  .afford { color: #5a4632; }
-  .comparison { margin: 2rem 0; }
-  .comparison ul { list-style: none; padding-left: 0; }
-  .caveat { border-left: 3px solid #b08a3c; background: #faf5e9; padding: 0.5rem 0.75rem;
-            margin: 0.5rem 0; font-size: 0.9rem; color: #5a4632; }
-  details { margin-top: 0.2rem; }
-  details summary { cursor: pointer; color: #5a4632; font-size: 0.85em; }
-  .card { font-size: 0.85em; background: #fff; border: 1px solid #ddd;
-          padding: 0.6rem 0.8rem; margin-top: 0.3rem; }
+  :root{color-scheme:dark}
+  *{box-sizing:border-box}
+  body{margin:0;background:{{ T.GROUND }};color:{{ T.IVORY }};font-family:{{ T.SANS }};line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:clamp(20px,4vw,44px)}
+  a{color:{{ T.BRASS }}}
+  .eyebrow{font-family:{{ T.MONO }};font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:{{ T.BRASS }};margin:0 0 10px}
+  h1{font-family:{{ T.SERIF }};font-weight:600;text-wrap:balance;font-size:clamp(28px,4.4vw,44px);line-height:1.08;margin:0 0 6px;color:#f3ead7}
+  h1 em{font-style:italic;color:{{ T.BRASS }}}
+  .sub{color:{{ T.INK_SOFT }};max-width:64ch;font-size:15px;margin:0}
+  .topnav{font-family:{{ T.MONO }};font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 22px}
+  .topnav a{color:{{ T.INK_SOFT }};text-decoration:none;margin-right:14px}
+  .topnav a:hover,.topnav a.here{color:{{ T.BRASS }}}
+  .plaque{margin:24px 0 20px;padding:16px 20px;border:1px solid {{ T.EDGE }};border-left:3px solid {{ T.BRASS }};background:linear-gradient(180deg,{{ T.CASE_2 }},{{ T.CASE }});border-radius:3px;max-width:76ch}
+  .plaque b{color:#f3ead7;font-family:{{ T.SERIF }};font-style:italic;font-weight:600}
+  .plaque span{color:{{ T.INK_SOFT }};font-size:14.5px}
+  .decades{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 16px}
+  .decades .lab{font-family:{{ T.MONO }};font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.INK_SOFT }};margin-right:6px}
+  .dbtn{font-family:{{ T.SERIF }};font-size:17px;color:{{ T.IVORY }};background:{{ T.CASE_2 }};border:1px solid {{ T.EDGE }};padding:6px 14px;border-radius:2px;text-decoration:none}
+  .dbtn:hover{border-color:{{ T.BRASS_DIM }};color:#f3ead7}
+  .dbtn.on{background:{{ T.BRASS }};color:#241d10;border-color:{{ T.BRASS }};box-shadow:0 0 22px -6px {{ T.BRASS_DEEP }}}
+  h2.case-title{font-family:{{ T.MONO }};font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:{{ T.BRASS }};margin:34px 0 4px;font-weight:600}
+  .case-sub{font-size:13px;color:{{ T.INK_SOFT }};margin:0 0 14px}
+  .caveat{border-left:3px solid {{ T.BRASS_DEEP }};background:{{ T.CASE }};padding:8px 12px;margin:8px 0;font-size:13px;color:#c9bfa4;max-width:76ch}
+  .stage{position:relative;border:1px solid {{ T.EDGE }};border-radius:5px;background:{{ T.GROUND }};padding:8px;overflow:hidden}
+  .stage::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 90px -30px #000;border-radius:5px}
+  .stagehint{font-family:{{ T.MONO }};font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#5c5240;text-align:center;padding:6px 0 3px}
+  svg.house{display:block;width:100%;height:auto}
+  .house .structure *{stroke:{{ T.BRASS_DIM }};fill:none;stroke-width:1.6;opacity:.62}
+  .house .groundline{stroke:{{ T.BRASS_DIM }};stroke-width:1.4;opacity:.4}
+  .house .zlabel{font-family:{{ T.MONO }};font-size:8.5px;letter-spacing:.1em;fill:#6b5f47;text-transform:uppercase}
+  .house .znote{font-family:{{ T.MONO }};font-size:9px;letter-spacing:.06em;fill:{{ T.BRASS }};text-transform:uppercase}
+  .house a{text-decoration:none}
+  .hs .ring{fill:none;stroke:{{ T.BRASS_DIM }};stroke-width:1.4;opacity:.5}
+  .hs .gapring{stroke:{{ T.GAP }};stroke-dasharray:3 3;opacity:.9}
+  .hs .glyph{stroke:{{ T.BRASS }};fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .hs .glyph.fill{fill:{{ T.BRASS }};stroke:none}
+  .hs .pct{font-family:{{ T.MONO }};font-size:9px;fill:{{ T.BRASS }};text-anchor:middle;opacity:.85}
+  .hs .pct.gap{fill:{{ T.GAP }}}
+  .hs:hover .ring{stroke:{{ T.BRASS }};opacity:1}
+  .chart-panel{border:1px solid {{ T.EDGE }};border-radius:5px;background:{{ T.GROUND }};padding:14px 10px 6px;margin:10px 0 22px}
+  svg.arc,svg.comp,svg.meter{display:block;width:100%;height:auto}
+  svg.arc text,svg.comp text,svg.meter text{font-family:{{ T.MONO }}}
+  .grid{stroke:#34291f;stroke-width:1}
+  .ylab{font-size:9.5px;fill:{{ T.INK_SOFT }};text-anchor:end}
+  .xlab{font-size:9.5px;fill:{{ T.INK_SOFT }};text-anchor:middle}
+  .unit{font-size:10px;fill:{{ T.INK_SOFT }};letter-spacing:.08em;text-transform:uppercase}
+  .vlab{font-size:10px;fill:{{ T.IVORY }};text-anchor:middle}
+  .tlet{font-size:9px;text-anchor:middle;font-weight:700}
+  .join{stroke-width:1.8;fill:none;opacity:.75}
+  .dot:hover{r:6}
+  .gapdot{fill:none;stroke:{{ T.GAP }};stroke-dasharray:3 3}
+  .gaplab{font-size:9px;fill:{{ T.GAP }};text-anchor:middle;font-style:italic}
+  .gaptrack{fill:none;stroke:#5a5344;stroke-dasharray:4 4}
+  .seglab{font-size:10px;fill:{{ T.GROUND }};text-anchor:middle;font-weight:700}
+  .caplab{font-size:10.5px;fill:{{ T.INK_SOFT }}}
+  .cases{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+  .placard{background:linear-gradient(178deg,{{ T.IVORY }},{{ T.IVORY_2 }});color:{{ T.INK }};border-radius:4px;padding:18px 18px 16px;border:1px solid #cbbfa1;box-shadow:0 18px 40px -22px #000;scroll-margin-top:20px}
+  .placard:target{outline:3px solid {{ T.BRASS_LIT }};outline-offset:2px;box-shadow:0 0 34px -8px {{ T.BRASS_DEEP }}}
+  .placard .ceyebrow{font-family:{{ T.MONO }};font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.BRASS_DEEP }}}
+  .placard .cval{font-family:{{ T.SERIF }};font-size:19px;line-height:1.2;margin:7px 0 2px;color:{{ T.INK }};text-wrap:balance}
+  .placard .clab{font-size:13.5px;color:#5f5540;margin:0 0 10px}
+  .placard .cunit{font-family:{{ T.MONO }};font-size:10.5px;color:#8a7d61;margin:0 0 10px}
+  .tchip{font-family:{{ T.MONO }};font-size:10px;font-weight:700;color:#fff;border-radius:2px;padding:1px 5px;margin-left:7px;vertical-align:1px}
+  .afford{font-size:12.5px;color:#6a5f47;margin:3px 0}
+  .measured{margin:10px 0 0;padding:9px 11px;background:#e7dbc0;border-radius:3px;border-left:3px solid {{ T.BRASS_DEEP }}}
+  .measured .mk{font-family:{{ T.MONO }};font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.BRASS_DEEP }};display:block;margin-bottom:2px}
+  .measured .mv{font-size:12.5px;color:#453d2b;line-height:1.45}
+  .placard details{margin-top:10px}
+  .placard summary{cursor:pointer;font-family:{{ T.MONO }};font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:{{ T.BRASS_DEEP }}}
+  .drawer{font-size:12.5px;color:#554b38;margin-top:6px;line-height:1.5}
+  .drawer a{color:{{ T.BRASS_DEEP }}}
+  .gap-placard .cval{font-style:italic;color:#8a7f66}
+  .statrow{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:baseline;padding:8px 0;border-top:1px solid #d5c9aa;text-decoration:none}
+  .statrow .sk{font-size:12.5px;color:#4a4231;font-weight:600}
+  .statrow .sv{font-family:{{ T.SERIF }};font-size:14px;color:{{ T.INK }};text-align:right;font-variant-numeric:tabular-nums}
+  .legends{display:grid;grid-template-columns:1fr;gap:14px;margin-top:26px}
+  @media(min-width:680px){.legends{grid-template-columns:1fr 1fr}}
+  .leg{border:1px solid {{ T.EDGE }};border-radius:4px;padding:15px 17px;background:{{ T.CASE }}}
+  .leg h4{font-family:{{ T.MONO }};font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.BRASS }};margin:0 0 11px;font-weight:600}
+  .tierrow{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px}
+  .tierrow .swatch{width:13px;height:13px;border-radius:2px;flex:none}
+  .leg p{font-size:13px;color:{{ T.INK_SOFT }};margin:6px 0 0}
+  .leg p b{color:{{ T.IVORY }}}
+  .metric{margin:11px 0;padding-top:11px;border-top:1px solid #34291f}
+  .metric:first-of-type{border-top:none;padding-top:0}
+  .metric .mlab{font-size:12.5px;color:#c9bfa4;margin-bottom:6px;display:flex;justify-content:space-between;align-items:baseline}
+  .metric .mlab em{font-style:normal;font-family:{{ T.MONO }};font-size:10px;color:{{ T.INK_SOFT }};letter-spacing:.05em}
+  .traj{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .tnode{border:1px solid #34291f;border-radius:3px;padding:7px 9px 8px;background:#211d17;display:block;text-decoration:none;color:inherit}
+  .tnode:hover{border-color:{{ T.BRASS_DIM }}}
+  .tnode .td{font-family:{{ T.MONO }};font-size:9.5px;letter-spacing:.08em;color:{{ T.INK_SOFT }};text-transform:uppercase}
+  .tnode .tv{font-family:{{ T.SERIF }};font-size:16px;color:{{ T.IVORY }};line-height:1.15;margin-top:2px;font-variant-numeric:tabular-nums}
+  .tnode .tv.gapv{font-family:{{ T.SANS }};font-size:12px;font-style:italic;color:#9a8b6b}
+  .tbar{height:5px;border-radius:3px;background:#3a3024;margin-top:7px;overflow:hidden}
+  .tbar i{display:block;height:100%;background:linear-gradient(90deg,{{ T.BRASS_DEEP }},{{ T.BRASS }});border-radius:3px}
+  .tbar.fall i{background:linear-gradient(90deg,#9a7b53,{{ T.COPPER }})}
+  .flag{font-family:{{ T.MONO }};font-size:8.5px;letter-spacing:.04em;padding:0 4px;border-radius:2px}
+  .flag.gapf{background:rgba(148,138,120,.18);color:#b3a891;border:1px solid #5a5344}
+  .flag.tier{color:#20281f}
+  .thesis{margin-top:14px;border:1px solid {{ T.EDGE }};border-radius:5px;background:{{ T.CASE }};padding:15px 17px}
+  .thesis h4{font-family:{{ T.MONO }};font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.BRASS }};margin:0 0 3px;font-weight:600}
+  .thesis .tcap{font-size:12.5px;color:{{ T.INK_SOFT }};margin:0 0 13px}
+  .pairgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:900px}
+  .valcard{border:1px solid {{ T.EDGE }};border-radius:4px;background:{{ T.CASE }};padding:13px 15px;text-decoration:none;display:block}
+  .valcard:hover{border-color:{{ T.BRASS_DIM }}}
+  .valcard .td{font-family:{{ T.MONO }};font-size:10px;letter-spacing:.1em;color:{{ T.INK_SOFT }};text-transform:uppercase}
+  .valcard .tv{font-family:{{ T.SERIF }};font-size:17px;color:{{ T.IVORY }};margin-top:3px;line-height:1.25}
+  .valcard .tv.gapv{font-size:13px;font-style:italic;color:#9a8b6b}
+  .pairtable{font-size:13px;border-collapse:collapse;margin-top:10px}
+  .pairtable td,.pairtable th{border:1px solid #34291f;padding:4px 8px;text-align:center}
+  .pairtable a{text-decoration:none;font-family:{{ T.MONO }};font-size:11px}
+  .people{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:14px 0}
+  .person-card{border:1px solid {{ T.EDGE }};border-radius:4px;background:{{ T.CASE }};padding:13px 15px}
+  .person-card h5{font-family:{{ T.SERIF }};font-size:16px;margin:6px 0 8px;color:#f3ead7;font-weight:600}
+  .person-card svg{display:block;margin:0 auto}
+  .fig{fill:rgba(207,159,76,.10);stroke:{{ T.BRASS }};stroke-width:1.7;stroke-linejoin:round}
+  .fig.head{fill:rgba(207,159,76,.14)}
+  .prow{display:block;text-decoration:none;padding:6px 0;border-top:1px solid #34291f}
+  .prow .sk{font-size:12px;color:#c9bfa4;display:block}
+  .prow .sv{font-family:{{ T.SERIF }};font-size:13.5px;color:{{ T.IVORY }}}
+  .houses{display:flex;gap:26px;align-items:flex-end;flex-wrap:wrap;margin:14px 0}
+  .houses figure{margin:0;text-align:center}
+  .houses figcaption{font-family:{{ T.MONO }};font-size:10px;letter-spacing:.08em;color:{{ T.INK_SOFT }};text-transform:uppercase;margin-top:6px}
+  .houses a{text-decoration:none}
+  .hline{stroke:{{ T.BRASS }};fill:none;stroke-width:1.7;stroke-linejoin:round}
+  .hline.gaph{stroke:{{ T.GAP }};stroke-dasharray:4 4}
+  footer{margin-top:34px;padding-top:16px;border-top:1px solid {{ T.EDGE }};font-size:12.5px;color:#6b6049;max-width:80ch}
+  footer b{color:{{ T.INK_SOFT }}}
+  @media(prefers-reduced-motion:reduce){*{transition:none !important}}
 </style>
 </head>
 <body>
-<p><a href="{{ root }}index.html">vitrine</a> · <a href="{{ root }}methodology.html">methodology</a></p>
+<div class="wrap">
+<nav class="topnav">
+  <a href="{{ root }}index.html">vitrine</a>
+  <a href="{{ root }}corridors/index.html">corridors</a>
+  <a href="{{ root }}walkthrough.html">walkthrough</a>
+  <a href="{{ root }}methodology.html">methodology</a>
+</nav>
 {% block body %}{% endblock %}
+</div>
 </body>
 </html>
 """
 
-_INDEX = """{% extends "base" %}
-{% block title %}vitrine — the museum lobby{% endblock %}
-{% block body %}
-<h1>vitrine</h1>
-<p>A decade-by-decade museum of the median-income family's lifestyle.
-Every fact is behind glass: open its drawer to see who measured it, when, and how sure we are.</p>
-{% for country, rooms in by_country %}
-<h2>{{ country }}</h2>
-<ul>
-{% for room in rooms %}
-<li><a href="rooms/{{ room.slug }}.html">{{ room.decade }}</a> ({{ room.facts | length }} facts)</li>
-{% endfor %}
-</ul>
-{% endfor %}
-{% if comparisons %}
-<hr>
-<h2>Cross-decade comparisons</h2>
-{% for comp in comparisons %}
-<div class="comparison">
-<h3>{{ comp.label }}</h3>
-{% for caveat in comp.caveats %}
-<p class="caveat">⚠ {{ caveat }}</p>
-{% endfor %}
-<ul>
-{% for row in comp.rows %}
-<li>
-{% if row.has_data %}
-<strong>{{ row.decade }}</strong>: {{ row.price_display }}
-{% if row.hours_display %} — {{ row.hours_display }}{% endif %}
-{% if row.pct_display %} · {{ row.pct_display }}{% endif %}
-<span class="tier">{{ row.tier }}</span>
-{% else %}
-<strong>{{ row.decade }}</strong>: <em>no record</em>
-{% endif %}
-</li>
-{% endfor %}
-</ul>
-{% for row in comp.rows %}
-{% if row.has_data and row.anchor_note %}
-<p><small>{{ row.decade }} anchors: {{ row.anchor_note }}</small></p>
-{% endif %}
-{% endfor %}
+_TIER_LEGEND = """
+<div class="legends">
+  <div class="leg">
+    <h4>Confidence &amp; flags</h4>
+    {% for t, color in T.TIER_COLORS.items() %}
+    <div class="tierrow"><span class="swatch" style="background:{{ color }}"></span> {{ t }} — {{ tier_names[t] }}</div>
+    {% endfor %}
+    <div class="tierrow"><span class="swatch" style="background:{{ T.GAP }};opacity:.5;border:1px dashed {{ T.GAP }}"></span> Gap — no reliable record; shown as the gap it is</div>
+  </div>
+  <div class="leg">
+    <h4>Reading the museum</h4>
+    <p><b>Every fact is behind glass</b>: its placard names the source, the year, who was measured, and how sure we are. Chart points and stage glyphs deep-link to their placards.</p>
+    <p style="margin-top:8px"><b>Falling</b> metrics render in copper, <b>rising</b> in brass. Absent technology isn't drawn — a bare house says more than ghosts.</p>
+  </div>
 </div>
-{% endfor %}
-{% endif %}
-{% endblock %}
 """
 
-_ROOM = """{% extends "base" %}
-{% block title %}{{ room.country }} · {{ room.decade }} — vitrine{% endblock %}
+_INDEX = (
+    """{% extends "base" %}
+{% block title %}vitrine — the museum lobby{% endblock %}
 {% block body %}
-<h1>{{ room.country | upper }} — the {{ room.decade }}</h1>
-<div class="disclaimer">{{ disclaimer }}</div>
-{% for panel, facts, computed in panels %}
-<div class="panel">
-<h2>{{ panel_title(panel) }}</h2>
-{% if not facts and not computed %}<p><em>Not yet curated.</em></p>{% endif %}
-{% for fact in facts %}
-<div class="fact">
-  <span class="value"><strong>{{ fact.value }}</strong> — {{ fact.label }}</span>
-  <span class="tier" title="{{ tier_label(fact.tier) }}">{{ fact.tier.value }}</span>
-  <br><small>{{ fact.unit }}</small>
-  {% if fact.id in affordability %}
-  {% set aff = affordability[fact.id] %}
-  {% if aff.hours %}
-  <br><small class="afford">{{ aff.hours }} <span class="tier" title="affordability confidence">{{ aff.tier }}</span></small>
+<p class="eyebrow">vitrine · a museum of the median family</p>
+<h1>The <em>median family's</em> century, behind glass</h1>
+<p class="sub">A decade-by-decade museum of the median-income four-person family's lifestyle. Every fact carries its source card and confidence tier; where the record is silent, the museum shows the gap.</p>
+<div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
+<h2 class="case-title">The rooms</h2>
+<p class="case-sub">One room per decade — the house cutaway, the six display cases, the specimen labels.</p>
+<div class="decades"><span class="lab">Decade</span>
+{% for room in rooms %}<a class="dbtn" href="rooms/{{ room.slug }}.html">{{ room.decade }}</a>
+{% endfor %}</div>
+<h2 class="case-title">The corridors</h2>
+<p class="case-sub"><a href="corridors/index.html">Cross-decade arcs</a> — diffusion, affordability in hours of work, budget composition, life expectancy — and the pairwise comparison set.</p>
+<h2 class="case-title">The walkthrough</h2>
+<p class="case-sub"><a href="walkthrough.html">The transect</a> — the composite household at three stops across the century.</p>
+"""
+    + _TIER_LEGEND
+    + "{% endblock %}\n"
+)
+
+_PLACARD = """
+{% macro placard(fact, room, sources, assumptions, affordability, root) %}
+<div class="placard{% if fact.value.strip().lower().startswith('no reliable record') %} gap-placard{% endif %}" id="{{ fact.id }}">
+  <div class="ceyebrow">{{ panel_title(fact.panel) }} · {{ room.decade }}</div>
+  <div class="cval">{{ fact.value }}<span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}" title="{{ tier_label(fact.tier) }}">{{ fact.tier.value }}</span></div>
+  <p class="clab">{{ fact.label }}</p>
+  <p class="cunit">{{ fact.unit }}</p>
+  {% if fact.id in affordability %}{% set aff = affordability[fact.id] %}
+  {% if aff.hours %}<p class="afford">{{ aff.hours }}</p>{% endif %}
+  {% if aff.pct %}<p class="afford">{{ aff.pct }}</p>{% endif %}
   {% endif %}
-  {% if aff.pct %}
-  <br><small class="afford">{{ aff.pct }}</small>
-  {% endif %}
-  {% endif %}
+  {% set src = sources[fact.source] %}
+  <div class="measured"><span class="mk">Measured</span><span class="mv">{{ src.population }}</span></div>
   <details>
     <summary>provenance</summary>
-    <div class="card">
-      {% set src = sources[fact.source] %}
-      <strong>{{ src.title }}</strong><br>
+    <div class="drawer">
+      <b>{{ src.title }}</b><br>
       {{ src.publisher }}, {{ src.year }} · <a href="{{ src.url }}">source</a><br>
-      <em>Population measured:</em> {{ src.population }}<br>
       <em>Confidence:</em> {{ fact.tier.value }} — {{ tier_label(fact.tier) }}
-      {% if fact.basis is not none %}
-      <br><em>Basis:</em> {{ basis_label(fact.basis) }}
-      {% endif %}
-      {% if fact.id in affordability and affordability[fact.id].anchor_note %}
-      <br><em>Affordability anchors:</em> {{ affordability[fact.id].anchor_note }}
-      {% endif %}
-      {% if fact.id in affordability and affordability[fact.id].measures %}
-      <br><em>Denominators measure:</em> {{ affordability[fact.id].measures }}
-      {% endif %}
+      {% if fact.basis is not none %}<br><em>Basis:</em> {{ basis_label(fact.basis) }}{% endif %}
+      {% if fact.id in affordability and affordability[fact.id].anchor_note %}<br><em>Affordability anchors:</em> {{ affordability[fact.id].anchor_note }}{% endif %}
+      {% if fact.id in affordability and affordability[fact.id].measures %}<br><em>Denominators measure:</em> {{ affordability[fact.id].measures }}{% endif %}
       {% if fact.notes %}<br><em>Curator note:</em> {{ fact.notes }}{% endif %}
       {% if src.notes %}<br><em>Source note:</em> {{ src.notes }}{% endif %}
-      {% for aid in fact.assumptions %}
-      <br><em>Assumption:</em> <a href="{{ root }}methodology.html#{{ aid }}">{{ assumptions[aid].title }}</a>
-      {% endfor %}
+      {% for aid in fact.assumptions %}<br><em>Assumption:</em> <a href="{{ root }}methodology.html#{{ aid }}">{{ assumptions[aid].title }}</a>{% endfor %}
     </div>
   </details>
 </div>
-{% endfor %}
-{% for cf in computed %}
-<div class="fact">
-  <span class="value"><strong>{{ cf.value }}</strong> — {{ cf.label }}</span>
-  <span class="tier" title="{{ tier_label(cf.tier) }} (weakest input)">{{ cf.tier.value }}</span>
-  <br><small>{{ cf.unit }}</small>
+{% endmacro %}
+{% macro derived_placard(cf, room, assumptions, root) %}
+<div class="placard" id="{{ cf.id }}">
+  <div class="ceyebrow">{{ panel_title(cf.panel) }} · {{ room.decade }} · computed</div>
+  <div class="cval">{{ cf.value }}<span class="tchip" style="background:{{ T.TIER_COLORS[cf.tier.value] }}" title="{{ tier_label(cf.tier) }} (weakest input)">{{ cf.tier.value }}</span></div>
+  <p class="clab">{{ cf.label }}</p>
+  <p class="cunit">{{ cf.unit }}</p>
   <details>
     <summary>derivation</summary>
-    <div class="card">
+    <div class="drawer">
       <em>Computed by vitrine</em> ({{ cf.op.value }}) — never authored by hand:<br>
-      <em>Numerator:</em> {{ cf.numerator.value }} — {{ cf.numerator.label }}
-      <span class="tier">{{ cf.numerator.tier.value }}</span><br>
-      <em>Denominator:</em> {{ cf.denominator.value }} — {{ cf.denominator.label }}
-      <span class="tier">{{ cf.denominator.tier.value }}</span><br>
+      <em>Numerator:</em> {{ cf.numerator.value }} — {{ cf.numerator.label }} <span class="tchip" style="background:{{ T.TIER_COLORS[cf.numerator.tier.value] }}">{{ cf.numerator.tier.value }}</span><br>
+      <em>Denominator:</em> {{ cf.denominator.value }} — {{ cf.denominator.label }} <span class="tchip" style="background:{{ T.TIER_COLORS[cf.denominator.tier.value] }}">{{ cf.denominator.tier.value }}</span><br>
       <em>Confidence:</em> {{ cf.tier.value }} — {{ tier_label(cf.tier) }}, the weakest input tier
       {% if cf.notes %}<br><em>Curator note:</em> {{ cf.notes }}{% endif %}
-      {% for aid in cf.assumptions %}
-      <br><em>Assumption:</em> <a href="{{ root }}methodology.html#{{ aid }}">{{ assumptions[aid].title }}</a>
-      {% endfor %}
+      {% for aid in cf.assumptions %}<br><em>Assumption:</em> <a href="{{ root }}methodology.html#{{ aid }}">{{ assumptions[aid].title }}</a>{% endfor %}
     </div>
   </details>
 </div>
-{% endfor %}
-</div>
-{% endfor %}
-{% endblock %}
+{% endmacro %}
 """
+
+_ROOM = (
+    _PLACARD
+    + """{% extends "base" %}
+{% block title %}{{ room.country | upper }} · {{ room.decade }} — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · {{ room.country | upper }} · the {{ room.decade }}</p>
+<h1>The <em>{{ room.decade }}</em> room</h1>
+<div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
+<div class="decades"><span class="lab">Decade</span>
+{% for r in rooms %}<a class="dbtn{% if r.slug == room.slug %} on{% endif %}" href="{{ r.slug }}.html">{{ r.decade }}</a>
+{% endfor %}</div>
+<div class="stage">{{ stage_svg }}</div>
+<div class="stagehint">era-graded light · absent technology isn't drawn · every glyph opens its specimen label</div>
+{% for panel, facts, computed in panels %}
+<h2 class="case-title">{{ panel_title(panel) }}</h2>
+{% if not facts and not computed %}<p class="case-sub"><em>Not yet curated.</em></p>{% else %}
+<div class="cases">
+{% for fact in facts %}{{ placard(fact, room, sources, assumptions, affordability, root) }}{% endfor %}
+{% for cf in computed %}{{ derived_placard(cf, room, assumptions, root) }}{% endfor %}
+</div>
+{% endif %}
+{% endfor %}
+"""
+    + _TIER_LEGEND
+    + "{% endblock %}\n"
+)
 
 _METHODOLOGY = """{% extends "base" %}
 {% block title %}methodology — vitrine{% endblock %}
 {% block body %}
+<p class="eyebrow">vitrine · methodology</p>
 <h1>Methodology &amp; assumptions</h1>
-<p>Every methodological choice that would mislead if left implicit is written
-here once and linked from every fact it touches.</p>
+<p class="sub">Every methodological choice that would mislead if left implicit is written here once and linked from every placard it touches.</p>
+<div class="cases" style="margin-top:22px">
 {% for a in assumptions %}
-<h2 id="{{ a.id }}">{{ a.title }}</h2>
-<p>{{ a.statement }}</p>
+<div class="placard" id="{{ a.id }}">
+  <div class="ceyebrow">assumption</div>
+  <div class="cval">{{ a.title }}</div>
+  <p class="clab">{{ a.statement }}</p>
+</div>
 {% endfor %}
+</div>
 {% endblock %}
 """
 
+_CORRIDORS = (
+    """{% extends "base" %}
+{% block title %}corridors — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · the corridors</p>
+<h1>The <em>corridors</em> — cross-decade arcs</h1>
+<p class="sub">Where the charts live. Every point is a sourced fact and deep-links to its room placard; a decade whose record is silent renders as the gap it is.</p>
+<h2 class="case-title">Featured epoch comparisons</h2>
+<div class="decades">
+{% for a, b in epochs %}<a class="dbtn" href="{{ a }}--{{ b }}.html">{{ a }} ↔ {{ b }}</a>
+{% endfor %}</div>
+{% for item in afford_sections %}
+<h2 class="case-title">{{ item.label }} — in hours of work</h2>
+<p class="case-sub">Price ÷ the room's wage anchor, computed at build. Tier letters carry the weakest input.</p>
+{% for caveat in item.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+<div class="chart-panel">{{ item.chart }}</div>
+{% endfor %}
+<h2 class="case-title">Budget composition</h2>
+<p class="case-sub">Share of household expenditure, fixed category palette, direct labels. Decades without a parseable breakdown are not drawn.</p>
+{% for caveat in comp_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+<div class="chart-panel">
+{% for bar in comp_bars %}{{ bar }}{% endfor %}
+</div>
+{% for arc in arc_sections %}
+<h2 class="case-title">{{ arc.label }}</h2>
+<p class="case-sub">{{ arc.unit }}</p>
+{% for caveat in arc.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+<div class="chart-panel">{{ arc.chart }}</div>
+{% endfor %}
+<h2 class="case-title">The pairwise set</h2>
+<p class="case-sub">Every decade against every other — each page shows only the fact families the measure guard certifies comparable for that pair.</p>
+<table class="pairtable"><tr><th></th>{% for d in decades %}<th>{{ d[2:4] }}s</th>{% endfor %}</tr>
+{% for a in decades %}<tr><th>{{ a[2:4] }}s</th>
+{% for b in decades %}<td>{% if a < b %}<a href="{{ a }}--{{ b }}.html">↔</a>{% else %}·{% endif %}</td>{% endfor %}</tr>
+{% endfor %}</table>
+"""
+    + _TIER_LEGEND
+    + "{% endblock %}\n"
+)
 
-def _panels_for(
-    room: Room, computed: tuple[ComputedFact, ...]
-) -> list[tuple[Panel, list[Fact], list[ComputedFact]]]:
-    return [
-        (
-            panel,
-            [f for f in room.facts if f.panel is panel],
-            [c for c in computed if c.panel is panel],
+_PAIR = (
+    """{% extends "base" %}
+{% block title %}{{ a }} ↔ {{ b }} — vitrine corridors{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · corridor · pairwise</p>
+<h1>{{ a }} <em>↔</em> {{ b }}</h1>
+<p class="sub">Fact families the measure guard certifies comparable for this pair. Everything else renders as the gap it is. Every value links to its placard.</p>
+<div class="decades" style="margin-top:16px"><span class="lab">Rooms</span>
+<a class="dbtn" href="../rooms/us-{{ a }}.html">{{ a }}</a>
+<a class="dbtn" href="../rooms/us-{{ b }}.html">{{ b }}</a>
+<a class="dbtn" href="index.html">all corridors</a></div>
+{% for item in afford_sections %}
+<h2 class="case-title">{{ item.label }} — affordability</h2>
+{% for caveat in item.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+{% if item.rows %}
+<div class="pairgrid">
+{% for row in item.rows %}
+<a class="valcard" href="{{ row.href }}" data-fact-id="{{ row.fact_id }}">
+  <div class="td">{{ row.decade }} · Tier {{ row.tier }}</div>
+  <div class="tv">{{ row.text }}</div>
+</a>
+{% endfor %}
+</div>
+{% else %}
+<div class="pairgrid"><span class="valcard"><div class="td">{{ a }} ↔ {{ b }}</div><div class="tv gapv">not comparable for this pair — {{ item.gap_reason }}</div></span></div>
+{% endif %}
+{% endfor %}
+{% if comp_bars %}
+<h2 class="case-title">Budget composition</h2>
+<div class="chart-panel">{% for bar in comp_bars %}{{ bar }}{% endfor %}</div>
+{% endif %}
+{% for fam in families %}
+<h2 class="case-title">{{ fam.label }}</h2>
+<p class="case-sub">{{ fam.unit }}</p>
+{% for caveat in fam.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+<div class="pairgrid">
+{% for cell in fam.cells %}
+<a class="valcard" href="{{ cell.href }}" data-fact-id="{{ cell.fact_id }}">
+  <div class="td">{{ cell.decade }} · Tier {{ cell.tier }}</div>
+  <div class="tv{% if cell.gap %} gapv{% endif %}">{{ cell.text }}</div>
+</a>
+{% endfor %}
+</div>
+{% endfor %}
+"""
+    + "{% endblock %}\n"
+)
+
+_WALKTHROUGH = (
+    """{% extends "base" %}
+{% block title %}the walkthrough — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · the walkthrough · {{ stops | join(" → ") }}</p>
+<h1>Walk the <em>composite household</em></h1>
+<p class="sub">The home and the four people in it, at three stops across the century. No narration — the sourced facts, their tiers, and the gaps.</p>
+<div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
+{% for stop in stop_sections %}
+<h2 class="case-title">The {{ stop.decade }} — <a href="rooms/us-{{ stop.decade }}.html">enter the room</a></h2>
+<div class="stage">{{ stop.stage }}</div>
+<div class="people">
+{% for person in stop.people %}
+<div class="person-card">
+  <svg viewBox="-40 -60 80 130" width="64" height="104" role="img" aria-label="{{ person.name }}">{{ person.fig }}</svg>
+  <h5>{{ person.name }}</h5>
+  {% for row in person.rows %}
+  <a class="prow" href="{{ row.href }}" data-fact-id="{{ row.fact_id }}">
+    <span class="sk">{{ row.label }}</span>
+    <span class="sv">{{ row.value }}<span class="tchip" style="background:{{ T.TIER_COLORS[row.tier] }}">{{ row.tier }}</span></span>
+  </a>
+  {% endfor %}
+</div>
+{% endfor %}
+</div>
+{% endfor %}
+<div class="thesis">
+<h4>The same measures, three stops</h4>
+<p class="tcap">Each row is one measure across the transect. A silent record renders as a gap, never a guess.</p>
+{% for m in metrics %}
+<div class="metric">
+  <div class="mlab"><span>{{ m.label }}</span><em>{{ m.unit }}</em></div>
+  <div class="traj">
+  {% for cell in m.cells %}
+  {% if not cell.fact_id %}
+  <span class="tnode">
+    <div class="td">{{ cell.decade }}</div>
+    <div class="tv gapv">not yet curated</div>
+    <div style="margin-top:5px"><span class="flag gapf">gap</span></div>
+  </span>
+  {% else %}
+  <a class="tnode" href="{{ cell.href }}" data-fact-id="{{ cell.fact_id }}">
+    <div class="td">{{ cell.decade }}</div>
+    {% if cell.gap %}<div class="tv gapv">{{ cell.text }}</div><div style="margin-top:5px"><span class="flag gapf">gap</span></div>
+    {% else %}<div class="tv">{{ cell.text }}</div>
+    <div class="tbar{% if m.falling %} fall{% endif %}"><i style="width:{{ cell.bar }}%"></i></div>
+    <div style="margin-top:5px"><span class="flag tier" style="background:{{ T.TIER_COLORS[cell.tier] }}">Tier {{ cell.tier }}</span></div>
+    {% endif %}
+  </a>
+  {% endif %}
+  {% endfor %}
+  </div>
+</div>
+{% endfor %}
+</div>
+<h2 class="case-title">The labour-hours meter</h2>
+<p class="case-sub">Women's weekly unpaid home production, drawn to the data's shape — including its gaps.</p>
+{% for caveat in meter_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+<div class="chart-panel">{{ meter }}</div>
+<h2 class="case-title">The true-scale house</h2>
+<p class="case-sub">The house is drawn to the sourced floor-area datum; a stop without one keeps the dashed reference outline.</p>
+<div class="houses">
+{% for h in houses %}
+<figure>
+{% if h.fact_id %}<a href="{{ h.href }}">{% endif %}
+<svg viewBox="0 0 {{ h.w }} {{ h.hgt }}" width="{{ h.w }}" height="{{ h.hgt }}" role="img" aria-label="House scale, {{ h.decade }}">
+  <path class="hline{% if h.gap %} gaph{% endif %}" {% if h.fact_id %}data-fact-id="{{ h.fact_id }}"{% endif %} d="{{ h.path }}"/>
+</svg>
+{% if h.fact_id %}</a>{% endif %}
+<figcaption>{{ h.decade }} — {{ h.caption }}</figcaption>
+</figure>
+{% endfor %}
+</div>
+"""
+    + "{% endblock %}\n"
+)
+
+# demo figure primitives (decoration; the stats beside them carry the facts)
+_FIGS = {
+    "father": '<path class="fig" d="M-12 -26 L12 -26 L8 44 L-8 44 Z"/><circle class="fig head" cx="0" cy="-37" r="9"/>',
+    "mother": '<path class="fig" d="M-9 -25 L9 -25 L5 12 L15 44 L-15 44 L-5 12 Z"/><circle class="fig head" cx="0" cy="-36" r="8.5"/>',
+    "children": '<g transform="translate(-11,4)"><path class="fig" d="M-7 -14 L7 -14 L5 28 L-5 28 Z"/><circle class="fig head" cx="0" cy="-23" r="6.5"/></g><g transform="translate(13,10) scale(0.82)"><path class="fig" d="M-7 -14 L7 -14 L5 28 L-5 28 Z"/><circle class="fig head" cx="0" cy="-23" r="6.5"/></g>',
+}
+
+_GAP_PREFIX = "no reliable record"
+
+
+# ── projection helpers ────────────────────────────────────────────────────────
+
+
+@dataclass(frozen=True, slots=True)
+class _FactRef:
+    room: Room
+    fact: Fact
+
+
+def _index_facts(corpus: Corpus) -> dict[str, _FactRef]:
+    return {f.id: _FactRef(room, f) for room in corpus.rooms for f in room.facts}
+
+
+def _placard_href(index: dict[str, _FactRef], fact_id: str, root: str) -> str:
+    ref = index[fact_id]
+    return f"{root}rooms/{ref.room.slug}.html#{fact_id}"
+
+
+def _arc_points(
+    index: dict[str, _FactRef], arc: curation.Arc, root: str
+) -> tuple[svg.ArcPoint, ...]:
+    points = []
+    for decade in sorted(arc.fact_ids):
+        fid = arc.fact_ids[decade]
+        ref = index[fid]
+        points.append(
+            svg.ArcPoint(
+                decade=decade,
+                fact_id=fid,
+                href=_placard_href(index, fid, root),
+                tier=ref.fact.tier.value,
+                label=ref.fact.label,
+                value=ref.fact.value,
+                quantity=ref.fact.quantity,
+            )
         )
-        for panel in Panel
-    ]
+    return tuple(points)
 
 
-@dataclass(frozen=True, slots=True)
-class _ComparisonRow:
-    decade: str
-    price_display: str
-    hours_display: str
-    pct_display: str
-    tier: str
-    anchor_note: str
-    has_data: bool
+def _fold_shares(
+    fact: Fact, index: dict[str, _FactRef], root: str
+) -> tuple[svg.ShareSegment, ...]:
+    """Parse a composition fact and fold categories into the fixed palette slots."""
+    parsed = svg.parse_shares(fact.value)
+    href = _placard_href(index, fact.id, root)
+    by_slot: dict[str, tuple[list[str], float]] = {}
+    for category, pct in parsed:
+        slot = tokens.CATEGORY_SLOT.get(category, "other")
+        names, total = by_slot.get(slot, ([], 0.0))
+        names.append(category)
+        by_slot[slot] = (names, total + pct)
+    segments = []
+    for slot in tokens.COMPOSITION_ORDER:
+        if slot not in by_slot:
+            continue
+        names, total = by_slot[slot]
+        label = "other" if slot == "other" else " + ".join(names)
+        segments.append(
+            svg.ShareSegment(
+                slot=slot,
+                category=label,
+                pct=round(total, 2),
+                fact_id=fact.id,
+                href=href,
+            )
+        )
+    return tuple(segments)
 
 
-@dataclass(frozen=True, slots=True)
-class _ComparisonView:
-    label: str
-    rows: tuple[_ComparisonRow, ...]
-    caveats: tuple[str, ...]
+def _build_stage(room: Room, index: dict[str, _FactRef], root: str) -> svg.Stage:
+    artifacts: list[svg.StageArtifact] = []
+    for artifact, (x, y) in svg.STAGE_POS.items():
+        fid = curation.STAGE_DIFFUSION.get(artifact, {}).get(room.decade)
+        kind = "diffusion"
+        if fid is None:
+            fid = curation.STAGE_STATS.get(artifact, {}).get(room.decade)
+            kind = "stat"
+        if fid is None:
+            continue  # absent technology isn't drawn
+        sym = symbols.symbol(artifact, room.decade)
+        if sym is None:
+            continue
+        ref = index[fid]
+        artifacts.append(
+            svg.StageArtifact(
+                artifact=artifact,
+                glyph_svg=sym.svg,
+                x=x,
+                y=y,
+                fact_id=fid,
+                href=_placard_href(index, fid, root),
+                label=ref.fact.label,
+                value=ref.fact.value,
+                quantity=ref.fact.quantity if kind == "diffusion" else None,
+                kind=kind,
+            )
+        )
+
+    zone_notes: list[svg.ZoneNote] = []
+    comp_id = curation.COMPOSITIONS.get(room.decade)
+    if comp_id is not None:
+        segments = _fold_shares(index[comp_id].fact, index, root)
+        for seg in segments:
+            pos = curation.ZONE_NOTE_POS.get(seg.slot)
+            if pos is None:
+                continue
+            zone_notes.append(
+                svg.ZoneNote(
+                    text=f"{seg.slot} {seg.pct:g}% of spending",
+                    x=pos[0],
+                    y=pos[1],
+                    fact_id=seg.fact_id,
+                    href=seg.href,
+                )
+            )
+    else:
+        food_arc = curation.ARC_BY_SLUG["food-share"]
+        fid = food_arc.fact_ids.get(room.decade)
+        if fid is not None and index[fid].fact.quantity is not None:
+            fact = index[fid].fact
+            x, y = curation.ZONE_NOTE_POS["food"]
+            zone_notes.append(
+                svg.ZoneNote(
+                    text=f"food {fact.quantity:g}% of spending",
+                    x=x,
+                    y=y,
+                    fact_id=fid,
+                    href=_placard_href(index, fid, root),
+                )
+            )
+    return svg.Stage(decade=room.decade, artifacts=tuple(artifacts), zone_notes=tuple(zone_notes))
+
+
+def _afford_fact_ids(corpus: Corpus, pattern: str) -> dict[str, str]:
+    """Every decade whose room holds the priced fact — structured or not.
+
+    Unstructured facts can't compute an hours axis; they render as gap slots,
+    which is the record's actual shape (Plan 003 structured only the rooms
+    with verified anchors).
+    """
+    ids = {}
+    for room in corpus.rooms:
+        fid = pattern.format(decade=room.decade)
+        if any(f.id == fid for f in room.facts):
+            ids[room.decade] = fid
+    return ids
+
+
+def _afford_arc_chart(
+    comparison: Comparison,
+    ids: dict[str, str],
+    index: dict[str, _FactRef],
+    root: str,
+) -> str:
+    """Project an affordability comparison onto the arc chart (hours axis).
+
+    Decades whose fact exists but can't compute hours (no structured amount,
+    or no wage anchor in the room) render as gap slots.
+    """
+    computed = {
+        p.decade: p for p in comparison.points if p.afford.hours_to_afford is not None
+    }
+    points = []
+    for decade in sorted(ids):
+        fid = ids[decade]
+        ref = index[fid]
+        p = computed.get(decade)
+        if p is None:
+            points.append(
+                svg.ArcPoint(
+                    decade=decade,
+                    fact_id=fid,
+                    href=_placard_href(index, fid, root),
+                    tier=ref.fact.tier.value,
+                    label=ref.fact.label,
+                    value=f"{ref.fact.value} — hours axis not computable (see the placard)",
+                    quantity=None,
+                )
+            )
+            continue
+        hours = p.afford.hours_to_afford
+        assert hours is not None
+        points.append(
+            svg.ArcPoint(
+                decade=decade,
+                fact_id=fid,
+                href=_placard_href(index, fid, root),
+                tier=p.afford.tier.value,
+                label=ref.fact.label,
+                value=f"{p.price_display} ≈ {hours:,.0f} hours of work",
+                quantity=round(hours, 1),
+            )
+        )
+    return svg.arc_chart(tuple(points), "hours of work to afford", falling=False)
+
+
+# ── affordability display (unchanged mechanics from the V0 renderer) ─────────
 
 
 def _format_hours(hours: float) -> str:
@@ -304,56 +769,155 @@ def _affordability_for_room(corpus: Corpus, room: Room) -> dict[str, dict[str, s
     return display
 
 
-def _build_comparison_view(comparison: Comparison, decades: list[str]) -> _ComparisonView:
-    point_map = {p.decade: p for p in comparison.points}
-    rows: list[_ComparisonRow] = []
-    for decade in decades:
-        point = point_map.get(decade)
-        if point is None:
-            rows.append(
-                _ComparisonRow(
+def _panels_for(
+    room: Room, computed: tuple[ComputedFact, ...]
+) -> list[tuple[Panel, list[Fact], list[ComputedFact]]]:
+    return [
+        (
+            panel,
+            [f for f in room.facts if f.panel is panel],
+            [c for c in computed if c.panel is panel],
+        )
+        for panel in Panel
+    ]
+
+
+# ── pairwise corridor projection ──────────────────────────────────────────────
+
+
+@dataclass(frozen=True, slots=True)
+class _Cell:
+    decade: str
+    fact_id: str
+    href: str
+    tier: str
+    text: str
+    gap: bool
+
+
+@dataclass(frozen=True, slots=True)
+class _Family:
+    label: str
+    unit: str
+    caveats: tuple[str, ...]
+    cells: tuple[_Cell, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class _AffordSection:
+    label: str
+    caveats: tuple[str, ...]
+    rows: tuple[_Cell, ...]
+    gap_reason: str = ""
+
+
+def _pair_families(
+    index: dict[str, _FactRef], a: str, b: str, root: str
+) -> list[_Family]:
+    families = []
+    for arc in curation.ARCS:
+        if a not in arc.fact_ids or b not in arc.fact_ids:
+            continue
+        cells = []
+        for decade in (a, b):
+            fid = arc.fact_ids[decade]
+            fact = index[fid].fact
+            gap = fact.quantity is None
+            cells.append(
+                _Cell(
                     decade=decade,
-                    price_display="",
-                    hours_display="",
-                    pct_display="",
-                    tier="",
-                    anchor_note="",
-                    has_data=False,
+                    fact_id=fid,
+                    href=_placard_href(index, fid, root),
+                    tier=fact.tier.value,
+                    text=fact.value if not gap else f"{fact.value} — see the placard",
+                    gap=gap,
                 )
             )
-        else:
-            hours_str = ""
-            if point.afford.hours_to_afford is not None:
-                hours_str = _format_hours(point.afford.hours_to_afford)
-            pct_str = ""
-            if point.afford.pct_of_income is not None:
-                pct_str = _format_pct(point.afford.pct_of_income)
+        families.append(
+            _Family(label=arc.label, unit=arc.unit, caveats=arc.caveats, cells=tuple(cells))
+        )
+    return families
+
+
+def _pair_afford(
+    corpus: Corpus, index: dict[str, _FactRef], a: str, b: str, root: str
+) -> list[_AffordSection]:
+    sections = []
+    for _slug, label, pattern in curation.AFFORD_ITEMS:
+        ids = _afford_fact_ids(corpus, pattern)
+        if a not in ids or b not in ids:
+            continue
+        comparison = compare_item(corpus, label, {a: ids[a], b: ids[b]})
+        computable = [p for p in comparison.points if p.afford.hours_to_afford is not None]
+        hours_measures = {p.afford.hours_measure for p in computable}
+        # the measure guard: a mixed-concept axis renders as the gap it is
+        if len(computable) < 2:
+            reason = (
+                "the hours axis needs a structured price and a verified wage "
+                "anchor in both rooms — not yet curated for this pair"
+            )
+            sections.append(
+                _AffordSection(label=label, caveats=comparison.caveats, rows=(), gap_reason=reason)
+            )
+            continue
+        if len(hours_measures) != 1 or None in hours_measures:
+            reason = next(
+                (c for c in comparison.caveats if "mixes" in c),
+                "the wage anchors do not share a measure",
+            )
+            sections.append(
+                _AffordSection(label=label, caveats=comparison.caveats, rows=(), gap_reason=reason)
+            )
+            continue
+        rows = []
+        for p in computable:
+            hours = p.afford.hours_to_afford
+            assert hours is not None
+            fid = ids[p.decade]
             rows.append(
-                _ComparisonRow(
-                    decade=decade,
-                    price_display=point.price_display,
-                    hours_display=hours_str,
-                    pct_display=pct_str,
-                    tier=point.afford.tier.value,
-                    anchor_note=point.afford.anchor_note,
-                    has_data=True,
+                _Cell(
+                    decade=p.decade,
+                    fact_id=fid,
+                    href=_placard_href(index, fid, root),
+                    tier=p.afford.tier.value,
+                    text=f"{p.price_display} ≈ {hours:,.0f} hours of work",
+                    gap=False,
                 )
             )
-    return _ComparisonView(
-        label=comparison.label, rows=tuple(rows), caveats=comparison.caveats
-    )
+        sections.append(
+            _AffordSection(label=label, caveats=comparison.caveats, rows=tuple(rows))
+        )
+    return sections
+
+
+# ── the site ─────────────────────────────────────────────────────────────────
 
 
 def render_site(corpus: Corpus, out_dir: Path) -> None:
     env = Environment(
         loader=DictLoader(
-            {"base": _BASE, "index": _INDEX, "room": _ROOM, "methodology": _METHODOLOGY}
+            {
+                "base": _BASE,
+                "index": _INDEX,
+                "room": _ROOM,
+                "methodology": _METHODOLOGY,
+                "corridors": _CORRIDORS,
+                "pair": _PAIR,
+                "walkthrough": _WALKTHROUGH,
+            }
         ),
         autoescape=select_autoescape(default=True),
     )
     env.globals["panel_title"] = panel_title
     env.globals["tier_label"] = tier_label
     env.globals["basis_label"] = basis_label
+    env.globals["T"] = tokens
+    env.globals["tier_names"] = {
+        "A": "official statistical series",
+        "B": "official microdata, computed by this project",
+        "C": "reconstructed from period surveys",
+        "D": "scholarly estimate",
+    }
 
     disclaimer_entry = corpus.assumptions.get("composite-family")
     if disclaimer_entry is None:
@@ -361,33 +925,20 @@ def render_site(corpus: Corpus, out_dir: Path) -> None:
             "assumption ledger must contain 'composite-family' — "
             "the disclaimer renders on every room (charter rule)"
         )
+    env.globals["disclaimer"] = disclaimer_entry.statement
+    env.globals["disclaimer_title"] = disclaimer_entry.title
 
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "rooms").mkdir(exist_ok=True)
+    (out_dir / "corridors").mkdir(exist_ok=True)
 
-    by_country: dict[str, list[Room]] = {}
-    for room in corpus.rooms:
-        by_country.setdefault(room.country, []).append(room)
+    index = _index_facts(corpus)
+    rooms = sorted(corpus.rooms, key=lambda r: r.decade)
+    decades = [room.decade for room in rooms]
 
-    decades = sorted({room.decade for room in corpus.rooms})
-    comparisons = [
-        compare_item(
-            corpus,
-            "A median home, in hours of work",
-            {
-                "1950s": "us-1950s-median-home-value",
-                "2020s": "us-2020s-median-home-value",
-            },
-        ),
-    ]
-    comparison_views = [_build_comparison_view(c, decades) for c in comparisons]
-
+    # lobby + methodology
     (out_dir / "index.html").write_text(
-        env.get_template("index").render(
-            root="",
-            by_country=sorted(by_country.items()),
-            comparisons=comparison_views,
-        )
+        env.get_template("index").render(root="", rooms=rooms)
     )
     (out_dir / "methodology.html").write_text(
         env.get_template("methodology").render(
@@ -395,21 +946,237 @@ def render_site(corpus: Corpus, out_dir: Path) -> None:
         )
     )
 
+    # rooms
     rendered_ids: list[str] = []
-    for room in corpus.rooms:
+    for room in rooms:
         computed = evaluate_room(room)
         (out_dir / "rooms" / f"{room.slug}.html").write_text(
             env.get_template("room").render(
                 root="../",
                 room=room,
+                rooms=rooms,
+                stage_svg=Markup(svg.stage_svg(_build_stage(room, index, "../"))),
                 panels=_panels_for(room, computed),
                 sources=corpus.sources,
                 assumptions=corpus.assumptions,
-                disclaimer=disclaimer_entry.statement,
                 affordability=_affordability_for_room(corpus, room),
             )
         )
         rendered_ids.extend(fact.id for fact in room.facts)
         rendered_ids.extend(cf.id for cf in computed)
+
+    # corridors index: the arc charts
+    corridor_root = "../"
+    arc_sections = [
+        {
+            "label": arc.label,
+            "unit": arc.unit,
+            "caveats": arc.caveats,
+            "chart": Markup(
+                svg.arc_chart(
+                    _arc_points(index, arc, corridor_root), arc.unit, falling=arc.falling
+                )
+            ),
+        }
+        for arc in curation.ARCS
+    ]
+    afford_sections = []
+    for _slug, label, pattern in curation.AFFORD_ITEMS:
+        ids = _afford_fact_ids(corpus, pattern)
+        if len(ids) < 2:
+            continue
+        comparison = compare_item(corpus, label, ids)
+        afford_sections.append(
+            {
+                "label": label,
+                "caveats": comparison.caveats,
+                "chart": Markup(_afford_arc_chart(comparison, ids, index, corridor_root)),
+            }
+        )
+    comp_bars = []
+    for decade in sorted(curation.COMPOSITIONS):
+        fact = index[curation.COMPOSITIONS[decade]].fact
+        segments = _fold_shares(fact, index, corridor_root)
+        if segments:
+            comp_bars.append(Markup(svg.composition_bar(decade, segments)))
+    comp_caveats = (
+        "Survey populations differ across the century — 1901 wage-earner families "
+        "vs modern consumer units; each bar links to its placard, which names who "
+        "was measured.",
+    )
+    epochs = [("1900s", "1950s"), ("1950s", "2020s"), ("1900s", "2020s")]
+    (out_dir / "corridors" / "index.html").write_text(
+        env.get_template("corridors").render(
+            root=corridor_root,
+            decades=decades,
+            epochs=epochs,
+            arc_sections=arc_sections,
+            afford_sections=afford_sections,
+            comp_bars=comp_bars,
+            comp_caveats=comp_caveats,
+        )
+    )
+
+    # the pairwise set (the three epoch pages are the featured pairs)
+    for i, a in enumerate(decades):
+        for b in decades[i + 1 :]:
+            pair_comp_bars = []
+            if a in curation.COMPOSITIONS and b in curation.COMPOSITIONS:
+                for decade in (a, b):
+                    fact = index[curation.COMPOSITIONS[decade]].fact
+                    segments = _fold_shares(fact, index, corridor_root)
+                    if segments:
+                        pair_comp_bars.append(Markup(svg.composition_bar(decade, segments)))
+            (out_dir / "corridors" / f"{a}--{b}.html").write_text(
+                env.get_template("pair").render(
+                    root=corridor_root,
+                    a=a,
+                    b=b,
+                    families=_pair_families(index, a, b, corridor_root),
+                    afford_sections=_pair_afford(corpus, index, a, b, corridor_root),
+                    comp_bars=pair_comp_bars,
+                )
+            )
+
+    # the walkthrough
+    stop_sections = []
+    for decade in curation.WALKTHROUGH_STOPS:
+        room = next(r for r in rooms if r.decade == decade)
+        people = []
+        for figure, name in (("father", "The father"), ("mother", "The mother"), ("children", "The children")):
+            rows = []
+            for fid in curation.WALKTHROUGH_PEOPLE[figure].get(decade, ()):
+                fact = index[fid].fact
+                rows.append(
+                    {
+                        "fact_id": fid,
+                        "href": _placard_href(index, fid, ""),
+                        "label": fact.label,
+                        "value": fact.value if len(fact.value) <= 90 else fact.value[:87] + "…",
+                        "tier": fact.tier.value,
+                    }
+                )
+            people.append({"name": name, "fig": Markup(_FIGS[figure]), "rows": rows})
+        stop_sections.append(
+            {
+                "decade": decade,
+                "stage": Markup(svg.stage_svg(_build_stage(room, index, ""))),
+                "people": people,
+            }
+        )
+
+    metrics = []
+    for slug in curation.WALKTHROUGH_METRICS:
+        arc = curation.ARC_BY_SLUG[slug]
+        stop_facts = [
+            (d, arc.fact_ids.get(d)) for d in curation.WALKTHROUGH_STOPS
+        ]
+        quantities = [
+            q
+            for _, mfid in stop_facts
+            if mfid is not None and (q := index[mfid].fact.quantity) is not None
+        ]
+        q_max = max(quantities) if quantities else 1.0
+        cells = []
+        for decade, mfid in stop_facts:
+            if mfid is None:
+                # no fact at all for this stop — an uncurated slot, not a mark
+                cells.append(
+                    {"decade": decade, "fact_id": "", "href": "", "tier": "", "gap": True,
+                     "text": "not yet curated", "bar": 0}
+                )
+                continue
+            fact = index[mfid].fact
+            cells.append(
+                {
+                    "decade": decade,
+                    "fact_id": mfid,
+                    "href": _placard_href(index, mfid, ""),
+                    "tier": fact.tier.value,
+                    "gap": fact.quantity is None,
+                    "text": "see the placard" if fact.quantity is None else f"{fact.quantity:g}",
+                    "bar": 0
+                    if fact.quantity is None or q_max == 0
+                    else round(100 * fact.quantity / q_max),
+                }
+            )
+        metrics.append(
+            {"label": arc.label, "unit": arc.unit, "falling": arc.falling, "cells": cells}
+        )
+
+    women_arc = curation.ARC_BY_SLUG["home-production-women"]
+    meter_bars = []
+    for decade in sorted(women_arc.fact_ids):
+        fid = women_arc.fact_ids[decade]
+        fact = index[fid].fact
+        meter_bars.append(
+            svg.MeterBar(
+                decade=decade,
+                fact_id=fid,
+                href=_placard_href(index, fid, ""),
+                tier=fact.tier.value,
+                label=fact.label,
+                value=fact.value,
+                quantity=fact.quantity,
+                note="concept splice — see the placard" if decade == "2020s" else "",
+            )
+        )
+    meter = Markup(svg.hours_meter(tuple(meter_bars), women_arc.unit))
+
+    houses = []
+    sourced_area: float | None = None
+    for decade in curation.WALKTHROUGH_STOPS:
+        area_fid = curation.WALKTHROUGH_FLOOR_AREA.get(decade)
+        if area_fid is not None and index[area_fid].fact.quantity is not None:
+            sourced_area = index[area_fid].fact.quantity
+    for decade in curation.WALKTHROUGH_STOPS:
+        area_fid = curation.WALKTHROUGH_FLOOR_AREA.get(decade)
+        area_fact = index[area_fid].fact if area_fid is not None else None
+        if area_fact is not None and area_fact.quantity is not None and sourced_area:
+            scale = (area_fact.quantity / sourced_area) ** 0.5
+            gap = False
+            caption = f"{area_fact.quantity:,.0f} sq ft (sourced)"
+        else:
+            scale = 0.75  # reference outline only — carries no datum
+            gap = True
+            caption = (
+                "rooms counted, floor area not measured"
+                if area_fact is not None
+                else "floor area not yet curated"
+            )
+        w = round(150 * scale)
+        hgt = round(120 * scale)
+        houses.append(
+            {
+                "decade": decade,
+                "fact_id": area_fid if area_fact is not None else "",
+                "href": (
+                    _placard_href(index, area_fid, "")
+                    if area_fid is not None and area_fact is not None
+                    else ""
+                ),
+                "gap": gap,
+                "w": w,
+                "hgt": hgt,
+                "path": (
+                    f"M{w * 0.08:.0f} {hgt * 0.45:.0f} L{w * 0.5:.0f} {hgt * 0.08:.0f} "
+                    f"L{w * 0.92:.0f} {hgt * 0.45:.0f} M{w * 0.15:.0f} {hgt * 0.45:.0f} "
+                    f"V{hgt * 0.92:.0f} H{w * 0.85:.0f} V{hgt * 0.45:.0f}"
+                ),
+                "caption": caption,
+            }
+        )
+
+    (out_dir / "walkthrough.html").write_text(
+        env.get_template("walkthrough").render(
+            root="",
+            stops=list(curation.WALKTHROUGH_STOPS),
+            stop_sections=stop_sections,
+            metrics=metrics,
+            meter=meter,
+            meter_caveats=women_arc.caveats,
+            houses=houses,
+        )
+    )
 
     (out_dir / "facts-manifest.txt").write_text("\n".join(rendered_ids) + "\n")

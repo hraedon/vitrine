@@ -34,10 +34,14 @@ target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+# visitor-facing copy uses real typography (en dashes, curly quotes)
+allowed-confusables = ["–", "’"]
 
 [tool.ruff.lint.per-file-ignores]
-# embedded HTML templates; markup lines don't wrap usefully
+# embedded HTML/SVG markup; markup lines don't wrap usefully
 "src/vitrine/site/render.py" = ["E501"]
+"src/vitrine/site/svg.py" = ["E501"]
+"src/vitrine/site/symbols.py" = ["E501"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

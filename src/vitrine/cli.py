@@ -6,7 +6,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from vitrine.check import check_corpus, check_render_coverage
+from vitrine.check import check_corpus, check_mark_coverage, check_render_coverage
 from vitrine.gaps import format_report, room_gaps
 from vitrine.loader import LoadError, load_corpus
 
@@ -20,6 +20,7 @@ def _cmd_check(data_dir: Path, build_dir: Path | None = None) -> int:
     problems = check_corpus(corpus)
     if build_dir is not None:
         problems.extend(check_render_coverage(corpus, build_dir))
+        problems.extend(check_mark_coverage(corpus, build_dir))
     for problem in problems:
         print(f"FAIL: {problem}", file=sys.stderr)
     if problems:
@@ -33,6 +34,7 @@ def _cmd_check(data_dir: Path, build_dir: Path | None = None) -> int:
     )
     if build_dir is not None:
         print(f"render-coverage: verified ({n_facts + n_derived} exhibits match build)")
+        print("mark-coverage: every rendered mark resolves to a curated fact")
     return 0
 
 

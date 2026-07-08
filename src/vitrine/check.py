@@ -9,6 +9,7 @@ and nothing verifiability-critical is blank.
 from __future__ import annotations
 
 import math
+from html.parser import HTMLParser
 from pathlib import Path
 
 from vitrine.model import Basis, Corpus, Fact, Room, measure_axis
@@ -259,4 +260,51 @@ def check_render_coverage(corpus: Corpus, build_dir: Path) -> list[str]:
         problems.append(f"render-coverage: fact {fid!r} curated but not rendered")
     for fid in sorted(rendered_ids - curated_ids):
         problems.append(f"render-coverage: fact {fid!r} rendered but not curated")
+    return problems
+
+
+class _MarkScanner(HTMLParser):
+    """Collects every ``data-fact-id`` attribute in a built page."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.mark_ids: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        for name, value in attrs:
+            if name == "data-fact-id" and value:
+                self.mark_ids.append(value)
+
+
+def check_mark_coverage(corpus: Corpus, build_dir: Path) -> list[str]:
+    """Plan 007 D2: every rendered mark must resolve to a curated fact.
+
+    Scans every built page for ``data-fact-id`` (chart points, stage glyphs,
+    meter segments, cutaway annotations). A mark that can't name its fact
+    doesn't render — this catches one that named a fact the corpus doesn't
+    have. Verified from the built HTML, not the renderer's word for it.
+    """
+    pages = sorted(build_dir.rglob("*.html"))
+    if not pages:
+        return [f"mark-coverage: no built pages under {build_dir} — run 'vitrine build' first"]
+
+    curated_ids = {fact.id for room in corpus.rooms for fact in room.facts}
+    curated_ids |= {derived.id for room in corpus.rooms for derived in room.derived}
+
+    problems: list[str] = []
+    n_marks = 0
+    for page in pages:
+        scanner = _MarkScanner()
+        scanner.feed(page.read_text())
+        n_marks += len(scanner.mark_ids)
+        for mark_id in sorted(set(scanner.mark_ids) - curated_ids):
+            problems.append(
+                f"mark-coverage: {page.relative_to(build_dir)} carries mark "
+                f"{mark_id!r} that resolves to no curated fact"
+            )
+    if n_marks == 0:
+        problems.append(
+            "mark-coverage: no data-fact-id marks found in any built page — "
+            "the chart surfaces are missing"
+        )
     return problems
