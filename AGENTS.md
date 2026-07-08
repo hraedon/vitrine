@@ -68,7 +68,16 @@ uv venv && uv pip install -e ".[dev]"
 .venv/bin/mypy src
 .venv/bin/vitrine check          # the provenance gate, same as CI runs
 .venv/bin/vitrine build          # static site → _site/ (gitignored)
+.venv/bin/vitrine check --against-build _site  # + render & mark coverage
 ```
+
+The site (Plan 007) is three static surfaces — rooms, corridors, walkthrough —
+with no JS; design tokens live in `docs/design-spec.md` +
+`src/vitrine/site/tokens.py`, editorial chart/stage registries in
+`src/vitrine/site/curation.py`. Chart marks carry `data-fact-id`; a mark that
+can't name a curated fact is a red build. A fact's chartable number is its
+structured `quantity` (must appear verbatim in `value` — gate-enforced);
+facts without one render as gaps.
 
 ## Data authoring
 

@@ -1,6 +1,10 @@
 # Plan 007 — The visualization layer: the museum gets its architecture
 
-**Status:** proposed
+**Status:** implemented 2026-07-08 (WI-1 landed earlier the same day; WI-2–WI-7
+in the visualization-layer commits). One deliberate deviation: charts needed an
+honest numeric channel, so the fact model gained an optional `quantity` field —
+a transcription of the displayed datum, gate-enforced to appear verbatim in
+`value` (see fact-model.md). Facts without one render as gaps.
 **Triggered by:** owner direction 2026-07-08. The walkthrough concept demo is
 adopted as the design reference (`docs/concept-demo/walkthrough.html`,
 non-truth-path); this plan turns its design language into the production

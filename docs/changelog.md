@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-07-08 — Plan 007 (the visualization layer)
+
+The production renderer replaces the V0 schematic with three static surfaces
+on the concept demo's design language: rooms (dark-gallery house cutaway,
+era-graded stage light, ivory `:target` specimen placards), corridors (17
+cross-decade arc charts, affordability-in-hours, budget composition, and the
+78-page measure-guard-filtered pairwise set), and the walkthrough (the
+1900s→1950s→2020s transect with the labour-hours meter and true-scale house).
+No JS anywhere; every interactive affordance works with scripts disabled.
+
+Model change: facts gained an optional structured `quantity` — the one number
+a chart mark may project — gate-enforced to appear verbatim in the display
+value. 118 quantities added across all 13 rooms; multi-number ranges got none
+and render as gaps. New gate: **mark coverage** — the built HTML is scanned
+for `data-fact-id` and any mark that doesn't resolve to a curated fact is a
+red build (`vitrine check --against-build`). Design tokens + validated
+palette recorded in `docs/design-spec.md`, executable in
+`src/vitrine/site/tokens.py`, with a contrast test over every era light tint
+(it caught `ink-soft` at 2.7:1 on the glow tints during development). 89
+tests; ruff/mypy/check/build all green.
+
 ## 2026-07-08 — Plan 008 Phase 1-2 (verification and gap filling)
 
 ### Corrections (4 facts fixed)

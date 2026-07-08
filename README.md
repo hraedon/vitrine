@@ -81,13 +81,18 @@ not cryptographic.
 
 ## Status
 
-US corpus curated: 13 decade rooms (1900s–2020s), ~200 facts, every
-1970s–2010s expenditure/wage/food-basket gap filled at Tier A; remaining gaps
-are structural (pre-1947 income, 1940s expenditure) or listed in
-`docs/resource-hunt.md`. Next: the visualization layer
-(`plans/007-visualization-layer.md`, design reference
-`docs/concept-demo/walkthrough.html`). See `docs/fact-model.md` (design spine)
-and `plans/` for the full series.
+US corpus curated: 13 decade rooms (1900s–2020s), 278 facts, zero Tier D
+estimates; remaining gaps are structural (pre-1947 income, 1940s expenditure)
+or listed in `docs/resource-hunt.md`. The visualization layer (Plan 007) is
+implemented: three static surfaces — rooms (dark-gallery cutaway, era-graded
+light, `:target` specimen placards), corridors (cross-decade arc charts plus
+the 78-page pairwise comparison set), and the walkthrough (the three-stop
+transect) — all pre-rendered, no JS, every chart mark carrying the fact id it
+projects (`data-fact-id`, enforced by the mark-coverage gate in
+`vitrine check --against-build`). Design tokens and the validated palette:
+`docs/design-spec.md` / `src/vitrine/site/tokens.py`. Known open arc: vehicle
+ownership 1960–2000 (WI-8). See `docs/fact-model.md` (design spine) and
+`plans/` for the full series.
 
 ## Quick start
 
