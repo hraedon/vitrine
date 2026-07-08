@@ -24,6 +24,7 @@ notes = "No national family income survey before 1947. The 1940 Census asked abo
 
 [[fact]]
 id = "us-1930s-homeownership"
+quantity = 47.8
 panel = "home"
 label = "Homeownership rate, 1930"
 value = "47.8%"
@@ -122,6 +123,7 @@ notes = "Without a median family income figure, affordability comparisons cannot
 
 [[fact]]
 id = "us-1930s-home-production-women"
+quantity = 43.2
 panel = "day"
 label = "Women's weekly unpaid home-production hours, 1930"
 value = "43.2"
@@ -133,6 +135,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1930s-home-production-men"
+quantity = 6
 panel = "day"
 label = "Men's weekly unpaid home-production hours, 1930"
 value = "6.0"

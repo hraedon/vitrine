@@ -64,6 +64,7 @@ assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-1990s-poverty-rate"
+quantity = 13.5
 panel = "budget"
 label = "Official poverty rate, 1990"
 value = "13.5% (33.6 million people in poverty)"
@@ -76,6 +77,7 @@ notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty
 
 [[fact]]
 id = "us-1990s-homeownership"
+quantity = 64.2
 panel = "home"
 label = "Homeownership rate, 1990"
 value = "64.2%"
@@ -98,6 +100,7 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1990s-plumbing"
+quantity = 99
 panel = "home"
 label = "Complete plumbing facilities, 1990"
 value = "99% of homes had complete plumbing (1% lacked)"
@@ -120,6 +123,7 @@ notes = "Computed from RECS 1993 microdata (file2_asc.txt, FUELHEAT variable, we
 
 [[fact]]
 id = "us-1990s-life-expectancy"
+quantity = 75.4
 panel = "day"
 label = "Life expectancy at birth, 1990"
 value = "71.8 male, 78.8 female (75.4 total, all races)"
@@ -153,6 +157,7 @@ notes = "From Pew Research Center Internet & American Life Project. The World Wi
 
 [[fact]]
 id = "us-1990s-air-conditioning"
+quantity = 68
 panel = "diffusion"
 label = "Homes with air conditioning, 1993 (RECS)"
 value = "68%"
@@ -163,6 +168,7 @@ notes = "RECS 1993: 68% of all occupied housing units had AC. Rose to 87% by 200
 
 [[fact]]
 id = "us-1990s-telephone"
+quantity = 94.8
 panel = "diffusion"
 label = "Housing units with telephone, 1990"
 value = "94.8%"
@@ -183,6 +189,7 @@ notes = "FRED series ITCELSETSP2USA (World Bank/ITU). Subscriptions per 100 peop
 
 [[fact]]
 id = "us-1990s-cable-tv"
+quantity = 59.3
 panel = "diffusion"
 label = "Households with cable TV, 1992"
 value = "59.3% of TV households (55.2M subscribers)"
@@ -193,6 +200,7 @@ notes = "FCC Fourth Annual Report on Video Competition (FCC 97-423, adopted Dec 
 
 [[fact]]
 id = "us-1990s-computer"
+quantity = 36.6
 panel = "diffusion"
 label = "Households with a computer, 1997 (Census CPS)"
 value = "36.6%"
@@ -215,6 +223,7 @@ notes = "NTIA 'Falling Through the Net' series, based on Census CPS supplements 
 
 [[fact]]
 id = "us-1990s-food-basket"
+quantity = 15
 panel = "table"
 label = "Food basket and expenditure breakdown, 1996 (CEX)"
 value = "Food $6,535/yr (15.0% of expenditure). Food at home $4,046 (62% of food), food away from home $2,489 (38%). Key items: meats/poultry/fish/eggs $1,064, cereals/bakery $658, fruits/vegetables $638, dairy $448, beef $319. Total expenditure: $43,670."
@@ -239,6 +248,7 @@ assumptions = ["affordability-normalization", "nominal-values"]
 
 [[fact]]
 id = "us-1990s-cpi"
+quantity = 130.7
 panel = "work-buys"
 label = "Consumer Price Index and purchasing power, 1990"
 value = "CPI 130.7 (1990) → 313.7 (2024) = 2.4x. $1 in 1990 = $2.40 in 2024. Real median family income grew 1.25x."
@@ -283,6 +293,7 @@ notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 
 
 [[fact]]
 id = "us-1990s-infant-mortality"
+quantity = 9.2
 panel = "day"
 label = "Infant mortality rate, 1990"
 value = "9.2 per 1,000 live births"

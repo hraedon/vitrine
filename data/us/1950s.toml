@@ -133,6 +133,7 @@ assumptions = ["composite-family", "income-vs-consumption"]
 
 [[fact]]
 id = "us-1950s-homeownership-rate"
+quantity = 55
 panel = "home"
 label = "Homeownership rate, 1950"
 value = "55.0%"
@@ -159,6 +160,7 @@ assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income
 
 [[fact]]
 id = "us-1950s-plumbing"
+quantity = 64.5
 panel = "home"
 label = "Complete plumbing facilities, 1950"
 value = "64.5% of homes had complete plumbing (35.5% lacked)"
@@ -179,6 +181,7 @@ notes = "From the 1950 Census of Housing, Historical Census of Housing Tables: H
 
 [[fact]]
 id = "us-1950s-television-arrival"
+quantity = 12.3
 panel = "home"
 label = "Television in the home, 1950"
 value = "arriving — 12.3% of households (1950 census)"
@@ -203,6 +206,7 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1950s-food-basket"
+quantity = 24.3
 panel = "table"
 label = "Food basket and expenditure breakdown, 1960-61 (CEX)"
 value = "Food $1,309/yr (24.3% of expenditure), housing $1,594 (29.6%), food away from home $274, local telephone $69/yr. Total expenditure: $5,393."
@@ -231,6 +235,7 @@ assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income
 
 [[fact]]
 id = "us-1950s-weekly-hours-manufacturing"
+quantity = 40.5
 panel = "day"
 label = "Average weekly hours, manufacturing production workers, 1950"
 value = "40.5"
@@ -285,6 +290,7 @@ assumptions = ["nominal-values", "composite-family"]
 
 [[fact]]
 id = "us-1950s-radio-diffusion"
+quantity = 95.6
 panel = "diffusion"
 label = "Households with radio, 1950"
 value = "95.6%"
@@ -296,6 +302,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-tv-diffusion"
+quantity = 12.3
 panel = "diffusion"
 label = "Households with television, 1950"
 value = "12.3%"
@@ -307,6 +314,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-refrigerator-diffusion"
+quantity = 80
 panel = "diffusion"
 label = "Households with mechanical refrigeration, 1950"
 value = "80.0%"
@@ -318,6 +326,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-electricity-diffusion"
+quantity = 94
 panel = "diffusion"
 label = "Households with electric lighting, 1950"
 value = "94.0%"
@@ -329,6 +338,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-central-heating-diffusion"
+quantity = 50
 panel = "diffusion"
 label = "Households with central heating, 1950"
 value = "50.0%"
@@ -340,6 +350,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-telephone-automobile"
+quantity = 61.8
 panel = "diffusion"
 label = "Telephone and automobile adoption, 1950"
 value = "Telephone: 61.8% of households (280.9 per 1,000 population). Automobile: registration data available but not asked in 1950 Census."
@@ -353,6 +364,7 @@ assumptions = ["composite-family", "urban-rural-split"]
 
 [[fact]]
 id = "us-1950s-cpi"
+quantity = 24.1
 panel = "work-buys"
 label = "Consumer Price Index, 1950"
 value = "24.1"
@@ -406,6 +418,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1950s-home-production-women"
+quantity = 41.5
 panel = "day"
 label = "Women's weekly unpaid home-production hours, 1950"
 value = "41.5"
@@ -417,6 +430,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-home-production-men"
+quantity = 9
 panel = "day"
 label = "Men's weekly unpaid home-production hours, 1950"
 value = "9.0"
@@ -428,6 +442,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-infant-mortality"
+quantity = 29.2
 panel = "day"
 label = "Infant mortality rate, 1950"
 value = "29.2 per 1,000 live births"

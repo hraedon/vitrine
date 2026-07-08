@@ -30,6 +30,7 @@ assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-2020s-food-share-comparison"
+quantity = 13.5
 panel = "budget"
 label = "Food share of expenditure: 1901 vs 2024"
 value = "42.54% (1901) -> 13.5% (2024) — food's share dropped by two-thirds"
@@ -106,6 +107,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-homeownership-rate"
+quantity = 65.3
 panel = "home"
 label = "Homeownership rate, 2024"
 value = "65.3%"
@@ -117,6 +119,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-housing-characteristics"
+quantity = 1500
 panel = "home"
 label = "Housing characteristics, 2023 (AHS)"
 value = "Median 1,500 sq ft. 99.9% have complete bathroom. 89.3% public water, 80.9% public sewer. Median 5 rooms. 67.6% have garage/carport."
@@ -156,6 +159,7 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-2020s-food-expenditure-share"
+quantity = 13.5
 panel = "table"
 label = "Food expenditure share, 2024 (CEX Table 1400)"
 value = "Food 13.5% of expenditure for 4-person families (~$14,800 of $109,622/yr). Down from 42.54% in 1901."
@@ -169,6 +173,7 @@ assumptions = ["income-vs-consumption"]
 
 [[fact]]
 id = "us-2020s-weekly-hours-manufacturing"
+quantity = 40.7
 panel = "day"
 label = "Average weekly hours, manufacturing production workers, 2024"
 value = "40.7"
@@ -223,6 +228,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-internet-diffusion"
+quantity = 96
 panel = "diffusion"
 label = "Adults who use the internet, 2025"
 value = "96%"
@@ -234,6 +240,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-broadband-diffusion"
+quantity = 78
 panel = "diffusion"
 label = "Adults with home broadband, 2025"
 value = "78%"
@@ -245,6 +252,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-phone-vehicle-diffusion"
+quantity = 92.7
 panel = "diffusion"
 label = "Phone service and vehicle access, 2023 (AHS)"
 value = "Cell phone 92.7%, landline 20.1%, garage/carport 67.6%"
@@ -258,6 +266,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-cpi"
+quantity = 313.7
 panel = "work-buys"
 label = "Consumer Price Index, 2024"
 value = "313.7"
@@ -305,6 +314,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-2020s-life-expectancy"
+quantity = 78.4
 panel = "day"
 label = "Life expectancy at birth, 2023"
 value = "75.8 male, 81.1 female (78.4 total)"
@@ -315,6 +325,7 @@ notes = "From NCHS Data Brief No. 521 (Dec 2024), final 2023 mortality data. Mal
 
 [[fact]]
 id = "us-2020s-infant-mortality"
+quantity = 5.6
 panel = "day"
 label = "Infant mortality rate, 2023"
 value = "5.6 per 1,000 live births"
@@ -327,6 +338,7 @@ notes = "From CDC/NCHS National Vital Statistics System (reported via USAFacts c
 
 [[fact]]
 id = "us-2020s-vehicle-ownership"
+quantity = 91.5
 panel = "diffusion"
 label = "Households with at least one vehicle, 2023"
 value = "91.5% (8.5% with no vehicle)"
@@ -339,6 +351,7 @@ notes = "From ACS Table B25045 (latest 5-year estimates via Census Reporter). 13
 
 [[fact]]
 id = "us-2020s-poverty-rate"
+quantity = 10.6
 panel = "budget"
 label = "Official poverty rate, 2024"
 value = "10.6% (35.9 million people)"
@@ -352,6 +365,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-air-conditioning"
+quantity = 88
 panel = "diffusion"
 label = "Households using air conditioning, 2020"
 value = "88% (two-thirds central AC)"

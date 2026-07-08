@@ -23,6 +23,7 @@ notes = "No national income survey existed before 1947. The Census of Manufactur
 
 [[fact]]
 id = "us-1910s-homeownership"
+quantity = 45.9
 panel = "home"
 label = "Homeownership rate, 1910"
 value = "45.9%"
@@ -121,6 +122,7 @@ notes = "Without a median family income figure, affordability comparisons cannot
 
 [[fact]]
 id = "us-1910s-home-production-women"
+quantity = 45.6
 panel = "day"
 label = "Women's weekly unpaid home-production hours, 1910"
 value = "45.6"
@@ -132,6 +134,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1910s-home-production-men"
+quantity = 4
 panel = "day"
 label = "Men's weekly unpaid home-production hours, 1910"
 value = "4.0"

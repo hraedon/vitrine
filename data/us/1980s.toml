@@ -64,6 +64,7 @@ assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-1980s-poverty-rate"
+quantity = 13
 panel = "budget"
 label = "Official poverty rate, 1980"
 value = "13.0% (29.3 million people in poverty)"
@@ -76,6 +77,7 @@ notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty
 
 [[fact]]
 id = "us-1980s-homeownership"
+quantity = 64.4
 panel = "home"
 label = "Homeownership rate, 1980"
 value = "64.4%"
@@ -98,6 +100,7 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1980s-plumbing"
+quantity = 97
 panel = "home"
 label = "Complete plumbing facilities, 1980"
 value = "~97% of homes had complete plumbing (~3% lacked)"
@@ -120,6 +123,7 @@ notes = "From the 1980 Census of Housing. Electricity surged to 18.4% (up from 7
 
 [[fact]]
 id = "us-1980s-life-expectancy"
+quantity = 73.7
 panel = "day"
 label = "Life expectancy at birth, 1980"
 value = "70.0 male, 77.5 female (73.7 total, all races)"
@@ -143,6 +147,7 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1980s-telephone"
+quantity = 92.9
 panel = "diffusion"
 label = "Telephone in housing unit, 1980"
 value = "92.9% (7.1% without telephone)"
@@ -163,6 +168,7 @@ notes = "No RECS survey falls within the 1980s decade that reports total AC. The
 
 [[fact]]
 id = "us-1980s-cable-tv"
+quantity = 50.5
 panel = "diffusion"
 label = "Cable TV, 1988-1989"
 value = "More than 52 million cable customers (50.5% penetration, 1988)"
@@ -185,6 +191,7 @@ notes = "From Census CPS Computer Use Supplements (reported in P20-522). Househo
 
 [[fact]]
 id = "us-1980s-food-basket"
+quantity = 15
 panel = "table"
 label = "Food basket and expenditure breakdown, 1985 (CEX)"
 value = "Food $4,706/yr (15.0% of expenditure). Food at home $2,900 (62% of food), food away from home $1,806 (38%). Key items: meats/poultry/fish/eggs $832, cereals/bakery $410, dairy $404, fruits/vegetables $425, beef $290, fresh milk $202. Total expenditure: $31,408."
@@ -209,6 +216,7 @@ assumptions = ["affordability-normalization", "nominal-values"]
 
 [[fact]]
 id = "us-1980s-cpi"
+quantity = 82.4
 panel = "work-buys"
 label = "Consumer Price Index and purchasing power, 1980"
 value = "CPI 82.4 (1980) → 313.7 (2024) = 3.8x. $1 in 1980 = $3.81 in 2024. Real median family income grew 1.32x."
@@ -228,6 +236,7 @@ assumptions = ["nominal-values", "affordability-normalization"]
 
 [[fact]]
 id = "us-1980s-home-production-women"
+quantity = 28.4
 panel = "day"
 label = "Women's weekly unpaid home-production hours, 1985"
 value = "28.4"
@@ -239,6 +248,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1980s-home-production-men"
+quantity = 13.9
 panel = "day"
 label = "Men's weekly unpaid home-production hours, 1985"
 value = "13.9"
@@ -261,6 +271,7 @@ notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 
 
 [[fact]]
 id = "us-1980s-infant-mortality"
+quantity = 12.6
 panel = "day"
 label = "Infant mortality rate, 1980"
 value = "12.6 per 1,000 live births"

@@ -48,6 +48,7 @@ assumptions = ["composite-family", "nominal-values", "income-vs-consumption"]
 
 [[fact]]
 id = "us-1900s-food-share"
+quantity = 42.54
 panel = "budget"
 label = "Food as share of family expenditure, 1901"
 value = "42.54%"
@@ -70,6 +71,7 @@ assumptions = ["composite-family", "income-vs-consumption"]
 
 [[fact]]
 id = "us-1900s-family-size"
+quantity = 5.31
 panel = "budget"
 label = "Average family size, 1901"
 value = "5.31"
@@ -83,6 +85,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1900s-rent-share"
+quantity = 12.95
 panel = "home"
 label = "Rent as share of expenditure, 1901"
 value = "12.95%"
@@ -105,6 +108,7 @@ assumptions = ["composite-family", "urban-rural-split"]
 
 [[fact]]
 id = "us-1900s-homeownership-gap"
+quantity = 46.5
 panel = "home"
 label = "Homeownership rate, 1900s"
 value = "~46.5% (national, all households)"
@@ -142,6 +146,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1900s-weekly-hours"
+quantity = 59
 panel = "day"
 label = "Average weekly hours, manufacturing, 1900"
 value = "59.0"
@@ -190,6 +195,7 @@ assumptions = []
 
 [[fact]]
 id = "us-1900s-infant-mortality"
+quantity = 100
 panel = "day"
 label = "Infant mortality rate, 1900"
 value = "~100 per 1,000 live births"
@@ -202,6 +208,7 @@ notes = "From CDC MMWR Vol. 48, No. 38 (1999): 'approximately 100 infants died b
 
 [[fact]]
 id = "us-1900s-diffusion"
+quantity = 5
 panel = "diffusion"
 label = "Technology diffusion: telephone, automobile, electricity (~1900)"
 value = "Telephone: 9.2 per 1,000 population (1898), ~5% of households. Automobile: <1% (registration incomplete pre-1910). Electricity: <5% of homes (urban only). Radio: not yet commercial."
@@ -256,6 +263,7 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1900s-home-production-women"
+quantity = 46.8
 panel = "day"
 label = "Women's weekly unpaid home-production hours, 1900"
 value = "46.8"
@@ -267,6 +275,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1900s-home-production-men"
+quantity = 3.9
 panel = "day"
 label = "Men's weekly unpaid home-production hours, 1900"
 value = "3.9"
@@ -279,6 +288,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1900s-home-production-household"
+quantity = 78
 panel = "day"
 label = "Total home-production hours per household, 1900"
 value = "78"
