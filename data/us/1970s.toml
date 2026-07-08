@@ -6,6 +6,7 @@
 [room]
 country = "us"
 decade = "1970s"
+income_anchor = "us-1970s-median-income-four-person"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -22,6 +23,10 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1970s-median-income-four-person"
+basis = "annual"
+amount_minor = 1117000
+currency = "USD"
+price_year = 1970
 panel = "budget"
 label = "Median family income, four-person families, 1970"
 value = "$11,170"
@@ -89,6 +94,10 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1970s-median-home-value"
+basis = "total"
+amount_minor = 1700000
+currency = "USD"
+price_year = 1970
 panel = "home"
 label = "Median value of owner-occupied homes, 1970"
 value = "$17,000"

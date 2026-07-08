@@ -5,11 +5,16 @@
 [room]
 country = "us"
 decade = "1960s"
+income_anchor = "us-1960s-median-family-income"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-1960s-median-family-income"
+basis = "annual"
+amount_minor = 629500
+currency = "USD"
+price_year = 1960
 panel = "budget"
 label = "Median family income, 1960"
 value = "$5,620 (all families), $6,295 (4-person families)"
@@ -109,6 +114,10 @@ notes = "From the 1960 Census of Housing. Gas overtook coal as the dominant heat
 
 [[fact]]
 id = "us-1960s-median-home-value"
+basis = "total"
+amount_minor = 1190000
+currency = "USD"
+price_year = 1960
 panel = "home"
 label = "Median value of owner-occupied homes, 1960"
 value = "$11,900"

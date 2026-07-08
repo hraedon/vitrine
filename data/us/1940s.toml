@@ -12,6 +12,7 @@
 [room]
 country = "us"
 decade = "1940s"
+income_anchor = "us-1940s-median-income-four-person"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -28,6 +29,10 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1940s-median-income-four-person"
+basis = "annual"
+amount_minor = 329200
+currency = "USD"
+price_year = 1940
 panel = "budget"
 label = "Median family income, four-person families, 1947"
 value = "$3,292"
@@ -105,6 +110,10 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1940s-median-home-value"
+basis = "total"
+amount_minor = 293800
+currency = "USD"
+price_year = 1940
 panel = "home"
 label = "Median value of owner-occupied single-family homes, 1940"
 value = "$2,938"
