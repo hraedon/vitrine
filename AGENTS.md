@@ -78,6 +78,22 @@ uv venv && uv pip install -e ".[dev]"
 - Tiers: A official series / B official microdata (computed) / C period-survey
   reconstruction / D scholarly estimate. When in doubt, tier *down* and note why.
 
+## Research materials & API keys (gitignored `samples/`)
+
+- `samples/` holds the organized primary-source archive (19 topic dirs +
+  `MANIFEST.md`, cross-referenced to `sources.toml`). **Verify transcriptions
+  against these documents first** — bls.gov 403s non-browser clients from
+  this environment; Wayback `…/web/<yyyy>id_/<url>` fetches work.
+- `samples/api.env` (KEY=VALUE): `BLS_API_KEY`, `CENSUS_API_KEY`,
+  `IPUMS_API_KEY`. Load with `set -a; . samples/api.env; set +a`. The
+  registered BLS key permits multi-decade series pulls in one request.
+  IPUMS use is governed by `docs/ipums-compliance.md` — read it first.
+- Nothing under `samples/` is ever committed (raw third-party data, secrets).
+- Verification lesson (2026-07-08, wage facts): hours and obscure table cells
+  transcribe clean; *famous* headline numbers are the ones that arrive from
+  model memory wearing a fake citation. Verify earnings-class values against
+  the actually-cited series before trusting them.
+
 ## Repo hygiene
 
 - Private until a written sanitization review (`docs/publication-review.md`).
