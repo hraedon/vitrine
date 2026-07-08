@@ -396,6 +396,26 @@ url = "https://www.census.gov/data/tables/time-series/dec/coh-plumbing.html"
 population = "All occupied housing units in the United States (decennial census)"
 notes = "Complete plumbing = hot and cold piped water + flush toilet + bathtub/shower for exclusive use. Lacked complete plumbing (US row of plumbing-tab.txt, verified 2026-07-07): 1940 45.3%, 1950 35.5%, 1960 16.8%, 1970 6.9%, 1980 2.7%, 1990 1.1%. Exact data file: https://www2.census.gov/programs-surveys/decennial/tables/time-series/coh-plumbing/plumbing-tab.txt. The 1940 Census of Housing was the first to ask about plumbing."
 
+[[source]]
+id = "census-hist-housing-fuels"
+title = "Historical Census of Housing Tables: House Heating Fuel"
+short_cite = "U.S. Census Bureau, Historical Census of Housing Tables: House Heating Fuel"
+publisher = "U.S. Census Bureau"
+year = 2000
+url = "https://www.census.gov/data/tables/time-series/dec/coh-fuels.html"
+population = "Occupied housing units reporting heating fuel (decennial census)"
+notes = "Heating fuel data from 1940-1980 decennial census. Files: fuels1940.txt through fuels1980.txt at www2.census.gov. Coal dominated 1940 (55%), gas overtook by 1960 (43%), electricity rose from 0.7% (1950) to 18.4% (1980)."
+
+[[source]]
+id = "census-hist-housing-phone"
+title = "Historical Census of Housing Tables: Telephones"
+short_cite = "U.S. Census Bureau, Historical Census of Housing Tables: Telephones"
+publisher = "U.S. Census Bureau"
+year = 2000
+url = "https://www.census.gov/data/tables/time-series/dec/coh-phone.html"
+population = "Occupied housing units (decennial census)"
+notes = "Telephone in unit: 1960 78.5%, 1970 87.0%, 1980 92.9%, 1990 94.8%. Note: 1970 Census figure (87.0%) differs from Historical Statistics Vol 2 (90.5%) due to population definition (housing units vs households)."
+
 # ── NCHS mortality ───────────────────────────────────────────────────────
 
 [[source]]
@@ -420,6 +440,16 @@ url = "https://censusreporter.org/tables/B25045/"
 population = "All occupied housing units in the United States"
 notes = "Retrieved via Census Reporter API. 132.7M households: 91.5% with 1+ vehicles, 8.5% with no vehicle. Owner no-vehicle: 2.88M (3.3% of owners). Renter no-vehicle: 8.43M (18.3% of renters)."
 
+[[source]]
+id = "census-acs-homevalue"
+title = "ACS Table B25077: Median Value of Owner-Occupied Housing Units"
+short_cite = "U.S. Census Bureau, American Community Survey (B25077)"
+publisher = "U.S. Census Bureau"
+year = 2024
+url = "https://censusreporter.org/tables/B25077/"
+population = "Owner-occupied housing units (ACS 1-year estimates)"
+notes = "Median home value: 2010 $179,900, 2014 $181,200, 2019 $240,500, 2024 $360,600. Retrieved via Census Reporter API."
+
 # ── Census poverty ───────────────────────────────────────────────────────
 
 [[source]]
@@ -432,7 +462,81 @@ url = "https://www.census.gov/library/publications/2025/demo/p60-287.html"
 population = "U.S. resident population and families (CPS ASEC)"
 notes = "Official poverty rate 2024: 10.6% (35.9M people). SPM: 12.9%. Down from 11.1% official in 2023. For families: 7.0% poverty rate (married-couple 3.5%, female-householder 18.6%)."
 
+[[source]]
+id = "census-manufactures-1905"
+title = "Census of Manufactures, 1905: Part I"
+short_cite = "U.S. Census Bureau, Census of Manufactures, 1905"
+publisher = "U.S. Census Bureau"
+year = 1907
+url = "https://www2.census.gov/prod2/decennial/documents/03421399v4ch6.pdf"
+population = "Wage-earners in manufacturing establishments, United States"
+notes = "1905 special Census of Manufactures. Part I, page lxxxix reports average weekly earnings by sex: men $11.16/week, women $6.17/week — a 55% gap. Women's earnings were $4.17 above the minimum and $4.90 below the maximum. Cited in 'Earnings of Wage-Earners' chapter (Census.gov PDF). Also confirmed by Hutchinson, 'Women's Wages' (archive.org) and Missouri Prices & Wages guide."
+
+# ── Scholarly reconstructions ─────────────────────────────────────────────
+
+[[source]]
+id = "early-auto-prices"
+title = "Early American Automobile Manufacturer Prices (1901–1910)"
+short_cite = "Automotive historical records (Oldsmobile, Ford, Rambler)"
+publisher = "Manufacturer records compiled by automotive historians"
+year = 2008
+url = "https://www.conceptcarz.com/vehicle/v31303,10036/1902-oldsmobile-model-r-curved-dash.aspx"
+population = "Manufacturer list prices for the US market"
+notes = "Oldsmobile Curved Dash Runabout: $650 (1901–1904), best-selling car in America. Ford Model A (first Ford): $750–$850 (1903). Rambler: $650 (1902–1913). Prices from manufacturer records compiled by ConceptCarz, RM Sotheby's, and PreWarCar. Tier C: manufacturer list prices verified through multiple automotive history sources."
+
+[[source]]
+id = "ramey-2009"
+title = "Time Spent in Home Production in the Twentieth-Century United States: New Estimates from Old Data"
+short_cite = "Ramey, J. Econ. History 69(1), 2009"
+publisher = "Cambridge University Press (Journal of Economic History)"
+year = 2009
+url = "https://econweb.ucsd.edu/~vramey/research/Home_Production_published.pdf"
+population = "Prime-age women and men, ages 18–64 (benchmark years 1900–2005); also all-ages per-capita and per-household aggregates"
+notes = "Valerie A. Ramey, JEconHist 69(1), March 2009, pp. 1–47. Reconstruction from historical time-diary studies (Purnell Act studies 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS modern surveys. Draft version: NBER Working Paper w13985 (May 2008, 63pp) — data tables are numerically identical to the published version; differences are prose tightening and table reformatting (5→5A/5B, etc.). Tier C (period-survey reconstruction). Key tables: Table 5A (nonemployed women), Table 6A (all women, prime-age), Table 7 (men, prime-age), Table 8A (all ages), Table 3 (component breakdown). Note: Ramey does not use the 1992-94 survey (missing data), so no 1990s benchmark. Splice point to ATUS: Ramey measures women-specific home production ages 18-64; ATUS measures all-adult household activities age 15+ — a concept splice that must caveat (Plan 004 Measure guard)."
+
+[[source]]
+id = "ramey-2008-nber"
+title = "Time Spent in Home Production in the 20th Century: New Estimates from Old Data (NBER Working Paper w13985)"
+short_cite = "Ramey, NBER w13985, 2008"
+publisher = "National Bureau of Economic Research"
+year = 2008
+url = "https://www.nber.org/papers/w13985"
+population = "Prime-age women and men, ages 18–64 (benchmark years 1900–2005); also all-ages per-capita and per-household aggregates"
+notes = "Draft version of Ramey (2009). 63 pages. Data tables numerically identical to published version. Cited as draft companion; the published version (ramey-2009) is the primary source for all facts."
+
+# ── Census: computer/internet use ──────────────────────────────────────────
+
+[[source]]
+id = "census-cps-computer"
+title = "Computer Use in the United States: October 1997 (CPS P20-522)"
+short_cite = "Census Bureau, P20-522, 1999"
+publisher = "U.S. Census Bureau"
+year = 1999
+url = "https://www.census.gov/content/dam/Census/library/publications/1999/demo/p20-522.pdf"
+population = "Civilian noninstitutional population, households and adults 18+"
+notes = "Current Population Survey (CPS) Computer Use Supplement, October 1997. By Eric C. Newburger. First CPS to include Internet questions. Household computer ownership: 8.2% (1984), 15.0% (1989), 22.8% (1993), 36.6% (1997). Table A: households with computers. Table C: adults 18+ by computer and Internet use."
+
 # ── Other ─────────────────────────────────────────────────────────────────
+
+[[source]]
+id = "worldbank-itu-telecom"
+title = "Mobile Cellular Subscriptions (World Bank/ITU)"
+short_cite = "World Bank/ITU, FRED series ITCELSETSP2USA"
+publisher = "World Bank (International Telecommunication Union data)"
+year = 2024
+url = "https://fred.stlouisfed.org/series/ITCELSETSP2USA"
+population = "All mobile cellular subscriptions in the United States"
+notes = "Subscriptions per 100 people. Source: ITU (International Telecommunication Union) via World Bank. US data originally from CTIA/FCC filings. 1990: 2.1, 1995: 12.7, 1998: 25.1, 2000: 38.9 per 100 people. Does not equal household penetration (multiple subscriptions per household are common after 2000)."
+
+[[source]]
+id = "ncta-cable-history"
+title = "Cable History Timeline (NCTA/Syndeo Institute)"
+short_cite = "NCTA/Syndeo Institute, Cable History Timeline"
+publisher = "Syndeo Institute (formerly NCTA Foundation)"
+year = 2022
+url = "https://syndeoinstitute.org/wp-content/uploads/2022/12/Cable-History-Timeline-Narrative_2022.pdf"
+population = "U.S. households with cable television subscriptions"
+notes = "National cable penetration milestones from industry trade association. 1989: 53M households. 1992: 60% of all US households. 1997: 66.7M subscribers. Tier C: industry self-reported statistics, but the standard reference for historical cable penetration."
 
 [[source]]
 id = "eia-recs"
@@ -441,4 +545,34 @@ publisher = "U.S. Energy Information Administration"
 year = 2020
 url = "https://www.eia.gov/consumption/residential/index.php"
 population = "U.S. housing units (sampled)"
-notes = "Started 1978, triennial/quadrennial. Tracks appliance ownership (refrigerator, washing machine, air conditioning) and housing characteristics. Useful for diffusion and home panels as complement to AHS."
+notes = "Started 1978, triennial/quadrennial. Tracks appliance ownership (refrigerator, washing machine, air conditioning) and housing characteristics. AC diffusion: 1993 RECS 68%, 2009 RECS 87%, 2015 RECS 87%. Useful for diffusion and home panels as complement to AHS."
+
+[[source]]
+id = "census-poverty-historical"
+title = "Historical Poverty Tables (Census API: histpov2)"
+short_cite = "U.S. Census Bureau, Historical Poverty Tables"
+publisher = "U.S. Census Bureau"
+year = 2024
+url = "https://api.census.gov/data/timeseries/poverty/histpov2.html"
+population = "All U.S. population (official poverty measure, CPS ASEC)"
+notes = "Official poverty rate from the Current Population Survey Annual Social and Economic Supplement (CPS ASEC), accessed via Census API endpoint histpov2. Covers 1959-present. PCTPOV = percentage of all people below poverty level. PCTFAMPOV = percentage of people in families below poverty level. The official poverty measure uses pre-tax money income vs. poverty thresholds by family size and age. Data starts 1959 (first year of official poverty measure)."
+
+[[source]]
+id = "fcc-video-competition"
+title = "Annual Assessment of the Status of Competition in the Market for the Delivery of Video Programming"
+short_cite = "FCC, Annual Video Competition Report"
+publisher = "Federal Communications Commission"
+year = 2017
+url = "https://www.fcc.gov/document/annual-assessment-status-competition-market-delivery-video-0"
+population = "U.S. households subscribing to multichannel video programming distributor (MVPD) services"
+notes = "FCC's annual report on video competition. Subscriber data from SNL Kagan (industry analyst). Key data: 1997: 64.2M cable, 73.6M total MVPD, 75.9% of TV households (FCC 1997 report). 2015: 53.2M cable (53.1% of MVPD), 33.1M DBS, 13.0M telco, 99.4M total MVPD (FCC DA 17-71, 2017). MVPD subscriber losses began 2013 — cord-cutting era. Cable's share of MVPD declined from 89% (1997) to 53.1% (2015)."
+
+[[source]]
+id = "statab-food-prices"
+title = "Statistical Abstract of the United States: Average Retail Prices of Selected Foods"
+short_cite = "Statistical Abstract, Table: Average Retail Prices of Selected Foods"
+publisher = "U.S. Census Bureau (data from BLS)"
+year = 1970
+url = "https://www.census.gov/library/publications/time-series/statistical_abstracts.html"
+population = "U.S. urban households, retail food prices collected by BLS in 51-56 cities"
+notes = "Table 530 in the 1970 Statistical Abstract (91st edition). Data originally from BLS Retail Food Prices by Cities. Prices in cents per pound unless otherwise indicated. Covers 1950-1970 (April). Milk in cents per quart (delivered). Eggs in cents per dozen. Coffee in cents per 10 oz. Cross-checked against BLS Bulletin 1055 for 1950 values — exact match."

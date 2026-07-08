@@ -62,6 +62,16 @@ tier = "A"
 notes = "From the 2005 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 15,807 thousand 4-person CUs. Total expenditures: $62,215. Income before taxes: $78,183. Expenditure = 80% of gross income. Insurance/pensions crossed 12%. Source: BLS CEX Table 4, 2005 (cusize.pdf via Wayback Machine, web.archive.org)."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
+[[fact]]
+id = "us-2000s-poverty-rate"
+panel = "budget"
+label = "Official poverty rate, 2000"
+value = "11.3% (31.5 million people in poverty)"
+unit = "% of all people below official poverty level"
+source = "census-poverty-historical"
+tier = "A"
+notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 11.3%. Family poverty: 9.6%. Near the pre-recession low. The 2008-09 Great Recession would push poverty to 15.1% by 2010."
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -95,6 +105,16 @@ unit = "% of occupied housing units"
 source = "census-hist-housing-plumbing"
 tier = "A"
 notes = "From Census Historical Housing Tables: Plumbing. Estimated from the series: 1990: 1% lacked, approaching 0% by 2000. Plumbing was universally available."
+
+[[fact]]
+id = "us-2000s-heating-fuel"
+panel = "home"
+label = "House heating fuel, 2009 (RECS)"
+value = "Natural gas 49%, electricity 34%, fuel oil 6%, propane 5%, other 6%"
+unit = "% of homes using each fuel as main space heating source"
+source = "eia-recs"
+tier = "A"
+notes = "From the 2009 RECS. Natural gas remained the dominant heating fuel but was declining (from 51% in 2005). Electricity continued its long-term rise (from 29% in 2005 to 34% in 2009). Fuel oil was down to ~6% (from 10%+ in 1993), concentrated in the Northeast. Coal was gone as a heating fuel. Source: EIA RECS 2009."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -141,6 +161,16 @@ source = "pew-internet-broadband"
 tier = "A"
 notes = "From Pew Research Center. Cell phone adoption was rapid: ~40% in 2000, ~65% in 2004, ~85% by 2009. The iPhone (2007) and Android (2008) began the smartphone transition."
 
+[[fact]]
+id = "us-2000s-air-conditioning"
+panel = "diffusion"
+label = "Air conditioning, 2009 (RECS)"
+value = "87% of homes had AC (61% central AC)"
+unit = "% of occupied housing units with air conditioning"
+source = "eia-recs"
+tier = "A"
+notes = "From the 2009 RECS. 87% of US homes used air conditioning — up from 68% in 1993. Central AC alone reached 61% (nearly tripled from 23% in 1978). AC was approaching universality. By 2015, AC remained at 87%, and by 2020, reached 88%. Source: EIA RECS 2009."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
@@ -166,3 +196,67 @@ source = "census-homeownership-historical"
 tier = "C"
 notes = "Computed: 2000 median home value ($119,600) / 2000 median family income ($50,730). The housing bubble (2002-2006) would push this ratio far higher before the crash."
 assumptions = ["affordability-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-2000s-cpi"
+panel = "work-buys"
+label = "Consumer Price Index and purchasing power, 2000"
+value = "CPI 172.2 (2000) → 313.7 (2024) = 1.8x. $1 in 2000 = $1.82 in 2024. Real median family income grew 1.14x."
+unit = "CPI-U (1982-84=100), annual average"
+source = "bls-cpi"
+tier = "A"
+notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 2000: 172.2. 2024: 313.7. Ratio: 1.82x. Nominal median family income: $50,730 (2000) → $105,800 (2024) = 2.09x. Real growth: 2.09/1.82 = 1.14x — the weakest real income growth of any postwar decade, reflecting two recessions (2001, 2008-09) and the housing crash."
+assumptions = ["nominal-values", "affordability-normalization"]
+
+
+# ── Home production hours (Ramey 2009) ─────────────────────────────────────
+# Plan 005 WI-2: women's + men's weekly unpaid home-production hours.
+# Source: Ramey (2009), Table 6A (women) & Table 7 (men), "All Prime-Age" cols.
+# Population: ages 18–64, weighted by employment-population ratio.
+# Tier C: reconstruction from period time-diary studies linked to modern surveys.
+# Note: actor/hours_kind fields pending Plan 005 WI-1 model changes.
+
+[[fact]]
+id = "us-2000s-home-production-women"
+panel = "day"
+label = "Women's weekly unpaid home-production hours, 2005"
+value = "29.3"
+unit = "hours per week, prime-age women (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2000s-home-production-men"
+panel = "day"
+label = "Men's weekly unpaid home-production hours, 2005"
+value = "16.8"
+unit = "hours per week, prime-age men (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-2000s-home-production-household"
+panel = "day"
+label = "Total home-production hours per household, 2005"
+value = "49"
+unit = "hours per week, all household members combined"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009), aggregate home-production hours divided by number of households. Fell from 78 hrs/week (1900) to 49 hrs/week (2005), a 37% decline. Household size fell 45% (4.7→2.6 persons) over the same period, so per-household hours fell proportionally less than household size. Per-capita (all ages) was 18.5 hrs/week — slightly higher in 2005 than 1900 because fewer children (who do little home production) are in the population."
+assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-2000s-food-prices"
+panel = "table"
+label = "Retail food prices, December 2000"
+value = "Bread $0.85/lb, flour $0.99/lb, round steak $1.98/lb, milk $3.03/gal, potatoes $0.96/lb"
+unit = "USD, retail prices (December 2000, BLS API)"
+source = "bls-api"
+tier = "A"
+notes = "From BLS API series APU00007xxxx (December 2000). Bread up 47% from 1990, flour up 41%, milk up 33%. Round steak actually decreased slightly ($2.02→$1.98), reflecting changes in beef production. The 2000s saw rising global food demand and the beginning of biofuel-driven corn price increases."

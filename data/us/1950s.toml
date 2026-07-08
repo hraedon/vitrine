@@ -168,15 +168,14 @@ tier = "A"
 notes = "From Census Historical Housing Tables: Plumbing (plumbing-tab.txt, US row). Down from 45.3% lacking in 1940 to 35.5% lacking in 1950 (15,772,717 of 44,502,192 occupied units) — the postwar building boom and suburban expansion were starting to close the gap, but more than one in three American homes still lacked complete plumbing. Rural areas lagged badly. By 1960: 16.8% lacked (83.2% had). Figures verified against the Census time-series file 2026-07-07."
 
 [[fact]]
-id = "us-1950s-rooms-plumbing-gap"
+id = "us-1950s-heating-fuel"
 panel = "home"
-label = "Rooms, heating fuel"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "census-decennial-pubs"
-tier = "D"
-notes = "The 1950 Census of Housing collected data on number of rooms, heating fuel, and lighting fuel. Not yet transcribed. We already have: electricity 94.0%, central heating 50.0%, mechanical refrigeration 80.0% from the 1950 Census (Historical Statistics Vol 2)."
-assumptions = ["composite-family", "dwelling-size-metric"]
+label = "House heating fuel, 1950"
+value = "Coal 35%, utility gas 27%, fuel oil/kerosene 23%, wood 10%, bottled/LP gas 2%, electricity 1%"
+unit = "% of occupied housing units reporting heating fuel"
+source = "census-hist-housing-fuels"
+tier = "A"
+notes = "From the 1950 Census of Housing, Historical Census of Housing Tables: House Heating Fuel. Coal was still the leading fuel at 35% but dropping rapidly (from 55% in 1940). Utility gas rose from 11% (1940) to 27% (1950) as pipeline networks expanded. Electricity was barely present (0.7%). Source: fuels1950.txt, www2.census.gov."
 
 [[fact]]
 id = "us-1950s-television-arrival"
@@ -225,7 +224,7 @@ amount_minor = 151100
 currency = "USD"
 price_year = 1950
 basis = "total"
-notes = "From secondary sources cited by the Missouri guide. Tier D: the figure is widely cited but not transcribed from a primary BLS or industry source in this session. The actual primary source may be a trade publication or NADA data."
+notes = "The $1,511 figure is specifically the price of a Ford Custom in 1950, widely cited as a representative new car price. Sources: Reader's Digest (cited by CarZing: 'in 1950, a Ford Custom was $1,511'); Fifties Web ('average cost of a new car in 1950 was approximately $1,510'); Brilliantio ('Ford Custom had a price tag of roughly $1,511'). The Ford Custom was a mid-range model — budget cars like the Henry J were $1,299, while higher-end models like the 1951 Ford Mercury were $2,189. The true average transaction price across all new cars was likely ~$1,800-$2,000. Primary source would be Ford's 1950 MSRP or NADA historical data, not yet directly verified. Tier D: secondary source, specific model price used as representative."
 assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -396,3 +395,33 @@ source = "fred-ces-manuf-earnings"
 tier = "A"
 notes = "Computed: weekly earnings ($53.29) × 52 = $2,771, which is 83.5% of the all-family median income ($3,319). A lone manufacturing wage fell about 17% short of the median family's income — the gap implies second earners or higher-paying work. (Reframed 2026-07-07 from '$53.29 = 1.6% of annual income', which was correct but only meaningful against the unstated benchmark of 1/52 ≈ 1.9%.)"
 assumptions = ["composite-family", "nominal-values"]
+
+
+# ── Home production hours (Ramey 2009) ─────────────────────────────────────
+# Plan 005 WI-2: women's + men's weekly unpaid home-production hours.
+# Source: Ramey (2009), Table 6A (women) & Table 7 (men), "All Prime-Age" cols.
+# Population: ages 18–64, weighted by employment-population ratio.
+# Tier C: reconstruction from period time-diary studies linked to modern surveys.
+# Note: actor/hours_kind fields pending Plan 005 WI-1 model changes.
+
+[[fact]]
+id = "us-1950s-home-production-women"
+panel = "day"
+label = "Women's weekly unpaid home-production hours, 1950"
+value = "41.5"
+unit = "hours per week, prime-age women (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1950s-home-production-men"
+panel = "day"
+label = "Men's weekly unpaid home-production hours, 1950"
+value = "9.0"
+unit = "hours per week, prime-age men (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+assumptions = ["composite-family"]

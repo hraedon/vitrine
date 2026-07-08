@@ -172,9 +172,9 @@ panel = "day"
 label = "Average weekly earnings, wage-earning women, 1905"
 value = "$6.17"
 unit = "USD per week, nominal"
-source = "umizzou-prices-wages"
-tier = "D"
-notes = "From the Missouri guide citing 1905 Census of Manufactures. Women earned ~56% of men's average. Still Tier D."
+source = "census-manufactures-1905"
+tier = "A"
+notes = "From the 1905 Census of Manufactures, Part I, page lxxxix. Women earned $6.17/week vs men's $11.16/week — a 55% gap. Women's earnings were $4.17 above the minimum and $4.90 below the maximum. Confirmed by Hutchinson, 'Women's Wages' (archive.org) and Missouri Prices & Wages guide. Upgraded from Tier D to Tier A: figure is from an official Census Bureau statistical series."
 assumptions = ["nominal-values"]
 
 [[fact]]
@@ -228,10 +228,52 @@ assumptions = ["composite-family", "nominal-values"]
 [[fact]]
 id = "us-1900s-new-car-price"
 panel = "work-buys"
-label = "New automobile price, 1904"
-value = "$750–$1,500"
-unit = "USD, nominal (typical range)"
-source = "umizzou-prices-wages"
-tier = "D"
-notes = "From the Missouri guide citing Frank Leslie's Popular Monthly (1904) and Handbook of Gasoline Automobiles. A $750 automobile = 59 weeks of manufacturing wages ($12.74/week) = ~91% of annual family income ($827.19). Tier D: car price from secondary source, but wage figure now Tier A from Historical Statistics."
+label = "New automobile price, 1901–1904"
+value = "$650 (Oldsmobile Curved Dash, best-selling) to $750 (Ford Model A)"
+unit = "USD, nominal (manufacturer list price)"
+source = "early-auto-prices"
+tier = "C"
+notes = "The Oldsmobile Curved Dash Runabout was $650 from 1901–1904 and was the best-selling car in America (425 sold 1901, 2,500 in 1902, 3,924 in 1903). The Ford Model A (first Ford, 1903) was $750–$850. The Rambler was also $650. These are manufacturer list prices from primary company records, compiled by automotive historians. The previous Tier D figure ($750–$1,500 from Frank Leslie's Popular Monthly) is consistent but less precise. A $650 car = 51 weeks of manufacturing wages ($12.74/week) = ~80% of annual family income ($827.19)."
 assumptions = ["nominal-values"]
+
+
+# ── Home production hours (Ramey 2009) ─────────────────────────────────────
+# Plan 005 WI-2: women's + men's weekly unpaid home-production hours.
+# Source: Ramey (2009), Table 6A (women) & Table 7 (men), "All Prime-Age" cols.
+# Population: ages 18–64, weighted by employment-population ratio.
+# Tier C: reconstruction from period time-diary studies linked to modern surveys.
+# Note: actor/hours_kind fields pending Plan 005 WI-1 model changes.
+
+[[fact]]
+id = "us-1900s-home-production-women"
+panel = "day"
+label = "Women's weekly unpaid home-production hours, 1900"
+value = "46.8"
+unit = "hours per week, prime-age women (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1900s-home-production-men"
+panel = "day"
+label = "Men's weekly unpaid home-production hours, 1900"
+value = "3.9"
+unit = "hours per week, prime-age men (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-1900s-home-production-household"
+panel = "day"
+label = "Total home-production hours per household, 1900"
+value = "78"
+unit = "hours per week, all household members combined"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009), aggregate home-production hours divided by number of households. Fell from 78 hrs/week (1900) to 49 hrs/week (2005), a 37% decline. Household size fell 45% (4.7→2.6 persons) over the same period, so per-household hours fell proportionally less than household size. Per-capita (all ages) was 16.4 hrs/week — slightly higher in 2005 than 1900 because fewer children (who do little home production) are in the population."
+assumptions = ["composite-family"]

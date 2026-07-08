@@ -62,6 +62,16 @@ tier = "A"
 notes = "From the 1985 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 13,671 thousand 4-person CUs. Total expenditures: $31,408. Income before taxes: $34,414. Expenditure = 91% of gross income. Transportation share peaked in the 1980s at 20.6%. Source: BLS CEX Table 4, 1985 (cusize.pdf via Wayback Machine, web.archive.org)."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
+[[fact]]
+id = "us-1980s-poverty-rate"
+panel = "budget"
+label = "Official poverty rate, 1980"
+value = "13.0% (29.3 million people in poverty)"
+unit = "% of all people below official poverty level"
+source = "census-poverty-historical"
+tier = "A"
+notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 13.0%. Family poverty: 11.5%. Poverty rose from 12.6% (1970) due to stagflation and the early 1980s recessions. By 1985: 14.0%."
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -97,14 +107,14 @@ tier = "A"
 notes = "From Census Historical Housing Tables: Plumbing. Estimated from the series: 1970: 6% lacked, 1990: 1% lacked. By 1980, only ~3% lacked complete plumbing."
 
 [[fact]]
-id = "us-1980s-housing-gap"
+id = "us-1980s-heating-fuel"
 panel = "home"
-label = "Rooms, heating fuel, AC"
-value = "data available via AHS / Census 1980 — not yet transcribed"
-unit = "n/a"
-source = "census-ahs"
-tier = "D"
-notes = "AHS data continuous from 1973. Census 1980 housing data available. AC adoption was ~50-55% by 1980 (RECS 1978)."
+label = "House heating fuel, 1980"
+value = "Utility gas 53%, electricity 18%, fuel oil/kerosene 18%, bottled/LP gas 6%, wood 3%, coal 1%"
+unit = "% of occupied housing units reporting heating fuel"
+source = "census-hist-housing-fuels"
+tier = "A"
+notes = "From the 1980 Census of Housing. Electricity surged to 18.4% (up from 7.7% in 1970) as heat pumps became affordable. Gas remained dominant but plateaued at 53%. Coal was essentially eliminated (0.6%). Source: fuels1980.txt, www2.census.gov."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -132,14 +142,44 @@ assumptions = ["nominal-values"]
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-1980s-diffusion-gap"
+id = "us-1980s-telephone"
 panel = "diffusion"
-label = "Telephone, television, AC, computer"
-value = "data available via Census/AHS/RECS — not yet transcribed"
-unit = "n/a"
-source = "census-ahs"
-tier = "D"
-notes = "Telephone was ~91% by 1980 (estimated from Historical Statistics trend). Cable TV was growing (~20% of households by 1980). Personal computer adoption began (~8% by 1984). AC ~50-55% (RECS 1978). VCR ~1% in 1980, ~50% by 1988."
+label = "Telephone in housing unit, 1980"
+value = "92.9% (7.1% without telephone)"
+unit = "% of occupied housing units with telephone"
+source = "census-hist-housing-phone"
+tier = "A"
+notes = "From the 1980 Census of Housing, Historical Census of Housing Tables: Telephones. Up from 87.0% (1970), reaching 94.8% by 1990. Telephone was nearly universal by 1980. Source: phone-tab.txt, www2.census.gov."
+
+[[fact]]
+id = "us-1980s-air-conditioning"
+panel = "diffusion"
+label = "Air conditioning, 1980s"
+value = "Central AC 23% (1978 RECS) → total AC 68% (1993 RECS)"
+unit = "% of households with air conditioning"
+source = "eia-recs"
+tier = "A"
+notes = "No RECS survey falls within the 1980s decade that reports total AC. The 1978 RECS (first survey) found 23% had central AC; by the 1993 RECS, total AC (central + window units) reached 68%. The 1980s were the transition decade when AC shifted from luxury to common. Source: EIA RECS 1978 and 1993."
+
+[[fact]]
+id = "us-1980s-cable-tv"
+panel = "diffusion"
+label = "Cable TV, 1989"
+value = "53 million households (≈57% of all households)"
+unit = "households with cable TV subscription"
+source = "ncta-cable-history"
+tier = "C"
+notes = "From NCTA/Syndeo Institute Cable History Timeline. 53 million households subscribed to cable TV in 1989, out of approximately 93 million total US households. Cable grew rapidly in the 1980s — from 20% penetration in 1980 to ~57% by 1989. By 1992, penetration reached 60%. Source: NCTA Cable History Timeline."
+
+[[fact]]
+id = "us-1980s-computer"
+panel = "diffusion"
+label = "Household computer ownership, 1980s"
+value = "8.2% (1984) → 15.0% (1989)"
+unit = "% of households with a computer"
+source = "census-cps-computer"
+tier = "A"
+notes = "From Census CPS Computer Use Supplements (reported in P20-522). Household computer ownership doubled in five years: 8.2% in 1984 (first measurement) to 15.0% in 1989. By 1993: 22.8%, by 1997: 36.6%. The personal computer was entering American homes in the 1980s, driven by falling prices and the rise of IBM PC compatibles. Source: Census P20-522, Table A."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -166,3 +206,55 @@ source = "census-homeownership-historical"
 tier = "C"
 notes = "Computed: 1980 median home value ($47,200) / 1980 median family income ($21,020). Up from 1.72 in 1970 — 1970s inflation had pushed home prices ahead of incomes."
 assumptions = ["affordability-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-1980s-cpi"
+panel = "work-buys"
+label = "Consumer Price Index and purchasing power, 1980"
+value = "CPI 82.4 (1980) → 313.7 (2024) = 3.8x. $1 in 1980 = $3.81 in 2024. Real median family income grew 1.32x."
+unit = "CPI-U (1982-84=100), annual average"
+source = "bls-cpi"
+tier = "A"
+notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1980: 82.4. 2024: 313.7. Ratio: 3.81x. Nominal median family income: $21,020 (1980) → $105,800 (2024) = 5.03x. Real growth: 5.03/3.81 = 1.32x. The 1970s inflation had doubled the price level; the 1980s Volcker disinflation brought inflation under control."
+assumptions = ["nominal-values", "affordability-normalization"]
+
+
+# ── Home production hours (Ramey 2009) ─────────────────────────────────────
+# Plan 005 WI-2: women's + men's weekly unpaid home-production hours.
+# Source: Ramey (2009), Table 6A (women) & Table 7 (men), "All Prime-Age" cols.
+# Population: ages 18–64, weighted by employment-population ratio.
+# Tier C: reconstruction from period time-diary studies linked to modern surveys.
+# Note: actor/hours_kind fields pending Plan 005 WI-1 model changes.
+
+[[fact]]
+id = "us-1980s-home-production-women"
+panel = "day"
+label = "Women's weekly unpaid home-production hours, 1985"
+value = "28.4"
+unit = "hours per week, prime-age women (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1980s-home-production-men"
+panel = "day"
+label = "Men's weekly unpaid home-production hours, 1985"
+value = "13.9"
+unit = "hours per week, prime-age men (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-1980s-food-prices"
+panel = "table"
+label = "Retail food prices, December 1980"
+value = "Bread $0.48/lb, flour $0.52/lb, round steak $1.86/lb, milk $1.71/gal, potatoes $1.03/lb"
+unit = "USD, retail prices (December 1980, BLS API)"
+source = "bls-api"
+tier = "A"
+notes = "From BLS API series APU00007xxxx (December 1980). Milk is per gallon (not per quart as in earlier decades). Bread at $0.48/lb is 2.4× the 1970 price (23.9¢). Round steak at $1.86/lb is 1.4× the 1970 price. Food prices surged in the late 1970s due to inflation: the CPI for food rose 8.6% in 1978, 10.9% in 1979, and 8.6% in 1980."

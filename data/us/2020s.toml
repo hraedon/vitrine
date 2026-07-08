@@ -359,3 +359,14 @@ unit = "% of households by primary space heating fuel"
 source = "census-acs"
 tier = "A"
 notes = "From 2024 ACS 1-year estimates, Table B25040 (House Heating Fuel). Natural gas: 47% (down from 49% in 2010). Electricity: 42% (up sharply, gaining on gas). Other: propane, fuel oil, wood. (Source re-pointed from eia-recs 2026-07-07: the figures are ACS, not RECS.) The shift from coal to gas to electricity is a century-long arc: in 1940 coal was dominant, by 1950 gas and oil were replacing it, by 2020s electricity is gaining. Fuel oil heating is now <5% nationally but persists in older Northeast housing stock."
+
+[[fact]]
+id = "us-2020s-home-production-splice"
+panel = "day"
+label = "Home-production hours: Ramey endpoint vs ATUS (concept splice)"
+value = "Ramey 2005: women 29.3, men 16.8 hrs/week (ages 18–64) → ATUS 2019: household activities 1.78 hrs/day, all adults 15+"
+unit = "hours per week vs hours per day — not directly comparable"
+source = "ramey-2009"
+tier = "C"
+notes = "Concept splice (Plan 004 Measure guard): Ramey measures unpaid home production (food prep, cleaning, clothing care, childcare, purchasing, management) for prime-age women and men separately, ages 18-64, in hours/week. ATUS (us-2020s-time-use, source bls-atus) measures 'household activities' for all adults 15+ in hrs/day, without gender breakdown in the headline figure. The two series are NOT directly comparable: (1) different activity definitions (Ramey's 'home production' is broader than ATUS 'household activities'), (2) different populations (prime-age vs all-adult), (3) different units (weekly vs daily). When plotted on the same axis, this splice must carry a caveat banner. The Ramey series is the thesis spine (women's hours falling); ATUS is the modern anchor point."
+assumptions = ["composite-family"]

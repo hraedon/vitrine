@@ -41,6 +41,36 @@ tier = "A"
 notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.8). Food $1,309 (24.3%), housing $1,594 (29.6%), shelter/fuel/light $991, food away from home $274, household operations $319, local telephone $69. Housing became the largest category — up from 12.95% in 1901. Food dropped from 42.54% (1901) to 24.3%."
 assumptions = ["composite-family", "nominal-values", "income-vs-consumption"]
 
+[[fact]]
+id = "us-1960s-number-of-families"
+panel = "budget"
+label = "Number of families in the United States, 1960"
+value = "45,540,000"
+unit = "families (all races)"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8 (Table F-8). Up from 39,930,000 in 1950. By 1970: 52,230,000."
+
+[[fact]]
+id = "us-1960s-average-family-size"
+panel = "budget"
+label = "Average family size, 1960"
+value = "3.7"
+unit = "persons per family"
+source = "census-f08-allraces"
+tier = "A"
+notes = "From Census F-8 (Table F-8). Down from 3.54 in 1950 — families were shrinking as the baby boom ended. By 1970: 3.57."
+
+[[fact]]
+id = "us-1960s-poverty-rate"
+panel = "budget"
+label = "Official poverty rate, 1960"
+value = "22.2% (39.9 million people in poverty)"
+unit = "% of all people below official poverty level"
+source = "census-poverty-historical"
+tier = "A"
+notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 22.2%. Family poverty: 20.7%. First year of the official poverty measure (1959: 22.4%). The War on Poverty (1964+) would cut this nearly in half by 1970."
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -65,14 +95,25 @@ tier = "A"
 notes = "From Census Historical Housing Tables: Plumbing (plumbing-tab.txt, US row: 9,777,783 of 58,314,784 occupied units lacking). Down from 35.5% lacking in 1950 to 16.8% lacking in 1960 — the suburban building boom was closing the gap rapidly. One in six American homes still lacked complete plumbing in 1960. By 1970: 6.9% lacked (93.1% had). Figures verified against the Census time-series file 2026-07-07."
 
 [[fact]]
-id = "us-1960s-housing-characteristics-gap"
+id = "us-1960s-heating-fuel"
 panel = "home"
-label = "Home value, rooms, detailed housing characteristics"
-value = "data available via Census 1960 — not yet transcribed"
-unit = "n/a"
-source = "census-decennial-pubs"
-tier = "D"
-notes = "The 1960 Census of Housing asked about rooms, plumbing, telephone, automobile, and heating fuel — the first census to ask about telephone and automobile ownership. We have: homeownership 61.9%, plumbing 83%, telephone 78.3%, TV 91.4%, refrigerator 84.7%, washing machine 70.0%, AC 18.8%, dishwasher 5.7% (all Tier A). Home value and room count not yet transcribed. IPUMS 1960 microdata could compute these (Tier B)."
+label = "House heating fuel, 1960"
+value = "Utility gas 43%, fuel oil/kerosene 32%, bottled/LP gas 5%, coal 12%, wood 4%, electricity 2%"
+unit = "% of occupied housing units reporting heating fuel"
+source = "census-hist-housing-fuels"
+tier = "A"
+notes = "From the 1960 Census of Housing. Gas overtook coal as the dominant heating fuel between 1950 and 1960. Coal dropped from 55% (1940) to 12% (1960). Electricity was just emerging (1.8%). Source: fuels1960.txt, www2.census.gov."
+
+[[fact]]
+id = "us-1960s-median-home-value"
+panel = "home"
+label = "Median value of owner-occupied homes, 1960"
+value = "$11,900"
+unit = "USD, nominal (median value of owner-occupied single-family homes)"
+source = "census-homeownership-historical"
+tier = "A"
+notes = "From Census Historical Housing Tables (values-unadj.txt). National median value of owner-occupied homes. Up from $7,354 in 1950 and $2,938 in 1940. By 1970: $17,000. In 2024 dollars: ~$125,500."
+assumptions = ["nominal-values"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -86,6 +127,17 @@ source = "bls-cex"
 tier = "A"
 notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.8). Food was 24.3% of total expenditure — down from 42.54% in 1901. Housing was the largest category at 29.6%. The survey also shows durable goods ownership (p.15): TV 91.4%, refrigerator 84.7%, washing machine 70.0%, air conditioner 18.8%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%."
 assumptions = ["nominal-values", "income-vs-consumption"]
+
+
+[[fact]]
+id = "us-1960s-food-prices"
+panel = "table"
+label = "Retail food prices, 1960"
+value = "Bread 20.3¢/lb, round steak $1.06/lb, milk 26.0¢/qt, potatoes 7.2¢/lb, eggs 57.3¢/doz"
+unit = "retail food prices (cents per pound/quart/dozen, 1960 annual average)"
+source = "statab-food-prices"
+tier = "A"
+notes = "From 1970 Statistical Abstract Table 530 (BLS Retail Food Prices by Cities). 1960 annual averages for 51 cities. Milk is per quart, delivered. Bread 20.3¢/lb vs 14.3¢/lb in 1950 (+42%). Round steak $1.06/lb vs $0.94/lb in 1950 (+13%). Potatoes 7.2¢/lb vs 4.6¢/lb in 1950 (+57%). The 1950→1960 food price increase was modest compared to the inflation that followed in the 1970s."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -113,15 +165,44 @@ assumptions = ["nominal-values"]
 # ── Diffusion panel ────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-1960s-diffusion"
+id = "us-1960s-television"
 panel = "diffusion"
-label = "Technology adoption, 1960-61"
-value = "Telephone 78.3% of households. TV 91.4%. Refrigerator 84.7%. Washing machine 70.0%. Air conditioner 18.8%. Dishwasher 5.7%."
-unit = "% of households/families"
+label = "Television in the home, 1960-61"
+value = "91.4% of households had TV"
+unit = "% of urban families with television"
+source = "bls-cex"
+tier = "A"
+notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.15, OCR'd via GLM-OCR). TV adoption exploded in the 1950s: up from 12.3% in 1950 to 91.4% in 1960-61 — one of the fastest technology diffusions in American history. Census 1960 confirms: TV 90.5%."
+
+[[fact]]
+id = "us-1960s-telephone"
+panel = "diffusion"
+label = "Telephone diffusion, 1960s"
+value = "78.3% of households had telephone"
+unit = "% of households with telephone (estimated from phones per 1,000 population)"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "Telephone from Historical Statistics Vol 2, Series R 1-3 (p.191, OCR'd via GLM-OCR): 1960 had 74,342K telephones = 407.8 per 1,000 population = 78.3% of households. Durable goods from CEX 1960-61 (ce_196061_tables.pdf, p.15, OCR'd via GLM-OCR): TV 91.4% (up from 12.3% in 1950!), refrigerator 84.7%, washing machine 70.0%, air conditioner 18.8%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%. Census 1960 also confirms: washing machine 72.2%, TV 90.5%, refrigerator 86.1%."
-assumptions = ["composite-family", "urban-rural-split"]
+notes = "From Historical Statistics Vol 2, Series R 1-3 (p.191, OCR'd via GLM-OCR): 1960 had 74,342K telephones = 407.8 per 1,000 population = 78.3% of households. Up from ~55% in 1950. Census 1960 reports 78.5% (housing units with telephone). Reaching 87.0% by 1970."
+
+[[fact]]
+id = "us-1960s-air-conditioning"
+panel = "diffusion"
+label = "Air conditioning, 1960-61"
+value = "18.8% of households had air conditioning"
+unit = "% of urban families with air conditioner"
+source = "bls-cex"
+tier = "A"
+notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.15, OCR'd via GLM-OCR). AC was still a luxury in 1960 — mostly window units. By 1978 (first RECS), 23% had central AC alone. The diffusion arc: 18.8% (1960) → 68% (1993) → 87% (2009) → 88% (2020)."
+
+[[fact]]
+id = "us-1960s-household-appliances"
+panel = "diffusion"
+label = "Household appliances, 1960-61"
+value = "Refrigerator 84.7%, washing machine 70.0%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%"
+unit = "% of urban families with each appliance"
+source = "bls-cex"
+tier = "A"
+notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.15, OCR'd via GLM-OCR). Census 1960 confirms: refrigerator 86.1%, washing machine 72.2%. The refrigerator was nearly universal. The clothes dryer (18.4%) and dishwasher (5.7%) were still early-stage adoption — they would become common in the 1970s-80s."
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
@@ -135,3 +216,33 @@ source = "bls-cpi"
 tier = "A"
 notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1960: 29.6. 2024: 313.7. Ratio: 10.6x. Nominal median family income: $5,620 (1960) → $105,800 (2024) = 18.8x. Real growth: 18.8/10.6 = 1.77x. For comparison: 1950-2024 CPI ratio was 13.0x, real growth 3.1x — the 1960s-2020s saw slower real income growth than the 1950s-2020s."
 assumptions = ["nominal-values", "affordability-normalization"]
+
+
+# ── Home production hours (Ramey 2009) ─────────────────────────────────────
+# Plan 005 WI-2: women's + men's weekly unpaid home-production hours.
+# Source: Ramey (2009), Table 6A (women) & Table 7 (men), "All Prime-Age" cols.
+# Population: ages 18–64, weighted by employment-population ratio.
+# Tier C: reconstruction from period time-diary studies linked to modern surveys.
+# Note: actor/hours_kind fields pending Plan 005 WI-1 model changes.
+
+[[fact]]
+id = "us-1960s-home-production-women"
+panel = "day"
+label = "Women's weekly unpaid home-production hours, 1965"
+value = "40.9"
+unit = "hours per week, prime-age women (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1960s-home-production-men"
+panel = "day"
+label = "Men's weekly unpaid home-production hours, 1965"
+value = "11.2"
+unit = "hours per week, prime-age men (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+assumptions = ["composite-family"]

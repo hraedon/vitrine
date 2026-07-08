@@ -62,6 +62,16 @@ tier = "A"
 notes = "From the 2013 Consumer Expenditure Survey, Table 1400 (Size of consumer unit). 16,226 thousand 4-person CUs. Total expenditures: $68,299. Income before taxes: $88,828. Expenditure = 77% of gross income. Housing reached 33%. Source: BLS CEX Table 1400, 2013 (cu-size-2013.xlsx from bls.gov/cex/tables.htm)."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
+[[fact]]
+id = "us-2010s-poverty-rate"
+panel = "budget"
+label = "Official poverty rate, 2010"
+value = "15.1% (46.2 million people in poverty)"
+unit = "% of all people below official poverty level"
+source = "census-poverty-historical"
+tier = "A"
+notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 15.1%. Family poverty: 13.2%. Highest poverty rate since 1993 — the Great Recession's impact. Recovery was slow: by 2015 still 13.5%, by 2019: 10.5% (pre-COVID). By 2024: 10.6%."
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -76,14 +86,24 @@ notes = "From Census Bureau. Down from the bubble peak (~69% in 2004-06) due to 
 assumptions = ["composite-family"]
 
 [[fact]]
-id = "us-2010s-median-home-value-gap"
+id = "us-2010s-median-home-value"
 panel = "home"
 label = "Median home value, 2010"
-value = "data available via ACS — not yet transcribed"
-unit = "n/a"
-source = "census-ahs"
-tier = "D"
-notes = "ACS data available. The post-crash median was ~$170,000-$180,000 (2010 ACS). The Census Historical Housing Tables (values-unadj.txt) series ends at 2000."
+value = "$179,900"
+unit = "USD, nominal (owner-occupied)"
+source = "census-acs-homevalue"
+tier = "A"
+notes = "From ACS Table B25077, 2010 1-year estimates. Post-housing-crash median: down from $240,500 (2019) and $360,600 (2024). The Census Historical Housing Tables (values-unadj.txt) decennial series ends at 2000 ($119,600). Source: censusreporter.org/tables/B25077/."
+
+[[fact]]
+id = "us-2010s-heating-fuel"
+panel = "home"
+label = "House heating fuel, 2015 (RECS)"
+value = "Natural gas 51%, electricity 36%, propane 4%, fuel oil 4%, other 5%"
+unit = "% of heated homes using each fuel as main space heating source"
+source = "eia-recs"
+tier = "A"
+notes = "From the 2015 RECS. Natural gas remained dominant but was slowly declining (49% in 2009). Electricity continued its rise (34% in 2009 → 36% in 2015), gaining on gas. Fuel oil fell further to ~4% (concentrated in the Northeast at 23%). The long arc: coal dominated in 1940 (55%), gas by 1960 (43%), electricity rising from 2% (1960) to 36% (2015). Source: EIA RECS 2015."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -130,6 +150,26 @@ source = "pew-internet-broadband"
 tier = "A"
 notes = "From Pew Research Center. Internet adoption plateaued in the 2010s (~90% saturation). Home broadband growth slowed — many low-income households adopted smartphones instead of home broadband, creating a 'smartphone-only' digital divide."
 
+[[fact]]
+id = "us-2010s-air-conditioning"
+panel = "diffusion"
+label = "Air conditioning, 2015 (RECS)"
+value = "87% of homes had AC (64% central AC)"
+unit = "% of occupied housing units with air conditioning"
+source = "eia-recs"
+tier = "A"
+notes = "From the 2015 RECS. 87% of US homes used AC — flat from 2009 (87%). Central AC rose to 64% (76M households, up from 59%/66M in 2005). The AC diffusion curve had plateaued: from 18.8% (1960) → 68% (1993) → 87% (2009/2015) → 88% (2020). AC was now a standard feature of American housing. Source: EIA RECS 2015 overview."
+
+[[fact]]
+id = "us-2010s-cable-tv"
+panel = "diffusion"
+label = "Cable TV, 2015 (FCC)"
+value = "53.2 million cable subscribers (declining). Total MVPD: 99.4 million. Cord-cutting began 2013."
+unit = "subscribers (cable MVPD, year-end 2015)"
+source = "fcc-video-competition"
+tier = "A"
+notes = "From FCC 19th Video Competition Report (DA 17-71, data as of year-end 2015, SNL Kagan subscriber data). Cable MVPDs: 53.2M (53.1% of all MVPD). DBS: 33.1M. Telco: 13.0M. Total MVPD: 99.4M. MVPDs lost 1.1M subscribers in 2015 — cord-cutting accelerating. Cable's share of MVPD declined from 89% (1997, 64.2M subscribers) to 53.1% (2015) as satellite (DIRECTV/DISH) and then streaming (Netflix: 46M subscribers by 2016) grew. Over-the-air only: 12.4M TV households."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
@@ -146,11 +186,56 @@ assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-2010s-home-as-income-years-gap"
+id = "us-2010s-home-as-income-years"
 panel = "work-buys"
 label = "Median home value as years of median family income, 2010"
-value = "data available — home value not yet transcribed"
-unit = "n/a"
-source = "census-homeownership-historical"
+value = "2.99 years ($179,900 home vs $60,240 income)"
+unit = "years of median family income (nominal)"
+source = "census-acs-homevalue"
+tier = "C"
+notes = "Computed: 2010 ACS median home value ($179,900) / 2010 Census F-8 median family income ($60,240). Post-crash: home values had dropped but incomes stagnated, making housing less affordable than the 1990s ratio (~2.3). By 2024: $360,600 / ~$104,000 = ~3.5 years."
+assumptions = ["affordability-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-2010s-cpi"
+panel = "work-buys"
+label = "Consumer Price Index and purchasing power, 2010"
+value = "CPI 218.1 (2010) → 313.7 (2024) = 1.4x. $1 in 2010 = $1.44 in 2024. Real median family income grew 1.22x."
+unit = "CPI-U (1982-84=100), annual average"
+source = "bls-cpi"
+tier = "A"
+notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 2010: 218.1. 2024: 313.7. Ratio: 1.44x. Nominal median family income: $60,240 (2010) → $105,800 (2024) = 1.76x. Real growth: 1.76/1.44 = 1.22x. Recovery from the Great Recession was slow — real income growth was modest but stronger than the 2000s (1.14x)."
+assumptions = ["nominal-values", "affordability-normalization"]
+
+[[fact]]
+id = "us-2010s-home-production-women"
+panel = "day"
+label = "Women's weekly unpaid home-production hours, 2010s"
+value = "no reliable record"
+unit = "hours per week, prime-age women (ages 18–64)"
+source = "ramey-2009"
 tier = "D"
-notes = "Cannot compute without 2010 median home value. Rough estimate: ~$174,000 home / $60,240 income = ~2.9 years. The 2010s saw home values recover and then exceed pre-crash levels."
+notes = "Ramey's series ends at 2005. ATUS (available 2010s) measures all-adult household activities, not women-specific home production — a concept splice (Plan 004 Measure guard). The 2020s room carries the ATUS figure (us-2020s-time-use) for the modern endpoint."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2010s-home-production-men"
+panel = "day"
+label = "Men's weekly unpaid home-production hours, 2010s"
+value = "no reliable record"
+unit = "hours per week, prime-age men (ages 18–64)"
+source = "ramey-2009"
+tier = "D"
+notes = "Ramey's series ends at 2005. See us-2010s-home-production-women note re: ATUS concept splice."
+assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-2010s-food-prices"
+panel = "table"
+label = "Retail food prices, December 2010"
+value = "Bread $0.99/lb, flour $1.39/lb, round steak $2.93/lb, milk $4.16/gal, potatoes $1.79/lb"
+unit = "USD, retail prices (December 2010, BLS API)"
+source = "bls-api"
+tier = "A"
+notes = "From BLS API series APU00007xxxx (December 2010). Bread up 17% from 2000, flour up 40%, round steak up 48%, milk up 37%. The 2007-08 and 2010-11 global food price crises drove significant increases. By December 2024: bread $1.71/lb, round steak $5.58/lb, milk $6.92/gal — food prices continued rising sharply in the 2020s."

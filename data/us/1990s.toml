@@ -62,6 +62,16 @@ tier = "A"
 notes = "From the 1996 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 15,261 thousand 4-person CUs. Total expenditures: $43,670. Income before taxes: $50,836. Expenditure = 86% of gross income. Housing crossed 31% for the first time. Source: BLS CEX Table 4, 1996 (cusize.pdf via Wayback Machine, web.archive.org)."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
+[[fact]]
+id = "us-1990s-poverty-rate"
+panel = "budget"
+label = "Official poverty rate, 1990"
+value = "13.5% (33.6 million people in poverty)"
+unit = "% of all people below official poverty level"
+source = "census-poverty-historical"
+tier = "A"
+notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 13.5%. Family poverty: 12.0%. The 1990-91 recession pushed poverty up; the 1990s expansion brought it down to 11.3% by 2000."
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -95,6 +105,16 @@ unit = "% of occupied housing units"
 source = "census-hist-housing-plumbing"
 tier = "A"
 notes = "From Census Historical Housing Tables: Plumbing. Down from ~3% lacking in 1980 to 1% lacking in 1990. Plumbing was essentially universal."
+
+[[fact]]
+id = "us-1990s-heating-fuel"
+panel = "home"
+label = "House heating fuel, 1993 RECS"
+value = "Natural gas 53.2%, electricity 25.8%, fuel oil 10.5%, LPG 4.8%"
+unit = "% of U.S. households using each fuel as main space heating source (weighted, RECS 1993 microdata)"
+source = "eia-recs"
+tier = "A"
+notes = "Computed from RECS 1993 microdata (file2_asc.txt, FUELHEAT variable, weighted with NWEIGHT). 7,111 households sampled. Gas: 53.2% (up from 55% in 1980 Census — roughly stable). Electricity: 25.8% (up from 18% in 1980). Fuel oil: 10.5% (down from 19% in 1980). LPG: 4.8%. Other (wood, kerosene, etc.): 4.8%. None: 0.9%. The 1990s were a transition decade: fuel oil declining, electricity rising. By 2001: gas 55.2%, electricity 28.9%, fuel oil 7.5%. By 2009: gas 49%, electricity 34%, fuel oil 6%."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -132,14 +152,64 @@ tier = "A"
 notes = "From Pew Research Center Internet & American Life Project. The World Wide Web went public ~1993-94. By 1995, ~14% of adults used the internet; by 2000, ~46%. The 1990s were the decade when the internet entered American homes — initially via dial-up modem."
 
 [[fact]]
-id = "us-1990s-diffusion-gap"
+id = "us-1990s-air-conditioning"
 panel = "diffusion"
-label = "Cell phone, AC, cable TV, computer"
-value = "data available via Census/AHS/RECS/Pew — not yet transcribed"
-unit = "n/a"
-source = "census-ahs"
-tier = "D"
-notes = "Cell phone adoption was ~10% by 1995, ~40% by 2000. Cable TV ~60% by 1990. Personal computer ~30% by 1995. AC ~70%+ by 1990 (RECS)."
+label = "Homes with air conditioning, 1993 (RECS)"
+value = "68%"
+unit = "% of occupied housing units with AC"
+source = "eia-recs"
+tier = "A"
+notes = "RECS 1993: 68% of all occupied housing units had AC. Rose to 87% by 2009 RECS. EIA: 'As recently as 1993, only 68% of all occupied housing units had AC. The latest results from the 2009 RECS show that 87% of U.S. households are now equipped with AC.' (EIA.gov/consumption/residential/reports.php). South region: 89% in 1993 (65% central, 27% room)."
+
+[[fact]]
+id = "us-1990s-telephone"
+panel = "diffusion"
+label = "Housing units with telephone, 1990"
+value = "94.8%"
+unit = "% of occupied housing units with telephone"
+source = "census-hist-housing-phone"
+tier = "A"
+notes = "1990 Census: 5.2% of housing units without telephone. Down from 7.1% in 1980. By 2000: only 2.4% without telephone. Census notes: 'Increased cell phone usage probably played a major role in this dramatic change.'"
+
+[[fact]]
+id = "us-1990s-cell-phone"
+panel = "diffusion"
+label = "Cell phone subscriptions, 1990s"
+value = "2.1 per 100 people (1990) → 12.7 (1995) → 25.1 (1998) → 38.9 (2000)"
+unit = "mobile cellular subscriptions per 100 people"
+source = "worldbank-itu-telecom"
+tier = "A"
+notes = "FRED series ITCELSETSP2USA (World Bank/ITU). Subscriptions per 100 people, not household penetration — many households had multiple lines by 2000. CTIA reports similar numbers. Does not equal '% of households with a cell phone' because subscriptions ≠ households. The 2000s room carries '~40% (2000)' from Pew, which measures adult ownership."
+
+[[fact]]
+id = "us-1990s-cable-tv"
+panel = "diffusion"
+label = "Households with cable TV, 1992"
+value = "~60%"
+unit = "% of U.S. households with cable TV subscription"
+source = "ncta-cable-history"
+tier = "C"
+notes = "NCTA (National Cable & Telecommunications Association, now the Syndeo Institute) reports 60% of US households had cable in 1992. Wikipedia cites: 'By 1989, 53 million American households received cable television subscriptions, with 60 percent of all U.S. households doing so in 1992.' The Syndeo Institute cable history timeline PDF also references penetration milestones. Primary source: NCTA industry statistics."
+
+[[fact]]
+id = "us-1990s-computer"
+panel = "diffusion"
+label = "Households with a computer, 1997 (Census CPS)"
+value = "36.6%"
+unit = "% of households with a computer"
+source = "census-cps-computer"
+tier = "A"
+notes = "Census Bureau, Current Population Reports P20-522, 'Computer Use in the United States: October 1997' (Sept 1999). 37.4M households (36.6%) had computers in Oct 1997. Historical trend: 8.2% (1984), 15.0% (1989), 22.8% (1993), 36.6% (1997). The 1997 CPS was the first to include Internet questions. NTIA 'Falling Through the Net' reports ~42% computer ownership (1998) and ~51% (2000). Internet access: ~18% of households (1997, NTIA), ~26% (1998), ~41% (2000). Internet figures are widely cited from NTIA/CPS but the exact household-level percentage hasn't been directly transcribed from the primary Census table in this session."
+
+[[fact]]
+id = "us-1990s-internet-households"
+panel = "diffusion"
+label = "Households with internet access, 1997-1998"
+value = "~18% (1997) → ~26% (1998)"
+unit = "% of households with internet access"
+source = "ntia-fttn-2000"
+tier = "C"
+notes = "NTIA 'Falling Through the Net' series, based on Census CPS supplements (Nov 1994, Oct 1997, Dec 1998, Aug 2000). Internet access was first measured in the 1997 CPS. The 2000s room carries 'Internet: 46% (2000)' from Pew. The Census P20-522 report (Table C) shows 70.9% of adults with a home computer used the Internet somewhere (home/work/school), but this is individual-level use, not household penetration."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -166,3 +236,47 @@ source = "census-homeownership-historical"
 tier = "C"
 notes = "Computed: 1990 median home value ($79,100) / 1990 median family income ($35,350). Flat from 2.24 in 1980 — both home values and incomes roughly doubled in the 1980s."
 assumptions = ["affordability-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-1990s-cpi"
+panel = "work-buys"
+label = "Consumer Price Index and purchasing power, 1990"
+value = "CPI 130.7 (1990) → 313.7 (2024) = 2.4x. $1 in 1990 = $2.40 in 2024. Real median family income grew 1.25x."
+unit = "CPI-U (1982-84=100), annual average"
+source = "bls-cpi"
+tier = "A"
+notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1990: 130.7. 2024: 313.7. Ratio: 2.40x. Nominal median family income: $35,350 (1990) → $105,800 (2024) = 2.99x. Real growth: 2.99/2.40 = 1.25x. Real income growth was slowing — the 1990s-2020s saw the lowest real gains in the century."
+assumptions = ["nominal-values", "affordability-normalization"]
+
+[[fact]]
+id = "us-1990s-home-production-women"
+panel = "day"
+label = "Women's weekly unpaid home-production hours, 1990s"
+value = "no reliable record"
+unit = "hours per week, prime-age women (ages 18–64)"
+source = "ramey-2009"
+tier = "D"
+notes = "Ramey (2009) does not report a 1990s benchmark. She explicitly excludes the 1992-94 time use survey ('I do not use the 1992-94 survey because of key missing data such as marital status and the problems with that survey discussed by Robinson and Godbey'). The series jumps from 1985 (28.4 hrs) to 2003 (29.7 hrs). Interpolation would be misleading given the non-monotonic trend. ATUS begins 2003 but measures all adults, not women-specifically."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1990s-home-production-men"
+panel = "day"
+label = "Men's weekly unpaid home-production hours, 1990s"
+value = "no reliable record"
+unit = "hours per week, prime-age men (ages 18–64)"
+source = "ramey-2009"
+tier = "D"
+notes = "Ramey (2009) does not report a 1990s benchmark for men (same gap as women: 1992-94 survey excluded). Series jumps from 1985 (13.9 hrs) to 2003 (17.2 hrs)."
+assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-1990s-food-prices"
+panel = "table"
+label = "Retail food prices, December 1990"
+value = "Bread $0.58/lb, flour $0.70/lb, round steak $2.02/lb, milk $2.28/gal, potatoes $1.00/lb"
+unit = "USD, retail prices (December 1990, BLS API)"
+source = "bls-api"
+tier = "A"
+notes = "From BLS API series APU00007xxxx (December 1990). Food price inflation moderated in the 1980s after the Volcker disinflation. Bread up 20% from 1980, round steak up 9%, milk up 33%. The 1990s would see continued modest food price increases."

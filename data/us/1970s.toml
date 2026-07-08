@@ -62,6 +62,16 @@ tier = "A"
 notes = "From the 1972-73 Consumer Expenditure Survey, Bulletin 1992, Table 2 (by family size). 10,668 thousand 4-person families. Total expenditures: $12,226 (current consumption $10,710 + personal insurance/pensions $1,063 + gifts/contributions $453). Income before taxes: $16,155. Expenditure = 76% of gross income. Source: BLS Bulletin 1992, Table 2, accessed via FRASER (fraser.stlouisfed.org)."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
+[[fact]]
+id = "us-1970s-poverty-rate"
+panel = "budget"
+label = "Official poverty rate, 1970"
+value = "12.6% (25.5 million people in poverty)"
+unit = "% of all people below official poverty level"
+source = "census-poverty-historical"
+tier = "A"
+notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 12.6%. Family poverty: 10.9%. Down sharply from 22.4% (1959) — War on Poverty programs (Medicaid, food stamps, expanded Social Security) and economic growth cut poverty nearly in half."
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -97,14 +107,14 @@ tier = "A"
 notes = "From Census Historical Housing Tables: Plumbing. Down from 17% lacking in 1960 to 6% lacking in 1970. By 1980: ~3% lacked."
 
 [[fact]]
-id = "us-1970s-housing-gap"
+id = "us-1970s-heating-fuel"
 panel = "home"
-label = "Rooms, heating fuel, AC"
-value = "data available via Census 1970 / AHS 1973 — not yet transcribed"
-unit = "n/a"
-source = "census-ahs"
-tier = "D"
-notes = "The AHS began in 1973. Census 1970 housing data available. AC adoption was growing rapidly in the 1970s (from ~34% in 1970 to ~50% by 1980 per RECS)."
+label = "House heating fuel, 1970"
+value = "Utility gas 55%, fuel oil/kerosene 26%, electricity 8%, bottled/LP gas 6%, coal 3%, wood 1%"
+unit = "% of occupied housing units reporting heating fuel"
+source = "census-hist-housing-fuels"
+tier = "A"
+notes = "From the 1970 Census of Housing. Gas was now the majority heating fuel at 55%. Coal was nearly eliminated at 3% (down from 55% in 1940). Electricity was rising (7.7%, up from 1.8% in 1960). Source: fuels1970.txt, www2.census.gov."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -142,14 +152,34 @@ tier = "A"
 notes = "From Historical Statistics Vol 2, Series R 3. 120,218 thousand total phones (583.4 per 1,000 population). Up from 78.3% in 1960. Telephone was nearly universal by 1970."
 
 [[fact]]
-id = "us-1970s-television-gap"
+id = "us-1970s-telephone-census"
 panel = "diffusion"
-label = "Television, AC, appliances"
-value = "data available via Census 1970 / RECS — not yet transcribed"
-unit = "n/a"
+label = "Telephone in housing unit, 1970"
+value = "87.0% (13.0% without telephone)"
+unit = "% of occupied housing units with telephone"
+source = "census-hist-housing-phone"
+tier = "A"
+notes = "From the 1970 Census of Housing, Historical Census of Housing Tables: Telephones. Note: this figure (87.0%) differs from the Historical Statistics Vol 2 figure (90.5%) because the Census measures 'telephone in unit' (housing units) while Hist Stats measures 'households with telephone.' Up from 78.5% (1960), reaching 92.9% by 1980. Source: phone-tab.txt, www2.census.gov."
+
+[[fact]]
+id = "us-1970s-air-conditioning"
+panel = "diffusion"
+label = "Air conditioning, 1978 (first RECS)"
+value = "23% of households had central AC"
+unit = "% of households with central air-conditioning equipment"
 source = "eia-recs"
-tier = "D"
-notes = "TV was ~95% of households by 1970 (up from 91.4% in 1960). AC was growing rapidly. RECS began in 1978. Color TV had replaced B&W as the standard."
+tier = "A"
+notes = "From the 1978 RECS — the first Residential Energy Consumption Survey. 23% of households had central AC. Total AC (including window/wall units) was higher — in 1960, only 18.8% of households had AC (mostly window units, per CEX 1960-61). By 1993, total AC reached 68%. The 1978 RECS is the closest available data point for the decade. Source: EIA RECS 2009 report, citing 1978 RECS."
+
+[[fact]]
+id = "us-1970s-vehicle-ownership"
+panel = "diffusion"
+label = "Vehicle ownership, 1972-73"
+value = "80.1% of families had at least one automobile (avg 1.3 per family)"
+unit = "% of families with at least one automobile"
+source = "bls-cex"
+tier = "A"
+notes = "From CEX 1972-73 (Integrated Diary and Interview Survey, Table 1, p.31). 80.1% of all families had at least one automobile. Average: 1.3 automobiles per family. By income: under $3,000 → 47.3% had auto; $15,000+ → 94.3%. By 2023: 91.5% of households had at least one vehicle (ACS B25045). Population note: CEX measures 'families'; ACS measures 'households' — close but not identical."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -176,3 +206,55 @@ source = "census-homeownership-historical"
 tier = "C"
 notes = "Computed: 1970 median home value ($17,000) / 1970 median family income ($9,867). Up from 0.97 in 1947. The 1970s inflation would push this ratio higher."
 assumptions = ["affordability-normalization", "nominal-values"]
+
+[[fact]]
+id = "us-1970s-cpi"
+panel = "work-buys"
+label = "Consumer Price Index and purchasing power, 1970"
+value = "CPI 38.8 (1970) → 313.7 (2024) = 8.1x. $1 in 1970 = $8.09 in 2024. Real median family income grew 1.33x."
+unit = "CPI-U (1982-84=100), annual average"
+source = "bls-cpi"
+tier = "A"
+notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1970: 38.8. 2024: 313.7. Ratio: 8.09x. Nominal median family income: $9,867 (1970) → $105,800 (2024) = 10.7x. Real growth: 10.7/8.1 = 1.33x. For comparison: 1960-2024 real growth was 1.77x, and 1950-2024 was 3.1x — the 1970s-2020s saw the slowest real income growth of the postwar era."
+assumptions = ["nominal-values", "affordability-normalization"]
+
+
+# ── Home production hours (Ramey 2009) ─────────────────────────────────────
+# Plan 005 WI-2: women's + men's weekly unpaid home-production hours.
+# Source: Ramey (2009), Table 6A (women) & Table 7 (men), "All Prime-Age" cols.
+# Population: ages 18–64, weighted by employment-population ratio.
+# Tier C: reconstruction from period time-diary studies linked to modern surveys.
+# Note: actor/hours_kind fields pending Plan 005 WI-1 model changes.
+
+[[fact]]
+id = "us-1970s-home-production-women"
+panel = "day"
+label = "Women's weekly unpaid home-production hours, 1975"
+value = "32.1"
+unit = "hours per week, prime-age women (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1970s-home-production-men"
+panel = "day"
+label = "Men's weekly unpaid home-production hours, 1975"
+value = "12.1"
+unit = "hours per week, prime-age men (ages 18–64)"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+assumptions = ["composite-family"]
+
+
+[[fact]]
+id = "us-1970s-food-prices"
+panel = "table"
+label = "Retail food prices, April 1970"
+value = "Bread 23.9¢/lb, round steak $1.34/lb, milk 66.5¢/qt, potatoes 9.0¢/lb, eggs 57.3¢/doz"
+unit = "retail food prices (cents per pound/quart/dozen, April 1970)"
+source = "statab-food-prices"
+tier = "A"
+notes = "From 1970 Statistical Abstract Table 530 (BLS data, April 1970 — most recent available). Milk is per quart, delivered. By April 1970, food inflation was accelerating: bread up 18% from 1960, round steak up 27%, milk up 156% (from 26.0¢ to 66.5¢/qt). The 1970s would bring double-digit food price inflation, especially after the 1973-74 oil shock and Soviet grain purchases."
