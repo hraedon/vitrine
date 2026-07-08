@@ -1,6 +1,5 @@
 # Gap Log — curator commentary
 
-<<<<<<< HEAD
 **The inventory itself is generated — run `vitrine gaps`.** It classifies,
 mechanically, every rendered gap (value = "no reliable record…"), every Tier D
 estimate (displayed value awaiting a primary-source upgrade), and every empty
@@ -44,7 +43,7 @@ here. Hence `vitrine gaps`.
 
 ## Filled in the wi-1/us-source-survey merge (2026-07-08)
 
-- **Poverty rate arc (1960s–2020s):** 6 facts from Census API histpov2.
+- **Poverty rate arc (1960s–2020s):** 7 facts from Census API histpov2.
 - **Food prices arc (1960s–2010s):** 6 facts from Statistical Abstract + BLS API.
 - **Heating fuel arc (1940–2024):** Census Historical Housing + RECS + ACS.
 - **Cable TV (1980s–2010s):** NCTA + FCC reports.
@@ -61,4 +60,3 @@ here. Hence `vitrine gaps`.
 A fact id ending in `-gap` does not make it a rendered gap; classification is
 by value and tier, not by name. Several `-gap` ids carry Tier D estimates with
 real displayed values and are counted as estimates by `vitrine gaps`.
->>>>>>> origin/wi-1/us-source-survey

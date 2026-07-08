@@ -198,7 +198,7 @@ value = "Flour 49.1¢/5lb, bread 14.3¢/lb, round steak 93.6¢/lb, rib roast 74.
 unit = "cents per unit, nominal (56 large U.S. cities)"
 source = "bls-bulletin-1055-1952"
 tier = "A"
-notes = "From BLS Bulletin No. 1055, Table 4 (p.9), 'Average retail prices of principal foods in large cities combined, by month, 1950.' Text layer extracted directly via pymupdf — no OCR needed. Annual averages across 56 cities. For comparison with 1901: flour was ~49¢/5lb (the 1903 report collected prices 1890-1902 but per-item prices are in the full 18th Annual Report tables, not the Bulletin summary). For comparison with 2024: round steak 93.6¢→$5.58/lb (6.0x), milk 20.6¢/qt→$6.92/gal (3.4x per quart equivalent), bread 14.3¢→$1.71/lb (12x)."
+notes = "From BLS Bulletin No. 1055, Table 4 (p.9), 'Average retail prices of principal foods in large cities combined, by month, 1950.' Text layer extracted directly via pymupdf — no OCR needed. Annual averages across 56 cities. For comparison with 1901: flour was ~49¢/5lb (the 1903 report collected prices 1890-1902 but per-item prices are in the full 18th Annual Report tables, not the Bulletin summary). For comparison with 2024 (corrected BLS API labels): bread 14.3¢→$1.91/lb (13.4x), ground beef 93.6¢→$5.58/lb (6.0x), bacon 63.7¢→$6.92/lb (10.9x), eggs 60.4¢→$4.15/doz (6.9x)."
 assumptions = ["nominal-values"]
 
 [[fact]]
@@ -267,7 +267,7 @@ amount_minor = 5329
 currency = "USD"
 price_year = 1950
 basis = "weekly"
-notes = "Computed: average hourly earnings ($1.32) × average weekly hours (40.5). This is a simple multiplication of two Tier A series — no adjustment or estimation. The result is the implied average weekly paycheck for a manufacturing production worker."
+notes = "Computed from unrounded monthly averages: average hourly earnings × average weekly hours, averaged across 12 months. The rounded display values ($1.32 × 40.5) yield $53.46; the actual value $53.29 reflects monthly variation in both series. This is a multiplication of two Tier A series — no adjustment or estimation."
 assumptions = ["nominal-values"]
 
 [[fact]]

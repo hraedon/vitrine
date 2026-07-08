@@ -171,6 +171,16 @@ source = "eia-recs"
 tier = "A"
 notes = "From the 2009 RECS. 87% of US homes used air conditioning — up from 68% in 1993. Central AC alone reached 61% (nearly tripled from 23% in 1978). AC was approaching universality. By 2015, AC remained at 87%, and by 2020, reached 88%. Source: EIA RECS 2009."
 
+[[fact]]
+id = "us-2000s-cable-tv"
+panel = "diffusion"
+label = "Households with cable TV, 2006"
+value = "65.3 million basic cable subscribers (~59% of TV households)"
+unit = "subscribers (% of TV households with cable, FCC 13th Report)"
+source = "fcc-video-competition"
+tier = "A"
+notes = "From FCC 13th Annual Video Competition Report (FCC 07-206, data as of June 2006). 110.2M TV households, 95.8M subscribed to MVPD (87%). Cable's share of MVPD: 68.2% = 65.3M basic subscribers. Cable penetration of all TV households: ~59%. This was near the peak — cord-cutting began around 2013. Up from 60% (1992). By 2015: 53.2M subscribers (declining)."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
@@ -255,8 +265,8 @@ assumptions = ["composite-family"]
 id = "us-2000s-food-prices"
 panel = "table"
 label = "Retail food prices, December 2000"
-value = "Bread $0.85/lb, flour $0.99/lb, round steak $1.98/lb, milk $3.03/gal, potatoes $0.96/lb"
+value = "Bread $0.99/lb, ground beef $1.98/lb, bacon $3.03/lb, eggs $0.96/doz, lettuce $0.85/lb"
 unit = "USD, retail prices (December 2000, BLS API)"
 source = "bls-api"
 tier = "A"
-notes = "From BLS API series APU00007xxxx (December 2000). Bread up 47% from 1990, flour up 41%, milk up 33%. Round steak actually decreased slightly ($2.02→$1.98), reflecting changes in beef production. The 2000s saw rising global food demand and the beginning of biofuel-driven corn price increases."
+notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, per lb), APU0000704111 (bacon, per lb), APU0000708111 (eggs, per doz), APU0000712211 (lettuce, per lb). Values are December 2000 monthly averages. CORRECTION 2026-07-08: previous version had mismatched labels. Bread up 41% from 1990 ($0.70→$0.99), bacon up 33% ($2.28→$3.03). Ground beef actually decreased slightly ($2.02→$1.98), reflecting changes in beef production. The 2000s saw rising global food demand and the beginning of biofuel-driven corn price increases."

@@ -565,7 +565,7 @@ publisher = "Federal Communications Commission"
 year = 2017
 url = "https://www.fcc.gov/document/annual-assessment-status-competition-market-delivery-video-0"
 population = "U.S. households subscribing to multichannel video programming distributor (MVPD) services"
-notes = "FCC's annual report on video competition. Subscriber data from SNL Kagan (industry analyst). Key data: 1997: 64.2M cable, 73.6M total MVPD, 75.9% of TV households (FCC 1997 report). 2015: 53.2M cable (53.1% of MVPD), 33.1M DBS, 13.0M telco, 99.4M total MVPD (FCC DA 17-71, 2017). MVPD subscriber losses began 2013 — cord-cutting era. Cable's share of MVPD declined from 89% (1997) to 53.1% (2015)."
+notes = "FCC's annual report on video competition. Subscriber data from SNL Kagan (industry analyst). Key data: 1997: 64.2M cable, 73.6M total MVPD, 75.9% of TV households (FCC 1997 report). 2006: 65.3M basic cable, 95.8M total MVPD, 87% of TV households (FCC 07-206, 13th Report). 2015: 53.2M cable (53.1% of MVPD), 33.1M DBS, 13.0M telco, 99.4M total MVPD (FCC DA 17-71, 2017). MVPD subscriber losses began 2013 — cord-cutting era. Cable's share of MVPD declined from 89% (1997) to 68.2% (2006) to 53.1% (2015)."
 
 [[source]]
 id = "statab-food-prices"
@@ -576,3 +576,13 @@ year = 1970
 url = "https://www.census.gov/library/publications/time-series/statistical_abstracts.html"
 population = "U.S. urban households, retail food prices collected by BLS in 51-56 cities"
 notes = "Table 530 in the 1970 Statistical Abstract (91st edition). Data originally from BLS Retail Food Prices by Cities. Prices in cents per pound unless otherwise indicated. Covers 1950-1970 (April). Milk in cents per quart (delivered). Eggs in cents per dozen. Coffee in cents per 10 oz. Cross-checked against BLS Bulletin 1055 for 1950 values — exact match."
+
+[[source]]
+id = "cdc-mmwr-infant-mortality"
+title = "Achievements in Public Health, 1900-1999: Healthier Mothers and Babies (MMWR Vol. 48, No. 38)"
+short_cite = "CDC, MMWR 48(38), 1999"
+publisher = "Centers for Disease Control and Prevention"
+year = 1999
+url = "https://www.cdc.gov/mmwr/preview/mmwrhtml/mm4838a2.htm"
+population = "U.S. resident population (birth and death certificates)"
+notes = "CDC Morbidity and Mortality Weekly Report article summarizing 20th-century declines in infant and maternal mortality. Key data: 1900 infant mortality ~100 per 1,000 live births; 1997 rate 7.2 per 1,000. Total decline 1915-1997: >90%. Includes Table 1 with percentage reductions by decade period. Also reports 1997 infant deaths: 28,045."

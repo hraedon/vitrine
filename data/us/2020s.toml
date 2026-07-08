@@ -147,11 +147,11 @@ assumptions = ["nominal-values", "dwelling-size-metric"]
 id = "us-2020s-food-prices"
 panel = "table"
 label = "Retail food prices, December 2024"
-value = "Bread $1.71/lb, flour $1.91/lb, round steak $5.58/lb, milk $6.92/gal, potatoes $4.15/lb, coffee $0.62/lb"
-unit = "USD, nominal, BLS average price survey (APU series)"
+value = "Bread $1.91/lb, ground beef $5.58/lb, bacon $6.92/lb, eggs $4.15/doz, lettuce $1.71/lb, bananas $0.62/lb"
+unit = "USD, nominal, BLS average price survey (APU series, December 2024)"
 source = "bls-api"
 tier = "A"
-notes = "From BLS Public Data API v2, series APU0000712211 (bread), APU0000702111 (flour), APU0000703111 (round steak), APU0000704111 (milk), APU0000708111 (potatoes), APU0000711211 (coffee). Values are December 2024 monthly averages. Some series (eggs, butter, bananas, sugar) returned N/A for 2024 — possibly discontinued. For comparison with 1980: bread $0.48/lb (3.5x), milk $1.71/gal (4.0x), round steak $1.86/lb (3.0x). CPI ratio 1980→2024 is ~3.4x, so food prices tracked inflation roughly."
+notes = "From BLS Public Data API v2, series APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, 100% beef, per lb), APU0000704111 (bacon, sliced, per lb), APU0000708111 (eggs, grade A, large, per doz), APU0000712211 (lettuce, iceberg, per lb), APU0000711211 (bananas, per lb). Values are December 2024 monthly averages, verified via BLS API catalog endpoint. CORRECTION 2026-07-08: the previous version of this fact had mismatched labels — APU0000712211 was labeled 'bread' but is actually lettuce; APU0000702111 was labeled 'flour' but is actually bread; APU0000703111 was labeled 'round steak' but is actually ground chuck; APU0000704111 was labeled 'milk' but is actually bacon; APU0000708111 was labeled 'potatoes' but is actually eggs; APU0000711211 was labeled 'coffee' but is actually bananas. The note claiming 'eggs, butter, bananas, sugar returned N/A' was also wrong — eggs and bananas both returned valid data. For comparison with 1950: bread 14.3¢→$1.91/lb (13.4x), ground beef ~93.6¢→$5.58/lb (6.0x), eggs 60.4¢→$4.15/doz (6.9x)."
 assumptions = ["nominal-values"]
 
 [[fact]]
@@ -197,11 +197,11 @@ assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-con
 id = "us-2020s-weekly-earnings"
 panel = "day"
 label = "Implied average weekly earnings, 2024"
-value = "$1,227.88"
+value = "$1,225.88"
 unit = "USD per week, nominal (computed: $30.12 × 40.7)"
 source = "fred-ahetpi"
 tier = "A"
-amount_minor = 122788
+amount_minor = 122588
 currency = "USD"
 price_year = 2024
 basis = "weekly"
@@ -312,6 +312,16 @@ unit = "years"
 source = "nchs-nvss"
 tier = "A"
 notes = "From NCHS Data Brief No. 521 (Dec 2024), final 2023 mortality data. Male: 75.8 (up 1.0 from 74.8 in 2022). Female: 81.1 (up 0.9 from 80.2 in 2022). The 2020-21 COVID decline (78.8 → 76.1) has largely recovered. Provisional 2024 (Data Brief No. 548, Jan 2026): male 76.5, female 81.4. For cross-decade comparison: 1900-02: 48.2M/51.1F; 1939-41: 62.8M/67.3F; 1949-51: 66.3M/72.0F; 1960: 66.6M/73.1F (white)."
+
+[[fact]]
+id = "us-2020s-infant-mortality"
+panel = "day"
+label = "Infant mortality rate, 2023"
+value = "5.6 per 1,000 live births"
+unit = "deaths before age 1 per 1,000 live births"
+source = "nchs-nvss"
+tier = "A"
+notes = "From CDC/NCHS National Vital Statistics System (reported via USAFacts citing CDC). 2023 rate: 5.61 per 1,000 — up 3.5% from the 2020 record low of 5.42. Provisional 2024: 5.34 per 1,000. For cross-decade comparison: 1900: ~100 per 1,000; 1915: 99.9; 1997: 7.2. The century-long decline exceeds 90% — one of the greatest public health achievements. Persistent racial disparities: Black infant mortality is ~2x the national average."
 
 # ── Diffusion panel: vehicle ownership ───────────────────────────────────
 

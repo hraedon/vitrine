@@ -188,6 +188,16 @@ tier = "A"
 notes = "From Historical Statistics of the United States, Series B 116-117 (Expectation of Life at Specified Ages), p.76 (OCR'd via GLM-OCR). Period 1900-02. At age 20: male 42.2, female 43.8. At age 40: male 27.7, female 29.2. By 1909-11: male 50.2, female 53.6. The previous Tier D figure of '48 years' from the Missouri guide was accurate."
 assumptions = []
 
+[[fact]]
+id = "us-1900s-infant-mortality"
+panel = "day"
+label = "Infant mortality rate, 1900"
+value = "~100 per 1,000 live births"
+unit = "deaths before age 1 per 1,000 live births"
+source = "cdc-mmwr-infant-mortality"
+tier = "A"
+notes = "From CDC MMWR Vol. 48, No. 38 (1999): 'approximately 100 infants died before age 1 year' per 1,000 live births at the beginning of the 20th century. In some U.S. cities, up to 30% of infants died before reaching their first birthday. The 1915 rate (first year of reliable national data) was 99.9 per 1,000. By 1997: 7.2 per 1,000 — a >90% decline. This is one of the great public health achievements of the 20th century: sanitation, milk pasteurization, antibiotics, and neonatal intensive care."
+
 # ── Diffusion panel ────────────────────────────────────────────────────────
 
 [[fact]]
