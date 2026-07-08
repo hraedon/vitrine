@@ -246,3 +246,14 @@ source = "ramey-2009"
 tier = "C"
 notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
 assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1960s-infant-mortality"
+panel = "day"
+label = "Infant mortality rate, 1960"
+value = "26.0 per 1,000 live births"
+unit = "deaths under age 1 per 1,000 live births"
+source = "nchs-nvss"
+tier = "A"
+notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 18.7; postneonatal: 7.3. Decline slowed in the early 1960s before Medicaid and neonatal intensive care accelerated gains in the late 1960s."
+assumptions = ["composite-family"]

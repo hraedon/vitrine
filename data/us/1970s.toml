@@ -179,7 +179,7 @@ value = "80.1% of families had at least one automobile (avg 1.3 per family)"
 unit = "% of families with at least one automobile"
 source = "bls-cex"
 tier = "A"
-notes = "From CEX 1972-73 (Integrated Diary and Interview Survey, Table 1, p.31). 80.1% of all families had at least one automobile. Average: 1.3 automobiles per family. By income: under $3,000 → 47.3% had auto; $15,000+ → 94.3%. By 2023: 91.5% of households had at least one vehicle (ACS B25045). Population note: CEX measures 'families'; ACS measures 'households' — close but not identical."
+notes = "From CEX 1972-73 (Integrated Diary and Interview Survey, Bulletin 1992, Table 1, p.31). 80.1% of all families had at least one automobile. Average: 1.3 automobiles per family. By income: under $3,000 → 38.3% had auto; $15,000+ → ~96.6% (96.9% for $15,000-$19,999, 97.1% for $20,000-$24,999, 95.2% for $25,000+). By 2023: 91.5% of households had at least one vehicle (ACS B25045). Population note: CEX measures 'families'; ACS measures 'households' — close but not identical."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -253,8 +253,19 @@ assumptions = ["composite-family"]
 id = "us-1970s-food-prices"
 panel = "table"
 label = "Retail food prices, April 1970"
-value = "Bread 23.9¢/lb, round steak 134¢/lb, milk 66.5¢/qt, potatoes 9.0¢/lb, eggs 57.3¢/doz"
+value = "Bread 23.9¢/lb, round steak 133¢/lb, milk 65.5¢/qt, potatoes 9.0¢/lb, eggs 57.3¢/doz"
 unit = "retail food prices (cents per pound/quart/dozen, April 1970)"
 source = "statab-food-prices"
 tier = "A"
-notes = "From 1970 Statistical Abstract Table 530 (BLS data, April 1970 — most recent available). Milk is per quart, delivered. By April 1970, food inflation was accelerating: bread up 18% from 1960, round steak up 27%, milk up 156% (from 26.0¢ to 66.5¢/qt). The 1970s would bring double-digit food price inflation, especially after the 1973-74 oil shock and Soviet grain purchases."
+notes = "From 1970 Statistical Abstract Table 530 (BLS data, April 1970 — most recent available). Milk is per quart, delivered. By April 1970, food inflation was accelerating: bread up 18% from 1960, round steak up 26%, milk up 152% (from 26.0¢ to 65.5¢/qt). The 1970s would bring double-digit food price inflation, especially after the 1973-74 oil shock and Soviet grain purchases."
+
+[[fact]]
+id = "us-1970s-infant-mortality"
+panel = "day"
+label = "Infant mortality rate, 1970"
+value = "20.0 per 1,000 live births"
+unit = "deaths under age 1 per 1,000 live births"
+source = "nchs-nvss"
+tier = "A"
+notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 15.1; postneonatal: 4.9. The 1970s saw the steepest decade decline (37%, from 20.0 to 12.6) driven by neonatal medicine advances and regionalization of perinatal services."
+assumptions = ["composite-family"]

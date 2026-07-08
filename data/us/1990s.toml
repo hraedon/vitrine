@@ -189,7 +189,7 @@ value = "~60%"
 unit = "% of U.S. households with cable TV subscription"
 source = "ncta-cable-history"
 tier = "C"
-notes = "NCTA (National Cable & Telecommunications Association, now the Syndeo Institute) reports 60% of US households had cable in 1992. Wikipedia cites: 'By 1989, 53 million American households received cable television subscriptions, with 60 percent of all U.S. households doing so in 1992.' The Syndeo Institute cable history timeline PDF also references penetration milestones. Primary source: NCTA industry statistics."
+notes = "NCTA reports 66.7 million cable customers by 1999. The 60% penetration figure for 1992 is widely cited (Wikipedia, trade publications) but could not be directly verified against the NCTA Cable History Timeline PDF — the timeline does not state a 60% figure for 1992. NCTA does report 50.5% penetration in 1988 and 66.7M customers in 1999. The 60% figure is consistent with the trend between 50.5% (1988) and the late-1990s figures. Tier C: secondary source, penetration figure not directly verified against primary source."
 
 [[fact]]
 id = "us-1990s-computer"
@@ -280,3 +280,14 @@ unit = "USD, retail prices (December 1990, BLS API)"
 source = "bls-api"
 tier = "A"
 notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, per lb), APU0000704111 (bacon, per lb), APU0000708111 (eggs, per doz), APU0000712211 (lettuce, per lb). Values are December 1990 monthly averages. CORRECTION 2026-07-08: previous version had mismatched labels (same error as 2020s room). Food price inflation moderated in the 1980s after the Volcker disinflation. Bread up 35% from 1980 ($0.52→$0.70), ground beef up 9% ($1.86→$2.02)."
+
+[[fact]]
+id = "us-1990s-infant-mortality"
+panel = "day"
+label = "Infant mortality rate, 1990"
+value = "9.2 per 1,000 live births"
+unit = "deaths under age 1 per 1,000 live births"
+source = "nchs-nvss"
+tier = "A"
+notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 5.8; postneonatal: 3.4. The 1990s decline was driven by a 50%+ reduction in SIDS rates (back-to-sleep campaign) and improved survival of low-birthweight infants."
+assumptions = ["composite-family"]

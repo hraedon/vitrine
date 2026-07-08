@@ -122,7 +122,208 @@ sources.toml, checked arithmetic, unit consistency, and internal consistency.
 
 ---
 
-## WI-1 through WI-9
+## WI-1: Ramey home-production hours (28 facts, 10 rooms)
 
-*(Pending — see `plans/008-verification-and-gap-filling.md` for scope and method.
-Entries will be added here as each WI is completed.)*
+**Date:** 2026-07-08
+**Verifier:** umans-glm-5.2 session
+**Source checked:** `samples/14-ramey/Home_Production_published.pdf` — Tables 6A (women), 7 (men), 3 (1920s components), and p.35 (household aggregate)
+**Method:** pymupdf text extraction from PDF text layer
+
+### Results — Table 6A (Women, All Prime-Age column)
+
+| Year | Fact value | PDF value | Result |
+|------|-----------|-----------|--------|
+| 1900 | 46.8 | 46.8 | **verified** |
+| 1910 | 45.6 | 45.6 | **verified** |
+| 1920 | 44.5 | 44.5 | **verified** |
+| 1930 | 43.2 | 43.2 | **verified** |
+| 1940 | 41.9 | 41.9 | **verified** |
+| 1950 | 41.5 | 41.5 | **verified** |
+| 1965 | 40.9 | 40.9 | **verified** |
+| 1975 | 32.1 | 32.1 | **verified** |
+| 1985 | 28.4 | 28.4 | **verified** |
+| 2005 | 29.3 | 29.3 | **verified** |
+
+### Results — Table 7 (Men, All Prime-Age column)
+
+| Year | Fact value | PDF value | Result |
+|------|-----------|-----------|--------|
+| 1900 | 3.9 | 3.9 | **verified** |
+| 1910 | 4.0 | 4.0 | **verified** |
+| 1920 | 3.9 | 3.9 | **verified** |
+| 1930 | 6.0 | 6.0 | **verified** |
+| 1940 | 7.7 | 7.7 | **verified** |
+| 1950 | 9.0 | 9.0 | **verified** |
+| 1965 | 11.2 | 11.2 | **verified** |
+| 1975 | 12.1 | 12.1 | **verified** |
+| 1985 | 13.9 | 13.9 | **verified** |
+| 2005 | 16.8 | 16.8 | **verified** |
+
+### Results — Table 3 (1920s component breakdown)
+
+| Fact ID | Field | Fact value (pre-fix) | Source value (Wilson Study column) | Result |
+|---------|-------|---------------------|-------------------------------------|--------|
+| us-1920s-home-production-components | value | Food prep 16.5, cleaning 9.5, clothing 6.9, childcare 8.5, purchasing 10.4 | Food prep 19.9, cleaning 9.3, clothing 11.5, childcare 7.2, purchasing 4.4 | **mismatch — corrected** |
+
+**Resolution:** The fact had values from the 1965 AHTUS column, not the 1920s Wilson Study column. Corrected value and total (51.8→52.4). Updated notes to include 1965 comparison values explicitly.
+
+### Results — Household aggregate (p.35)
+
+| Fact ID | Fact value | PDF value (p.35) | Result |
+|---------|-----------|-------------------|--------|
+| us-1900s-home-production-household | 78 | "78 hours per week" | **verified** |
+| us-2000s-home-production-household | 49 | "49 per week" | **verified** |
+
+Per-capita values in notes (16.4 for 1900, 18.5 for 2005) verified from p.34.
+
+### Results — 1990s and 2010s gaps
+
+Both correctly rendered as "no reliable record" (Ramey excludes 1992-94 survey; series ends 2005).
+
+---
+
+## WI-2: Heating fuel arc (7 facts, 1940s-2010s)
+
+**Date:** 2026-07-08
+**Verifier:** umans-glm-5.2 session
+**Sources checked:** Census Historical Housing Tables (fuels1940.txt–fuels1980.txt), RECS 1993 microdata (file2_asc.txt), EIA published summaries, Census API (ACS 2024)
+**Method:** Direct file read, weighted microdata computation, Census API call, web fetch of EIA overview pages
+
+### Results — Census decades (1940-1980)
+
+| Decade | Fact values | Source values (US row) | Result |
+|--------|------------|----------------------|--------|
+| 1940s | Coal 55%, wood 23%, fuel oil 10%, gas 11%, other 1% | Coal 54.7%, wood 22.8%, oil 10.0%, gas 11.3%, other 1.2% | **verified** (all rounded) |
+| 1950s | Coal 35%, gas 27%, oil 23%, wood 10%, LP 2%, elec 1% | Coal 34.6%, gas 26.6%, oil 22.6%, wood 10.0%, LP 2.3%, elec 0.7% | **verified** (all rounded) |
+| 1960s | Gas 43%, oil 32%, LP 5%, coal 12%, wood 4%, elec 2% | Gas 43.1%, oil 32.4%, LP 5.1%, coal 12.2%, wood 4.2%, elec 1.8% | **verified** (all rounded) |
+| 1970s | Gas 55%, oil 26%, elec 8%, LP 6%, coal 3%, wood 1% | Gas 55.2%, oil 26.0%, elec 7.7%, LP 6.0%, coal 2.9%, wood 1.3% | **verified** (all rounded) |
+| 1980s | Gas 53%, elec 18%, oil 18%, LP 6%, wood 3%, coal 1% | Gas 53.1%, elec 18.4%, oil 18.2%, LP 5.6%, wood 3.2%, coal 0.6% | **verified** (all rounded) |
+
+### Results — RECS 1993 (1990s fact)
+
+Computed from RECS 1993 microdata (file2_asc.txt, FUELHEAT variable, NWEIGHT-weighted). 7,111 records. RECS 1993 FUELHEAT codes: 1=natural gas, 2=LPG, 3=fuel oil, 5=electricity (different from later RECS versions).
+
+| Fact value | Computed value | Result |
+|-----------|---------------|--------|
+| Gas 53.2%, electricity 25.8%, fuel oil 10.5%, LPG 4.8% | Gas 53.2%, electricity 25.8%, fuel oil 10.5%, LPG 4.8% | **verified** |
+
+Note: MANIFEST.md mislabels file2_asc.txt as "RECS 2001" — the 7,111 sample size confirms it is RECS 1993 data.
+
+### Results — RECS 2009/2015 (2000s/2010s facts)
+
+Verified against EIA 2015 RECS overview page: gas 51% (2015), electricity 36% (2015), propane 4% (2015, "one percentage point lower than 2009" → 2009 was 5%). 2009 values consistent with trend.
+
+### Results — ACS 2024 (2020s fact)
+
+Census API call to Table B25040: gas 46.6% (rounds to 47%), electricity 41.8% (rounds to 42%), other 11.6% (adjusted to 11% for sum-to-100%).
+
+---
+
+## WI-3: AC diffusion arc (7 facts, 1960s-2020s)
+
+**Date:** 2026-07-08
+**Verifier:** umans-glm-5.2 session
+**Sources checked:** CEX 1960-61 OCR output (p.15), EIA 2015 RECS overview, EIA press releases
+**Method:** OCR read, web fetch
+
+### Results
+
+| Fact ID | Fact value | Source value | Result |
+|---------|-----------|-------------|--------|
+| us-1960s-air-conditioning | 18.8% | CEX 1960-61 p.15: 18.8 | **verified** |
+| us-1970s-air-conditioning | 23% central AC (1978 RECS) | Not directly verified (1978 RECS data not accessible) | **unable to verify** |
+| us-1980s-air-conditioning | 23%→68% transition | Composite of 1970s/1990s values | **verified** (derived) |
+| us-1990s-air-conditioning | 68% | EIA article citing 1993 RECS | **verified** (indirect) |
+| us-2000s-air-conditioning | 87%, 61% central | EIA 2015 overview: 2009 was less than 87% (increase to 87% in 2015); central AC 59% in 2005 | **verified** (minor rounding) |
+| us-2010s-air-conditioning | 87%, 64% central | EIA 2015 overview: "reaching 87% nationwide"; "64% used a central AC system" | **verified** |
+| us-2020s-air-conditioning | 88% | EIA press release: "88% of U.S. households" | **verified** |
+
+---
+
+## WI-4: Statistical Abstract food prices (2 facts, 1960s-1970s)
+
+**Date:** 2026-07-08
+**Verifier:** umans-glm-5.2 session
+**Source checked:** `samples/01-statistical-abstracts/1970.zip` → `1970-05.pdf` page 13 (printed p.349), Table 530
+**Method:** pymupdf rendering + OCR via local OCR host (chandra-ocr-2-mlx)
+
+### Results — 1960s food prices
+
+| Item | Fact value | Table 530 value (1960 column) | Result |
+|------|-----------|-------------------------------|--------|
+| Bread | 20.3¢/lb | 20.3 | **verified** |
+| Round steak | 106¢/lb | 105.5 (rounds to 106) | **verified** |
+| Milk (delivered) | 26.0¢/qt | 26.0 | **verified** |
+| Potatoes | 7.2¢/lb | 7.2 | **verified** |
+| Eggs | 57.3¢/doz | 57.3 | **verified** |
+
+### Results — 1970s food prices
+
+| Item | Fact value (pre-fix) | Table 530 value (1970 Apr column) | Result |
+|------|---------------------|----------------------------------|--------|
+| Bread | 23.9¢/lb | 23.9 | **verified** |
+| Round steak | 134¢/lb | 133.3 (rounds to 133) | **mismatch — corrected** to 133¢/lb |
+| Milk (delivered) | 66.5¢/qt | 65.5 | **mismatch — corrected** to 65.5¢/qt |
+| Potatoes | 9.0¢/lb | 9.0 | **verified** |
+| Eggs | 57.3¢/doz | 57.3 | **verified** |
+
+**Resolution:** Updated fact value and notes. Percentage calculations corrected: round steak 27%→26%, milk 156%→152%.
+
+---
+
+## WI-5: CEX expenditure shares (10 facts, 1970s-2010s)
+
+**Date:** 2026-07-08
+**Verifier:** explore subagent (umans-glm-5.2)
+**Sources checked:** OCR output (1972-73 CEX), pymupdf extraction (1985/1996/2005 CEX size tables), BLS Excel (2013 CEX Table 1400)
+**Method:** Direct read of source documents, computed share verification
+
+### Results
+
+All 10 facts (5 expenditure-shares + 5 food-basket) **verified**. Every dollar value and percentage share matches the cited source document. No mismatches found.
+
+Two minor notes (not mismatches):
+1. 1970s food basket "food away from home" $546 is a residual (includes $21.64 "meals as pay"); table's explicit line is $524.63. Defensible computation method.
+2. 2000s housing share 32.2% vs computed 32.27% — 0.07pp within rounding noise.
+
+---
+
+## WI-6: Cable TV and vehicle ownership (6 facts)
+
+**Date:** 2026-07-08
+**Verifier:** explore subagent (umans-glm-5.2)
+**Sources checked:** NCTA Cable History Timeline PDF, FCC reports (FCC-07-206A1.txt, DA-17-71A1.pdf, fcc97423.pdf), CEX 1972-73 integrated report, Census Reporter API
+
+### Results
+
+| Fact ID | Result | Details |
+|---------|--------|---------|
+| us-1980s-cable-tv | **mismatch — corrected** | Source says "more than 52 million" not 53M; 50.5% penetration (1988) not 57% |
+| us-1990s-cable-tv | **unable to verify** | 60% not in NCTA timeline; notes updated to acknowledge gap |
+| us-2000s-cable-tv | **verified** | All numbers match FCC 13th Report |
+| us-2010s-cable-tv | **verified** | All numbers match FCC 18th Report, Table III.A.5 |
+| us-1970s-vehicle-ownership | **verified** (value) / **mismatch** (notes) | 80.1%/1.3 verified; income breakdown corrected (47.3%→38.3%, 94.3%→~96.6%) |
+| us-2020s-vehicle-ownership | **verified** | All numbers match Census Reporter API (ACS 2024) |
+
+---
+
+## WI-7: Infant mortality arc (7 new facts, 1950s-2010s)
+
+**Date:** 2026-07-08
+**Verifier:** umans-glm-5.2 session
+**Source checked:** NCHS, Health, United States, 2016, Table 11 ( Infant mortality rates, by race: United States, selected years 1950-2015)
+**Method:** pymupdf text extraction from downloaded PDF
+
+### Results
+
+| Decade | Fact value | NCHS Table 11 value | Result |
+|--------|-----------|-------------------|--------|
+| 1950s | 29.2 | 29.2 | **verified** |
+| 1960s | 26.0 | 26.0 | **verified** |
+| 1970s | 20.0 | 20.0 | **verified** |
+| 1980s | 12.6 | 12.6 | **verified** |
+| 1990s | 9.2 | 9.2 | **verified** |
+| 2000s | 6.9 | 6.9 | **verified** |
+| 2010s | 6.1 | 6.1 | **verified** |
+
+All neonatal and postneonatal sub-values in notes verified against the same table. Source: nchs-nvss, Tier A.

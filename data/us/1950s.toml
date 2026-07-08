@@ -216,15 +216,15 @@ assumptions = ["income-vs-consumption", "nominal-values"]
 id = "us-1950s-car-price"
 panel = "table"
 label = "Average new car price, 1950"
-value = "~$1,511"
+value = "~$1,511 (Ford Custom); average wholesale ~$1,295"
 unit = "USD, nominal"
-source = "umizzou-prices-wages"
-tier = "D"
+source = "statab-food-prices"
+tier = "C"
 amount_minor = 151100
 currency = "USD"
 price_year = 1950
 basis = "total"
-notes = "The $1,511 figure is specifically the price of a Ford Custom in 1950, widely cited as a representative new car price. Sources: Reader's Digest (cited by CarZing: 'in 1950, a Ford Custom was $1,511'); Fifties Web ('average cost of a new car in 1950 was approximately $1,510'); Brilliantio ('Ford Custom had a price tag of roughly $1,511'). The Ford Custom was a mid-range model — budget cars like the Henry J were $1,299, while higher-end models like the 1951 Ford Mercury were $2,189. The true average transaction price across all new cars was likely ~$1,800-$2,000. Primary source would be Ford's 1950 MSRP or NADA historical data, not yet directly verified. Tier D: secondary source, specific model price used as representative."
+notes = "The $1,511 figure is the price of a Ford Custom in 1950 (secondary sources: Reader's Digest, Fifties Web, Brilliantio — all consistent). The Statistical Abstract of the United States, 1953, Table 615 (Motor Vehicles—Factory Sales and Registrations: 1900 to 1951) provides primary-source wholesale data: 6,666,000 passenger cars sold at a wholesale value of $8,633,272,000 = ~$1,295 average wholesale price per car (source: Automobile Manufacturers Association, Automobile Facts and Figures). The retail/transaction price would be higher than wholesale (dealer markup). The Ford Custom at $1,511 was a mid-range model — the average transaction price across all new cars was likely ~$1,500-$2,000. Upgraded from Tier D to Tier C: primary source (Statistical Abstract) provides wholesale value; the $1,511 Ford Custom retail price is confirmed by multiple secondary sources as a representative mid-range model."
 assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -424,4 +424,15 @@ unit = "hours per week, prime-age men (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
 notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1950s-infant-mortality"
+panel = "day"
+label = "Infant mortality rate, 1950"
+value = "29.2 per 1,000 live births"
+unit = "deaths under age 1 per 1,000 live births"
+source = "nchs-nvss"
+tier = "A"
+notes = "From NCHS, Health, United States, 2016, Table 11 (Infant mortality rates, by race: United States, selected years 1950-2015). All races. Down from ~100 in 1900. Neonatal (under 28 days): 20.5; postneonatal (28-364 days): 8.7. The 1950s saw slow decline (1% per year) as postneonatal gains plateaued."
 assumptions = ["composite-family"]

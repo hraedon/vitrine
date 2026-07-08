@@ -164,12 +164,12 @@ notes = "No RECS survey falls within the 1980s decade that reports total AC. The
 [[fact]]
 id = "us-1980s-cable-tv"
 panel = "diffusion"
-label = "Cable TV, 1989"
-value = "53 million households (≈57% of all households)"
+label = "Cable TV, 1988-1989"
+value = "More than 52 million cable customers (50.5% penetration, 1988)"
 unit = "households with cable TV subscription"
 source = "ncta-cable-history"
 tier = "C"
-notes = "From NCTA/Syndeo Institute Cable History Timeline. 53 million households subscribed to cable TV in 1989, out of approximately 93 million total US households. Cable grew rapidly in the 1980s — from 20% penetration in 1980 to ~57% by 1989. By 1992, penetration reached 60%. Source: NCTA Cable History Timeline."
+notes = "From NCTA/Syndeo Institute Cable History Timeline. NCTA reports 'more than 52 million cable customers' in 1989, with national cable penetration reaching 50.5 percent (1988). Total industry revenues exceeded $15 billion with 9,050 cable systems. Cable grew rapidly in the 1980s — NCTA reports 14.8 million households subscribed in 1979. Source: NCTA Cable History Timeline (verified 2026-07-08)."
 
 [[fact]]
 id = "us-1980s-computer"
@@ -258,3 +258,14 @@ unit = "USD, retail prices (December 1980, BLS API)"
 source = "bls-api"
 tier = "A"
 notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, per lb), APU0000704111 (bacon, per lb), APU0000708111 (eggs, per doz), APU0000712211 (lettuce, per lb). Values are December 1980 monthly averages. CORRECTION 2026-07-08: previous version had mismatched labels (same error as 2020s room — series IDs were assigned to wrong food items). Bread at $0.52/lb is 2.2× the 1970 price (23.9¢). Ground beef at $1.86/lb is 1.4× the 1970 price. Food prices surged in the late 1970s due to inflation: the CPI for food rose 8.6% in 1978, 10.9% in 1979, and 8.6% in 1980."
+
+[[fact]]
+id = "us-1980s-infant-mortality"
+panel = "day"
+label = "Infant mortality rate, 1980"
+value = "12.6 per 1,000 live births"
+unit = "deaths under age 1 per 1,000 live births"
+source = "nchs-nvss"
+tier = "A"
+notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 8.5; postneonatal: 4.1. The early 1980s saw a slowdown in decline, then artificial pulmonary surfactant (1989-91) reduced respiratory distress syndrome deaths."
+assumptions = ["composite-family"]

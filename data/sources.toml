@@ -426,7 +426,7 @@ publisher = "National Center for Health Statistics (CDC)"
 year = 2024
 url = "https://www.cdc.gov/nchs/nvss/life-expectancy.htm"
 population = "U.S. resident population (death certificates)"
-notes = "NCHS publishes annual life tables via the National Vital Statistics Reports series. Life expectancy at birth (all races): 1960: 69.7 total / 66.6M / 73.1F; 1970: 70.8 / 67.1M / 74.8F; 1980: 73.7 / 70.0M / 77.5F; 1990: 75.4 / 71.8M / 78.8F; 2000: 77.0 / 74.3M / 79.7F; 2010: 78.7 / 76.2M / 81.0F; 2023: 78.4 / 75.8M / 81.1F (Data Brief No. 521). 2024 provisional: 79.0 / 76.5M / 81.4F."
+notes = "NCHS publishes annual life tables via the National Vital Statistics Reports series. Life expectancy at birth (all races): 1960: 69.7 total / 66.6M / 73.1F; 1970: 70.8 / 67.1M / 74.8F; 1980: 73.7 / 70.0M / 77.5F; 1990: 75.4 / 71.8M / 78.8F; 2000: 77.0 / 74.3M / 79.7F; 2010: 78.7 / 76.2M / 81.0F; 2023: 78.4 / 75.8M / 81.1F (Data Brief No. 521). 2024 provisional: 79.0 / 76.5M / 81.4F. Infant mortality rates (all races, per 1,000 live births) from Health, United States, 2016, Table 11: 1950: 29.2; 1960: 26.0; 1970: 20.0; 1980: 12.6; 1990: 9.2; 2000: 6.9; 2010: 6.1; 2015: 5.9. URL for infant mortality table: https://www.cdc.gov/nchs/data/hus/2016/011.pdf"
 
 # ── Census ACS (via Census Reporter) ─────────────────────────────────────
 
@@ -536,7 +536,7 @@ publisher = "Syndeo Institute (formerly NCTA Foundation)"
 year = 2022
 url = "https://syndeoinstitute.org/wp-content/uploads/2022/12/Cable-History-Timeline-Narrative_2022.pdf"
 population = "U.S. households with cable television subscriptions"
-notes = "National cable penetration milestones from industry trade association. 1989: 53M households. 1992: 60% of all US households. 1997: 66.7M subscribers. Tier C: industry self-reported statistics, but the standard reference for historical cable penetration."
+notes = "National cable penetration milestones from industry trade association. 1988: 50.5% penetration. 1989: more than 52M cable customers, 9,050 systems. 1992: ~60% of all US households (widely cited but not directly stated in NCTA timeline PDF — see fact notes). 1999: 66.7M customers. Tier C: industry self-reported statistics, but the standard reference for historical cable penetration."
 
 [[source]]
 id = "eia-recs"
