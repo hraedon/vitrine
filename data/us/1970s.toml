@@ -6,6 +6,8 @@
 [room]
 country = "us"
 decade = "1970s"
+wage_anchor = "us-1970s-hourly-earnings"
+income_anchor = "us-1970s-median-income-four-person"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -22,6 +24,10 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1970s-median-income-four-person"
+basis = "annual"
+amount_minor = 1117000
+currency = "USD"
+price_year = 1970
 panel = "budget"
 label = "Median family income, four-person families, 1970"
 value = "$11,170"
@@ -89,6 +95,10 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1970s-median-home-value"
+basis = "total"
+amount_minor = 1700000
+currency = "USD"
+price_year = 1970
 panel = "home"
 label = "Median value of owner-occupied homes, 1970"
 value = "$17,000"
@@ -142,6 +152,21 @@ source = "hist-stats-colonial-1970"
 tier = "A"
 notes = "From Historical Statistics Vol 1, Series D 740. Up from $3,302 in 1950. Manufacturing was still a major employer, but the 1970s would begin the long decline of US manufacturing employment."
 assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-1970s-hourly-earnings"
+panel = "day"
+label = "Average hourly earnings, production/nonsupervisory workers, 1970"
+value = "$3.23"
+unit = "USD per hour, nominal"
+source = "bls-bulletin-1312-12"
+tier = "A"
+amount_minor = 323
+currency = "USD"
+price_year = 1970
+basis = "hourly"
+notes = "From BLS Bulletin 1312-12, Vol. II, p. 287, 'Average Hourly Earnings of Production or Nonsupervisory Workers on Private Nonagricultural Payrolls, TOTAL PRIVATE, in Current Dollars.' 1970 annual average: $3.23. Predecessor series to FRED AHETPI (which begins 1964)."
+assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 

@@ -12,6 +12,8 @@
 [room]
 country = "us"
 decade = "1940s"
+wage_anchor = "us-1940s-hourly-earnings"
+income_anchor = "us-1940s-median-income-four-person"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -28,6 +30,10 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1940s-median-income-four-person"
+basis = "annual"
+amount_minor = 329200
+currency = "USD"
+price_year = 1940
 panel = "budget"
 label = "Median family income, four-person families, 1947"
 value = "$3,292"
@@ -105,6 +111,10 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1940s-median-home-value"
+basis = "total"
+amount_minor = 293800
+currency = "USD"
+price_year = 1940
 panel = "home"
 label = "Median value of owner-occupied single-family homes, 1940"
 value = "$2,938"
@@ -158,6 +168,21 @@ source = "hist-stats-colonial-1970"
 tier = "A"
 notes = "From Historical Statistics Vol 1, Series D 740 (average annual earnings per full-time equivalent employee in manufacturing). 1947: $2,793; 1948: $3,038; 1949: $3,095; 1950: $3,302. Wartime manufacturing earnings: 1945: $2,517; 1944: $2,621. For context, median family income (all families) in 1947 was $3,031."
 assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-1940s-hourly-earnings"
+panel = "day"
+label = "Average hourly earnings, production/nonsupervisory workers, 1947"
+value = "$1.13"
+unit = "USD per hour, nominal"
+source = "bls-bulletin-1312-12"
+tier = "A"
+amount_minor = 113
+currency = "USD"
+price_year = 1947
+basis = "hourly"
+notes = "From BLS Bulletin 1312-12, Vol. II, p. 287, 'Average Hourly Earnings of Production or Nonsupervisory Workers on Private Nonagricultural Payrolls, TOTAL PRIVATE, in Current Dollars.' 1947 annual average: $1.131. This is the predecessor series to FRED AHETPI (which begins 1964)."
+assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 

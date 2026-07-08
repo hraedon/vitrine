@@ -6,6 +6,8 @@
 [room]
 country = "us"
 decade = "2010s"
+wage_anchor = "us-2010s-wages"
+income_anchor = "us-2010s-median-income-four-person"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -22,6 +24,10 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-2010s-median-income-four-person"
+basis = "annual"
+amount_minor = 7475000
+currency = "USD"
+price_year = 2010
 panel = "budget"
 label = "Median family income, four-person families, 2010"
 value = "$74,750"
@@ -89,6 +95,11 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2010s-median-home-value"
+basis = "total"
+amount_minor = 17990000
+currency = "USD"
+price_year = 2010
+assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 panel = "home"
 label = "Median home value, 2010"
 value = "$179,900"
@@ -122,6 +133,10 @@ notes = "From NCHS National Vital Statistics System (NVSR Vol 63 No 7). Up from 
 
 [[fact]]
 id = "us-2010s-wages"
+basis = "hourly"
+amount_minor = 1905
+currency = "USD"
+price_year = 2010
 panel = "day"
 label = "Average hourly earnings and weekly hours, 2010"
 value = "$19.05/hr, 33.4 hrs/week (total private). Manufacturing: $18.61/hr, 41.1 hrs/week."

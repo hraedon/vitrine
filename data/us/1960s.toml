@@ -5,11 +5,17 @@
 [room]
 country = "us"
 decade = "1960s"
+wage_anchor = "us-1960s-hourly-earnings"
+income_anchor = "us-1960s-median-family-income"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-1960s-median-family-income"
+basis = "annual"
+amount_minor = 629500
+currency = "USD"
+price_year = 1960
 panel = "budget"
 label = "Median family income, 1960"
 value = "$5,620 (all families), $6,295 (4-person families)"
@@ -109,6 +115,10 @@ notes = "From the 1960 Census of Housing. Gas overtook coal as the dominant heat
 
 [[fact]]
 id = "us-1960s-median-home-value"
+basis = "total"
+amount_minor = 1190000
+currency = "USD"
+price_year = 1960
 panel = "home"
 label = "Median value of owner-occupied homes, 1960"
 value = "$11,900"
@@ -166,6 +176,21 @@ source = "hist-stats-colonial-1970"
 tier = "A"
 notes = "Manufacturing annual earnings from Historical Statistics Vol 1, Series D 740 (p.186): $5,352 in 1960, rising to $8,150 by 1970. CPI from BLS series CUUR0000SA0 (confirmed via BLS API): 29.6 in 1960, rising to 38.8 by 1970. CPI ratio 1960 to 2024: 313.7/29.6 = 10.6x. Real income growth 1960 to 2024: $5,620 to $105,800 = 18.8x nominal / 10.6x CPI = 1.77x real."
 assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-1960s-hourly-earnings"
+panel = "day"
+label = "Average hourly earnings, production/nonsupervisory workers, 1960"
+value = "$2.09"
+unit = "USD per hour, nominal"
+source = "bls-bulletin-1312-12"
+tier = "A"
+amount_minor = 209
+currency = "USD"
+price_year = 1960
+basis = "hourly"
+notes = "From BLS Bulletin 1312-12, Vol. II, p. 287, 'Average Hourly Earnings of Production or Nonsupervisory Workers on Private Nonagricultural Payrolls, TOTAL PRIVATE, in Current Dollars.' 1960 annual average: $2.09. Predecessor series to FRED AHETPI (which begins 1964)."
+assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency"]
 
 # ── Diffusion panel ────────────────────────────────────────────────────────
 

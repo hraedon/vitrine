@@ -6,6 +6,8 @@
 [room]
 country = "us"
 decade = "1990s"
+wage_anchor = "us-1990s-wages"
+income_anchor = "us-1990s-median-income-four-person"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -22,6 +24,10 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1990s-median-income-four-person"
+basis = "annual"
+amount_minor = 4145000
+currency = "USD"
+price_year = 1990
 panel = "budget"
 label = "Median family income, four-person families, 1990"
 value = "$41,450"
@@ -89,6 +95,10 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1990s-median-home-value"
+basis = "total"
+amount_minor = 7910000
+currency = "USD"
+price_year = 1990
 panel = "home"
 label = "Median value of owner-occupied homes, 1990"
 value = "$79,100"
@@ -134,6 +144,10 @@ notes = "From NCHS National Vital Statistics System. Up from 70.0/77.5 in 1980. 
 
 [[fact]]
 id = "us-1990s-wages"
+basis = "hourly"
+amount_minor = 1020
+currency = "USD"
+price_year = 1990
 panel = "day"
 label = "Average hourly earnings and weekly hours, 1990"
 value = "$10.20/hr, 34.3 hrs/week (total private). Manufacturing: $10.77/hr, 40.5 hrs/week."
