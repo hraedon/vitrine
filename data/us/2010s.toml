@@ -101,11 +101,11 @@ notes = "From NCHS National Vital Statistics System (NVSR Vol 63 No 7). Up from 
 id = "us-2010s-wages"
 panel = "day"
 label = "Average hourly earnings and weekly hours, 2010"
-value = "$19.07/hr, 33.4 hrs/week (total private). Manufacturing: $18.61/hr, 41.1 hrs/week."
+value = "$19.05/hr, 33.4 hrs/week (total private). Manufacturing: $18.61/hr, 41.1 hrs/week."
 unit = "USD/hour and hours/week, nominal"
 source = "fred-ahetpi"
 tier = "A"
-notes = "From BLS CES, series CES0500000008 and CES0500000007 (total private), CES3000000008 and CES3000000007 (manufacturing), accessed via BLS API. Annual averages from 12 monthly observations. Implied weekly earnings: $636.94 (total private), $764.87 (manufacturing). By 2024: $30.12/hr."
+notes = "Production and nonsupervisory employees, seasonally adjusted: FRED AHETPI + AWHNONAG (total private), CES3000000008 + AWHMAN (manufacturing). Annual average of 12 monthly observations, re-verified against FRED 2026-07-08. By 2024: $30.12/hr."
 assumptions = ["nominal-values"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────

@@ -112,11 +112,11 @@ notes = "From NCHS National Vital Statistics System. Up from 71.8/78.8 in 1990. 
 id = "us-2000s-wages"
 panel = "day"
 label = "Average hourly earnings and weekly hours, 2000"
-value = "$13.98/hr, 34.3 hrs/week (total private). Manufacturing: $14.33/hr, 41.2 hrs/week."
+value = "$14.01/hr, 34.3 hrs/week (total private). Manufacturing: $14.31/hr, 41.2 hrs/week."
 unit = "USD/hour and hours/week, nominal"
 source = "fred-ahetpi"
 tier = "A"
-notes = "From BLS CES, series CES0500000008 and CES0500000007 (total private), CES3000000008 and CES3000000007 (manufacturing), accessed via BLS API. Annual averages from 12 monthly observations. Implied weekly earnings: $479.51 (total private), $590.40 (manufacturing)."
+notes = "Production and nonsupervisory employees, seasonally adjusted: FRED AHETPI + AWHNONAG (total private), CES3000000008 + AWHMAN (manufacturing). Annual average of 12 monthly observations, re-verified against FRED 2026-07-08."
 assumptions = ["nominal-values"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────

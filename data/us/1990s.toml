@@ -112,11 +112,11 @@ notes = "From NCHS National Vital Statistics System. Up from 70.0/77.5 in 1980. 
 id = "us-1990s-wages"
 panel = "day"
 label = "Average hourly earnings and weekly hours, 1990"
-value = "$10.19/hr, 34.3 hrs/week (total private). Manufacturing: $10.83/hr, 40.5 hrs/week."
+value = "$10.20/hr, 34.3 hrs/week (total private). Manufacturing: $10.77/hr, 40.5 hrs/week."
 unit = "USD/hour and hours/week, nominal"
 source = "fred-ahetpi"
 tier = "A"
-notes = "From BLS CES, series CES0500000008 and CES0500000007 (total private), CES3000000008 and CES3000000007 (manufacturing), accessed via BLS API. Annual averages from 12 monthly observations. Implied weekly earnings: $349.52 (total private), $438.62 (manufacturing)."
+notes = "Production and nonsupervisory employees, seasonally adjusted: FRED AHETPI + AWHNONAG (total private), CES3000000008 + AWHMAN (manufacturing). Annual average of 12 monthly observations, re-verified against FRED 2026-07-08. CAUTION: current CES vintage — the SIC-era published 1990 manufacturing average was $10.83; do not 'correct' back to it."
 assumptions = ["nominal-values"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────

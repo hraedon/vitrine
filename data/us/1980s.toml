@@ -122,11 +122,11 @@ notes = "From NCHS National Vital Statistics System. Up from ~67.1/74.8 in 1970 
 id = "us-1980s-wages"
 panel = "day"
 label = "Average hourly earnings and weekly hours, 1980"
-value = "$6.84/hr, 35.2 hrs/week (total private). Manufacturing: $7.27/hr, 39.7 hrs/week."
+value = "$6.85/hr, 35.2 hrs/week (total private). Manufacturing: $7.15/hr, 39.7 hrs/week."
 unit = "USD/hour and hours/week, nominal"
 source = "fred-ahetpi"
 tier = "A"
-notes = "From BLS Current Employment Statistics (CES), series CES0500000008 (total private hourly earnings) and CES0500000007 (total private weekly hours), accessed via BLS API. Annual averages computed from 12 monthly observations. Manufacturing: CES3000000008 ($7.27) and CES3000000007 (39.7 hrs). Implied weekly earnings: $240.77 (total private), $288.42 (manufacturing). By 2024: $30.12/hr."
+notes = "Production and nonsupervisory employees, seasonally adjusted: FRED AHETPI + AWHNONAG (total private), CES3000000008 + AWHMAN (manufacturing). Annual average of 12 monthly observations, re-verified against FRED 2026-07-08. CAUTION: current CES vintage — the SIC-era published 1980 manufacturing average was $7.27 and is the widely-cited figure; do not 'correct' back to it. By 2024: $30.12/hr."
 assumptions = ["nominal-values"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
