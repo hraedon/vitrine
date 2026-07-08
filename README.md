@@ -81,8 +81,13 @@ not cryptographic.
 
 ## Status
 
-Charter stage. See `docs/fact-model.md` (design spine) and
-`plans/001-fact-model-and-us-v0.md`.
+US corpus curated: 13 decade rooms (1900s–2020s), ~200 facts, every
+1970s–2010s expenditure/wage/food-basket gap filled at Tier A; remaining gaps
+are structural (pre-1947 income, 1940s expenditure) or listed in
+`docs/resource-hunt.md`. Next: the visualization layer
+(`plans/007-visualization-layer.md`, design reference
+`docs/concept-demo/walkthrough.html`). See `docs/fact-model.md` (design spine)
+and `plans/` for the full series.
 
 ## Quick start
 
