@@ -1,0 +1,523 @@
+<!doctype html>
+<!-- vitrine walkthrough concept demo (Opus-generated, retrieved from claude.ai artifact
+     31ed2bf5 on 2026-07-08). DESIGN REFERENCE ONLY - non-truth-path: every number in
+     here is hand-inlined for the demo and carries no authority. The production
+     renderer draws exclusively from fact ids in data/. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>vitrine - walkthrough concept demo</title>
+<style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style>
+</head>
+<body>
+<style>
+  .vd {
+    --ground:#1b1815; --case:#242019; --case-2:#2c261e; --edge:#413728;
+    --ivory:#ece2cf; --ivory-2:#e3d7bf; --ink:#2a2317; --ink-soft:#7c6f57;
+    --brass:#cf9f4c; --brass-dim:#7d663a; --brass-deep:#a97f34; --brass-lit:#f0c778;
+    --tA:#7aa38c; --tB:#c79a44; --tC:#c5763e; --tD:#948a78; --prov:#b07a52;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans:ui-sans-serif,system-ui,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+    background:var(--ground); color:var(--ivory); font-family:var(--sans);
+    line-height:1.55; min-height:100vh; -webkit-font-smoothing:antialiased;
+  }
+  .vd *{box-sizing:border-box;}
+  .vd .wrap{max-width:1120px; margin:0 auto; padding:clamp(20px,4vw,44px);}
+
+  .vd .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--brass); margin:0 0 10px;}
+  .vd h1{font-family:var(--serif); font-weight:600; text-wrap:balance;
+    font-size:clamp(28px,4.4vw,44px); line-height:1.08; margin:0 0 6px; color:#f3ead7;}
+  .vd h1 em{font-style:italic; color:var(--brass);}
+  .vd .sub{color:var(--ink-soft); max-width:64ch; font-size:15px; margin:0;}
+
+  .vd .plaque{margin:24px 0 20px; padding:16px 20px; border:1px solid var(--edge);
+    border-left:3px solid var(--brass); background:linear-gradient(180deg,var(--case-2),var(--case));
+    border-radius:3px; max-width:76ch;}
+  .vd .plaque b{color:#f3ead7; font-family:var(--serif); font-style:italic; font-weight:600;}
+  .vd .plaque span{color:var(--ink-soft); font-size:14.5px;}
+
+  .vd .decades{display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:0 0 16px;}
+  .vd .decades .lab{font-family:var(--mono); font-size:11px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--ink-soft); margin-right:6px;}
+  .vd .dbtn{font-family:var(--serif); font-size:18px; color:var(--ivory);
+    background:var(--case-2); border:1px solid var(--edge); padding:7px 18px; border-radius:2px;
+    cursor:pointer; transition:all .2s ease;}
+  .vd .dbtn:hover{border-color:var(--brass-dim); color:#f3ead7;}
+  .vd .dbtn[aria-pressed="true"]{background:var(--brass); color:#241d10; border-color:var(--brass);
+    box-shadow:0 0 22px -6px var(--brass-deep);}
+  .vd .dbtn:focus-visible{outline:2px solid var(--brass); outline-offset:3px;}
+
+  .vd .stagegrid{display:grid; grid-template-columns:1fr; gap:20px;}
+  @media(min-width:920px){ .vd .stagegrid{grid-template-columns:1.5fr 1fr; align-items:start;} }
+
+  .vd .stage{position:relative; border:1px solid var(--edge); border-radius:5px;
+    background:radial-gradient(120% 92% at 50% 16%, #322a20 0%, var(--case) 44%, var(--ground) 100%);
+    padding:8px; overflow:hidden;}
+  .vd .stage::after{content:""; position:absolute; inset:0; pointer-events:none;
+    box-shadow:inset 0 0 90px -30px #000; border-radius:5px;}
+  .vd svg.house{display:block; width:100%; height:auto;}
+  .vd #home{transition:transform .6s cubic-bezier(.4,0,.2,1);}
+  .vd .stagehint{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em;
+    text-transform:uppercase; color:#5c5240; text-align:center; padding:6px 0 3px;}
+
+  .vd .hs{cursor:pointer;}
+  .vd .hs .hit{fill:transparent;}
+  .vd .hs .ring{fill:none; stroke:var(--brass-dim); stroke-width:1.4; opacity:.5; transition:stroke .25s, opacity .25s;}
+  .vd .hs .glyph{stroke:var(--brass); fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; transition:opacity .55s ease, stroke .25s;}
+  .vd .hs .glyph.fill{fill:var(--brass); stroke:none;}
+  .vd .hs .pct{font-family:var(--mono); font-size:9px; fill:var(--brass); text-anchor:middle; opacity:.85;}
+  .vd .hs:hover .ring{stroke:var(--brass); opacity:1;}
+  .vd .hs:hover .glyph{stroke:var(--brass-lit);}
+  .vd .hs.sel .ring{stroke:var(--brass); opacity:1; stroke-width:2;}
+  .vd .hs.gap .ring{stroke:var(--tD); stroke-dasharray:3 3; opacity:.9;}
+  .vd .hs.gap .glyph{stroke:var(--tD);}
+  .vd .hs:focus-visible{outline:none;}
+  .vd .hs:focus-visible .ring{stroke:var(--brass-lit); opacity:1; stroke-width:2.4;}
+
+  .vd .person{cursor:pointer;}
+  .vd .person .hit{fill:transparent;}
+  .vd .person .fig{fill:rgba(207,159,76,.10); stroke:var(--brass); stroke-width:1.7; stroke-linejoin:round; transition:fill .25s, stroke .25s;}
+  .vd .person .fig.head{fill:rgba(207,159,76,.14);}
+  .vd .person .plabel{font-family:var(--mono); font-size:8.5px; letter-spacing:.08em; fill:#8a7a54; text-anchor:middle; text-transform:uppercase;}
+  .vd .person:hover .fig{stroke:var(--brass-lit); fill:rgba(240,199,120,.18);}
+  .vd .person.sel .fig{stroke:var(--brass-lit); fill:rgba(240,199,120,.24);}
+  .vd .person.sel .plabel{fill:var(--brass-lit);}
+  .vd .person:focus-visible{outline:none;}
+  .vd .person:focus-visible .fig{stroke:var(--brass-lit); stroke-width:2.4;}
+
+  .vd .house .structure{stroke:var(--brass-dim); fill:none; stroke-width:1.6; opacity:.62;}
+  .vd .house .ground{stroke:var(--brass-dim); stroke-width:1.4; opacity:.4;}
+  .vd .house .platform{stroke:var(--brass-dim); stroke-width:1.2; opacity:.3; stroke-dasharray:2 5;}
+  .vd .house .zlabel{font-family:var(--mono); font-size:8.5px; letter-spacing:.1em; fill:#6b5f47; text-transform:uppercase;}
+
+  /* thesis band */
+  .vd .thesis{margin-top:14px; border:1px solid var(--edge); border-radius:5px; background:var(--case); padding:15px 17px;}
+  .vd .thesis h4{font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--brass); margin:0 0 3px; font-weight:600;}
+  .vd .thesis .tcap{font-size:12.5px; color:var(--ink-soft); margin:0 0 13px;}
+  .vd .metric{margin:11px 0; padding-top:11px; border-top:1px solid #34291f;}
+  .vd .metric:first-of-type{border-top:none; padding-top:0;}
+  .vd .metric .mlab{font-size:12.5px; color:#c9bfa4; margin-bottom:6px; display:flex; justify-content:space-between; align-items:baseline;}
+  .vd .metric .mlab em{font-style:normal; font-family:var(--mono); font-size:10px; color:#7c6f57; letter-spacing:.05em;}
+  .vd .traj{display:grid; grid-template-columns:repeat(3,1fr); gap:8px;}
+  .vd .tnode{border:1px solid #34291f; border-radius:3px; padding:7px 9px 8px; background:#211d17; position:relative; transition:border-color .3s, background .3s;}
+  .vd .tnode.on{border-color:var(--brass); background:#2b2318;}
+  .vd .tnode .td{font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; color:#7c6f57; text-transform:uppercase;}
+  .vd .tnode.on .td{color:var(--brass-lit);}
+  .vd .tnode .tv{font-family:var(--serif); font-size:17px; color:var(--ivory); line-height:1.1; margin-top:2px; font-variant-numeric:tabular-nums;}
+  .vd .tnode .tbar{height:5px; border-radius:3px; background:#3a3024; margin-top:7px; overflow:hidden;}
+  .vd .tnode .tbar i{display:block; height:100%; background:linear-gradient(90deg,var(--brass-deep),var(--brass)); border-radius:3px;}
+  .vd .tnode .tbar.fall i{background:linear-gradient(90deg,#9a7b53,#c98a6a);}
+  .vd .flag{font-family:var(--mono); font-size:8.5px; letter-spacing:.04em; padding:0 4px; border-radius:2px; margin-left:5px; vertical-align:1px;}
+  .vd .flag.prov{background:rgba(176,122,82,.22); color:#d09b74; border:1px solid #7a5238;}
+  .vd .flag.gap{background:rgba(148,138,120,.18); color:#b3a891; border:1px solid #5a5344;}
+  .vd .flag.tier{color:#20281f;}
+
+  .vd .card{background:linear-gradient(178deg,var(--ivory),var(--ivory-2)); color:var(--ink);
+    border-radius:4px; padding:22px 22px 20px; border:1px solid #cbbfa1; min-height:230px; box-shadow:0 18px 40px -22px #000;}
+  .vd .card .ceyebrow{font-family:var(--mono); font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--brass-deep);}
+  .vd .card .cval{font-family:var(--serif); font-size:clamp(21px,2.9vw,29px); line-height:1.12; margin:8px 0 2px; color:var(--ink); text-wrap:balance;}
+  .vd .card .clab{font-size:14px; color:#5f5540; margin:0 0 14px;}
+  .vd .grade{display:flex; align-items:center; gap:12px; margin:2px 0 4px;}
+  .vd .gbadge{width:42px; height:42px; border-radius:3px; display:grid; place-items:center; font-family:var(--serif); font-weight:700; font-size:22px; color:#fff; flex:none;}
+  .vd .gmeta .gt{font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;}
+  .vd .gmeta .gd{font-size:13px; color:#5f5540; max-width:34ch;}
+  .vd .measured{margin:14px 0 0; padding:12px 14px; background:#e7dbc0; border-radius:3px; border-left:3px solid var(--brass-deep);}
+  .vd .measured .mk{font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--brass-deep); display:block; margin-bottom:3px;}
+  .vd .measured .mv{font-size:13.5px; color:#453d2b; line-height:1.45;}
+  .vd .presence{margin:16px 0 0;}
+  .vd .ptrack{height:9px; border-radius:5px; background:#d7cbac; overflow:hidden; border:1px solid #c6ba9b;}
+  .vd .pfill{height:100%; background:linear-gradient(90deg,var(--brass-deep),var(--brass)); border-radius:5px 0 0 5px;}
+  .vd .pcap{font-size:12.5px; color:#5f5540; margin-top:7px;}
+  .vd .pcap b{color:var(--ink); font-variant-numeric:tabular-nums;}
+  .vd .src{font-family:var(--mono); font-size:11px; color:#6f634c; margin-top:15px; line-height:1.5;}
+  .vd .src b{color:#4a4231; font-weight:600;}
+  .vd .note-box{margin-top:14px; font-size:13.5px; color:#554b38; font-style:italic;}
+  .vd .cempty{color:#8a7f66; font-style:italic; font-size:14.5px; padding:34px 4px; text-align:center;}
+
+  .vd .pnote{margin:2px 0 14px; font-size:13px; color:#6a5f47; font-style:italic; border-left:2px solid #cbbf9f; padding-left:11px;}
+  .vd .statrow{display:grid; grid-template-columns:1fr auto; gap:8px 12px; align-items:baseline; padding:9px 0; border-top:1px solid #d5c9aa;}
+  .vd .statrow .sk{font-size:13px; color:#4a4231; font-weight:600;}
+  .vd .statrow .sv{font-family:var(--serif); font-size:16px; color:var(--ink); text-align:right; font-variant-numeric:tabular-nums;}
+  .vd .statrow .tchip{font-family:var(--mono); font-size:10px; font-weight:700; color:#fff; border-radius:2px; padding:1px 5px; margin-left:7px;}
+  .vd .statrow .subsrc{grid-column:1/-1; font-family:var(--mono); font-size:10.5px; color:#8a7d61; margin-top:-2px;}
+  .vd .statrow.gap .sv{font-family:var(--sans); font-size:12.5px; font-style:italic; color:#9a8b6b;}
+  .vd .statrow.gap .sk{color:#6f6552;}
+  .vd .statrow.provrow .sv{color:#9c5f33;}
+  .vd .statrow .pchip{font-family:var(--mono); font-size:9.5px; font-weight:700; color:#fff; background:var(--prov); border-radius:2px; padding:1px 5px; margin-left:7px;}
+
+  .vd .legends{display:grid; grid-template-columns:1fr; gap:14px; margin-top:20px;}
+  @media(min-width:680px){ .vd .legends{grid-template-columns:1fr 1fr;} }
+  .vd .leg{border:1px solid var(--edge); border-radius:4px; padding:15px 17px; background:var(--case);}
+  .vd .leg h4{font-family:var(--mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--brass); margin:0 0 11px; font-weight:600;}
+  .vd .tierrow{display:flex; align-items:center; gap:10px; margin:7px 0; font-size:13px; color:var(--ivory);}
+  .vd .tierrow .dot{width:13px; height:13px; border-radius:2px; flex:none;}
+  .vd .tierrow small{color:var(--ink-soft);}
+  .vd .leg p{font-size:13px; color:var(--ink-soft); margin:6px 0 0;}
+  .vd .leg p b{color:var(--ivory);}
+
+  .vd footer{margin-top:24px; padding-top:16px; border-top:1px solid var(--edge); font-size:12.5px; color:#6b6049; max-width:80ch;}
+  .vd footer b{color:var(--ink-soft);}
+  @media(prefers-reduced-motion:reduce){ .vd *{transition:none !important;} }
+</style>
+
+<div class="vd">
+<div class="wrap">
+
+  <p class="eyebrow">vitrine · concept demo · US household 1900s → 2020s</p>
+  <h1>Walk the <em>composite household</em></h1>
+  <p class="sub">The home <em>and</em> the four people in it, across the century. The argument isn't narrated — it's in the sourced facts: watch unpaid labour fall as comforts arrive, and the house grow from cramped to spacious.</p>
+
+  <div class="plaque">
+    <b>This is not a family, and it was never this small.</b> <span>Each figure is a stack of separate medians. The point of the walk is what nostalgia forgets: the single-earner past was <em>materially spartan</em>, and the technology that filled these rooms is what freed a woman from a lifetime of grinding, unpaid work. Click a person or object for its source and confidence — or that we haven't sourced it yet.</span>
+  </div>
+
+  <div class="decades" role="group" aria-label="Choose a decade">
+    <span class="lab">Decade</span>
+    <button class="dbtn" data-decade="1900s" aria-pressed="false">1900s</button>
+    <button class="dbtn" data-decade="1950s" aria-pressed="true">1950s</button>
+    <button class="dbtn" data-decade="2020s" aria-pressed="false">2020s</button>
+  </div>
+
+  <div class="stagegrid">
+    <div>
+      <div class="stage">
+        <svg class="house" viewBox="0 0 800 560" role="img" aria-label="Schematic cutaway of the composite home with the family of four; the house scales with floor area.">
+          <defs>
+            <pattern id="vdhatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+              <line x1="0" y1="0" x2="0" y2="7" stroke="#948a78" stroke-width="1.4" opacity="0.7"/>
+            </pattern>
+          </defs>
+          <g id="home">
+            <g class="structure">
+              <polygon points="120,182 400,90 680,182"/>
+              <rect x="150" y="182" width="500" height="248"/>
+              <line x1="400" y1="182" x2="400" y2="430"/>
+              <line x1="150" y1="306" x2="650" y2="306"/>
+              <rect x="452" y="122" width="34" height="60"/>
+            </g>
+            <line class="ground" x1="120" y1="430" x2="680" y2="430"/>
+            <text class="zlabel" x="172" y="202">parlor</text>
+            <text class="zlabel" x="470" y="202">rooms</text>
+            <text class="zlabel" x="172" y="326">kitchen</text>
+            <text class="zlabel" x="470" y="326">bath &amp; heat</text>
+            <g id="hs"></g>
+          </g>
+          <path class="ground" d="M40 430 h740" opacity="0.3"/>
+          <line class="platform" x1="250" y1="506" x2="545" y2="506"/>
+          <g id="ppl"></g>
+        </svg>
+        <div class="stagehint">house scales with floor area · absent technology isn't drawn · click or tab to inspect</div>
+      </div>
+
+      <div class="thesis">
+        <h4>The argument, in sourced facts</h4>
+        <p class="tcap">Each row is the same measure across three benchmark decades. The current decade is highlighted.</p>
+        <div id="metrics"></div>
+      </div>
+    </div>
+
+    <div class="rail">
+      <div class="card" id="card" aria-live="polite">
+        <div class="cempty">Select a person or an object<br>to open its specimen label.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legends">
+    <div class="leg">
+      <h4>Confidence &amp; flags</h4>
+      <div class="tierrow"><span class="dot" style="background:var(--tA)"></span> A — official statistical series</div>
+      <div class="tierrow"><span class="dot" style="background:var(--tC)"></span> C — reconstructed from period sources</div>
+      <div class="tierrow"><span class="dot" style="background:var(--tD)"></span> D — estimate / no reliable record</div>
+      <div class="tierrow"><span class="dot" style="background:var(--prov)"></span> Provisional — mechanism shown; figure awaits sourcing (e.g. Ramey)</div>
+    </div>
+    <div class="leg">
+      <h4>Reading the walk</h4>
+      <p><b>Falling</b> bars (labour) shown in a warmer tone; <b>rising</b> bars (comforts, income, size) in brass. Absent technology isn't drawn — a bare house says more than ghosts.</p>
+      <p style="margin-top:8px">Where a figure isn't sourced yet, it shows as a <b>gap</b> or a flagged <b>provisional</b> value, never a confident guess.</p>
+    </div>
+  </div>
+
+  <footer>
+    <b>About this demo.</b> Populated figures are drawn verbatim from vitrine's US rooms. The mother's unpaid-labour hours are <em>provisional</em> pending extraction of Ramey (2009); the modern point anchors on the 2020s ATUS fact already in the corpus (all-adult household activities — a concept-splice from Ramey's women's series, flagged not smoothed). Floor areas are provisional (new-construction proxy). Food's share of spending and life expectancy are fully sourced. The house scale is indicative; the square-foot figure is the datum. This is the argument the exhibit will make once Plan 005's curation lands — with every thesis figure carrying its tier and population.
+  </footer>
+
+</div>
+</div>
+
+<script>
+(function(){
+  var NS = "http://www.w3.org/2000/svg";
+  var TIER = { A:{c:"#7aa38c",name:"Official series"}, B:{c:"#c79a44",name:"Official microdata (computed)"},
+    C:{c:"#c5763e",name:"Period-survey reconstruction"}, D:{c:"#948a78",name:"Estimate / no reliable record"} };
+
+  var GLYPH = {
+    deed:'<rect class="glyph" x="-10" y="-9" width="20" height="16" rx="1"/><line class="glyph" x1="-6" y1="-4" x2="6" y2="-4"/><line class="glyph" x1="-6" y1="0" x2="6" y2="0"/><line class="glyph" x1="-6" y1="4" x2="2" y2="4"/>',
+    plan:'<rect class="glyph" x="-11" y="-9" width="22" height="18"/><line class="glyph" x1="0" y1="-9" x2="0" y2="9"/><line class="glyph" x1="-11" y1="1" x2="0" y2="1"/>',
+    bulb:'<circle class="glyph" cx="0" cy="-3" r="8"/><line class="glyph" x1="-4" y1="7" x2="4" y2="7"/><line class="glyph" x1="-3" y1="10" x2="3" y2="10"/>',
+    radio:'<rect class="glyph" x="-12" y="-8" width="24" height="16" rx="2"/><circle class="glyph" cx="5" cy="0" r="3.4"/><line class="glyph" x1="-8" y1="-3" x2="-2" y2="-3"/><line class="glyph" x1="-8" y1="2" x2="-2" y2="2"/>',
+    tv:'<rect class="glyph" x="-11" y="-6" width="22" height="15" rx="2"/><line class="glyph" x1="-3" y1="-6" x2="-7" y2="-13"/><line class="glyph" x1="3" y1="-6" x2="7" y2="-13"/>',
+    phone:'<line class="glyph" x1="0" y1="-11" x2="0" y2="7"/><ellipse class="glyph" cx="0" cy="9" rx="6" ry="2.2"/><circle class="glyph fill" cx="0" cy="-12" r="2.6"/>',
+    fridge:'<rect class="glyph" x="-8" y="-13" width="16" height="26" rx="2"/><line class="glyph" x1="-8" y1="-1" x2="8" y2="-1"/><line class="glyph" x1="4" y1="-9" x2="4" y2="-5"/><line class="glyph" x1="4" y1="3" x2="4" y2="8"/>',
+    food:'<ellipse class="glyph" cx="0" cy="5" rx="11" ry="3.4"/><path class="glyph" d="M-9 5 a9 6 0 0 1 18 0"/>',
+    tap:'<path class="glyph" d="M-9 -7 v5 h9 a4 4 0 0 1 4 4 v2"/><path class="glyph fill" d="M4 8 q3.5 5 0 8 q-3.5 -3 0 -8z"/>',
+    radiator:'<rect class="glyph" x="-11" y="-8" width="22" height="16" rx="1"/><line class="glyph" x1="-6" y1="-8" x2="-6" y2="8"/><line class="glyph" x1="0" y1="-8" x2="0" y2="8"/><line class="glyph" x1="6" y1="-8" x2="6" y2="8"/>',
+    car:'<path class="glyph" d="M-14 5 h28 v-4 l-5 -7 h-13 l-5 7 z"/><circle class="glyph" cx="-7" cy="7" r="3"/><circle class="glyph" cx="7" cy="7" r="3"/>'
+  };
+  var POS = { tenure:[400,142], rooms:[500,252], electricity:[250,220], radio:[214,286], television:[322,286],
+    telephone:[366,244], refrigerator:[214,378], food:[304,402], plumbing:[458,378], heating:[556,398], automobile:[712,404] };
+  var GLYPHOF = {tenure:'deed',rooms:'plan',electricity:'bulb',radio:'radio',television:'tv',telephone:'phone',
+    refrigerator:'fridge',food:'food',plumbing:'tap',heating:'radiator',automobile:'car'};
+
+  // house scale (indicative; the sq-ft datum is on the card). Anchor bottom-centre (400,430).
+  var SCALE = {"1900s":0.9, "1950s":1.0, "2020s":1.2};
+
+  var DATA = {
+    "1900s":{
+      tenure:{kind:'stat',panel:'Home',val:'≈46.5% owned',lab:'Homeownership rate, 1900s',tier:'A',src:'U.S. Census Bureau, Historical Homeownership Rates',pop:'All U.S. occupied housing units (decennial census)'},
+      rooms:{kind:'stat',panel:'Home',val:'4.73 rooms renting · 5.92 owning',lab:'Housing: rooms & tenure, 1901',tier:'A',src:'18th Annual Report of the Commissioner of Labor (1903)',pop:'Wage-earner families in selected industrial centers, 33 states — NOT a national median'},
+      electricity:{kind:'diffusion',pct:5,panel:'Diffusion',val:'<5% of homes',lab:'Electric lighting, ~1900',tier:'A',src:'Historical Statistics of the U.S. (Colonial Times to 1970)',pop:'Various national aggregates',note:'Urban only; the rural home was lit by kerosene.'},
+      telephone:{kind:'diffusion',pct:5,panel:'Diffusion',val:'≈5% of households',lab:'Telephone, ~1898',tier:'A',src:'Historical Statistics of the U.S. (Colonial Times to 1970)',pop:'Various national aggregates (9.2 phones per 1,000 population)'},
+      automobile:{kind:'diffusion',pct:1,panel:'Diffusion',val:'<1% of families',lab:'Automobile, ~1905',tier:'A',src:'Historical Statistics of the U.S. (Colonial Times to 1970)',pop:'Registration incomplete before 1910'},
+      food:{kind:'stat',panel:'Table',val:'$326.90 / year',lab:'Annual food spending, 1901',tier:'A',src:'U.S. Bureau of Labor, Bulletin No. 49 (1903)',pop:'2,567 wage-earner families in 33 states, head earning ≤$1,200/yr, 1901',note:'≈42% of all household spending went to food.'},
+      radio:{kind:'absent'},television:{kind:'absent'},refrigerator:{kind:'absent'},heating:{kind:'absent'},plumbing:{kind:'absent'}
+    },
+    "1950s":{
+      tenure:{kind:'stat',panel:'Home',val:'55.0% owned',lab:'Homeownership rate, 1950',tier:'A',src:'U.S. Census Bureau, Historical Homeownership Rates',pop:'All U.S. occupied housing units (decennial census)'},
+      rooms:{kind:'gap',panel:'Home',val:'no reliable record accessible online',lab:'Rooms & heating fuel, 1950',tier:'D',src:'Census of Population and Housing — Decennial Publications',pop:'All U.S. housing units and residents',note:'The record exists on paper but was not transcribed — so the museum shows the gap instead of inventing a number.'},
+      electricity:{kind:'diffusion',pct:94,panel:'Diffusion',val:'94.0% of households',lab:'Electric lighting, 1950',tier:'A',src:'1950 Census of Housing (HC-5, No. 2)',pop:'All U.S. dwelling units (1950 Census of Housing)'},
+      radio:{kind:'diffusion',pct:95.6,panel:'Diffusion',val:'95.6% of households',lab:'Radio in the home, 1950',tier:'A',src:'1950 Census of Housing (HC-5, No. 2)',pop:'All U.S. dwelling units (1950 Census of Housing)'},
+      television:{kind:'diffusion',pct:12.3,panel:'Diffusion',val:'12.3% — arriving',lab:'Television in the home, 1950',tier:'A',src:'1950 Census of Housing (HC-5, No. 2)',pop:'All U.S. dwelling units (1950 Census of Housing)',note:'On the cusp: the set is in the home of one family in eight.'},
+      telephone:{kind:'diffusion',pct:61.8,panel:'Diffusion',val:'61.8% of households',lab:'Telephone, 1950',tier:'A',src:'Historical Statistics of the U.S. (Colonial Times to 1970)',pop:'Various national aggregates (280.9 per 1,000 population)'},
+      refrigerator:{kind:'diffusion',pct:80,panel:'Diffusion',val:'80.0% of households',lab:'Mechanical refrigeration, 1950',tier:'A',src:'1950 Census of Housing (HC-5, No. 2)',pop:'All U.S. dwelling units (1950 Census of Housing)'},
+      heating:{kind:'diffusion',pct:50,panel:'Diffusion',val:'50.0% of households',lab:'Central heating, 1950',tier:'A',src:'1950 Census of Housing (HC-5, No. 2)',pop:'All U.S. dwelling units (1950 Census of Housing)',note:'Half the country still heated with stoves and space heaters.'},
+      plumbing:{kind:'stat',panel:'Home',val:'67% had complete plumbing',lab:'Complete plumbing facilities, 1950',tier:'A',src:'Historical Census of Housing Tables: Plumbing',pop:'All occupied housing units (decennial census)',note:'One home in three still lacked complete plumbing.'},
+      food:{kind:'stat',panel:'Table',val:'$1,309 / year — 24.3% of spending',lab:'Food spending (CEX 1960–61)',tier:'A',src:'Consumer Expenditure Survey (nearest available: 1960–61)',pop:'Consumer units (households), civilian noninstitutional',note:'Nearest CEX to the decade is 1960–61 — stated plainly rather than back-cast.'},
+      automobile:{kind:'stat',panel:'Work-buys',val:'≈$1,511 new-car price',lab:'Automobile, 1950',tier:'D',src:'University of Missouri, Prices & Wages by Decade',pop:'Various; household ownership not in the 1950 Census'}
+    },
+    "2020s":{
+      tenure:{kind:'stat',panel:'Home',val:'$360,600 median value',lab:'Median home value, 2024 (ACS)',tier:'A',src:'American Community Survey, 2024',pop:'U.S. housing units (national sample)'},
+      rooms:{kind:'prov',panel:'Home',val:'≈2,260 sq ft (new build)',lab:'Home floor area, 2020s',src:'Census / NAHB new single-family (provisional — pending curation)',pop:'New single-family completions — NOT the occupied-stock median',note:'Provisional and a new-construction proxy: the home actually lived in is smaller. Floor area is Plan 005 WI-4.'},
+      electricity:{kind:'prov',panel:'Diffusion',val:'≈universal',lab:'Electric lighting, 2020s',src:'near-universal; 2020s per-appliance figure not separately curated',pop:'—'},
+      radio:{kind:'prov',panel:'Diffusion',val:'≈universal (now streaming)',lab:'Home audio / entertainment, 2020s',src:'near-universal; not separately curated',pop:'—'},
+      television:{kind:'prov',panel:'Diffusion',val:'≈96% of households',lab:'Television, 2020s',src:'near-universal; 2020s figure not separately curated',pop:'—'},
+      telephone:{kind:'prov',panel:'Diffusion',val:'≈97% (mostly mobile)',lab:'Telephone, 2020s',src:'near-universal; not separately curated',pop:'—'},
+      refrigerator:{kind:'prov',panel:'Diffusion',val:'≈universal',lab:'Refrigeration, 2020s',src:'near-universal; not separately curated',pop:'—'},
+      heating:{kind:'prov',panel:'Diffusion',val:'≈universal central heat/air',lab:'Central heating & air, 2020s',src:'near-universal; not separately curated',pop:'—'},
+      plumbing:{kind:'prov',panel:'Home',val:'≈99.7% complete plumbing',lab:'Complete plumbing, 2020s',src:'American Housing Survey (provisional — not yet curated in room)',pop:'All occupied housing units'},
+      food:{kind:'stat',panel:'Table',val:'13.5% of spending',lab:'Food share of spending, 2024',tier:'A',src:'Consumer Expenditure Survey, Table 1400 (2024)',pop:'Consumer units (households), civilian noninstitutional',note:'Down from 42.5% in 1901 — Engel’s law: as people get richer, food’s share falls.'},
+      automobile:{kind:'prov',panel:'Work-buys',val:'≈1.9 vehicles/household',lab:'Automobiles, 2020s',src:'near-universal; not separately curated',pop:'—'}
+    }
+  };
+
+  function S(k,v,tier,src){return {k:k,v:v,tier:tier,src:src};}
+  function G(k,src){return {k:k,gap:true,src:src};}
+  function P(k,v,src){return {k:k,v:v,prov:true,src:src};}
+  var PEOPLE = {
+    "1900s":{
+      man:{pos:[312,462],fig:'man',title:'The father',sub:'paid labour — the most-measured member',note:'These four figures were never one man. Each is a separate median.',
+        stats:[S('Paid work','59.0 hrs/wk','A','Historical Statistics (manufacturing, 1900)'),
+          S('Weekly wage','$12.74','A','Historical Statistics (manufacturing)'),
+          S('Family income','$827.19 / yr','A','BLS Bulletin 49 — wage-earner families, 33 states'),
+          S('Life expectancy','48.2 yrs (male)','A','Historical Statistics, 1900–02 — at birth'),
+          G('Median height','anthropometric history (Fogel/Steckel/Komlos)'),
+          G('Median education','Census educational attainment')],
+        foot:'Life expectancy here is at <em>birth</em> — dragged down by infant deaths. The conditional figure (surviving to 20) is sourceable from the same tables, not yet curated.'},
+      woman:{pos:[388,462],fig:'woman',title:'The mother',sub:'unpaid &amp; paid labour — the least-measured member',note:'The household’s least-counted worker: most of her record is gaps.',
+        stats:[P('Unpaid household labour','≈58 hrs/wk','Ramey (2009) — awaiting extraction'),
+          G('Chore breakdown (laundry, cooking…)','Ramey / historical time-use studies'),
+          S('Paid work (if employed)','$6.17 / wk','D','Univ. of Missouri — wage-earning women, 1905'),
+          S('Life expectancy','51.1 yrs (female)','A','Historical Statistics, 1900–02 — at birth'),
+          G('Maternal mortality (per birth)','Historical Statistics / NCHS vital stats'),
+          G('Median height & weight','anthropometric history; NHANES (modern)')],
+        foot:'Her unpaid labour ran the home but produced almost no statistics — which is itself the finding. Around 1900 this ran to a full day of laundry alone.'},
+      kids:{pos:[452,476],fig:'kids',title:'Two children',sub:'the survivors of a larger set of births',note:'A "family of four" is already a survivor composite — more were born than lived.',
+        stats:[G('Chance of dying before age 5','Historical Statistics — infant & child mortality'),
+          G('Years of mandatory schooling','Goldin–Katz compulsory-schooling laws (state-level)'),
+          G('Median height for age','anthropometric history')],
+        foot:'Around 1900 roughly one child in five did not reach age five — a target figure, shown as a gap until sourced and tiered.'}
+    },
+    "1950s":{
+      man:{pos:[312,462],fig:'man',title:'The father',sub:'paid labour — the most-measured member',note:'These four figures were never one man. Each is a separate median.',
+        stats:[S('Paid work','40.5 hrs/wk','A','FRED AWHMAN (manufacturing, 1950)'),
+          S('Weekly earnings','$53.29','A','FRED — manufacturing production workers, 1950'),
+          S('Family income','$3,675 / yr','A','Census F-8 — four-person families, CPS money income'),
+          G('Life expectancy','Historical Statistics life tables (1949–51 exists; 1950s room not yet filled)'),
+          G('Median height & weight','NHANES / anthropometric history'),
+          G('Median education','Census educational attainment')],
+        foot:'The paid-work story is well sourced; the man’s own longevity is a curation gap — the 1949–51 life table exists in the 1940s room but was never carried into the 1950s room.'},
+      woman:{pos:[388,462],fig:'woman',title:'The mother',sub:'unpaid &amp; paid labour — the least-measured member',note:'The household’s least-counted worker: most of her record is gaps.',
+        stats:[P('Unpaid household labour','≈46 hrs/wk','Ramey (2009) — awaiting extraction'),
+          G('Chore breakdown','Ramey (mid-century); ATUS begins 2003'),
+          G('Life expectancy','Historical Statistics life tables, 1949–51'),
+          G('Maternal mortality (per birth)','CDC / NCHS vital statistics'),
+          G('Median height & weight','NHANES / anthropometric history')],
+        foot:'Even in the "golden age," running the home was near a full-time unpaid job — the washing machine and running hot water were still cutting it down.'},
+      kids:{pos:[452,476],fig:'kids',title:'Two children',sub:'the survivors of a larger set of births',note:'A "family of four" is already a survivor composite.',
+        stats:[G('Chance of dying before age 5','Historical Statistics / NCHS'),
+          G('Years of mandatory schooling','Goldin–Katz'),
+          G('Median height for age','anthropometric history / NHANES')],
+        foot:'Infant mortality fell steeply between 1900 and 1950 — a headline comparison waiting on curation.'}
+    },
+    "2020s":{
+      man:{pos:[312,462],fig:'man',title:'The father',sub:'paid labour — no longer the sole earner',note:'By the 2020s the composite is dual-earner; the "father" figure is a convenience.',
+        stats:[S('Paid work','40.7 hrs/wk','A','FRED AWHMAN (manufacturing, 2024)'),
+          S('Family income','$139,900 / yr','A','Census F-8 — four-person families, 2024'),
+          S('Life expectancy','75.8 yrs (male)','A','NCHS, 2023 — at birth'),
+          G('Median height & weight','NHANES (readily sourceable)'),
+          G('Median education','Census — attainment now far higher')],
+        foot:'Real median family income roughly tripled from 1950 to 2024 (corpus: 3.1×) — the material floor rose enormously.'},
+      woman:{pos:[388,462],fig:'woman',title:'The mother',sub:'paid &amp; unpaid — and now measured',note:'The 2020s is the first era where her time is directly surveyed (ATUS).',
+        stats:[P('Unpaid household labour','≈12–13 hrs/wk','ATUS 2019 household activities (all adults — concept-splice from Ramey)'),
+          S('Paid work','≈33 hrs/wk (women, ATUS)','A','ATUS 2019 (working time, women 2.64 hr/day)'),
+          S('Life expectancy','81.1 yrs (female)','A','NCHS, 2023 — at birth'),
+          G('Maternal mortality (per birth)','CDC / NCHS — far below 1900'),
+          G('Median height & weight','NHANES')],
+        foot:'The fall from ≈58 hrs of home production to ≈13 is the emancipation the appliances bought — measured directly at last, though ATUS counts all adults, not women alone (flagged).'},
+      kids:{pos:[452,476],fig:'kids',title:'Two children',sub:'now expected to survive',note:'A "family of four" is no longer a survivor composite — nearly all children live.',
+        stats:[G('Chance of dying before age 5','NCHS — now well under 1%'),
+          S('Years of mandatory schooling','≈13 yrs','C','Compulsory-schooling laws (state-level, caveated)'),
+          G('Median height & weight for age','NHANES growth charts')],
+        foot:'The children’s survival is the quiet revolution behind the whole century — a gap here only because it isn’t curated yet.'}
+    }
+  };
+
+  var FIG = {
+    man:'<path class="fig" d="M-12 -26 L12 -26 L8 44 L-8 44 Z"/><circle class="fig head" cx="0" cy="-37" r="9"/>',
+    woman:'<path class="fig" d="M-9 -25 L9 -25 L5 12 L15 44 L-15 44 L-5 12 Z"/><circle class="fig head" cx="0" cy="-36" r="8.5"/>',
+    kids:'<g transform="translate(-11,4)"><path class="fig" d="M-7 -14 L7 -14 L5 28 L-5 28 Z"/><circle class="fig head" cx="0" cy="-23" r="6.5"/></g>'+
+         '<g transform="translate(13,10) scale(0.82)"><path class="fig" d="M-7 -14 L7 -14 L5 28 L-5 28 Z"/><circle class="fig head" cx="0" cy="-23" r="6.5"/></g>'
+  };
+  var FIGLABEL = {man:'father',woman:'mother',kids:'children'};
+
+  // thesis-band trajectory. b=bar 0..1, f=flag {t:'A'|'C'|'prov'|'gap'}, fall=falling metric
+  var METRICS = [
+    {lab:'Unpaid household labour · the mother', unit:'hrs / week', fall:true, pts:{
+      "1900s":{v:'≈58',b:1.0,f:{t:'prov'}}, "1950s":{v:'≈46',b:0.79,f:{t:'prov'}}, "2020s":{v:'≈13',b:0.22,f:{t:'A',lbl:'ATUS'}} }},
+    {lab:'Comforts in the home', unit:'avg. household adoption', pts:{
+      "1900s":{v:'~2%',b:0.02,f:{t:'A'}}, "1950s":{v:'66%',b:0.66,f:{t:'A'}}, "2020s":{v:'~98%',b:0.98,f:{t:'prov'}} }},
+    {lab:'Home floor area', unit:'square feet', pts:{
+      "1900s":{v:'4–6 rooms',b:0.30,f:{t:'gap'}}, "1950s":{v:'≈983',b:0.44,f:{t:'prov'}}, "2020s":{v:'≈2,260',b:1.0,f:{t:'prov'}} }},
+    {lab:'Food · share of all spending', unit:'lower = richer (Engel)', fall:true, pts:{
+      "1900s":{v:'42.5%',b:1.0,f:{t:'A'}}, "1950s":{v:'24.3%',b:0.57,f:{t:'A'}}, "2020s":{v:'13.5%',b:0.32,f:{t:'A'}} }},
+    {lab:'Life expectancy at birth', unit:'years', pts:{
+      "1900s":{v:'≈49',b:0.63,f:{t:'A'}}, "1950s":{v:'—',b:0,f:{t:'gap'}}, "2020s":{v:'78.4',b:1.0,f:{t:'A'}} }}
+  ];
+  var DECADES = ["1900s","1950s","2020s"];
+
+  var hsLayer=document.getElementById('hs'), pplLayer=document.getElementById('ppl'),
+      homeG=document.getElementById('home'), cardEl=document.getElementById('card'), metricsEl=document.getElementById('metrics');
+  var current="1950s", sel=null, onodes={}, pnodes={};
+
+  function opacityFor(pct){ if(pct==null) return 0.55; return Math.max(0.12, Math.min(1, 0.16 + 0.84*(pct/100))); }
+  function esc(s){ return (s==null?"":String(s)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function fmtPct(p){ return (p % 1 ? p.toFixed(1) : p)+"%"; }
+
+  Object.keys(POS).forEach(function(id){
+    var p=POS[id]; var g=document.createElementNS(NS,"g");
+    g.setAttribute("class","hs"); g.setAttribute("transform","translate("+p[0]+","+p[1]+")");
+    g.setAttribute("tabindex","0"); g.setAttribute("role","button");
+    g.innerHTML='<circle class="hit" r="22"/><circle class="ring" r="17"/><g class="glyphwrap">'+GLYPH[GLYPHOF[id]]+'</g><text class="pct" y="30"></text>';
+    g.addEventListener("click",function(){open('obj',id);});
+    g.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){e.preventDefault();open('obj',id);} });
+    hsLayer.appendChild(g); onodes[id]=g;
+  });
+  ["man","woman","kids"].forEach(function(id){
+    var p=PEOPLE[current][id].pos; var g=document.createElementNS(NS,"g");
+    g.setAttribute("class","person"); g.setAttribute("transform","translate("+p[0]+","+p[1]+")");
+    g.setAttribute("tabindex","0"); g.setAttribute("role","button");
+    g.innerHTML='<rect class="hit" x="-22" y="-50" width="44" height="100"/>'+FIG[id]+'<text class="plabel" y="62">'+FIGLABEL[id]+'</text>';
+    g.addEventListener("click",function(){open('person',id);});
+    g.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){e.preventDefault();open('person',id);} });
+    pplLayer.appendChild(g); pnodes[id]=g;
+  });
+
+  function paintStage(){
+    var s=SCALE[current];
+    homeG.setAttribute("transform","translate(400,430) scale("+s+") translate(-400,-430)");
+    var d=DATA[current];
+    Object.keys(onodes).forEach(function(id){
+      var g=onodes[id], f=d[id]; g.classList.remove("gap");
+      var parts=g.querySelectorAll(".glyph"), pct=g.querySelector(".pct"); pct.textContent=""; pct.style.fill="";
+      if(f.kind==="absent"){ g.style.display="none"; return; }
+      g.style.display="";
+      if(f.kind==="diffusion"){ var op=opacityFor(f.pct); parts.forEach(function(el){el.style.opacity=op;}); if(f.pct!=null) pct.textContent=fmtPct(f.pct); }
+      else if(f.kind==="gap"){ g.classList.add("gap"); parts.forEach(function(el){el.style.opacity=0.5;}); pct.textContent="gap"; pct.style.fill="#948a78"; }
+      else if(f.kind==="prov"){ parts.forEach(function(el){el.style.opacity=0.9;}); }
+      else { parts.forEach(function(el){el.style.opacity=0.95;}); }
+      g.setAttribute("aria-label",(f.lab||id)+" — "+current+(f.val?": "+f.val:""));
+    });
+    Object.keys(pnodes).forEach(function(id){ pnodes[id].setAttribute("aria-label", PEOPLE[current][id].title+" — "+current); });
+    renderMetrics(); markSel();
+  }
+
+  function flagChip(f){
+    if(!f) return "";
+    if(f.t==='prov') return '<span class="flag prov">provisional</span>';
+    if(f.t==='gap') return '<span class="flag gap">gap</span>';
+    var t=TIER[f.t]; if(t) return '<span class="flag tier" style="background:'+t.c+'">'+(f.lbl||('Tier '+f.t))+'</span>';
+    return '';
+  }
+  function renderMetrics(){
+    var html="";
+    METRICS.forEach(function(m){
+      html+='<div class="metric"><div class="mlab"><span>'+esc(m.lab)+'</span><em>'+esc(m.unit)+'</em></div><div class="traj">';
+      DECADES.forEach(function(dec){
+        var p=m.pts[dec], on=dec===current;
+        var barw=Math.round(Math.max(0,Math.min(1,p.b))*100);
+        html+='<div class="tnode'+(on?' on':'')+'"><div class="td">'+dec+'</div>'+
+          '<div class="tv">'+esc(p.v)+'</div>'+
+          '<div class="tbar'+(m.fall?' fall':'')+'"><i style="width:'+barw+'%"></i></div>'+
+          '<div style="margin-top:5px">'+flagChip(p.f)+'</div></div>';
+      });
+      html+='</div></div>';
+    });
+    metricsEl.innerHTML=html;
+  }
+
+  function markSel(){
+    Object.keys(onodes).forEach(function(id){ onodes[id].classList.toggle("sel", sel&&sel.t==='obj'&&sel.id===id); });
+    Object.keys(pnodes).forEach(function(id){ pnodes[id].classList.toggle("sel", sel&&sel.t==='person'&&sel.id===id); });
+  }
+  function open(t,id){ sel={t:t,id:id}; markSel(); (t==='obj'?renderObj:renderPerson)(id); }
+
+  function renderObj(id){
+    var f=DATA[current][id], t=TIER[f.tier]||null;
+    var html='<div class="ceyebrow">'+esc(f.panel)+' · '+current+'</div>';
+    html+='<div class="cval">'+esc(f.val)+'</div><p class="clab">'+esc(f.lab)+'</p>';
+    if(f.kind==="prov"){ html+='<div class="grade"><div class="gbadge" style="background:var(--prov)">P</div><div class="gmeta"><div class="gt" style="color:var(--prov)">Provisional</div><div class="gd">shown for the walk; not yet sourced in the room</div></div></div>'; }
+    else if(t){ html+='<div class="grade"><div class="gbadge" style="background:'+t.c+'">'+esc(f.tier)+'</div><div class="gmeta"><div class="gt" style="color:'+t.c+'">Tier '+esc(f.tier)+'</div><div class="gd">'+esc(t.name)+'</div></div></div>'; }
+    if(f.kind==="gap"||f.kind==="prov"){ if(f.note) html+='<div class="note-box">'+esc(f.note)+'</div>'; }
+    if(f.kind==="diffusion"&&f.pct!=null){ html+='<div class="presence"><div class="ptrack"><div class="pfill" style="width:'+Math.max(3,f.pct)+'%"></div></div><div class="pcap"><b>'+fmtPct(f.pct)+'</b> of households had this — shown at that share, not as a yes/no.</div></div>'; }
+    if(f.pop&&f.pop!=='—'){ html+='<div class="measured"><span class="mk">Measured</span><span class="mv">'+esc(f.pop)+'</span></div>'; }
+    if(f.note&&f.kind!=="gap"&&f.kind!=="prov"){ html+='<div class="note-box">'+esc(f.note)+'</div>'; }
+    html+='<div class="src"><b>Source</b> · '+esc(f.src)+'</div>';
+    cardEl.innerHTML=html;
+  }
+  function renderPerson(id){
+    var p=PEOPLE[current][id];
+    var html='<div class="ceyebrow">The household · '+current+'</div><div class="cval">'+p.title+'</div><p class="clab">'+p.sub+'</p><div class="pnote">'+p.note+'</div>';
+    p.stats.forEach(function(s){
+      if(s.gap){ html+='<div class="statrow gap"><span class="sk">'+esc(s.k)+'</span><span class="sv">not yet curated</span><span class="subsrc">would source from: '+esc(s.src)+'</span></div>'; }
+      else if(s.prov){ html+='<div class="statrow provrow"><span class="sk">'+esc(s.k)+'</span><span class="sv">'+esc(s.v)+'<span class="pchip">prov.</span></span><span class="subsrc">'+esc(s.src)+'</span></div>'; }
+      else { var t=TIER[s.tier]; html+='<div class="statrow"><span class="sk">'+esc(s.k)+'</span><span class="sv">'+esc(s.v)+'<span class="tchip" style="background:'+t.c+'">'+esc(s.tier)+'</span></span><span class="subsrc">'+esc(s.src)+'</span></div>'; }
+    });
+    if(p.foot) html+='<div class="note-box">'+p.foot+'</div>';
+    cardEl.innerHTML=html;
+  }
+
+  document.querySelectorAll(".dbtn").forEach(function(b){
+    b.addEventListener("click",function(){
+      current=b.getAttribute("data-decade");
+      document.querySelectorAll(".dbtn").forEach(function(x){ x.setAttribute("aria-pressed", x===b?"true":"false"); });
+      paintStage(); if(sel) open(sel.t,sel.id);
+    });
+  });
+  paintStage();
+})();
+</script>
+
+</body></html>
