@@ -123,13 +123,21 @@ def test_era_keyed_symbols() -> None:
 
 
 def test_chart_deep_links_resolve(site: Path) -> None:
-    """WI-6: every corridor point deep-links to an existing room placard."""
+    """WI-6 / Plan 009: every corridor mark links to a resolvable placard.
+
+    Click targets are now in-page overlays (``#fact-id--modal``); the deep link
+    to the room placard is preserved as the fallback path when a path is given.
+    """
     for page in [site / "corridors" / "index.html", site / "walkthrough.html"]:
         base = page.parent
         for href in _scan(page).hrefs:
-            if "#" not in href or href.startswith("http"):
+            if "#" not in href or href.startswith("http") or href == "#":
                 continue
             path, _, anchor = href.partition("#")
+            if not path:
+                # in-page CSS-only overlay anchor; must exist on the same page
+                assert anchor in _scan(page).anchor_ids, f"{page.name}: dead overlay anchor {href}"
+                continue
             target = (base / path).resolve()
             assert target.is_file(), f"{page.name}: dead link {href}"
             assert anchor in _scan(target).anchor_ids, f"{page.name}: dead anchor {href}"

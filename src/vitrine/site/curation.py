@@ -129,7 +129,7 @@ ARCS: tuple[Arc, ...] = (
     Arc(
         "cable-tv",
         "Cable television",
-        "% of TV households",
+        "% of households with TV",
         _ids("us-{decade}-cable-tv", "198 199 200 201"),
         caveats=("The 2010s source reports subscriber counts amid cord-cutting, not a share.",),
     ),

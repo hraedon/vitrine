@@ -12,6 +12,7 @@ against that exact surface (docs/design-spec.md).
 
 from __future__ import annotations
 
+import math
 import re
 from dataclasses import dataclass, field
 from xml.sax.saxutils import escape, quoteattr
@@ -88,8 +89,44 @@ def _fmt(q: float) -> str:
     return f"{q:g}"
 
 
+def _nice_axis_top(q_max: float) -> float:
+    """Round a chart maximum up to a clean, human-readable increment.
+
+    Picks the smallest 1-2-5-10 style step that is at least ``q_max * 1.08``,
+    so the top gridline sits a little above every data point and labels read
+    as whole multiples.
+    """
+    if q_max <= 0 or math.isnan(q_max):
+        return 1.0
+    target = q_max * 1.08
+    magnitude: float = 10.0 ** math.floor(math.log10(target))
+    normalized = target / magnitude
+    if normalized <= 1:
+        ceil = 1.0
+    elif normalized <= 2:
+        ceil = 2.0
+    elif normalized <= 5:
+        ceil = 5.0
+    else:
+        ceil = 10.0
+    return ceil * magnitude
+
+
 def _tick(decade: str) -> str:
     return f"’{decade[2:4]}s"
+
+
+def _decade_labels(points: tuple[ArcPoint, ...]) -> tuple[str, ...]:
+    """Return x-axis labels for the given points.
+
+    Use the short “’50s” form unless the arc spans both the 1900s and 2000s,
+    in which case render full “1900s” / “2020s” labels to avoid ambiguity.
+    """
+    has_19 = any(p.decade.startswith("19") for p in points)
+    has_20 = any(p.decade.startswith("20") for p in points)
+    if has_19 and has_20:
+        return tuple(f"{p.decade}" for p in points)
+    return tuple(_tick(p.decade) for p in points)
 
 
 def arc_chart(
@@ -114,7 +151,7 @@ def arc_chart(
     step = plot_w / max(n - 1, 1)
     quantities = [p.quantity for p in points if p.quantity is not None]
     q_max = max(quantities) if quantities else 1.0
-    q_top = q_max * 1.08 if q_max > 0 else 1.0
+    q_top = _nice_axis_top(q_max)
 
     def x_of(i: int) -> float:
         return pad_l + (i * step if n > 1 else plot_w / 2)
@@ -122,20 +159,24 @@ def arc_chart(
     def y_of(q: float) -> float:
         return pad_t + plot_h * (1 - q / q_top)
 
-    out: list[str] = [
+    svg_open = (
         f'<svg class="arc" viewBox="0 0 {width} {height}" role="img" '
-        f"aria-label={quoteattr(f'Cross-decade arc, {unit}')}>"
-    ]
+        f'aria-label={quoteattr(f"Cross-decade arc, {unit}")}>'
+    )
+    out: list[str] = [svg_open]
     # recessive gridlines + y captions
     for frac in (0.0, 0.5, 1.0):
         gy = pad_t + plot_h * (1 - frac)
         out.append(
-            f'<line class="grid" x1="{pad_l}" y1="{gy:.1f}" x2="{width - pad_r}" y2="{gy:.1f}"/>'
+            f'<line class="grid" x1="{pad_l}" y1="{gy:.1f}" x2="{width - pad_r}" y2="{gy:.1f}"/\u003e'
         )
         out.append(
             f'<text class="ylab" x="{pad_l - 8}" y="{gy + 3:.1f}">{_fmt(q_top * frac)}</text>'
         )
     out.append(f'<text class="unit" x="{pad_l}" y="{pad_t - 4}">{escape(unit)}</text>')
+    # reserve the bottom 22px of plot area for x-axis labels; don't place a
+    # value label below this band when it would overlap.
+    x_label_ceiling = height - pad_b + 4  # just above the decade label row
 
     # connecting line: solid between adjacent sourced points, dashed across gaps
     prev: tuple[int, ArcPoint] | None = None
@@ -147,19 +188,20 @@ def arc_chart(
             dashed = ' stroke-dasharray="4 5"' if i - j > 1 else ""
             out.append(
                 f'<line class="join" x1="{x_of(j):.1f}" y1="{y_of(q.quantity or 0):.1f}" '
-                f'x2="{x_of(i):.1f}" y2="{y_of(p.quantity):.1f}" stroke="{stroke}"{dashed}/>'
+                f'x2="{x_of(i):.1f}" y2="{y_of(p.quantity):.1f}" stroke="{stroke}"{dashed}/\u003e'
             )
         prev = (i, p)
 
     label_all = len(quantities) <= 8
     extremes = {q_max, min(quantities)} if quantities else set()
+    x_labels = _decade_labels(points)
     for i, p in enumerate(points):
         cx = x_of(i)
-        out.append(f'<text class="xlab" x="{cx:.1f}" y="{height - 26}">{_tick(p.decade)}</text>')
+        out.append(f'<text class="xlab" x="{cx:.1f}" y="{height - 26}">{x_labels[i]}</text>')
         if p.quantity is None:
             gy = pad_t + plot_h
             out.append(
-                f'<a href={quoteattr(p.href)}><g data-fact-id={quoteattr(p.fact_id)}>'
+                f'<a href={quoteattr(f"#{p.fact_id}--modal")}><g data-fact-id={quoteattr(p.fact_id)}>'
                 f'<title>{escape(p.label)}: {escape(p.value)} — see the placard</title>'
                 f'<circle class="gapdot" cx="{cx:.1f}" cy="{gy:.1f}" r="5"/>'
                 f'<text class="gaplab" x="{cx:.1f}" y="{height - 12}">gap</text></g></a>'
@@ -168,12 +210,16 @@ def arc_chart(
         cy = y_of(p.quantity)
         tier_color = tokens.TIER_COLORS.get(p.tier, tokens.GAP)
         show_label = label_all or (p.quantity in extremes) or i in (0, n - 1)
+        # label above the dot by default; if there's no room, place it below
+        label_y = cy - 9
+        if show_label and label_y < x_label_ceiling:
+            label_y = cy + 18
         out.append(
-            f'<a href={quoteattr(p.href)}><g data-fact-id={quoteattr(p.fact_id)}>'
+            f'<a href={quoteattr(f"#{p.fact_id}--modal")}><g data-fact-id={quoteattr(p.fact_id)}>'
             f"<title>{escape(p.label)}: {escape(p.value)} — Tier {p.tier}</title>"
             f'<circle class="dot" cx="{cx:.1f}" cy="{cy:.1f}" r="4.5" fill="{stroke}"/>'
             + (
-                f'<text class="vlab" x="{cx:.1f}" y="{cy - 9:.1f}">{_fmt(p.quantity)}</text>'
+                f'<text class="vlab" x="{cx:.1f}" y="{label_y:.1f}">{_fmt(p.quantity)}</text>'
                 if show_label
                 else ""
             )
@@ -212,7 +258,7 @@ def composition_bar(
         w = max(s.pct * scale - 2, 1.5)  # 2px surface gap
         color = tokens.COMPOSITION_DARK[s.slot]
         out.append(
-            f'<a href={quoteattr(s.href)}><g data-fact-id={quoteattr(s.fact_id)}>'
+            f'<a href={quoteattr(f"#{s.fact_id}--modal")}><g data-fact-id={quoteattr(s.fact_id)}>'
             f"<title>{escape(s.category)}: {s.pct:g}% — {decade}</title>"
             f'<rect x="{x:.1f}" y="0" width="{w:.1f}" height="{bar_h}" rx="2" fill="{color}"/>'
             + (
@@ -230,12 +276,15 @@ def composition_bar(
     return "".join(out)
 
 
-def hours_meter(bars: tuple[MeterBar, ...], unit: str, width: int = 880) -> str:
+def hours_meter(
+    bars: tuple[MeterBar, ...], unit: str, width: int = 880, overlay_links: bool = False
+) -> str:
     """The labour-hours meter — horizontal bars drawn to the data's shape.
 
     Falling metric → copper. A decade whose fact carries no single honest
     quantity (the 1990s/2010s Ramey gap, the 2020s concept splice) renders a
-    dashed empty track with the words, at full row height.
+    dashed empty track with the words, at full row height. When
+    ``overlay_links`` is true, click targets open the CSS-only popup layer.
     """
     row_h, pad_l, pad_r = 30, 52, 170
     plot_w = width - pad_l - pad_r
@@ -254,9 +303,10 @@ def hours_meter(bars: tuple[MeterBar, ...], unit: str, width: int = 880) -> str:
             f'<text class="xlab" x="{pad_l - 8}" y="{cy + 3:.1f}" '
             f'style="text-anchor:end">{_tick(b.decade)}</text>'
         )
+        href = f"#{b.fact_id}--modal" if overlay_links else b.href
         if b.quantity is None:
             out.append(
-                f'<a href={quoteattr(b.href)}><g data-fact-id={quoteattr(b.fact_id)}>'
+                f'<a href={quoteattr(href)}><g data-fact-id={quoteattr(b.fact_id)}>'
                 f"<title>{escape(b.label)}: {escape(b.value)}</title>"
                 f'<rect class="gaptrack" x="{pad_l}" y="{cy - 7:.1f}" width="{plot_w}" '
                 f'height="14" rx="4"/>'
@@ -267,7 +317,7 @@ def hours_meter(bars: tuple[MeterBar, ...], unit: str, width: int = 880) -> str:
             w = plot_w * b.quantity / (q_max * 1.02)
             tier_color = tokens.TIER_COLORS.get(b.tier, tokens.GAP)
             out.append(
-                f'<a href={quoteattr(b.href)}><g data-fact-id={quoteattr(b.fact_id)}>'
+                f'<a href={quoteattr(href)}><g data-fact-id={quoteattr(b.fact_id)}>'
                 f"<title>{escape(b.label)}: {escape(b.value)} — Tier {b.tier}</title>"
                 f'<rect x="{pad_l}" y="{cy - 7:.1f}" width="{w:.1f}" height="14" rx="4" '
                 f'fill="{tokens.COPPER}"/>'
@@ -322,12 +372,14 @@ class Stage:
     zone_notes: tuple[ZoneNote, ...] = field(default=())
 
 
-def stage_svg(stage: Stage) -> str:
+def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
     """The dark-gallery house cutaway with era-graded light.
 
     The spotlight tint per decade is the mood channel (design-spec); glyph
     opacity is the diffusion datum; a fact with no quantity keeps the dashed
-    gap ring. Every glyph links to its placard.
+    gap ring. Every glyph links to its placard. When ``overlay_links`` is true
+    the click target is the CSS-only popup layer (``#fact-id--modal``) rather
+    than the room placard.
     """
     glow = tokens.ERA_GLOW.get(stage.decade, tokens.ERA_GLOW_DEFAULT)
     rx, ry = tokens.ERA_POOL.get(stage.decade, tokens.ERA_POOL_DEFAULT)
@@ -372,12 +424,19 @@ def stage_svg(stage: Stage) -> str:
             opacity = tokens.glyph_opacity(a.quantity)
             ring = '<circle class="ring" r="17"/>'
             pct = f'<text class="pct">{_fmt(a.quantity)}%</text>'
+        # invisible hitbox covers the ring and the glyph bounding box so the
+        # whole artifact area is clickable, not just the drawn strokes
+        hitbox = (
+            '<rect x="-18" y="-18" width="36" height="36" fill="transparent" '
+            'stroke="none"/>'
+        )
+        href = f"#{a.fact_id}--modal" if overlay_links else a.href
         out.append(
-            f"<a href={quoteattr(a.href)}>"
+            f"<a href={quoteattr(href)}>"
             f'<g class="hs" transform="translate({a.x},{a.y})" '
             f"data-fact-id={quoteattr(a.fact_id)}>"
             f"<title>{escape(a.label)}: {escape(a.value)}</title>"
-            f"{ring}"
+            f"{hitbox}{ring}"
             f'<g class="glyphwrap" style="opacity:{opacity:.2f}">{a.glyph_svg}</g>'
             f'<g transform="translate(0,30)">{pct}</g>'
             "</g></a>"
