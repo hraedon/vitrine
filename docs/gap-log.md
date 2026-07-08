@@ -30,10 +30,13 @@ here. Hence `vitrine gaps`.
 
 - **New car prices (1900s, 1950s).** Widely-cited secondary figures; a primary
   upgrade needs period trade publications or NADA historical data.
-- **1970s–2010s `-gap` estimates** (expenditure, wages, food baskets,
-  diffusion). Most cite sources that exist and are already registered (CEX
-  tables, FRED series, Census/AHS) — data exists, transcription hasn't
-  happened. These are the highest-ROI curation targets.
+- **1970s–2010s expenditure, food baskets, wages — FILLED** (2026-07-08 merge
+  of `wi-1/us-source-survey`): CEX expenditure shares + food baskets
+  (1970s–2010s) and BLS CES wages/hours (1980s–2010s) transcribed at Tier A;
+  the `-gap` placeholder ids were renamed to real fact ids. What remains in
+  those decades: housing detail (1960s–1980s `-housing-gap`), diffusion
+  detail (1970s–1990s), and the 2010s home-value pair — see `vitrine gaps`
+  and `docs/resource-hunt.md` for prioritized upgrade paths.
 - **1950s rooms/heating-fuel detail.** The 1950 Census of Housing collected
   rooms and heating fuel; volumes are scanned online, not yet transcribed.
 

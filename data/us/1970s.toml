@@ -52,14 +52,15 @@ tier = "A"
 notes = "From Census F-8. Declining from 3.64 in 1947. By 1980: 3.27."
 
 [[fact]]
-id = "us-1970s-expenditure-gap"
+id = "us-1970s-expenditure-shares"
 panel = "budget"
-label = "Expenditure shares, 1970s"
-value = "data available via CEX 1972-73 — not yet transcribed"
-unit = "n/a"
+label = "Expenditure breakdown, 4-person families, 1972-73"
+value = "Housing 26.0%, transportation 17.6%, food 17.1%, insurance/pensions 8.7%, entertainment 7.8%, healthcare 5.3%, apparel 6.4%, cash contributions 3.7%, education 1.5%"
+unit = "% of total annual expenditure"
 source = "bls-cex"
-tier = "D"
-notes = "The CEX was conducted in 1972-73 (next after 1960-61). Data available from BLS but not yet transcribed. The 1970s saw the oil shocks (1973, 1979) reshape energy and transportation expenditures."
+tier = "A"
+notes = "From the 1972-73 Consumer Expenditure Survey, Bulletin 1992, Table 2 (by family size). 10,668 thousand 4-person families. Total expenditures: $12,226 (current consumption $10,710 + personal insurance/pensions $1,063 + gifts/contributions $453). Income before taxes: $16,155. Expenditure = 76% of gross income. Source: BLS Bulletin 1992, Table 2, accessed via FRASER (fraser.stlouisfed.org)."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -153,14 +154,15 @@ notes = "TV was ~95% of households by 1970 (up from 91.4% in 1960). AC was growi
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-1970s-food-basket-gap"
+id = "us-1970s-food-basket"
 panel = "table"
-label = "The food basket, 1970s"
-value = "data available via CEX 1972-73 — not yet transcribed"
-unit = "n/a"
+label = "Food basket and expenditure breakdown, 1972-73 (CEX)"
+value = "Food $2,089/yr (17.1% of expenditure). Food at home $1,543 (74% of food), food away from home $546 (26%). Key items: beef $242, bakery $139, fresh milk $130, pork $134, poultry $69, other meats $61, fish $40, eggs $37, cereals $46. Total expenditure: $12,226."
+unit = "USD per family per year, nominal"
 source = "bls-cex"
-tier = "D"
-notes = "CEX 1972-73 has detailed food expenditure data. Not yet transcribed."
+tier = "A"
+notes = "From the 1972-73 CEX, Bulletin 1992, Table 2. 10,668 thousand 4-person families. Food at home share: 74%, food away: 26%. Beef was the largest single food item at $242/yr. Source: BLS Bulletin 1992, accessed via FRASER."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 

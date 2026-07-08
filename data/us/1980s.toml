@@ -52,14 +52,15 @@ tier = "A"
 notes = "From Census F-8. Down from 3.57 in 1970. By 1990: 3.18."
 
 [[fact]]
-id = "us-1980s-expenditure-gap"
+id = "us-1980s-expenditure-shares"
 panel = "budget"
-label = "Expenditure shares, 1980s"
-value = "data available via CEX (continuous from 1980) — not yet transcribed"
-unit = "n/a"
+label = "Expenditure breakdown, 4-person families, 1985"
+value = "Housing 29.5%, transportation 20.6%, food 15.0%, insurance/pensions 9.8%, entertainment 5.3%, healthcare 4.1%, apparel 6.0%, cash contributions 2.6%, education 1.5%"
+unit = "% of total annual expenditure"
 source = "bls-cex"
-tier = "D"
-notes = "The CEX has been conducted continuously since 1980 (quarterly interview + diary). Data available from BLS. The 1980s saw the personal computer, VCR, and microwave oven diffuse into middle-class homes."
+tier = "A"
+notes = "From the 1985 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 13,671 thousand 4-person CUs. Total expenditures: $31,408. Income before taxes: $34,414. Expenditure = 91% of gross income. Transportation share peaked in the 1980s at 20.6%. Source: BLS CEX Table 4, 1985 (cusize.pdf via Wayback Machine, web.archive.org)."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -118,14 +119,15 @@ tier = "A"
 notes = "From NCHS National Vital Statistics System. Up from ~67.1/74.8 in 1970 (all races). The 1980s saw continued gains from cardiovascular disease treatment advances."
 
 [[fact]]
-id = "us-1980s-wages-gap"
+id = "us-1980s-wages"
 panel = "day"
-label = "Average hourly earnings and weekly hours"
-value = "data available via FRED — not yet transcribed"
-unit = "n/a"
+label = "Average hourly earnings and weekly hours, 1980"
+value = "$6.84/hr, 35.2 hrs/week (total private). Manufacturing: $7.27/hr, 39.7 hrs/week."
+unit = "USD/hour and hours/week, nominal"
 source = "fred-ahetpi"
-tier = "D"
-notes = "FRED series AHETPI (average hourly earnings of production and nonsupervisory employees) covers 1964-present. FRED AWHMAN (average weekly hours, manufacturing) also available."
+tier = "A"
+notes = "From BLS Current Employment Statistics (CES), series CES0500000008 (total private hourly earnings) and CES0500000007 (total private weekly hours), accessed via BLS API. Annual averages computed from 12 monthly observations. Manufacturing: CES3000000008 ($7.27) and CES3000000007 (39.7 hrs). Implied weekly earnings: $240.77 (total private), $288.42 (manufacturing). By 2024: $30.12/hr."
+assumptions = ["nominal-values"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -142,14 +144,15 @@ notes = "Telephone was ~91% by 1980 (estimated from Historical Statistics trend)
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-1980s-food-basket-gap"
+id = "us-1980s-food-basket"
 panel = "table"
-label = "The food basket, 1980s"
-value = "data available via CEX — not yet transcribed"
-unit = "n/a"
+label = "Food basket and expenditure breakdown, 1985 (CEX)"
+value = "Food $4,706/yr (15.0% of expenditure). Food at home $2,900 (62% of food), food away from home $1,806 (38%). Key items: meats/poultry/fish/eggs $832, cereals/bakery $410, dairy $404, fruits/vegetables $425, beef $290, fresh milk $202. Total expenditure: $31,408."
+unit = "USD per family per year, nominal"
 source = "bls-cex"
-tier = "D"
-notes = "CEX continuous from 1980. Food away from home was growing as a share of food expenditure."
+tier = "A"
+notes = "From the 1985 CEX, Table 4. 13,671 thousand 4-person CUs. Food at home share: 62%, food away: 38%. Food away from home was growing as a share of total food expenditure. Source: BLS CEX Table 4, 1985 (via Wayback Machine)."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
