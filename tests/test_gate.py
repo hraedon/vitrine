@@ -359,3 +359,58 @@ def test_amount_minor_without_currency_year_basis_fails(tmp_path: Path) -> None:
     assert any("currency is empty" in p for p in problems)
     assert any("price_year is missing" in p for p in problems)
     assert any("basis is missing" in p for p in problems)
+
+
+# ── Structured quantity (Plan 007) ───────────────────────────────────────────
+
+
+def _write_quantity_room(tmp_path: Path, fact_lines: str) -> Path:
+    data = _write_minimal(tmp_path)
+    room = data / "us" / "1950s.toml"
+    room.write_text(
+        '[room]\ncountry = "us"\ndecade = "1950s"\n\n' + fact_lines
+    )
+    return data
+
+
+def test_quantity_matching_display_value_passes(tmp_path: Path) -> None:
+    data = _write_quantity_room(
+        tmp_path,
+        '[[fact]]\nid = "us-1950s-tv"\npanel = "diffusion"\nlabel = "TV"\n'
+        'value = "12.3%"\nunit = "% of households"\nsource = "src-1"\ntier = "A"\n'
+        "quantity = 12.3\n",
+    )
+    assert check_corpus(load_corpus(data)) == []
+
+
+def test_quantity_with_thousands_separator_passes(tmp_path: Path) -> None:
+    data = _write_quantity_room(
+        tmp_path,
+        '[[fact]]\nid = "us-1950s-sqft"\npanel = "home"\nlabel = "Floor area"\n'
+        'value = "Median 1,500 sq ft"\nunit = "sq ft"\nsource = "src-1"\ntier = "A"\n'
+        "quantity = 1500\n",
+    )
+    assert check_corpus(load_corpus(data)) == []
+
+
+def test_quantity_absent_from_display_value_fails(tmp_path: Path) -> None:
+    """The structured quantity transcribes the displayed datum — drift is a gate failure."""
+    data = _write_quantity_room(
+        tmp_path,
+        '[[fact]]\nid = "us-1950s-tv"\npanel = "diffusion"\nlabel = "TV"\n'
+        'value = "12.3%"\nunit = "% of households"\nsource = "src-1"\ntier = "A"\n'
+        "quantity = 12.4\n",
+    )
+    problems = check_corpus(load_corpus(data))
+    assert any("does not appear in the display value" in p for p in problems)
+
+
+def test_quantity_must_be_numeric(tmp_path: Path) -> None:
+    data = _write_quantity_room(
+        tmp_path,
+        '[[fact]]\nid = "us-1950s-tv"\npanel = "diffusion"\nlabel = "TV"\n'
+        'value = "12.3%"\nunit = "% of households"\nsource = "src-1"\ntier = "A"\n'
+        'quantity = "12.3"\n',
+    )
+    with pytest.raises(LoadError, match="must be a number"):
+        load_corpus(data)

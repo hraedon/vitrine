@@ -8,9 +8,23 @@ and nothing verifiability-critical is blank.
 
 from __future__ import annotations
 
+import math
 from pathlib import Path
 
 from vitrine.model import Basis, Corpus, Fact, Room, measure_axis
+
+
+def _quantity_renderings(quantity: float) -> set[str]:
+    """The strings a structured quantity may appear as in the display value.
+
+    The quantity is a transcription of the displayed datum; if none of these
+    renderings occurs verbatim in ``value``, the two have drifted apart.
+    """
+    renderings = {f"{quantity:g}"}
+    if quantity == int(quantity):
+        renderings.add(str(int(quantity)))
+        renderings.add(f"{int(quantity):,}")
+    return renderings
 
 
 def check_corpus(corpus: Corpus) -> list[str]:
@@ -68,6 +82,16 @@ def check_corpus(corpus: Corpus) -> list[str]:
                     currencies.add(fact.currency)
             elif fact.basis is not None:
                 problems.append(f"{where}: basis set but amount_minor is missing")
+
+            if fact.quantity is not None:
+                if not math.isfinite(fact.quantity):
+                    problems.append(f"{where}: quantity is not a finite number")
+                elif not any(r in fact.value for r in _quantity_renderings(fact.quantity)):
+                    problems.append(
+                        f"{where}: quantity {fact.quantity:g} does not appear in the "
+                        f"display value — the structured quantity must transcribe "
+                        f"the displayed datum, never introduce a new number"
+                    )
 
         if has_priced:
             has_total = any(f.basis is Basis.TOTAL for f in room.facts)

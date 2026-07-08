@@ -69,6 +69,15 @@ def _get_int_opt(table: Mapping[str, Any], key: str, ctx: str) -> int | None:
     return value
 
 
+def _get_float_opt(table: Mapping[str, Any], key: str, ctx: str) -> float | None:
+    if key not in table:
+        return None
+    value = table[key]
+    if isinstance(value, bool) or not isinstance(value, int | float):
+        raise LoadError(f"{ctx}: field {key!r} must be a number")
+    return float(value)
+
+
 def _get_str_list(table: Mapping[str, Any], key: str, ctx: str) -> tuple[str, ...]:
     value = table.get(key, [])
     if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
@@ -175,6 +184,7 @@ def _load_room(path: Path) -> Room:
                 currency=_get_str_opt(table, "currency", ctx),
                 price_year=_get_int_opt(table, "price_year", ctx),
                 basis=_parse_basis(table, ctx),
+                quantity=_get_float_opt(table, "quantity", ctx),
             )
         )
     derived: list[DerivedFact] = []

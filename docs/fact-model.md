@@ -26,6 +26,7 @@ The atomic exhibit unit. One claim, one source, one tier.
 | `currency` | str | e.g. `"USD"`; required iff `amount_minor` is set |
 | `price_year` | int? | Year the amount is quoted in |
 | `basis` | Basis? | What the amount is measured against (closed set, below); required iff `amount_minor` is set |
+| `quantity` | float? | Headline non-monetary numeric for chart projection (a percentage, hours, a rate); must appear verbatim in `value` — gate-enforced |
 
 `value` is always the as-authored display string: the museum shows what the
 source said, in the source's own terms. The structured fields
@@ -34,6 +35,14 @@ replacement — they are optional, and when present they feed the affordability
 axis (see `src/vitrine/affordability.py`) and cross-decade comparators. A fact
 with no structured amount still renders; it just carries no derived
 affordability figure.
+
+`quantity` (Plan 007) extends the same additional-never-a-replacement pattern
+to non-monetary numerics: it is the one number a chart mark may project from
+this fact (a diffusion percentage, weekly hours, a mortality rate). The gate
+enforces that the quantity appears verbatim in `value` — it is a transcription
+of the displayed datum, so the chart cannot drift from the placard. A fact
+whose `value` carries no single honest headline number (a multi-series string,
+a range) simply has no `quantity`, and charts render it as the gap it is.
 
 A fact whose honest value is "the record is silent" is written with
 `value = "no reliable record"` and tiered `D` with a note explaining why.
