@@ -578,6 +578,17 @@ population = "U.S. urban households, retail food prices collected by BLS in 51-5
 notes = "Table 530 in the 1970 Statistical Abstract (91st edition). Data originally from BLS Retail Food Prices by Cities. Prices in cents per pound unless otherwise indicated. Covers 1950-1970 (April). Milk in cents per quart (delivered). Eggs in cents per dozen. Coffee in cents per 10 oz. Cross-checked against BLS Bulletin 1055 for 1950 values — exact match."
 
 [[source]]
+id = "bls-bulletin-1312-12"
+title = "Employment, Hours, and Earnings, United States, 1909-84, Volume II: Establishment Survey Data"
+short_cite = "BLS Bulletin 1312-12 (March 1985)"
+publisher = "U.S. Department of Labor, Bureau of Labor Statistics"
+year = 1985
+url = "https://fraser.stlouisfed.org/title/employment-hours-earnings-united-states-1909-84-establishment-survey-data-5745"
+population = "Production and nonsupervisory workers on private nonagricultural payrolls"
+measure = "hourly_earnings"
+notes = "BLS benchmark publication. Volume II (Establishment Survey Data), page 287: 'Average Hourly Earnings of Production or Nonsupervisory Workers on Private Nonagricultural Payrolls, TOTAL PRIVATE, in Current Dollars.' Annual averages: 1947: $1.131, 1948: $1.225, 1949: $1.275, 1950: $1.335, 1960: $2.09, 1970: $3.23. Digitized by FRASER. This is the predecessor series to FRED AHETPI (which begins 1964)."
+
+[[source]]
 id = "cdc-mmwr-infant-mortality"
 title = "Achievements in Public Health, 1900-1999: Healthier Mothers and Babies (MMWR Vol. 48, No. 38)"
 short_cite = "CDC, MMWR 48(38), 1999"
