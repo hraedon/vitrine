@@ -327,3 +327,37 @@ Two minor notes (not mismatches):
 | 2010s | 6.1 | 6.1 | **verified** |
 
 All neonatal and postneonatal sub-values in notes verified against the same table. Source: nchs-nvss, Tier A.
+
+---
+
+## WI-8: 1990s cable TV and 1970s AC verification (2026-07-08)
+
+**Date:** 2026-07-08
+**Verifier:** umans-glm-5.2 session (subagent research + parent verification)
+**Sources checked:** FCC 97-423 PDF (local), EIA Annual Energy Review Table 2.6 (web)
+**Method:** PDF text extraction, web fetch, cross-reference with existing samples
+
+### 1990s cable TV — corrected
+
+**Source checked:** `~/vitrine-research/09-fcc/fcc97423.pdf` — FCC Fourth Annual Report on Video Competition (FCC 97-423), Table B-1, p.142
+
+| Field | Fact value (pre-fix) | Source value | Result |
+|-------|---------------------|-------------|--------|
+| value | "~60%" | 59.3% of TV households (55.2M subscribers) | **corrected** |
+| source | ncta-cable-history | fcc-video-competition | **corrected** |
+| tier | C | A | **upgraded** |
+| notes | "could not be verified against NCTA" | Full year-by-year data from FCC Table B-1 | **corrected** |
+
+**Resolution:** The NCTA Cable History Timeline does not contain year-by-year penetration percentages for the 1990s. The correct primary source is FCC 97-423 Table B-1, which provides data sourced from A.C. Nielsen (TV households) and Paul Kagan Associates (cable subscribers). Cable penetration crossed 60% in mid-1991 (60.3% per Nielsen, CSMonitor June 1991).
+
+### 1970s AC — verified
+
+**Source checked:** EIA Annual Energy Review, Table 2.6 ("Household End Uses: Fuel Types, Appliances, and Electronics, Selected Years, 1978-2009") at https://www.eia.gov/totalenergy/data/annual/xls/stb0206.xls
+
+| Field | Fact value | Source value | Result |
+|-------|-----------|-------------|--------|
+| central AC | 23% | 23% (1978 RECS, Form EIA-84) | **verified** |
+| total AC | not in fact | 56% (23% central + 33% window/wall) | **added to notes** |
+| no AC | not in fact | 44% | **added to notes** |
+
+**Resolution:** The 23% central AC figure is verified via EIA's republished table with explicit source attribution to the 1978 RECS (Form EIA-84). Tier A confirmed. Corroborating trajectory: 17% (1973 AHS) → 23% (1978 RECS) → 27% (1980 RECS) → 44% (1993 AHS).

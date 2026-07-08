@@ -565,7 +565,7 @@ publisher = "Federal Communications Commission"
 year = 2017
 url = "https://www.fcc.gov/document/annual-assessment-status-competition-market-delivery-video-0"
 population = "U.S. households subscribing to multichannel video programming distributor (MVPD) services"
-notes = "FCC's annual report on video competition. Subscriber data from SNL Kagan (industry analyst). Key data: 1997: 64.2M cable, 73.6M total MVPD, 75.9% of TV households (FCC 1997 report). 2006: 65.3M basic cable, 95.8M total MVPD, 87% of TV households (FCC 07-206, 13th Report). 2015: 53.2M cable (53.1% of MVPD), 33.1M DBS, 13.0M telco, 99.4M total MVPD (FCC DA 17-71, 2017). MVPD subscriber losses began 2013 — cord-cutting era. Cable's share of MVPD declined from 89% (1997) to 68.2% (2006) to 53.1% (2015)."
+notes = "FCC's annual report on video competition. Subscriber data from SNL Kagan (industry analyst). Key data: 1992: 59.3% of TV households (55.2M subscribers, FCC 97-423 Table B-1). 1997: 64.2M cable, 73.6M total MVPD, 75.9% of TV households (FCC 1997 report). 2006: 65.3M basic cable, 95.8M total MVPD, 87% of TV households (FCC 07-206, 13th Report). 2015: 53.2M cable (53.1% of MVPD), 33.1M DBS, 13.0M telco, 99.4M total MVPD (FCC DA 17-71, 2017). MVPD subscriber losses began 2013 — cord-cutting era. Cable's share of MVPD declined from 89% (1997) to 68.2% (2006) to 53.1% (2015)."
 
 [[source]]
 id = "statab-food-prices"

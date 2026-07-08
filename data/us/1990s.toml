@@ -185,11 +185,11 @@ notes = "FRED series ITCELSETSP2USA (World Bank/ITU). Subscriptions per 100 peop
 id = "us-1990s-cable-tv"
 panel = "diffusion"
 label = "Households with cable TV, 1992"
-value = "~60%"
-unit = "% of U.S. households with cable TV subscription"
-source = "ncta-cable-history"
-tier = "C"
-notes = "NCTA reports 66.7 million cable customers by 1999. The 60% penetration figure for 1992 is widely cited (Wikipedia, trade publications) but could not be directly verified against the NCTA Cable History Timeline PDF — the timeline does not state a 60% figure for 1992. NCTA does report 50.5% penetration in 1988 and 66.7M customers in 1999. The 60% figure is consistent with the trend between 50.5% (1988) and the late-1990s figures. Tier C: secondary source, penetration figure not directly verified against primary source."
+value = "59.3% of TV households (55.2M subscribers)"
+unit = "% of U.S. TV households with cable TV subscription"
+source = "fcc-video-competition"
+tier = "A"
+notes = "FCC Fourth Annual Report on Video Competition (FCC 97-423, adopted Dec 1997), Table B-1, p.142: 'Cable Television Industry Growth: 1990-June 1997.' Year-by-year data: 1990: 55.5% (51.7M), 1991: 58.0% (53.4M), 1992: 59.3% (55.2M), 1993: 60.7% (57.2M), 1994: 62.6% (59.7M), 1995: 64.8% (62.1M). Cable penetration crossed 60% in mid-1991 (60.3% per Nielsen, CSMonitor June 1991). TV Household data from A.C. Nielsen via Veronis Suhler; subscriber data from Paul Kagan Associates. Previous source attribution (ncta-cable-history) was incorrect — the NCTA timeline does not contain year-by-year penetration percentages. Verified against local PDF: ~/vitrine-research/09-fcc/fcc97423.pdf."
 
 [[fact]]
 id = "us-1990s-computer"

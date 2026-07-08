@@ -169,7 +169,7 @@ value = "23% of households had central AC"
 unit = "% of households with central air-conditioning equipment"
 source = "eia-recs"
 tier = "A"
-notes = "From the 1978 RECS — the first Residential Energy Consumption Survey. 23% of households had central AC. Total AC (including window/wall units) was higher — in 1960, only 18.8% of households had AC (mostly window units, per CEX 1960-61). By 1993, total AC reached 68%. The 1978 RECS is the closest available data point for the decade. Source: EIA RECS 2009 report, citing 1978 RECS."
+notes = "From the 1978 RECS — the first Residential Energy Consumption Survey. 23% of households had central AC. Total AC (including window/wall units) was 56% (23% central + 33% window/wall); 44% had no AC. Verified via EIA Annual Energy Review, Table 2.6 ('Household End Uses: Fuel Types, Appliances, and Electronics, Selected Years, 1978-2009'), which republishes the 1978 RECS data with explicit source attribution: '1978 and 1979 — EIA, Form EIA-84, RECS.' Available at https://www.eia.gov/totalenergy/data/annual/xls/stb0206.xls. Trajectory: 17% central AC (1973 AHS) → 23% (1978 RECS) → 27% (1980 RECS) → 44% (1993 AHS). By 1993, total AC reached 68%. The 1978 RECS is the closest available data point for the decade."
 
 [[fact]]
 id = "us-1970s-vehicle-ownership"

@@ -41,7 +41,23 @@ here. Hence `vitrine gaps`.
 - **1970s/1980s housing detail and TV/AC diffusion.** Census 1970 and AHS 1973+
   data available; not yet transcribed.
 
-## Filled in the wi-1/us-source-survey merge (2026-07-08)
+## Filled in the 2026-07-08 flagged-issues round
+
+- **1990s cable TV:** Corrected from "~60%" (Tier C, unverified NCTA
+  source) to "59.3% of TV households" (Tier A, FCC 97-423 Table B-1).
+  The NCTA timeline does not contain year-by-year penetration percentages;
+  the FCC report provides exact figures sourced from Nielsen and Kagan.
+- **1970s AC:** Verified — the 23% central AC figure is confirmed via EIA
+  Annual Energy Review Table 2.6, which republishes 1978 RECS data (Form
+  EIA-84) with explicit source attribution. Tier A confirmed. Added total
+  AC (56%) and no-AC (44%) breakdown to notes.
+- **2000s housing share:** Corrected from 32.2% to 32.3% (rounding of
+  32.27% from CEX 2005 Table 4).
+- **MANIFEST.md:** Fixed mislabeling of RECS ASCII microdata files — they
+  are RECS 1993 (7,111 records), not RECS 2001 (4,822). Confirmed by sample
+  size and FUELHEAT coding.
+- **nchs-nvss source title:** Updated to reflect coverage of both life
+  tables and infant mortality.
 
 - **Poverty rate arc (1960s–2020s):** 7 facts from Census API histpov2.
 - **Food prices arc (1960s–2010s):** 6 facts from Statistical Abstract + BLS API.
