@@ -232,6 +232,17 @@ tier = "C"
 notes = "Computed: 1940 median home value ($2,938, from Census Historical Housing Tables) divided by 1947 median family income ($3,031, from F-8). A home cost roughly one year's income — the lowest ratio in the museum. Caveat: the home value is from 1940 and the income from 1947; wartime inflation had driven incomes up while the housing stock (and controlled prices) had not yet adjusted. By 1950: $7,354 home / $3,319 income = 2.2 years."
 assumptions = ["affordability-normalization", "nominal-values"]
 
+[[fact]]
+id = "us-1940s-week-of-work-buys"
+panel = "work-buys"
+label = "What a week of manufacturing work bought, 1947"
+value = "$53.71/week — a full year of it (×52) ≈ 92% of median family income"
+unit = "weekly manufacturing earnings vs annual median family income"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "Computed: manufacturing FTE annual earnings ($2,793, Historical Statistics Series D740) ÷ 52 = $53.71/week. × 52 = $2,793, which is 92.1% of the all-family median income ($3,031, Census F-8). A single manufacturing wage nearly covered the median family's income — the 8% gap implies a small second income or overtime. Compare 1950: 83%. Source splice: annual earnings (D740) vs weekly hours (not separately published for 1947); the annual figure is the official series."
+assumptions = ["composite-family", "nominal-values"]
+
 
 # ── Home production hours (Ramey 2009) ─────────────────────────────────────
 # Plan 005 WI-2: women's + men's weekly unpaid home-production hours.

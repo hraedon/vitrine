@@ -240,6 +240,17 @@ tier = "A"
 notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1980: 82.4. 2024: 313.7. Ratio: 3.81x. Nominal median family income: $21,020 (1980) → $105,800 (2024) = 5.03x. Real growth: 5.03/3.81 = 1.32x. The 1970s inflation had doubled the price level; the 1980s Volcker disinflation brought inflation under control."
 assumptions = ["nominal-values", "affordability-normalization"]
 
+[[fact]]
+id = "us-1980s-week-of-work-buys"
+panel = "work-buys"
+label = "What a week of work bought, 1980"
+value = "$241.12/week — a full year of it (×52) ≈ 60% of median family income"
+unit = "weekly earnings vs annual median family income"
+source = "fred-ahetpi"
+tier = "A"
+notes = "Computed: hourly earnings ($6.85) × weekly hours (35.2) = $241.12/week (total private production/nonsupervisory, FRED AHETPI + AWHNONAG). × 52 = $12,538, which is 59.6% of the all-family median income ($21,020, Census F-8). The single wage no longer supports a family — the two-earner era begins. Compare 1970: 83%, 1990: 51%. Source splice: 1980+ uses total private sector (not manufacturing-specific); see wage-anchor-consistency assumption."
+assumptions = ["composite-family", "nominal-values"]
+
 
 # ── Home production hours (Ramey 2009) ─────────────────────────────────────
 # Plan 005 WI-2: women's + men's weekly unpaid home-production hours.

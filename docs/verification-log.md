@@ -361,3 +361,36 @@ All neonatal and postneonatal sub-values in notes verified against the same tabl
 | no AC | not in fact | 44% | **added to notes** |
 
 **Resolution:** The 23% central AC figure is verified via EIA's republished table with explicit source attribution to the 1978 RECS (Form EIA-84). Tier A confirmed. Corroborating trajectory: 17% (1973 AHS) → 23% (1978 RECS) → 27% (1980 RECS) → 44% (1993 AHS).
+
+---
+
+## WI-9: Week-of-work arc (8 new facts, 1940s-2020s; 1900s & 1950s already existed)
+
+**Date:** 2026-07-09
+**Verifier:** umans-glm-5.2 session
+**Sources checked:** Existing Tier A earnings facts in each room file (cross-referenced to their primary sources: Historical Statistics D740, FRED CES3000000008/AWHMAN, FRED AHETPI/AWHNONAG) and Census F-8 median family income facts
+**Method:** Derived computation — weekly earnings × 52 ÷ median family income. All inputs are existing Tier A facts; no new source data was introduced.
+
+### Results
+
+| Decade | Weekly earnings | Source | × 52 | Median income | % of income | Result |
+|--------|----------------|--------|-------|---------------|-------------|--------|
+| 1940s | $53.71 ($2,793/yr ÷ 52) | hist-stats-colonial-1970 (D740) | $2,793 | $3,031 | 92% | **verified** (derived from existing Tier A) |
+| 1950s | $53.29 ($1.32 × 40.5) | fred-ces-manuf-earnings | $2,771 | $3,319 | 83% | **verified** (existing fact, unchanged) |
+| 1960s | $102.92 ($5,352/yr ÷ 52) | hist-stats-colonial-1970 (D740) | $5,352 | $5,620 | 95% | **verified** (derived from existing Tier A) |
+| 1970s | $156.73 ($8,150/yr ÷ 52) | hist-stats-colonial-1970 (D740) | $8,150 | $9,867 | 83% | **verified** (derived from existing Tier A) |
+| 1980s | $241.12 ($6.85 × 35.2) | fred-ahetpi | $12,538 | $21,020 | 60% | **verified** (derived from existing Tier A) |
+| 1990s | $349.86 ($10.20 × 34.3) | fred-ahetpi | $18,193 | $35,350 | 51% | **verified** (derived from existing Tier A) |
+| 2000s | $480.54 ($14.01 × 34.3) | fred-ahetpi | $24,988 | $50,730 | 49% | **verified** (derived from existing Tier A) |
+| 2010s | $636.27 ($19.05 × 33.4) | fred-ahetpi | $33,086 | $60,240 | 55% | **verified** (derived from existing Tier A) |
+| 2020s | $1,225.88 ($30.12 × 40.7) | fred-ahetpi | $63,746 | $105,800 | 60% | **verified** (derived from existing Tier A) |
+
+### Source splice notes
+
+The wage anchor changes across the span (per the `wage-anchor-consistency` assumption):
+- 1940s–1970s: manufacturing FTE annual earnings (Historical Statistics D740), ÷ 52 for weekly equivalent
+- 1950s: manufacturing hourly × weekly hours (FRED CES3000000008 + AWHMAN) — the most precise weekly figure
+- 1980s–2010s: total private hourly × weekly hours (FRED AHETPI + AWHNONAG) — broader sector coverage
+- 2020s: all-private wages × manufacturing hours (FRED AHETPI × AWHMAN) — slight inconsistency, noted in fact
+
+The arc tells the story: a single manufacturing wage covered 83–95% of median family income through the 1970s (the single-earner era), falling to 49–60% in the 1980s–2020s (the two-earner era). The 1960s peak (95%) is the high-water mark of the American manufacturing wage.

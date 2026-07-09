@@ -253,6 +253,17 @@ tier = "A"
 notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1970: 38.8. 2024: 313.7. Ratio: 8.09x. Nominal median family income: $9,867 (1970) → $105,800 (2024) = 10.7x. Real growth: 10.7/8.1 = 1.33x. For comparison: 1960-2024 real growth was 1.77x, and 1950-2024 was 3.1x — the 1970s-2020s saw the slowest real income growth of the postwar era."
 assumptions = ["nominal-values", "affordability-normalization"]
 
+[[fact]]
+id = "us-1970s-week-of-work-buys"
+panel = "work-buys"
+label = "What a week of manufacturing work bought, 1970"
+value = "$156.73/week — a full year of it (×52) ≈ 83% of median family income"
+unit = "weekly manufacturing earnings vs annual median family income"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "Computed: manufacturing FTE annual earnings ($8,150, Historical Statistics Series D740) ÷ 52 = $156.73/week. × 52 = $8,150, which is 82.6% of the all-family median income ($9,867, Census F-8). Still above 80% — the single manufacturing wage could nearly support a family. But this is the last decade it would do so. Compare 1960: 95%, 1980: 60%. Source: same D740 series as 1940s and 1960s."
+assumptions = ["composite-family", "nominal-values"]
+
 
 # ── Home production hours (Ramey 2009) ─────────────────────────────────────
 # Plan 005 WI-2: women's + men's weekly unpaid home-production hours.

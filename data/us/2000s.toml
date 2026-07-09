@@ -240,6 +240,17 @@ tier = "A"
 notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 2000: 172.2. 2024: 313.7. Ratio: 1.82x. Nominal median family income: $50,730 (2000) → $105,800 (2024) = 2.09x. Real growth: 2.09/1.82 = 1.14x — the weakest real income growth of any postwar decade, reflecting two recessions (2001, 2008-09) and the housing crash."
 assumptions = ["nominal-values", "affordability-normalization"]
 
+[[fact]]
+id = "us-2000s-week-of-work-buys"
+panel = "work-buys"
+label = "What a week of work bought, 2000"
+value = "$480.54/week — a full year of it (×52) ≈ 49% of median family income"
+unit = "weekly earnings vs annual median family income"
+source = "fred-ahetpi"
+tier = "A"
+notes = "Computed: hourly earnings ($14.01) × weekly hours (34.3) = $480.54/week (total private production/nonsupervisory, FRED AHETPI + AWHNONAG). × 52 = $24,988, which is 49.3% of the all-family median income ($50,730, Census F-8). The trough — a single wage-earner covers less than half the median family income. Compare 1990: 51%, 2010: 55%."
+assumptions = ["composite-family", "nominal-values"]
+
 
 # ── Home production hours (Ramey 2009) ─────────────────────────────────────
 # Plan 005 WI-2: women's + men's weekly unpaid home-production hours.

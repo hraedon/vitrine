@@ -59,6 +59,10 @@ here. Hence `vitrine gaps`.
 - **nchs-nvss source title:** Updated to reflect coverage of both life
   tables and infant mortality.
 
+- **Week-of-work arc (1940s–2020s):** 8 new derived facts computing weekly
+  earnings as % of median family income. Arc shows the end of the single-earner
+  era: 92% (1940s) → 95% (1960s) → 83% (1970s) → 60% (1980s) → 49% (2000s)
+  → 60% (2020s). All Tier A, derived from existing earnings + income facts.
 - **Poverty rate arc (1960s–2020s):** 7 facts from Census API histpov2.
 - **Food prices arc (1960s–2010s):** 6 facts from Statistical Abstract + BLS API.
 - **Heating fuel arc (1940–2024):** Census Historical Housing + RECS + ACS.

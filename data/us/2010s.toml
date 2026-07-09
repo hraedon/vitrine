@@ -229,6 +229,17 @@ notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 2010: 218.1. 2
 assumptions = ["nominal-values", "affordability-normalization"]
 
 [[fact]]
+id = "us-2010s-week-of-work-buys"
+panel = "work-buys"
+label = "What a week of work bought, 2010"
+value = "$636.27/week — a full year of it (×52) ≈ 55% of median family income"
+unit = "weekly earnings vs annual median family income"
+source = "fred-ahetpi"
+tier = "A"
+notes = "Computed: hourly earnings ($19.05) × weekly hours (33.4) = $636.27/week (total private production/nonsupervisory, FRED AHETPI + AWHNONAG). × 52 = $33,086, which is 54.9% of the all-family median income ($60,240, Census F-8). A modest recovery from the 2000s trough, but still well below the single-earner era. Compare 2000: 49%, 2024: 60%."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
 id = "us-2010s-home-production-women"
 panel = "day"
 label = "Women's weekly unpaid home-production hours, 2010s"

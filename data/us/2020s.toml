@@ -310,6 +310,17 @@ tier = "A"
 notes = "From Table F-8's own 2024-dollar column (C-CPI-U-RS adjusted): 1950 all-family median = $35,290 in 2024 dollars vs 2024 median = $105,800, a factor of 3.0. Alternative deflator: using raw CPI-U (CPIAUCNS, 13.03x per us-2020s-purchasing-power-comparison) gives $3,319 × 13.03 = $43,246, a factor of 2.4x — CPI-U-RS corrects known overstatement of early inflation, so the published 3.0x is primary. CORRECTION 2026-07-07: this fact previously displayed '3.1x ($25,633 → $79,490)', figures traceable to no source in the registry."
 assumptions = ["composite-family", "nominal-values"]
 
+[[fact]]
+id = "us-2020s-week-of-work-buys"
+panel = "work-buys"
+label = "What a week of work bought, 2024"
+value = "$1,225.88/week — a full year of it (×52) ≈ 60% of median family income"
+unit = "weekly earnings vs annual median family income"
+source = "fred-ahetpi"
+tier = "A"
+notes = "Computed: hourly earnings ($30.12) × weekly hours (40.7) = $1,225.88/week (all-private production/nonsupervisory wages × manufacturing hours, FRED AHETPI + AWHMAN). × 52 = $63,746, which is 60.2% of the all-family median income ($105,800, Census F-8). A partial recovery from the 2000s trough, driven by wage growth in the post-pandemic labor market. But still far below the single-earner era (1940s: 92%, 1960s: 95%). Compare 2010: 55%. Note: mixes all-private wages with manufacturing hours — see us-2020s-weekly-earnings note."
+assumptions = ["composite-family", "nominal-values"]
+
 # ── Day panel: life expectancy ────────────────────────────────────────────
 
 [[fact]]

@@ -273,6 +273,17 @@ notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1990: 130.7. 2
 assumptions = ["nominal-values", "affordability-normalization"]
 
 [[fact]]
+id = "us-1990s-week-of-work-buys"
+panel = "work-buys"
+label = "What a week of work bought, 1990"
+value = "$349.86/week — a full year of it (×52) ≈ 51% of median family income"
+unit = "weekly earnings vs annual median family income"
+source = "fred-ahetpi"
+tier = "A"
+notes = "Computed: hourly earnings ($10.20) × weekly hours (34.3) = $349.86/week (total private production/nonsupervisory, FRED AHETPI + AWHNONAG). × 52 = $18,193, which is 51.5% of the all-family median income ($35,350, Census F-8). Below half — a single wage-earner now covers barely half the median family income. Compare 1980: 60%, 2000: 49%."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
 id = "us-1990s-home-production-women"
 panel = "day"
 label = "Women's weekly unpaid home-production hours, 1990s"

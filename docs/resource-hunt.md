@@ -21,6 +21,12 @@ gaps or create new cross-decade comparison arcs. Items are sorted by impact.
   from BLS API (series APU0000702xxx).
 - **Infant Mortality Rate** — Facts in 9 decades (1900s, 1950s–2020s)
   from CDC MMWR / NCHS / NVSS.
+- **Week-of-Work Comparison** — Facts in 10 decades (1900s, 1940s–2020s).
+  Derived from existing Tier A earnings and Census F-8 median family income
+  facts. Arc: 92% (1940s) → 83% (1950s) → 95% (1960s) → 83% (1970s) → 60%
+  (1980s) → 51% (1990s) → 49% (2000s) → 55% (2010s) → 60% (2020s). The
+  single-earner era ended in the 1970s; the two-earner era began in the
+  1980s. See verification-log WI-9.
 
 ## Priority 1 — Closes gaps / completes arcs
 
@@ -68,22 +74,6 @@ machine, AC, clothes dryer, dishwasher, etc. from CEX 1972-73 and CEX 1985.
   — look for 1972-73 bulletin
 - Wayback: `https://web.archive.org/web/2024/https://www.bls.gov/cex/1985/Standard/`
   — check for durable goods tables
-
----
-
-### 3. Week-of-Work Comparison — More Decades
-
-**Why:** 1950s room has "what a week of work bought" ($53.29/week = 1.6% of
-median family income). Food price data now exists for 1950s–2020s (8
-decades), so the input data is in place. Just needs the derived facts
-authored.
-
-**What I need:** Average weekly earnings (already have for most decades) +
-retail food prices (already curated). The computation is mine — just need
-to author the derived facts.
-
-**Where to look:** Same as the food price facts — this is a derivative of
-data already in the corpus.
 
 ## Priority 2 — Room enrichment
 
