@@ -67,6 +67,10 @@ here. Hence `vitrine gaps`.
   (Census decennial + ACS). 78.5% (1960) → 87.1% (1980) → 88.5% (1990) →
   89.7% (2000) → 90.9% (2010). Joined existing 1970s (CEX) and 2020s (ACS)
   facts for a 7-decade arc.
+- **Appliance ownership (1970s, 1980s):** 2 new facts from EIA Annual Energy
+  Review Table 8.3. 1978: refrigerator 99.7%, washer 70.5%, dryer 45.0%,
+  dishwasher 34.6%, microwave 7.8%. 1980: refrigerator 99.9%, color TV 82.1%,
+  washer 71.6%, microwave 14.2%.
 - **Poverty rate arc (1960s–2020s):** 7 facts from Census API histpov2.
 - **Food prices arc (1960s–2010s):** 6 facts from Statistical Abstract + BLS API.
 - **Heating fuel arc (1940–2024):** Census Historical Housing + RECS + ACS.

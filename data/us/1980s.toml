@@ -212,6 +212,17 @@ source = "bts-vehicle-availability"
 tier = "A"
 notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1980). 12.9% had no vehicle, 35.5% had one, 34.0% had two, 17.5% had three or more. The two-car family became the norm — 34% of households had two vehicles, up from 19.1% in 1960. By 1990: 88.5%. Population: all occupied housing units."
 
+[[fact]]
+id = "us-1980s-appliance-ownership"
+quantity = 82.1
+panel = "diffusion"
+label = "Household appliance ownership, 1980"
+value = "Refrigerator 99.9%, color TV 82.1%, clothes washer 71.6%, clothes dryer 46.9%, dishwasher 37.3%, microwave 14.2%, freezer 25.9%"
+unit = "% of households with each appliance"
+source = "eia-aer-appliances"
+tier = "A"
+notes = "From EIA Annual Energy Review 1988, Table 8.3 (republished in Census Bureau, USSR/USA Statistical Abstract 1990). Data sourced from RECS (Form EIA-84). By 1980, refrigerator was universal (99.9%), color TV had reached 82.1% (up from NA in 1978), and the microwave oven was diffusing rapidly (14.2%, up from 7.8% in 1978). By 1987: color TV 92.7%, microwave 60.8%, dishwasher 43.1%. The 1980s were the decade of the microwave."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]

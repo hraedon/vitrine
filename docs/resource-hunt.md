@@ -36,25 +36,11 @@ gaps or create new cross-decade comparison arcs. Items are sorted by impact.
 
 ### 1. CEX Durable Goods Ownership — 1970s and 1980s
 
-**Why:** 1960s room has detailed appliance ownership data (TV 91.4%,
-refrigerator 84.7%, washing machine 70.0%, etc. from CEX 1960-61 p.15).
-1970s and 1980s rooms lack this data. Would enrich the diffusion panel.
-
-**What I need:** % of households/families with TV, refrigerator, washing
-machine, AC, clothes dryer, dishwasher, etc. from CEX 1972-73 and CEX 1985.
-
-**Where to look:**
-- CEX 1972-73 Bulletin 1992: Already accessed via FRASER for expenditure
-  data. Check later pages (likely p.15-20) for a "durable goods ownership"
-  or "home equipment" table.
-- CEX 1985 tables: Already accessed via Wayback Machine for expenditure
-  data. Check for a separate durable goods table.
-
-**FRASER URLs:**
-- `https://fraser.stlouisfed.org/title/consumer-expenditure-survey-3643`
-  — look for 1972-73 bulletin
-- Wayback: `https://web.archive.org/web/2024/https://www.bls.gov/cex/1985/Standard/`
-  — check for durable goods tables
+**Status:** Closed. Found appliance ownership data in the EIA Annual Energy
+Review 1988 (Table 8.3), republished in the Census Bureau's USSR/USA
+Statistical Abstract 1990. Covers 1978 and 1980 (RECS data). Added
+`us-1970s-appliance-ownership` (1978) and `us-1980s-appliance-ownership`
+(1980) as Tier A facts. Source: `eia-aer-appliances`.
 
 ## Priority 2 — Room enrichment
 

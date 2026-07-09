@@ -607,3 +607,13 @@ year = 2024
 url = "https://www.bts.gov/browse-statistical-products-and-data/info-gallery/share-household-vehicles-available-1960-2023"
 population = "All U.S. occupied housing units"
 notes = "Data compiled by BTS from U.S. Census Bureau Decennial Census (1960-2000) and American Community Survey (2010-2023). Table B08201 (Household Size by Vehicles Available). Excel file: F2-7 Share of Household by Vehicle Available.xlsx. Figures verified against the Census Bureau source data. The 1960-2000 data are from the decennial census long form; 2010+ from ACS. The concept is consistent across the span: '% of occupied housing units with N vehicles available.'"
+
+[[source]]
+id = "eia-aer-appliances"
+title = "EIA Annual Energy Review: Household Appliances (Table 8.3 / Table 2.6)"
+short_cite = "EIA Annual Energy Review 1988, Table 8.3 (republished in Census Bureau, 1991)"
+publisher = "U.S. Energy Information Administration"
+year = 1988
+url = "https://www.eia.gov/totalenergy/data/annual/"
+population = "U.S. occupied housing units"
+notes = "Appliance ownership data (% of households with each appliance) from the EIA Annual Energy Review. Data for 1978-1987 sourced from RECS (Form EIA-84). Table republished in the Census Bureau's 'Statistical Abstract: USSR and USA 1990' (1991), Table 8.3. Covers: color/B&W TV, clothes washer, clothes dryer, microwave oven, dishwasher, refrigerator, freezer, air conditioning (central + room), gas appliances, VCRs. Data are consistent with RECS microdata."

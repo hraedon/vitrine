@@ -214,6 +214,17 @@ source = "bls-cex"
 tier = "A"
 notes = "From CEX 1972-73 (Integrated Diary and Interview Survey, Bulletin 1992, Table 1, p.31). 80.1% of all families had at least one automobile. Average: 1.3 automobiles per family. By income: under $3,000 → 38.3% had auto; $15,000+ → ~96.6% (96.9% for $15,000-$19,999, 97.1% for $20,000-$24,999, 95.2% for $25,000+). By 2023: 91.5% of households had at least one vehicle (ACS B25045). Population note: CEX measures 'families'; ACS measures 'households' — close but not identical."
 
+[[fact]]
+id = "us-1970s-appliance-ownership"
+quantity = 70.5
+panel = "diffusion"
+label = "Household appliance ownership, 1978"
+value = "Refrigerator 99.7%, color TV (NA in 1978), clothes washer 70.5%, clothes dryer 45.0%, dishwasher 34.6%, microwave 7.8%, freezer 35.2%"
+unit = "% of households with each appliance"
+source = "eia-aer-appliances"
+tier = "A"
+notes = "From EIA Annual Energy Review 1988, Table 8.3 (republished in Census Bureau, USSR/USA Statistical Abstract 1990). Data sourced from RECS (Form EIA-84). 1978 is the first RECS survey. Refrigerator was already universal (99.7%). The microwave oven was just beginning its diffusion (7.8%). Compare 1960s: TV 91.4%, refrigerator 84.7%, washing machine 70.0%. The 1970s saw refrigerator reach saturation; color TV data starts in 1980 (82.1%)."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
