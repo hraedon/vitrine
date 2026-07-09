@@ -118,6 +118,17 @@ source = "eia-recs"
 tier = "A"
 notes = "From the 2015 RECS. Natural gas remained dominant but was slowly declining (49% in 2009). Electricity continued its rise (34% in 2009 → 36% in 2015), gaining on gas. Fuel oil fell further to ~4% (concentrated in the Northeast at 23%). The long arc: coal dominated in 1940 (55%), gas by 1960 (43%), electricity rising from 2% (1960) to 36% (2015). Source: EIA RECS 2015."
 
+[[fact]]
+id = "us-2010s-median-home-size"
+quantity = 2169
+panel = "home"
+label = "Median square footage of new single-family homes, 2010"
+value = "2,169 sq ft (new construction)"
+unit = "median square feet of floor area, new single-family houses completed"
+source = "census-soc-new-housing"
+tier = "A"
+notes = "From the Census Bureau's Survey of Construction (C-25 annual report). New homes continued growing through the 2010s recovery: 2010 was 2,169, 2015 peaked at 2,467, 2017 was 2,426. The 2020s saw a pullback to 2,150 (2024, JCHS report) — builders shifted to smaller, more affordable homes. Source: c25ann2017.pdf."
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]

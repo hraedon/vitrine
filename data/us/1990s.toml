@@ -129,6 +129,17 @@ source = "eia-recs"
 tier = "A"
 notes = "Computed from RECS 1993 microdata (file2_asc.txt, FUELHEAT variable, weighted with NWEIGHT). 7,111 households sampled. Gas: 53.2% (up from 55% in 1980 Census — roughly stable). Electricity: 25.8% (up from 18% in 1980). Fuel oil: 10.5% (down from 19% in 1980). LPG: 4.8%. Other (wood, kerosene, etc.): 4.8%. None: 0.9%. The 1990s were a transition decade: fuel oil declining, electricity rising. By 2001: gas 55.2%, electricity 28.9%, fuel oil 7.5%. By 2009: gas 49%, electricity 34%, fuel oil 6%."
 
+[[fact]]
+id = "us-1990s-median-home-size"
+quantity = 1905
+panel = "home"
+label = "Median square footage of new single-family homes, 1990"
+value = "1,905 sq ft (new construction)"
+unit = "median square feet of floor area, new single-family houses completed"
+source = "census-soc-new-housing"
+tier = "A"
+notes = "From the Census Bureau's Survey of Construction (C-25 annual report). New homes crossed 1,900 sq ft for the first time in 1990 — up from 1,595 in 1980 (+19%). The 1990s saw steady growth: 1995 was 1,920, 1999 was 2,028. By 2000: 2,057. Source: c25ann2003.pdf."
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]

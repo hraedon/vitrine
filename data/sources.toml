@@ -617,3 +617,13 @@ year = 1988
 url = "https://www.eia.gov/totalenergy/data/annual/"
 population = "U.S. occupied housing units"
 notes = "Appliance ownership data (% of households with each appliance) from the EIA Annual Energy Review. Data for 1978-1987 sourced from RECS (Form EIA-84). Table republished in the Census Bureau's 'Statistical Abstract: USSR and USA 1990' (1991), Table 8.3. Covers: color/B&W TV, clothes washer, clothes dryer, microwave oven, dishwasher, refrigerator, freezer, air conditioning (central + room), gas appliances, VCRs. Data are consistent with RECS microdata."
+
+[[source]]
+id = "census-soc-new-housing"
+title = "Characteristics of New Single-Family Houses Completed (Census C-25 / Series H-150)"
+short_cite = "U.S. Census Bureau, Characteristics of New Housing, annual reports (C-25 / H-150)"
+publisher = "U.S. Census Bureau"
+year = 2024
+url = "https://www.census.gov/construction/chars/"
+population = "New single-family houses completed in the United States"
+notes = "Annual data on median square feet of floor area in new single-family houses completed, from the Census Bureau's Survey of Construction (SOC). Data available 1973-present. The C-25 annual reports (c25ann2003.pdf through c25ann2017.pdf) contain the historical table 'Median and Average Square Feet of Floor Area in New Single-Family Houses Completed.' Pre-1999 reports use Series H-150 designation. Note: this measures NEW construction only, not the existing housing stock — the AHS measures the entire stock and yields lower medians because older, smaller homes remain in the inventory."

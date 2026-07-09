@@ -129,6 +129,17 @@ source = "eia-recs"
 tier = "A"
 notes = "From the 2009 RECS. Natural gas remained the dominant heating fuel but was declining (from 51% in 2005). Electricity continued its long-term rise (from 29% in 2005 to 34% in 2009). Fuel oil was down to ~6% (from 10%+ in 1993), concentrated in the Northeast. Coal was gone as a heating fuel. Source: EIA RECS 2009."
 
+[[fact]]
+id = "us-2000s-median-home-size"
+quantity = 2057
+panel = "home"
+label = "Median square footage of new single-family homes, 2000"
+value = "2,057 sq ft (new construction)"
+unit = "median square feet of floor area, new single-family houses completed"
+source = "census-soc-new-housing"
+tier = "A"
+notes = "From the Census Bureau's Survey of Construction (C-25 annual report). New homes crossed 2,000 sq ft in 1998 (2,000) and continued rising through the housing boom: 2005 peaked at 2,227 before the crash. 2009 fell to 2,135 (recession). By 2010: 2,169. Source: c25ann2009.pdf."
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]

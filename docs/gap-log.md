@@ -71,6 +71,10 @@ here. Hence `vitrine gaps`.
   Review Table 8.3. 1978: refrigerator 99.7%, washer 70.5%, dryer 45.0%,
   dishwasher 34.6%, microwave 7.8%. 1980: refrigerator 99.9%, color TV 82.1%,
   washer 71.6%, microwave 14.2%.
+- **Median home size (1970s–2010s):** 5 new facts from Census C-25 annual
+  reports. New-construction median sq ft: 1,525 (1973) → 1,595 (1980) →
+  1,905 (1990) → 2,057 (2000) → 2,169 (2010). Joined existing AHS figure
+  (1,500 sq ft existing stock, 2023).
 - **Poverty rate arc (1960s–2020s):** 7 facts from Census API histpov2.
 - **Food prices arc (1960s–2010s):** 6 facts from Statistical Abstract + BLS API.
 - **Heating fuel arc (1940–2024):** Census Historical Housing + RECS + ACS.

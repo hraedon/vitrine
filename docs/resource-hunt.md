@@ -46,25 +46,12 @@ Statistical Abstract 1990. Covers 1978 and 1980 (RECS data). Added
 
 ### 4. Median Home Size (Square Footage)
 
-**Why:** Would add a living-space metric to the home panel. Currently the
-home panel tracks homeownership, home value, plumbing, and heating fuel but
-not how much space families actually had. The 2020s room has "Median 1,500
-sq ft" from AHS 2023.
-
-**What I need:** Median square footage of new single-family homes (or all
-homes) by decade.
-
-**Where to look:**
-- Census Construction Reports: `https://www.census.gov/construction/chars/`
-  — "Annual Characteristics of New Housing" — has median sq ft of new homes
-  going back to 1973
-- AHS (American Housing Survey): historical data on home size
-- Historical Statistics Vol 2: check for room-count data (pre-1970)
-- Census Historical Housing Tables: `coh-crowding/` might have persons-per-room
-
-**Note:** New-construction size ≠ existing housing stock. The AHS measures
-the entire stock; Census construction reports measure only new homes. Flag
-the distinction in fact notes.
+**Status:** Closed. Extract median square footage of new single-family homes
+from the Census Bureau's C-25 annual reports (c25ann2003.pdf through
+c25ann2017.pdf in vitrine-research). Data covers 1973-2017. Added facts for
+1970s (1,525), 1980s (1,595), 1990s (1,905), 2000s (2,057), 2010s (2,169).
+The 2020s room already had the AHS existing-stock figure (1,500 sq ft).
+Source: `census-soc-new-housing`. Note: new construction ≠ existing stock.
 
 ---
 

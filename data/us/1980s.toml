@@ -129,6 +129,17 @@ source = "census-hist-housing-fuels"
 tier = "A"
 notes = "From the 1980 Census of Housing. Electricity surged to 18.4% (up from 7.7% in 1970) as heat pumps became affordable. Gas remained dominant but plateaued at 53%. Coal was essentially eliminated (0.6%). Source: fuels1980.txt, www2.census.gov."
 
+[[fact]]
+id = "us-1980s-median-home-size"
+quantity = 1595
+panel = "home"
+label = "Median square footage of new single-family homes, 1980"
+value = "1,595 sq ft (new construction)"
+unit = "median square feet of floor area, new single-family houses completed"
+source = "census-soc-new-housing"
+tier = "A"
+notes = "From the Census Bureau's Survey of Construction (C-25 annual report). New homes were modestly larger than 1973 (1,525). The 1980s saw a dip then recovery: 1982 was 1,520 (recession), 1985 was 1,605, 1989 was 1,850. By 1990: 1,905. Source: c25ann2003.pdf, 'Median and Average Square Feet of Floor Area in New Single-Family Houses Completed.'"
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
