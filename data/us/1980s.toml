@@ -226,7 +226,7 @@ value = "87.1% (12.9% with no vehicle); avg 1.7 vehicles per household"
 unit = "% of occupied housing units with 1+ vehicles"
 source = "bts-vehicle-availability"
 tier = "A"
-notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1980). 12.9% had no vehicle, 35.5% had one, 34.0% had two, 17.5% had three or more. The two-car family became the norm — 34% of households had two vehicles, up from 19.1% in 1960. By 1990: 88.5%. Population: all occupied housing units."
+notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1980). 12.9% had no vehicle, 35.5% had one, 34.0% had two, 17.5% had three or more. The two-car family became the norm — 34% of households had two vehicles, up from 19.0% in 1960. By 1990: 88.5%. Population: all occupied housing units."
 
 [[fact]]
 id = "us-1980s-appliance-ownership"
@@ -288,6 +288,21 @@ source = "fred-ahetpi"
 tier = "A"
 notes = "Computed: hourly earnings ($6.85) × weekly hours (35.2) = $241.12/week (total private production/nonsupervisory, FRED AHETPI + AWHNONAG). × 52 = $12,538, which is 59.6% of the all-family median income ($21,020, Census F-8). The single wage no longer supports a family — the two-earner era begins. Compare 1970: 83%, 1990: 51%. Source splice: 1980+ uses total private sector (not manufacturing-specific); see wage-anchor-consistency assumption."
 assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1980s-car-price"
+panel = "work-buys"
+label = "Average new car transaction price, 1980"
+value = "$7,557"
+unit = "USD, nominal (average transaction price, domestic + import)"
+source = "bea-new-car-price"
+tier = "A"
+amount_minor = 755700
+currency = "USD"
+price_year = 1980
+basis = "total"
+notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13). Prices more than doubled in the 1970s due to inflation and the oil shocks. The 1970s saw the rise of imported compact cars (Japanese), which were initially cheaper but eventually exceeded domestic prices. Population: all new passenger cars sold in the US (domestic + import)."
+assumptions = ["nominal-values"]
 
 
 # ── Home production hours (Ramey 2009) ─────────────────────────────────────

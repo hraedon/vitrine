@@ -113,6 +113,17 @@ source = "hist-stats-colonial-1970"
 tier = "D"
 notes = "Without a median family income figure, affordability comparisons cannot be computed. The Depression makes the 1930s unusual: deflation meant nominal prices fell, but incomes fell faster. Unemployment reached 25% in 1933."
 
+[[fact]]
+id = "us-1930s-car-price"
+panel = "work-buys"
+label = "Average new car price, 1930"
+value = "~$590 (average wholesale, computed from factory sales)"
+unit = "USD, nominal (wholesale value per passenger car)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "Computed from Historical Statistics, Series Q 148-162. 1930: 2,787,400 passenger cars sold at $1,644 million wholesale value = ~$590 average per car. The Depression crashed car sales — production fell from 4.5M (1929) to 2.8M (1930). Wholesale value; retail/transaction price would be higher. Population: all US factory sales of passenger cars."
+assumptions = ["nominal-values"]
+
 
 # ── Home production hours (Ramey 2009) ─────────────────────────────────────
 # Plan 005 WI-2: women's + men's weekly unpaid home-production hours.

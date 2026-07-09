@@ -278,6 +278,21 @@ tier = "A"
 notes = "Computed: hourly earnings ($14.01) × weekly hours (34.3) = $480.54/week (total private production/nonsupervisory, FRED AHETPI + AWHNONAG). × 52 = $24,988, which is 49.3% of the all-family median income ($50,730, Census F-8). The trough — a single wage-earner covers less than half the median family income. Compare 1990: 51%, 2010: 55%."
 assumptions = ["composite-family", "nominal-values"]
 
+[[fact]]
+id = "us-2000s-car-price"
+panel = "work-buys"
+label = "Average new car transaction price, 2000"
+value = "$21,030"
+unit = "USD, nominal (average transaction price, domestic + import)"
+source = "bea-new-car-price"
+tier = "A"
+amount_minor = 2103000
+currency = "USD"
+price_year = 2000
+basis = "total"
+notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13). Steady price increases continued, driven by technology content and safety features. Note: this series excludes SUVs and light trucks, which captured an increasing market share in the 2000s — the average transaction price including all vehicle types would be higher. Population: all new passenger cars sold in the US."
+assumptions = ["nominal-values"]
+
 
 # ── Home production hours (Ramey 2009) ─────────────────────────────────────
 # Plan 005 WI-2: women's + men's weekly unpaid home-production hours.

@@ -249,6 +249,21 @@ tier = "A"
 notes = "Computed: manufacturing FTE annual earnings ($2,793, Historical Statistics Series D740) ÷ 52 = $53.71/week. × 52 = $2,793, which is 92.1% of the all-family median income ($3,031, Census F-8). A single manufacturing wage nearly covered the median family's income — the 8% gap implies a small second income or overtime. Compare 1950: 83%. Source splice: annual earnings (D740) vs weekly hours (not separately published for 1947); the annual figure is the official series."
 assumptions = ["composite-family", "nominal-values"]
 
+[[fact]]
+id = "us-1940s-car-price"
+panel = "work-buys"
+label = "Average new car price, 1940"
+value = "~$638 (average wholesale, computed from factory sales)"
+unit = "USD, nominal (wholesale value per passenger car)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+amount_minor = 63800
+currency = "USD"
+price_year = 1940
+basis = "total"
+notes = "Computed from Historical Statistics, Series Q 148-162. 1940: 3,717,300 passenger cars sold at $2,370 million wholesale value = ~$638 average per car. Wartime production halted civilian car manufacturing (1942-45); no new cars were available for purchase during most of the 1940s. The 1940 price reflects the last pre-war price. Wholesale value; retail/transaction price would be higher. Population: all US factory sales of passenger cars."
+assumptions = ["nominal-values"]
+
 
 # ── Home production hours (Ramey 2009) ─────────────────────────────────────
 # Plan 005 WI-2: women's + men's weekly unpaid home-production hours.

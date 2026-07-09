@@ -112,6 +112,17 @@ source = "hist-stats-colonial-1970"
 tier = "D"
 notes = "Without a median family income figure, affordability comparisons cannot be computed. Manufacturing wages ($0.26/hr, ~$765/yr) provide a wage anchor, but without expenditure data, the purchasing-power comparison is incomplete."
 
+[[fact]]
+id = "us-1910s-car-price"
+panel = "work-buys"
+label = "Average new car price, 1910"
+value = "~$1,188 (average wholesale, computed from factory sales)"
+unit = "USD, nominal (wholesale value per passenger car)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "Computed from Historical Statistics of the United States, Colonial Times to 1970, Part 2, p.716, Series Q 148-162 (source: Automobile Manufacturers Association, Automobile Facts and Figures, 27th ed., 1946-47). 1910: 181,000 passenger cars sold at $215 million wholesale value = ~$1,188 average per car. This is wholesale (factory) value; retail/transaction price would be higher (dealer markup). The source notes 'beginning 1937, standard equipment is included in the value estimate.' Population: all US factory sales of passenger cars."
+assumptions = ["nominal-values"]
+
 
 # ── Home production hours (Ramey 2009) ─────────────────────────────────────
 # Plan 005 WI-2: women's + men's weekly unpaid home-production hours.

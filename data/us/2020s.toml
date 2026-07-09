@@ -327,6 +327,21 @@ tier = "A"
 notes = "Computed: hourly earnings ($30.12) × weekly hours (40.7) = $1,225.88/week (all-private production/nonsupervisory wages × manufacturing hours, FRED AHETPI + AWHMAN). × 52 = $63,746, which is 60.2% of the all-family median income ($105,800, Census F-8). A partial recovery from the 2000s trough, driven by wage growth in the post-pandemic labor market. But still far below the single-earner era (1940s: 92%, 1960s: 95%). Compare 2010: 55%. Note: mixes all-private wages with manufacturing hours — see us-2020s-weekly-earnings note."
 assumptions = ["composite-family", "nominal-values"]
 
+[[fact]]
+id = "us-2020s-car-price"
+panel = "work-buys"
+label = "Average new car transaction price, 2020"
+value = "$27,366"
+unit = "USD, nominal (average transaction price, domestic + import)"
+source = "bea-new-car-price"
+tier = "A"
+amount_minor = 2736600
+currency = "USD"
+price_year = 2020
+basis = "total"
+notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13, Edition 40 — last published year). The BEA notes: 'The average price for cars increased from 2019 to 2020.' Post-2020 prices are not available in this series; industry sources (NADA, KBB) report average new car prices exceeding $47,000 by 2023, but those figures include SUVs and trucks. Population: all new passenger cars sold in the US."
+assumptions = ["nominal-values"]
+
 # ── Day panel: life expectancy ────────────────────────────────────────────
 
 [[fact]]

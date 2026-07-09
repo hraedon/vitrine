@@ -267,6 +267,21 @@ notes = "Computed: hourly earnings ($19.05) × weekly hours (33.4) = $636.27/wee
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
+id = "us-2010s-car-price"
+panel = "work-buys"
+label = "Average new car transaction price, 2010"
+value = "$24,907"
+unit = "USD, nominal (average transaction price, domestic + import)"
+source = "bea-new-car-price"
+tier = "A"
+amount_minor = 2490700
+currency = "USD"
+price_year = 2010
+basis = "total"
+notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13). Post-recession, prices continued their steady climb. The BEA series ended in 2020 (last data year of TEDB Edition 40); the 2020 figure ($27,366) is used for the 2020s room. Population: all new passenger cars sold in the US."
+assumptions = ["nominal-values"]
+
+[[fact]]
 id = "us-2010s-home-production-women"
 panel = "day"
 label = "Women's weekly unpaid home-production hours, 2010s"

@@ -219,7 +219,7 @@ value = "78.5% (21.5% with no vehicle); avg 1.1 vehicles per household"
 unit = "% of occupied housing units with 1+ vehicles"
 source = "bts-vehicle-availability"
 tier = "A"
-notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1960). 21.5% of households had no vehicle, 57.0% had one, 19.1% had two, 2.5% had three or more. The automobile had not yet saturated — one in five households was car-free. By 1970: 82.5%, 1980: 87.1%. Population: all occupied housing units."
+notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1960). 21.5% of households had no vehicle, 56.9% had one, 19.0% had two, 2.5% had three or more. The automobile had not yet saturated — one in five households was car-free. By 1970: 82.5%, 1980: 87.1%. Population: all occupied housing units."
 
 [[fact]]
 id = "us-1960s-telephone"
@@ -276,6 +276,21 @@ source = "hist-stats-colonial-1970"
 tier = "A"
 notes = "Computed: manufacturing FTE annual earnings ($5,352, Historical Statistics Series D740) ÷ 52 = $102.92/week. × 52 = $5,352, which is 95.2% of the all-family median income ($5,620, Census F-8). A single manufacturing wage almost exactly matched the median family income — the peak of the single-earner era. Compare 1950: 83%, 1970: 83%. Source: same D740 series as 1940s and 1970s."
 assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1960s-car-price"
+panel = "work-buys"
+label = "Average new car price, 1960"
+value = "~$1,822 (average wholesale, computed from factory sales)"
+unit = "USD, nominal (wholesale value per passenger car)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+amount_minor = 182200
+currency = "USD"
+price_year = 1960
+basis = "total"
+notes = "Computed from Historical Statistics, Series Q 148-162. 1960: 6,674,700 passenger cars sold at $12,164 million wholesale value = ~$1,822 average per car. Wholesale value; retail/transaction price would be higher. The BEA transaction price series begins 1970 ($3,543), providing the first actual consumer-price benchmark. Population: all US factory sales of passenger cars."
+assumptions = ["nominal-values"]
 
 
 # ── Home production hours (Ramey 2009) ─────────────────────────────────────

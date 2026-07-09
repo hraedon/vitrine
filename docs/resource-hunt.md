@@ -23,8 +23,8 @@ gaps or create new cross-decade comparison arcs. Items are sorted by impact.
   from CDC MMWR / NCHS / NVSS.
 - **Vehicle Ownership** — Facts in 7 decades (1960s–2020s) from BTS
   Figure 2-7 (Census decennial 1960-2000 + ACS 2010-2023). 1960: 78.5% →
-  1970: 82.5% (CEX) → 1980: 87.1% → 1990: 88.5% → 2000: 89.7% → 2010: 90.9%
-  → 2023: 91.6%.
+  1970: 82.5% → 1980: 87.1% → 1990: 88.5% → 2000: 89.7% → 2010: 90.9% →
+  2023: 91.6%.
 - **Week-of-Work Comparison** — Facts in 10 decades (1900s, 1940s–2020s).
   Derived from existing Tier A earnings and Census F-8 median family income
   facts. Arc: 92% (1940s) → 83% (1950s) → 95% (1960s) → 83% (1970s) → 60%

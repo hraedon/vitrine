@@ -169,10 +169,14 @@ ARCS: tuple[Arc, ...] = (
         "Vehicle at home",
         "% of households with a vehicle",
         {
+            "1960s": "us-1960s-vehicle-ownership",
             "1970s": "us-1970s-vehicle-ownership",
+            "1980s": "us-1980s-vehicle-ownership",
+            "1990s": "us-1990s-vehicle-ownership",
+            "2000s": "us-2000s-vehicle-ownership",
+            "2010s": "us-2010s-vehicle-ownership",
             "2020s": "us-2020s-vehicle-ownership",
         },
-        caveats=("Decennial vehicle data for 1960–2000 is pending curation (WI-8).",),
     ),
     Arc(
         "home-production-women",

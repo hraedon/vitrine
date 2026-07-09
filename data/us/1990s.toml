@@ -258,7 +258,7 @@ value = "88.5% (11.5% with no vehicle); avg 1.8 vehicles per household"
 unit = "% of occupied housing units with 1+ vehicles"
 source = "bts-vehicle-availability"
 tier = "A"
-notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1990). 11.5% had no vehicle, 33.7% had one, 37.4% had two, 17.4% had three or more. Two-vehicle households (37.4%) now exceeded one-vehicle households (33.7%) — car dependency peaked. By 2000: 89.7%. Population: all occupied housing units."
+notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1990). 11.5% had no vehicle, 33.8% had one, 37.4% had two, 17.3% had three or more. Two-vehicle households (37.4%) now exceeded one-vehicle households (33.8%) — car dependency peaked. By 2000: 89.7%. Population: all occupied housing units."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -309,6 +309,21 @@ source = "fred-ahetpi"
 tier = "A"
 notes = "Computed: hourly earnings ($10.20) × weekly hours (34.3) = $349.86/week (total private production/nonsupervisory, FRED AHETPI + AWHNONAG). × 52 = $18,193, which is 51.5% of the all-family median income ($35,350, Census F-8). Below half — a single wage-earner now covers barely half the median family income. Compare 1980: 60%, 2000: 49%."
 assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1990s-car-price"
+panel = "work-buys"
+label = "Average new car transaction price, 1990"
+value = "$15,033"
+unit = "USD, nominal (average transaction price, domestic + import)"
+source = "bea-new-car-price"
+tier = "A"
+amount_minor = 1503300
+currency = "USD"
+price_year = 1990
+basis = "total"
+notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13). Prices nearly doubled in the 1980s as cars gained features (airbags, ABS, fuel injection, electronics). The 1990s would see the rise of SUVs and minivans, though this series excludes those categories. Population: all new passenger cars sold in the US."
+assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1990s-home-production-women"

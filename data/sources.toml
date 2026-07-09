@@ -627,3 +627,13 @@ year = 2024
 url = "https://www.census.gov/construction/chars/"
 population = "New single-family houses completed in the United States"
 notes = "Annual data on median square feet of floor area in new single-family houses completed, from the Census Bureau's Survey of Construction (SOC). Data available 1973-present. The C-25 annual reports (c25ann2003.pdf through c25ann2017.pdf) and H-150 reports (h150-73A.pdf through h150-89.pdf) are archived in vitrine-research/20-census-construction/. They contain the historical table 'Median and Average Square Feet of Floor Area in New Single-Family Houses Completed.' Pre-1999 reports use Series H-150 designation. Note: this measures NEW construction only, not the existing housing stock — the AHS measures the entire stock and yields lower medians because older, smaller homes remain in the inventory."
+
+[[source]]
+id = "bea-new-car-price"
+title = "Average Transaction Price per New Car (Domestic and Import), 1970-2020"
+short_cite = "U.S. Bureau of Economic Analysis, Average Transaction Price per New Car (ORNL TEDB Table 11.13)"
+publisher = "U.S. Department of Commerce, Bureau of Economic Analysis"
+year = 2021
+url = "https://tedb.ornl.gov/data/"
+population = "All new passenger cars sold in the United States (domestic and import), excluding pickups, vans, and SUVs"
+notes = "Compiled in Oak Ridge National Laboratory, Transportation Energy Data Book, Edition 40, Table 11.13. Data are based on an average car and do not include prices for pickups, vans, or sport utility vehicles. Annual average transaction prices in current dollars. Total (domestic + import) current-dollar prices: 1970 $3,543, 1980 $7,557, 1990 $15,033, 2000 $21,030, 2010 $24,907, 2020 $27,366."

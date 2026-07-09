@@ -112,6 +112,17 @@ source = "hist-stats-colonial-1970"
 tier = "D"
 notes = "Without a median family income figure, affordability comparisons cannot be computed. Manufacturing wages (~$1,353/yr in 1920) provide a partial anchor."
 
+[[fact]]
+id = "us-1920s-car-price"
+panel = "work-buys"
+label = "Average new car price, 1920"
+value = "~$949 (average wholesale, computed from factory sales)"
+unit = "USD, nominal (wholesale value per passenger car)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "Computed from Historical Statistics, Series Q 148-162. 1920: 1,905,500 passenger cars sold at $1,809 million wholesale value = ~$949 average per car. The Model T (1908-1927) drove prices down — by 1920 a new Model T cost ~$395 (retail), but the average wholesale across all cars was higher due to luxury models. Wholesale value; retail/transaction price would be higher. Population: all US factory sales of passenger cars."
+assumptions = ["nominal-values"]
+
 
 # ── Home production hours (Ramey 2009) ─────────────────────────────────────
 # Plan 005 WI-2: women's + men's weekly unpaid home-production hours.

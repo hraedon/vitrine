@@ -247,13 +247,17 @@ notes = "Computed from primary source: average income ($827.19) minus average ex
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
-id = "us-1900s-new-car-price"
+id = "us-1900s-car-price"
 panel = "work-buys"
 label = "New automobile price, 1901–1904"
 value = "$650 (Oldsmobile Curved Dash, best-selling) to $750 (Ford Model A)"
 unit = "USD, nominal (manufacturer list price)"
 source = "early-auto-prices"
 tier = "C"
+amount_minor = 65000
+currency = "USD"
+price_year = 1901
+basis = "total"
 notes = "The Oldsmobile Curved Dash Runabout was $650 from 1901–1904 and was the best-selling car in America (425 sold 1901, 2,500 in 1902, 3,924 in 1903). The Ford Model A (first Ford, 1903) was $750–$850. The Rambler was also $650. These are manufacturer list prices from primary company records, compiled by automotive historians. The previous Tier D figure ($750–$1,500 from Frank Leslie's Popular Monthly) is consistent but less precise. A $650 car = 51 weeks of manufacturing wages ($12.74/week) = ~80% of annual family income ($827.19)."
 assumptions = ["nominal-values"]
 

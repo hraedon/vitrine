@@ -121,15 +121,15 @@ def test_compare_skips_missing_fact() -> None:
 
 
 def test_compare_skips_fact_without_amount() -> None:
-    """The 1900s car price is a range — no amount_minor, so it's skipped."""
+    """The 1910s car price has no amount_minor (room has no anchor), so it's skipped."""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
         "A new car, in hours of work",
-        {"1900s": "us-1900s-new-car-price", "1950s": "us-1950s-car-price"},
+        {"1910s": "us-1910s-car-price", "1950s": "us-1950s-car-price"},
     )
     decades = [p.decade for p in comparison.points]
-    assert "1900s" not in decades
+    assert "1910s" not in decades
     assert "1950s" in decades
 
 

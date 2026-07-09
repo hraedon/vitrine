@@ -302,7 +302,7 @@ Two minor notes (not mismatches):
 | us-1990s-cable-tv | **unable to verify** | 60% not in NCTA timeline; notes updated to acknowledge gap |
 | us-2000s-cable-tv | **verified** | All numbers match FCC 13th Report |
 | us-2010s-cable-tv | **verified** | All numbers match FCC 18th Report, Table III.A.5 |
-| us-1970s-vehicle-ownership | **verified** (value) / **mismatch** (notes) | 80.1%/1.3 verified; income breakdown corrected (47.3%→38.3%, 94.3%→~96.6%) |
+| us-1970s-vehicle-ownership | **updated** | Switched from CEX 1972-73 (80.1%, source: bls-cex) to BTS/Census decennial 1970 (82.5%, source: bts-vehicle-availability) for series consistency with all other decades (1960s-2020s). CEX figure preserved in notes. |
 | us-2020s-vehicle-ownership | **verified** | All numbers match Census Reporter API (ACS 2024) |
 
 ---
