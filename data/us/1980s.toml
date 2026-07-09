@@ -201,6 +201,17 @@ source = "census-cps-computer"
 tier = "A"
 notes = "From Census CPS Computer Use Supplements (reported in P20-522). Household computer ownership doubled in five years: 8.2% in 1984 (first measurement) to 15.0% in 1989. By 1993: 22.8%, by 1997: 36.6%. The personal computer was entering American homes in the 1980s, driven by falling prices and the rise of IBM PC compatibles. Source: Census P20-522, Table A."
 
+[[fact]]
+id = "us-1980s-vehicle-ownership"
+quantity = 87.1
+panel = "diffusion"
+label = "Households with at least one vehicle, 1980"
+value = "87.1% (12.9% with no vehicle); avg 1.7 vehicles per household"
+unit = "% of occupied housing units with 1+ vehicles"
+source = "bts-vehicle-availability"
+tier = "A"
+notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1980). 12.9% had no vehicle, 35.5% had one, 34.0% had two, 17.5% had three or more. The two-car family became the norm — 34% of households had two vehicles, up from 19.1% in 1960. By 1990: 88.5%. Population: all occupied housing units."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]

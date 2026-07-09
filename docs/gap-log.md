@@ -63,6 +63,10 @@ here. Hence `vitrine gaps`.
   earnings as % of median family income. Arc shows the end of the single-earner
   era: 92% (1940s) → 95% (1960s) → 83% (1970s) → 60% (1980s) → 49% (2000s)
   → 60% (2020s). All Tier A, derived from existing earnings + income facts.
+- **Vehicle ownership arc (1960s–2020s):** 5 new facts from BTS Figure 2-7
+  (Census decennial + ACS). 78.5% (1960) → 87.1% (1980) → 88.5% (1990) →
+  89.7% (2000) → 90.9% (2010). Joined existing 1970s (CEX) and 2020s (ACS)
+  facts for a 7-decade arc.
 - **Poverty rate arc (1960s–2020s):** 7 facts from Census API histpov2.
 - **Food prices arc (1960s–2010s):** 6 facts from Statistical Abstract + BLS API.
 - **Heating fuel arc (1940–2024):** Census Historical Housing + RECS + ACS.

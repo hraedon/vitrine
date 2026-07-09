@@ -233,6 +233,17 @@ source = "ntia-fttn-2000"
 tier = "C"
 notes = "NTIA 'Falling Through the Net' series, based on Census CPS supplements (Nov 1994, Oct 1997, Dec 1998, Aug 2000). Internet access was first measured in the 1997 CPS. The 2000s room carries 'Internet: 46% (2000)' from Pew. The Census P20-522 report (Table C) shows 70.9% of adults with a home computer used the Internet somewhere (home/work/school), but this is individual-level use, not household penetration."
 
+[[fact]]
+id = "us-1990s-vehicle-ownership"
+quantity = 88.5
+panel = "diffusion"
+label = "Households with at least one vehicle, 1990"
+value = "88.5% (11.5% with no vehicle); avg 1.8 vehicles per household"
+unit = "% of occupied housing units with 1+ vehicles"
+source = "bts-vehicle-availability"
+tier = "A"
+notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1990). 11.5% had no vehicle, 33.7% had one, 37.4% had two, 17.4% had three or more. Two-vehicle households (37.4%) now exceeded one-vehicle households (33.7%) — car dependency peaked. By 2000: 89.7%. Population: all occupied housing units."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]

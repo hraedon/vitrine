@@ -597,3 +597,13 @@ year = 1999
 url = "https://www.cdc.gov/mmwr/preview/mmwrhtml/mm4838a2.htm"
 population = "U.S. resident population (birth and death certificates)"
 notes = "CDC Morbidity and Mortality Weekly Report article summarizing 20th-century declines in infant and maternal mortality. Key data: 1900 infant mortality ~100 per 1,000 live births; 1997 rate 7.2 per 1,000. Total decline 1915-1997: >90%. Includes Table 1 with percentage reductions by decade period. Also reports 1997 infant deaths: 28,045."
+
+[[source]]
+id = "bts-vehicle-availability"
+title = "Share of Households by Vehicles Available: 1960-2023 (BTS Figure 2-7)"
+short_cite = "U.S. DOT, BTS, 2024 Transportation Statistics Annual Report, Figure 2-7"
+publisher = "U.S. Department of Transportation, Bureau of Transportation Statistics"
+year = 2024
+url = "https://www.bts.gov/browse-statistical-products-and-data/info-gallery/share-household-vehicles-available-1960-2023"
+population = "All U.S. occupied housing units"
+notes = "Data compiled by BTS from U.S. Census Bureau Decennial Census (1960-2000) and American Community Survey (2010-2023). Table B08201 (Household Size by Vehicles Available). Excel file: F2-7 Share of Household by Vehicle Available.xlsx. Figures verified against the Census Bureau source data. The 1960-2000 data are from the decennial census long form; 2010+ from ACS. The concept is consistent across the span: '% of occupied housing units with N vehicles available.'"

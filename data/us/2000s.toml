@@ -201,6 +201,17 @@ source = "fcc-video-competition"
 tier = "A"
 notes = "From FCC 13th Annual Video Competition Report (FCC 07-206, data as of June 2006). 110.2M TV households, 95.8M subscribed to MVPD (87%). Cable's share of MVPD: 68.2% = 65.3M basic subscribers. Cable penetration of all TV households: ~59%. This was near the peak — cord-cutting began around 2013. Up from 60% (1992). By 2015: 53.2M subscribers (declining)."
 
+[[fact]]
+id = "us-2000s-vehicle-ownership"
+quantity = 89.7
+panel = "diffusion"
+label = "Households with at least one vehicle, 2000"
+value = "89.7% (10.3% with no vehicle); avg 1.9 vehicles per household"
+unit = "% of occupied housing units with 1+ vehicles"
+source = "bts-vehicle-availability"
+tier = "A"
+notes = "From BTS Figure 2-7 (Census Bureau decennial census, 2000). 10.3% had no vehicle, 34.2% had one, 38.4% had two, 17.1% had three or more. Near-saturation — only one in ten households remained car-free. By 2010: 90.9%. Population: all occupied housing units."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]

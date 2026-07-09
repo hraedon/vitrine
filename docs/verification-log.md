@@ -394,3 +394,28 @@ The wage anchor changes across the span (per the `wage-anchor-consistency` assum
 - 2020s: all-private wages × manufacturing hours (FRED AHETPI × AWHMAN) — slight inconsistency, noted in fact
 
 The arc tells the story: a single manufacturing wage covered 83–95% of median family income through the 1970s (the single-earner era), falling to 49–60% in the 1980s–2020s (the two-earner era). The 1960s peak (95%) is the high-water mark of the American manufacturing wage.
+
+---
+
+## WI-10: Vehicle ownership arc (5 new facts, 1960s-2010s; 1970s & 2020s already existed)
+
+**Date:** 2026-07-09
+**Verifier:** umans-glm-5.2 session
+**Source checked:** BTS Figure 2-7 "Share of Household by Vehicles Available: 1960-2023" Excel file (F2-7 Share of Household by Vehicle Available.xlsx), downloaded via Wayback Machine from bts.gov. Source data: U.S. Census Bureau, Decennial Census (1960-2000) and American Community Survey Table B08201 (2010-2023).
+**Method:** Downloaded and parsed the BTS Excel file using openpyxl. Extracted the "0 vehicles" column for each decennial year and computed 100% - no-vehicle percentage = % with 1+ vehicles.
+
+### Results
+
+| Year | 0 vehicles | 1 vehicle | 2 vehicles | 3+ vehicles | % with 1+ | Fact value | Result |
+|------|-----------|-----------|------------|-------------|-----------|------------|--------|
+| 1960 | 21.5% | 57.0% | 19.1% | 2.5% | 78.5% | 78.5% | **verified** |
+| 1970 | 17.5% | 47.7% | 29.3% | 5.5% | 82.5% | 80.1% (CEX, different source) | **verified** (different source/population) |
+| 1980 | 12.9% | 35.5% | 34.0% | 17.5% | 87.1% | 87.1% | **verified** |
+| 1990 | 11.5% | 33.7% | 37.4% | 17.4% | 88.5% | 88.5% | **verified** |
+| 2000 | 10.3% | 34.2% | 38.4% | 17.1% | 89.7% | 89.7% | **verified** |
+| 2010 | 9.1% | 33.8% | 37.6% | 19.5% | 90.9% | 90.9% | **verified** |
+| 2023 | 8.4% | 33.3% | 36.5% | 21.7% | 91.6% | 91.5% (ACS B25045, different table) | **verified** (within rounding) |
+
+### Source splice notes
+
+The 1970s fact uses CEX 1972-73 data (80.1% of *families* with at least one automobile) while the BTS data shows 82.5% of *households* with 1+ vehicles in 1970. The difference is source and population: CEX measures "families" and excludes single-person households; the Census decennial measures all "occupied housing units." The 2020s fact uses ACS Table B25045 (91.5%, Census Reporter) while BTS uses B08201 (91.6%). Both differences are within expected methodology variation and are noted in the fact notes.

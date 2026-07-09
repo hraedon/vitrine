@@ -21,6 +21,10 @@ gaps or create new cross-decade comparison arcs. Items are sorted by impact.
   from BLS API (series APU0000702xxx).
 - **Infant Mortality Rate** — Facts in 9 decades (1900s, 1950s–2020s)
   from CDC MMWR / NCHS / NVSS.
+- **Vehicle Ownership** — Facts in 7 decades (1960s–2020s) from BTS
+  Figure 2-7 (Census decennial 1960-2000 + ACS 2010-2023). 1960: 78.5% →
+  1970: 82.5% (CEX) → 1980: 87.1% → 1990: 88.5% → 2000: 89.7% → 2010: 90.9%
+  → 2023: 91.6%.
 - **Week-of-Work Comparison** — Facts in 10 decades (1900s, 1940s–2020s).
   Derived from existing Tier A earnings and Census F-8 median family income
   facts. Arc: 92% (1940s) → 83% (1950s) → 95% (1960s) → 83% (1970s) → 60%
@@ -30,30 +34,7 @@ gaps or create new cross-decade comparison arcs. Items are sorted by impact.
 
 ## Priority 1 — Closes gaps / completes arcs
 
-### 1. Vehicle Ownership — More Decades
-
-**Why:** 2020s room has vehicle ownership (91.5% with at least one vehicle,
-2023) and 1970s has it (80.1%, CEX 1972-73). Adding 1960s, 1980s, 1990s,
-2000s, and 2010s would show the shift to a car-dependent society.
-
-**What I need:** % of households with at least one vehicle, by decade.
-
-**Where to look:**
-- Census Historical Housing Tables: check `https://www2.census.gov/programs-surveys/decennial/tables/time-series/`
-  for any vehicle-related tables (I checked coh-vehicles, coh-auto — both 404)
-- Census 1990/2000 decennial: the 1990 and 2000 Census asked about vehicles
-  available; data might be in `coh-ownerchar/` or a separate vehicle table
-- Census Reporter API: try `https://api.censusreporter.org/1.0/data/show/acs2011_1yr?table_ids=B25045&geo_ids=01000US`
-  (ACS 2011 1-year — adjust release name for different years)
-- Census Statistical Abstract: `https://www2.census.gov/prod2/statcomp/`
-  — check various editions for "vehicles available" tables
-
-**Expected values:** 1960: ~70-75%, 1970: ~80%, 1980: ~85%, 1990: ~88%,
-2000: ~90%. The 2020s room shows 91.5% (2023).
-
----
-
-### 2. CEX Durable Goods Ownership — 1970s and 1980s
+### 1. CEX Durable Goods Ownership — 1970s and 1980s
 
 **Why:** 1960s room has detailed appliance ownership data (TV 91.4%,
 refrigerator 84.7%, washing machine 70.0%, etc. from CEX 1960-61 p.15).

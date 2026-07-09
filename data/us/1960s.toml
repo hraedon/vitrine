@@ -206,6 +206,17 @@ tier = "A"
 notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.15, OCR'd via GLM-OCR). TV adoption exploded in the 1950s: up from 12.3% in 1950 to 91.4% in 1960-61 — one of the fastest technology diffusions in American history. Census 1960 confirms: TV 90.5%."
 
 [[fact]]
+id = "us-1960s-vehicle-ownership"
+quantity = 78.5
+panel = "diffusion"
+label = "Households with at least one vehicle, 1960"
+value = "78.5% (21.5% with no vehicle); avg 1.1 vehicles per household"
+unit = "% of occupied housing units with 1+ vehicles"
+source = "bts-vehicle-availability"
+tier = "A"
+notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1960). 21.5% of households had no vehicle, 57.0% had one, 19.1% had two, 2.5% had three or more. The automobile had not yet saturated — one in five households was car-free. By 1970: 82.5%, 1980: 87.1%. Population: all occupied housing units."
+
+[[fact]]
 id = "us-1960s-telephone"
 quantity = 78.3
 panel = "diffusion"
