@@ -19,6 +19,7 @@ income_anchor = "us-1940s-median-income-four-person"
 
 [[fact]]
 id = "us-1940s-median-family-income"
+quantity = 3031
 panel = "budget"
 label = "Median family income, all families, 1947"
 value = "$3,031"
@@ -30,6 +31,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1940s-median-income-four-person"
+quantity = 3292
 basis = "annual"
 amount_minor = 329200
 currency = "USD"
@@ -45,6 +47,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-1940s-number-of-families"
+quantity = 37240
 panel = "budget"
 label = "Number of families in the United States, 1947"
 value = "37,240,000"
@@ -55,6 +58,7 @@ notes = "From Census F-8. All families: 37,240 thousand in 1947, rising to 39,93
 
 [[fact]]
 id = "us-1940s-average-family-size"
+quantity = 3.64
 panel = "budget"
 label = "Average family size, 1947"
 value = "3.64"
@@ -65,6 +69,7 @@ notes = "From Census F-8. Declining from 3.64 in 1947 to 3.54 by 1950 as the pos
 
 [[fact]]
 id = "us-1940s-prewar-wages"
+quantity = 1389
 panel = "budget"
 label = "Median civilian money wages and salaries, primary families, 1939"
 value = "$1,389"
@@ -76,6 +81,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1940s-1946-family-income"
+quantity = 3000
 panel = "budget"
 label = "Average income of nonfarm families, 1946"
 value = "~$3,000"

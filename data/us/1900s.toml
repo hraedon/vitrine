@@ -11,6 +11,7 @@ income_anchor = "us-1900s-annual-family-income"
 
 [[fact]]
 id = "us-1900s-annual-family-income"
+quantity = 827.19
 panel = "budget"
 label = "Average annual family income, 1901"
 value = "$827.19"
@@ -26,6 +27,7 @@ assumptions = ["composite-family", "nominal-values", "income-vs-consumption", "a
 
 [[fact]]
 id = "us-1900s-survey-income-cap"
+quantity = 1200
 panel = "budget"
 label = "Survey income ceiling, 1901"
 value = "$1,200"
@@ -37,6 +39,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1900s-average-expenditure"
+quantity = 768.54
 panel = "budget"
 label = "Average annual family expenditure, 1901"
 value = "$768.54"
@@ -60,6 +63,7 @@ assumptions = ["composite-family", "income-vs-consumption"]
 
 [[fact]]
 id = "us-1900s-expenditure-breakdown"
+quantity = 42.54
 panel = "budget"
 label = "Full expenditure breakdown, 1901"
 value = "Food 42.54%, rent 12.95%, clothing 14.04%, fuel & light 5.25%, furniture 3.42%, tobacco 1.42%, liquor/sickness/amusements 14.51%, misc 5.87%"

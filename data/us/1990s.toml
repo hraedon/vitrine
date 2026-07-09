@@ -13,6 +13,7 @@ income_anchor = "us-1990s-median-income-four-person"
 
 [[fact]]
 id = "us-1990s-median-family-income"
+quantity = 35350
 panel = "budget"
 label = "Median family income, all families, 1990"
 value = "$35,350"
@@ -24,6 +25,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1990s-median-income-four-person"
+quantity = 41450
 basis = "annual"
 amount_minor = 4145000
 currency = "USD"
@@ -39,6 +41,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-1990s-number-of-families"
+quantity = 66320000
 panel = "budget"
 label = "Number of families in the United States, 1990"
 value = "66,320,000"
@@ -49,6 +52,7 @@ notes = "From Census F-8."
 
 [[fact]]
 id = "us-1990s-average-family-size"
+quantity = 3.18
 panel = "budget"
 label = "Average family size, 1990"
 value = "3.18"
@@ -59,6 +63,7 @@ notes = "From Census F-8. Down from 3.27 in 1980. By 2000: 3.14."
 
 [[fact]]
 id = "us-1990s-expenditure-shares"
+quantity = 31.3
 panel = "budget"
 label = "Expenditure breakdown, 4-person families, 1996"
 value = "Housing 31.3%, transportation 18.7%, food 15.0%, insurance/pensions 10.1%, entertainment 6.0%, healthcare 4.3%, apparel 5.7%, cash contributions 2.1%, education 1.8%"

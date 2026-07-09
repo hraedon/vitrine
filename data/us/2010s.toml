@@ -13,6 +13,7 @@ income_anchor = "us-2010s-median-income-four-person"
 
 [[fact]]
 id = "us-2010s-median-family-income"
+quantity = 60240
 panel = "budget"
 label = "Median family income, all families, 2010"
 value = "$60,240"
@@ -24,6 +25,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-2010s-median-income-four-person"
+quantity = 74750
 basis = "annual"
 amount_minor = 7475000
 currency = "USD"
@@ -39,6 +41,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-2010s-number-of-families"
+quantity = 79560000
 panel = "budget"
 label = "Number of families in the United States, 2010"
 value = "79,560,000"
@@ -49,6 +52,7 @@ notes = "From Census F-8. Up from 73,780,000 in 2000."
 
 [[fact]]
 id = "us-2010s-average-family-size"
+quantity = 3.14
 panel = "budget"
 label = "Average family size, 2010"
 value = "3.14"
@@ -59,6 +63,7 @@ notes = "From Census F-8. Flat from 3.14 in 2000."
 
 [[fact]]
 id = "us-2010s-expenditure-shares"
+quantity = 33.0
 panel = "budget"
 label = "Expenditure breakdown, 4-person families, 2013"
 value = "Housing 33.0%, transportation 18.3%, food 14.0%, insurance/pensions 11.6%, healthcare 5.8%, entertainment 5.1%, apparel 3.6%, cash contributions 2.6%, education 2.4%"

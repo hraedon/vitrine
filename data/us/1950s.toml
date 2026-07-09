@@ -24,6 +24,7 @@ income_anchor = "us-1950s-median-income-four-person"
 
 [[fact]]
 id = "us-1950s-median-income-metro"
+quantity = 3250
 panel = "budget"
 label = "Median family income, 4-person families, metropolitan areas, 1950"
 value = "$3,250"
@@ -35,6 +36,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-1950s-median-income-nonmetro"
+quantity = 2350
 panel = "budget"
 label = "Median family income, 4-person families, non-metropolitan areas, 1950"
 value = "$2,350"
@@ -46,6 +48,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-1950s-median-income-suburban"
+quantity = 3350
 panel = "budget"
 label = "Median family income, 4-person families, suburban (metro not central city), 1950"
 value = "$3,350"
@@ -57,6 +60,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-1950s-metro-nonmetro-gap"
+quantity = 900
 panel = "budget"
 label = "Metro vs non-metro income gap, 4-person families, 1950"
 value = "$900 (38% metro premium)"
@@ -68,6 +72,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-1950s-median-income-all-families"
+quantity = 3319
 panel = "budget"
 label = "Median family income, all families, 1950"
 value = "$3,319"
@@ -83,6 +88,7 @@ assumptions = ["composite-family", "nominal-values", "affordability-normalizatio
 
 [[fact]]
 id = "us-1950s-median-income-four-person"
+quantity = 3675
 panel = "budget"
 label = "Median family income, four-person families, 1950"
 value = "$3,675"
@@ -98,6 +104,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-1950s-number-of-families"
+quantity = 39930
 panel = "budget"
 label = "Number of families in the United States, 1950"
 value = "39,930,000"
@@ -109,6 +116,7 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1950s-average-family-size"
+quantity = 3.54
 panel = "budget"
 label = "Average family size, 1950"
 value = "3.54"
@@ -120,6 +128,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-housing-expenditure-share"
+quantity = 11
 panel = "budget"
 label = "Housing as share of urban wage-earner budget, 1950"
 value = "~11%"

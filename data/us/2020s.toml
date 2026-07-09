@@ -19,6 +19,7 @@ income_anchor = "us-2020s-median-income-four-person"
 
 [[fact]]
 id = "us-2020s-expenditure-breakdown-4p"
+quantity = 31.3
 panel = "budget"
 label = "Expenditure breakdown, 4-person families, 2024"
 value = "Housing 31.3%, transportation 17.9%, food 13.5%, insurance/pensions 14.8%, healthcare 7.0%, entertainment 4.6%, apparel 2.5%, education 2.4%, cash contributions 2.0%"
@@ -42,6 +43,7 @@ assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-2020s-housing-share-comparison"
+quantity = 31.3
 panel = "budget"
 label = "Housing share of expenditure: 1901 vs 2024"
 value = "12.95% (1901) -> 31.3% (2024) — housing's share nearly tripled"
@@ -55,6 +57,7 @@ assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 id = "us-2020s-median-income-all-families"
 panel = "budget"
 label = "Median family income, all families, 2024"
+quantity = 105800
 value = "$105,800"
 unit = "USD per year, nominal, money income before tax"
 source = "census-f08-allraces"
@@ -70,6 +73,7 @@ assumptions = ["composite-family", "nominal-values", "affordability-normalizatio
 id = "us-2020s-median-income-four-person"
 panel = "budget"
 label = "Median family income, four-person families, 2024"
+quantity = 139900
 value = "$139,900"
 unit = "USD per year, nominal, money income before tax"
 source = "census-f08-allraces"
@@ -85,6 +89,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 id = "us-2020s-number-of-families"
 panel = "budget"
 label = "Number of families in the United States, 2024"
+quantity = 85980000
 value = "85,980,000"
 unit = "families (thousands as published: 85,980)"
 source = "census-f08-allraces"
@@ -96,6 +101,7 @@ assumptions = ["nominal-values"]
 id = "us-2020s-average-family-size"
 panel = "budget"
 label = "Average family size, 2024"
+quantity = 3.15
 value = "3.15"
 unit = "persons per family"
 source = "census-f08-allraces"
