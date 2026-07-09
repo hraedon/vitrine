@@ -3,6 +3,7 @@
 from pathlib import Path
 
 from vitrine.loader import load_corpus
+from vitrine.series import load_series
 from vitrine.site.render import render_site
 
 DATA = Path(__file__).parent.parent / "data"
@@ -10,7 +11,7 @@ DATA = Path(__file__).parent.parent / "data"
 
 def test_render_committed_corpus(tmp_path: Path) -> None:
     corpus = load_corpus(DATA)
-    render_site(corpus, tmp_path)
+    render_site(corpus, tmp_path, load_series(DATA), DATA)
 
     assert (tmp_path / "index.html").is_file()
     assert (tmp_path / "methodology.html").is_file()
@@ -32,7 +33,7 @@ def test_render_committed_corpus(tmp_path: Path) -> None:
 def test_derived_facts_render_computed_values(tmp_path: Path) -> None:
     """Plan 006: the displayed value of a derived fact is computed, not authored."""
     corpus = load_corpus(DATA)
-    render_site(corpus, tmp_path)
+    render_site(corpus, tmp_path, load_series(DATA), DATA)
 
     page_1950s = (tmp_path / "rooms" / "us-1950s.html").read_text()
     # 735400 / 367500 minor units — computed at build, tier = weakest input (C)

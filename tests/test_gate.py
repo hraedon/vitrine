@@ -104,10 +104,11 @@ def test_render_coverage_fails_when_manifest_missing(tmp_path: Path) -> None:
 
 def test_render_coverage_on_committed_corpus(tmp_path: Path) -> None:
     """Build the real corpus and verify coverage end-to-end."""
+    from vitrine.series import load_series
     from vitrine.site.render import render_site
 
     corpus = load_corpus(DATA)
-    render_site(corpus, tmp_path)
+    render_site(corpus, tmp_path, load_series(DATA), DATA)
     assert check_render_coverage(corpus, tmp_path) == []
 
 

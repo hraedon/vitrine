@@ -12,6 +12,7 @@ render-coverage invariant unchanged from Plan 001.
 
 from __future__ import annotations
 
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -33,6 +34,7 @@ from vitrine.model import (
     panel_title,
     tier_label,
 )
+from vitrine.series import Series
 from vitrine.site import curation, svg, symbols, tokens
 
 # ── page shell ────────────────────────────────────────────────────────────────
@@ -188,6 +190,7 @@ _BASE = """<!doctype html>
 <nav class="topnav">
   <a href="{{ root }}index.html">vitrine</a>
   <a href="{{ root }}corridors/index.html">corridors</a>
+  <a href="{{ root }}affordability/index.html">affordability</a>
   <a href="{{ root }}walkthrough.html">walkthrough</a>
   <a href="{{ root }}methodology.html">methodology</a>
 </nav>
@@ -287,7 +290,11 @@ _PLACARD = """
     <div class="drawer">
       <em>Computed by vitrine</em> ({{ cf.op.value }}) — never authored by hand:<br>
       <em>Numerator:</em> {{ cf.numerator.value }} — {{ cf.numerator.label }} <span class="tchip" style="background:{{ T.TIER_COLORS[cf.numerator.tier.value] }}">{{ cf.numerator.tier.value }}</span><br>
+      {% if cf.op.value == "inflate" %}
+      <em>Inflation series:</em> {{ cf.inflate_series }} ({{ cf.inflate_from_year }} → {{ cf.inflate_to_year }})<br>
+      {% else %}
       <em>Denominator:</em> {{ cf.denominator.value }} — {{ cf.denominator.label }} <span class="tchip" style="background:{{ T.TIER_COLORS[cf.denominator.tier.value] }}">{{ cf.denominator.tier.value }}</span><br>
+      {% endif %}
       <em>Confidence:</em> {{ cf.tier.value }} — {{ tier_label(cf.tier) }}, the weakest input tier
       {% if cf.notes %}<br><em>Curator note:</em> {{ cf.notes }}{% endif %}
       {% for aid in cf.assumptions %}<br><em>Assumption:</em> <a href="{{ root }}methodology.html#{{ aid }}">{{ assumptions[aid].title }}</a>{% endfor %}
@@ -304,6 +311,7 @@ _ROOM = (
 {% block body %}
 <p class="eyebrow">vitrine · {{ room.country | upper }} · the {{ room.decade }}</p>
 <h1>The <em>{{ room.decade }}</em> room</h1>
+{% if room.data_as_of %}<p class="case-sub">Data as of {{ room.data_as_of }} (decade ongoing — each fact states its own data year).</p>{% endif %}
 <div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
 <div class="decades"><span class="lab">Decade</span>
 {% for r in rooms %}<a class="dbtn{% if r.slug == room.slug %} on{% endif %}" href="{{ r.slug }}.html">{{ r.decade }}</a>
@@ -319,6 +327,7 @@ _ROOM = (
 {% for cf in computed %}{{ derived_placard(cf, room, assumptions, root) }}{% endfor %}
 </div>
 {% endif %}
+{% if panel.value == "work-buys" and facts %}<p class="case-sub"><a href="{{ root }}affordability/index.html">See this metric across all decades →</a></p>{% endif %}
 </details>
 {% endfor %}
 """
@@ -344,6 +353,34 @@ _METHODOLOGY = """{% extends "base" %}
 {% endblock %}
 """
 
+_AFFORDABILITY = """{% extends "base" %}
+{% block title %}affordability — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · the affordability view</p>
+<h1>Affordability over <em>time</em></h1>
+<p class="sub">Five ratios, each computed at build from the underlying series — never authored. A metric's line runs only across the years both its numerator and denominator cover; the gaps are the honest shape of the record. Copper bands mark NBER recessions.</p>
+<div class="caveat">⚠ {{ disclaimer }}</div>
+{% for item in sections %}
+<h2 class="case-title" id="metric-{{ item.metric.slug }}">{{ item.metric.label }}</h2>
+<p class="case-sub">{{ item.metric.unit }}</p>
+{% for caveat in item.metric.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+{% if item.chart %}
+<div class="chart-panel">{{ item.chart }}</div>
+<p class="case-sub">{{ item.metric.caption }}</p>
+{% else %}
+<div class="chart-panel"><p class="case-sub gapv">{{ item.note }}</p></div>
+{% endif %}
+{% endfor %}
+<footer class="case-sub" style="margin-top:28px;border-top:1px solid var(--grid);padding-top:12px">
+Recession bands: NBER Business Cycle Dating Committee chronology, transcribed from
+<a href="{{ recession_url }}">{{ recession_url }}</a>. They are annotation, not facts.
+Methodology: each ratio divides two structured series; values display in nominal
+period units. See <a href="{{ root }}methodology.html">methodology</a> for the
+assumption ledger entries behind the composites.
+</footer>
+{% endblock %}
+"""
+
 _CORRIDORS = (
     """{% extends "base" %}
 {% from "macros" import placard %}
@@ -352,6 +389,7 @@ _CORRIDORS = (
 <p class="eyebrow">vitrine · the corridors</p>
 <h1>The <em>corridors</em> — cross-decade arcs</h1>
 <p class="sub">Where the charts live. Every point is a sourced fact and opens its specimen card here; a decade whose record is silent renders as the gap it is.</p>
+<p class="case-sub"><a href="affordability/index.html">Affordability over time →</a> — five computed ratios (home, car, wages, food, real pay) across the full annual record.</p>
 <h2 class="case-title">Detailed epoch comparisons</h2>
 <p class="case-sub">Side-by-side fact families for each pair — the charts above cover the full century.</p>
 <div class="decades">
@@ -513,6 +551,7 @@ _WALKTHROUGH = (
 </figure>
 {% endfor %}
 </div>
+<p class="case-sub" style="margin-top:20px"><a href="affordability/index.html">How did we get here? →</a> — the affordability view traces five ratios across the full annual record.</p>
 """
     + "{% endblock %}\n"
 )
@@ -552,6 +591,11 @@ def _arc_points(
     for decade in sorted(arc.fact_ids):
         fid = arc.fact_ids[decade]
         ref = index[fid]
+        # Marker year: the fact's own price_year when it states one, else the
+        # mid-decade year (1950s → 1955). A fact that pins a year sits at that
+        # year on the annual axis; a decade-level fact sits at mid-decade while
+        # the annual series line carries the year-by-year detail.
+        year = ref.fact.price_year if ref.fact.price_year else int(decade[:4]) + 5
         points.append(
             svg.ArcPoint(
                 decade=decade,
@@ -561,9 +605,26 @@ def _arc_points(
                 label=ref.fact.label,
                 value=ref.fact.value,
                 quantity=ref.fact.quantity,
+                year=year,
             )
         )
     return tuple(points)
+
+
+def _arc_chart_for(
+    arc: curation.Arc,
+    index: dict[str, _FactRef],
+    series: dict[str, Series],
+    root: str,
+) -> str:
+    """The arc chart for ``arc`` — annual series where one backs it, else decades."""
+    points = _arc_points(index, arc, root)
+    if arc.series_id and arc.series_id in series:
+        s = series[arc.series_id]
+        return svg.arc_chart_series(
+            s.values, points, arc.unit, series_id=arc.series_id, falling=arc.falling
+        )
+    return svg.arc_chart(points, arc.unit, falling=arc.falling)
 
 
 def _fold_shares(
@@ -925,7 +986,173 @@ def _pair_afford(
 # ── the site ─────────────────────────────────────────────────────────────────
 
 
-def render_site(corpus: Corpus, out_dir: Path) -> None:
+# ── affordability dashboard (Plan 011) ───────────────────────────────────────
+
+
+def _series_numeric(s: Series) -> dict[int, float]:
+    """A series's values in canonical units: dollars for monetary series
+    (values_minor cents → dollars), raw floats otherwise (CPI index, hours)."""
+    if s.values_minor:
+        return {y: v / 100.0 for y, v in s.values_minor.items()}
+    return dict(s.values)
+
+
+def _resolve_metric(
+    metric: curation.Metric,
+    series: dict[str, Series],
+) -> tuple[dict[int, float], str]:
+    """Compute a metric's year→value map, or report why it can't render.
+
+    Ratio mode: merge each numerator/denominator series, take the intersection
+    of years, divide (numerator x scale). base_year re-scales to an index;
+    percent multiplies by 100. Direct mode returns an empty map (the caller
+    draws the arc's decade markers instead). Returns (values, note).
+    """
+    if metric.source_arc:
+        return {}, ""  # direct mode — markers carry the data
+    if not metric.numerator or not metric.denominator:
+        return {}, "metric declares no numerator/denominator"
+    if metric.base_year is not None and metric.percent:
+        return {}, "metric sets both base_year and percent (mutually exclusive)"
+
+    num: dict[int, float] = {}
+    for sid in metric.numerator:
+        if sid not in series:
+            return {}, f"numerator series {sid!r} not found"
+        new_vals = _series_numeric(series[sid])
+        overlap = set(num) & set(new_vals)
+        if overlap:
+            return {}, (
+                f"numerator series {sid!r} overlaps {sorted(overlap)} with an "
+                f"earlier numerator series — merge is ambiguous"
+            )
+        num.update(new_vals)
+    den: dict[int, float] = {}
+    for sid in metric.denominator:
+        if sid not in series:
+            return {}, f"denominator series {sid!r} not found"
+        den.update(_series_numeric(series[sid]))
+
+    years = sorted(set(num) & set(den))
+    if not years:
+        return {}, "numerator and denominator share no years"
+    ratios: dict[int, float] = {}
+    for y in years:
+        d = den[y]
+        if d == 0:
+            continue  # render the gap — never divide by zero
+        ratios[y] = (num[y] * metric.numerator_scale) / d
+    if not ratios:
+        return {}, "denominator is zero for every coverage year"
+    if metric.base_year is not None:
+        if metric.base_year not in ratios:
+            return {}, f"base_year {metric.base_year} not in coverage"
+        base = ratios[metric.base_year]
+        if base == 0:
+            return {}, f"base_year {metric.base_year} ratio is zero — cannot index"
+        ratios = {y: v / base * 100.0 for y, v in ratios.items()}
+    elif metric.percent:
+        ratios = {y: v * 100.0 for y, v in ratios.items()}
+    return ratios, ""
+
+
+def _metric_markers(
+    metric: curation.Metric,
+    index: dict[str, _FactRef],
+    root: str,
+) -> tuple[svg.MetricMarker, ...]:
+    """Decade-fact markers for a direct-mode metric (e.g. food share)."""
+    if not metric.source_arc:
+        return ()
+    arc = curation.ARC_BY_SLUG.get(metric.source_arc)
+    if arc is None:
+        return ()
+    markers: list[svg.MetricMarker] = []
+    for decade, fid in arc.fact_ids.items():
+        if fid not in index:
+            continue
+        fact = index[fid].fact
+        year = fact.price_year if fact.price_year else int(decade[:4]) + 5
+        markers.append(
+            svg.MetricMarker(
+                year=year,
+                fact_id=fid,
+                href=_placard_href(index, fid, root),
+                tier=fact.tier.value,
+                label=fact.label,
+                value=fact.value,
+                quantity=fact.quantity,
+            )
+        )
+    return tuple(markers)
+
+
+def _load_recessions(path: Path) -> tuple[tuple[svg.Recession, ...], str]:
+    """Load NBER recession bands + the source url from data/recessions.toml."""
+    if not path.is_file():
+        return (), ""
+    with path.open("rb") as fh:
+        data = tomllib.load(fh)
+    bands: list[svg.Recession] = []
+    for entry in data.get("recession", []):
+        bands.append(svg.Recession(peak=_ym_to_year(entry["peak"]), trough=_ym_to_year(entry["trough"])))
+    return tuple(bands), str(data.get("url", ""))
+
+
+def _ym_to_year(ym: str) -> float:
+    """'1973-11' → 1973 + (11-1)/12 ≈ 1973.83 (fractional year for band edges)."""
+    year_s, month_s = ym.split("-")
+    return int(year_s) + (int(month_s) - 1) / 12.0
+
+
+def _render_affordability(
+    corpus: Corpus,
+    series: dict[str, Series],
+    recessions: tuple[svg.Recession, ...],
+    recession_url: str,
+    index: dict[str, _FactRef],
+    env: Environment,
+    out_dir: Path,
+) -> None:
+    """Build the /affordability/ dashboard — five stacked metric charts."""
+    sections: list[dict[str, object]] = []
+    for metric in curation.AFFORDABILITY_METRICS:
+        values, note = _resolve_metric(metric, series)
+        markers = _metric_markers(metric, index, "../")
+        # a section renders if it has annual values OR direct-mode markers
+        if not values and not markers:
+            sections.append(
+                {"metric": metric, "chart": "", "note": note or "no data yet"}
+            )
+            continue
+        chart = svg.affordability_chart(
+            values,
+            recessions,
+            metric.unit,
+            metric_slug=metric.slug,
+            falling=metric.falling,
+            markers=markers,
+        )
+        sections.append({"metric": metric, "chart": Markup(chart), "note": note})
+    (out_dir / "affordability").mkdir(exist_ok=True)
+    (out_dir / "affordability" / "index.html").write_text(
+        env.get_template("affordability").render(
+            root="../",
+            sections=sections,
+            disclaimer=env.globals["disclaimer"],
+            recession_url=recession_url,
+        )
+    )
+
+
+def render_site(
+    corpus: Corpus,
+    out_dir: Path,
+    series: dict[str, Series] | None = None,
+    data_dir: Path | None = None,
+) -> None:
+    if series is None:
+        series = {}
     env = Environment(
         loader=DictLoader(
             {
@@ -933,6 +1160,7 @@ def render_site(corpus: Corpus, out_dir: Path) -> None:
                 "index": _INDEX,
                 "room": _ROOM,
                 "methodology": _METHODOLOGY,
+                "affordability": _AFFORDABILITY,
                 "corridors": _CORRIDORS,
                 "pair": _PAIR,
                 "walkthrough": _WALKTHROUGH,
@@ -983,7 +1211,7 @@ def render_site(corpus: Corpus, out_dir: Path) -> None:
     rendered_ids: list[str] = []
     all_affordability: dict[str, dict[str, str]] = {}
     for room in rooms:
-        computed = evaluate_room(room)
+        computed = evaluate_room(room, series)
         room_afford = _affordability_for_room(corpus, room)
         all_affordability.update(room_afford)
         (out_dir / "rooms" / f"{room.slug}.html").write_text(
@@ -1019,11 +1247,7 @@ def render_site(corpus: Corpus, out_dir: Path) -> None:
             "label": arc.label,
             "unit": arc.unit,
             "caveats": arc.caveats,
-            "chart": Markup(
-                svg.arc_chart(
-                    _arc_points(index, arc, corridor_root), arc.unit, falling=arc.falling
-                )
-            ),
+            "chart": Markup(_arc_chart_for(arc, index, series, corridor_root)),
         }
         for arc in curation.ARCS
     ]
@@ -1033,10 +1257,11 @@ def render_site(corpus: Corpus, out_dir: Path) -> None:
         if len(ids) < 2:
             continue
         comparison = compare_item(corpus, label, ids)
+        caveats = curation.AFFORD_ITEM_CAVEATS.get(_slug, ()) + comparison.caveats
         afford_sections.append(
             {
                 "label": label,
-                "caveats": comparison.caveats,
+                "caveats": caveats,
                 "chart": Markup(_afford_arc_chart(comparison, ids, index, corridor_root)),
             }
         )
@@ -1247,5 +1472,9 @@ def render_site(corpus: Corpus, out_dir: Path) -> None:
             houses=houses,
         )
     )
+
+    # the affordability dashboard (Plan 011)
+    recessions, recession_url = _load_recessions((data_dir or Path("data")) / "recessions.toml")
+    _render_affordability(corpus, series, recessions, recession_url, index, env, out_dir)
 
     (out_dir / "facts-manifest.txt").write_text("\n".join(rendered_ids) + "\n")

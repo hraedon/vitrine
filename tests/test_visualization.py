@@ -14,6 +14,7 @@ import pytest
 from vitrine.check import check_mark_coverage
 from vitrine.loader import load_corpus
 from vitrine.model import Corpus
+from vitrine.series import load_series
 from vitrine.site import curation, symbols
 from vitrine.site.render import render_site
 
@@ -28,7 +29,7 @@ def corpus() -> Corpus:
 @pytest.fixture(scope="module")
 def site(corpus: Corpus, tmp_path_factory: pytest.TempPathFactory) -> Path:
     out = tmp_path_factory.mktemp("site")
-    render_site(corpus, out)
+    render_site(corpus, out, load_series(DATA), DATA)
     return out
 
 

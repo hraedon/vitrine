@@ -69,7 +69,7 @@ notes = "Real (inflation-adjusted) median family income. Coverage: 1953-2024. CP
 
 [[source]]
 id = "fred-ahetpi"
-title = "Average Hourly Earnings of All Employees, Total Private (AHETPI)"
+title = "Average Hourly Earnings of Production and Nonsupervisory Employees, Total Private (AHETPI)"
 short_cite = "BLS via FRED, Federal Reserve Bank of St. Louis (AHETPI)"
 publisher = "Federal Reserve Bank of St. Louis (source: BLS Current Employment Statistics)"
 year = 2024
@@ -86,6 +86,16 @@ year = 2024
 url = "https://fred.stlouisfed.org/series/CPIAUCNS"
 population = "All Urban Consumers (CPI-U), U.S. city average, all items"
 notes = "Not seasonally adjusted. Coverage: 1913-present, monthly. Use for deflation and real-wage calculations across all decades."
+
+[[source]]
+id = "bls-cpi-new-vehicles"
+title = "Consumer Price Index for All Urban Consumers: New Vehicles (CUUR0000SETA01)"
+short_cite = "BLS CPI-U, New Vehicles (CUUR0000SETA01)"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 2024
+url = "https://fred.stlouisfed.org/series/CUUR0000SETA01"
+population = "All Urban Consumers (CPI-U), U.S. city average, new vehicles"
+notes = "Not seasonally adjusted. Coverage: 1935-present, monthly. Annual averages computed as the mean of 12 monthly values. Used to CPI-inflate the BEA 2020 car-price base to 2024 (Plan 012 WI-1)."
 
 [[source]]
 id = "fred-cpiaucsl"
@@ -237,6 +247,17 @@ population = "Various national aggregates (depends on table)"
 notes = "Free on Internet Archive. Contains population, labor, prices, housing, and diffusion series spanning colonial times to 1970. Essential for pre-1940 decades where no dedicated survey exists. Predecessor to the Millennial Edition."
 
 [[source]]
+id = "hist-stats-wages-manufacturing"
+title = "Historical Statistics: Average Hourly Earnings of Manufacturing Production Workers (Series D 766, D 765-767, D 802-804)"
+short_cite = "U.S. Census Bureau, Historical Statistics (Series D)"
+publisher = "U.S. Census Bureau"
+year = 1975
+url = "https://archive.org/details/HistoricalStatisticsOfTheUnitedStatesColonialTimesTo1970/page/n1231/mode/2up"
+population = "Production workers in manufacturing (national average, payroll data)"
+notes = "Series D 766 (hourly earnings 1890-1914), D 765-767 (manufacturing production workers 1909-1929), D 802-804 (all manufacturing 1919-1948). Pre-FRED CES wage data. Used as the wage anchor for 1900s-1930s rooms (Plan 013). The population skews urban, industrial, male — see the manufacturing-wage-proxy assumption."
+measure = "hourly_earnings"
+
+[[source]]
 id = "hist-stats-millennial"
 title = "Historical Statistics of the United States, Millennial Edition"
 publisher = "Cambridge University Press"
@@ -325,6 +346,16 @@ url = "https://fred.stlouisfed.org/series/CES3000000008"
 population = "Production and nonsupervisory employees in manufacturing"
 notes = "Coverage: 1939–present, monthly. Pre-1964 earnings series (AHETPI starts 1964). 1950 annual average: $1.32/hour. CSV API: https://fred.stlouisfed.org/graph/fredgraph.csv?id=CES3000000008."
 measure = "hourly_earnings"
+
+[[source]]
+id = "fred-ces-manuf-weekly-earnings"
+title = "Average Weekly Earnings of Production and Nonsupervisory Employees, Manufacturing (CES3000000030)"
+short_cite = "BLS via FRED, Federal Reserve Bank of St. Louis (CES3000000030)"
+publisher = "Federal Reserve Bank of St. Louis (source: BLS Current Employment Statistics)"
+year = 2024
+url = "https://fred.stlouisfed.org/series/CES3000000030"
+population = "Production and nonsupervisory employees in manufacturing"
+notes = "Coverage: 1939–present, monthly. BLS source code: CES3000000030. Feeds the weekly-earnings-manufacturing series (Plan 010); weekly x 52 yields annual earnings without smuggling in a weekly-hours assumption. Not a room affordability anchor, so no measure is declared. CSV API: https://fred.stlouisfed.org/graph/fredgraph.csv?id=CES3000000030."
 
 # ── Census: housing ───────────────────────────────────────────────────────
 

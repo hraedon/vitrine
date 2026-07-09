@@ -6,6 +6,7 @@
 [room]
 country = "us"
 decade = "1910s"
+wage_anchor = "us-1910s-manufacturing-wages"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -61,10 +62,14 @@ panel = "day"
 label = "Manufacturing production worker wages, 1910"
 value = "$0.260/hr, 56.6 hrs/week, ~$14.72/wk"
 unit = "USD, nominal (hourly earnings, weekly hours, implied weekly earnings)"
-source = "hist-stats-colonial-1970"
+source = "hist-stats-wages-manufacturing"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series D 765-767 (manufacturing production workers). Hourly: $0.260, weekly hours: 56.6, implied weekly earnings: $14.72. By 1915: $0.287/hr, 55.0 hrs/week. These are the pre-WWI wage levels; wartime demand would push wages up sharply by 1917-18."
-assumptions = ["nominal-values"]
+amount_minor = 26
+currency = "USD"
+price_year = 1910
+basis = "hourly"
+notes = "From Historical Statistics Vol 1, Series D 765-767 (manufacturing production workers). Hourly: $0.260 (26 cents, exact), weekly hours: 56.6, implied weekly earnings: $14.72. By 1915: $0.287/hr, 55.0 hrs/week. These are the pre-WWI wage levels; wartime demand would push wages up sharply by 1917-18."
+assumptions = ["nominal-values", "manufacturing-wage-proxy"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -120,6 +125,10 @@ value = "~$1,188 (average wholesale, computed from factory sales)"
 unit = "USD, nominal (wholesale value per passenger car)"
 source = "hist-stats-colonial-1970"
 tier = "A"
+amount_minor = 118800
+currency = "USD"
+price_year = 1910
+basis = "total"
 notes = "Computed from Historical Statistics of the United States, Colonial Times to 1970, Part 2, p.716, Series Q 148-162 (source: Automobile Manufacturers Association, Automobile Facts and Figures, 27th ed., 1946-47). 1910: 181,000 passenger cars sold at $215 million wholesale value = ~$1,188 average per car. This is wholesale (factory) value; retail/transaction price would be higher (dealer markup). The source notes 'beginning 1937, standard equipment is included in the value estimate.' Population: all US factory sales of passenger cars."
 assumptions = ["nominal-values"]
 

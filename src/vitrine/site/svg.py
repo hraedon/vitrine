@@ -31,6 +31,7 @@ class ArcPoint:
     label: str
     value: str  # authored display value (for the native tooltip)
     quantity: float | None  # None → render the gap
+    year: int = 0  # representative year (plan 010 series charts); 0 = unknown
 
 
 @dataclass(frozen=True, slots=True)
@@ -225,6 +226,249 @@ def arc_chart(
             )
             + f'<text class="tlet" x="{cx:.1f}" y="{height - 12}" '
             f'fill="{tier_color}">{p.tier}</text></g></a>'
+        )
+    out.append("</svg>")
+    return "".join(out)
+
+
+def arc_chart_series(
+    series_values: dict[int, float],
+    markers: tuple[ArcPoint, ...],
+    unit: str,
+    series_id: str = "",
+    falling: bool = False,
+    width: int = 880,
+    height: int = 230,
+) -> str:
+    """A year-axis arc backed by an annual series — plan 010 WI-4.
+
+    The x axis is calendar years (decade-boundary ticks); the annual series
+    draws as a faint line of small dots, and the curated decade facts render
+    as larger labeled brass markers on top — the same ``data-fact-id``/
+    placard-link contract as the decade arc. Series points are the series's
+    voice, not curated facts, so they carry ``data-series-id`` (provenance
+    via the series source, named in the tooltip) and never ``data-fact-id``.
+
+    Years without a series value are simply absent (render the gap).
+    """
+    stroke = tokens.COPPER if falling else tokens.BRASS
+    pad_l, pad_r, pad_t, pad_b = 52, 18, 16, 44
+    plot_w, plot_h = width - pad_l - pad_r, height - pad_t - pad_b
+
+    years = sorted(series_values)
+    if not years:
+        return ""
+    # The x domain spans the annual series; decade markers whose year falls
+    # outside it clamp to the nearest edge so they remain visible.
+    y_min, y_max = years[0], years[-1]
+    all_vals = list(series_values.values()) + [
+        m.quantity for m in markers if m.quantity is not None
+    ]
+    q_max = max(all_vals) if all_vals else 1.0
+    q_top = _nice_axis_top(q_max)
+    domain = max(y_max - y_min, 1)
+
+    def x_of(year: int) -> float:
+        clamped = min(max(year, y_min), y_max)
+        return pad_l + plot_w * (clamped - y_min) / domain
+
+    def y_of(q: float) -> float:
+        return pad_t + plot_h * (1 - q / q_top)
+
+    out: list[str] = [
+        f'<svg class="arc arc-series" viewBox="0 0 {width} {height}" role="img" '
+        f'aria-label={quoteattr(f"Annual arc, {unit}")}>'
+    ]
+    # gridlines + y captions
+    for frac in (0.0, 0.5, 1.0):
+        gy = pad_t + plot_h * (1 - frac)
+        out.append(
+            f'<line class="grid" x1="{pad_l}" y1="{gy:.1f}" x2="{width - pad_r}" y2="{gy:.1f}"/\u003e'
+        )
+        out.append(
+            f'<text class="ylab" x="{pad_l - 8}" y="{gy + 3:.1f}">{_fmt(q_top * frac)}</text>'
+        )
+    out.append(f'<text class="unit" x="{pad_l}" y="{pad_t - 4}">{escape(unit)}</text>')
+
+    # decade-boundary x ticks
+    tick_start = (y_min // 10) * 10 + 10
+    for tick_year in range(tick_start, y_max + 1, 10):
+        tx = x_of(tick_year)
+        out.append(f'<text class="xlab" x="{tx:.1f}" y="{height - 26}">{tick_year}</text>')
+
+    # the annual series: faint connecting polyline + small dots
+    line_pts = [(x_of(yr), y_of(series_values[yr])) for yr in years]
+    if len(line_pts) > 1:
+        path = " ".join(f"{x:.1f},{yy:.1f}" for x, yy in line_pts)
+        out.append(
+            f'<polyline class="series-line" points="{path}" '
+            f'fill="none" stroke="{stroke}" stroke-opacity="0.35" stroke-width="1.5"/>'
+        )
+    for x, yy in line_pts:
+        out.append(
+            f'<circle data-series-id={quoteattr(series_id)} '
+            f'cx="{x:.1f}" cy="{yy:.1f}" r="1.6" fill="{stroke}" fill-opacity="0.5"/>'
+        )
+
+    # decade-fact markers on top (data-fact-id → mark-coverage gate)
+    for m in markers:
+        mx = x_of(m.year) if m.year else pad_l + plot_w / 2
+        if m.quantity is None:
+            gy = pad_t + plot_h
+            out.append(
+                f'<a href={quoteattr(f"#{m.fact_id}--modal")}><g data-fact-id={quoteattr(m.fact_id)}>'
+                f'<title>{escape(m.label)}: {escape(m.value)} — see the placard</title>'
+                f'<circle class="gapdot" cx="{mx:.1f}" cy="{gy:.1f}" r="5"/></g></a>'
+            )
+            continue
+        my = y_of(m.quantity)
+        tier_color = tokens.TIER_COLORS.get(m.tier, tokens.GAP)
+        out.append(
+            f'<a href={quoteattr(f"#{m.fact_id}--modal")}><g data-fact-id={quoteattr(m.fact_id)}>'
+            f"<title>{escape(m.label)}: {escape(m.value)} — Tier {m.tier}</title>"
+            f'<circle class="dot" cx="{mx:.1f}" cy="{my:.1f}" r="4.5" '
+            f'fill="ivory" stroke="{stroke}" stroke-width="2"/>'
+            f'<text class="vlab" x="{mx:.1f}" y="{my - 9:.1f}">{_fmt(m.quantity)}</text>'
+            f'<text class="tlet" x="{mx:.1f}" y="{height - 12}" fill="{tier_color}">{m.tier}</text>'
+            f"</g></a>"
+        )
+    out.append("</svg>")
+    return "".join(out)
+
+
+@dataclass(frozen=True, slots=True)
+class Recession:
+    """One NBER recession band, in fractional years (1973.92 = Dec 1973)."""
+
+    peak: float
+    trough: float
+
+
+@dataclass(frozen=True, slots=True)
+class MetricMarker:
+    """A decade fact drawn as a labeled marker on an affordability chart."""
+
+    year: int
+    fact_id: str
+    href: str
+    tier: str
+    label: str
+    value: str
+    quantity: float | None
+
+
+def affordability_chart(
+    values: dict[int, float],
+    recessions: tuple[Recession, ...],
+    unit: str,
+    metric_slug: str = "",
+    falling: bool = False,
+    markers: tuple[MetricMarker, ...] = (),
+    width: int = 880,
+    height: int = 260,
+) -> str:
+    """A year-axis affordability metric — Plan 011 WI-2.
+
+    The ratio line draws as connected dots (one per year both series cover);
+    NBER recessions render as copper-tinted bands behind the line
+    (annotation, no ``data-fact-id`` — their provenance is the dashboard
+    footer citation). Direct-mode decade facts (e.g. food share) render as
+    labeled markers carrying ``data-fact-id`` (mark-coverage gate). Years
+    without data are absent — render the gap.
+    """
+    stroke = tokens.COPPER if falling else tokens.BRASS
+    pad_l, pad_r, pad_t, pad_b = 52, 18, 18, 44
+    plot_w, plot_h = width - pad_l - pad_r, height - pad_t - pad_b
+
+    all_pts = list(values.items()) + [
+        (m.year, m.quantity) for m in markers if m.quantity is not None
+    ]
+    if not all_pts:
+        return ""
+    all_years = set(values) | {m.year for m in markers}
+    y_min = min(all_years)
+    y_max = max(all_years)
+    domain = max(y_max - y_min, 1)
+    q_vals = [v for _, v in all_pts]
+    q_max = max(q_vals) if q_vals else 1.0
+    q_top = _nice_axis_top(q_max)
+    years = sorted(values)
+
+    def x_of(year: float) -> float:
+        return pad_l + plot_w * (min(max(year, y_min), y_max) - y_min) / domain
+
+    def y_of(q: float) -> float:
+        return pad_t + plot_h * (1 - q / q_top)
+
+    out: list[str] = [
+        f'<svg class="arc afford-chart" id="metric-{escape(metric_slug)}" '
+        f'viewBox="0 0 {width} {height}" role="img" '
+        f'aria-label={quoteattr(f"Affordability metric, {unit}")}>'
+    ]
+    # recession bands (annotation — no data-fact-id)
+    for rec in recessions:
+        if rec.trough < y_min or rec.peak > y_max:
+            continue
+        x1 = x_of(max(rec.peak, y_min))
+        x2 = x_of(min(rec.trough, y_max))
+        out.append(
+            f'<rect class="recession" x="{x1:.1f}" y="{pad_t}" '
+            f'width="{x2 - x1:.1f}" height="{plot_h}" fill="{tokens.COPPER}" '
+            f'fill-opacity="0.10"/>'
+        )
+    # gridlines + y captions
+    for frac in (0.0, 0.5, 1.0):
+        gy = pad_t + plot_h * (1 - frac)
+        out.append(
+            f'<line class="grid" x1="{pad_l}" y1="{gy:.1f}" x2="{width - pad_r}" y2="{gy:.1f}"/\u003e'
+        )
+        out.append(
+            f'<text class="ylab" x="{pad_l - 8}" y="{gy + 3:.1f}">{_fmt(q_top * frac)}</text>'
+        )
+    out.append(f'<text class="unit" x="{pad_l}" y="{pad_t - 5}">{escape(unit)}</text>')
+    # decade-boundary x ticks
+    for tick_year in range((y_min // 10) * 10 + 10, y_max + 1, 10):
+        tx = x_of(tick_year)
+        out.append(f'<text class="xlab" x="{tx:.1f}" y="{height - 26}">{tick_year}</text>')
+
+    # the ratio line + dots (computed — data-metric-id, never data-fact-id)
+    if len(years) > 1:
+        path = " ".join(f"{x_of(yr):.1f},{y_of(values[yr]):.1f}" for yr in years)
+        out.append(
+            f'<polyline class="series-line" points="{path}" fill="none" '
+            f'stroke="{stroke}" stroke-width="2"/>'
+        )
+    for yr in years:
+        out.append(
+            f'<circle data-metric-id={quoteattr(metric_slug)} cx="{x_of(yr):.1f}" '
+            f'cy="{y_of(values[yr]):.1f}" r="2.5" fill="{stroke}">'
+            f"<title>{yr}: {_fmt(values[yr])} {escape(unit)}</title></circle>"
+        )
+
+    # direct-mode decade markers (facts — data-fact-id → mark-coverage gate)
+    label_all = len(markers) <= 8
+    for m in markers:
+        mx = x_of(m.year)
+        tier_color = tokens.TIER_COLORS.get(m.tier, tokens.GAP)
+        if m.quantity is None:
+            gy = pad_t + plot_h
+            out.append(
+                f'<a href={quoteattr(m.href)}><g data-fact-id={quoteattr(m.fact_id)}>'
+                f'<title>{escape(m.label)}: {escape(m.value)} — see the placard</title>'
+                f'<circle class="gapdot" cx="{mx:.1f}" cy="{gy:.1f}" r="5"/>'
+                f'<text class="gaplab" x="{mx:.1f}" y="{height - 12}">gap</text></g></a>'
+            )
+            continue
+        my = y_of(m.quantity)
+        out.append(
+            f'<a href={quoteattr(m.href)}><g data-fact-id={quoteattr(m.fact_id)}>'
+            f"<title>{escape(m.label)}: {escape(m.value)} — Tier {m.tier}</title>"
+            f'<circle class="dot" cx="{mx:.1f}" cy="{my:.1f}" r="4.5" '
+            f'fill="ivory" stroke="{stroke}" stroke-width="2"/>'
+            + (f'<text class="vlab" x="{mx:.1f}" y="{my - 9:.1f}">{_fmt(m.quantity)}</text>'
+               if label_all else "")
+            + f'<text class="tlet" x="{mx:.1f}" y="{height - 12}" fill="{tier_color}">{m.tier}</text>'
+            f"</g></a>"
         )
     out.append("</svg>")
     return "".join(out)

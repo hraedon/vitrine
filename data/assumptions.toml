@@ -56,3 +56,13 @@ statement = "The hourly-wage anchor's measured population changes across the spa
 id = "dwelling-size-metric"
 title = "Rooms, not square feet"
 statement = "The durable cross-decade dwelling-size axis is number of rooms (Census of Housing 1940→, IPUMS, and the pre-1940 cost-of-living surveys all recorded it). Square footage exists only for new construction from 1973 (Census SOC / Characteristics of New Housing) and for existing stock from roughly 1985 (AHS unit square footage). The home panel uses rooms as the comparable size metric across the whole span and shows square footage only where the record has it — never back-filled."
+
+[[assumption]]
+id = "manufacturing-wage-proxy"
+title = "Manufacturing wages as the early-era worker proxy"
+statement = "Before 1964 no broad, all-sector hourly earnings series exists. The wage anchor for 1900s–1930s (and the manufacturing series 1939–1963) is average hourly earnings of manufacturing production workers — a population that skews urban, industrial, and male. It stands in for 'the worker' where no broader series exists, the same proxy the 1950s room already uses. Cross-decade comparisons that chain manufacturing wages to total-private earnings (1964→) carry the weaker tier and flag the splice; the source's verbatim population string rides in the anchor note so the visitor sees who was actually measured."
+
+[[assumption]]
+id = "cpi-inflation-of-base-price"
+title = "CPI inflation of a base-year price"
+statement = "When a price series ends before the room's data year, the latest base price is inflated to the current year using the CPI for that item (e.g. new-vehicles CPI for a car). The computation is code (base × CPI_target / CPI_base), not a hand-quoted number; the result is an estimate, not a transcription, and carries the weakest input tier. The item-specific CPI (not the all-items CPI) is used so the inflation reflects the item's actual price change, not general inflation."

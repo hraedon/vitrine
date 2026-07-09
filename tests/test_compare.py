@@ -120,8 +120,9 @@ def test_compare_skips_missing_fact() -> None:
     assert "2020s" not in decades
 
 
-def test_compare_skips_fact_without_amount() -> None:
-    """The 1910s car price has no amount_minor (room has no anchor), so it's skipped."""
+def test_compare_includes_fact_with_amount() -> None:
+    """Plan 013 restored the 1910s car price amount_minor + wage anchor, so
+    it now appears in the affordability comparison (previously skipped)."""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
@@ -129,25 +130,23 @@ def test_compare_skips_fact_without_amount() -> None:
         {"1910s": "us-1910s-car-price", "1950s": "us-1950s-car-price"},
     )
     decades = [p.decade for p in comparison.points]
-    assert "1910s" not in decades
+    assert "1910s" in decades
     assert "1950s" in decades
 
 
-def test_compare_skips_decade_without_hourly_anchor() -> None:
-    """1900s has income_anchor but no wage_anchor — still produces pct but
-    has no hours. It should appear in points (income anchor exists) but
-    hours_to_afford should be None."""
+def test_compare_1900s_has_both_anchors() -> None:
+    """Plan 013: the 1900s now has both wage_anchor and income_anchor, so
+    both hours_to_afford and pct_of_income are computed."""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
         "Annual income, as share of income",
         {"1900s": "us-1900s-annual-family-income"},
     )
-    # 1900s has income_anchor, so afford() can compute pct_of_income
     assert len(comparison.points) == 1
     point = comparison.points[0]
     assert point.decade == "1900s"
-    assert point.afford.hours_to_afford is None
+    assert point.afford.hours_to_afford is not None  # wage anchor now present
     assert point.afford.pct_of_income is not None
 
 

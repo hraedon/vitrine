@@ -12,7 +12,8 @@ import math
 from html.parser import HTMLParser
 from pathlib import Path
 
-from vitrine.model import Basis, Corpus, Fact, Room, measure_axis
+from vitrine.model import Basis, Corpus, DerivedOp, Fact, Room, measure_axis
+from vitrine.series import Series
 
 
 def _quantity_renderings(quantity: float) -> set[str]:
@@ -28,7 +29,7 @@ def _quantity_renderings(quantity: float) -> set[str]:
     return renderings
 
 
-def check_corpus(corpus: Corpus) -> list[str]:
+def check_corpus(corpus: Corpus, series: dict[str, Series] | None = None) -> list[str]:
     """Return all problems found; an empty list means the gate is green."""
     problems: list[str] = []
 
@@ -108,7 +109,7 @@ def check_corpus(corpus: Corpus) -> list[str]:
                     f"among structured facts"
                 )
 
-        problems.extend(_check_derived(corpus, room, by_id, seen))
+        problems.extend(_check_derived(corpus, room, by_id, seen, series))
 
         for anchor_field, expected_basis, label in (
             ("wage_anchor", Basis.HOURLY, "wage_anchor"),
@@ -172,6 +173,7 @@ def _check_derived(
     room: Room,
     by_id: dict[str, Fact],
     seen: dict[str, str],
+    series: dict[str, Series] | None = None,
 ) -> list[str]:
     """Derived facts author structure, never numbers — check the structure.
 
@@ -199,6 +201,40 @@ def _check_derived(
         for assumption_id in derived.assumptions:
             if assumption_id not in corpus.assumptions:
                 problems.append(f"{where}: unknown assumption {assumption_id!r}")
+
+        # INFLATE (Plan 012): numerator only; the series provides the ratio.
+        if derived.op is DerivedOp.INFLATE:
+            operand = by_id.get(derived.numerator)
+            if operand is None:
+                problems.append(
+                    f"{where}: numerator {derived.numerator!r} does not resolve "
+                    f"to a fact in this room"
+                )
+            elif operand.amount_minor is None:
+                problems.append(
+                    f"{where}: numerator {derived.numerator!r} has no amount_minor"
+                )
+            if not derived.inflate_series:
+                problems.append(f"{where}: INFLATE op requires inflate_series")
+            elif series is not None and derived.inflate_series not in series:
+                problems.append(
+                    f"{where}: inflate_series {derived.inflate_series!r} not found"
+                )
+            else:
+                s = series[derived.inflate_series] if series else None
+                if s is not None:
+                    for yr, label in (
+                        (derived.inflate_from_year, "inflate_from_year"),
+                        (derived.inflate_to_year, "inflate_to_year"),
+                    ):
+                        if not yr:
+                            problems.append(f"{where}: {label} is missing")
+                        elif yr not in s.values and yr not in s.values_minor:
+                            problems.append(
+                                f"{where}: {label} {yr} not in series "
+                                f"{derived.inflate_series!r}"
+                            )
+            continue
 
         operands: list[Fact] = []
         for role, operand_id in (
@@ -260,6 +296,125 @@ def check_render_coverage(corpus: Corpus, build_dir: Path) -> list[str]:
         problems.append(f"render-coverage: fact {fid!r} curated but not rendered")
     for fid in sorted(rendered_ids - curated_ids):
         problems.append(f"render-coverage: fact {fid!r} rendered but not curated")
+    return problems
+
+
+def check_series(series: dict[str, Series], corpus: Corpus) -> list[str]:
+    """Plan 010 series gate invariants.
+
+    The loader already enforced types (integer years, numeric values, valid
+    tier/measure). This checks referential integrity and the cross-entity rules
+    that need both layers: source resolution, the exactly-one-values rule, id
+    collision with facts (shared namespace), affordability-axis measure
+    requirements, and the series/fact drift detector.
+    """
+    problems: list[str] = []
+
+    fact_ids = {fact.id for room in corpus.rooms for fact in room.facts}
+    fact_ids |= {derived.id for room in corpus.rooms for derived in room.derived}
+
+    # Group facts by source for the drift detector (invariant 9). Only
+    # structured facts (amount_minor or quantity) can drift against a series.
+    facts_by_source: dict[str, list[Fact]] = {}
+    for room in corpus.rooms:
+        for fact in room.facts:
+            if fact.amount_minor is not None or fact.quantity is not None:
+                facts_by_source.setdefault(fact.source, []).append(fact)
+
+    for s in series.values():
+        where = f"series {s.id!r}"
+
+        if not s.values and not s.values_minor:
+            problems.append(f"{where}: has neither 'values' nor 'values_minor'")
+        if s.values and s.values_minor:
+            problems.append(
+                f"{where}: has both 'values' and 'values_minor' — declare exactly one"
+            )
+
+        if s.source not in corpus.sources:
+            problems.append(f"{where}: unknown source {s.source!r}")
+
+        if s.id in fact_ids:
+            problems.append(
+                f"{where}: id collides with a fact id (shared namespace)"
+            )
+
+        # An affordability-axis series (income/wage denominator) inherits the
+        # same measure requirement as a room anchor: you cannot divide by a
+        # series without saying what it measures.
+        if s.measure is not None and s.source in corpus.sources:
+            src = corpus.sources[s.source]
+            if src.measure is None:
+                problems.append(
+                    f"{where}: declares measure {s.measure.value!r} but its "
+                    f"source {s.source!r} declares no measure"
+                )
+
+        if s.splices_from and s.splices_from not in series:
+            problems.append(
+                f"{where}: splices_from {s.splices_from!r} resolves to no series"
+            )
+
+        # ── Drift detector (invariant 9) ───────────────────────────────────
+        # Where a single series is the unique series for its source, a decade
+        # fact from that source whose price_year the series covers must agree.
+        # When two series share a source (e.g. all-family vs 4-person F-8
+        # medians, which legitimately differ) the 1:1 correspondence is
+        # ambiguous, so we skip rather than false-positive.
+        same_source = [other for other in series.values() if other.source == s.source]
+        if len(same_source) != 1:
+            continue
+        for fact in facts_by_source.get(s.source, []):
+            year = fact.price_year
+            if year is None:
+                continue
+            if (
+                fact.amount_minor is not None
+                and year in s.values_minor
+                and fact.amount_minor != s.values_minor[year]
+            ):
+                problems.append(
+                    f"{where}: disagrees with fact {fact.id!r} for {year} "
+                    f"(series {s.values_minor[year]}, fact {fact.amount_minor}) "
+                    f"— the same number drifted in two places"
+                )
+            if (
+                fact.quantity is not None
+                and year in s.values
+                and not math.isclose(
+                    fact.quantity, s.values[year], rel_tol=1e-3, abs_tol=0.05
+                )
+            ):
+                # The fact displays the series value rounded to its display
+                # precision (CPI to 1 decimal), so abs_tol covers 1-dp rounding
+                # while rel_tol still catches a real drift at large magnitudes.
+                problems.append(
+                    f"{where}: disagrees with fact {fact.id!r} for {year} "
+                    f"(series {s.values[year]:g}, fact quantity "
+                    f"{fact.quantity:g}) — the same number drifted in two places"
+                )
+            # Cross-unit agreement: a wage series carries its annual mean in
+            # ``values`` (float dollars, sub-cent precision that ``values_minor``
+            # can't represent), while the matching fact stores the rounded
+            # display value in ``amount_minor`` (cents). Compare dollars to
+            # cents-to-dollars with cent-rounding tolerance so a drifted wage
+            # is caught even though the two live in different unit fields. The
+            # basis guard skips a weekly-earnings fact that shares the hourly
+            # series's source but is a different concept (hourly ≠ weekly).
+            if (
+                fact.amount_minor is not None
+                and fact.basis is Basis.HOURLY
+                and year in s.values
+                and not math.isclose(
+                    s.values[year], fact.amount_minor / 100.0, rel_tol=1e-3, abs_tol=0.01
+                )
+            ):
+                problems.append(
+                    f"{where}: disagrees with fact {fact.id!r} for {year} "
+                    f"(series {s.values[year]:g}, fact ${fact.amount_minor / 100:.2f}) "
+                    f"— the same number drifted in two places"
+                )
+
     return problems
 
 

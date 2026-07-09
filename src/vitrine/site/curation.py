@@ -23,6 +23,7 @@ class Arc:
     fact_ids: dict[str, str]  # decade → fact id
     falling: bool = False  # falling metrics render in copper
     caveats: tuple[str, ...] = field(default=())
+    series_id: str = ""  # plan 010: annual series backing this arc, if any
 
 
 def _ids(pattern: str, decades: str) -> dict[str, str]:
@@ -242,6 +243,7 @@ ARCS: tuple[Arc, ...] = (
         "Consumer Price Index",
         "CPI-U level, 1982–84 = 100",
         _ids("us-{decade}-cpi", "195 197 198 199 200 201 202"),
+        series_id="cpi-u",
     ),
 )
 
@@ -331,6 +333,18 @@ AFFORD_ITEMS: tuple[tuple[str, str, str], ...] = (
     ("new-car", "A new car", "us-{decade}-car-price"),
 )
 
+# Static caveats the dynamic measure-guard can't detect (Plan 011 WI-5). The
+# car-price line mixes wholesale (pre-1970) and transaction (1970+) price
+# methodologies — a step between points that the comparator sees as a price
+# change is partly a concept change. Surfaced, not smoothed.
+AFFORD_ITEM_CAVEATS: dict[str, tuple[str, ...]] = {
+    "new-car": (
+        "Pre-1970 car prices are wholesale averages; 1970+ are BEA transaction "
+        "prices — the jump at 1970 partly reflects the methodology change, not "
+        "only real price change.",
+    ),
+}
+
 # ── the walkthrough (Plan 005's transect, on this plan's primitives) ─────────
 
 WALKTHROUGH_STOPS: tuple[str, ...] = ("1900s", "1950s", "2020s")
@@ -390,3 +404,105 @@ WALKTHROUGH_FLOOR_AREA: dict[str, str] = {
     "1900s": "us-1900s-housing-rooms-rent",  # rooms counted, area not — a gap
     "2020s": "us-2020s-housing-characteristics",  # median 1,500 sq ft (AHS)
 }
+
+
+# ── affordability dashboard metrics (Plan 011) ───────────────────────────────
+# Every metric is a ratio of two series (or a direct arc projection), computed
+# by the renderer — never authored. A metric's coverage is the intersection of
+# its numerator and denominator years; years missing on either side render as
+# gaps (the "render the gap" ethos, extended to cross-decade metrics).
+
+@dataclass(frozen=True, slots=True)
+class Metric:
+    """One affordability metric on the dashboard — a computed ratio over time.
+
+    Ratio mode: ``numerator`` / ``denominator`` (each a tuple of series ids
+    whose values merge; monetary series convert cents→dollars uniformly). A
+    ``base_year`` re-scales the ratio so that year = 100 (an index).
+    Direct mode: ``source_arc`` names an arc whose decade quantities plot
+    as-is (for metrics with no annual series, e.g. food share).
+    """
+
+    slug: str
+    label: str
+    unit: str
+    caption: str
+    caveats: tuple[str, ...] = field(default=())
+    numerator: tuple[str, ...] = field(default=())  # series ids (ratio mode)
+    denominator: tuple[str, ...] = field(default=())  # series ids (ratio mode)
+    numerator_scale: float = 1.0  # e.g. 52 for weekly→annual
+    base_year: int | None = None  # if set, ratio normalized to 100 at this year
+    percent: bool = False  # if True, ratio x 100 (share-of metrics)
+    source_arc: str = ""  # arc slug whose decade quantities plot directly
+    falling: bool = False  # falling metrics render in copper
+
+
+AFFORDABILITY_METRICS: tuple[Metric, ...] = (
+    Metric(
+        "home-as-income-years",
+        "A median home, in years of median income",
+        "years of 4-person median family income",
+        "Home values are decennial (1940–2000) then ACS (2005+); the line "
+        "is sparse because that is the honest shape of the record before ACS.",
+        numerator=("median-home-value-decennial", "median-home-value-acs"),
+        denominator=("median-family-income-4p",),
+        caveats=(
+            "Pre-2005 home values are decennial census points only — the gaps "
+            "between them are unknown, not interpolated.",
+        ),
+    ),
+    Metric(
+        "car-as-hours-of-work",
+        "A new car, in hours of work",
+        "hours of average hourly earnings (total private)",
+        "The price line has only six transcribed points (the BEA transaction "
+        "series' decade years); early-decade gaps render as gaps.",
+        numerator=("new-car-price",),
+        denominator=("hourly-earnings-total-private",),
+        caveats=(
+            "Pre-1970 car prices are wholesale averages; 1970+ are transaction "
+            "prices — the jump at 1970 partly reflects methodology, not only "
+            "real price change.",
+        ),
+    ),
+    Metric(
+        "single-earner-wage-coverage",
+        "One manufacturing wage, as share of family income",
+        "% of median (all) family income",
+        "Weekly manufacturing earnings x 52 / median family income. The fall "
+        "from near-parity in the 1950s traces the death of the single-earner "
+        "family norm — one production wage stopped covering the median.",
+        numerator=("weekly-earnings-manufacturing",),
+        denominator=("median-family-income-all",),
+        numerator_scale=52.0,
+        percent=True,
+        falling=True,
+        caveats=(
+            "Manufacturing wages skew urban, industrial, male — they stand in "
+            "for 'the worker' where no broader wage series exists (see the "
+            "manufacturing-wage-proxy assumption).",
+        ),
+    ),
+    Metric(
+        "food-share",
+        "Food's share of spending",
+        "% of household expenditure",
+        "No annual series exists for food share — the line is the decade "
+        "survey points, and the gaps between surveys are unknown.",
+        source_arc="food-share",
+        falling=True,
+    ),
+    Metric(
+        "real-wage-index",
+        "An hour of work's real purchasing power",
+        "index, 2024 = 100",
+        "Nominal hourly earnings / CPI-U, normalized so 2024 = 100. The line "
+        "shows how much an hour of work in each year could buy compared with "
+        "an hour in 2024.",
+        numerator=("hourly-earnings-total-private",),
+        denominator=("cpi-u",),
+        base_year=2024,
+    ),
+)
+
+METRIC_BY_SLUG: dict[str, Metric] = {m.slug: m for m in AFFORDABILITY_METRICS}

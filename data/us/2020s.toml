@@ -7,6 +7,7 @@ country = "us"
 decade = "2020s"
 wage_anchor = "us-2020s-hourly-earnings"
 income_anchor = "us-2020s-median-income-four-person"
+data_as_of = "2024"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 # National-median facts from Census F-8 (Tier A) + CEX expenditure shares (Tier A)
@@ -150,6 +151,17 @@ basis = "total"
 notes = "From Census ACS 1-Year Estimates, Table B25077 (Median value of owner-occupied housing units), 2024. Margin of error: ±$618. Time series: $179,900 (2010), $181,200 (2014), $240,500 (2019), $360,600 (2024) — doubled in 14 years. For comparison: $7,354 in 1950 (Tier C)."
 assumptions = ["nominal-values", "dwelling-size-metric"]
 
+[[fact]]
+id = "us-2020s-housing-surge"
+panel = "home"
+label = "The pandemic housing surge: median home value 2019 vs 2024"
+value = "$240,500 (2019) → $360,600 (2024)"
+unit = "USD, nominal (ACS B25077 median value of owner-occupied units)"
+source = "census-acs-homevalue"
+tier = "A"
+notes = "Both endpoints transcribed from Census ACS 1-Year Estimates, Table B25077 (Median value of owner-occupied housing units). 2019: $240,500 (±$1,034). 2024: $360,600 (±$618). The increase far exceeds the prior decade's rate ($179,900 in 2010 → $240,500 in 2019). The surge reflects pandemic-era demand, low mortgage rates (2020-21), and supply constraints. The percentage change is not stated here — it would be cross-fact arithmetic; the two endpoints speak for themselves."
+assumptions = ["nominal-values"]
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
@@ -222,12 +234,12 @@ assumptions = ["nominal-values"]
 [[fact]]
 id = "us-2020s-time-use"
 panel = "day"
-label = "How Americans spend their day, 2019 (ATUS)"
-value = "Sleeping 8.84 hrs, working 3.26 hrs (men 3.92, women 2.64), eating 1.18 hrs, household activities 1.78 hrs, food prep 0.60 hrs, purchasing 0.75 hrs"
+label = "How Americans spend their day, 2024 (ATUS)"
+value = "Sleeping 9.04 hrs, working 3.13 hrs (men 3.56, women 2.73), household activities 2.01 hrs (men 1.67, women 2.34)"
 unit = "hours per day, civilian population (annual average)"
 source = "bls-atus"
 tier = "A"
-notes = "From BLS American Time Use Survey, Table A-1 (2019 annual averages), a1-2019.pdf. Text layer extracted directly via pymupdf — no OCR needed. 'Working and work-related activities' = 3.61 hrs total (includes work-related activities beyond just working). 'Personal care activities' = 9.62 hrs (dominated by sleeping 8.84 hrs). Household activities include housework (0.53 hrs), food prep (0.60 hrs), and lawn/garden (0.17 hrs). Time series available: a1_2003, a1_2009, a1_2010, a1-2019 (Table A-1 by sex); a2_2010, a2_2011, a2-2019 (Table A-2 by employment status/children)."
+notes = "From BLS American Time Use Survey, Table A-1 (2024 annual averages), a1-2024.pdf. Text layer extracted directly via pypdf — no OCR needed. 'Working' = 3.13 hrs (the narrower detailed activity; 'Working and work-related activities' = 3.43 hrs). 'Sleeping' = 9.04 hrs. 'Household activities' = 2.01 hrs (includes housework, food prep, lawn/garden). The 2025 table (a1-2025.pdf) also exists but is not used: the room's income/wage anchors are 2024, and a 2025 time-use fact would sit ahead of every comparison denominator."
 assumptions = ["composite-family"]
 
 # ── Diffusion panel ────────────────────────────────────────────────────────
@@ -273,6 +285,7 @@ assumptions = ["composite-family"]
 [[fact]]
 id = "us-2020s-cpi"
 quantity = 313.7
+price_year = 2024
 panel = "work-buys"
 label = "Consumer Price Index, 2024"
 value = "313.7"
@@ -342,29 +355,50 @@ basis = "total"
 notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13, Edition 40 — last published year). The BEA notes: 'The average price for cars increased from 2019 to 2020.' Post-2020 prices are not available in this series; industry sources (NADA, KBB) report average new car prices exceeding $47,000 by 2023, but those figures include SUVs and trucks. Population: all new passenger cars sold in the US."
 assumptions = ["nominal-values"]
 
+# CPI-inflated 2024 estimate from the 2020 BEA base (Plan 012 WI-1).
+# Computed: $27,366 x CPI_new_vehicles[2024]/CPI_new_vehicles[2020].
+# The result is an estimate, not a transcription; the all-vehicles industry
+# figure (~$47,000) includes SUVs/trucks the BEA series excludes.
+[[derived]]
+id = "us-2020s-car-price-2024-estimate"
+panel = "work-buys"
+label = "Average new car transaction price, 2024 (CPI-inflated estimate)"
+unit = "USD, nominal (estimated from 2020 BEA base x new-vehicles CPI)"
+op = "inflate"
+numerator = "us-2020s-car-price"
+denominator = ""
+precision = 0
+inflate_series = "cpi-new-vehicles"
+inflate_from_year = 2020
+inflate_to_year = 2024
+notes = "The BEA transaction-price series ends in 2020. This estimate inflates the 2020 base ($27,366) to 2024 using the BLS CPI for new vehicles (CUUR0000SETA01): 147.600 (2020) -> 177.886 (2024). The result excludes pickups/vans/SUVs, so it sits well below the ~$47,000 industry all-vehicle average."
+assumptions = ["nominal-values", "cpi-inflation-of-base-price"]
+
 # ── Day panel: life expectancy ────────────────────────────────────────────
 
 [[fact]]
 id = "us-2020s-life-expectancy"
-quantity = 78.4
+quantity = 79.0
+price_year = 2024
 panel = "day"
-label = "Life expectancy at birth, 2023"
-value = "75.8 male, 81.1 female (78.4 total)"
+label = "Life expectancy at birth, 2024"
+value = "76.5 male, 81.4 female (79.0 total)"
 unit = "years"
 source = "nchs-nvss"
 tier = "A"
-notes = "From NCHS Data Brief No. 521 (Dec 2024), final 2023 mortality data. Male: 75.8 (up 1.0 from 74.8 in 2022). Female: 81.1 (up 0.9 from 80.2 in 2022). The 2020-21 COVID decline (78.8 → 76.1) has largely recovered. Provisional 2024 (Data Brief No. 548, Jan 2026): male 76.5, female 81.4. For cross-decade comparison: 1900-02: 48.2M/51.1F; 1939-41: 62.8M/67.3F; 1949-51: 66.3M/72.0F; 1960: 66.6M/73.1F (white)."
+notes = "From NCHS Data Brief No. 548 (Jan 2026), final 2024 mortality data. Male: 76.5 (up 0.7 from 75.8 in 2023). Female: 81.4 (up 0.3 from 81.1 in 2023). Total 79.0 (up 0.4 from 78.6 in 2023). The 2020-21 COVID decline (78.8 -> 76.1) has fully recovered and exceeded the pre-pandemic level. For cross-decade comparison: 1900-02: 48.2M/51.1F; 1939-41: 62.8M/67.3F; 1949-51: 66.3M/72.0F; 1960: 66.6M/73.1F (white)."
 
 [[fact]]
 id = "us-2020s-infant-mortality"
-quantity = 5.6
+quantity = 5.525
+price_year = 2024
 panel = "day"
-label = "Infant mortality rate, 2023"
-value = "5.6 per 1,000 live births"
+label = "Infant mortality rate, 2024"
+value = "5.525 per 1,000 live births (552.5 per 100,000)"
 unit = "deaths before age 1 per 1,000 live births"
 source = "nchs-nvss"
 tier = "A"
-notes = "From CDC/NCHS National Vital Statistics System (reported via USAFacts citing CDC). 2023 rate: 5.61 per 1,000 — up 3.5% from the 2020 record low of 5.42. Provisional 2024: 5.34 per 1,000. For cross-decade comparison: 1900: ~100 per 1,000; 1915: 99.9; 1997: 7.2. The century-long decline exceeds 90% — one of the greatest public health achievements. Persistent racial disparities: Black infant mortality is ~2x the national average."
+notes = "From NCHS Data Brief No. 548 (Jan 2026), final 2024 mortality data. 2024 rate: 552.5 infant deaths per 100,000 live births (5.525 per 1,000) — not significantly different from 2023 (560.2 per 100,000 = 5.602 per 1,000). For cross-decade comparison: 1900: ~100 per 1,000; 1915: 99.9; 1997: 7.2. The century-long decline exceeds 90% — one of the greatest public health achievements. Persistent racial disparities: Black infant mortality is ~2x the national average."
 
 # ── Diffusion panel: vehicle ownership ───────────────────────────────────
 
@@ -420,9 +454,9 @@ notes = "From 2024 ACS 1-year estimates, Table B25040 (House Heating Fuel). Natu
 id = "us-2020s-home-production-splice"
 panel = "day"
 label = "Home-production hours: Ramey endpoint vs ATUS (concept splice)"
-value = "Ramey 2005: women 29.3, men 16.8 hrs/week (ages 18–64) → ATUS 2019: household activities 1.78 hrs/day, all adults 15+"
+value = "Ramey 2005: women 29.3, men 16.8 hrs/week (ages 18–64) → ATUS 2024: household activities 2.01 hrs/day, all adults 15+"
 unit = "hours per week vs hours per day — not directly comparable"
 source = "ramey-2009"
 tier = "C"
-notes = "Concept splice (Plan 004 Measure guard): Ramey measures unpaid home production (food prep, cleaning, clothing care, childcare, purchasing, management) for prime-age women and men separately, ages 18-64, in hours/week. ATUS (us-2020s-time-use, source bls-atus) measures 'household activities' for all adults 15+ in hrs/day, without gender breakdown in the headline figure. The two series are NOT directly comparable: (1) different activity definitions (Ramey's 'home production' is broader than ATUS 'household activities'), (2) different populations (prime-age vs all-adult), (3) different units (weekly vs daily). When plotted on the same axis, this splice must carry a caveat banner. The Ramey series is the thesis spine (women's hours falling); ATUS is the modern anchor point."
+notes = "Concept splice (Plan 004 Measure guard): Ramey measures unpaid home production (food prep, cleaning, clothing care, childcare, purchasing, management) for prime-age women and men separately, ages 18-64, in hours/week. ATUS (us-2020s-time-use, source bls-atus, 2024 annual averages) measures 'household activities' for all adults 15+ in hrs/day, without gender breakdown in the headline figure. The two series are NOT directly comparable: (1) different activity definitions (Ramey's 'home production' is broader than ATUS 'household activities'), (2) different populations (prime-age vs all-adult), (3) different units (weekly vs daily). When plotted on the same axis, this splice must carry a caveat banner. The Ramey series is the thesis spine (women's hours falling); ATUS is the modern anchor point."
 assumptions = ["composite-family"]

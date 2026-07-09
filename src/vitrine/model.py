@@ -63,7 +63,7 @@ class Measure(enum.Enum):
 
 
 class DerivedOp(enum.Enum):
-    """How a derived fact combines its two operands — closed set.
+    """How a derived fact combines its operands — closed set.
 
     Derivations are code (fact-model.md): a curator authors the *structure*
     (operand fact ids and an op), never the resulting number. Both operands
@@ -72,6 +72,7 @@ class DerivedOp(enum.Enum):
 
     RATIO = "ratio"    # numerator / denominator
     PCT_OF = "pct_of"  # numerator / denominator * 100
+    INFLATE = "inflate"  # numerator x series[to_year] / series[from_year] (Plan 012)
 
 
 def weakest_tier(*tiers: Tier) -> Tier:
@@ -226,10 +227,15 @@ class DerivedFact:
     unit: str
     op: DerivedOp
     numerator: str  # Fact.id in the same room; must be structured
-    denominator: str  # Fact.id in the same room; must be structured
+    denominator: str  # Fact.id in the same room; must be structured, non-zero
     precision: int = 1  # decimal places in the rendered value
     notes: str = ""
     assumptions: tuple[str, ...] = field(default=())
+    # INFLATE op (Plan 012): inflate numerator by a series ratio across years.
+    # denominator is unused for INFLATE; the series provides the second input.
+    inflate_series: str = ""  # series id whose values carry the CPI ratio
+    inflate_from_year: int = 0  # base year in the series
+    inflate_to_year: int = 0  # target year in the series
 
 
 @dataclass(frozen=True, slots=True)
@@ -242,6 +248,7 @@ class Room:
     derived: tuple[DerivedFact, ...] = field(default=())
     wage_anchor: str = ""  # fact id → a HOURLY basis fact in this room
     income_anchor: str = ""  # fact id → an ANNUAL basis fact in this room
+    data_as_of: str = ""  # "data as of" year for the current (ongoing) decade
 
     @property
     def slug(self) -> str:

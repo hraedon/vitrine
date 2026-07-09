@@ -1,0 +1,172 @@
+#!/usr/bin/env python3
+"""Extract two family-income series from Census Historical Income Table F-8.
+
+Reads ``samples/06-acs-csv/f08ar.xlsx`` (Table F-8, All Races revised) and emits
+two series files under ``data/series/``:
+
+* ``median-family-income-all``  — All Families median income (current $)
+* ``median-family-income-4p``   — Families with Four People median income
+
+Both are monetary, so they use ``values_minor`` in integer cents
+(e.g. $3,031 -> 303100). Coverage 1947-2024.
+
+Source layout
+-------------
+The workbook has one sheet ``f08ar``. Seven stacked sub-tables (one per family
+size), each with a section label in column A and a 2-row header. Column A is
+the year (descending, sometimes carrying a footnote suffix like ``"2017 (40)"``)
+and column C is the median income in current dollars. A few cells are ``"N"``
+(not available) and are omitted.
+
+The section start rows are printed in cell A1 (8/9, 91/92, ...); we instead scan
+column A for the exact section labels so the script stays correct if Census
+shifts rows in a future revision.
+
+Duplicate years (methodology breaks)
+------------------------------------
+2017 and 2013 each appear twice: once with a footnote revision (the current
+Census methodology) and once without (the legacy series). We keep the FIRST
+occurrence in file order (descending years), which is the headline value Census
+publishes for that year. The break is noted in each series file. No fact in the
+corpus sources ``census-f08-allraces`` so this introduces no drift pressure, and
+the drift detector skips this source anyway (two series share it).
+
+Deterministic: the script only reads the xlsx; nothing is typed from memory.
+Spot-verify a sample of years against the xlsx by eye.
+"""
+
+from __future__ import annotations
+
+import re
+import sys
+from pathlib import Path
+
+import openpyxl
+
+REPO = Path(__file__).resolve().parent.parent
+XLSX = REPO / "samples" / "06-acs-csv" / "f08ar.xlsx"
+OUT_DIR = REPO / "data" / "series"
+
+# (series_id, label, section_label_in_colA, population)
+SERIES = [
+    (
+        "median-family-income-all",
+        "Median family income, all families",
+        "All Families",
+        "All US families, CPS money income (Census Table F-8, All Races)",
+    ),
+    (
+        "median-family-income-4p",
+        "Median family income, four-person families",
+        "Families with Four People",
+        "Four-person US families, CPS money income (Census Table F-8, All Races)",
+    ),
+]
+
+_YEAR_RE = re.compile(r"^(\d{4})")
+
+
+def _parse_year(raw: object) -> int | None:
+    """Extract an integer year from a cell like 2024 or '2017 (40)'; else None."""
+    if isinstance(raw, int):
+        return raw
+    if isinstance(raw, str):
+        m = _YEAR_RE.match(raw.strip())
+        return int(m.group(1)) if m else None
+    return None
+
+
+def _find_section_rows(ws: object, label: str) -> tuple[int, int]:
+    """Return (header_row, data_start_row) for the section whose label matches.
+
+    The header is the 2 rows immediately after the label row; data follows.
+    """
+    row = 0
+    for r in range(1, ws.max_row + 1):  # type: ignore[attr-defined]
+        val = ws.cell(row=r, column=1).value  # type: ignore[attr-defined]
+        if isinstance(val, str) and val.strip() == label:
+            row = r
+            break
+    if row == 0:
+        raise RuntimeError(f"section label {label!r} not found in column A")
+    return row + 2, row + 3  # label, 2 header rows, then data
+
+
+def extract_section(ws: object, label: str) -> dict[int, int]:
+    """Return year->cents for one section (first occurrence per year kept).
+
+    Column C (index 3) is median income in current dollars. ``"N"`` cells and
+    non-numeric values are skipped (rendered as gaps).
+    """
+    _header, data_start = _find_section_rows(ws, label)
+    out: dict[int, int] = {}
+    for r in range(data_start, ws.max_row + 1):  # type: ignore[attr-defined]
+        year = _parse_year(ws.cell(row=r, column=1).value)  # type: ignore[attr-defined]
+        if year is None:
+            # A non-year cell ends the data block (next section label / blank)
+            val_a = ws.cell(row=r, column=1).value  # type: ignore[attr-defined]
+            if isinstance(val_a, str) and val_a.strip():
+                break
+            continue
+        med = ws.cell(row=r, column=3).value  # type: ignore[attr-defined]
+        if not isinstance(med, int | float):
+            continue  # 'N' or blank -> gap
+        if year in out:
+            continue  # duplicate year: keep first (descending = headline)
+        out[year] = round(med) * 100  # whole dollars -> integer cents
+    return out
+
+
+def _emit(sid: str, label: str, source: str, population: str,
+          values_minor: dict[int, int], notes: str) -> Path:
+    values_minor = dict(sorted(values_minor.items()))
+    yrs = sorted(values_minor)
+    span = f"{yrs[0]}-{yrs[-1]}" if yrs else "(none)"
+    lines = [
+        f"# Auto-generated by scripts/f08_income_extract.py from {XLSX.name}",
+        f"# Census Historical Income Table F-8 (All Races revised). Coverage: {span}.",
+        "# Values are integer cents (whole-dollar medians x 100).",
+        "",
+        "[[series]]",
+        f'id = "{sid}"',
+        f'label = "{label}"',
+        f'source = "{source}"',
+        'tier = "A"',
+        'unit = "USD per year, nominal"',
+        f'population = "{population}"',
+        f'notes = "{notes}"',
+        "",
+        "[series.values_minor]",
+    ]
+    for y in yrs:
+        lines.append(f"{y} = {values_minor[y]}")
+    lines.append("")
+    out = OUT_DIR / f"{sid}.toml"
+    out.write_text("\n".join(lines))
+    return out
+
+
+def main() -> int:
+    if not XLSX.is_file():
+        print(f"ERROR: source xlsx not found at {XLSX}", file=sys.stderr)
+        return 1
+    wb = openpyxl.load_workbook(XLSX, data_only=True)
+    ws = wb["f08ar"]
+    note = (
+        "Census Table F-8 (f08ar, All Races revised), median income in current "
+        "dollars. Years 2017 and 2013 each appear twice in the source (methodology "
+        "breaks, footnotes 40/39-38); the headline (first-listed, revised) value is kept."
+    )
+    for sid, slabel, section_label, population in SERIES:
+        values_minor = extract_section(ws, section_label)
+        path = _emit(sid, slabel, "census-f08-allraces", population, values_minor, note)
+        yrs = sorted(values_minor)
+        gaps = sorted(set(range(yrs[0], yrs[-1] + 1)) - set(yrs))
+        print(f"{sid}: {len(values_minor)} years ({yrs[0]}-{yrs[-1]})"
+              + (f", gaps: {gaps}" if gaps else "")
+              + f" -> {path.relative_to(REPO)}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

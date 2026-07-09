@@ -374,6 +374,7 @@ assumptions = ["composite-family", "urban-rural-split"]
 [[fact]]
 id = "us-1950s-cpi"
 quantity = 24.1
+price_year = 1950
 panel = "work-buys"
 label = "Consumer Price Index, 1950"
 value = "24.1"

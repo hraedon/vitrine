@@ -6,6 +6,7 @@
 [room]
 country = "us"
 decade = "1920s"
+wage_anchor = "us-1920s-manufacturing-wages"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -61,10 +62,14 @@ panel = "day"
 label = "Manufacturing production worker wages, 1920"
 value = "$0.55/hr, 47.4 hrs/week, $26.02/wk"
 unit = "USD, nominal (hourly earnings, weekly hours, weekly earnings)"
-source = "hist-stats-colonial-1970"
+source = "hist-stats-wages-manufacturing"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series D 802-804 (all manufacturing). Hourly: $0.55, weekly hours: 47.4, weekly earnings: $26.02. By 1925: $0.54/hr, 44.5 hrs/week, $24.11/wk. By 1929: $0.56/hr, 44.2 hrs/week, $24.76/wk. The 1920s saw flat nominal wages but rising real wages (deflation) and shorter hours."
-assumptions = ["nominal-values"]
+amount_minor = 55
+currency = "USD"
+price_year = 1920
+basis = "hourly"
+notes = "From Historical Statistics Vol 1, Series D 802-804 (all manufacturing). Hourly: $0.55 (55 cents, exact), weekly hours: 47.4, weekly earnings: $26.02. By 1925: $0.54/hr, 44.5 hrs/week, $24.11/wk. By 1929: $0.56/hr, 44.2 hrs/week, $24.76/wk. The 1920s saw flat nominal wages but rising real wages (deflation) and shorter hours."
+assumptions = ["nominal-values", "manufacturing-wage-proxy"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -120,6 +125,10 @@ value = "~$949 (average wholesale, computed from factory sales)"
 unit = "USD, nominal (wholesale value per passenger car)"
 source = "hist-stats-colonial-1970"
 tier = "A"
+amount_minor = 94900
+currency = "USD"
+price_year = 1920
+basis = "total"
 notes = "Computed from Historical Statistics, Series Q 148-162. 1920: 1,905,500 passenger cars sold at $1,809 million wholesale value = ~$949 average per car. The Model T (1908-1927) drove prices down — by 1920 a new Model T cost ~$395 (retail), but the average wholesale across all cars was higher due to luxury models. Wholesale value; retail/transaction price would be higher. Population: all US factory sales of passenger cars."
 assumptions = ["nominal-values"]
 

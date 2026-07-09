@@ -122,8 +122,81 @@ def test_gate_green_on_valid_derived(tmp_path: Path) -> None:
 
 
 def test_committed_corpus_derived_all_evaluate() -> None:
+    from vitrine.series import load_series
+
     corpus = load_corpus(DATA)
+    series = load_series(DATA)
     n = 0
     for room in corpus.rooms:
-        n += len(evaluate_room(room))
-    assert n >= 2  # the two migrated home-as-income-years derivations
+        n += len(evaluate_room(room, series))
+    assert n >= 3  # two home-as-income-years + one car-price inflate (Plan 012)
+
+
+# ── INFLATE op (Plan 012 WI-1) ───────────────────────────────────────────────
+
+
+def _inflate_derived(
+    series_id: str = "cpi-test", from_yr: int = 2020, to_yr: int = 2024
+) -> DerivedFact:
+    return DerivedFact(
+        id="us-2020s-d",
+        panel=Panel.WORK_BUYS,
+        label="D",
+        unit="USD",
+        op=DerivedOp.INFLATE,
+        numerator="us-2020s-base",
+        denominator="",
+        precision=0,
+        inflate_series=series_id,
+        inflate_from_year=from_yr,
+        inflate_to_year=to_yr,
+    )
+
+
+def _inflate_series(values: dict[int, float]) -> dict:
+    from vitrine.series import Series
+    return {"cpi-test": Series(
+        id="cpi-test", label="L", source="src-1", tier=Tier.A,
+        unit="index", population="p", values=values,
+    )}
+
+
+def test_inflate_computes_correct_value() -> None:
+    """$27,366 (cents: 2736600) x 177.886/147.600 = ~$32,981."""
+    room = _room((_fact("us-2020s-base", 2736600, Tier.A),))
+    series = _inflate_series({2020: 147.600, 2024: 177.886})
+    computed = evaluate(room, _inflate_derived(), series)
+    assert computed.value == "≈ $32,981"
+    assert computed.tier is Tier.A  # both inputs Tier A
+
+
+def test_inflate_tier_is_weakest_input() -> None:
+    """A Tier C inflation series weakens the derived tier."""
+    from vitrine.series import Series
+    room = _room((_fact("us-2020s-base", 2736600, Tier.A),))
+    series = {"cpi-test": Series(
+        id="cpi-test", label="L", source="src-1", tier=Tier.C,
+        unit="index", population="p", values={2020: 100.0, 2024: 120.0},
+    )}
+    computed = evaluate(room, _inflate_derived(), series)
+    assert computed.tier is Tier.C  # weakest input — series is C
+
+
+def test_inflate_missing_series_raises() -> None:
+    room = _room((_fact("us-2020s-base", 2736600),))
+    with pytest.raises(DeriveError, match="not available"):
+        evaluate(room, _inflate_derived(), {})
+
+
+def test_inflate_missing_year_raises() -> None:
+    room = _room((_fact("us-2020s-base", 2736600),))
+    series = _inflate_series({2020: 147.6})  # no 2024
+    with pytest.raises(DeriveError, match="inflate_to_year"):
+        evaluate(room, _inflate_derived(), series)
+
+
+def test_inflate_zero_base_raises() -> None:
+    room = _room((_fact("us-2020s-base", 2736600),))
+    series = _inflate_series({2020: 0.0, 2024: 100.0})
+    with pytest.raises(DeriveError, match="zero"):
+        evaluate(room, _inflate_derived(), series)

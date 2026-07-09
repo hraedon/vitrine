@@ -7,6 +7,7 @@
 [room]
 country = "us"
 decade = "1930s"
+wage_anchor = "us-1930s-manufacturing-wages"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -62,10 +63,14 @@ panel = "day"
 label = "Manufacturing production worker wages, 1930 and 1933"
 value = "1930: $0.55/hr, 42.1 hrs/wk, $23.00/wk | 1933: $0.44/hr, 38.1 hrs/wk, $16.65/wk"
 unit = "USD, nominal (hourly earnings, weekly hours, weekly earnings)"
-source = "hist-stats-colonial-1970"
+source = "hist-stats-wages-manufacturing"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series D 802-804. The Depression crushed wages: hourly earnings fell 20% from 1930 to 1933, and weekly hours fell from 42.1 to 38.1 (part-time work, layoffs). Recovery: by 1935: $0.54/hr, 36.6 hrs/wk, $19.91/wk. The NIRA (1933) established minimum wages and maximum hours."
-assumptions = ["nominal-values", "shortage-economy"]
+amount_minor = 55
+currency = "USD"
+price_year = 1930
+basis = "hourly"
+notes = "From Historical Statistics Vol 1, Series D 802-804. The anchor year is 1930 ($0.55/hr, 55 cents exact). The Depression crushed wages: hourly earnings fell 20% from 1930 to 1933 ($0.44/hr), and weekly hours fell from 42.1 to 38.1 (part-time work, layoffs). Recovery: by 1935: $0.54/hr, 36.6 hrs/wk, $19.91/wk. The NIRA (1933) established minimum wages and maximum hours."
+assumptions = ["nominal-values", "manufacturing-wage-proxy"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -121,6 +126,10 @@ value = "~$590 (average wholesale, computed from factory sales)"
 unit = "USD, nominal (wholesale value per passenger car)"
 source = "hist-stats-colonial-1970"
 tier = "A"
+amount_minor = 59000
+currency = "USD"
+price_year = 1930
+basis = "total"
 notes = "Computed from Historical Statistics, Series Q 148-162. 1930: 2,787,400 passenger cars sold at $1,644 million wholesale value = ~$590 average per car. The Depression crashed car sales — production fell from 4.5M (1929) to 2.8M (1930). Wholesale value; retail/transaction price would be higher. Population: all US factory sales of passenger cars."
 assumptions = ["nominal-values"]
 

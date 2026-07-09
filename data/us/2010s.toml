@@ -246,6 +246,7 @@ assumptions = ["affordability-normalization", "nominal-values"]
 [[fact]]
 id = "us-2010s-cpi"
 quantity = 218.1
+price_year = 2010
 panel = "work-buys"
 label = "Consumer Price Index and purchasing power, 2010"
 value = "CPI 218.1 (2010) → 313.7 (2024) = 1.4x. $1 in 2010 = $1.44 in 2024. Real median family income grew 1.22x."

@@ -213,6 +213,9 @@ def _load_room(path: Path) -> Room:
                 precision=precision if precision is not None else 1,
                 notes=_get_str_opt(table, "notes", ctx),
                 assumptions=_get_str_list(table, "assumptions", ctx),
+                inflate_series=_get_str_opt(table, "inflate_series", ctx),
+                inflate_from_year=_get_int_opt(table, "inflate_from_year", ctx) or 0,
+                inflate_to_year=_get_int_opt(table, "inflate_to_year", ctx) or 0,
             )
         )
     return Room(
@@ -222,6 +225,7 @@ def _load_room(path: Path) -> Room:
         derived=tuple(derived),
         wage_anchor=_get_str_opt(meta, "wage_anchor", f"{path} [room]"),
         income_anchor=_get_str_opt(meta, "income_anchor", f"{path} [room]"),
+        data_as_of=_get_str_opt(meta, "data_as_of", f"{path} [room]"),
     )
 
 
@@ -237,6 +241,7 @@ def load_corpus(data_dir: Path) -> Corpus:
     rooms = tuple(
         _load_room(path)
         for path in sorted(data_dir.glob("*/*.toml"))
+        if path.parent.name != "series"
     )
     return Corpus(
         sources=_load_sources(sources_path),
