@@ -118,8 +118,37 @@ def test_era_keyed_symbols() -> None:
     assert symbols.symbol("refrigerator", "1950s").variant == "round-top"  # type: ignore[union-attr]
     assert symbols.symbol("refrigerator", "2020s").variant == "two-door"  # type: ignore[union-attr]
     assert symbols.symbol("telephone", "1900s").variant == "candlestick"  # type: ignore[union-attr]
+    assert symbols.symbol("telephone", "1970s").variant == "push-button"  # type: ignore[union-attr]
+    assert symbols.symbol("telephone", "1980s").variant == "handset"  # type: ignore[union-attr]
     assert symbols.symbol("telephone", "2020s").variant == "smartphone"  # type: ignore[union-attr]
+    assert symbols.symbol("television", "1900s").variant == "rabbit-ear-set"  # type: ignore[union-attr]
+    assert symbols.symbol("television", "1990s").variant == "crt-color"  # type: ignore[union-attr]
+    assert symbols.symbol("television", "2000s").variant == "flat-panel"  # type: ignore[union-attr]
     assert symbols.symbol("no-such-artifact", "1950s") is None
+
+    # New artifacts
+    assert symbols.symbol("washing-machine", "1900s").variant == "wringer"  # type: ignore[union-attr]
+    assert symbols.symbol("washing-machine", "1950s").variant == "top-loader"  # type: ignore[union-attr]
+    assert symbols.symbol("washing-machine", "2000s").variant == "front-loader"  # type: ignore[union-attr]
+    assert symbols.symbol("stove", "1900s").variant == "wood-coal"  # type: ignore[union-attr]
+    assert symbols.symbol("stove", "1950s").variant == "cabinet-range"  # type: ignore[union-attr]
+    assert symbols.symbol("stove", "2000s").variant == "smooth-top"  # type: ignore[union-attr]
+
+    # Food items
+    assert symbols.symbol("bread", "1900s").variant == "loaf"  # type: ignore[union-attr]
+    assert symbols.symbol("milk", "1900s").variant == "bottle"  # type: ignore[union-attr]
+
+    # Dynamic food still-life
+    bowl_sym = symbols.symbol("food", "1900s")
+    assert bowl_sym.variant == "bowl"  # type: ignore[union-attr]
+    assert "ellipse" in bowl_sym.svg  # type: ignore[union-attr]
+
+    still_life_sym = symbols.symbol("food", "1900s", "We had beef, eggs, and milk")
+    assert still_life_sym.variant == "still-life"  # type: ignore[union-attr]
+    assert 'd="-3 -3' in still_life_sym.svg or 'd="M-3 -3' in still_life_sym.svg  # type: ignore[union-attr]
+    assert 'cx="1"' in still_life_sym.svg  # type: ignore[union-attr]
+    assert 'd="M5.5 -4' in still_life_sym.svg  # type: ignore[union-attr]
+    assert 'd="M-12 -2' not in still_life_sym.svg  # type: ignore[union-attr]
 
 
 def test_chart_deep_links_resolve(site: Path) -> None:

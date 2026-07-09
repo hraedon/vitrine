@@ -606,10 +606,10 @@ def _build_stage(room: Room, index: dict[str, _FactRef], root: str) -> svg.Stage
             kind = "stat"
         if fid is None:
             continue  # absent technology isn't drawn
-        sym = symbols.symbol(artifact, room.decade)
+        ref = index[fid]
+        sym = symbols.symbol(artifact, room.decade, ref.fact.value)
         if sym is None:
             continue
-        ref = index[fid]
         artifacts.append(
             svg.StageArtifact(
                 artifact=artifact,

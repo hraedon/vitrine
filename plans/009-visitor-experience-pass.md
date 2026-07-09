@@ -1,6 +1,6 @@
 # Plan 009 — The visitor experience pass: interaction, charts, rooms, and surfaces
 
-**Status:** proposed
+**Status:** in progress (9 of 23 done, 2 partial, 11 pending, 1 deferred)
 **Triggered by:** 2026-07-08 owner review of the live site at vitrine.hraedon.com.
 Twenty-three items of structured feedback across rooms (10), corridors (10),
 walkthrough (1), and general (4). This plan organizes them into six phases by
@@ -18,9 +18,21 @@ scroll — the hash still changes (deep links still work), but the page doesn't
 move. A JS-dependent item (corridor budget hover breakdown, #C8) gets a
 CSS-only fallback or is deferred to a future JS plan.
 
+## Progress summary
+
+| Status | Count | Items |
+|--------|-------|-------|
+| ✅ done | 9 | WI-1, WI-2, WI-3, WI-5, WI-7, WI-10, WI-11, WI-15, WI-23 |
+| 🔶 partial | 2 | WI-17 (hours shown in placard, not prominent; header unchanged), WI-20 (symbols drawn, not wired into pipeline) |
+| ⬜ pending | 11 | WI-4, WI-6, WI-8, WI-9, WI-12, WI-13, WI-14, WI-16, WI-18, WI-19, WI-21 |
+| ⏸ deferred | 1 | WI-22 |
+
+Phase 1–2 (interaction model + chart fixes) landed in commit `e010d56`.
+WI-20 symbols added by Gemini, committed with naming fix and wiring notes.
+
 ## Phase 1 — Interaction model (the highest-impact UX changes)
 
-### WI-1: Popup placards instead of page-jump (Room #2, Corridor #1)
+### WI-1: Popup placards instead of page-jump (Room #2, Corridor #1) ✅ done
 
 **Problem:** Clicking a stage glyph or chart point navigates to the placard's
 anchor, scrolling the page mid-view. Disruptive in rooms; jarring in corridors
@@ -56,7 +68,7 @@ scrolls to on `:target`. The change:
 overlay without scroll; the URL hash changes (deep-linkable); closing the
 overlay returns to the prior scroll position; works with JS disabled.
 
-### WI-2: Larger clickable hit area for appliance glyphs (Room #4)
+### WI-2: Larger clickable hit area for appliance glyphs (Room #4) ✅ done
 
 **Problem:** Appliance glyphs are only clickable on their drawn stroke
 elements — the circle ring and the glyph paths. The space inside the ring
@@ -70,7 +82,7 @@ clicks. One line per artifact in `svg.stage_svg()`.
 **Acceptance:** clicking anywhere within the ring or the glyph's bounding
 box opens the placard overlay; the hit area is visually imperceptible.
 
-### WI-3: Collapsible room panel sections (Room #6)
+### WI-3: Collapsible room panel sections (Room #6) ✅ done
 
 **Problem:** All six panels render fully expanded; long rooms are a wall of
 cards.
@@ -85,7 +97,7 @@ no-JS, keyboard accessible, and semantic.
 collapsible; default state is open (no regression); keyboard
 `Enter`/`Space` toggles; works with JS disabled.
 
-### WI-4: Corridor budget-composition hover breakdown (Corridor #8)
+### WI-4: Corridor budget-composition hover breakdown (Corridor #8) ⬜ pending
 
 **Problem:** Mousing over a category segment in the budget composition bar
 should show a breakdown — most important for "other," which is opaque.
@@ -103,7 +115,7 @@ works with JS disabled.
 
 ## Phase 2 — Chart rendering fixes (corridors)
 
-### WI-5: Y-axis rounding (Corridor #3)
+### WI-5: Y-axis rounding (Corridor #3) ✅ done
 
 **Problem:** Y-axis labels show raw computed values (35.748, 71.496, 102.384)
 instead of rounded increments.
@@ -118,7 +130,7 @@ three gridlines (0, 0.5×q_top, q_top) then read as clean numbers. Implement a
 nice increment); the top label is ≥ the max data point; no decimal-only
 labels.
 
-### WI-6: Telephone arc: >100% fix and cell/landline split (Corridor #4, #5)
+### WI-6: Telephone arc: >100% fix and cell/landline split (Corridor #4, #5) ⬜ pending
 
 **Problem:** The telephone arc tops out at 102.384% — the 1900s fact
 (`us-1900s-diffusion`) has `quantity = 5` (a composite "5% of families had
@@ -150,7 +162,7 @@ concept splice rendered as a single line.
 landline render as separate lines on the same chart with a legend;
 landline peaks and declines, cell phone rises.
 
-### WI-7: Label collision with x-axis (Corridor #2)
+### WI-7: Label collision with x-axis (Corridor #2) ✅ done
 
 **Problem:** The 1960s data-point label for several charts (poverty, women's
 home production, food share, weekly hours) collides with the top of the
@@ -167,7 +179,7 @@ label row (`height - 26`) and the value label row never overlap by checking
 **Acceptance:** no value label overlaps any x-axis decade label; high-value
 points place their labels below the dot when above would collide.
 
-### WI-8: Y-axis gap rendering for sparse arcs (Corridor #9)
+### WI-8: Y-axis gap rendering for sparse arcs (Corridor #9) ⬜ pending
 
 **Problem:** Infant mortality and food share charts have y-axes that appear
 to jump from '00s to '50s — the gridlines are computed from the max quantity
@@ -187,7 +199,7 @@ no fact at all in the arc.
 **Acceptance:** the visitor can distinguish "no data for this decade" from
 "the axis skipped a value"; gap decades are visibly marked on the x-axis.
 
-### WI-9: Men's home production on the same chart as women's (Corridor #10)
+### WI-9: Men's home production on the same chart as women's (Corridor #10) ⬜ pending
 
 **Problem:** Men's and women's home production are separate arcs with
 separate y-axes, making visual comparison misleading (men's bars look
@@ -206,7 +218,7 @@ the data; the chart function from WI-6 can be reused.
 with a shared y-axis; the visual comparison is honest; both series carry
 tier labels and deep-link to their placards.
 
-### WI-10: Cable TV label wording (Corridor #6)
+### WI-10: Cable TV label wording (Corridor #6) ✅ done
 
 **Problem:** "% of TV households" reads awkwardly; "% of households with TV"
 is clearer.
@@ -218,7 +230,7 @@ the arc label if needed. Gate-verified (no fact values change).
 **Acceptance:** the cable TV chart's unit caption reads "% of households
 with TV."
 
-### WI-11: "Featured" → "Detailed" epoch comparisons (Corridor #7)
+### WI-11: "Featured" → "Detailed" epoch comparisons (Corridor #7) ✅ done
 
 **Problem:** "Featured Epoch Comparisons" suggests clicking one regenerates
 the landing-page charts for that period; instead it takes you to a page with
@@ -234,7 +246,7 @@ sub-caption sets expectations.
 
 ## Phase 3 — Room enhancements
 
-### WI-12: The composite family in the room (Room #1)
+### WI-12: The composite family in the room (Room #1) ⬜ pending
 
 **Problem:** Rooms show the house cutaway but not the people. The walkthrough
 has figures (father, mother, children) but rooms don't.
@@ -270,7 +282,7 @@ room page are wanted later, that's Plan 005's scope.
 are era-appropriate and less heteronormative; figures don't overlap the
 artifact glyphs or zone notes.
 
-### WI-13: House size scaling in rooms (General #2)
+### WI-13: House size scaling in rooms (General #2) ⬜ pending
 
 **Problem:** The room stage's house cutaway is the same size in every room
 — a 1900s 4-room home and a 2020s 7-room home render identically.
@@ -297,7 +309,7 @@ this WI renders what exists and gaps the rest.
 rooms without it render the reference outline with a gap note; the
 artifact glyphs don't overlap the scaled structure.
 
-### WI-14: Data-gap prominence banner (Room #10)
+### WI-14: Data-gap prominence banner (Room #10) ⬜ pending
 
 **Problem:** Rooms with significant unsolvable data gaps (e.g. war periods,
 the 1940s bifurcation) don't surface this prominently — the visitor has to
@@ -320,7 +332,7 @@ gated: it only renders when the gap count exceeds a threshold.
 scrolling; rooms with no significant gaps show no banner; the banner text
 names the specific gap reason (not generic).
 
-### WI-15: "Reading the Museum" legend — color the color words (Room #9)
+### WI-15: "Reading the Museum" legend — color the color words (Room #9) ✅ done
 
 **Problem:** The legend says "Falling metrics render in copper, rising in
 brass" but doesn't color the words "copper" and "brass" — they're similar
@@ -333,7 +345,7 @@ Bold + colored. One-line template change.
 **Acceptance:** "copper" renders in copper (#c98a6a), bold; "brass" renders
 in brass (#cf9f4c), bold; the two are visually distinguishable.
 
-### WI-16: Small visualizations in placards (Room #5)
+### WI-16: Small visualizations in placards (Room #5) ⬜ pending
 
 **Problem:** "The Table" panel shows the food basket as a contextless list;
 a small chart (bar, donut, or pictogram) would make it easier to ingest.
@@ -361,7 +373,7 @@ other panels as the parse patterns are validated. A registry in
 mini chart; the chart's data matches the fact's `value` (gate-enforced via
 quantity-verbatim); the chart deep-links to the same placard.
 
-### WI-17: Work-buys panel — hours-to-afford in the display (Room #8)
+### WI-17: Work-buys panel — hours-to-afford in the display (Room #8) 🔶 partial
 
 **Problem:** "A day's work buys" placards show "$650 Oldsmobile" with a
 generic "A day's work buys" header repeated for each item. The user wants
@@ -387,7 +399,7 @@ already computed and passed to the template (`affordability[fact.id]`).
 the header names the item, not the panel; the figure is computed (not
 authored) and gated by the affordability engine.
 
-### WI-18: Explanation for "impossible" results (Room #7)
+### WI-18: Explanation for "impossible" results (Room #7) ⬜ pending
 
 **Problem:** The 1900s work-buys fact says "60 weeks to cover annual
 expenses" — impossible (a year has 52 weeks). The explanation ("year-round
@@ -415,7 +427,7 @@ exceeds a single year shows a caveat.
 
 ## Phase 4 — New surfaces
 
-### WI-19: Bibliography page (Room #3)
+### WI-19: Bibliography page (Room #3) ⬜ pending
 
 **Problem:** No bibliography page. `docs/citations.md` exists but is
 hand-written and not rendered; `data/sources.toml` has 56 fully-cited
@@ -440,7 +452,7 @@ the page is in the top nav; `vitrine check` render-coverage includes it.
 
 ## Phase 5 — Glyphs, overlap, and the vision pass
 
-### WI-20: Expand the artifact symbol library (General #1)
+### WI-20: Expand the artifact symbol library (General #1) 🔶 partial
 
 **Problem:** Glyphs are minimal (2–4 stroke primitives) and identical for
 many artifacts within a panel. The food basket glyph is a single bowl;
@@ -466,7 +478,7 @@ basket fact names them; the glyph tracker lists all artifacts and their
 status; the symbol-gate test still passes (symbols only render for
 rooms with the diffusion fact).
 
-### WI-21: Vision-model overlap and placement audit (General #3)
+### WI-21: Vision-model overlap and placement audit (General #3) ⬜ pending
 
 **Problem:** Lots of item overlap and odd placement in the room stages.
 Artifact positions (`STAGE_POS`) were carried from the demo's layout and
@@ -491,7 +503,7 @@ propagate to all rooms.
 
 ## Phase 6 — Walkthrough
 
-### WI-22: Walkthrough flow polish (Walkthrough #1)
+### WI-22: Walkthrough flow polish (Walkthrough #1) ⏸ deferred
 
 **Problem:** The walkthrough "could flow more smoothly" but the feedback is
 not well-considered.
@@ -503,7 +515,7 @@ targeted walkthrough work. Log as a placeholder; revisit after Phase 5.
 
 ## Phase 7 — General fixes
 
-### WI-23: Decade label disambiguation (General #4)
+### WI-23: Decade label disambiguation (General #4) ✅ done
 
 **Problem:** "'00s" means 1900s, but "2000s" is also "00s" — confusing in
 charts that span both centuries.
