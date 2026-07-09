@@ -73,3 +73,78 @@ how nutrition and health changed over the century.
 
 **Expected values:** Men's height increased ~2-3 inches over the century;
 weight increased significantly in the late 20th century.
+
+---
+
+## Candidates from the 2026-07-09 completeness survey
+
+Domains the corpus does not cover at all, ranked by effort. All "expected"
+figures below are recalled orientation, never transcription material.
+
+### 6. Median rent — the renter half of the housing story
+
+**Why:** Homeownership facts show 35–55% of families rented for the first
+half of the century — the museum prices the home the median family often
+did NOT own, and prices nothing it rented. The biggest single coverage
+hole. Priority 1.
+
+**Where to look:** Census of Housing decennial median gross rent (1940→)
+and contract rent (1930→) — same publication family as the home-value
+facts already curated; ACS B25064 annual 2005→; BLS cost-of-living
+surveys (1901, 1918-19) already in the source registry carry rent for
+wage-earner families. Tier A throughout the census years.
+
+### 7. Married women's labor force participation — who earns
+
+**Why:** The week-of-work arc implies the single-earner era's end but the
+corpus never states the direct fact. LFPR of married women is THE
+composite-family story across the century. Priority 1.
+
+**Where to look:** Historical Statistics Vol 1 (Series D 49–62,
+decennial 1890→); BLS/CPS annual tables for the postwar era. Tier A.
+**Expected shape (verify):** single digits ~1900 → majority by the 1980s.
+
+### 8. Median age at first marriage — when the family forms
+
+**Why:** Frames the four-person composite itself; also the 2020s room's
+"the median household is no longer this family" caveat gets a number.
+Cheapest addition on this list — one Census table covers 1890→present.
+
+**Where to look:** Census Historical Marital Status Table MS-2. Tier A.
+
+### 9. Educational attainment — the parents' schooling
+
+**Why:** Nothing in the corpus touches education. Attainment of adults
+25+ (median school years / % high-school graduates) is a one-table
+Tier A arc 1940→present and changes how every room's family reads.
+
+**Where to look:** Census Historical Educational Attainment Table A-1/A-2
+(CPS, 1940→); pre-1940 only via IPUMS computation (Tier B, defer).
+
+### 10. Healthcare — coverage and cost
+
+**Why:** The defining budget transformation the expenditure shares only
+hint at. Two candidate arcs: health-insurance coverage (% insured) and
+per-capita national health expenditure.
+
+**Where to look:** CMS National Health Expenditure Accounts historical
+tables (1960→, annual, Tier A); NHIS/CPS coverage series (methodology
+breaks across redesigns — needs a splice caveat). Moderate effort.
+
+### 11. Mortgage debt — the financing half of affordability
+
+**Why:** Home-as-income-years prices the house, not the loan. The share
+of owner-occupied homes carrying a mortgage is a diffusion-style Tier A
+fact back to 1890 ("encumbered homes" in early censuses); mortgage
+rates (FHA series, then Freddie Mac PMMS 1971→) would enable a
+payment-based metric later. Involved end of the list; the encumbrance
+share alone is cheap.
+
+### Known holes that likely stay honest gaps
+
+- **Taxes:** the median family's effective tax rate went from ~0 to a
+  major budget line, but official family-level series are scarce; most
+  published series are think-tank computed (Tier D — excluded). CBO
+  household tax tables (1979→) might support late decades only.
+- **Childcare:** no official series before SIPP 1985. Late-century facts
+  possible; earlier decades render the gap.
