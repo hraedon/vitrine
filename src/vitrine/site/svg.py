@@ -53,6 +53,7 @@ class ShareSegment:
     pct: float
     fact_id: str
     href: str
+    breakdown: tuple[tuple[str, float], ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -732,9 +733,12 @@ def composition_bar(
     for s in segments:
         w = max(s.pct * scale - 2, 1.5)  # 2px surface gap
         color = tokens.COMPOSITION_DARK[s.slot]
+        detail = " + ".join(f"{name} {pct:g}%" for name, pct in s.breakdown)
         out.append(
             f'<a href={quoteattr(f"#{s.fact_id}--modal")}><g data-fact-id={quoteattr(s.fact_id)}>'
-            f"<title>{escape(s.category)}: {s.pct:g}% — {decade}</title>"
+            f"<title>{escape(s.category)}: {s.pct:g}% — {decade}"
+            + (f" ({escape(detail)})" if detail else "")
+            + "</title>"
             f'<rect x="{x:.1f}" y="0" width="{w:.1f}" height="{bar_h}" rx="2" fill="{color}"/>'
             + (
                 f'<text class="seglab" x="{x + w / 2:.1f}" y="{bar_h / 2 + 3.5}">{s.pct:g}</text>'
@@ -818,14 +822,20 @@ STAGE_POS: dict[str, tuple[int, int]] = {
     "radio": (200, 275),
     "television": (300, 275),
     "telephone": (350, 240),
-    "refrigerator": (200, 360),
+    # Keep the ring below the food-share annotation instead of touching its
+    # baseline; the percentage still clears the ground line.
+    "refrigerator": (200, 380),
     "food": (300, 395),
     "plumbing": (460, 365),
     "heating": (560, 395),
     "air-conditioning": (600, 210),
-    "cable": (490, 330),
+    # Cable belongs with communications in the rooms zone. Its old y=330
+    # position put it below the floor line, directly on the health annotation.
+    "cable": (490, 250),
     "computer": (530, 275),
-    "internet": (600, 290),
+    # Leave enough room for the percentage/gap label below the ring; y=290
+    # made that label straddle the horizontal room divider.
+    "internet": (600, 260),
     "automobile": (700, 405),
     "washing-machine": (350, 365),
     "stove": (350, 395),

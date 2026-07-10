@@ -440,10 +440,14 @@ ROOM_GAP_BANNERS: dict[str, str] = {
 # zone-note anchor positions on the cutaway, per palette slot
 ZONE_NOTE_POS: dict[str, tuple[int, int]] = {
     "housing": (172, 218),
-    "apparel": (470, 218),
+    # End before the air-conditioning ring at x=600.
+    "apparel": (440, 218),
     "food": (172, 342),
-    "health": (470, 342),
-    "transport": (700, 380),
+    # Start to the right of the plumbing ring at x=460.
+    "health": (520, 342),
+    # The automobile sits at (700, 405); keep its budget annotation above the
+    # mark rather than running through its ring and percentage label.
+    "transport": (700, 360),
 }
 
 # ── affordability corridors (structured amounts + room anchors) ──────────────

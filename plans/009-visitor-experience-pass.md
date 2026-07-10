@@ -1,6 +1,7 @@
 # Plan 009 — The visitor experience pass: interaction, charts, rooms, and surfaces
 
-**Status:** in progress (13 of 23 done, 5 partial, 4 pending, 1 deferred)
+**Status:** implementation pass complete (17 of 23 done, 3 partial on data
+dependencies, 0 pending, 3 deliberately deferred)
 **Triggered by:** 2026-07-08 owner review of the live site at vitrine.hraedon.com.
 Twenty-three items of structured feedback across rooms (10), corridors (10),
 walkthrough (1), and general (4). This plan organizes them into six phases by
@@ -22,10 +23,10 @@ CSS-only fallback or is deferred to a future JS plan.
 
 | Status | Count | Items |
 |--------|-------|-------|
-| ✅ done | 13 | WI-1, WI-2, WI-3, WI-5, WI-7, WI-8, WI-9, WI-10, WI-11, WI-14, WI-15, WI-19, WI-23 |
-| 🔶 partial | 5 | WI-6 (invalid endpoint splices rejected; no dual phone series), WI-13 (sourced 1970s–2020s scaling), WI-17 (hours shown in placard, not prominent; header unchanged), WI-18 (1900s explanation visible; no generic threshold), WI-20 (symbols drawn, partly wired) |
-| ⬜ pending | 4 | WI-4, WI-12, WI-16, WI-21 |
-| ⏸ deferred | 1 | WI-22 |
+| ✅ done | 17 | WI-1, WI-2, WI-3, WI-4, WI-5, WI-7, WI-8, WI-9, WI-10, WI-11, WI-14, WI-15, WI-17, WI-18, WI-19, WI-21, WI-23 |
+| 🔶 partial | 3 | WI-6 (invalid endpoint splices rejected; no dual phone series), WI-13 (sourced 1970s–2020s scaling), WI-20 (symbols drawn, partly wired) |
+| ⬜ pending | 0 | — |
+| ⏸ deferred | 3 | WI-12 (figures would literalize the composite), WI-16 (microcharts would compare unlike units or duplicate existing marks), WI-22 (awaiting specific walkthrough feedback) |
 
 Phase 1–2 (interaction model + chart fixes) landed in commit `e010d56`.
 WI-20 symbols added by Gemini, committed with naming fix and wiring notes.
@@ -102,7 +103,7 @@ no-JS, keyboard accessible, and semantic.
 collapsible; default state is open (no regression); keyboard
 `Enter`/`Space` toggles; works with JS disabled.
 
-### WI-4: Corridor budget-composition hover breakdown (Corridor #8) ⬜ pending
+### WI-4: Corridor budget-composition hover breakdown (Corridor #8) ✅ done
 
 **Problem:** Mousing over a category segment in the budget composition bar
 should show a breakdown — most important for "other," which is opaque.
@@ -117,6 +118,10 @@ category names before folding). For "other," list the subcategories. No JS.
 **Acceptance:** hovering a segment shows its subcategory breakdown; "other"
 is the priority — it names every category folded into the neutral slot;
 works with JS disabled.
+
+**Landed:** every SVG segment's native tooltip now carries the full folded
+breakdown. A keyboard/touch-accessible `<details>` disclosure below the chart
+lists the same categories for every decade, avoiding a hover-only interaction.
 
 ## Phase 2 — Chart rendering fixes (corridors)
 
@@ -260,7 +265,7 @@ sub-caption sets expectations.
 
 ## Phase 3 — Room enhancements
 
-### WI-12: The composite family in the room (Room #1) ⬜ pending
+### WI-12: The composite family in the room (Room #1) ⏸ deferred by design
 
 **Problem:** Rooms show the house cutaway but not the people. The walkthrough
 has figures (father, mother, children) but rooms don't.
@@ -286,6 +291,13 @@ we get more modern and gender roles become less rigid." Approach:
 This requires no data-model change — the labels are editorial (which
 figure SVG goes where) and live in the renderer. The figures themselves
 are decorative (non-truth-path), like the stage glyphs.
+
+**Decision after visual audit:** do not add decorative people to room stages.
+The early rooms' sparseness is evidence about the curated record, not empty
+space to fill. Four figures would also make the explicitly statistical
+composite read as one literal nuclear family. The walkthrough remains the
+dedicated human-scale surface and now labels its cards as paid-work,
+unpaid-work, and childhood records rather than father/mother roles.
 
 **Note:** Plan 005 proposed an `actor` field for binding facts to figures.
 That model change is *not* needed for this WI — the figures are decoration;
@@ -359,7 +371,7 @@ Bold + colored. One-line template change.
 **Acceptance:** "copper" renders in copper (#c98a6a), bold; "brass" renders
 in brass (#cf9f4c), bold; the two are visually distinguishable.
 
-### WI-16: Small visualizations in placards (Room #5) ⬜ pending
+### WI-16: Small visualizations in placards (Room #5) ⏸ deferred by design
 
 **Problem:** "The Table" panel shows the food basket as a contextless list;
 a small chart (bar, donut, or pictogram) would make it easier to ingest.
@@ -387,7 +399,13 @@ other panels as the parse patterns are validated. A registry in
 mini chart; the chart's data matches the fact's `value` (gate-enforced via
 quantity-verbatim); the chart deep-links to the same placard.
 
-### WI-17: Work-buys panel — hours-to-afford in the display (Room #8) 🔶 partial
+**Decision after data review:** do not chart food-item prices inside placards.
+The values mix pounds, quarts, dozens, and item counts; equal-length bars would
+imply a common magnitude they do not have. Diffusion rings and budget
+compositions already have stage/corridor projections, so repeating them inside
+the source card adds decoration without new understanding.
+
+### WI-17: Work-buys panel — hours-to-afford in the display (Room #8) ✅ done
 
 **Problem:** "A day's work buys" placards show "$650 Oldsmobile" with a
 generic "A day's work buys" header repeated for each item. The user wants
@@ -413,7 +431,12 @@ already computed and passed to the template (`affordability[fact.id]`).
 the header names the item, not the panel; the figure is computed (not
 authored) and gated by the affordability engine.
 
-### WI-18: Explanation for "impossible" results (Room #7) 🔶 partial
+**Landed:** computed hours and income share now occupy a dedicated, prominent
+affordability block. Ratios above 2,000 hours carry a visible instruction to
+inspect population and anchor-year provenance rather than reading the result
+as a literal household timeline.
+
+### WI-18: Explanation for "impossible" results (Room #7) ✅ done
 
 **Problem:** The 1900s work-buys fact says "60 weeks to cover annual
 expenses" — impossible (a year has 52 weeks). The explanation ("year-round
@@ -492,7 +515,7 @@ basket fact names them; the glyph tracker lists all artifacts and their
 status; the symbol-gate test still passes (symbols only render for
 rooms with the diffusion fact).
 
-### WI-21: Vision-model overlap and placement audit (General #3) ⬜ pending
+### WI-21: Vision-model overlap and placement audit (General #3) ✅ done
 
 **Problem:** Lots of item overlap and odd placement in the room stages.
 Artifact positions (`STAGE_POS`) were carried from the demo's layout and
@@ -514,6 +537,12 @@ propagate to all rooms.
 
 **Acceptance:** a vision-model pass confirms no overlaps in audited rooms;
 `STAGE_POS` positions are adjusted; the stage-gate test still passes.
+
+**Landed:** all 13 stages were rendered and inspected at desktop width. Cable
+moved into the communications/rooms zone; internet labels clear the room
+divider; refrigerator, health, apparel, and transport annotations clear their
+neighboring marks. A scale-aware geometry regression test now checks every
+room for artifact/artifact, artifact/note, and note/note collisions.
 
 ## Phase 6 — Walkthrough
 
@@ -579,6 +608,10 @@ WI-21 (vision audit)           ← WI-12, WI-13, WI-20 (after layout changes)
 ```
 
 ## Acceptance criteria
+
+Criteria 3's family-figure clause and criterion 8's implication that more
+glyphs are always better are superseded by the documented WI-12/WI-16 design
+decisions above. The audit acceptance is retained and mechanically gated.
 
 1. Clicking any glyph or chart point surfaces the placard as an overlay —
    no page scroll, no cross-page navigation. Works with JS disabled.

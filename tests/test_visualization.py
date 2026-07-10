@@ -7,6 +7,7 @@ land, gaps render as gaps.
 
 import re
 from html.parser import HTMLParser
+from itertools import combinations
 from pathlib import Path
 
 import pytest
@@ -16,7 +17,7 @@ from vitrine.loader import load_corpus
 from vitrine.model import Corpus
 from vitrine.series import load_series
 from vitrine.site import curation, symbols
-from vitrine.site.render import render_site
+from vitrine.site.render import _build_stage, _index_facts, render_site
 
 DATA = Path(__file__).parent.parent / "data"
 
@@ -256,10 +257,98 @@ def test_structural_room_gaps_are_visible_before_the_stage(site: Path) -> None:
     assert 'class="gap-banner"' not in (site / "rooms" / "us-1950s.html").read_text()
 
 
+def test_stage_artifacts_and_budget_notes_do_not_collide(corpus: Corpus) -> None:
+    """WI-21: hold the audited ring/label clearances across all room scales."""
+    index = _index_facts(corpus)
+    for room in corpus.rooms:
+        stage = _build_stage(room, index, "")
+        scale = stage.home_scale
+
+        # Rings are 34px across and their percentage labels extend below them.
+        for left, right in combinations(stage.artifacts, 2):
+            left_x = 400 + (left.x - 400) * scale
+            left_y = 306 + (left.y - 306) * scale
+            right_x = 400 + (right.x - 400) * scale
+            right_y = 306 + (right.y - 306) * scale
+            distance = ((left_x - right_x) ** 2 + (left_y - right_y) ** 2) ** 0.5
+            assert distance >= 44, (
+                f"{room.decade}: {left.artifact} and {right.artifact} "
+                f"are only {distance:.1f}px apart"
+            )
+
+        for artifact in stage.artifacts:
+            ax = 400 + (artifact.x - 400) * scale
+            ay = 306 + (artifact.y - 306) * scale
+            artifact_box = (ax - 20, ay - 20, ax + 20, ay + 38)
+            for note in stage.zone_notes:
+                nx = 400 + (note.x - 400) * scale
+                ny = 306 + (note.y - 306) * scale
+                text_width = len(note.text) * 5.5
+                note_box = (
+                    nx - text_width if note.x > 620 else nx,
+                    ny - 11,
+                    nx if note.x > 620 else nx + text_width,
+                    ny + 3,
+                )
+                overlaps = not (
+                    artifact_box[2] < note_box[0]
+                    or note_box[2] < artifact_box[0]
+                    or artifact_box[3] < note_box[1]
+                    or note_box[3] < artifact_box[1]
+                )
+                assert not overlaps, (
+                    f"{room.decade}: {artifact.artifact} overlaps {note.text!r}"
+                )
+
+        note_boxes: list[tuple[str, tuple[float, float, float, float]]] = []
+        for note in stage.zone_notes:
+            nx = 400 + (note.x - 400) * scale
+            ny = 306 + (note.y - 306) * scale
+            text_width = len(note.text) * 5.5
+            note_boxes.append(
+                (
+                    note.text,
+                    (
+                        nx - text_width if note.x > 620 else nx,
+                        ny - 11,
+                        nx if note.x > 620 else nx + text_width,
+                        ny + 3,
+                    ),
+                )
+            )
+        for (left_text, left), (right_text, right) in combinations(note_boxes, 2):
+            overlaps = not (
+                left[2] < right[0]
+                or right[2] < left[0]
+                or left[3] < right[1]
+                or right[3] < left[1]
+            )
+            assert not overlaps, (
+                f"{room.decade}: note {left_text!r} overlaps {right_text!r}"
+            )
+
+
+def test_budget_composition_exposes_folded_categories(site: Path) -> None:
+    corridor = (site / "corridors" / "index.html").read_text()
+    assert 'class="composition-key"' in corridor
+    assert "Inspect the folded categories" in corridor
+    assert "fuel &amp; light 5.25%" in corridor
+    assert "liquor/sickness/amusements 14.51%" in corridor
+    # The same breakdown rides in the SVG's native hover/focus tooltip.
+    assert "other: 30.47% — 1900s (fuel &amp; light 5.25%" in corridor
+
+
 def test_impossible_work_week_explains_multiple_earners(site: Path) -> None:
     html = (site / "rooms" / "us-1900s.html").read_text()
     assert "60 weeks of one earner&#39;s wages" in html
     assert "the family budget depended on income beyond this one manufacturing wage" in html
+
+
+def test_large_affordability_ratios_are_prominent_and_caveated(site: Path) -> None:
+    html = (site / "rooms" / "us-1900s.html").read_text()
+    assert "Computed affordability" in html
+    assert 'class="afford-box"' in html
+    assert "Large ratio: inspect the wage population and anchor years" in html
 
 
 def test_era_graded_light_varies(site: Path) -> None:

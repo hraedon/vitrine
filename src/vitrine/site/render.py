@@ -106,6 +106,12 @@ _BASE = """<!doctype html>
   .gaptrack{fill:none;stroke:#5a5344;stroke-dasharray:4 4}
   .seglab{font-size:10px;fill:{{ T.GROUND }};text-anchor:middle;font-weight:700}
   .caplab{font-size:10.5px;fill:{{ T.INK_SOFT }}}
+  .composition-key{border:1px solid {{ T.EDGE }};border-radius:4px;background:{{ T.CASE }};padding:10px 13px;margin:-10px 0 24px;max-width:100%}
+  .composition-key summary{cursor:pointer;font-family:{{ T.MONO }};font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:{{ T.BRASS }};width:max-content;max-width:100%}
+  .composition-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px 14px;margin-top:10px}
+  .composition-decade{border-top:1px solid #34291f;padding-top:8px;font-size:12px;color:{{ T.INK_SOFT }}}
+  .composition-decade>a{font-family:{{ T.MONO }};font-weight:700;text-decoration:none;margin-right:6px}
+  .composition-decade b{color:#c9bfa4;font-weight:600}
   .cases{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
   .placard{background:linear-gradient(178deg,{{ T.IVORY }},{{ T.IVORY_2 }});color:{{ T.INK }};border-radius:4px;padding:18px 18px 16px;border:1px solid #cbbfa1;box-shadow:0 18px 40px -22px #000;scroll-margin-top:20px}
    .placard:target{outline:3px solid {{ T.BRASS_LIT }};outline-offset:2px;box-shadow:0 0 34px -8px {{ T.BRASS_DEEP }}}
@@ -121,7 +127,10 @@ _BASE = """<!doctype html>
   .placard .clab{font-size:13.5px;color:#5f5540;margin:0 0 10px}
   .placard .cunit{font-family:{{ T.MONO }};font-size:10.5px;color:#8a7d61;margin:0 0 10px}
   .tchip{font-family:{{ T.MONO }};font-size:10px;font-weight:700;color:#fff;border-radius:2px;padding:1px 5px;margin-left:7px;vertical-align:1px}
-  .afford{font-size:12.5px;color:#6a5f47;margin:3px 0}
+  .afford-box{margin:11px 0 4px;padding:9px 11px;background:#eadfc6;border-left:3px solid {{ T.BRASS_DEEP }};border-radius:3px}
+  .afford-box .mk{font-family:{{ T.MONO }};font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:{{ T.BRASS_DEEP }};display:block;margin-bottom:3px}
+  .afford{font-family:{{ T.SERIF }};font-size:15px;color:#493b27;margin:2px 0;font-variant-numeric:tabular-nums}
+  .afford-warning{font-size:11.5px;color:#6a5636;margin:6px 0 0;padding-top:6px;border-top:1px solid #d2c29e;line-height:1.4}
   .measured{margin:10px 0 0;padding:9px 11px;background:#e7dbc0;border-radius:3px;border-left:3px solid {{ T.BRASS_DEEP }}}
   .measured .mk{font-family:{{ T.MONO }};font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.BRASS_DEEP }};display:block;margin-bottom:2px}
   .measured .mv{font-size:12.5px;color:#453d2b;line-height:1.45}
@@ -245,14 +254,36 @@ _INDEX = (
 )
 
 _PLACARD = """
+{% macro composition_details(rows) %}
+{% if rows %}
+<details class="composition-key">
+  <summary>Inspect the folded categories</summary>
+  <div class="composition-grid">
+  {% for row in rows %}
+    <div class="composition-decade">
+      <a href="#{{ row.fact_id }}--modal">{{ row.decade }}</a>
+      {% for segment in row.segments %}
+      <div><b>{{ segment.slot }}</b>:
+        {% for name, pct in segment.breakdown %}{{ name }} {{ pct|round(2) }}%{% if not loop.last %} + {% endif %}{% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+  </div>
+</details>
+{% endif %}
+{% endmacro %}
 {% macro _placard_body(fact, room, sources, assumptions, affordability, root, modal) %}
   <div class="ceyebrow">{{ panel_title(fact.panel) }} · {{ room.decade }}</div>
   <div class="cval">{{ fact.value }}<span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}" title="{{ tier_label(fact.tier) }}">{{ fact.tier.value }}</span></div>
   <p class="clab">{{ fact.label }}</p>
   <p class="cunit">{{ fact.unit }}</p>
   {% if fact.id in affordability %}{% set aff = affordability[fact.id] %}
+  {% if aff.hours or aff.pct %}<div class="afford-box"><span class="mk">Computed affordability</span>
   {% if aff.hours %}<p class="afford">{{ aff.hours }}</p>{% endif %}
   {% if aff.pct %}<p class="afford">{{ aff.pct }}</p>{% endif %}
+  {% if aff.hours_large %}<p class="afford-warning">Large ratio: inspect the wage population and anchor years in provenance before reading this as one household's timeline.</p>{% endif %}
+  </div>{% endif %}
   {% endif %}
   {% set src = sources[fact.source] %}
   <div class="measured"><span class="mk">Measured</span><span class="mv">{{ src.population }}</span></div>
@@ -411,7 +442,7 @@ assumption ledger entries behind the composites.
 
 _CORRIDORS = (
     """{% extends "base" %}
-{% from "macros" import placard %}
+{% from "macros" import placard, composition_details %}
 {% block title %}corridors — vitrine{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · the corridors</p>
@@ -433,8 +464,9 @@ _CORRIDORS = (
 <p class="case-sub">Share of household expenditure, fixed category palette, direct labels. Decades without a parseable breakdown are not drawn.</p>
 {% for caveat in comp_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
 <div class="chart-panel">
-{% for bar in comp_bars %}{{ bar }}{% endfor %}
+{% for row in comp_rows %}{{ row.bar }}{% endfor %}
 </div>
+{{ composition_details(comp_rows) }}
 {% for arc in arc_sections %}
 <h2 class="case-title" id="{{ arc.slug }}">{{ arc.label }}</h2>
 <p class="case-sub">{{ arc.unit }}</p>
@@ -456,7 +488,7 @@ _CORRIDORS = (
 
 _PAIR = (
     """{% extends "base" %}
-{% from "macros" import placard %}
+{% from "macros" import placard, composition_details %}
 {% block title %}{{ a }} ↔ {{ b }} — vitrine corridors{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · corridor · pairwise</p>
@@ -482,9 +514,10 @@ _PAIR = (
 <div class="pairgrid"><span class="valcard"><div class="td">{{ a }} ↔ {{ b }}</div><div class="tv gapv">not comparable for this pair — {{ item.gap_reason }}</div></span></div>
 {% endif %}
 {% endfor %}
-{% if comp_bars %}
+{% if comp_rows %}
 <h2 class="case-title">Budget composition</h2>
-<div class="chart-panel">{% for bar in comp_bars %}{{ bar }}{% endfor %}</div>
+<div class="chart-panel">{% for row in comp_rows %}{{ row.bar }}{% endfor %}</div>
+{{ composition_details(comp_rows) }}
 {% endif %}
 {% for fam in families %}
 <h2 class="case-title">{{ fam.label }}</h2>
@@ -685,17 +718,17 @@ def _fold_shares(
     """Parse a composition fact and fold categories into the fixed palette slots."""
     parsed = svg.parse_shares(fact.value)
     href = _placard_href(index, fact.id, root)
-    by_slot: dict[str, tuple[list[str], float]] = {}
+    by_slot: dict[str, list[tuple[str, float]]] = {}
     for category, pct in parsed:
         slot = tokens.CATEGORY_SLOT.get(category, "other")
-        names, total = by_slot.get(slot, ([], 0.0))
-        names.append(category)
-        by_slot[slot] = (names, total + pct)
+        by_slot.setdefault(slot, []).append((category, pct))
     segments = []
     for slot in tokens.COMPOSITION_ORDER:
         if slot not in by_slot:
             continue
-        names, total = by_slot[slot]
+        breakdown = by_slot[slot]
+        names = [name for name, _pct in breakdown]
+        total = sum(pct for _name, pct in breakdown)
         label = "other" if slot == "other" else " + ".join(names)
         segments.append(
             svg.ShareSegment(
@@ -704,6 +737,7 @@ def _fold_shares(
                 pct=round(total, 2),
                 fact_id=fact.id,
                 href=href,
+                breakdown=tuple(breakdown),
             )
         )
     return tuple(segments)
@@ -919,6 +953,9 @@ def _affordability_for_room(corpus: Corpus, room: Room) -> dict[str, dict[str, s
 
         display[fact.id] = {
             "hours": hours_str,
+            "hours_large": "true"
+            if aff.hours_to_afford is not None and aff.hours_to_afford > 2000
+            else "",
             "pct": pct_str,
             "tier": aff.tier.value,
             "anchor_note": aff.anchor_note,
@@ -1360,12 +1397,20 @@ def render_site(
                 "chart": Markup(_afford_arc_chart(comparison, ids, index, corridor_root)),
             }
         )
-    comp_bars = []
+    comp_rows: list[dict[str, object]] = []
     for decade in sorted(curation.COMPOSITIONS):
-        fact = index[curation.COMPOSITIONS[decade]].fact
+        fact_id = curation.COMPOSITIONS[decade]
+        fact = index[fact_id].fact
         segments = _fold_shares(fact, index, corridor_root)
         if segments:
-            comp_bars.append(Markup(svg.composition_bar(decade, segments)))
+            comp_rows.append(
+                {
+                    "bar": Markup(svg.composition_bar(decade, segments)),
+                    "decade": decade,
+                    "fact_id": fact_id,
+                    "segments": segments,
+                }
+            )
     comp_caveats = (
         "Survey populations differ across the century — 1901 wage-earner families "
         "vs modern consumer units; each bar links to its placard, which names who "
@@ -1385,7 +1430,7 @@ def render_site(
             epochs=epochs,
             arc_sections=arc_sections,
             afford_sections=afford_sections,
-            comp_bars=comp_bars,
+            comp_rows=comp_rows,
             comp_caveats=comp_caveats,
             sources=corpus.sources,
             assumptions=corpus.assumptions,
@@ -1397,7 +1442,7 @@ def render_site(
     # the pairwise set (the three epoch pages are the featured pairs)
     for i, a in enumerate(decades):
         for b in decades[i + 1 :]:
-            pair_comp_bars = []
+            pair_comp_rows: list[dict[str, object]] = []
             pair_overlay_ids: list[str] = []
             if a in curation.COMPOSITIONS and b in curation.COMPOSITIONS:
                 for decade in (a, b):
@@ -1405,7 +1450,14 @@ def render_site(
                     fact = index[curation.COMPOSITIONS[decade]].fact
                     segments = _fold_shares(fact, index, corridor_root)
                     if segments:
-                        pair_comp_bars.append(Markup(svg.composition_bar(decade, segments)))
+                        pair_comp_rows.append(
+                            {
+                                "bar": Markup(svg.composition_bar(decade, segments)),
+                                "decade": decade,
+                                "fact_id": curation.COMPOSITIONS[decade],
+                                "segments": segments,
+                            }
+                        )
             pair_families = _pair_families(index, a, b, corridor_root)
             for fam in pair_families:
                 pair_overlay_ids.extend(cell.fact_id for cell in fam.cells)
@@ -1419,7 +1471,7 @@ def render_site(
                     b=b,
                     families=pair_families,
                     afford_sections=pair_afford_sections,
-                    comp_bars=pair_comp_bars,
+                    comp_rows=pair_comp_rows,
                     sources=corpus.sources,
                     assumptions=corpus.assumptions,
                     affordability=all_affordability,
