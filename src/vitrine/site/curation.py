@@ -257,6 +257,25 @@ ARCS: tuple[Arc, ...] = (
         _ids("us-{decade}-cpi", "195 197 198 199 200 201 202"),
         series_id="cpi-u",
     ),
+    Arc(
+        "home-size",
+        "Median home size",
+        "median sq ft, new single-family houses completed",
+        {
+            "1970s": "us-1970s-median-home-size",
+            "1980s": "us-1980s-median-home-size",
+            "1990s": "us-1990s-median-home-size",
+            "2000s": "us-2000s-median-home-size",
+            "2010s": "us-2010s-median-home-size",
+            "2020s": "us-2020s-housing-characteristics",
+        },
+        caveats=(
+            "1970s–2010s: new single-family houses completed (Census C-25/H-150). "
+            "2020s: American Housing Survey, all housing stock — the median drops "
+            "because the existing stock is older and smaller. The two series are "
+            "not directly comparable; the placard names who was measured.",
+        ),
+    ),
 )
 
 ARC_BY_SLUG: dict[str, Arc] = {a.slug: a for a in ARCS}
@@ -316,6 +335,7 @@ STAGE_STATS: dict[str, dict[str, str]] = {
     },
     "heating": {
         "1940s": "us-1940s-heating-fuel",
+        "1950s": "us-1950s-heating-fuel",
         "1960s": "us-1960s-heating-fuel",
         "1970s": "us-1970s-heating-fuel",
         "1980s": "us-1980s-heating-fuel",
@@ -324,6 +344,27 @@ STAGE_STATS: dict[str, dict[str, str]] = {
         "2010s": "us-2010s-heating-fuel",
         "2020s": "us-2020s-heating-fuel",
     },
+    "refrigerator": {
+        "1960s": "us-1960s-household-appliances",
+        "1970s": "us-1970s-appliance-ownership",
+        "1980s": "us-1980s-appliance-ownership",
+    },
+    "washing-machine": {
+        "1960s": "us-1960s-household-appliances",
+        "1970s": "us-1970s-appliance-ownership",
+        "1980s": "us-1980s-appliance-ownership",
+    },
+}
+
+# Median home size facts → decade → fact id; used for the home-scale stage
+# and the floor-area annotation. Scales the house outline proportionally.
+HOME_SIZE_FACTS: dict[str, str] = {
+    "1970s": "us-1970s-median-home-size",
+    "1980s": "us-1980s-median-home-size",
+    "1990s": "us-1990s-median-home-size",
+    "2000s": "us-2000s-median-home-size",
+    "2010s": "us-2010s-median-home-size",
+    "2020s": "us-2020s-housing-characteristics",
 }
 
 # zone-note anchor positions on the cutaway, per palette slot

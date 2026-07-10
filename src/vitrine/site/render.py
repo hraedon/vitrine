@@ -61,9 +61,9 @@ _BASE = """<!doctype html>
   .plaque{margin:24px 0 20px;padding:16px 20px;border:1px solid {{ T.EDGE }};border-left:3px solid {{ T.BRASS }};background:linear-gradient(180deg,{{ T.CASE_2 }},{{ T.CASE }});border-radius:3px;max-width:76ch}
   .plaque b{color:#f3ead7;font-family:{{ T.SERIF }};font-style:italic;font-weight:600}
   .plaque span{color:{{ T.INK_SOFT }};font-size:14.5px}
-  .decades{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 16px}
-  .decades .lab{font-family:{{ T.MONO }};font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.INK_SOFT }};margin-right:6px}
-  .dbtn{font-family:{{ T.SERIF }};font-size:17px;color:{{ T.IVORY }};background:{{ T.CASE_2 }};border:1px solid {{ T.EDGE }};padding:6px 14px;border-radius:2px;text-decoration:none}
+   .decades{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:center;margin:0 0 16px}
+   .decades .lab{font-family:{{ T.MONO }};font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.INK_SOFT }};margin-right:4px}
+   .dbtn{font-family:{{ T.SERIF }};font-size:16px;color:{{ T.IVORY }};background:{{ T.CASE_2 }};border:1px solid {{ T.EDGE }};padding:5px 11px;border-radius:2px;text-decoration:none;white-space:nowrap}
   .dbtn:hover{border-color:{{ T.BRASS_DIM }};color:#f3ead7}
   .dbtn.on{background:{{ T.BRASS }};color:#241d10;border-color:{{ T.BRASS }};box-shadow:0 0 22px -6px {{ T.BRASS_DEEP }}}
    h2.case-title,summary.case-title{font-family:{{ T.MONO }};font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:{{ T.BRASS }};margin:34px 0 4px;font-weight:600;list-style:none;cursor:pointer}
@@ -108,10 +108,11 @@ _BASE = """<!doctype html>
   .placard{background:linear-gradient(178deg,{{ T.IVORY }},{{ T.IVORY_2 }});color:{{ T.INK }};border-radius:4px;padding:18px 18px 16px;border:1px solid #cbbfa1;box-shadow:0 18px 40px -22px #000;scroll-margin-top:20px}
    .placard:target{outline:3px solid {{ T.BRASS_LIT }};outline-offset:2px;box-shadow:0 0 34px -8px {{ T.BRASS_DEEP }}}
    .placard-overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.55);padding:5vh 10vw;overflow:auto;align-items:flex-start;justify-content:center}
-   .placard-overlay:target{display:flex}
-   .placard-overlay .placard-card{position:relative;max-height:88vh;overflow:auto;max-width:760px;width:auto;margin-top:0}
-   .overlay-close{position:absolute;top:6px;right:10px;font-size:26px;line-height:1;text-decoration:none;color:{{ T.BRASS_DEEP }};z-index:101}
-   .overlay-close:hover{color:{{ T.BRASS_LIT }}}
+    .placard-overlay:target{display:flex}
+    .placard-overlay .placard-card{position:relative;z-index:102;max-height:88vh;overflow:auto;max-width:760px;width:auto;margin-top:0}
+    .overlay-close{position:absolute;inset:0;z-index:101;display:flex;justify-content:flex-end;align-items:flex-start;padding:8px 14px;font-size:28px;line-height:1;text-decoration:none;color:{{ T.BRASS_DEEP }};background:transparent}
+    .overlay-close:hover{color:{{ T.BRASS_LIT }}}
+    .overlay-close .close-mark{background:{{ T.CASE }};border:1px solid {{ T.EDGE }};border-radius:3px;padding:2px 8px;pointer-events:none}
    .placard .ceyebrow{font-family:{{ T.MONO }};font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.BRASS_DEEP }}}
   .placard .cval{font-family:{{ T.SERIF }};font-size:19px;line-height:1.2;margin:7px 0 2px;color:{{ T.INK }};text-wrap:balance}
   .placard .clab{font-size:13.5px;color:#5f5540;margin:0 0 10px}
@@ -193,6 +194,7 @@ _BASE = """<!doctype html>
   <a href="{{ root }}affordability/index.html">affordability</a>
   <a href="{{ root }}walkthrough.html">walkthrough</a>
   <a href="{{ root }}methodology.html">methodology</a>
+  <a href="{{ root }}bibliography.html">bibliography</a>
 </nav>
 {% block body %}{% endblock %}
 </div>
@@ -273,7 +275,7 @@ _PLACARD = """
 </div>
 {% endif %}
 <div class="placard-overlay" id="{{ fact.id }}--modal">
-  <a href="#" class="overlay-close" aria-label="Close placard">x</a>
+  <a href="#" class="overlay-close" aria-label="Close placard"><span class="close-mark">x</span></a>
   <div class="placard placard-card{% if fact.value.strip().lower().startswith('no reliable record') %} gap-placard{% endif %}">
     {{ _placard_body(fact, room, sources, assumptions, affordability, root, modal=true) }}
   </div>
@@ -353,6 +355,27 @@ _METHODOLOGY = """{% extends "base" %}
 {% endblock %}
 """
 
+_BIBLIOGRAPHY = """{% extends "base" %}
+{% block title %}bibliography — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · bibliography</p>
+<h1>Bibliography &mdash; <em>all sources</em></h1>
+<p class="sub">Every fact in the museum traces to one of these {{ sources|length }} sources. Each entry names the publisher, publication year, the population actually measured, and a link to verify.</p>
+<div class="cases" style="margin-top:22px">
+{% for src in sources %}
+<div class="placard" id="{{ src.id }}">
+  <div class="ceyebrow">source</div>
+  <div class="cval">{{ src.title }}</div>
+  <p class="clab">{{ src.publisher }}{% if src.year %}, {{ src.year }}{% endif %}{% if src.short_cite %} &middot; <em>{{ src.short_cite }}</em>{% endif %}</p>
+  <div class="measured"><span class="mk">Measured</span><span class="mv">{{ src.population }}</span></div>
+  {% if src.url %}<p class="cunit"><a href="{{ src.url }}">{{ src.url }}</a></p>{% endif %}
+  {% if src.notes %}<details><summary>source notes</summary><div class="drawer">{{ src.notes }}</div></details>{% endif %}
+</div>
+{% endfor %}
+</div>
+{% endblock %}
+"""
+
 _AFFORDABILITY = """{% extends "base" %}
 {% block title %}affordability — vitrine{% endblock %}
 {% block body %}
@@ -371,7 +394,7 @@ _AFFORDABILITY = """{% extends "base" %}
 <div class="chart-panel"><p class="case-sub gapv">{{ item.note }}</p></div>
 {% endif %}
 {% endfor %}
-<footer class="case-sub" style="margin-top:28px;border-top:1px solid var(--grid);padding-top:12px">
+<footer class="case-sub" style="margin-top:28px;border-top:1px solid #34291f;padding-top:12px;max-width:80ch;overflow-wrap:break-word;word-break:break-all">
 Recession bands: NBER Business Cycle Dating Committee chronology, transcribed from
 <a href="{{ recession_url }}">{{ recession_url }}</a>. They are annotation, not facts.
 Methodology: each ratio divides two structured series; values display in nominal
@@ -718,7 +741,24 @@ def _build_stage(room: Room, index: dict[str, _FactRef], root: str) -> svg.Stage
                     href=_placard_href(index, fid, root),
                 )
             )
-    return svg.Stage(decade=room.decade, artifacts=tuple(artifacts), zone_notes=tuple(zone_notes))
+
+    # home-scale: proportionally scale the house outline to the sourced
+    # floor-area datum, so the visitor sees the home grow across decades.
+    home_scale = 1.0
+    size_fid = curation.HOME_SIZE_FACTS.get(room.decade)
+    if size_fid is not None and size_fid in index:
+        size_fact = index[size_fid].fact
+        if size_fact.quantity is not None:
+            # baseline: 1,525 sq ft (1970s, the earliest datum). Scale by
+            # sqrt so the linear dimension changes proportionally.
+            home_scale = max(0.6, min(1.35, (size_fact.quantity / 1525.0) ** 0.5))
+
+    return svg.Stage(
+        decade=room.decade,
+        artifacts=tuple(artifacts),
+        zone_notes=tuple(zone_notes),
+        home_scale=home_scale,
+    )
 
 
 def _afford_fact_ids(corpus: Corpus, pattern: str) -> dict[str, str]:
@@ -1160,6 +1200,7 @@ def render_site(
                 "index": _INDEX,
                 "room": _ROOM,
                 "methodology": _METHODOLOGY,
+                "bibliography": _BIBLIOGRAPHY,
                 "affordability": _AFFORDABILITY,
                 "corridors": _CORRIDORS,
                 "pair": _PAIR,
@@ -1204,6 +1245,11 @@ def render_site(
     (out_dir / "methodology.html").write_text(
         env.get_template("methodology").render(
             root="", assumptions=list(corpus.assumptions.values())
+        )
+    )
+    (out_dir / "bibliography.html").write_text(
+        env.get_template("bibliography").render(
+            root="", sources=list(corpus.sources.values())
         )
     )
 

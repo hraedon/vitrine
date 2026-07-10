@@ -186,11 +186,33 @@ def arc_chart(
             continue
         if prev is not None:
             j, q = prev
-            dashed = ' stroke-dasharray="4 5"' if i - j > 1 else ""
-            out.append(
-                f'<line class="join" x1="{x_of(j):.1f}" y1="{y_of(q.quantity or 0):.1f}" '
-                f'x2="{x_of(i):.1f}" y2="{y_of(p.quantity):.1f}" stroke="{stroke}"{dashed}/\u003e'
-            )
+            index_gap = i - j > 1
+            year_gap = abs((p.year or 0) - (q.year or 0)) > 20 if (p.year and q.year) else False
+            if year_gap and not index_gap:
+                # large temporal gap between adjacent points — render a visual
+                # break: wide dash, lower opacity, "no data" label in the gap
+                mid_x = (x_of(j) + x_of(i)) / 2
+                mid_y = (y_of(q.quantity or 0) + y_of(p.quantity)) / 2
+                out.append(
+                    f'<line class="join" x1="{x_of(j):.1f}" y1="{y_of(q.quantity or 0):.1f}" '
+                    f'x2="{x_of(i):.1f}" y2="{y_of(p.quantity):.1f}" '
+                    f'stroke="{stroke}" stroke-dasharray="2 6" opacity="0.4"/>'
+                )
+                out.append(
+                    f'<text class="gaplab" x="{mid_x:.1f}" y="{mid_y:.1f}" '
+                    f'style="fill:{tokens.GAP}">no data</text>'
+                )
+            elif index_gap:
+                out.append(
+                    f'<line class="join" x1="{x_of(j):.1f}" y1="{y_of(q.quantity or 0):.1f}" '
+                    f'x2="{x_of(i):.1f}" y2="{y_of(p.quantity):.1f}" '
+                    f'stroke="{stroke}" stroke-dasharray="4 5"/>'
+                )
+            else:
+                out.append(
+                    f'<line class="join" x1="{x_of(j):.1f}" y1="{y_of(q.quantity or 0):.1f}" '
+                    f'x2="{x_of(i):.1f}" y2="{y_of(p.quantity):.1f}" stroke="{stroke}"/>'
+                )
         prev = (i, p)
 
     label_all = len(quantities) <= 8
@@ -577,22 +599,27 @@ def hours_meter(
 # ── the room stage ────────────────────────────────────────────────────────────
 
 # artifact → cutaway position, carried from the demo's composition
+# positions map to the four house zones: parlor (upper-left), rooms (upper-right),
+# kitchen (lower-left), bath & heat (lower-right). Each glyph sits in its
+# semantic zone, spaced on a loose grid to avoid overlap.
 STAGE_POS: dict[str, tuple[int, int]] = {
-    "tenure": (400, 142),
-    "rooms": (500, 252),
-    "electricity": (250, 220),
-    "radio": (214, 286),
-    "television": (322, 286),
-    "telephone": (366, 244),
-    "refrigerator": (214, 378),
-    "food": (304, 402),
-    "plumbing": (458, 378),
-    "heating": (556, 398),
-    "air-conditioning": (612, 244),
-    "cable": (322, 330),
-    "computer": (556, 252),
-    "internet": (612, 296),
-    "automobile": (712, 404),
+    "tenure": (400, 140),
+    "rooms": (490, 250),
+    "electricity": (240, 215),
+    "radio": (200, 275),
+    "television": (300, 275),
+    "telephone": (350, 240),
+    "refrigerator": (200, 360),
+    "food": (300, 395),
+    "plumbing": (460, 365),
+    "heating": (560, 395),
+    "air-conditioning": (600, 210),
+    "cable": (490, 330),
+    "computer": (530, 275),
+    "internet": (600, 290),
+    "automobile": (700, 405),
+    "washing-machine": (350, 365),
+    "stove": (350, 395),
 }
 
 
@@ -614,6 +641,7 @@ class Stage:
     decade: str
     artifacts: tuple[StageArtifact, ...]
     zone_notes: tuple[ZoneNote, ...] = field(default=())
+    home_scale: float = 1.0  # scale factor for the house outline (floor-area datum)
 
 
 def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
@@ -624,9 +652,23 @@ def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
     gap ring. Every glyph links to its placard. When ``overlay_links`` is true
     the click target is the CSS-only popup layer (``#fact-id--modal``) rather
     than the room placard.
+
+    ``stage.home_scale`` proportionally scales the house outline (structure,
+    zone labels, zone notes, artifact positions) so the visitor sees the home
+    grow across decades — anchored to the sourced floor-area datum.
     """
     glow = tokens.ERA_GLOW.get(stage.decade, tokens.ERA_GLOW_DEFAULT)
     rx, ry = tokens.ERA_POOL.get(stage.decade, tokens.ERA_POOL_DEFAULT)
+    s = stage.home_scale
+    # scale house geometry around its center (x=400, y=306 — mid-body)
+    cx, cy = 400, 306
+
+    def sx(x: float) -> float:
+        return cx + (x - cx) * s
+
+    def sy(y: float) -> float:
+        return cy + (y - cy) * s
+
     out = [
         '<svg class="house" viewBox="0 0 800 560" role="img" '
         f"aria-label={quoteattr(f'Schematic cutaway of the composite home, {stage.decade}')}>"
@@ -638,26 +680,28 @@ def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
         "</radialGradient></defs>"
         '<rect x="0" y="0" width="800" height="560" fill="url(#stagelight)"/>'
         '<g class="structure">'
-        '<polygon points="120,182 400,90 680,182"/>'
-        '<rect x="150" y="182" width="500" height="248"/>'
-        '<line x1="400" y1="182" x2="400" y2="430"/>'
-        '<line x1="150" y1="306" x2="650" y2="306"/>'
-        '<rect x="452" y="122" width="34" height="60"/>'
+        f'<polygon points="{sx(120):.0f},{sy(182):.0f} {sx(400):.0f},{sy(90):.0f} {sx(680):.0f},{sy(182):.0f}"/>'
+        f'<rect x="{sx(150):.0f}" y="{sy(182):.0f}" width="{500*s:.0f}" height="{248*s:.0f}"/>'
+        f'<line x1="{sx(400):.0f}" y1="{sy(182):.0f}" x2="{sx(400):.0f}" y2="{sy(430):.0f}"/>'
+        f'<line x1="{sx(150):.0f}" y1="{sy(306):.0f}" x2="{sx(650):.0f}" y2="{sy(306):.0f}"/>'
+        f'<rect x="{sx(452):.0f}" y="{sy(122):.0f}" width="{34*s:.0f}" height="{60*s:.0f}"/>'
         "</g>"
-        '<line class="groundline" x1="80" y1="430" x2="720" y2="430"/>'
-        '<text class="zlabel" x="172" y="202">parlor</text>'
-        '<text class="zlabel" x="470" y="202">rooms</text>'
-        '<text class="zlabel" x="172" y="326">kitchen</text>'
-        '<text class="zlabel" x="470" y="326">bath &amp; heat</text>'
+        f'<line class="groundline" x1="{sx(80):.0f}" y1="{sy(430):.0f}" x2="{sx(720):.0f}" y2="{sy(430):.0f}"/>'
+        f'<text class="zlabel" x="{sx(172):.0f}" y="{sy(202):.0f}">parlor</text>'
+        f'<text class="zlabel" x="{sx(470):.0f}" y="{sy(202):.0f}">rooms</text>'
+        f'<text class="zlabel" x="{sx(172):.0f}" y="{sy(326):.0f}">kitchen</text>'
+        f'<text class="zlabel" x="{sx(470):.0f}" y="{sy(326):.0f}">bath &amp; heat</text>'
     ]
     for note in stage.zone_notes:
+        nx, ny = sx(note.x), sy(note.y)
         anchor = ' style="text-anchor:end"' if note.x > 620 else ""
         out.append(
             f'<a href={quoteattr(note.href)}>'
-            f'<text class="znote" x="{note.x}" y="{note.y}"{anchor} '
+            f'<text class="znote" x="{nx:.0f}" y="{ny:.0f}"{anchor} '
             f"data-fact-id={quoteattr(note.fact_id)}>{escape(note.text)}</text></a>"
         )
     for a in stage.artifacts:
+        ax, ay = sx(a.x), sy(a.y)
         if a.kind == "stat":
             opacity, ring = 0.95, '<circle class="ring" r="17"/>'
             pct = ""
@@ -677,7 +721,7 @@ def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
         href = f"#{a.fact_id}--modal" if overlay_links else a.href
         out.append(
             f"<a href={quoteattr(href)}>"
-            f'<g class="hs" transform="translate({a.x},{a.y})" '
+            f'<g class="hs" transform="translate({ax:.0f},{ay:.0f})" '
             f"data-fact-id={quoteattr(a.fact_id)}>"
             f"<title>{escape(a.label)}: {escape(a.value)}</title>"
             f"{hitbox}{ring}"
