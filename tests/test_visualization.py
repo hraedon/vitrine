@@ -203,3 +203,53 @@ def test_era_graded_light_varies(site: Path) -> None:
     assert tokens.ERA_GLOW["1900s"] in page_1900s
     assert tokens.ERA_GLOW["2020s"] in page_2020s
     assert tokens.ERA_GLOW["2020s"] not in page_1900s
+
+
+def test_vehicle_arc_has_seven_points() -> None:
+    """WI-005: the vehicle-ownership arc spans 7 decades (1960s–2020s)."""
+    arc = curation.ARC_BY_SLUG["vehicle"]
+    assert len(arc.fact_ids) == 7
+    expected_decades = {"1960s", "1970s", "1980s", "1990s", "2000s", "2010s", "2020s"}
+    assert set(arc.fact_ids) == expected_decades
+    for decade, fid in arc.fact_ids.items():
+        assert fid == f"us-{decade}-vehicle-ownership"
+
+
+def test_vehicle_arc_renders_dots_not_gaps(site: Path) -> None:
+    """WI-005: the corridor chart shows 7 sourced dots (not gap markers) for
+    the vehicle-ownership arc, each carrying a data-fact-id."""
+    corridor = (site / "corridors" / "index.html").read_text()
+    arc = curation.ARC_BY_SLUG["vehicle"]
+    for fid in arc.fact_ids.values():
+        assert f'data-fact-id="{fid}"' in corridor, f"missing vehicle arc mark: {fid}"
+        # each mark should be a dot (sourced), not a gapdot
+        mark = re.search(
+            rf'<g data-fact-id="{re.escape(fid)}">.*?</g>', corridor, re.S
+        )
+        assert mark is not None, f"no mark group for {fid}"
+        assert 'class="dot"' in mark.group(0), f"{fid} rendered as gap, not dot"
+        assert 'class="gapdot"' not in mark.group(0), f"{fid} rendered as gapdot"
+
+
+def test_automobile_glyph_drawn_for_vehicle_decades(site: Path, corpus: Corpus) -> None:
+    """WI-005: the automobile stage glyph renders for every decade that has a
+    vehicle-ownership fact (1960s–2020s)."""
+    arc = curation.ARC_BY_SLUG["vehicle"]
+    for decade in arc.fact_ids:
+        page = site / "rooms" / f"us-{decade}.html"
+        html = page.read_text()
+        sym = symbols.symbol("automobile", decade)
+        assert sym is not None, f"no automobile symbol for {decade}"
+        assert sym.svg[:60] in html, f"automobile glyph not drawn in {decade} room"
+
+
+def test_automobile_glyph_absent_before_1960s(site: Path) -> None:
+    """WI-005: the automobile stage glyph is absent from decades before the
+    vehicle-ownership arc begins (1900s–1950s)."""
+    early_decades = ["1900s", "1910s", "1920s", "1930s", "1940s", "1950s"]
+    for decade in early_decades:
+        page = site / "rooms" / f"us-{decade}.html"
+        html = page.read_text()
+        sym = symbols.symbol("automobile", decade)
+        if sym is not None:
+            assert sym.svg[:60] not in html, f"automobile glyph unexpectedly drawn in {decade}"

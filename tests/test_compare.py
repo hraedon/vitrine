@@ -151,16 +151,16 @@ def test_compare_1900s_has_both_anchors() -> None:
 
 
 def test_compare_tier_inheritance_weakest_wins() -> None:
-    """1950s car: price Tier C, wage Tier A, income Tier A → weakest is C.
+    """1900s car: price Tier C (period-survey reconstruction), wage Tier A,
+    income Tier A → weakest is C.
 
-    (The 1950s home value is now Tier A, sourced directly to the Census
-    Historical Census of Housing values table; the car price remains the
-    corpus's canonical Tier-C affordability price pending WI-002.)"""
+    (The 1950s car price was upgraded to Tier A in WI-002, leaving the 1900s
+    car as the corpus's canonical Tier-C affordability price.)"""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
         "A new car, in hours of work",
-        {"1950s": "us-1950s-car-price"},
+        {"1900s": "us-1900s-car-price"},
     )
     assert len(comparison.points) == 1
     point = comparison.points[0]
@@ -181,7 +181,7 @@ def test_compare_2020s_home_tier_a() -> None:
 
 
 def test_compare_1950s_car_hours() -> None:
-    """$1,511 / $1.32/hr ≈ 1,145 hours."""
+    """$1,295 / $1.32/hr ≈ 981 hours."""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
@@ -191,12 +191,12 @@ def test_compare_1950s_car_hours() -> None:
     assert len(comparison.points) == 1
     point = comparison.points[0]
     assert point.afford.hours_to_afford is not None
-    assert point.afford.hours_to_afford == pytest.approx(151100 / 132, rel=1e-6)
-    assert point.afford.hours_to_afford == pytest.approx(1144.7, rel=1e-3)
+    assert point.afford.hours_to_afford == pytest.approx(129500 / 132, rel=1e-6)
+    assert point.afford.hours_to_afford == pytest.approx(981.1, rel=1e-3)
 
 
 def test_compare_1950s_car_pct_of_income() -> None:
-    """$1,511 / $3,675 (four-person median) ≈ 41.1%."""
+    """$1,295 / $3,675 (four-person median) ≈ 35.2%."""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
@@ -206,8 +206,8 @@ def test_compare_1950s_car_pct_of_income() -> None:
     assert len(comparison.points) == 1
     point = comparison.points[0]
     assert point.afford.pct_of_income is not None
-    assert point.afford.pct_of_income == pytest.approx(151100 / 367500 * 100, rel=1e-6)
-    assert point.afford.pct_of_income == pytest.approx(41.1, abs=0.1)
+    assert point.afford.pct_of_income == pytest.approx(129500 / 367500 * 100, rel=1e-6)
+    assert point.afford.pct_of_income == pytest.approx(35.2, abs=0.1)
 
 
 def test_compare_1950s_home_values() -> None:

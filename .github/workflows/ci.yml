@@ -32,3 +32,5 @@ jobs:
         run: .venv/bin/vitrine build --out _site
       - name: Render-coverage gate
         run: .venv/bin/vitrine check --against-build _site
+      - name: Cross-check (source-topic consistency)
+        run: .venv/bin/python scripts/cross_check.py

@@ -227,18 +227,18 @@ assumptions = ["income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-1950s-car-price"
-panel = "table"
+panel = "work-buys"
 label = "Average new car price, 1950"
-value = "~$1,511 (Ford Custom); average wholesale ~$1,295"
-unit = "USD, nominal"
-source = "statab-food-prices"
-tier = "C"
-amount_minor = 151100
+value = "~$1,295 (average wholesale, computed from factory sales)"
+unit = "USD, nominal (wholesale value per passenger car)"
+source = "hist-stats-colonial-1970"
+tier = "A"
+amount_minor = 129500
 currency = "USD"
 price_year = 1950
 basis = "total"
-notes = "The $1,511 figure is the price of a Ford Custom in 1950 (secondary sources: Reader's Digest, Fifties Web, Brilliantio — all consistent). The Statistical Abstract of the United States, 1953, Table 615 (Motor Vehicles—Factory Sales and Registrations: 1900 to 1951) provides primary-source wholesale data: 6,666,000 passenger cars sold at a wholesale value of $8,633,272,000 = ~$1,295 average wholesale price per car (source: Automobile Manufacturers Association, Automobile Facts and Figures). The retail/transaction price would be higher than wholesale (dealer markup). The Ford Custom at $1,511 was a mid-range model — the average transaction price across all new cars was likely ~$1,500-$2,000. Upgraded from Tier D to Tier C: primary source (Statistical Abstract) provides wholesale value; the $1,511 Ford Custom retail price is confirmed by multiple secondary sources as a representative mid-range model."
-assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
+notes = "Computed from Historical Statistics, Series Q 148-162 (source: Automobile Manufacturers Association, Automobile Facts and Figures). 1950: 6,666,000 passenger cars sold at $8,633,272,000 wholesale value = ~$1,295 average per car. Verified against Statistical Abstract of the United States, 1953, Table 615 (Motor Vehicles—Factory Sales and Registrations: 1900 to 1951), p.533 — identical figures. A Ford Custom retailed at ~$1,511 in 1950 (secondary sources: Reader's Digest, Fifties Web, Brilliantio — all consistent); included as narrative context for the retail price a family would actually pay. Wholesale value; retail/transaction price would be higher (dealer markup). Population: all US factory sales of passenger cars."
+assumptions = ["nominal-values"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 

@@ -232,7 +232,17 @@ def main() -> int:
          check_tier_discipline(facts)),
     ]
 
+    # Hard errors (Checks 1, 2, 6) fail CI. Advisory checks (3, 4, 5, 7)
+    # report but don't block: they flag false positives (contextual source
+    # mentions), thin notes, and known Tier-D structural gaps.
+    hard_check_names = {
+        "CHECK 1: Source ID resolves",
+        "CHECK 2: Quantity in value",
+        "CHECK 6: Source has URL",
+    }
+
     total_issues = 0
+    hard_issues = 0
     for name, issues in all_issues:
         if issues:
             print(f"=== {name} ({len(issues)} issues) ===")
@@ -240,6 +250,8 @@ def main() -> int:
                 print(issue)
             print()
             total_issues += len(issues)
+            if name in hard_check_names:
+                hard_issues += len(issues)
         elif verbose:
             print(f"=== {name}: clean ===")
             print()
@@ -248,11 +260,12 @@ def main() -> int:
     print(f"Facts checked: {len(facts)}")
     print(f"Sources checked: {len(sources)}")
     print(f"Total issues: {total_issues}")
-    if total_issues == 0:
-        print("All checks passed — zero miscites detected.")
+    print(f"Hard errors (block CI): {hard_issues}")
+    if hard_issues == 0:
+        print("All hard checks passed — zero miscites detected.")
     else:
-        print(f"  {total_issues} issue(s) found — see above.")
-    return 1 if total_issues else 0
+        print(f"  {hard_issues} hard error(s) found — must fix.")
+    return 1 if hard_issues else 0
 
 
 if __name__ == "__main__":

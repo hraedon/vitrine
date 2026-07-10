@@ -284,24 +284,26 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-2010s-home-production-women"
+quantity = 2.14
 panel = "day"
-label = "Women's weekly unpaid home-production hours, 2010s"
-value = "no reliable record"
-unit = "hours per week, prime-age women (ages 18–64)"
-source = "ramey-2009"
-tier = "D"
-notes = "Ramey's series ends at 2005. ATUS (available 2010s) measures all-adult household activities, not women-specific home production — a concept splice (Plan 004 Measure guard). The 2020s room carries the ATUS figure (us-2020s-time-use) for the modern endpoint."
+label = "Women's household-activity hours, 2010 (ATUS)"
+value = "2.14 hrs/day"
+unit = "hours per day, all women 15+ (ATUS; concept splice from Ramey)"
+source = "bls-atus"
+tier = "A"
+notes = "From ATUS Table A-1 (2010 annual averages), a1_2010.pdf. 'Household activities' = 2.14 hrs/day for women (includes housework, food prep/cleanup, lawn/garden, household management). Cross-verified against Table A-2 (a2_2010.pdf): weekday 2.05 + weekend 2.38, weighted (5×2.05+2×2.38)/7 = 2.144 ≈ 2.14. Concept splice (Plan 004 Measure guard): Ramey measures 'home production' (broader: includes childcare, purchasing) for prime-age women 18-64 in hrs/week; ATUS measures 'household activities' (narrower) for all women 15+ in hrs/day. The quantity is hrs/day (the source's own unit); the arc chart plots it alongside Ramey's hrs/week values — the visual discontinuity reflects the concept splice, flagged by the arc caveat. The 2020s room carries the 2024 ATUS endpoint (us-2020s-home-production-splice)."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2010s-home-production-men"
+quantity = 1.42
 panel = "day"
-label = "Men's weekly unpaid home-production hours, 2010s"
-value = "no reliable record"
-unit = "hours per week, prime-age men (ages 18–64)"
-source = "ramey-2009"
-tier = "D"
-notes = "Ramey's series ends at 2005. See us-2010s-home-production-women note re: ATUS concept splice."
+label = "Men's household-activity hours, 2010 (ATUS)"
+value = "1.42 hrs/day"
+unit = "hours per day, all men 15+ (ATUS; concept splice from Ramey)"
+source = "bls-atus"
+tier = "A"
+notes = "From ATUS Table A-1 (2010 annual averages), a1_2010.pdf. 'Household activities' = 1.42 hrs/day for men. Cross-verified against Table A-2 (a2_2010.pdf): weekday 1.30 + weekend 1.72, weighted (5×1.30+2×1.72)/7 = 1.420 = 1.42. Concept splice: see us-2010s-home-production-women notes. Ramey's 2005 endpoint: men 16.8 hrs/week; ATUS measures a narrower activity set for all men 15+ in hrs/day. The quantity is hrs/day (the source's own unit); the arc caveat flags the discontinuity. The 2020s room carries the 2024 ATUS endpoint (us-2020s-home-production-splice)."
 assumptions = ["composite-family"]
 
 

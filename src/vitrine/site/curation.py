@@ -190,9 +190,12 @@ ARCS: tuple[Arc, ...] = (
         | {"2020s": "us-2020s-home-production-splice"},
         falling=True,
         caveats=(
-            "The 2020s source (ATUS) measures all-adult household activities, a "
-            "concept splice from Ramey's women's series — flagged, not smoothed, "
-            "so the chart renders it as a gap and the placard carries both figures.",
+            "From 2010s onward the source is ATUS (all adults 15+, hrs/day, "
+            "narrower 'household activities'), not Ramey (prime-age women 18-64, "
+            "hrs/week, broader 'home production') — a concept splice. The 2010s "
+            "point plots in hrs/day alongside Ramey's hrs/week values; the visual "
+            "drop reflects the unit and activity change, not a real decline. The "
+            "2020s point (splice fact) carries both series' endpoints.",
         ),
     ),
     Arc(
@@ -202,6 +205,15 @@ ARCS: tuple[Arc, ...] = (
         _ids(
             "us-{decade}-home-production-men",
             "190 191 192 193 194 195 196 197 198 199 200 201",
+        )
+        | {"2020s": "us-2020s-home-production-splice"},
+        caveats=(
+            "From 2010s onward the source is ATUS (all adults 15+, hrs/day, "
+            "narrower 'household activities'), not Ramey (prime-age men 18-64, "
+            "hrs/week, broader 'home production') — a concept splice. The 2010s "
+            "point plots in hrs/day alongside Ramey's hrs/week values; the visual "
+            "drop reflects the unit and activity change, not a real decline. The "
+            "2020s point (splice fact) carries both series' endpoints.",
         ),
     ),
     Arc(

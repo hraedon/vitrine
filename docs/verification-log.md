@@ -489,3 +489,121 @@ context, not as the cited source).
 
 Added paragraph to the central honesty rule about homeownership rate
 measuring all occupied housing units, not the median four-person family.
+
+---
+
+## WI-12: 1950s car-price fix — provenance, methodology, tier (2026-07-10)
+
+**Date:** 2026-07-10
+**Verifier:** umans-glm-5.2 session
+**Context:** WI-002 identified the 1950s car-price fact as a three-way outlier:
+wrong source card, retail price instead of wholesale, Tier C instead of A.
+
+### OCR verification of Table 615
+
+**Source checked:** Statistical Abstract of the United States, 1953, Table 615
+("Motor Vehicles—Factory Sales and Registrations: 1900 to 1951"), p.533
+**Method:** Rendered page image from `samples/01-statistical-abstracts/1953.zip`
+→ `1953-05.pdf` page 61 (printed p.533) at 200 DPI. OCR'd via chandra-ocr-2-mlx
+on the Mac Studio (OCR skill workflow).
+
+### Results — 1950 row
+
+| Field | Fact notes (pre-fix) | OCR value | Result |
+|-------|---------------------|-----------|--------|
+| Passenger cars (thousands) | 6,666 | 6,666 | **verified** |
+| Wholesale value (thousands $) | 8,633,272 | 8,633,272 | **verified** |
+| Average wholesale per car | ~$1,295 | 8,633,272 / 6,666 = $1,295.03 | **verified** (arithmetic) |
+
+### Cross-decade verification (same table)
+
+| Year | Cars (K) | Wholesale ($K) | Avg/car | Existing fact | Result |
+|------|---------|----------------|---------|---------------|--------|
+| 1910 | 181 | 215,340 | $1,190 | ~$1,188 (1910s fact) | **consistent** (Hist Stats rounding) |
+| 1920 | 1,906 | 1,809,171 | $949 | ~$949 (1920s fact) | **verified** |
+| 1930 | 2,785 | 1,645,399 | $591 | ~$590 (1930s fact) | **verified** |
+| 1940 | 3,717 | 2,370,654 | $638 | ~$638 (1940s fact) | **verified** |
+
+### Fixes applied
+
+1. **Source:** `statab-food-prices` → `hist-stats-colonial-1970` (matches
+   all neighboring decades 1910s–1960s, which cite Series Q 148-162)
+2. **Chartable quantity:** `amount_minor` 151100 → 129500 (wholesale, not retail)
+3. **Tier:** C → A (primary source, same as neighbors)
+4. **Value/notes:** Wholesale $1,295 as chartable value; $1,511 Ford Custom
+   retail retained in notes as narrative context
+5. **Tests updated:** `test_compare_tier_inheritance_weakest_wins` switched to
+   1900s car (Tier C), hours/pct tests updated for 129500
+
+### CI wiring (WI-003, WI-009)
+
+- `scripts/cross_check.py` added to per-push CI (`.github/workflows/ci.yml`)
+  with two-tier exit code: hard errors (source resolves, quantity in value,
+  source has URL) block CI; advisory checks (note-source mismatch, thin notes,
+  Tier D) report without blocking
+- `scripts/link_check.py` added as weekly scheduled job
+  (`.github/workflows/link-check.yml`, Mondays 08:00 UTC)
+
+---
+
+## WI-006: 2010s home-production gaps filled from ATUS (2026-07-10)
+
+**Date:** 2026-07-10
+**Verifier:** umans-glm-5.2 session
+**Context:** The 2010s room rendered two gaps for women's and men's home
+production. ATUS Table A-1 (2010 annual averages) was already in
+`samples/13-atus/a1_2010.pdf` with text layer extractable via pypdf.
+
+### Source
+
+BLS American Time Use Survey, Table A-1 (2010 annual averages),
+`a1_2010.pdf`. Text extracted via pypdf (no OCR needed — born-digital PDF).
+
+### Transcription
+
+| Fact | ATUS value | Unit |
+|------|-----------|------|
+| `us-2010s-home-production-women` | 2.14 hrs/day | hours per day, all women 15+ |
+| `us-2010s-home-production-men` | 1.42 hrs/day | hours per day, all men 15+ |
+
+### Cross-verification (A-1 vs A-2)
+
+Table A-2 (`a2_2010.pdf`) splits by weekday/weekend. Weighted average
+(5 weekdays + 2 weekend days) / 7 must reconcile to the A-1 overall:
+
+- **Women:** (5×2.05 + 2×2.38) / 7 = (10.25 + 4.76) / 7 = 15.01 / 7 = 2.144
+  ≈ **2.14** ✓
+- **Men:** (5×1.30 + 2×1.72) / 7 = (6.50 + 3.44) / 7 = 9.94 / 7 = 1.420
+  = **1.42** ✓
+
+### 2011 stability check
+
+A-2 2011 data (`a2_2011.pdf`) shows similar values:
+- Women: weekday 2.05, weekend 2.42 → weighted avg 2.156
+- Men: weekday 1.18, weekend 1.81 → weighted avg 1.360
+
+Values are stable year-over-year, confirming the 2010 data point is
+representative of the decade.
+
+### Design decision: quantity set to ATUS daily value
+
+The ATUS data is transcribed with `quantity` set to the daily value (2.14
+for women, 1.42 for men), so the arc chart renders these as data dots, not
+gap dots. The visual discontinuity between Ramey's hrs/week and ATUS's
+hrs/day is flagged by the arc caveat — the drop from 29.3 (2000s, weekly)
+to 2.14 (2010s, daily) reflects the unit change, not a real decline. This
+follows the fact model's rule: a fact with a single headline number must
+carry a quantity. The 2020s splice fact has no quantity because its value
+is a multi-series string with no single headline number.
+
+### Source card update
+
+The `bls-atus` source card notes were updated to list the specific tables
+used (2010 annual averages for the 2010s room, 2024 for the 2020s room).
+The `year = 2024` represents the most recent publication year used; fact
+labels identify the specific survey year.
+
+### Arc caveat update
+
+Both `home-production-women` and `home-production-men` arcs now carry a
+caveat explaining the 2010s+ ATUS splice point.

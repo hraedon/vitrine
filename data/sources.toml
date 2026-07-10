@@ -133,7 +133,7 @@ publisher = "U.S. Bureau of Labor Statistics"
 year = 2024
 url = "https://www.bls.gov/tus/"
 population = "Civilian noninstitutionalized population age 15+"
-notes = "Started 2003, annual. Covers work hours, commute time, daily activities. Primary source for the 'day' panel from 2000s onward. BLS 403-blocks automated requests — URL valid, access via browser."
+notes = "Started 2003, annual. Covers work hours, commute time, daily activities. Primary source for the 'day' panel from 2000s onward. BLS 403-blocks automated requests — URL valid, access via browser. Tables used: 2010 annual averages (a1_2010.pdf, a2_2010.pdf) for the 2010s room; 2024 annual averages (a1-2024.pdf) for the 2020s room. The survey year in fact labels identifies which annual average is cited."
 
 # ── Census: housing ───────────────────────────────────────────────────────
 

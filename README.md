@@ -88,9 +88,9 @@ not cryptographic.
 
 ## Status
 
-US corpus curated: 13 decade rooms (1900s–2020s), 307 facts, 2 derived
-facts, zero Tier D estimates; 18 rendered gaps are structural (pre-WWII
-income/housing/food for 1910s–1930s, 1940s wartime bifurcation, 1990s/2010s
+US corpus curated: 13 decade rooms (1900s–2020s), 313 facts, 3 derived
+facts, zero Tier D estimates; 16 rendered gaps are structural (pre-WWII
+income/housing/food for 1910s–1930s, 1940s wartime bifurcation, 1990s
 home-production data) and listed in `docs/resource-hunt.md`. The
 visualization layer (Plan 007) is implemented: three static surfaces —
 rooms (dark-gallery cutaway, era-graded light, CSS-only popup placards),

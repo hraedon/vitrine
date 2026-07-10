@@ -1,0 +1,21 @@
+name: Link Check
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.13"
+      - name: Install
+        run: |
+          uv venv
+          uv pip install -e ".[dev]"
+      - name: Link checker
+        run: .venv/bin/python scripts/link_check.py
