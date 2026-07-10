@@ -151,12 +151,16 @@ def test_compare_1900s_has_both_anchors() -> None:
 
 
 def test_compare_tier_inheritance_weakest_wins() -> None:
-    """1950s home: price Tier C, wage Tier A, income Tier A → weakest is C."""
+    """1950s car: price Tier C, wage Tier A, income Tier A → weakest is C.
+
+    (The 1950s home value is now Tier A, sourced directly to the Census
+    Historical Census of Housing values table; the car price remains the
+    corpus's canonical Tier-C affordability price pending WI-002.)"""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
-        "A median home, in hours of work",
-        {"1950s": "us-1950s-median-home-value"},
+        "A new car, in hours of work",
+        {"1950s": "us-1950s-car-price"},
     )
     assert len(comparison.points) == 1
     point = comparison.points[0]

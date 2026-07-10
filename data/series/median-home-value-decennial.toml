@@ -4,7 +4,7 @@
 [[series]]
 id = "median-home-value-decennial"
 label = "Median value of owner-occupied homes (decennial census)"
-source = "census-homeownership-historical"
+source = "census-historical-housing-values"
 tier = "A"
 unit = "USD, nominal (median value of owner-occupied housing)"
 population = "All U.S. owner-occupied housing units (decennial census, median value)"

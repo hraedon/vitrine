@@ -379,6 +379,16 @@ url = "https://www2.census.gov/programs-surveys/decennial/tables/time-series/cen
 population = "All U.S. occupied housing units (decennial census)"
 notes = "Time series of homeownership rates from 1900 to 2000 by state and nationally. 1950 national rate: 55.0%. 1940: 43.6%. 1960: 61.9%. Also see companion table: https://www2.census.gov/programs-surveys/decennial/tables/time-series/census-housing-tables/ownerchar.pdf"
 
+[[source]]
+id = "census-historical-housing-values"
+title = "Historical Census of Housing Tables: Home Values (Unadjusted)"
+short_cite = "U.S. Census Bureau, Historical Census of Housing, Home Values"
+publisher = "U.S. Census Bureau"
+year = 2000
+url = "https://www2.census.gov/programs-surveys/decennial/tables/time-series/census-housing-tables/values-unadj.txt"
+population = "Owner-occupied housing units, median value (decennial census, nominal/unadjusted dollars), U.S. and by state"
+notes = "Median value of owner-occupied homes, unadjusted (nominal) dollars, decennial 1940-2000. National medians: 1940 $2,938; 1950 $7,354; 1960 $11,900; 1970 $17,000; 1980 $47,200; 1990 $79,100; 2000 $119,600. Companion to owner.pdf (census-homeownership-historical) in the same census-housing-tables directory; distinct table (values, not rates). Modern values (2010+) come from ACS B25077 (census-acs-homevalue)."
+
 # ── BLS Public Data API ───────────────────────────────────────────────────
 
 [[source]]

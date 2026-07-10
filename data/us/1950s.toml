@@ -158,13 +158,13 @@ panel = "home"
 label = "Median home value, 1950"
 value = "$7,354"
 unit = "USD, nominal"
-source = "umizzou-prices-wages"
-tier = "C"
+source = "census-historical-housing-values"
+tier = "A"
 amount_minor = 735400
 currency = "USD"
 price_year = 1950
 basis = "total"
-notes = "From the University of Missouri Prices and Wages guide, citing Census. Median value of owner-occupied single-family homes. Tier C because the guide is a secondary source linking to Census data."
+notes = "From Census Historical Census of Housing Tables: Home Values (values-unadj.txt), US row 1950: $7,354. Median value of owner-occupied single-family homes. Upgraded C→A: sourced directly to the primary Census table (was formerly the University of Missouri Prices and Wages secondary guide, which cites the same Census figure)."
 assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
 [[fact]]
