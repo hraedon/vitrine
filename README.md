@@ -39,6 +39,13 @@ median diet all at once. Every room displays this disclaimer, and every fact
 declares the population actually measured. Where the record is silent, the
 room shows the gap instead of inventing a number.
 
+The homeownership rate is a national figure for all occupied housing units,
+not the rate for the median four-person family — which is higher, because
+single-person and low-income households (disproportionately renters) pull the
+overall rate down. The museum shows the broader measure because it is the
+only century-long series available; the gap between it and the family's
+likely tenure is itself part of the portrait.
+
 ## Confidence tiers
 
 | Tier | Meaning |

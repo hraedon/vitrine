@@ -8,7 +8,7 @@ id = "census-p60-009"
 title = "Current Population Reports, Consumer Income, Series P-60 No. 9: Income of Families and Persons in the United States: 1950"
 publisher = "U.S. Census Bureau"
 year = 1951
-url = "https://www.census.gov/library/publications/1951/demo/p60-009.html"
+url = "https://www2.census.gov/library/publications/1952/demographics/p60-09.pdf"
 population = "All US families (two or more related persons living together), CPS money income"
 notes = "Seed source for the skeleton. Plan 001 WI-1 supersedes the all-family median with the by-family-size series (Historical Income Tables, Table F-8) where its coverage window allows."
 measure = "money_income"
@@ -577,7 +577,7 @@ publisher = "Syndeo Institute (formerly NCTA Foundation)"
 year = 2022
 url = "https://syndeoinstitute.org/wp-content/uploads/2022/12/Cable-History-Timeline-Narrative_2022.pdf"
 population = "U.S. households with cable television subscriptions"
-notes = "National cable penetration milestones from industry trade association. 1988: 50.5% penetration. 1989: more than 52M cable customers, 9,050 systems. 1992: ~60% of all US households (widely cited but not directly stated in NCTA timeline PDF — see fact notes). 1999: 66.7M customers. Tier C: industry self-reported statistics, but the standard reference for historical cable penetration."
+notes = "National cable penetration milestones from industry trade association. 1988: 50.5% penetration. 1989: more than 52M cable customers, 9,050 systems. 1999: 66.7M customers. Tier C: industry self-reported statistics, but the standard reference for historical cable penetration. NOTE: The 1990s cable fact previously cited this source with a '~60%' figure that could not be verified against the NCTA timeline PDF; it has since been corrected to cite FCC 97-423 (59.3%, Tier A). No fact currently cites this source for 1990s data."
 
 [[source]]
 id = "eia-recs"
@@ -600,13 +600,13 @@ notes = "Official poverty rate from the Current Population Survey Annual Social 
 
 [[source]]
 id = "fcc-video-competition"
-title = "Annual Assessment of the Status of Competition in the Market for the Delivery of Video Programming"
+title = "Annual Assessment of the Status of Competition in the Market for the Delivery of Video Programming (FCC Reports, 1994–2017)"
 short_cite = "FCC, Annual Video Competition Report"
 publisher = "Federal Communications Commission"
 year = 2017
-url = "https://www.fcc.gov/document/annual-assessment-status-competition-market-delivery-video-0"
+url = "https://www.fcc.gov/general/media-bureau-reports-industry"
 population = "U.S. households subscribing to multichannel video programming distributor (MVPD) services"
-notes = "FCC's annual report on video competition. Subscriber data from SNL Kagan (industry analyst). Key data: 1992: 59.3% of TV households (55.2M subscribers, FCC 97-423 Table B-1). 1997: 64.2M cable, 73.6M total MVPD, 75.9% of TV households (FCC 1997 report). 2006: 65.3M basic cable, 95.8M total MVPD, 87% of TV households (FCC 07-206, 13th Report). 2015: 53.2M cable (53.1% of MVPD), 33.1M DBS, 13.0M telco, 99.4M total MVPD (FCC DA 17-71, 2017). MVPD subscriber losses began 2013 — cord-cutting era. Cable's share of MVPD declined from 89% (1997) to 68.2% (2006) to 53.1% (2015)."
+notes = "FCC's annual report on video competition. Subscriber data from SNL Kagan (industry analyst). Key data: 1992: 59.3% of TV households (55.2M subscribers, FCC 97-423 Table B-1, local archive ~/vitrine-research/09-fcc/fcc97423.pdf). 1997: 64.2M cable, 73.6M total MVPD, 75.9% of TV households (FCC 1997 report). 2006: 65.3M basic cable, 95.8M total MVPD, 87% of TV households (FCC 07-206, 13th Report, local archive ~/vitrine-research/09-fcc/FCC-07-206A1.txt). 2015: 53.2M cable (53.1% of MVPD), 33.1M DBS, 13.0M telco, 99.4M total MVPD (FCC DA 17-71, 2017, local archive ~/vitrine-research/09-fcc/DA-17-71A1.pdf). MVPD subscriber losses began 2013 — cord-cutting era. Cable's share of MVPD declined from 89% (1997) to 68.2% (2006) to 53.1% (2015). The landing page at fcc.gov/general/media-bureau-reports-industry links to all annual reports; individual report years cited in fact notes."
 
 [[source]]
 id = "statab-food-prices"

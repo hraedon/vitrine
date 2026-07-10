@@ -419,3 +419,73 @@ The arc tells the story: a single manufacturing wage covered 83–95% of median 
 ### Source splice notes
 
 The 1970s fact uses CEX 1972-73 data (80.1% of *families* with at least one automobile) while the BTS data shows 82.5% of *households* with 1+ vehicles in 1970. The difference is source and population: CEX measures "families" and excludes single-person households; the Census decennial measures all "occupied housing units." The 2020s fact uses ACS Table B25045 (91.5%, Census Reporter) while BTS uses B08201 (91.6%). Both differences are within expected methodology variation and are noted in the fact notes.
+
+---
+
+## WI-11: Pre-share audit — miscite fix, link check, cross-check, honesty rule (2026-07-10)
+
+**Date:** 2026-07-10
+**Verifier:** umans-glm-5.2 session
+**Context:** Opus review feedback requesting four pre-share actions before
+making vitrine public. All four addressed in one pass.
+
+### WI-002: Live miscite fix (1 fact, 2 sources)
+
+**Problem:** `us-1990s-cable-tv` cited `fcc-video-competition`, but the
+source URL pointed to the 2017 FCC report — the actual data (59.3%, 1992)
+comes from FCC 97-423 (1997). A visitor clicking the source card would
+land on the wrong document.
+
+**Fixes applied:**
+1. `fcc-video-competition` source URL changed from the 2017 report page
+   (`/document/annual-assessment-...-video-0`) to the FCC Media Bureau
+   reports index (`/general/media-bureau-reports-industry`), which links
+   to all annual reports. Source title updated to note the date range
+   (1994–2017). Source notes now reference local archive paths for each
+   report year.
+2. `ncta-cable-history` source notes cleaned: removed stale "~60% (1992)"
+   reference (no fact cites NCTA for 1990s data anymore — corrected in
+   WI-8). Added note explaining the correction history.
+
+**Verification:** Fact correctly cites `fcc-video-competition` (Tier A).
+Fact notes describe FCC 97-423 Table B-1 with year-by-year data. Source
+notes list all three report years with local archive paths.
+
+### WI-003: Link checker (61 source URLs)
+
+**Method:** `scripts/link_check.py` — HEAD + GET fallback, 8-way parallel.
+All failures verified via Wayback Machine.
+
+| Category | Count | Action |
+|----------|-------|--------|
+| OK (200/301/302) | 36 | — |
+| Genuine 404 | 1 → 0 (fixed) | `census-p60-009` URL corrected |
+| Bot-blocked (403/405) | 8 | URLs work in browser |
+| Timeout (FRED/FRASER/FCC) | 14 | Confirmed via Wayback |
+| Server error (503/520) | 3 | Transient; confirmed via Wayback |
+
+**404 fix:** `census-p60-009` — old URL returned 404 (not in Wayback).
+Corrected to `www2.census.gov/library/publications/1952/demographics/p60-09.pdf`.
+
+### WI-009: Note-vs-source cross-check (312 facts, 61 sources)
+
+**Method:** `scripts/cross_check.py` — 7 mechanical checks.
+
+| Check | Issues | Detail |
+|-------|--------|--------|
+| 1. Source ID resolves | 0 | All facts cite existing sources |
+| 2. Quantity in value | 0 | All quantities appear verbatim |
+| 3. Note-source mismatch | 17 | All false positives — contextual mentions |
+| 4. Stale source notes | 0 | No source references stale data |
+| 5. Note completeness | 4 | Thin notes on number-of-families facts |
+| 6. Source has URL | 0 | All sources have URLs |
+| 7. Tier D facts | 18 | All structural gaps (known, documented) |
+
+**Conclusion:** Zero miscites detected. The 17 note-source mismatches are
+false positives (notes mention other sources for comparison/correction
+context, not as the cited source).
+
+### Tenure honesty rule (README)
+
+Added paragraph to the central honesty rule about homeownership rate
+measuring all occupied housing units, not the median four-person family.
