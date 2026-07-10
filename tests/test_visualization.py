@@ -161,7 +161,11 @@ def test_chart_deep_links_resolve(site: Path) -> None:
     for page in [site / "corridors" / "index.html", site / "walkthrough.html"]:
         base = page.parent
         for href in _scan(page).hrefs:
-            if "#" not in href or href.startswith("http") or href == "#":
+            if (
+                "#" not in href
+                or href.startswith("http")
+                or href in {"#", "#dismissed"}
+            ):
                 continue
             path, _, anchor = href.partition("#")
             if not path:
@@ -171,6 +175,26 @@ def test_chart_deep_links_resolve(site: Path) -> None:
             target = (base / path).resolve()
             assert target.is_file(), f"{page.name}: dead link {href}"
             assert anchor in _scan(target).anchor_ids, f"{page.name}: dead anchor {href}"
+
+
+def test_modal_close_target_preserves_position(site: Path) -> None:
+    """Dismissal targets no element, so browsers clear :target without scrolling."""
+    for page in (site / "rooms" / "us-1950s.html", site / "corridors" / "index.html"):
+        html = page.read_text()
+        assert 'href="#dismissed" class="overlay-backdrop"' in html
+        assert 'href="#dismissed" class="overlay-close"' in html
+        assert 'id="dismissed"' not in html
+
+
+def test_walkthrough_uses_in_page_placards(site: Path) -> None:
+    html = (site / "walkthrough.html").read_text()
+    assert 'href="#us-1950s-hourly-earnings-manufacturing--modal"' in html
+    assert 'id="us-1950s-hourly-earnings-manufacturing--modal"' in html
+    assert 'role="dialog"' in html
+    assert "The paid-work record" in html
+    assert "The unpaid-work record" in html
+    assert "The father" not in html
+    assert "The mother" not in html
 
 
 def test_gaps_render_as_gaps_not_numbers(site: Path, corpus: Corpus) -> None:
@@ -186,12 +210,56 @@ def test_gaps_render_as_gaps_not_numbers(site: Path, corpus: Corpus) -> None:
     assert 'class="dot"' not in gap_mark.group(0)
 
 
+def test_home_production_shares_an_axis_and_rejects_atus_unit_splice(site: Path) -> None:
+    """Women/men render together; daily ATUS quantities are linked gaps."""
+    corridor = (site / "corridors" / "index.html").read_text()
+    assert corridor.count("Unpaid home production, women and men") == 1
+    assert "Women's unpaid home production</h2>" not in corridor
+    assert "Men's unpaid home production</h2>" not in corridor
+    assert 'class="arc multi-arc"' in corridor
+    for fid in (
+        "us-2010s-home-production-women",
+        "us-2010s-home-production-men",
+    ):
+        mark = re.search(rf'<g data-fact-id="{fid}">.*?</g>', corridor, re.S)
+        assert mark is not None
+        assert 'class="gapdot"' in mark.group(0)
+        assert 'class="dot"' not in mark.group(0)
+
+
+def test_telephone_arc_does_not_splice_composite_or_cell_phone_values(site: Path) -> None:
+    corridor = (site / "corridors" / "index.html").read_text()
+    for fid in ("us-1900s-diffusion", "us-2020s-phone-vehicle-diffusion"):
+        mark = re.search(rf'<g data-fact-id="{fid}">.*?</g>', corridor, re.S)
+        assert mark is not None
+        assert 'class="gapdot"' in mark.group(0)
+
+
 def test_walkthrough_meter_and_house_are_honest(site: Path) -> None:
     """The 2020s meter row is the concept-splice gap; only sourced floor area scales."""
     html = (site / "walkthrough.html").read_text()
     assert "concept splice" in html
+    atus_mark = re.search(
+        r'<g data-fact-id="us-2010s-home-production-women">.*?</g>', html, re.S
+    )
+    assert atus_mark is not None
+    assert 'class="gaptrack"' in atus_mark.group(0)
     assert "1,500 sq ft (sourced)" in html
     assert "floor area not yet curated" in html
+
+
+def test_structural_room_gaps_are_visible_before_the_stage(site: Path) -> None:
+    for decade in ("1910s", "1920s", "1930s", "1940s"):
+        html = (site / "rooms" / f"us-{decade}.html").read_text()
+        assert 'class="gap-banner"' in html
+        assert html.index('class="gap-banner"') < html.index('class="stage"')
+    assert 'class="gap-banner"' not in (site / "rooms" / "us-1950s.html").read_text()
+
+
+def test_impossible_work_week_explains_multiple_earners(site: Path) -> None:
+    html = (site / "rooms" / "us-1900s.html").read_text()
+    assert "60 weeks of one earner&#39;s wages" in html
+    assert "the family budget depended on income beyond this one manufacturing wage" in html
 
 
 def test_era_graded_light_varies(site: Path) -> None:

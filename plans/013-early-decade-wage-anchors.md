@@ -1,6 +1,7 @@
 # Plan 013 — Wage anchors for the early rooms (1900s–1930s)
 
-**Status:** proposed
+**Status:** implemented 2026-07-09 (confirmed against code/data/tests in the
+2026-07-10 project review)
 **Triggered by:** 2026-07-09 project evaluation. The 2026-07-09 session
 added car-price facts for the 1910s–1930s but had to strip their
 `amount_minor` because those rooms declare no wage or income anchor — the

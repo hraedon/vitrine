@@ -1,6 +1,6 @@
 # Plan 009 — The visitor experience pass: interaction, charts, rooms, and surfaces
 
-**Status:** in progress (9 of 23 done, 2 partial, 11 pending, 1 deferred)
+**Status:** in progress (13 of 23 done, 5 partial, 4 pending, 1 deferred)
 **Triggered by:** 2026-07-08 owner review of the live site at vitrine.hraedon.com.
 Twenty-three items of structured feedback across rooms (10), corridors (10),
 walkthrough (1), and general (4). This plan organizes them into six phases by
@@ -22,13 +22,18 @@ CSS-only fallback or is deferred to a future JS plan.
 
 | Status | Count | Items |
 |--------|-------|-------|
-| ✅ done | 9 | WI-1, WI-2, WI-3, WI-5, WI-7, WI-10, WI-11, WI-15, WI-23 |
-| 🔶 partial | 2 | WI-17 (hours shown in placard, not prominent; header unchanged), WI-20 (symbols drawn, not wired into pipeline) |
-| ⬜ pending | 11 | WI-4, WI-6, WI-8, WI-9, WI-12, WI-13, WI-14, WI-16, WI-18, WI-19, WI-21 |
+| ✅ done | 13 | WI-1, WI-2, WI-3, WI-5, WI-7, WI-8, WI-9, WI-10, WI-11, WI-14, WI-15, WI-19, WI-23 |
+| 🔶 partial | 5 | WI-6 (invalid endpoint splices rejected; no dual phone series), WI-13 (sourced 1970s–2020s scaling), WI-17 (hours shown in placard, not prominent; header unchanged), WI-18 (1900s explanation visible; no generic threshold), WI-20 (symbols drawn, partly wired) |
+| ⬜ pending | 4 | WI-4, WI-12, WI-16, WI-21 |
 | ⏸ deferred | 1 | WI-22 |
 
 Phase 1–2 (interaction model + chart fixes) landed in commit `e010d56`.
 WI-20 symbols added by Gemini, committed with naming fix and wiring notes.
+The 2026-07-10 Codex pass fixed modal positioning/dismissal, carried popup
+placards into the walkthrough, rejected non-comparable telephone and ATUS
+quantities at the chart boundary, combined the women/men home-production
+series on one scale, completed sparse-arc rendering, added structural room-gap
+banners, and confirmed the already-landed bibliography page.
 
 ## Phase 1 — Interaction model (the highest-impact UX changes)
 
@@ -130,7 +135,7 @@ three gridlines (0, 0.5×q_top, q_top) then read as clean numbers. Implement a
 nice increment); the top label is ≥ the max data point; no decimal-only
 labels.
 
-### WI-6: Telephone arc: >100% fix and cell/landline split (Corridor #4, #5) ⬜ pending
+### WI-6: Telephone arc: >100% fix and cell/landline split (Corridor #4, #5) 🔶 partial
 
 **Problem:** The telephone arc tops out at 102.384% — the 1900s fact
 (`us-1900s-diffusion`) has `quantity = 5` (a composite "5% of families had
@@ -162,6 +167,11 @@ concept splice rendered as a single line.
 landline render as separate lines on the same chart with a legend;
 landline peaks and declines, cell phone rises.
 
+**Landed so far:** the composite 1900s headline and cell-phone-led 2020s fact
+now render as linked gaps on the historical household-landline axis. This
+removes both invalid splices. A dual line remains blocked on a sufficiently
+curated cell/landline series; one isolated modern point would not earn a line.
+
 ### WI-7: Label collision with x-axis (Corridor #2) ✅ done
 
 **Problem:** The 1960s data-point label for several charts (poverty, women's
@@ -179,7 +189,7 @@ label row (`height - 26`) and the value label row never overlap by checking
 **Acceptance:** no value label overlaps any x-axis decade label; high-value
 points place their labels below the dot when above would collide.
 
-### WI-8: Y-axis gap rendering for sparse arcs (Corridor #9) ⬜ pending
+### WI-8: Y-axis gap rendering for sparse arcs (Corridor #9) ✅ done
 
 **Problem:** Infant mortality and food share charts have y-axes that appear
 to jump from '00s to '50s — the gridlines are computed from the max quantity
@@ -199,7 +209,7 @@ no fact at all in the arc.
 **Acceptance:** the visitor can distinguish "no data for this decade" from
 "the axis skipped a value"; gap decades are visibly marked on the x-axis.
 
-### WI-9: Men's home production on the same chart as women's (Corridor #10) ⬜ pending
+### WI-9: Men's home production on the same chart as women's (Corridor #10) ✅ done
 
 **Problem:** Men's and women's home production are separate arcs with
 separate y-axes, making visual comparison misleading (men's bars look
@@ -217,6 +227,10 @@ the data; the chart function from WI-6 can be reused.
 **Acceptance:** women's and men's weekly hours render on the same chart
 with a shared y-axis; the visual comparison is honest; both series carry
 tier labels and deep-link to their placards.
+
+**Landed:** a general shared-axis renderer now draws both Ramey series. The
+2010s ATUS daily quantities and 2020s splice fact remain linked and inspectable
+but render as gaps rather than geometry on the weekly Ramey axis.
 
 ### WI-10: Cable TV label wording (Corridor #6) ✅ done
 
@@ -282,7 +296,7 @@ room page are wanted later, that's Plan 005's scope.
 are era-appropriate and less heteronormative; figures don't overlap the
 artifact glyphs or zone notes.
 
-### WI-13: House size scaling in rooms (General #2) ⬜ pending
+### WI-13: House size scaling in rooms (General #2) 🔶 partial
 
 **Problem:** The room stage's house cutaway is the same size in every room
 — a 1900s 4-room home and a 2020s 7-room home render identically.
@@ -309,7 +323,7 @@ this WI renders what exists and gaps the rest.
 rooms without it render the reference outline with a gap note; the
 artifact glyphs don't overlap the scaled structure.
 
-### WI-14: Data-gap prominence banner (Room #10) ⬜ pending
+### WI-14: Data-gap prominence banner (Room #10) ✅ done
 
 **Problem:** Rooms with significant unsolvable data gaps (e.g. war periods,
 the 1940s bifurcation) don't surface this prominently — the visitor has to
@@ -399,7 +413,7 @@ already computed and passed to the template (`affordability[fact.id]`).
 the header names the item, not the panel; the figure is computed (not
 authored) and gated by the affordability engine.
 
-### WI-18: Explanation for "impossible" results (Room #7) ⬜ pending
+### WI-18: Explanation for "impossible" results (Room #7) 🔶 partial
 
 **Problem:** The 1900s work-buys fact says "60 weeks to cover annual
 expenses" — impossible (a year has 52 weeks). The explanation ("year-round
@@ -427,7 +441,7 @@ exceeds a single year shows a caveat.
 
 ## Phase 4 — New surfaces
 
-### WI-19: Bibliography page (Room #3) ⬜ pending
+### WI-19: Bibliography page (Room #3) ✅ done
 
 **Problem:** No bibliography page. `docs/citations.md` exists but is
 hand-written and not rendered; `data/sources.toml` has 56 fully-cited

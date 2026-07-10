@@ -1,6 +1,7 @@
 # Plan 011 — The affordability view: how much life cost, over time
 
-**Status:** proposed
+**Status:** implemented 2026-07-09; chart-honesty and readability refinements
+landed 2026-07-10
 **Triggered by:** 2026-07-09 owner discussion. The corpus has structured
 amounts (home values, car prices, hourly wages, median income) and anchors
 for 1940s–2020s, but affordability is scattered across pairwise corridor

@@ -29,10 +29,10 @@ def test_semantic_colors_hold_contrast_on_every_stage_surface() -> None:
 
 
 def test_caption_text_holds_contrast_on_untinted_surfaces() -> None:
-    """ink-soft captions case/ground only; it must hold 3:1 there."""
+    """Small secondary text must hold WCAG AA's 4.5:1 on dark surfaces."""
     for name, color in tokens.CAPTION_ON_DARK.items():
         for surface in (tokens.GROUND, tokens.CASE):
-            assert tokens.contrast_ratio(color, surface) >= 3.0, f"{name} on {surface}"
+            assert tokens.contrast_ratio(color, surface) >= 4.5, f"{name} on {surface}"
 
 
 def test_every_decade_has_a_glow_and_pool() -> None:

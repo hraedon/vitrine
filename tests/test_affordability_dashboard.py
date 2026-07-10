@@ -183,3 +183,39 @@ def test_affordability_chart_recession_bands_carry_no_fact_id() -> None:
 
 def test_affordability_chart_empty_values_returns_empty() -> None:
     assert svg.affordability_chart({}, (), "u") == ""
+
+
+def test_direct_mode_markers_form_a_visible_trajectory() -> None:
+    markers = (
+        svg.MetricMarker(1950, "f-1", "#f-1", "A", "Food", "30%", 30.0),
+        svg.MetricMarker(1960, "f-2", "#f-2", "A", "Food", "25%", 25.0),
+    )
+    chart = svg.affordability_chart({}, (), "%", markers=markers)
+    assert 'class="join direct-series"' in chart
+    assert 'data-fact-id="f-1"' in chart
+    assert 'data-fact-id="f-2"' in chart
+
+
+def test_index_chart_can_use_a_nonzero_baseline() -> None:
+    chart = svg.affordability_chart(
+        {1964: 80.0, 2024: 100.0},
+        (),
+        "index",
+        zero_baseline=False,
+    )
+    assert 'class="ylab"' in chart
+    assert '>0</text>' not in chart
+
+
+def test_annual_series_line_breaks_at_missing_year() -> None:
+    chart = svg.arc_chart_series(
+        {2000: 10.0, 2001: 11.0, 2003: 13.0, 2004: 14.0},
+        (),
+        "units",
+    )
+    assert chart.count('class="series-line"') == 2
+
+
+def test_nice_axis_rounding_does_not_discard_half_the_plot() -> None:
+    assert svg._nice_axis_top(46.8) == 50.0
+    assert svg._nice_axis_top(91.5) == 100.0

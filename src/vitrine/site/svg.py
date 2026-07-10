@@ -15,6 +15,7 @@ from __future__ import annotations
 import math
 import re
 from dataclasses import dataclass, field
+from itertools import pairwise
 from xml.sax.saxutils import escape, quoteattr
 
 from vitrine.site import tokens
@@ -32,6 +33,15 @@ class ArcPoint:
     value: str  # authored display value (for the native tooltip)
     quantity: float | None  # None → render the gap
     year: int = 0  # representative year (plan 010 series charts); 0 = unknown
+
+
+@dataclass(frozen=True, slots=True)
+class ArcSeries:
+    """One named line in a shared-axis cross-decade chart."""
+
+    label: str
+    color: str
+    points: tuple[ArcPoint, ...]
 
 
 @dataclass(frozen=True, slots=True)
@@ -93,24 +103,62 @@ def _fmt(q: float) -> str:
 def _nice_axis_top(q_max: float) -> float:
     """Round a chart maximum up to a clean, human-readable increment.
 
-    Picks the smallest 1-2-5-10 style step that is at least ``q_max * 1.08``,
-    so the top gridline sits a little above every data point and labels read
-    as whole multiples.
+    Select a 1/2/5 tick step for roughly five intervals, then round the top
+    above the data. Choosing the whole axis as a single 1/2/5 magnitude makes
+    46.8 jump to 100 and visually flattens the series; tick-first rounding
+    keeps the same clean labels without throwing away half the plot.
     """
     if q_max <= 0 or math.isnan(q_max):
         return 1.0
-    target = q_max * 1.08
-    magnitude: float = 10.0 ** math.floor(math.log10(target))
-    normalized = target / magnitude
+    raw_step = q_max / 5
+    magnitude: float = 10.0 ** math.floor(math.log10(raw_step))
+    normalized = raw_step / magnitude
     if normalized <= 1:
-        ceil = 1.0
+        step = 1.0
     elif normalized <= 2:
-        ceil = 2.0
+        step = 2.0
     elif normalized <= 5:
-        ceil = 5.0
+        step = 5.0
     else:
-        ceil = 10.0
-    return ceil * magnitude
+        step = 10.0
+    increment = step * magnitude
+    return math.ceil((q_max * 1.02) / increment) * increment
+
+
+def _nice_step(raw: float) -> float:
+    """Return a 1/2/5 step at least as large as ``raw``."""
+    if raw <= 0 or math.isnan(raw):
+        return 1.0
+    magnitude = 10.0 ** math.floor(math.log10(raw))
+    normalized = raw / magnitude
+    if normalized <= 1:
+        step = 1.0
+    elif normalized <= 2:
+        step = 2.0
+    elif normalized <= 5:
+        step = 5.0
+    else:
+        step = 10.0
+    return step * magnitude
+
+
+def _axis_bounds(values: list[float], zero_baseline: bool) -> tuple[float, float]:
+    """Choose readable bounds, retaining zero unless the metric is an index."""
+    if not values:
+        return 0.0, 1.0
+    q_min, q_max = min(values), max(values)
+    if zero_baseline or q_min <= 0:
+        return 0.0, _nice_axis_top(q_max)
+    spread = q_max - q_min
+    if spread == 0:
+        spread = max(abs(q_max) * 0.1, 1.0)
+    padding = spread * 0.08
+    step = _nice_step((spread + 2 * padding) / 5)
+    bottom = math.floor((q_min - padding) / step) * step
+    top = math.ceil((q_max + padding) / step) * step
+    if top <= bottom:
+        top = bottom + step
+    return bottom, top
 
 
 def _tick(decade: str) -> str:
@@ -253,6 +301,132 @@ def arc_chart(
     return "".join(out)
 
 
+def multi_arc_chart(
+    series: tuple[ArcSeries, ...],
+    unit: str,
+    width: int = 880,
+    height: int = 250,
+) -> str:
+    """Related decade arcs on one scale, with linked gaps and a legend.
+
+    A shared scale prevents a smaller series from acquiring the same apparent
+    amplitude as a larger one through independent y-axes. Every point remains
+    a fact-backed mark.
+    """
+    if not series:
+        return ""
+    decades = sorted({p.decade for item in series for p in item.points})
+    if not decades:
+        return ""
+    by_series = [{p.decade: p for p in item.points} for item in series]
+    quantities = [
+        p.quantity
+        for item in series
+        for p in item.points
+        if p.quantity is not None
+    ]
+    q_top = _nice_axis_top(max(quantities) if quantities else 1.0)
+    pad_l, pad_r, pad_t, pad_b = 52, 18, 34, 44
+    plot_w, plot_h = width - pad_l - pad_r, height - pad_t - pad_b
+    step = plot_w / max(len(decades) - 1, 1)
+    decade_index = {decade: i for i, decade in enumerate(decades)}
+
+    def x_of(decade: str) -> float:
+        i = decade_index[decade]
+        return pad_l + (i * step if len(decades) > 1 else plot_w / 2)
+
+    def y_of(q: float) -> float:
+        return pad_t + plot_h * (1 - q / q_top)
+
+    out: list[str] = [
+        f'<svg class="arc multi-arc" viewBox="0 0 {width} {height}" role="img" '
+        f'aria-label={quoteattr(f"Shared-axis cross-decade arc, {unit}")}>'
+    ]
+    legend_x = pad_l
+    for item in series:
+        out.append(
+            f'<line x1="{legend_x}" y1="12" x2="{legend_x + 20}" y2="12" '
+            f'stroke="{item.color}" stroke-width="2.5"/>'
+            f'<text class="unit" x="{legend_x + 26}" y="15">{escape(item.label)}</text>'
+        )
+        legend_x += 112
+    out.append(f'<text class="unit" x="{pad_l + 250}" y="15">{escape(unit)}</text>')
+    for frac in (0.0, 0.5, 1.0):
+        gy = pad_t + plot_h * (1 - frac)
+        out.append(
+            f'<line class="grid" x1="{pad_l}" y1="{gy:.1f}" '
+            f'x2="{width - pad_r}" y2="{gy:.1f}"/>'
+            f'<text class="ylab" x="{pad_l - 8}" y="{gy + 3:.1f}">'
+            f'{_fmt(q_top * frac)}</text>'
+        )
+
+    # Lines first, marks second. A missing/non-comparable decade breaks the
+    # line; the next comparable point reconnects with a dashed segment.
+    for item, point_map in zip(series, by_series, strict=True):
+        previous: tuple[int, ArcPoint] | None = None
+        for i, decade in enumerate(decades):
+            point = point_map.get(decade)
+            if point is None or point.quantity is None:
+                continue
+            if previous is not None:
+                j, prior = previous
+                dash = ' stroke-dasharray="4 5"' if i - j > 1 else ""
+                out.append(
+                    f'<line class="join" x1="{x_of(prior.decade):.1f}" '
+                    f'y1="{y_of(prior.quantity or 0):.1f}" x2="{x_of(decade):.1f}" '
+                    f'y2="{y_of(point.quantity):.1f}" stroke="{item.color}"{dash}/>'
+                )
+            previous = (i, point)
+
+    label_points = tuple(
+        ArcPoint(d, "", "", "", "", "", None) for d in decades
+    )
+    x_labels = _decade_labels(label_points)
+    for i, decade in enumerate(decades):
+        cx = x_of(decade)
+        out.append(f'<text class="xlab" x="{cx:.1f}" y="{height - 26}">{x_labels[i]}</text>')
+        for series_i, (item, point_map) in enumerate(
+            zip(series, by_series, strict=True)
+        ):
+            point = point_map.get(decade)
+            if point is None:
+                continue
+            offset = (series_i - (len(series) - 1) / 2) * 8
+            tier_color = tokens.TIER_COLORS.get(point.tier, tokens.GAP)
+            if point.quantity is None:
+                gy = pad_t + plot_h
+                out.append(
+                    f'<a href={quoteattr(f"#{point.fact_id}--modal")}>'
+                    f'<g data-fact-id={quoteattr(point.fact_id)}>'
+                    f'<title>{escape(point.label)}: not comparable on this axis; '
+                    f'{escape(point.value)}</title>'
+                    f'<circle class="gapdot" cx="{cx + offset:.1f}" cy="{gy:.1f}" '
+                    f'r="4" style="stroke:{item.color}"/>'
+                    f'<text class="tlet" x="{cx + offset:.1f}" y="{height - 12}" '
+                    f'fill="{tier_color}">{point.tier}</text></g></a>'
+                )
+                continue
+            cy = y_of(point.quantity)
+            show_label = decade in (decades[0], decades[-1])
+            out.append(
+                f'<a href={quoteattr(f"#{point.fact_id}--modal")}>'
+                f'<g data-fact-id={quoteattr(point.fact_id)}>'
+                f'<title>{escape(point.label)}: {escape(point.value)} — Tier {point.tier}</title>'
+                f'<circle class="dot" cx="{cx:.1f}" cy="{cy:.1f}" r="4.5" '
+                f'fill="{item.color}"/>'
+                + (
+                    f'<text class="vlab" x="{cx:.1f}" y="{cy - 9:.1f}">'
+                    f'{_fmt(point.quantity)}</text>'
+                    if show_label
+                    else ""
+                )
+                + f'<text class="tlet" x="{cx + offset:.1f}" y="{height - 12}" '
+                f'fill="{tier_color}">{point.tier}</text></g></a>'
+            )
+    out.append("</svg>")
+    return "".join(out)
+
+
 def arc_chart_series(
     series_values: dict[int, float],
     markers: tuple[ArcPoint, ...],
@@ -318,13 +492,29 @@ def arc_chart_series(
         tx = x_of(tick_year)
         out.append(f'<text class="xlab" x="{tx:.1f}" y="{height - 26}">{tick_year}</text>')
 
-    # the annual series: faint connecting polyline + small dots
+    # One polyline per contiguous run. A missing year is a real gap, not
+    # permission to draw an interpolating bridge.
     line_pts = [(x_of(yr), y_of(series_values[yr])) for yr in years]
-    if len(line_pts) > 1:
-        path = " ".join(f"{x:.1f},{yy:.1f}" for x, yy in line_pts)
+    run: list[int] = []
+    for year in years:
+        if run and year != run[-1] + 1:
+            if len(run) > 1:
+                path = " ".join(
+                    f"{x_of(yr):.1f},{y_of(series_values[yr]):.1f}" for yr in run
+                )
+                out.append(
+                    f'<polyline class="series-line" points="{path}" fill="none" '
+                    f'stroke="{stroke}" stroke-opacity="0.35" stroke-width="1.5"/>'
+                )
+            run = []
+        run.append(year)
+    if len(run) > 1:
+        path = " ".join(
+            f"{x_of(yr):.1f},{y_of(series_values[yr]):.1f}" for yr in run
+        )
         out.append(
-            f'<polyline class="series-line" points="{path}" '
-            f'fill="none" stroke="{stroke}" stroke-opacity="0.35" stroke-width="1.5"/>'
+            f'<polyline class="series-line" points="{path}" fill="none" '
+            f'stroke="{stroke}" stroke-opacity="0.35" stroke-width="1.5"/>'
         )
     for x, yy in line_pts:
         out.append(
@@ -386,6 +576,7 @@ def affordability_chart(
     metric_slug: str = "",
     falling: bool = False,
     markers: tuple[MetricMarker, ...] = (),
+    zero_baseline: bool = True,
     width: int = 880,
     height: int = 260,
 ) -> str:
@@ -412,15 +603,14 @@ def affordability_chart(
     y_max = max(all_years)
     domain = max(y_max - y_min, 1)
     q_vals = [v for _, v in all_pts]
-    q_max = max(q_vals) if q_vals else 1.0
-    q_top = _nice_axis_top(q_max)
+    q_bottom, q_top = _axis_bounds(q_vals, zero_baseline)
     years = sorted(values)
 
     def x_of(year: float) -> float:
         return pad_l + plot_w * (min(max(year, y_min), y_max) - y_min) / domain
 
     def y_of(q: float) -> float:
-        return pad_t + plot_h * (1 - q / q_top)
+        return pad_t + plot_h * (1 - (q - q_bottom) / (q_top - q_bottom))
 
     out: list[str] = [
         f'<svg class="arc afford-chart" id="metric-{escape(metric_slug)}" '
@@ -445,7 +635,8 @@ def affordability_chart(
             f'<line class="grid" x1="{pad_l}" y1="{gy:.1f}" x2="{width - pad_r}" y2="{gy:.1f}"/\u003e'
         )
         out.append(
-            f'<text class="ylab" x="{pad_l - 8}" y="{gy + 3:.1f}">{_fmt(q_top * frac)}</text>'
+            f'<text class="ylab" x="{pad_l - 8}" y="{gy + 3:.1f}">'
+            f'{_fmt(q_bottom + (q_top - q_bottom) * frac)}</text>'
         )
     out.append(f'<text class="unit" x="{pad_l}" y="{pad_t - 5}">{escape(unit)}</text>')
     # decade-boundary x ticks
@@ -465,6 +656,24 @@ def affordability_chart(
             f'<circle data-metric-id={quoteattr(metric_slug)} cx="{x_of(yr):.1f}" '
             f'cy="{y_of(values[yr]):.1f}" r="2.5" fill="{stroke}">'
             f"<title>{yr}: {_fmt(values[yr])} {escape(unit)}</title></circle>"
+        )
+
+    # Direct-mode facts have no annual line. Connect adjacent survey points
+    # so the trajectory is legible, using a subdued dashed bridge across a
+    # multi-decade hole rather than implying annual observations.
+    direct = sorted(
+        (m for m in markers if m.quantity is not None), key=lambda m: m.year
+    )
+    for prior, current in pairwise(direct):
+        dash = (
+            ' stroke-dasharray="4 5" opacity="0.6"'
+            if current.year - prior.year > 15
+            else ""
+        )
+        out.append(
+            f'<line class="join direct-series" x1="{x_of(prior.year):.1f}" '
+            f'y1="{y_of(prior.quantity or 0):.1f}" x2="{x_of(current.year):.1f}" '
+            f'y2="{y_of(current.quantity or 0):.1f}" stroke="{stroke}"{dash}/>'
         )
 
     # direct-mode decade markers (facts — data-fact-id → mark-coverage gate)

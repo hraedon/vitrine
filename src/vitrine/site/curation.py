@@ -24,6 +24,23 @@ class Arc:
     falling: bool = False  # falling metrics render in copper
     caveats: tuple[str, ...] = field(default=())
     series_id: str = ""  # plan 010: annual series backing this arc, if any
+    # A fact may have an honest quantity that is not comparable on this arc's
+    # axis.  Keep the fact in the registry (and render a linked gap mark), but
+    # never turn that quantity into geometry.  This is distinct from a fact
+    # whose quantity is absent: the source has a number; the chart refuses the
+    # splice.
+    plot_gaps: frozenset[str] = field(default_factory=frozenset)
+
+
+@dataclass(frozen=True, slots=True)
+class ArcGroup:
+    """Several related arcs rendered on one shared axis."""
+
+    slug: str
+    label: str
+    unit: str
+    members: tuple[tuple[str, str, str], ...]  # (arc slug, legend label, color role)
+    caveats: tuple[str, ...] = field(default=())
 
 
 def _ids(pattern: str, decades: str) -> dict[str, str]:
@@ -95,7 +112,7 @@ ARCS: tuple[Arc, ...] = (
     ),
     Arc(
         "telephone",
-        "Telephone",
+        "Household landline telephone",
         "% of households",
         {
             "1900s": "us-1900s-diffusion",
@@ -111,11 +128,15 @@ ARCS: tuple[Arc, ...] = (
             "2020s": "us-2020s-phone-vehicle-diffusion",
         },
         caveats=(
+            "The 1900s source combines several technologies in one headline "
+            "percentage, so its 5% is not plotted as a telephone datum.",
             "1910s–1930s sources counted telephones per 1,000 population, not "
             "households — those decades render as gaps rather than a unit splice.",
-            "The 2020s point counts cell phones (92.7%); the landline share is on "
-            "the placard.",
+            "The 2020s fact leads with cell-phone adoption (92.7%), while the "
+            "landline share is 20.1%; neither is spliced into the historical "
+            "landline line.",
         ),
+        plot_gaps=frozenset({"1900s", "2020s"}),
     ),
     Arc(
         "air-conditioning",
@@ -192,11 +213,11 @@ ARCS: tuple[Arc, ...] = (
         caveats=(
             "From 2010s onward the source is ATUS (all adults 15+, hrs/day, "
             "narrower 'household activities'), not Ramey (prime-age women 18-64, "
-            "hrs/week, broader 'home production') — a concept splice. The 2010s "
-            "point plots in hrs/day alongside Ramey's hrs/week values; the visual "
-            "drop reflects the unit and activity change, not a real decline. The "
-            "2020s point (splice fact) carries both series' endpoints.",
+            "hrs/week, broader 'home production') — a concept splice. ATUS facts "
+            "remain available in their rooms, but render as linked gaps on this "
+            "weekly axis rather than as a false decline.",
         ),
+        plot_gaps=frozenset({"2010s", "2020s"}),
     ),
     Arc(
         "home-production-men",
@@ -210,11 +231,11 @@ ARCS: tuple[Arc, ...] = (
         caveats=(
             "From 2010s onward the source is ATUS (all adults 15+, hrs/day, "
             "narrower 'household activities'), not Ramey (prime-age men 18-64, "
-            "hrs/week, broader 'home production') — a concept splice. The 2010s "
-            "point plots in hrs/day alongside Ramey's hrs/week values; the visual "
-            "drop reflects the unit and activity change, not a real decline. The "
-            "2020s point (splice fact) carries both series' endpoints.",
+            "hrs/week, broader 'home production') — a concept splice. ATUS facts "
+            "remain available in their rooms, but render as linked gaps on this "
+            "weekly axis rather than as a false rise or decline.",
         ),
+        plot_gaps=frozenset({"2010s", "2020s"}),
     ),
     Arc(
         "food-share",
@@ -279,6 +300,29 @@ ARCS: tuple[Arc, ...] = (
 )
 
 ARC_BY_SLUG: dict[str, Arc] = {a.slug: a for a in ARCS}
+
+
+# These two series answer one question and must share one scale.  Separate
+# charts made the smaller men's series look visually comparable in magnitude
+# to the women's series and hid the convergence that is the actual story.
+ARC_GROUPS: tuple[ArcGroup, ...] = (
+    ArcGroup(
+        "home-production-by-sex",
+        "Unpaid home production, women and men",
+        "hours per week, prime-age adults (Ramey series)",
+        (
+            ("home-production-women", "Women", "copper"),
+            ("home-production-men", "Men", "brass"),
+        ),
+        caveats=ARC_BY_SLUG["home-production-women"].caveats,
+    ),
+)
+
+ARC_GROUP_BY_MEMBER: dict[str, ArcGroup] = {
+    member_slug: group
+    for group in ARC_GROUPS
+    for member_slug, _label, _color in group.members
+}
 
 
 # ── budget composition (parseable "Category N.N%" facts) ─────────────────────
@@ -365,6 +409,32 @@ HOME_SIZE_FACTS: dict[str, str] = {
     "2000s": "us-2000s-median-home-size",
     "2010s": "us-2010s-median-home-size",
     "2020s": "us-2020s-housing-characteristics",
+}
+
+# Structural gaps that change how a whole room should be read deserve notice
+# before the visitor reaches the individual gap placards. These are editorial
+# summaries of committed gap facts, not new historical claims.
+ROOM_GAP_BANNERS: dict[str, str] = {
+    "1910s": (
+        "Four core exhibits — income, housing, the food basket, and work-buys — "
+        "lack a reliable national record for this room. Their gaps are shown, "
+        "not reconstructed from neighboring decades."
+    ),
+    "1920s": (
+        "Four core exhibits — income, housing, the food basket, and work-buys — "
+        "lack a reliable national record for this room. Their gaps are shown, "
+        "not reconstructed from neighboring decades."
+    ),
+    "1930s": (
+        "Four core exhibits — income, housing, the food basket, and work-buys — "
+        "lack a reliable national record for this room. Their gaps are shown, "
+        "not reconstructed from neighboring decades."
+    ),
+    "1940s": (
+        "The wartime record is structurally different: no Consumer Expenditure "
+        "Survey covered the decade, while rationing and price controls make a "
+        "peacetime-style food basket misleading. Both exhibits remain gaps."
+    ),
 }
 
 # zone-note anchor positions on the cutaway, per palette slot
@@ -488,6 +558,7 @@ class Metric:
     percent: bool = False  # if True, ratio x 100 (share-of metrics)
     source_arc: str = ""  # arc slug whose decade quantities plot directly
     falling: bool = False  # falling metrics render in copper
+    zero_baseline: bool = True  # False only for indices where zero has no meaning
 
 
 AFFORDABILITY_METRICS: tuple[Metric, ...] = (
@@ -555,6 +626,7 @@ AFFORDABILITY_METRICS: tuple[Metric, ...] = (
         numerator=("hourly-earnings-total-private",),
         denominator=("cpi-u",),
         base_year=2024,
+        zero_baseline=False,
     ),
 )
 

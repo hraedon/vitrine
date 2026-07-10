@@ -229,7 +229,7 @@ assumptions = ["composite-family", "urban-rural-split"]
 id = "us-1900s-weekly-earnings-context"
 panel = "work-buys"
 label = "What a week of work bought, 1900"
-value = "$12.74/week (manufacturing) = 1.66% of $768.54 annual expenditure → 60 weeks to cover annual expenses"
+value = "$12.74/week (manufacturing) = 1.66% of $768.54 annual expenditure → 60 weeks of one earner's wages; the family budget depended on income beyond this one manufacturing wage"
 unit = "ratio of weekly wages to annual expenditure"
 source = "hist-stats-colonial-1970"
 tier = "A"

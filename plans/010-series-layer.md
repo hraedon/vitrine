@@ -1,6 +1,7 @@
 # Plan 010 — Series layer: year-by-year data for chart density
 
-**Status:** proposed
+**Status:** implemented 2026-07-09 (10 committed series, loader, gates,
+annual/decade chart projection, extraction scripts, and tests)
 **Triggered by:** 2026-07-09 owner discussion. The affordability view
 (Plan 011) needs annual resolution to show recessions, bubbles, and policy
 shocks that decade points flatten. The underlying data is already annual

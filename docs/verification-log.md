@@ -585,16 +585,17 @@ A-2 2011 data (`a2_2011.pdf`) shows similar values:
 Values are stable year-over-year, confirming the 2010 data point is
 representative of the decade.
 
-### Design decision: quantity set to ATUS daily value
+### Design decision: quantity retained; weekly arc rejects the splice
 
 The ATUS data is transcribed with `quantity` set to the daily value (2.14
-for women, 1.42 for men), so the arc chart renders these as data dots, not
-gap dots. The visual discontinuity between Ramey's hrs/week and ATUS's
-hrs/day is flagged by the arc caveat — the drop from 29.3 (2000s, weekly)
-to 2.14 (2010s, daily) reflects the unit change, not a real decline. This
-follows the fact model's rule: a fact with a single headline number must
-carry a quantity. The 2020s splice fact has no quantity because its value
-is a multi-series string with no single headline number.
+for women, 1.42 for men), because a fact with a single headline number must
+carry a quantity. The 2026-07-10 visitor-honesty pass moved the comparability
+decision to the chart projection: the weekly Ramey arc now renders these ATUS
+facts as linked gap marks rather than turning their daily quantities into
+weekly geometry. Multiplying by seven would repair the unit but not the
+population and activity-definition mismatch. The facts remain numeric in the
+rooms; the chart refuses the splice. The 2020s splice fact has no quantity
+because its value is a multi-series string with no single headline number.
 
 ### Source card update
 
@@ -607,3 +608,22 @@ labels identify the specific survey year.
 
 Both `home-production-women` and `home-production-men` arcs now carry a
 caveat explaining the 2010s+ ATUS splice point.
+
+---
+
+## WI-13: Census home-values link-rot repair (2026-07-10)
+
+**Date:** 2026-07-10
+**Verifier:** GPT-5 Codex session
+**Context:** The full scheduled link audit found that the registered Census
+URL for `census-historical-housing-values` returned a genuine 404.
+
+### Repair and verification
+
+- Old path: `.../time-series/census-housing-tables/values-unadj.txt` (404)
+- Current official path: `.../time-series/coh-values/values-unadj.txt` (200)
+- The current directory is linked by the Census Bureau's official Historical
+  Census of Housing Tables: Home Values landing page.
+- Direct retrieval confirmed the U.S. row is unchanged: 1940 $2,938; 1950
+  $7,354; 1960 $11,900; 1970 $17,000; 1980 $47,200; 1990 $79,100; 2000
+  $119,600. No fact or series value changed.

@@ -31,7 +31,7 @@ decisions and the validation results.** A test asserts the two never drift
 | `ivory` | `#ece2cf` | specimen label card (brightest object) |
 | `ivory-2` | `#e3d7bf` | label gradient partner |
 | `ink` | `#2a2317` | text on ivory |
-| `ink-soft` | `#7c6f57` | secondary text on dark surfaces |
+| `ink-soft` | `#998b70` | secondary text on dark surfaces (4.5:1 minimum) |
 | `brass` | `#cf9f4c` | editorial voice: rising metrics, highlights, glyph strokes |
 | `brass-dim` | `#7d663a` | quiet brass: structure lines, idle rings |
 | `brass-deep` | `#a97f34` | brass on ivory (pressed/accent) |
@@ -78,7 +78,7 @@ of the stage's radial gradient (outer stops stay `case` → `ground`):
 **Constraint (checked, not assumed):** every semantic color that renders on
 the stage — the four tier colors, provisional, brass, copper — holds **≥ 3:1
 WCAG contrast against every era glow tint** and against `case`/`ground`.
-`ink-soft` caption text never sits on the tinted stage; it is held to 3:1 on
+`ink-soft` caption text never sits on the tinted stage; it is held to 4.5:1 on
 `case`/`ground` where it does render. `tests/test_design.py` computes the full
 cross-product; a new tint or semantic color that breaks it is a red build.
 

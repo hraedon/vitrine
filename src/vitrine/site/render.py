@@ -72,6 +72,8 @@ _BASE = """<!doctype html>
    details.panel-group[open]>summary.case-title{margin-bottom:14px}
    .case-sub{font-size:13px;color:{{ T.INK_SOFT }};margin:0 0 14px}
   .caveat{border-left:3px solid {{ T.BRASS_DEEP }};background:{{ T.CASE }};padding:8px 12px;margin:8px 0;font-size:13px;color:#c9bfa4;max-width:76ch}
+  .gap-banner{border:1px solid #665037;border-left:4px solid {{ T.COPPER }};background:linear-gradient(90deg,#2b211a,{{ T.CASE }});padding:12px 15px;margin:14px 0 16px;color:#d8c9ad;font-size:14px;max-width:80ch}
+  .gap-banner b{color:{{ T.COPPER }};font-family:{{ T.MONO }};font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;margin-right:7px}
   .stage{position:relative;border:1px solid {{ T.EDGE }};border-radius:5px;background:{{ T.GROUND }};padding:8px;overflow:hidden}
   .stage::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 90px -30px #000;border-radius:5px}
   .stagehint{font-family:{{ T.MONO }};font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#5c5240;text-align:center;padding:6px 0 3px}
@@ -107,12 +109,13 @@ _BASE = """<!doctype html>
   .cases{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
   .placard{background:linear-gradient(178deg,{{ T.IVORY }},{{ T.IVORY_2 }});color:{{ T.INK }};border-radius:4px;padding:18px 18px 16px;border:1px solid #cbbfa1;box-shadow:0 18px 40px -22px #000;scroll-margin-top:20px}
    .placard:target{outline:3px solid {{ T.BRASS_LIT }};outline-offset:2px;box-shadow:0 0 34px -8px {{ T.BRASS_DEEP }}}
-   .placard-overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.55);padding:5vh 10vw;overflow:auto;align-items:flex-start;justify-content:center}
+   .placard-overlay{display:none;position:fixed;inset:0;z-index:100;padding:5vh 10vw;overflow:auto;align-items:flex-start;justify-content:center}
     .placard-overlay:target{display:flex}
-    .placard-overlay .placard-card{position:relative;z-index:102;max-height:88vh;overflow:auto;max-width:760px;width:auto;margin-top:0}
-    .overlay-close{position:absolute;inset:0;z-index:101;display:flex;justify-content:flex-end;align-items:flex-start;padding:8px 14px;font-size:28px;line-height:1;text-decoration:none;color:{{ T.BRASS_DEEP }};background:transparent}
+    .overlay-backdrop{position:fixed;inset:0;z-index:101;background:rgba(0,0,0,.62)}
+    .placard-overlay .placard-card{position:relative;z-index:102;max-height:88vh;overflow:auto;max-width:760px;width:auto;margin-top:0;padding-right:54px}
+    .overlay-close{position:absolute;top:8px;right:9px;z-index:103;font-size:25px;line-height:1;text-decoration:none;color:{{ T.BRASS_DEEP }};background:{{ T.IVORY_2 }};border:1px solid #cbbfa1;border-radius:3px;padding:2px 8px}
     .overlay-close:hover{color:{{ T.BRASS_LIT }}}
-    .overlay-close .close-mark{background:{{ T.CASE }};border:1px solid {{ T.EDGE }};border-radius:3px;padding:2px 8px;pointer-events:none}
+    .overlay-close:focus-visible{outline:3px solid {{ T.BRASS_LIT }};outline-offset:2px}
    .placard .ceyebrow{font-family:{{ T.MONO }};font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.BRASS_DEEP }}}
   .placard .cval{font-family:{{ T.SERIF }};font-size:19px;line-height:1.2;margin:7px 0 2px;color:{{ T.INK }};text-wrap:balance}
   .placard .clab{font-size:13.5px;color:#5f5540;margin:0 0 10px}
@@ -274,9 +277,10 @@ _PLACARD = """
   {{ _placard_body(fact, room, sources, assumptions, affordability, root, modal=false) }}
 </div>
 {% endif %}
-<div class="placard-overlay" id="{{ fact.id }}--modal">
-  <a href="#" class="overlay-close" aria-label="Close placard"><span class="close-mark">x</span></a>
+<div class="placard-overlay" id="{{ fact.id }}--modal" role="dialog" aria-modal="true" aria-label="{{ fact.label }}">
+  <a href="#dismissed" class="overlay-backdrop" aria-label="Close placard"></a>
   <div class="placard placard-card{% if fact.value.strip().lower().startswith('no reliable record') %} gap-placard{% endif %}">
+    <a href="#dismissed" class="overlay-close" aria-label="Close placard">&times;</a>
     {{ _placard_body(fact, room, sources, assumptions, affordability, root, modal=true) }}
   </div>
 </div>
@@ -318,6 +322,7 @@ _ROOM = (
 <div class="decades"><span class="lab">Decade</span>
 {% for r in rooms %}<a class="dbtn{% if r.slug == room.slug %} on{% endif %}" href="{{ r.slug }}.html">{{ r.decade }}</a>
 {% endfor %}</div>
+{% if gap_banner %}<div class="gap-banner"><b>Structural gap</b>{{ gap_banner }}</div>{% endif %}
 <div class="stage">{{ stage_svg }}</div>
 <div class="stagehint">era-graded light · absent technology isn't drawn · every glyph opens its specimen label</div>
 {% for panel, facts, computed in panels %}
@@ -431,7 +436,7 @@ _CORRIDORS = (
 {% for bar in comp_bars %}{{ bar }}{% endfor %}
 </div>
 {% for arc in arc_sections %}
-<h2 class="case-title">{{ arc.label }}</h2>
+<h2 class="case-title" id="{{ arc.slug }}">{{ arc.label }}</h2>
 <p class="case-sub">{{ arc.unit }}</p>
 {% for caveat in arc.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}<div class="chart-panel">{{ arc.chart }}</div>
 {% endfor %}
@@ -441,7 +446,7 @@ _CORRIDORS = (
 {% for a in decades %}<tr><th>{{ a[2:4] }}s</th>
 {% for b in decades %}<td>{% if a < b %}<a href="{{ a }}--{{ b }}.html">↔</a>{% else %}·{% endif %}</td>{% endfor %}</tr>
 {% endfor %}</table>
-<div class="overlay-deck" aria-hidden="true">
+<div class="overlay-deck">
 {% for ref in overlay_facts %}{{ placard(ref.fact, ref.room, sources, assumptions, affordability, root, inline=false) }}{% endfor %}
 </div>
 """
@@ -494,7 +499,7 @@ _PAIR = (
 {% endfor %}
 </div>
 {% endfor %}
-<div class="overlay-deck" aria-hidden="true">
+<div class="overlay-deck">
 {% for ref in overlay_facts %}{{ placard(ref.fact, ref.room, sources, assumptions, affordability, root, inline=false) }}{% endfor %}
 </div>
 """
@@ -503,11 +508,12 @@ _PAIR = (
 
 _WALKTHROUGH = (
     """{% extends "base" %}
+{% from "macros" import placard %}
 {% block title %}the walkthrough — vitrine{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · the walkthrough · {{ stops | join(" → ") }}</p>
 <h1>Walk the <em>composite household</em></h1>
-<p class="sub">The home and the four people in it, at three stops across the century. No narration — the sourced facts, their tiers, and the gaps.</p>
+<p class="sub">The home and its paid-work, unpaid-work, and childhood records at three stops across the century. No invented family biography — only sourced facts, their tiers, and the gaps.</p>
 <div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
 {% for stop in stop_sections %}
 <h2 class="case-title">The {{ stop.decade }} — <a href="rooms/us-{{ stop.decade }}.html">enter the room</a></h2>
@@ -575,6 +581,9 @@ _WALKTHROUGH = (
 {% endfor %}
 </div>
 <p class="case-sub" style="margin-top:20px"><a href="affordability/index.html">How did we get here? →</a> — the affordability view traces five ratios across the full annual record.</p>
+<div class="overlay-deck">
+{% for ref in overlay_facts %}{{ placard(ref.fact, ref.room, sources, assumptions, affordability, root, inline=false) }}{% endfor %}
+</div>
 """
     + "{% endblock %}\n"
 )
@@ -627,7 +636,9 @@ def _arc_points(
                 tier=ref.fact.tier.value,
                 label=ref.fact.label,
                 value=ref.fact.value,
-                quantity=ref.fact.quantity,
+                quantity=(
+                    None if decade in arc.plot_gaps else ref.fact.quantity
+                ),
                 year=year,
             )
         )
@@ -648,6 +659,24 @@ def _arc_chart_for(
             s.values, points, arc.unit, series_id=arc.series_id, falling=arc.falling
         )
     return svg.arc_chart(points, arc.unit, falling=arc.falling)
+
+
+def _arc_group_chart_for(
+    group: curation.ArcGroup,
+    index: dict[str, _FactRef],
+    root: str,
+) -> str:
+    """Render a curated group of related arcs on one honest shared scale."""
+    colors = {"copper": tokens.COPPER, "brass": tokens.BRASS}
+    chart_series = tuple(
+        svg.ArcSeries(
+            label=label,
+            color=colors[color_role],
+            points=_arc_points(index, curation.ARC_BY_SLUG[arc_slug], root),
+        )
+        for arc_slug, label, color_role in group.members
+    )
+    return svg.multi_arc_chart(chart_series, group.unit)
 
 
 def _fold_shares(
@@ -1172,6 +1201,7 @@ def _render_affordability(
             metric_slug=metric.slug,
             falling=metric.falling,
             markers=markers,
+            zero_baseline=metric.zero_baseline,
         )
         sections.append({"metric": metric, "chart": Markup(chart), "note": note})
     (out_dir / "affordability").mkdir(exist_ok=True)
@@ -1270,6 +1300,7 @@ def render_site(
                 sources=corpus.sources,
                 assumptions=corpus.assumptions,
                 affordability=room_afford,
+                gap_banner=curation.ROOM_GAP_BANNERS.get(room.decade, ""),
             )
         )
         rendered_ids.extend(fact.id for fact in room.facts)
@@ -1288,15 +1319,33 @@ def render_site(
 
     # corridors index: the arc charts
     corridor_root = "../"
-    arc_sections = [
-        {
-            "label": arc.label,
-            "unit": arc.unit,
-            "caveats": arc.caveats,
-            "chart": Markup(_arc_chart_for(arc, index, series, corridor_root)),
-        }
-        for arc in curation.ARCS
-    ]
+    arc_sections: list[dict[str, object]] = []
+    rendered_groups: set[str] = set()
+    for arc in curation.ARCS:
+        group = curation.ARC_GROUP_BY_MEMBER.get(arc.slug)
+        if group is not None:
+            if group.slug in rendered_groups:
+                continue
+            rendered_groups.add(group.slug)
+            arc_sections.append(
+                {
+                    "slug": group.slug,
+                    "label": group.label,
+                    "unit": group.unit,
+                    "caveats": group.caveats,
+                    "chart": Markup(_arc_group_chart_for(group, index, corridor_root)),
+                }
+            )
+            continue
+        arc_sections.append(
+            {
+                "slug": arc.slug,
+                "label": arc.label,
+                "unit": arc.unit,
+                "caveats": arc.caveats,
+                "chart": Markup(_arc_chart_for(arc, index, series, corridor_root)),
+            }
+        )
     afford_sections = []
     for _slug, label, pattern in curation.AFFORD_ITEMS:
         ids = _afford_fact_ids(corpus, pattern)
@@ -1380,17 +1429,29 @@ def render_site(
 
     # the walkthrough
     stop_sections = []
+    walkthrough_overlay_ids: list[str] = []
     for decade in curation.WALKTHROUGH_STOPS:
         room = next(r for r in rooms if r.decade == decade)
+        stage = _build_stage(room, index, "")
+        walkthrough_overlay_ids.extend(a.fact_id for a in stage.artifacts)
+        walkthrough_overlay_ids.extend(n.fact_id for n in stage.zone_notes)
         people = []
-        for figure, name in (("father", "The father"), ("mother", "The mother"), ("children", "The children")):
+        # The source series are sex- and activity-specific, not observations
+        # of one literal father and mother. Lens labels keep the composite
+        # honest and avoid assigning a family structure the data never states.
+        for figure, name in (
+            ("father", "The paid-work record"),
+            ("mother", "The unpaid-work record"),
+            ("children", "The childhood record"),
+        ):
             rows = []
             for fid in curation.WALKTHROUGH_PEOPLE[figure].get(decade, ()):
                 fact = index[fid].fact
+                walkthrough_overlay_ids.append(fid)
                 rows.append(
                     {
                         "fact_id": fid,
-                        "href": _placard_href(index, fid, ""),
+                        "href": f"#{fid}--modal",
                         "label": fact.label,
                         "value": fact.value if len(fact.value) <= 90 else fact.value[:87] + "…",
                         "tier": fact.tier.value,
@@ -1400,7 +1461,7 @@ def render_site(
         stop_sections.append(
             {
                 "decade": decade,
-                "stage": Markup(svg.stage_svg(_build_stage(room, index, ""))),
+                "stage": Markup(svg.stage_svg(stage, overlay_links=True)),
                 "people": people,
             }
         )
@@ -1427,11 +1488,12 @@ def render_site(
                 )
                 continue
             fact = index[mfid].fact
+            walkthrough_overlay_ids.append(mfid)
             cells.append(
                 {
                     "decade": decade,
                     "fact_id": mfid,
-                    "href": _placard_href(index, mfid, ""),
+                    "href": f"#{mfid}--modal",
                     "tier": fact.tier.value,
                     "gap": fact.quantity is None,
                     "text": "see the placard" if fact.quantity is None else f"{fact.quantity:g}",
@@ -1449,6 +1511,7 @@ def render_site(
     for decade in sorted(women_arc.fact_ids):
         fid = women_arc.fact_ids[decade]
         fact = index[fid].fact
+        walkthrough_overlay_ids.append(fid)
         meter_bars.append(
             svg.MeterBar(
                 decade=decade,
@@ -1457,11 +1520,17 @@ def render_site(
                 tier=fact.tier.value,
                 label=fact.label,
                 value=fact.value,
-                quantity=fact.quantity,
-                note="concept splice — see the placard" if decade == "2020s" else "",
+                quantity=(
+                    None if decade in women_arc.plot_gaps else fact.quantity
+                ),
+                note=(
+                    "different unit and concept — see the placard"
+                    if decade in women_arc.plot_gaps
+                    else ""
+                ),
             )
         )
-    meter = Markup(svg.hours_meter(tuple(meter_bars), women_arc.unit, overlay_links=False))
+    meter = Markup(svg.hours_meter(tuple(meter_bars), women_arc.unit, overlay_links=True))
 
     houses = []
     sourced_area: float | None = None
@@ -1491,7 +1560,7 @@ def render_site(
                 "decade": decade,
                 "fact_id": area_fid if area_fact is not None else "",
                 "href": (
-                    _placard_href(index, area_fid, "")
+                    f"#{area_fid}--modal"
                     if area_fid is not None and area_fact is not None
                     else ""
                 ),
@@ -1506,6 +1575,8 @@ def render_site(
                 "caption": caption,
             }
         )
+        if area_fid is not None and area_fact is not None:
+            walkthrough_overlay_ids.append(area_fid)
 
     (out_dir / "walkthrough.html").write_text(
         env.get_template("walkthrough").render(
@@ -1516,6 +1587,10 @@ def render_site(
             meter=meter,
             meter_caveats=women_arc.caveats,
             houses=houses,
+            sources=corpus.sources,
+            assumptions=corpus.assumptions,
+            affordability=all_affordability,
+            overlay_facts=_overlay_facts(tuple(walkthrough_overlay_ids)),
         )
     )
 

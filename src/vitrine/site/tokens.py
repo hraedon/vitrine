@@ -16,7 +16,10 @@ EDGE = "#413728"
 IVORY = "#ece2cf"
 IVORY_2 = "#e3d7bf"
 INK = "#2a2317"
-INK_SOFT = "#7c6f57"
+# Secondary text is intentionally quieter than ivory, but it is still body
+# copy at 10–15px throughout the site. Keep it above WCAG AA's 4.5:1 threshold
+# on both dark page surfaces rather than treating it as large/decorative text.
+INK_SOFT = "#998b70"
 BRASS = "#cf9f4c"
 BRASS_DIM = "#7d663a"
 BRASS_DEEP = "#a97f34"
@@ -51,7 +54,7 @@ SEMANTIC_ON_STAGE = {
 }
 
 # Caption text on untinted dark surfaces only — never placed on the stage
-# (the renderer keeps it to case/ground; the test holds it to 3:1 there).
+# (the renderer keeps it to case/ground; the test holds it to 4.5:1 there).
 CAPTION_ON_DARK = {"ink-soft": INK_SOFT}
 
 # ── era-graded stage light (inner glow stop of the stage gradient) ───────────
