@@ -446,3 +446,55 @@ source = "nchs-nvss"
 tier = "A"
 notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 4.0; postneonatal: 2.1. By 2015: 5.9. The decline continued but racial disparities persisted — black infant mortality remained more than twice the white rate."
 assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-2010s-median-age-first-marriage"
+quantity = 28.2
+panel = "day"
+label = "Median age at first marriage, 2010"
+value = "Men: 28.2, Women: 26.1"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2. CPS ASEC. Men crossed 28, women crossed 26 — both at historic highs. The composite four-person family now forms 5-6 years later than in the 1950s. By 2023: 30.2/28.4. Same-sex marriages included starting 2019."
+
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-2010s-married-women-lfpr"
+quantity = 57.9
+panel = "day"
+label = "Married women's labor force participation, 2016"
+value = "57.9%"
+unit = "% of married women (spouse present) in the civilian labor force"
+source = "bls-womens-databook"
+tier = "A"
+notes = "From BLS Women in the Labor Force: A Databook (2017 edition, Report 1063), covering 2016 annual averages. CPS annual averages. Down from the 2000 peak of 61.1% — married women's LFPR declined in the 2010s after a century of growth. The 2015 figure was 57.9% (BLS Women's Databook 2017). The decline reflects demographic shifts (aging population, more retirees) and the lingering effects of the Great Recession."
+
+# ── Education ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2010s-education"
+quantity = 87.1
+panel = "day"
+label = "Educational attainment, 2010"
+value = "HS grad or more: 87.1%, Bachelor's or more: 29.9%, Less than 9th grade: 5.2%"
+unit = "% of population 25+ (all races, both sexes)"
+source = "census-table-a1-a2"
+tier = "A"
+notes = "From Census Table A-1. CPS ASEC (2001+). HS graduation approaching 87%. Less-than-9th-grade at 5% — down from 60% in 1940. Bachelor's or more approaching 30%. Note: methodology switched from decennial census to CPS ASEC after 2000."
+
+# ── Net worth (median family) ────────────────────────────────────────────
+
+[[fact]]
+id = "us-2010s-median-net-worth"
+quantity = 97.3
+panel = "day"
+label = "Median family net worth, 2016"
+value = "$97,300 (97.3 thousand, 2016 dollars)"
+unit = "median net worth, all families (SCF)"
+source = "fed-scf"
+tier = "A"
+notes = "From SCF Chartbook (bulletincharts.pdf). 2016 survey, in 2016 dollars. Down from $139,700 peak in 2007 — the Great Recession destroyed a decade of wealth accumulation for the median family. By 2016, median net worth had recovered from the 2010 trough ($85,400) but remained 30% below the 2007 peak."

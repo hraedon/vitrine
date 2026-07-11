@@ -452,3 +452,55 @@ source = "nchs-nvss"
 tier = "A"
 notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 8.5; postneonatal: 4.1. The early 1980s saw a slowdown in decline, then artificial pulmonary surfactant (1989-91) reduced respiratory distress syndrome deaths."
 assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-1980s-median-age-first-marriage"
+quantity = 24.7
+panel = "day"
+label = "Median age at first marriage, 1980"
+value = "Men: 24.7, Women: 22.0"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2. CPS ASEC. Marriage ages rose sharply in the 1970s — up 1.5 years for men, 1.2 for women. The women's movement, contraception (Roe v. Wade 1973), and delayed family formation were reshaping the composite family."
+
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-1980s-married-women-lfpr"
+quantity = 49.8
+panel = "day"
+label = "Married women's labor force participation, 1980"
+value = "49.8%"
+unit = "% of married women (spouse present) in the civilian labor force"
+source = "statab-lfpr-marital"
+tier = "A"
+notes = "From Statistical Abstract Table 596 (11s0596.xls, BLS CPS annual averages). Crossed 50% by 1983 (51.8%). Up from 40.5% in 1970. The 1980s saw the steepest decade gain (+9.3 pp) as the dual-earner family became the norm. By 1990: 58.4%."
+
+# ── Education ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1980s-education"
+quantity = 68.6
+panel = "day"
+label = "Educational attainment, 1980"
+value = "HS grad or more: 68.6%, Bachelor's or more: 17.0%, Less than 9th grade: 17.5%. Median school years: 12.5."
+unit = "% of population 25+ (all races, both sexes); median years completed"
+source = "census-table-a1-a2"
+tier = "A"
+notes = "From Census Table A-1. Decennial census. HS graduation approaching 70%. Less-than-9th-grade fell below 20% — down from 60% in 1940. Bachelor's or more crossed 17%. Median school years: 12.5 — just past high school graduation."
+
+# ── Net worth (median family) ────────────────────────────────────────────
+
+[[fact]]
+id = "us-1980s-median-net-worth"
+quantity = 42.7
+panel = "day"
+label = "Median family net worth, 1983"
+value = "$42,700 (42.7 thousand, 1989 dollars)"
+unit = "median net worth, all families (SCF)"
+source = "fed-scf"
+tier = "A"
+notes = "From SCF 1983-1989 Federal Reserve Bulletin (bull0192.pdf, January 1992, Table 2). First modern SCF survey (1983). Median family net worth in 1989 dollars. This is the first true median household wealth figure in the Vitrine corpus — all earlier net worth facts are aggregate. The SCF surveys ~4,100 families every 3 years. Note: values are in 1989 dollars (the 1983-89 bulletin's base year), not directly comparable to later SCF Chartbook figures in 2016 dollars."

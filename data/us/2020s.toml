@@ -223,6 +223,61 @@ tier = "A"
 notes = "From CMS NHE Table 02 (NHE2024.csv). Out of pocket: $556,554M of $5,278,588M total. Down from 47.1% in 1960 — the share of health spending paid directly by families fell by more than three-quarters over six decades."
 
 [[fact]]
+id = "us-2020s-nhe-per-capita"
+quantity = 15474
+panel = "table"
+label = "National health spending per person, 2024"
+value = "$15,474 per capita ($13,222 for personal health care)"
+unit = "USD per person, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE per capita: $15,474. Personal Health Care per capita: $13,222. Population: 341M. From $146 (1960) to $15,474 (2024) — a 106x increase in nominal terms."
+
+[[fact]]
+id = "us-2020s-nhe-gdp-share-arc"
+quantity = 18.0
+panel = "table"
+label = "Healthcare's share of GDP: 1960 vs 2024"
+value = "5.0% (1960) → 18.0% (2024) — healthcare's GDP share more than tripled"
+unit = "NHE as % of GDP"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01. In 1960, healthcare was 5% of GDP; by 2024, it was 18% — nearly one-fifth of all economic output. The steepest jumps: 1970s (6.9→8.9%), 1990s (8.9→12.1%), 2000s (13.3→17.2%). Key drivers: Medicare/Medicaid (1965), medical technology, prescription drug spending, aging population."
+
+[[fact]]
+id = "us-2020s-nhe-medicare"
+quantity = 1118000
+panel = "table"
+label = "Medicare spending, 2024"
+value = "$1,118,000 million (21.2% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Medicare: $1,118,000M of $5,278,588M total. Up from $7,672M in 1970 — a 146x increase in nominal terms. Medicare now covers ~22% of all health spending."
+
+[[fact]]
+id = "us-2020s-nhe-medicaid"
+quantity = 931692
+panel = "table"
+label = "Medicaid spending, 2024"
+value = "$931,692 million (17.6% of NHE); Federal $596,694M, State/Local $334,998M"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Medicaid total: $931,692M. Federal: $596,694M. State/Local: $334,998M. Up from $5,290M in 1970. Federal share grew from 53.7% (1970) to 64.0% (2024)."
+
+[[fact]]
+id = "us-2020s-nhe-prescription-drugs"
+quantity = 466968
+panel = "table"
+label = "Prescription drug spending, 2024"
+value = "$466,968 million (8.8% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $466,968M of $5,278,588M total. Up from $2,676M in 1960 — a 174x increase. The 2000s saw the largest jump ($122B→$253B) after Medicare Part D (2006)."
+
+[[fact]]
 id = "us-2020s-heart-disease-mortality"
 quantity = 157.6
 panel = "table"
@@ -578,3 +633,55 @@ source = "ramey-2009"
 tier = "C"
 notes = "Concept splice (Plan 004 Measure guard): Ramey measures unpaid home production (food prep, cleaning, clothing care, childcare, purchasing, management) for prime-age women and men separately, ages 18-64, in hours/week. ATUS (us-2020s-time-use, source bls-atus, 2024 annual averages) measures 'household activities' for all adults 15+ in hrs/day, without gender breakdown in the headline figure. The two series are NOT directly comparable: (1) different activity definitions (Ramey's 'home production' is broader than ATUS 'household activities'), (2) different populations (prime-age vs all-adult), (3) different units (weekly vs daily). When plotted on the same axis, this splice must carry a caveat banner. The Ramey series is the thesis spine (women's hours falling); ATUS is the modern anchor point."
 assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-median-age-first-marriage"
+quantity = 30.2
+panel = "day"
+label = "Median age at first marriage, 2023"
+value = "Men: 30.2, Women: 28.4"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2. CPS ASEC. Men crossed 30 for the first time in the series — up from 22.8 in 1950. Women at 28.4, up from 20.3. The composite four-person family now forms 8 years later than at mid-century. Same-sex marriages included starting 2019. This is why the 2020s room notes the median household is no longer this family — the four-person married-couple household with young children is no longer the statistical norm."
+
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-2020s-married-women-lfpr"
+quantity = 56.9
+panel = "day"
+label = "Married women's labor force participation, 2021"
+value = "56.9%"
+unit = "% of married women (spouse present) in the civilian labor force"
+source = "bls-womens-databook"
+tier = "A"
+notes = "From BLS Women in the Labor Force: A Databook (2022 edition, Report 1080), covering 2021 annual averages. CPS annual averages. Down from 57.9% (2016) and 61.1% (2000 peak). The long-term decline from the 2000 peak reflects demographic aging (more married women past retirement age) and structural shifts. From 5.6% (1900) to 61.1% (2000 peak) to 56.9% (2021) — the arc of married women's labor force participation across 120 years."
+
+# ── Education ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-education"
+quantity = 91.4
+panel = "day"
+label = "Educational attainment, 2024"
+value = "HS grad or more: 91.4%, Bachelor's or more: 38.7%, Less than 9th grade: 3.5%"
+unit = "% of population 25+ (all races, both sexes)"
+source = "census-table-a1-a2"
+tier = "A"
+notes = "From Census Table A-1. CPS ASEC 2024. HS graduation above 91%. Less-than-9th-grade at 3.5% — down from 60% in 1940. Bachelor's or more approaching 39% — nearly 4 in 10 adults have a college degree, up from 1 in 20 in 1940. 2020 ACS data quality affected by COVID-19 data collection disruptions."
+
+# ── Net worth (median family) ────────────────────────────────────────────
+
+[[fact]]
+id = "us-2020s-median-net-worth"
+quantity = 192.9
+panel = "day"
+label = "Median family net worth, 2022"
+value = "$192,900 (192.9 thousand, 2022 dollars)"
+unit = "median net worth, all families (SCF)"
+source = "fed-scf"
+tier = "A"
+notes = "From SCF 2022 Bulletin (scf23.pdf, October 2023, Table 2). 2022 survey, in 2022 dollars. Up 37% from 2019 ($141,100 in 2022 dollars) — the largest 3-year increase in SCF history. Driven by surging home values and stock market gains. This is the highest median family net worth in the SCF series. Note: 2022 dollars, not directly comparable to 2016-dollar SCF Chartbook figures for earlier years."

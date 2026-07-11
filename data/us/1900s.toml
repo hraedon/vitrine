@@ -306,3 +306,66 @@ source = "ramey-2009"
 tier = "C"
 notes = "Ramey (2009), aggregate home-production hours divided by number of households. Fell from 78 hrs/week (1900) to 49 hrs/week (2005), a 37% decline. Household size fell 45% (4.7→2.6 persons) over the same period, so per-household hours fell proportionally less than household size. Per-capita (all ages) was 16.4 hrs/week — slightly higher in 2005 than 1900 because fewer children (who do little home production) are in the population."
 assumptions = ["composite-family"]
+
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-1900s-married-women-lfpr"
+quantity = 5.6
+panel = "day"
+label = "Married women's labor force participation, 1900"
+value = "~5.6%"
+unit = "% of married women (husband present) in the civilian labor force"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 49-62 (Marital Status of Women in the Civilian Labor Force, 1890-1970). In 1900, only about 1 in 18 married women worked outside the home — the composite family is unambiguously a single-earner household. Total female LFPR was 20.6%. By 1950: 21.0% married women; by 1970: 40.0%. The figures for 1890-1940 are census-year estimates from the decennial series."
+assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-1900s-median-age-first-marriage"
+quantity = 25.9
+panel = "day"
+label = "Median age at first marriage, 1900"
+value = "Men: 25.9, Women: 21.9"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2 (ms2-median-age-first-marriage.xls). Decennial census. Men married at 25.9, women at 21.9 — a 4-year gap. The composite four-person family typically formed in the early-to-mid 20s for the wife, late 20s for the husband. By 1950: 22.8/20.3 (mid-century low)."
+
+# ── Education ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1900s-education"
+panel = "day"
+label = "Educational attainment, 1900"
+value = "Median school years completed: ~8.3 (estimated from 1940 trend)"
+unit = "median years of school completed, persons 25+"
+source = "hist-stats-colonial-1970"
+tier = "C"
+notes = "Census Table A-1 begins at 1940 (median 8.6 years). The 1900 Census did not collect educational attainment in a comparable form. Estimated by linear backcast from 1940 (8.6) and 1950 (9.3). Tier C: estimate, not directly sourced."
+
+# ── Net worth (aggregate household sector) ────────────────────────────────
+
+[[fact]]
+id = "us-1900s-household-net-worth"
+quantity = 57
+panel = "day"
+label = "Nonfarm household net worth, 1900"
+value = "$57 billion"
+unit = "aggregate net worth of nonfarm household sector, current dollars"
+source = "goldsmith-balance-sheet"
+tier = "D"
+notes = "From Goldsmith, Lipsey & Mendelson (1963), Table 1, Sector I.1 (Nonfarm households). Total assets: $62B. Tangible assets: $29B (real estate, durables). Financial assets: $32B (deposits, securities, life insurance). Debt: $5B (mostly mortgages). Net worth: $57B. Aggregate — NOT median. Goldsmith reconstructed this from Census wealth data and Federal Reserve sources. In 1900, tangible assets (real estate) were 47% of household assets; financial assets were 53%."
+
+[[fact]]
+id = "us-1900s-household-asset-composition"
+quantity = 47
+panel = "day"
+label = "Household asset composition, 1900"
+value = "Tangible 47% ($29B), Financial 53% ($32B)"
+unit = "% of total nonfarm household assets by type"
+source = "goldsmith-balance-sheet"
+tier = "D"
+notes = "From Goldsmith (1963), Table 1. In 1900, households held roughly equal tangible and financial assets. Tangible = real estate + consumer durables. Financial = deposits + securities + life insurance + pension reserves. By contrast, in 1958 tangible fell to 39% as financial assets grew."

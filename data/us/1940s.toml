@@ -330,3 +330,56 @@ source = "ramey-2009"
 tier = "C"
 notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
 assumptions = ["composite-family"]
+
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-1940s-married-women-lfpr"
+quantity = 13.8
+panel = "day"
+label = "Married women's labor force participation, 1940"
+value = "~13.8%"
+unit = "% of married women (husband present) in the civilian labor force"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 49-62 (decennial). Total female LFPR was 27.4%. The wartime 'Rosie the Riveter' mobilization would temporarily push married women's participation much higher, but many were pushed out of jobs after the war. By 1948 (Series D 63-74, annual): 22.0% — the postwar surge is visible. The 1940s mark the beginning of the long-term shift from single-earner to dual-earner families."
+assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-1940s-median-age-first-marriage"
+quantity = 24.3
+panel = "day"
+label = "Median age at first marriage, 1940"
+value = "Men: 24.3, Women: 21.5"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2. Decennial census. War and postwar mobilization would push marriage ages down to the mid-century low (22.8/20.3 by 1950)."
+
+# ── Education ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1940s-education"
+quantity = 24.5
+panel = "day"
+label = "Educational attainment, 1940"
+value = "HS grad or more: 24.5%, Bachelor's or more: 4.6%, Less than 9th grade: 59.5%. Median school years: 8.6."
+unit = "% of population 25+ (all races, both sexes); median years completed"
+source = "census-table-a1-a2"
+tier = "A"
+notes = "From Census Table A-1 (taba-1-educational-attainment.xlsx). Decennial census. In 1940, only 1 in 4 adults had a high school diploma and 60% had not completed 9th grade. Only 4.6% had a bachelor's degree. Median school years completed: 8.6 — roughly through 8th grade."
+
+# ── Net worth (aggregate household sector) ────────────────────────────────
+
+[[fact]]
+id = "us-1940s-household-net-worth"
+quantity = 592
+panel = "day"
+label = "Nonfarm household net worth, 1945"
+value = "$592 billion"
+unit = "aggregate net worth of nonfarm household sector, current dollars"
+source = "goldsmith-balance-sheet"
+tier = "D"
+notes = "From Goldsmith, Lipsey & Mendelson (1963), Table 1, Sector I.1 (Nonfarm households). Total assets: $623B. Tangible assets: $200B (real estate $142B, consumer durables $41B). Financial assets: $423B. Debt: $31B. Net worth: $592B. WWII transformed the household balance sheet: financial assets surged to 68% of total as war bonds and savings deposits accumulated. Debt was minimal ($31B) — wartime controls suppressed consumer credit. Aggregate — NOT median. The Fed Z.1 series begins here (Q4 1945)."

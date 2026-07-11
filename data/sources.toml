@@ -758,3 +758,73 @@ year = 2021
 url = "https://tedb.ornl.gov/data/"
 population = "All new passenger cars sold in the United States (domestic and import), excluding pickups, vans, and SUVs"
 notes = "Compiled in Oak Ridge National Laboratory, Transportation Energy Data Book, Edition 40, Table 11.13. Data are based on an average car and do not include prices for pickups, vans, or sport utility vehicles. Annual average transaction prices in current dollars. Total (domestic + import) current-dollar prices: 1970 $3,543, 1980 $7,557, 1990 $15,033, 2000 $21,030, 2010 $24,907, 2020 $27,366."
+
+[[source]]
+id = "census-table-a1-a2"
+title = "Census Historical Tables: Educational Attainment (Table A-1/A-2)"
+short_cite = "U.S. Census Bureau, Educational Attainment Historical Tables (Table A-1, A-2)"
+publisher = "U.S. Census Bureau"
+year = 2024
+url = "https://www.census.gov/data/tables/time-series/demo/educational-attainment.html"
+population = "U.S. civilian noninstitutionalized population aged 25 and over (CPS/ACS)"
+notes = "Table A-1: Years of school completed by age and sex (1940-present). Table A-2: Percent of population 25+ with specified years of school completed (high school graduate or more, bachelor's degree or more). 1940-2000 data from decennial census; 2001+ from CPS ASEC. Data series updated annually. Files: taba-1-educational-attainment.xlsx, taba-2-pct-high-school.xlsx."
+
+[[source]]
+id = "census-table-ms2"
+title = "Census Historical Table MS-2: Median Age at First Marriage"
+short_cite = "U.S. Census Bureau, Table MS-2"
+publisher = "U.S. Census Bureau"
+year = 2023
+url = "https://www.census.gov/data/tables/time-series/demo/families/marital.html"
+population = "U.S. civilian noninstitutionalized population (CPS/decennial census)"
+notes = "Table MS-2: Median age at first marriage by sex, 1890 to present. Decennial census data 1890-2000; CPS data for intervening years and 2010+. File: ms2-median-age-first-marriage.xls. The median age at first marriage declined from ~26 (men) / ~22 (women) in 1890 to a mid-century low of ~22.5 / 20.3 in 1956, then rose steadily to ~30+ / ~28+ by 2023."
+
+[[source]]
+id = "statab-lfpr-marital"
+title = "Statistical Abstract of the United States, Table 596: Labor Force Participation Rates by Marital Status, Sex, and Age"
+short_cite = "U.S. Census Bureau, Statistical Abstract, Table 596 (BLS CPS data)"
+publisher = "U.S. Census Bureau (data from BLS Current Population Survey)"
+year = 2010
+url = "https://www2.census.gov/library/publications/2010/compendia/statab/130ed/tables/11s0596.xls"
+population = "U.S. civilian noninstitutional population 16+, by marital status (CPS annual averages)"
+notes = "Table 596 from the 2011 Statistical Abstract (130th edition). Annual averages of monthly CPS figures. Covers 1960-2009. 'Married, spouse present' = married civilians with spouse present in the household. File: 11s0596.xls (downloaded and verified). The series is the direct continuation of Historical Statistics Vol 1, Series D 49-62 (which ends at 1970). The 1970 figure (40.5%) is close to but not identical to the Hist Stats figure (40.8%) due to CPS processing differences."
+
+[[source]]
+id = "bls-womens-databook"
+title = "Women in the Labor Force: A Databook"
+short_cite = "BLS, Women in the Labor Force: A Databook"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 2022
+url = "https://www.bls.gov/opub/reports/womens-databook/2022/"
+population = "U.S. civilian noninstitutional population 16+, by sex and marital status (CPS annual averages)"
+notes = "BLS periodic report compiling CPS labor force data for women by marital status, age, race, parental status, and occupation. The databook's Table 4/5 series show 'married women, spouse present' labor force participation rates. Editions: 2017 (Report 1063, covers 2016 data), 2022 (Report 1080, covers 2021 data). The underlying data is from the CPS (same as statab-lfpr-marital), but the databook is the primary publication for post-2009 marital-status LFPR figures."
+
+[[source]]
+id = "goldsmith-balance-sheet"
+title = "Studies in the National Balance Sheet of the United States, Vol. I"
+short_cite = "Goldsmith, Lipsey & Mendelson (1963), Table 1"
+publisher = "National Bureau of Economic Research / Princeton University Press"
+year = 1963
+url = "https://www.nber.org/system/files/chapters/c3926/c3926.pdf"
+population = "U.S. nonfarm household sector (aggregate, Goldsmith reconstruction)"
+notes = "Table 1: Main Balance Sheet Components by Sector, 1900-1958. Benchmark years: 1900, 1912, 1922, 1929, 1939, 1945, 1958. Sector I.1 = Nonfarm households. Provides total assets, tangible assets, financial assets, debt, and net worth in current dollars. Goldsmith's balance sheet construction uses Census wealth data, Federal Reserve flow of funds, and tax return compilations. Aggregate household sector, NOT median. Tier D (scholarly reconstruction). Downloaded as NBER chapter c3926."
+
+[[source]]
+id = "fed-z1"
+title = "Federal Reserve Z.1 Financial Accounts of the United States (Flow of Funds)"
+short_cite = "Federal Reserve, Z.1 Financial Accounts, Table B.101.h"
+publisher = "Board of Governors of the Federal Reserve System"
+year = 2024
+url = "https://www.federalreserve.gov/releases/z1/"
+population = "U.S. households and nonprofit organizations (aggregate, sector-level)"
+notes = "Table B.101.h: Balance Sheet of Households and Nonprofit Organizations. Quarterly from Q4 1945. Assets include: real estate, consumer durables, deposits, corporate equities, mutual fund shares, pension fund reserves, life insurance reserves. Liabilities include: home mortgages, consumer credit. Net worth = assets minus liabilities. Aggregate sector-level data (NOT median). Available on FRED as TNWBSHNO (net worth), TABSHNO (assets), TLBSHNO (liabilities). Tier A (official series)."
+
+[[source]]
+id = "fed-scf"
+title = "Federal Reserve Survey of Consumer Finances"
+short_cite = "Federal Reserve, Survey of Consumer Finances"
+publisher = "Board of Governors of the Federal Reserve System"
+year = 2022
+url = "https://www.federalreserve.gov/econres/scfindex.htm"
+population = "U.S. families (survey sample, ~6,500 families per wave)"
+notes = "Triennial survey of U.S. family finances. Provides median and mean net worth by income quintile, age, family structure. Full asset/liability composition: home equity, vehicles, financial assets (deposits, stocks, retirement accounts), business equity, and debt (mortgage, credit cards, installment loans). Survey years: 1983, 1989, 1992, 1995, 1998, 2001, 2004, 2007, 2010, 2013, 2016, 2019, 2022. Interactive tables at federalreserve.gov/econres/scf/dataviz/scf/table/. Tier A (official survey)."

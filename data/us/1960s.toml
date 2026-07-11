@@ -169,6 +169,49 @@ tier = "A"
 notes = "From CMS NHE Table 02 (NHE2024.csv). Out of pocket: $12,778M of $27,122M total. In 1960, families paid nearly half of all healthcare costs directly."
 
 [[fact]]
+id = "us-1960s-nhe-per-capita"
+quantity = 146
+panel = "table"
+label = "National health spending per person, 1960"
+value = "$146 per capita ($124 for personal health care)"
+unit = "USD per person, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE per capita: $146. Personal Health Care per capita: $124. Population: 186M."
+
+[[fact]]
+id = "us-1960s-nhe-medicare"
+panel = "table"
+label = "Medicare spending, 1960"
+value = "$0 — Medicare did not exist until 1966"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02. Medicare was enacted in 1965 (Social Security Amendments, Title XVIII). No Medicare spending occurred before 1966. By 1970: $7.7B (10.4% of NHE)."
+
+[[fact]]
+id = "us-1960s-nhe-prescription-drugs"
+quantity = 2676
+panel = "table"
+label = "Prescription drug spending, 1960"
+value = "$2,676 million (9.9% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02. Prescription drugs: $2,676M of $27,122M total. In 1960, drugs were less than 10% of health spending."
+
+[[fact]]
+id = "us-1960s-nhe-hospital"
+quantity = 8985
+panel = "table"
+label = "Hospital care spending, 1960"
+value = "$8,985 million (33.1% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02. Hospital care: $8,985M of $27,122M total. Hospital care was the largest single category of health spending."
+
+[[fact]]
 id = "us-1960s-heart-disease-mortality"
 quantity = 559.0
 panel = "table"
@@ -392,3 +435,56 @@ source = "nchs-nvss"
 tier = "A"
 notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 18.7; postneonatal: 7.3. Decline slowed in the early 1960s before Medicaid and neonatal intensive care accelerated gains in the late 1960s."
 assumptions = ["composite-family"]
+
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-1960s-married-women-lfpr"
+quantity = 30.5
+panel = "day"
+label = "Married women's labor force participation, 1960"
+value = "30.5%"
+unit = "% of married women (husband present) in the civilian labor force"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 63-74. Annual data: 1960: 30.5%, 1965: 35.4%. With children under 6: 18.6% (1960). With children 6-17 only: 18.2%. No children under 18: 18.9%. Crossed 30% for the first time — nearly a third of married women were in the labor force. By 1970: 40.8%. The week-of-work arc's single-earner assumption breaks down here: by mid-decade, over a third of married women worked."
+assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-1960s-median-age-first-marriage"
+quantity = 22.8
+panel = "day"
+label = "Median age at first marriage, 1960"
+value = "Men: 22.8, Women: 20.3"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2. CPS ASEC. Same as 1950 — the mid-century low held through the 1960s. The baby boom family formed young. By 1970: 23.2/20.8 — the beginning of a long rise."
+
+# ── Education ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1960s-education"
+quantity = 41.0
+panel = "day"
+label = "Educational attainment, 1960"
+value = "HS grad or more: 41.0%, Bachelor's or more: 7.7%, Less than 9th grade: 39.7%. Median school years: 10.6."
+unit = "% of population 25+ (all races, both sexes); median years completed"
+source = "census-table-a1-a2"
+tier = "A"
+notes = "From Census Table A-1. Decennial census. HS graduation crossed 40% for the first time. Less-than-9th-grade dropped below 40%. Median school years: 10.6 — roughly through 10th grade. The GI Bill and expanding public education were transforming attainment."
+
+# ── Net worth (aggregate household sector) ────────────────────────────────
+
+[[fact]]
+id = "us-1960s-household-net-worth"
+quantity = 2091
+panel = "day"
+label = "Household sector net worth, 1960"
+value = "$2,091 billion"
+unit = "aggregate net worth, households + nonprofit organizations, current dollars"
+source = "fed-z1"
+tier = "A"
+notes = "From FRED TNWBSHNO (Fed Z.1 Table B.101.h, Q4 1960). Total assets: $2,316B. Total liabilities: $225B. Net worth: $2,091B. Up from $1,171B in 1950 — household wealth nearly doubled in a decade. Liabilities were only 10% of assets — the postwar debt-aversion era. Aggregate — NOT median."

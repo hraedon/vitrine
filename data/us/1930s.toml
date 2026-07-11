@@ -164,3 +164,43 @@ source = "ramey-2009"
 tier = "C"
 notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
 assumptions = ["composite-family"]
+
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-1930s-married-women-lfpr"
+quantity = 11.7
+panel = "day"
+label = "Married women's labor force participation, 1930"
+value = "~11.7%"
+unit = "% of married women (husband present) in the civilian labor force"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 49-62. Total female LFPR was 24.3%. The Depression saw married women working more — sometimes by necessity, as male unemployment pushed families to find additional income. 'Fire the women' campaigns sought to push married women out of the workforce to free jobs for men."
+assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-1930s-median-age-first-marriage"
+quantity = 24.3
+panel = "day"
+label = "Median age at first marriage, 1930"
+value = "Men: 24.3, Women: 21.3"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2. Decennial census. Marriage ages held steady through the Depression — men at 24.3, women at 21.3. Economic hardship delayed some marriages but the median barely moved."
+
+# ── Net worth (aggregate household sector) ────────────────────────────────
+
+[[fact]]
+id = "us-1930s-household-net-worth"
+quantity = 341
+panel = "day"
+label = "Nonfarm household net worth, 1939"
+value = "$341 billion"
+unit = "aggregate net worth of nonfarm household sector, current dollars"
+source = "goldsmith-balance-sheet"
+tier = "D"
+notes = "From Goldsmith, Lipsey & Mendelson (1963), Table 1, Sector I.1 (Nonfarm households). Total assets: $371B. Tangible assets: $145B. Financial assets: $232B. Debt: $30B. Net worth: $341B. The Depression destroyed ~$65B of household wealth (from $406B in 1929). Financial assets fell from $291B to $232B as stock values collapsed. Debt was actually reduced — from $42B to $30B — as households deleveraged. Aggregate — NOT median."
