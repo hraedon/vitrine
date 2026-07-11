@@ -6,6 +6,7 @@ land, gaps render as gaps.
 """
 
 import re
+from html import unescape
 from html.parser import HTMLParser
 from itertools import combinations
 from pathlib import Path
@@ -117,6 +118,48 @@ def test_room_map_has_context_and_complete_timeline(site: Path, corpus: Corpus) 
     )
     assert 'rel="prev"' in last
     assert 'rel="next"' not in last
+
+
+def test_corridor_wings_partition_every_rendered_arc_once() -> None:
+    """The atlas may reorder charts, but it may not lose or duplicate one."""
+    rendered_slugs: list[str] = []
+    seen_groups: set[str] = set()
+    for arc in curation.ARCS:
+        group = curation.ARC_GROUP_BY_MEMBER.get(arc.slug)
+        if group is None:
+            rendered_slugs.append(arc.slug)
+        elif group.slug not in seen_groups:
+            seen_groups.add(group.slug)
+            rendered_slugs.append(group.slug)
+
+    wing_slugs = [
+        slug for wing in curation.CORRIDOR_WINGS for slug in wing.arc_slugs
+    ]
+    assert len(wing_slugs) == len(set(wing_slugs))
+    assert set(wing_slugs) == set(rendered_slugs)
+
+
+def test_corridor_atlas_is_navigable_and_progressively_disclosed(site: Path) -> None:
+    html = (site / "corridors" / "index.html").read_text()
+    visible_text = unescape(html)
+    assert '<nav class="atlas-directory" aria-label="Atlas wings">' in html
+    assert html.count('<section class="atlas-wing"') == len(
+        curation.CORRIDOR_WINGS
+    )
+    for wing in curation.CORRIDOR_WINGS:
+        assert f'href="#wing-{wing.slug}"' in html
+        assert f'id="wing-{wing.slug}"' in html
+        assert wing.question in visible_text
+
+    rendered_arc_count = sum(len(wing.arc_slugs) for wing in curation.CORRIDOR_WINGS)
+    expected_exhibits = rendered_arc_count + len(curation.AFFORD_ITEMS) + 1
+    assert html.count('class="atlas-exhibit"') == expected_exhibits
+    assert html.count('class="atlas-exhibit" open') == len(
+        curation.CORRIDOR_WINGS
+    )
+    assert 'href="../affordability/index.html"' in html
+    assert '<section class="study-room"' in html
+    assert 'aria-label="All pairwise decade comparisons"' in html
 
 
 def test_mark_coverage_green_on_build(site: Path, corpus: Corpus) -> None:

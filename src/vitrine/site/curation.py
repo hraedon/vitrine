@@ -1,4 +1,4 @@
-"""Editorial curation for the three surfaces (Plan 007).
+"""Editorial curation for the site's rendered surfaces (Plan 007 onward).
 
 This module authors *structure only*: which fact ids form a cross-decade arc,
 which artifact glyph maps to which fact in which room, which facts carry a
@@ -41,6 +41,22 @@ class ArcGroup:
     unit: str
     members: tuple[tuple[str, str, str], ...]  # (arc slug, legend label, color role)
     caveats: tuple[str, ...] = field(default=())
+
+
+@dataclass(frozen=True, slots=True)
+class CorridorWing:
+    """An editorial chapter in the corridor atlas.
+
+    Wings arrange existing charts; they never introduce facts or geometry.
+    ``arc_slugs`` names rendered arcs (including shared-axis group slugs).
+    """
+
+    slug: str
+    number: str
+    title: str
+    question: str
+    introduction: str
+    arc_slugs: tuple[str, ...]
 
 
 def _ids(pattern: str, decades: str) -> dict[str, str]:
@@ -355,6 +371,85 @@ ARC_GROUP_BY_MEMBER: dict[str, ArcGroup] = {
     for group in ARC_GROUPS
     for member_slug, _label, _color in group.members
 }
+
+
+# The corridor page is an atlas, not a registry dump. These four questions
+# provide an editorial route through every rendered chart while leaving the
+# underlying arc registry—and therefore every provenance invariant—unchanged.
+CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
+    CorridorWing(
+        slug="household",
+        number="I",
+        title="The household",
+        question="Who made up the family, and how long did life last?",
+        introduction=(
+            "Population records describe the household from the outside: its "
+            "size, its prevalence, and the health conditions surrounding it. "
+            "The gaps show where the national series had not yet learned to count."
+        ),
+        arc_slugs=(
+            "life-expectancy",
+            "infant-mortality",
+            "poverty-rate",
+            "family-size",
+            "number-of-families",
+        ),
+    ),
+    CorridorWing(
+        slug="shelter",
+        number="II",
+        title="The threshold",
+        question="When did shelter become infrastructure?",
+        introduction=(
+            "Tenure, plumbing, cooling, mobility, and floor area entered the "
+            "record on different clocks. Read together, they show a house becoming "
+            "a bundle of systems rather than a single possession."
+        ),
+        arc_slugs=(
+            "homeownership",
+            "plumbing",
+            "air-conditioning",
+            "vehicle",
+            "home-size",
+        ),
+    ),
+    CorridorWing(
+        slug="signals",
+        number="III",
+        title="Signals into the home",
+        question="How did the outside world cross the walls?",
+        introduction=(
+            "Broadcast, voice, cable, computing, and networks arrived in waves. "
+            "Short series remain short: an absent line is not filled from a later "
+            "technology with a similar name."
+        ),
+        arc_slugs=(
+            "radio",
+            "television",
+            "telephone",
+            "cable-tv",
+            "computer",
+            "internet",
+        ),
+    ),
+    CorridorWing(
+        slug="economy",
+        number="IV",
+        title="The household economy",
+        question="Where did the family's time and money go?",
+        introduction=(
+            "Paid hours, unpaid production, prices, and the food budget expose the "
+            "work behind the room. This wing also holds the computed affordability "
+            "exhibits: ratios made at build time, never authored as facts."
+        ),
+        arc_slugs=(
+            "home-production-by-sex",
+            "weekly-hours",
+            "food-share",
+            "cpi",
+        ),
+    ),
+)
 
 
 # ── budget composition (parseable "Category N.N%" facts) ─────────────────────

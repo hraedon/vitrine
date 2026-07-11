@@ -76,6 +76,46 @@ _BASE = """<!doctype html>
   .route-card h2{margin:18px 0 5px;font:600 23px/1.05 {{ T.SERIF }};color:#f3ead7}
   .route-card p{margin:0;color:{{ T.INK_SOFT }};font-size:13px;line-height:1.5}
   .route-enter{margin-top:auto;padding-top:14px;font:10px {{ T.MONO }};letter-spacing:.13em;text-transform:uppercase;color:{{ T.BRASS_LIT }}}
+  .atlas-directory{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:28px 0 42px}
+  .atlas-card{display:grid;grid-template-columns:46px 1fr auto;gap:12px;align-items:center;min-height:102px;padding:15px 16px;border:1px solid {{ T.EDGE }};border-radius:4px;background:linear-gradient(145deg,{{ T.CASE_2 }},{{ T.CASE }});color:inherit;text-decoration:none}
+  .atlas-card:hover{border-color:{{ T.BRASS_DIM }};background:{{ T.CASE_2 }}}
+  .atlas-card .anum{font:italic 28px {{ T.SERIF }};color:{{ T.BRASS }};text-align:center}
+  .atlas-card b{display:block;font:600 18px {{ T.SERIF }};color:#f3ead7}
+  .atlas-card em{display:block;margin-top:3px;font:normal 12px/1.4 {{ T.SANS }};color:{{ T.INK_SOFT }}}
+  .atlas-card .acount{font:9px {{ T.MONO }};letter-spacing:.09em;text-transform:uppercase;color:#786c55;text-align:right;white-space:nowrap}
+  .atlas-key{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin:0 0 50px;border:1px solid {{ T.EDGE }};background:{{ T.EDGE }};border-radius:4px;overflow:hidden}
+  .atlas-key div{padding:12px 14px;background:{{ T.CASE }};font-size:12px;color:{{ T.INK_SOFT }}}
+  .atlas-key b{display:block;margin-bottom:2px;font:10px {{ T.MONO }};letter-spacing:.12em;text-transform:uppercase;color:{{ T.BRASS }}}
+  .atlas-wing{scroll-margin-top:22px;margin:0 0 64px;padding-top:26px;border-top:1px solid {{ T.EDGE }}}
+  .wing-head{display:grid;grid-template-columns:72px minmax(0,1fr);gap:20px;align-items:start;margin-bottom:22px}
+  .wing-number{font:italic 52px/.9 {{ T.SERIF }};color:{{ T.BRASS_DIM }};text-align:center}
+  .wing-kicker{margin:0 0 5px;font:10px {{ T.MONO }};letter-spacing:.17em;text-transform:uppercase;color:{{ T.BRASS }}}
+  .wing-head h2{margin:0;font:600 clamp(27px,4vw,39px)/1.05 {{ T.SERIF }};color:#f3ead7}
+  .wing-question{margin:5px 0 8px;font:italic 18px {{ T.SERIF }};color:{{ T.BRASS_LIT }}}
+  .wing-intro{max-width:68ch;margin:0;color:{{ T.INK_SOFT }};font-size:14px}
+  .exhibit-stack{display:grid;gap:8px;margin-left:92px}
+  details.atlas-exhibit{border:1px solid {{ T.EDGE }};border-radius:4px;background:{{ T.CASE }};overflow:clip}
+  details.atlas-exhibit[open]{background:linear-gradient(160deg,{{ T.CASE_2 }},{{ T.CASE }});border-color:#554733}
+  .exhibit-summary{display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:11px;align-items:center;padding:13px 15px;cursor:pointer;list-style:none}
+  .exhibit-summary::-webkit-details-marker{display:none}
+  .exhibit-summary::before{content:"+";display:grid;place-items:center;width:22px;height:22px;border:1px solid {{ T.BRASS_DIM }};border-radius:50%;color:{{ T.BRASS }};font:15px/1 {{ T.MONO }}}
+  details[open]>.exhibit-summary::before{content:"-";background:{{ T.BRASS_DEEP }};color:{{ T.GROUND }};border-color:{{ T.BRASS_DEEP }}}
+  .exhibit-title b{display:block;font:600 17px {{ T.SERIF }};color:{{ T.IVORY }}}
+  .exhibit-title span{display:block;margin-top:1px;font:10px {{ T.MONO }};letter-spacing:.05em;color:{{ T.INK_SOFT }}}
+  .coverage{font:9px {{ T.MONO }};letter-spacing:.1em;text-transform:uppercase;color:{{ T.BRASS }};text-align:right;white-space:nowrap}
+  .exhibit-body{padding:0 15px 15px 52px;border-top:1px solid #392f24}
+  .exhibit-body .chart-panel{margin-bottom:10px}
+  .atlas-portal{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;margin:0 0 10px;padding:18px 20px;border:1px solid {{ T.BRASS_DIM }};border-left:4px solid {{ T.BRASS }};border-radius:4px;background:linear-gradient(120deg,#302719,{{ T.CASE }});text-decoration:none;color:inherit}
+  .atlas-portal b{display:block;font:600 20px {{ T.SERIF }};color:#f3ead7}
+  .atlas-portal span{display:block;margin-top:3px;color:{{ T.INK_SOFT }};font-size:13px}
+  .atlas-portal strong{font:10px {{ T.MONO }};letter-spacing:.12em;text-transform:uppercase;color:{{ T.BRASS_LIT }};white-space:nowrap}
+  .study-room{margin-top:72px;padding:22px;border:1px solid {{ T.EDGE }};border-radius:5px;background:{{ T.CASE }}}
+  .study-room h2{margin:0 0 5px;font:600 25px {{ T.SERIF }};color:#f3ead7}
+  .study-room>p{margin:0 0 16px;color:{{ T.INK_SOFT }};font-size:13px;max-width:72ch}
+  .epoch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+  .epoch-card{padding:12px;border:1px solid {{ T.EDGE }};border-radius:3px;text-align:center;text-decoration:none;font:600 16px {{ T.SERIF }};color:{{ T.IVORY }}}
+  .epoch-card:hover{border-color:{{ T.BRASS_DIM }};color:{{ T.BRASS_LIT }}}
+  .pair-archive summary{cursor:pointer;font:10px {{ T.MONO }};letter-spacing:.12em;text-transform:uppercase;color:{{ T.BRASS }};width:max-content}
   .plaque{margin:24px 0 20px;padding:16px 20px;border:1px solid {{ T.EDGE }};border-left:3px solid {{ T.BRASS }};background:linear-gradient(180deg,{{ T.CASE_2 }},{{ T.CASE }});border-radius:3px;max-width:76ch}
   .plaque b{color:#f3ead7;font-family:{{ T.SERIF }};font-style:italic;font-weight:600}
   .plaque span{color:{{ T.INK_SOFT }};font-size:14.5px}
@@ -235,6 +275,11 @@ _BASE = """<!doctype html>
     .route-grid{grid-template-columns:1fr}
     .route-card{min-height:0}
     .route-card h2{margin-top:10px}
+    .atlas-directory{grid-template-columns:1fr}
+    .atlas-key{grid-template-columns:1fr}
+    .exhibit-stack{margin-left:0}
+    .wing-head{grid-template-columns:52px minmax(0,1fr);gap:12px}
+    .wing-number{font-size:40px}
   }
   @media(max-width:560px){
     .wrap{padding-left:16px;padding-right:16px}
@@ -246,6 +291,15 @@ _BASE = """<!doctype html>
     .room-map{margin-left:-16px;margin-right:-16px;border-left:0;border-right:0;border-radius:0;padding-left:10px;padding-right:10px}
     .room-map-context{grid-template-columns:1fr 1fr}
     .room-map-context span{grid-column:1/-1;grid-row:1}
+    .atlas-card{grid-template-columns:38px 1fr}
+    .atlas-card .acount{grid-column:2;text-align:left}
+    .wing-head{grid-template-columns:1fr}
+    .wing-number{text-align:left;font-size:31px}
+    .exhibit-summary{grid-template-columns:24px minmax(0,1fr)}
+    .coverage{grid-column:2;text-align:left}
+    .exhibit-body{padding-left:12px;padding-right:12px}
+    .atlas-portal{grid-template-columns:1fr}
+    .epoch-grid{grid-template-columns:1fr}
   }
   @media(prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto !important}}
 </style>
@@ -529,39 +583,101 @@ _CORRIDORS = (
 {% from "macros" import placard, composition_details %}
 {% block title %}corridors — vitrine{% endblock %}
 {% block body %}
-<p class="eyebrow">vitrine · the corridors</p>
-<h1>The <em>corridors</em> — cross-decade arcs</h1>
-<p class="sub">Where the charts live. Every point is a sourced fact and opens its specimen card here; a decade whose record is silent renders as the gap it is.</p>
-<p class="case-sub"><a href="affordability/index.html">Affordability over time →</a> — five computed ratios (home, car, wages, food, real pay) across the full annual record.</p>
-<h2 class="case-title">Detailed epoch comparisons</h2>
-<p class="case-sub">Side-by-side fact families for each pair — the charts above cover the full century.</p>
-<div class="decades">
-{% for a, b in epochs %}<a class="dbtn" href="{{ a }}--{{ b }}.html">{{ a }} ↔ {{ b }}</a>
-{% endfor %}</div>
-{% for item in afford_sections %}
-<h2 class="case-title">{{ item.label }} — in hours of work</h2>
-<p class="case-sub">Price ÷ the room's wage anchor, computed at build. Tier letters carry the weakest input.</p>
-{% for caveat in item.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-<div class="chart-panel">{{ item.chart }}</div>
+<p class="eyebrow">vitrine · the corridors · an atlas in four wings</p>
+<h1>An atlas of <em>ordinary life</em></h1>
+<p class="sub">The rooms hold snapshots; the atlas follows change. Its exhibits are arranged around four questions rather than one long register of charts. Every mark still opens the sourced specimen card behind it, and every silence in the record remains visible.</p>
+
+<nav class="atlas-directory" aria-label="Atlas wings">
+{% for wing in wings %}
+  <a class="atlas-card" href="#wing-{{ wing.slug }}">
+    <span class="anum" aria-hidden="true">{{ wing.number }}</span>
+    <span><b>{{ wing.title }}</b><em>{{ wing.question }}</em></span>
+    <span class="acount">{{ wing.exhibit_count }} exhibits</span>
+  </a>
 {% endfor %}
-<h2 class="case-title">Budget composition</h2>
-<p class="case-sub">Share of household expenditure, fixed category palette, direct labels. Decades without a parseable breakdown are not drawn.</p>
-{% for caveat in comp_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-<div class="chart-panel">
-{% for row in comp_rows %}{{ row.bar }}{% endfor %}
+</nav>
+
+<div class="atlas-key" aria-label="How to read the atlas">
+  <div><b>Open selectively</b>Each wing begins with one chart open. The rest stay folded until chosen.</div>
+  <div><b>Inspect the evidence</b>Every plotted point opens its source, population, year, and confidence tier.</div>
+  <div><b>Read the silence</b>A broken line or empty decade is a documented gap, not an invitation to interpolate.</div>
 </div>
-{{ composition_details(comp_rows) }}
-{% for arc in arc_sections %}
-<h2 class="case-title" id="{{ arc.slug }}">{{ arc.label }}</h2>
-<p class="case-sub">{{ arc.unit }}</p>
-{% for caveat in arc.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}<div class="chart-panel">{{ arc.chart }}</div>
+
+{% for wing in wings %}
+<section class="atlas-wing" id="wing-{{ wing.slug }}" aria-labelledby="wing-{{ wing.slug }}-title">
+  <header class="wing-head">
+    <div class="wing-number" aria-hidden="true">{{ wing.number }}</div>
+    <div>
+      <p class="wing-kicker">Atlas wing {{ wing.number }} · {{ wing.exhibit_count }} exhibits</p>
+      <h2 id="wing-{{ wing.slug }}-title">{{ wing.title }}</h2>
+      <p class="wing-question">{{ wing.question }}</p>
+      <p class="wing-intro">{{ wing.introduction }}</p>
+    </div>
+  </header>
+
+  <div class="exhibit-stack">
+  {% if wing.slug == "economy" %}
+    <a class="atlas-portal" href="../affordability/index.html">
+      <span><b>Affordability over time</b><span>Five annual ratios trace housing, cars, wages, food, and real pay through recessions and shocks.</span></span>
+      <strong>Enter the annual gallery →</strong>
+    </a>
+    {% for item in afford_sections %}
+    <details class="atlas-exhibit"{% if loop.first %} open{% endif %} id="afford-{{ item.slug }}">
+      <summary class="exhibit-summary">
+        <span class="exhibit-title"><b>{{ item.label }} · in hours of work</b><span>Price ÷ the room's wage anchor · computed at build</span></span>
+        <span class="coverage">{{ item.coverage }}</span>
+      </summary>
+      <div class="exhibit-body">
+        {% for caveat in item.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+        <div class="chart-panel">{{ item.chart }}</div>
+        <p class="case-sub">Tier letters carry the weakest input. The ratio is computed, never authored as a fact.</p>
+      </div>
+    </details>
+    {% endfor %}
+    <details class="atlas-exhibit" id="budget-composition">
+      <summary class="exhibit-summary">
+        <span class="exhibit-title"><b>Budget composition</b><span>Share of household expenditure · fixed categories</span></span>
+        <span class="coverage">{{ comp_rows|length }} rooms charted</span>
+      </summary>
+      <div class="exhibit-body">
+        {% for caveat in comp_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+        <div class="chart-panel">{% for row in comp_rows %}{{ row.bar }}{% endfor %}</div>
+        {{ composition_details(comp_rows) }}
+      </div>
+    </details>
+  {% endif %}
+
+  {% for arc in wing.arcs %}
+    <details class="atlas-exhibit"{% if loop.first and wing.slug != "economy" %} open{% endif %} id="{{ arc.slug }}">
+      <summary class="exhibit-summary">
+        <span class="exhibit-title"><b>{{ arc.label }}</b><span>{{ arc.unit }}</span></span>
+        <span class="coverage">{{ arc.coverage }}</span>
+      </summary>
+      <div class="exhibit-body">
+        {% for caveat in arc.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+        <div class="chart-panel">{{ arc.chart }}</div>
+      </div>
+    </details>
+  {% endfor %}
+  </div>
+</section>
 {% endfor %}
-<h2 class="case-title">The pairwise set</h2>
-<p class="case-sub">Every decade against every other — each page shows only the fact families the measure guard certifies comparable for that pair.</p>
-<table class="pairtable"><tr><th></th>{% for d in decades %}<th>{{ d[2:4] }}s</th>{% endfor %}</tr>
-{% for a in decades %}<tr><th>{{ a[2:4] }}s</th>
-{% for b in decades %}<td>{% if a < b %}<a href="{{ a }}--{{ b }}.html">↔</a>{% else %}·{% endif %}</td>{% endfor %}</tr>
-{% endfor %}</table>
+
+<section class="study-room" aria-labelledby="study-room-title">
+  <p class="wing-kicker">The study room</p>
+  <h2 id="study-room-title">Put two decades on the same table</h2>
+  <p>The atlas follows one measure through time. Pairwise pages instead gather every fact family the measure guard certifies comparable between two chosen rooms.</p>
+  <div class="epoch-grid">
+  {% for a, b in epochs %}<a class="epoch-card" href="{{ a }}--{{ b }}.html">{{ a }} ↔ {{ b }}</a>{% endfor %}
+  </div>
+  <details class="pair-archive">
+    <summary>Open all {{ pair_count }} decade pairs</summary>
+    <table class="pairtable" aria-label="All pairwise decade comparisons"><tr><th></th>{% for d in decades %}<th scope="col">{{ d[2:4] }}s</th>{% endfor %}</tr>
+    {% for a in decades %}<tr><th scope="row">{{ a[2:4] }}s</th>
+    {% for b in decades %}<td>{% if a < b %}<a href="{{ a }}--{{ b }}.html" aria-label="Compare {{ a }} and {{ b }}">↔</a>{% else %}·{% endif %}</td>{% endfor %}</tr>
+    {% endfor %}</table>
+  </details>
+</section>
 <div class="overlay-deck">
 {% for ref in overlay_facts %}{{ placard(ref.fact, ref.room, sources, assumptions, affordability, root, inline=false) }}{% endfor %}
 </div>
@@ -794,6 +910,40 @@ def _arc_group_chart_for(
         for arc_slug, label, color_role in group.members
     )
     return svg.multi_arc_chart(chart_series, group.unit)
+
+
+def _arc_coverage(
+    arc: curation.Arc,
+    index: dict[str, _FactRef],
+    series: dict[str, Series],
+    room_count: int,
+) -> str:
+    """A compact, mechanically derived coverage cue for the atlas directory."""
+    if arc.series_id and arc.series_id in series:
+        annual = series[arc.series_id]
+        observations = len(annual.values) + len(annual.values_minor)
+        return f"{observations} annual observations"
+    plotted = sum(
+        1
+        for decade, fact_id in arc.fact_ids.items()
+        if decade not in arc.plot_gaps and index[fact_id].fact.quantity is not None
+    )
+    return f"{plotted} of {room_count} rooms charted"
+
+
+def _arc_group_coverage(
+    group: curation.ArcGroup,
+    index: dict[str, _FactRef],
+    room_count: int,
+) -> str:
+    plotted_decades = {
+        decade
+        for arc_slug, _label, _color_role in group.members
+        for decade, fact_id in curation.ARC_BY_SLUG[arc_slug].fact_ids.items()
+        if decade not in curation.ARC_BY_SLUG[arc_slug].plot_gaps
+        and index[fact_id].fact.quantity is not None
+    }
+    return f"{len(plotted_decades)} of {room_count} rooms charted"
 
 
 def _fold_shares(
@@ -1459,6 +1609,7 @@ def render_site(
                     "label": group.label,
                     "unit": group.unit,
                     "caveats": group.caveats,
+                    "coverage": _arc_group_coverage(group, index, len(rooms)),
                     "chart": Markup(_arc_group_chart_for(group, index, corridor_root)),
                 }
             )
@@ -1469,6 +1620,7 @@ def render_site(
                 "label": arc.label,
                 "unit": arc.unit,
                 "caveats": arc.caveats,
+                "coverage": _arc_coverage(arc, index, series, len(rooms)),
                 "chart": Markup(_arc_chart_for(arc, index, series, corridor_root)),
             }
         )
@@ -1481,8 +1633,10 @@ def render_site(
         caveats = curation.AFFORD_ITEM_CAVEATS.get(_slug, ()) + comparison.caveats
         afford_sections.append(
             {
+                "slug": _slug,
                 "label": label,
                 "caveats": caveats,
+                "coverage": f"{len(comparison.points)} of {len(rooms)} rooms charted",
                 "chart": Markup(_afford_arc_chart(comparison, ids, index, corridor_root)),
             }
         )
@@ -1506,6 +1660,37 @@ def render_site(
         "was measured.",
     )
     epochs = [("1900s", "1950s"), ("1950s", "2020s"), ("1900s", "2020s")]
+    arc_sections_by_slug = {str(item["slug"]): item for item in arc_sections}
+    wing_arc_slug_list = [
+        slug for wing in curation.CORRIDOR_WINGS for slug in wing.arc_slugs
+    ]
+    wing_arc_slugs = set(wing_arc_slug_list)
+    rendered_arc_slugs = set(arc_sections_by_slug)
+    if (
+        len(wing_arc_slug_list) != len(wing_arc_slugs)
+        or wing_arc_slugs != rendered_arc_slugs
+    ):
+        missing = sorted(rendered_arc_slugs - wing_arc_slugs)
+        unknown = sorted(wing_arc_slugs - rendered_arc_slugs)
+        raise ValueError(
+            "corridor wing registry must place every rendered arc exactly once; "
+            f"missing={missing}, unknown={unknown}"
+        )
+    wings = []
+    for wing in curation.CORRIDOR_WINGS:
+        wing_arcs = [arc_sections_by_slug[slug] for slug in wing.arc_slugs]
+        economy_exhibits = len(afford_sections) + 1 if wing.slug == "economy" else 0
+        wings.append(
+            {
+                "slug": wing.slug,
+                "number": wing.number,
+                "title": wing.title,
+                "question": wing.question,
+                "introduction": wing.introduction,
+                "arcs": wing_arcs,
+                "exhibit_count": len(wing_arcs) + economy_exhibits,
+            }
+        )
     corridor_overlay_ids: list[str] = []
     for arc in curation.ARCS:
         corridor_overlay_ids.extend(arc.fact_ids.values())
@@ -1518,7 +1703,8 @@ def render_site(
             surface="corridors",
             decades=decades,
             epochs=epochs,
-            arc_sections=arc_sections,
+            pair_count=len(decades) * (len(decades) - 1) // 2,
+            wings=wings,
             afford_sections=afford_sections,
             comp_rows=comp_rows,
             comp_caveats=comp_caveats,
