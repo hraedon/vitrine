@@ -915,7 +915,7 @@ def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
     ]
     for note in stage.zone_notes:
         nx, ny = sx(note.x), sy(note.y)
-        anchor = ' style="text-anchor:end"' if note.x > 620 else ""
+        anchor = ' style="text-anchor:end"' if note.x >= 620 else ""
         out.append(
             f'<a href={quoteattr(note.href)}>'
             f'<text class="znote" x="{nx:.0f}" y="{ny:.0f}"{anchor} '

@@ -534,3 +534,13 @@ def test_automobile_glyph_absent_before_1960s(site: Path) -> None:
         sym = symbols.symbol("automobile", decade)
         if sym is not None:
             assert sym.svg[:60] not in html, f"automobile glyph unexpectedly drawn in {decade}"
+
+
+def test_transport_note_is_right_anchored_inside_stage(site: Path) -> None:
+    """A boundary-positioned transport label must grow into the house, not clip."""
+    html = (site / "rooms" / "us-2020s.html").read_text()
+    assert re.search(
+        r'<text class="znote"[^>]*style="text-anchor:end"[^>]*'
+        r'data-fact-id="us-2020s-expenditure-breakdown-4p"',
+        html,
+    )
