@@ -425,6 +425,18 @@ notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from 
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1960s-home-production-components"
+quantity = 51.8
+panel = "day"
+label = "How a 1965 housewife's week broke down (AHTUS)"
+value = "Total 51.8 hrs/week: food prep 16.5, house cleaning 9.5, clothing care 6.9, childcare 8.5, purchasing/mgmt/travel 10.4"
+unit = "hours per week by activity category, nonemployed housewives"
+source = "ramey-2009"
+tier = "C"
+notes = "Ramey (2009) Table 3, '1965 Housewives AHTUS' column. Total home production: 51.8 hrs/week. Based on Ramey's calculations from individual-level 1965 American Heritage Time Use Survey data. Population differs from the prime-age women aggregate (us-1960s-home-production-women) — this is nonemployed housewives only, while the aggregate includes employed women. For comparison with 1920s town housewives: food prep fell from 19.9 to 16.5 hrs/week, clothing care fell from 11.5 to 6.9, while childcare and purchasing/management/travel rose — market substitution shifted time between categories, not eliminated it."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1960s-infant-mortality"
 quantity = 26
 panel = "day"

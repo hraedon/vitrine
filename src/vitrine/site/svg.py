@@ -838,7 +838,7 @@ STAGE_POS: dict[str, tuple[int, int]] = {
     # Leave enough room for the percentage/gap label below the ring; y=290
     # made that label straddle the horizontal room divider.
     "internet": (600, 260),
-    "automobile": (700, 405),
+    "automobile": (620, 405),
     "washing-machine": (350, 365),
     "stove": (350, 395),
 }

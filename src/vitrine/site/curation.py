@@ -158,9 +158,6 @@ ARCS: tuple[Arc, ...] = (
             "percentage, so its 5% is not plotted as a telephone datum.",
             "1910s–1930s sources counted telephones per 1,000 population, not "
             "households — those decades render as gaps rather than a unit splice.",
-            "The 2020s fact leads with cell-phone adoption (92.7%), while the "
-            "landline share is 20.1%; neither is spliced into the historical "
-            "landline line.",
         ),
         plot_gaps=frozenset({"1900s", "2020s"}),
     ),
@@ -314,13 +311,12 @@ ARCS: tuple[Arc, ...] = (
             "1990s": "us-1990s-median-home-size",
             "2000s": "us-2000s-median-home-size",
             "2010s": "us-2010s-median-home-size",
-            "2020s": "us-2020s-housing-characteristics",
+            "2020s": "us-2020s-median-home-size",
         },
         caveats=(
-            "1970s–2010s: new single-family houses completed (Census C-25/H-150). "
-            "2020s: American Housing Survey, all housing stock — the median drops "
-            "because the existing stock is older and smaller. The two series are "
-            "not directly comparable; the placard names who was measured.",
+            "1970s–2020s: median square feet of new single-family houses completed "
+            "(Census C-25/H-150 / Characteristics of New Housing). The 2020s point "
+            "is 2024; the series is conceptually consistent across the whole span.",
         ),
     ),
     Arc(
@@ -444,7 +440,7 @@ HOME_SIZE_FACTS: dict[str, str] = {
     "1990s": "us-1990s-median-home-size",
     "2000s": "us-2000s-median-home-size",
     "2010s": "us-2010s-median-home-size",
-    "2020s": "us-2020s-housing-characteristics",
+    "2020s": "us-2020s-median-home-size",
 }
 
 # Structural gaps that change how a whole room should be read deserve notice
@@ -481,9 +477,9 @@ ZONE_NOTE_POS: dict[str, tuple[int, int]] = {
     "food": (172, 342),
     # Start to the right of the plumbing ring at x=460.
     "health": (520, 342),
-    # The automobile sits at (700, 405); keep its budget annotation above the
+    # The automobile sits at (620, 405); keep its budget annotation above the
     # mark rather than running through its ring and percentage label.
-    "transport": (700, 360),
+    "transport": (620, 360),
 }
 
 # ── affordability corridors (structured amounts + room anchors) ──────────────
