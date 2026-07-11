@@ -84,6 +84,42 @@ source = "census-poverty-historical"
 tier = "A"
 notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 11.3%. Family poverty: 9.6%. Near the pre-recession low. The 2008-09 Great Recession would push poverty to 15.1% by 2010."
 
+[[fact]]
+id = "us-2000s-cex-total-expenditures"
+panel = "budget"
+label = "Average annual household expenditures, 2000"
+quantity = 38045
+value = "$38,045"
+unit = "USD per consumer unit, nominal"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2000-2005.xlsx). All consumer units. Income before taxes: $44,649. Expenditure/income ratio: 85.2%. 109,367 thousand consumer units; 66% homeowners."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2000s-cex-food-share"
+panel = "budget"
+label = "Food share of household budget, 2000"
+quantity = 13.6
+value = "13.6% of total expenditures"
+unit = "% of total annual expenditures"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2000-2005.xlsx). All consumer units. Food: $5,158 of $38,045 total. Food at home: $3,021 (7.9%). Food away from home: $2,137 (5.6%)."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2000s-cex-healthcare-share"
+panel = "budget"
+label = "Healthcare share of household budget, 2000"
+quantity = 5.4
+value = "5.4% of total expenditures ($2,066)"
+unit = "% of total annual expenditures; USD nominal"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2000-2005.xlsx). All consumer units. Healthcare: $2,066 of $38,045. Health insurance: $983. Medical services: $568. Drugs: $416."
+assumptions = ["composite-family", "nominal-values"]
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -156,6 +192,17 @@ source = "census-hist-housing-rents"
 tier = "A"
 notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $447 in 1990. Cross-verified: NHGIS 2000 block-group-level data (208,790 BGs) shows median-of-BG-medians of $561, consistent with the Census national figure of $602."
 
+[[fact]]
+id = "us-2000s-heating-fuel-recs2001"
+panel = "home"
+label = "House heating fuel, 2001 (RECS)"
+value = "Natural gas 55.2%, electricity 29.0%, fuel oil 7.5%, LPG 4.7%, wood 1.9%, kerosene 0.7%"
+unit = "% of U.S. households using each fuel as main space heating source"
+source = "eia-recs"
+tier = "A"
+notes = "From the 2001 RECS, Table HC3-1b. 107.0 million total households. Natural gas: 59.3M (55.2%). Electricity: 31.1M (29.0%) — including heat pumps. Fuel oil: 8.0M (7.5%). LPG: 5.0M (4.7%). Wood: 2.0M (1.9%). Kerosene: 0.8M (0.7%). Source: recs-2001-alltables.pdf, Table HC1-1a and recs-2001-hc3.pdf, Table HC3-1b."
+assumptions = ["composite-family"]
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -183,6 +230,18 @@ source = "fred-ahetpi"
 tier = "A"
 notes = "Production and nonsupervisory employees, seasonally adjusted: FRED AHETPI + AWHNONAG (total private), CES3000000008 + AWHMAN (manufacturing). Annual average of 12 monthly observations, re-verified against FRED 2026-07-08."
 assumptions = ["nominal-values"]
+
+[[fact]]
+id = "us-2000s-atus-time-use"
+quantity = 8.57
+panel = "day"
+label = "How Americans spend their day, 2003 (ATUS)"
+value = "Sleeping 8.57 hrs, working 3.69 hrs, leisure 5.11 hrs, watching TV 2.58 hrs"
+unit = "hours per day, civilian population ages 15+ (annual average)"
+source = "bls-atus"
+tier = "A"
+notes = "From BLS American Time Use Survey, Table A-1 (2003 annual averages). First year of ATUS. Sleeping rose to 9.04 hrs by 2024; TV watching peaked at 2.82 in 2009 then declined to 2.60 by 2024; working declined to 3.32 by 2025. Percent working fell from 46.2% (2003) to 28.9% (2024), reflecting aging population."
+assumptions = ["composite-family"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -238,6 +297,18 @@ unit = "% of occupied housing units with 1+ vehicles"
 source = "bts-vehicle-availability"
 tier = "A"
 notes = "From BTS Figure 2-7 (Census Bureau decennial census, 2000). 10.3% had no vehicle, 34.2% had one, 38.4% had two, 17.1% had three or more. Near-saturation — only one in ten households remained car-free. By 2010: 90.9%. Population: all occupied housing units."
+
+[[fact]]
+id = "us-2000s-dvr-penetration"
+quantity = 38
+panel = "diffusion"
+label = "DVR penetration, 2010-11"
+value = "38% of households had a DVR (2010-11), up from 19% in 2007-08"
+unit = "% of households with digital video recorder"
+source = "fcc-video-competition"
+tier = "B"
+notes = "From FCC 15th Video Competition Report (FCC 12-81). DVR penetration doubled in three years. HDTV households reached 64% in 2010-11, up from 25% in 2007-08. DTV average price fell from $3,147 (1998) to $1,043 (2006), a 67% decline."
+assumptions = ["composite-family"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 

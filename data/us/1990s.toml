@@ -84,6 +84,30 @@ source = "census-poverty-historical"
 tier = "A"
 notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 13.5%. Family poverty: 12.0%. The 1990-91 recession pushed poverty up; the 1990s expansion brought it down to 11.3% by 2000."
 
+[[fact]]
+id = "us-1990s-cex-total-expenditures"
+panel = "budget"
+label = "Average annual household expenditures, 1996"
+quantity = 33797
+value = "$33,797"
+unit = "USD per consumer unit, nominal"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX Table 4 (cusize-1996.pdf). All consumer units. Income before taxes: $38,014. Expenditure/income ratio: 88.9%. Consumer units averaged 2.5 persons; 64% were homeowners."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1990s-cex-healthcare-share"
+panel = "budget"
+label = "Healthcare share of household budget, 1996"
+quantity = 5.2
+value = "5.2% of total expenditures ($1,770)"
+unit = "% of total annual expenditures; USD nominal"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX Table 4 (cusize-1996.pdf). All consumer units. Healthcare: $1,770 of $33,797. Health insurance: $827. Medical services: $543. Drugs: $303. Medical supplies: $97. Healthcare share rose from 4.7% (1985) to 5.2% (1996)."
+assumptions = ["composite-family", "nominal-values"]
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -155,6 +179,30 @@ unit = "USD, nominal (median gross rent, specified renter-occupied housing units
 source = "census-hist-housing-rents"
 tier = "A"
 notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $243 in 1980. In 2000 dollars: $571/month. Cross-verified: NHGIS 1990 national median gross rent was $447 (FA4001, STF 4b)."
+
+[[fact]]
+id = "us-1990s-energy-expenditure"
+quantity = 123.91
+panel = "home"
+label = "Household energy expenditures, 1993 (RECS)"
+value = "$123.91 billion total ($1,620 per household/year, ~4.6% of median family income)"
+unit = "billion USD, nominal"
+source = "eia-recs"
+tier = "A"
+notes = "From RECS 1993, Table 5.3 (Total Expenditures). Electricity: $81.08B (65.4%), natural gas: $32.04B (25.9%), fuel oil: $6.61B, LPG: $3.81B, kerosene: $0.37B. Average per household: $1,620/year. With 1990 median family income at $35,350 (Census F-8), energy was ~4.6% of median family income. 76.5 million households. Source: recs-1993-consumption-expenditures.pdf, Table 5.3."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1990s-energy-per-household"
+quantity = 103.6
+panel = "home"
+label = "Average household energy consumption, 1993 (RECS)"
+value = "103.6 million Btu per household ($1,620/year)"
+unit = "million Btu per household per year"
+source = "eia-recs"
+tier = "A"
+notes = "From RECS 1993, Table 5.1 (Consumption and Expenditures). Average across all 76.5 million households. Total site energy: 10.01 quadrillion Btu. Per household member: 40 million Btu. Source: recs-1993-consumption-expenditures.pdf, Table 5.1."
+assumptions = ["composite-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -270,6 +318,30 @@ unit = "% of occupied housing units with 1+ vehicles"
 source = "bts-vehicle-availability"
 tier = "A"
 notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1990). 11.5% had no vehicle, 33.8% had one, 37.4% had two, 17.3% had three or more. Two-vehicle households (37.4%) now exceeded one-vehicle households (33.8%) — car dependency peaked. By 2000: 89.7%. Population: all occupied housing units."
+
+[[fact]]
+id = "us-1990s-new-home-ac"
+quantity = 56
+panel = "diffusion"
+label = "Air conditioning in new homes, 1990"
+value = "56% of new single-family homes had AC (up from 40% in 1973, 52% in 1980)"
+unit = "% of new single-family houses completed with air conditioning"
+source = "census-soc-new-housing"
+tier = "A"
+notes = "From Census C-25 annual report (c25ann-2003.pdf), 'Presence of Air-Conditioning in New One-Family Houses Completed.' AC in new homes: 1973: 40%, 1980: 52%, 1990: 56%, 1995: 72%, 2000: 81%, 2003: 82%. New homes crossed 50% AC in 1980. By 2000, AC was standard in 81% of new homes. Distinct from RECS data on all housing units (68% in 1993)."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1990s-mvpd-subscribers"
+quantity = 64.2
+panel = "diffusion"
+label = "Cable TV subscribers, 1997"
+value = "64.2 million cable subscribers (87% of MVPD market)"
+unit = "million subscribers (% cable share of MVPD)"
+source = "fcc-video-competition"
+tier = "A"
+notes = "From FCC 4th Annual Video Competition Report (FCC 97-423, data as of June 1997). 73.6 million MVPD households total; cable's share was 87%. DBS was still niche at ~5 million subscribers (6.85% of MVPD). Average monthly cable rate: $28.83 (July 1997), up 8.5% from $26.57 in July 1996 — cable rates rose >4x CPI."
+assumptions = ["composite-family"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 

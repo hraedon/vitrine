@@ -84,6 +84,42 @@ source = "census-poverty-historical"
 tier = "A"
 notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 15.1%. Family poverty: 13.2%. Highest poverty rate since 1993 — the Great Recession's impact. Recovery was slow: by 2015 still 13.5%, by 2019: 10.5% (pre-COVID). By 2024: 10.6%."
 
+[[fact]]
+id = "us-2010s-cex-total-expenditures"
+panel = "budget"
+label = "Average annual household expenditures, 2012"
+quantity = 51442
+value = "$51,442"
+unit = "USD per consumer unit, nominal"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2006-2012.xlsx). All consumer units. Income before taxes: $65,596. Expenditure/income ratio: 78.4%. 124,416 thousand consumer units; 64% homeowners."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2010s-cex-healthcare-share"
+panel = "budget"
+label = "Healthcare share of household budget, 2012"
+quantity = 6.9
+value = "6.9% of total expenditures ($3,556)"
+unit = "% of total annual expenditures; USD nominal"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2006-2012.xlsx). All consumer units. Healthcare: $3,556 of $51,442. Health insurance: $2,061. Medical services: $839. Drugs: $515. Healthcare share rose from 4.7% (1985) to 6.9% (2012). Note: health insurance estimates beginning in 2014 are not strictly comparable to prior years due to questionnaire changes (ACA)."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2010s-cex-quintile-q1-ratio"
+panel = "budget"
+label = "Bottom quintile expenditure-to-income ratio, 2012"
+quantity = 221.8
+value = "221.8% — bottom 20% spends $22,154 against $9,988 income"
+unit = "% (expenditures ÷ income before taxes)"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX Table 1101 (cu-income-quintiles-before-taxes-2012.xlsx). Q1 mean income: $9,988. Q1 mean expenditures: $22,154. Ratio exceeds 100% because spending is financed by savings, borrowing, transfers, and underreported income. Food share for Q1: 15.8% vs 11.4% for Q5. Housing share for Q1: 39.9% vs 29.9% for Q5."
+assumptions = ["composite-family", "nominal-values"]
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -162,6 +198,18 @@ tier = "A"
 notes = "Production and nonsupervisory employees, seasonally adjusted: FRED AHETPI + AWHNONAG (total private), CES3000000008 + AWHMAN (manufacturing). Annual average of 12 monthly observations, re-verified against FRED 2026-07-08. By 2024: $30.12/hr."
 assumptions = ["nominal-values"]
 
+[[fact]]
+id = "us-2010s-atus-time-use"
+quantity = 8.67
+panel = "day"
+label = "How Americans spend their day, 2010 (ATUS)"
+value = "Sleeping 8.67 hrs, working 3.50 hrs, watching TV 2.73 hrs"
+unit = "hours per day, civilian population ages 15+ (annual average)"
+source = "bls-atus"
+tier = "A"
+notes = "From BLS American Time Use Survey, Table A-1 (2010 annual averages). TV watching peaked at 2.82 hrs in 2009; by 2024 it declined to 2.60. Sleeping rose from 8.57 (2003) to 8.67 (2010) to 9.04 (2024). Working fell from 3.69 (2003) to 3.50 (2010), reflecting Great Recession effects."
+assumptions = ["composite-family"]
+
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
 [[fact]]
@@ -215,6 +263,18 @@ unit = "% of occupied housing units with 1+ vehicles"
 source = "bts-vehicle-availability"
 tier = "A"
 notes = "From BTS Figure 2-7 (Census Bureau ACS, 2010). 9.1% had no vehicle, 33.8% had one, 37.6% had two, 19.5% had three or more. Households with 3+ vehicles (19.5%) now exceeded car-free households (9.1%) two-to-one. By 2023: 91.6%. Population: all occupied housing units."
+
+[[fact]]
+id = "us-2010s-streaming-traffic"
+quantity = 70
+panel = "diffusion"
+label = "Streaming video share of Internet traffic, 2015"
+value = "70% of North American Internet traffic (peak evening, December 2015)"
+unit = "% of wireline Internet traffic (Sandvine)"
+source = "fcc-video-competition"
+tier = "B"
+notes = "From FCC 19th Video Competition Report (DA 17-71), citing Sandvine. Streaming video dominated peak evening traffic. MVPD video margins fell from 20% (2013) to ~10% (2015) as programming costs rose 8.1% annually. Total MVPD subscribers declined ~1.1 million in 2015 — cord-cutting was accelerating."
+assumptions = ["composite-family"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 

@@ -84,6 +84,42 @@ source = "census-poverty-historical"
 tier = "A"
 notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 13.0%. Family poverty: 11.5%. Poverty rose from 12.6% (1970) due to stagflation and the early 1980s recessions. By 1985: 14.0%."
 
+[[fact]]
+id = "us-1980s-cex-total-expenditures"
+panel = "budget"
+label = "Average annual household expenditures, 1985"
+quantity = 23490
+value = "$23,490"
+unit = "USD per consumer unit, nominal"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX Table 4 (cusize-1985.pdf). All consumer units. Income before taxes: $25,127. Expenditure/income ratio: 93.5%. Consumer units averaged 2.6 persons; 62% were homeowners."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1980s-cex-food-share"
+panel = "budget"
+label = "Food share of household budget, 1985"
+quantity = 14.8
+value = "14.8% of total expenditures"
+unit = "% of total annual expenditures"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX Table 4 (cusize-1985.pdf). All consumer units. Food: $3,477 of $23,490 total. Food at home: $2,037 (8.7%). Food away from home: $1,441 (6.1%)."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1980s-cex-healthcare-share"
+panel = "budget"
+label = "Healthcare share of household budget, 1985"
+quantity = 4.7
+value = "4.7% of total expenditures ($1,108)"
+unit = "% of total annual expenditures; USD nominal"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX Table 4 (cusize-1985.pdf). All consumer units. Healthcare: $1,108 of $23,490. Health insurance: $375. Medical services: $496. Drugs: $178. Medical supplies: $60."
+assumptions = ["composite-family", "nominal-values"]
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]

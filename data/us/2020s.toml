@@ -110,6 +110,42 @@ tier = "A"
 notes = "From Table F-8, all families, row 10, column G. Down from 3.54 in 1950 — families are smaller."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-2020s-cex-total-expenditures"
+panel = "budget"
+label = "Average annual household expenditures, 2024"
+quantity = 78535
+value = "$78,535"
+unit = "USD per consumer unit, nominal"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2021-2024.xlsx). All consumer units. Income before taxes: $104,207. Expenditure/income ratio: 75.4%. 135,760 thousand consumer units; 65% homeowners. After-tax income not published for 2024 (TAXSIM models discontinued)."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2020s-cex-healthcare-share"
+panel = "budget"
+label = "Healthcare share of household budget, 2024"
+quantity = 7.9
+value = "7.9% of total expenditures ($6,197)"
+unit = "% of total annual expenditures; USD nominal"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2021-2024.xlsx). All consumer units. Healthcare: $6,197 of $78,535. Health insurance: $4,055. Medical services: $1,252. Drugs: $658. Medical supplies: $233. Healthcare share nearly doubled from 4.7% (1985) to 7.9% (2024). Note: health insurance estimates beginning in 2014 are not strictly comparable to prior years due to questionnaire changes (ACA)."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2020s-cex-apparel-share"
+panel = "budget"
+label = "Apparel share of household budget, 2024"
+quantity = 2.5
+value = "2.5% of total expenditures"
+unit = "% of total annual expenditures"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2021-2024.xlsx). All consumer units. Apparel and services: $2,001 of $78,535. Apparel share fell from 6.0% (1985) to 2.5% (2024) — the steepest decline of any category, driven by fast fashion, imports, and rising incomes."
+assumptions = ["composite-family", "nominal-values"]
+
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -519,6 +555,18 @@ unit = "% of households by primary space heating fuel"
 source = "census-acs"
 tier = "A"
 notes = "From 2024 ACS 1-year estimates, Table B25040 (House Heating Fuel). Natural gas: 47% (down from 49% in 2010). Electricity: 42% (up sharply, gaining on gas). Other: propane, fuel oil, wood. (Source re-pointed from eia-recs 2026-07-07: the figures are ACS, not RECS.) The shift from coal to gas to electricity is a century-long arc: in 1940 coal was dominant, by 1950 gas and oil were replacing it, by 2020s electricity is gaining. Fuel oil heating is now <5% nationally but persists in older Northeast housing stock."
+
+[[fact]]
+id = "us-2020s-tv-watching-decline"
+quantity = 72.8
+panel = "diffusion"
+label = "Percent of population watching TV, 2024"
+value = "72.8% of population watched TV on an average day (2024), down from 78.8% in 2003"
+unit = "% of population watching TV on an average day"
+source = "bls-atus"
+tier = "A"
+notes = "From BLS American Time Use Survey, Table A-1 (2024 annual averages). The decline from 78.8% (2003) to 72.8% (2024) reflects cord-cutting and the shift to streaming and online video. Average daily TV watching time declined from 2.58 hrs (2003) to 2.60 hrs (2024), having peaked at 2.82 hrs in 2009. By 2017, ~411 million mobile wireless connections existed (FCC 18-181)."
+assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-home-production-splice"
