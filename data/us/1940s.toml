@@ -47,7 +47,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-1940s-number-of-families"
-quantity = 37240
+quantity = 37240000
 panel = "budget"
 label = "Number of families in the United States, 1947"
 value = "37,240,000"

@@ -98,6 +98,8 @@ def parse_shares(value: str) -> tuple[tuple[str, float], ...]:
 
 
 def _fmt(q: float) -> str:
+    if abs(q) >= 1000 and q == int(q):
+        return f"{int(q):,}"
     return f"{q:g}"
 
 

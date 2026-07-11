@@ -95,6 +95,32 @@ ARCS: tuple[Arc, ...] = (
         },
     ),
     Arc(
+        "family-size",
+        "Average family size",
+        "persons per family",
+        {
+            "1900s": "us-1900s-family-size",
+            "1940s": "us-1940s-average-family-size",
+            "1950s": "us-1950s-average-family-size",
+            "1960s": "us-1960s-average-family-size",
+            "1970s": "us-1970s-average-family-size",
+            "1980s": "us-1980s-average-family-size",
+            "1990s": "us-1990s-average-family-size",
+            "2000s": "us-2000s-average-family-size",
+            "2010s": "us-2010s-average-family-size",
+            "2020s": "us-2020s-average-family-size",
+        },
+        falling=True,
+        caveats=(
+            "The 1900s datum (5.31) is from the 1901 BLS wage-earner survey — "
+            "0.7 persons above the Census 1900 national average of 4.61; the "
+            "survey over-sampled larger families, not by design.",
+            "The 1940s point is 1947 (first postwar CPS tabulation), not 1940. "
+            "The 1960s uptick (3.7 vs 3.54 in 1950) reflects the baby boom's "
+            "peak family-composition effect.",
+        ),
+    ),
+    Arc(
         "plumbing",
         "Complete plumbing",
         "% of homes with complete plumbing",
@@ -295,6 +321,16 @@ ARCS: tuple[Arc, ...] = (
             "2020s: American Housing Survey, all housing stock — the median drops "
             "because the existing stock is older and smaller. The two series are "
             "not directly comparable; the placard names who was measured.",
+        ),
+    ),
+    Arc(
+        "number-of-families",
+        "Number of families",
+        "families in the United States",
+        _ids("us-{decade}-number-of-families", "194 195 196 197 198 199 200 201 202"),
+        caveats=(
+            "CPS/F-8 counts all families (related persons living together). "
+            "The 1940s point is 1947 — the first postwar CPS tabulation.",
         ),
     ),
 )
