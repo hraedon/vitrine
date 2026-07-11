@@ -264,6 +264,30 @@ tier = "A"
 notes = "From CMS NHE Table 02. Out of pocket: $197,580M of $1,365,184M total."
 
 [[fact]]
+id = "us-2000s-heart-disease-mortality"
+quantity = 257.6
+panel = "table"
+label = "Heart disease age-adjusted death rate, 2000"
+value = "257.6 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. Down 56% from the 1950 peak. Statins became one of the most prescribed drug classes in America. Drug-eluting stents introduced 2003."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2000s-cancer-survival"
+quantity = 66.0
+panel = "table"
+label = "Cancer 5-year relative survival rate, 2000"
+value = "66.0%"
+unit = "% surviving 5 years after diagnosis (relative survival, SEER 9)"
+source = "seer-csr-1975-2017"
+tier = "A"
+notes = "From NCI SEER Cancer Statistics Review 1975-2017, Table 2.9. Targeted therapies entering the clinic: trastuzumab (Herceptin, 1998) for HER2+ breast cancer, imatinib (Gleevec, 2001) for CML."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2000s-food-basket"
 quantity = 13.9
 panel = "table"

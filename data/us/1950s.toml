@@ -214,6 +214,42 @@ notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.tx
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
+id = "us-1950s-heart-disease-mortality"
+quantity = 588.8
+panel = "table"
+label = "Heart disease age-adjusted death rate, 1950"
+value = "588.8 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. This is the all-time U.S. peak for heart disease mortality. Heart disease was the leading cause of death throughout the decade. The Framingham Heart Study (begun 1948) was identifying risk factors."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1950s-cancer-mortality"
+quantity = 193.9
+panel = "table"
+label = "Cancer age-adjusted death rate, 1950"
+value = "193.9 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. Cancer mortality rose steadily through mid-century, driven by lung cancer from the smoking epidemic."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1950s-stroke-mortality"
+quantity = 180.7
+panel = "table"
+label = "Stroke age-adjusted death rate, 1950"
+value = "180.7 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. Stroke was the 3rd leading cause of death. Effective antihypertensive drugs did not yet exist."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1950s-food-prices"
 panel = "table"
 label = "Retail food prices, 1950 (annual average)"

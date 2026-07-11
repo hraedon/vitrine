@@ -275,6 +275,30 @@ tier = "A"
 notes = "From CMS NHE Table 02. Out of pocket: $55,251M of $253,217M total. Down from 32.7% in 1970. Private health insurance expansion continued shifting costs away from direct payment."
 
 [[fact]]
+id = "us-1980s-heart-disease-mortality"
+quantity = 412.1
+panel = "table"
+label = "Heart disease age-adjusted death rate, 1980"
+value = "412.1 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. Down 30% from the 1950 peak. Beta-blockers, bypass surgery, and the emergence of thrombolytic therapy drove the decline."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1980s-cancer-survival"
+quantity = 50.2
+panel = "table"
+label = "Cancer 5-year relative survival rate, 1980-1984"
+value = "50.2%"
+unit = "% surviving 5 years after diagnosis (relative survival, SEER 9)"
+source = "seer-csr-1975-2017"
+tier = "A"
+notes = "From NCI SEER Cancer Statistics Review 1975-2017, Table 2.9. Modest improvement over the late 1970s. Adjuvant chemotherapy for breast cancer was becoming standard."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1980s-food-basket"
 quantity = 15
 panel = "table"

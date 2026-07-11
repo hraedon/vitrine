@@ -187,6 +187,54 @@ tier = "A"
 notes = "From CMS NHE Table 02 (NHE2024.csv). Out of pocket: $556,554M of $5,278,588M total. Down from 47.1% in 1960 — the share of health spending paid directly by families fell by more than three-quarters over six decades."
 
 [[fact]]
+id = "us-2020s-heart-disease-mortality"
+quantity = 157.6
+panel = "table"
+label = "Heart disease age-adjusted death rate, 2024"
+value = "157.6 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-db548"
+tier = "A"
+notes = "From NCHS Data Brief No. 548 (Jan 2026), final 2024 mortality data. Down 73% from the 1950 peak of 588.8. The COVID-19 pandemic caused a temporary increase (2019: 161.5 → 2021: ~173), but rates have since declined below pre-pandemic levels."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2020s-cancer-mortality"
+quantity = 139.4
+panel = "table"
+label = "Cancer age-adjusted death rate, 2024"
+value = "139.4 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-db548"
+tier = "A"
+notes = "From NCHS Data Brief No. 548 (Jan 2026). Down 35% from the 1990 peak. Immunotherapy (checkpoint inhibitors, CAR-T) has transformed treatment of melanoma, lung, and other cancers."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2020s-stroke-mortality"
+quantity = 38.6
+panel = "table"
+label = "Stroke age-adjusted death rate, 2024"
+value = "38.6 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-db548"
+tier = "A"
+notes = "From NCHS Data Brief No. 548 (Jan 2026). Down 79% from the 1950 rate of 180.7. Driven by hypertension control, statins, clot-busting drugs (tPA, 1996), and mechanical thrombectomy."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2020s-cancer-survival"
+quantity = 70.5
+panel = "table"
+label = "Cancer 5-year relative survival rate, 2016-2022"
+value = "70.5%"
+unit = "% surviving 5 years after diagnosis (relative survival, SEER)"
+source = "seer-statfacts-all-sites"
+tier = "A"
+notes = "From NCI SEER Cancer Stat Facts (seer.cancer.gov/statfacts/html/all.html). Up from 48.9% in 1975-1979 — a 44% relative improvement. ACS Facts & Figures 2025 reports 69% for 2014-2020 diagnoses (all races)."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2020s-food-prices"
 panel = "table"
 label = "Retail food prices, December 2024"

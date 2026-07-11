@@ -690,6 +690,66 @@ population = "US resident population and total national health spending (all pay
 notes = "CMS NHE tables cover calendar years 1960-2024. Table 01: aggregate amounts, per capita, percent of GDP. Table 02: by type of service and source of funds. Dollar amounts in current (nominal) dollars. Updated annually. Source files: NHE24_Summary.csv, NHE2024.csv."
 
 [[source]]
+id = "nchs-mortality-trends"
+title = "Age-adjusted Death Rates for Selected Major Causes of Death, 1900-2018"
+short_cite = "CDC NCHS, Age-adjusted Death Rates for Selected Major Causes (data.cdc.gov)"
+publisher = "National Center for Health Statistics (CDC)"
+year = 2020
+url = "https://data.cdc.gov/National-Center-for-Health-Statistics/NCHS-Age-adjusted-Death-Rates-for-Selected-Major-C/6rkc-nb2q"
+population = "U.S. resident population (death certificates, all causes)"
+notes = "Covers 1900-2018 for 5 causes: Heart Disease, Cancer, Stroke, Accidents, Influenza/Pneumonia. Rates for 1900-1998 from NCHS Historical Data; 1999-2018 calculated using 2000 U.S. standard population. Citation: Bastian B, Tejada Vera B, Arias E, et al. Mortality trends in the United States, 1900-2018. NCHS. 2020."
+
+[[source]]
+id = "nchs-db548"
+title = "NCHS Data Brief No. 548: Mortality in the United States, 2024"
+short_cite = "NCHS, Data Brief No. 548 (Jan 2026)"
+publisher = "National Center for Health Statistics (CDC)"
+year = 2026
+url = "https://www.cdc.gov/nchs/products/databriefs/db548.htm"
+population = "U.S. resident population (death certificates, final 2024 data)"
+notes = "Final 2024 mortality data. Age-adjusted death rates: Heart disease 157.6, Cancer 139.4, Stroke 38.6 per 100,000. Life expectancy 79.0 years."
+
+[[source]]
+id = "seer-csr-1975-2017"
+title = "SEER Cancer Statistics Review 1975-2017, Table 2.9: All Cancer Sites — Relative Survival by Year of Diagnosis"
+short_cite = "NCI SEER, Cancer Statistics Review 1975-2017, Table 2.9"
+publisher = "National Cancer Institute (NIH), Surveillance Research Program"
+year = 2020
+url = "https://seer.cancer.gov/archive/csr/1975_2017/results_merged/topic_survival_by_year_dx.pdf"
+population = "Patients diagnosed with cancer in SEER 9 registry areas (San Francisco, Connecticut, Detroit, Hawaii, Iowa, New Mexico, Seattle, Utah, Atlanta), all races, both sexes"
+notes = "5-year relative survival rates by year of diagnosis, 1975-2016. SEER 9 registries cover ~10% of US population. Ederer II method."
+
+[[source]]
+id = "seer-statfacts-all-sites"
+title = "SEER Cancer Stat Facts: Cancer of Any Site"
+short_cite = "NCI SEER, Cancer Stat Facts — All Sites"
+publisher = "National Cancer Institute (NIH)"
+year = 2026
+url = "https://seer.cancer.gov/statfacts/html/all.html"
+population = "Patients diagnosed with cancer (all sites) in SEER registry areas"
+notes = "5-year relative survival 70.5% for 2016-2022 diagnoses. Updated annually."
+
+[[source]]
+id = "nchs-hus2016-table37"
+title = "Health, United States, 2016, Table 37: Five-year Relative Cancer Survival Rates for Selected Cancer Sites"
+short_cite = "CDC/NCHS, Health, United States, 2016, Table 37"
+publisher = "National Center for Health Statistics (CDC)"
+year = 2017
+url = "https://www.cdc.gov/nchs/data/hus/2016/037.pdf"
+population = "Cancer patients in SEER 9 registry areas, by race (White, Black) and sex"
+notes = "Survival by diagnosis period: 1975-77, 1981-83, 1987-89, 1999-2001, 2006-12. Includes all sites, breast, lung, prostate, colon, leukemia, NHL, pancreas."
+
+[[source]]
+id = "acs-cancer-facts-figures-2024"
+title = "American Cancer Society, Cancer Facts & Figures 2024"
+short_cite = "American Cancer Society, Cancer Facts & Figures 2024"
+publisher = "American Cancer Society"
+year = 2024
+url = "https://www.cancer.org/content/dam/cancer-org/research/cancer-facts-and-statistics/annual-cancer-facts-and-figures/2024/2024-cancer-facts-and-figures-acs.pdf"
+population = "U.S. cancer patients (SEER-based estimates with ACS analysis)"
+notes = "Key statement: 'The 5-year relative survival rate for all cancers combined has increased substantially since the early 1960s, from 39% to 69% among White people.' Pre-SEER figure derives from NCI End Results Group (1956-72)."
+
+[[source]]
 id = "bea-new-car-price"
 title = "Average Transaction Price per New Car (Domestic and Import), 1970-2020"
 short_cite = "U.S. Bureau of Economic Analysis, Average Transaction Price per New Car (ORNL TEDB Table 11.13)"

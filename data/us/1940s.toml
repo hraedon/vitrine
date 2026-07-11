@@ -227,6 +227,30 @@ notes = "Commercial television broadcasting began in the US in 1941 but was susp
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
+id = "us-1940s-heart-disease-mortality"
+quantity = 558.5
+panel = "table"
+label = "Heart disease age-adjusted death rate, 1940"
+value = "558.5 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS, Age-adjusted Death Rates for Selected Major Causes of Death (data.cdc.gov 6rkc-nb2q). Heart disease was rising rapidly, on its way to a mid-century peak."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1940s-cancer-mortality"
+quantity = 187.8
+panel = "table"
+label = "Cancer age-adjusted death rate, 1940"
+value = "187.8 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. Cancer was the 2nd leading cause of death. Smoking rates were rising, presaging the lung cancer epidemic."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1940s-food-basket-gap"
 panel = "table"
 label = "The food basket, 1940s"

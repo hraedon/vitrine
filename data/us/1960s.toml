@@ -169,6 +169,30 @@ tier = "A"
 notes = "From CMS NHE Table 02 (NHE2024.csv). Out of pocket: $12,778M of $27,122M total. In 1960, families paid nearly half of all healthcare costs directly."
 
 [[fact]]
+id = "us-1960s-heart-disease-mortality"
+quantity = 559.0
+panel = "table"
+label = "Heart disease age-adjusted death rate, 1960"
+value = "559.0 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. Near the peak — rates plateaued in the early 1960s before beginning their long decline after 1968. The Framingham Heart Study was identifying smoking, blood pressure, and cholesterol as risk factors."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1960s-cancer-survival"
+quantity = 39
+panel = "table"
+label = "Cancer 5-year relative survival rate, early 1960s"
+value = "39% (White population)"
+unit = "% surviving 5 years after diagnosis (relative survival)"
+source = "acs-cancer-facts-figures-2024"
+tier = "D"
+notes = "From American Cancer Society, Cancer Facts & Figures 2024. Pre-SEER data from the NCI End Results Group (predecessor to SEER, 1956-72). Tier D: scholarly estimate based on pre-SEER registries."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1960s-food-basket"
 quantity = 24.3
 panel = "table"

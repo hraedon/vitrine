@@ -296,6 +296,42 @@ tier = "A"
 notes = "From CMS NHE Table 02. Out of pocket: $133,752M of $718,689M total. Managed care expansion in the 1990s continued the shift from out-of-pocket to insurance."
 
 [[fact]]
+id = "us-1990s-heart-disease-mortality"
+quantity = 321.8
+panel = "table"
+label = "Heart disease age-adjusted death rate, 1990"
+value = "321.8 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. Down 45% from the 1950 peak. ACE inhibitors, aspirin prophylaxis, and angioplasty became standard. Statins (lovastatin FDA-approved 1987) were entering widespread use."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1990s-cancer-mortality"
+quantity = 216.0
+panel = "table"
+label = "Cancer age-adjusted death rate, 1990"
+value = "216.0 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. This is the all-time U.S. peak for cancer mortality. After 1990, cancer death rates began a sustained decline driven by smoking cessation, early detection, and improved treatments."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1990s-cancer-survival"
+quantity = 60.4
+panel = "table"
+label = "Cancer 5-year relative survival rate, 1990-1994"
+value = "60.4%"
+unit = "% surviving 5 years after diagnosis (relative survival, SEER 9)"
+source = "seer-csr-1975-2017"
+tier = "A"
+notes = "From NCI SEER Cancer Statistics Review 1975-2017, Table 2.9. Major jump from the 1980s — driven by PSA testing, mammography, and combination chemotherapy."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1990s-food-basket"
 quantity = 15
 panel = "table"

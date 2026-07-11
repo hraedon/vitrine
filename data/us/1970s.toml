@@ -277,6 +277,54 @@ tier = "A"
 notes = "From CMS NHE Table 02. Out of pocket: $24,208M of $74,077M total. Down from 47.1% in 1960 — Medicare and Medicaid shifted costs to insurance/government."
 
 [[fact]]
+id = "us-1970s-heart-disease-mortality"
+quantity = 492.7
+panel = "table"
+label = "Heart disease age-adjusted death rate, 1970"
+value = "492.7 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. The decline is underway — down 16% from the 1950 peak. Coronary care units, CPR, and new blood pressure medications were beginning to have impact."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1970s-cancer-mortality"
+quantity = 198.6
+panel = "table"
+label = "Cancer age-adjusted death rate, 1970"
+value = "198.6 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. Cancer mortality continued to rise. The National Cancer Act of 1971 declared the 'War on Cancer.' Combination chemotherapy was proving effective for some cancers."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1970s-stroke-mortality"
+quantity = 147.7
+panel = "table"
+label = "Stroke age-adjusted death rate, 1970"
+value = "147.7 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. The decline began with the introduction of effective blood pressure medications. The VA Cooperative Study (1967-1970) proved hypertension treatment saved lives."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1970s-cancer-survival"
+quantity = 48.9
+panel = "table"
+label = "Cancer 5-year relative survival rate, 1975-1979"
+value = "48.9%"
+unit = "% surviving 5 years after diagnosis (relative survival, SEER 9)"
+source = "seer-csr-1975-2017"
+tier = "A"
+notes = "From NCI SEER Cancer Statistics Review 1975-2017, Table 2.9. All races, both sexes, all cancer sites. SEER 9 registries cover ~10% of US population."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1970s-food-basket"
 quantity = 17.1
 panel = "table"

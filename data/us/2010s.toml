@@ -241,6 +241,42 @@ tier = "A"
 notes = "From CMS NHE Table 02. Out of pocket: $303,421M of $2,588,734M total."
 
 [[fact]]
+id = "us-2010s-heart-disease-mortality"
+quantity = 179.1
+panel = "table"
+label = "Heart disease age-adjusted death rate, 2010"
+value = "179.1 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. Down 70% from the 1950 peak. Heart disease remained the #1 cause of death despite the dramatic decline. The rate of improvement slowed mid-decade."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2010s-cancer-mortality"
+quantity = 172.8
+panel = "table"
+label = "Cancer age-adjusted death rate, 2010"
+value = "172.8 per 100,000"
+unit = "age-adjusted deaths per 100,000 population"
+source = "nchs-mortality-trends"
+tier = "A"
+notes = "From CDC NCHS. Down 20% from the 1990 peak. Targeted therapies (imatinib/Gleevec 2001, trastuzumab/Herceptin 1998) were changing the treatment paradigm."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2010s-cancer-survival"
+quantity = 69.7
+panel = "table"
+label = "Cancer 5-year relative survival rate, 2011"
+value = "69.7%"
+unit = "% surviving 5 years after diagnosis (relative survival, SEER 9)"
+source = "seer-csr-1975-2017"
+tier = "A"
+notes = "From NCI SEER Cancer Statistics Review 1975-2017, Table 2.9. Immunotherapy era: ipilimumab (2011), pembrolizumab/nivolumab (2014) for melanoma and lung cancer. Survival crossed 69% — up from 49% in the mid-1970s."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2010s-food-basket"
 quantity = 14
 panel = "table"
