@@ -15,7 +15,7 @@ import pytest
 
 from vitrine.check import check_mark_coverage
 from vitrine.loader import load_corpus
-from vitrine.model import Corpus
+from vitrine.model import Corpus, Panel
 from vitrine.series import load_series
 from vitrine.site import curation, symbols
 from vitrine.site.render import _build_stage, _index_facts, render_site
@@ -160,6 +160,42 @@ def test_corridor_atlas_is_navigable_and_progressively_disclosed(site: Path) -> 
     assert 'href="../affordability/index.html"' in html
     assert '<section class="study-room"' in html
     assert 'aria-label="All pairwise decade comparisons"' in html
+
+
+def test_room_stories_are_local_complete_and_distinct(corpus: Corpus) -> None:
+    rooms = {room.decade: room for room in corpus.rooms}
+    assert len(curation.ROOM_STORIES) == len(curation.ROOM_STORY_BY_DECADE)
+    assert set(curation.ROOM_STORY_BY_DECADE) == set(rooms)
+    for decade, story in curation.ROOM_STORY_BY_DECADE.items():
+        assert not re.search(r"\d", story.title + story.question)
+        assert len(story.fact_ids) == 4
+        assert len(set(story.fact_ids)) == 4
+        room_fact_ids = {fact.id for fact in rooms[decade].facts}
+        assert set(story.fact_ids) <= room_fact_ids
+
+
+def test_every_room_opens_with_a_sourced_route_and_case_map(
+    site: Path, corpus: Corpus
+) -> None:
+    for room in corpus.rooms:
+        html = (site / "rooms" / f"{room.slug}.html").read_text()
+        story = curation.ROOM_STORY_BY_DECADE[room.decade]
+        assert '<section class="room-overture"' in html
+        assert html.count('class="story-stop"') == 4
+        for fact_id in story.fact_ids:
+            assert f'href="#{fact_id}--modal" data-fact-id="{fact_id}"' in html
+        assert '<nav class="exhibit-map" aria-label="Room display cases">' in html
+        for panel in Panel:
+            assert f'href="#panel-{panel.value}"' in html
+            assert f'id="panel-{panel.value}"' in html
+
+
+def test_placards_lead_with_evidence_hierarchy(site: Path) -> None:
+    html = (site / "rooms" / "us-1950s.html").read_text()
+    assert "Population measured" in html
+    assert "Source record" in html
+    assert "observed record" in html
+    assert "Open source record" in html
 
 
 def test_mark_coverage_green_on_build(site: Path, corpus: Corpus) -> None:

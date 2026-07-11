@@ -59,6 +59,22 @@ class CorridorWing:
     arc_slugs: tuple[str, ...]
 
 
+@dataclass(frozen=True, slots=True)
+class RoomStory:
+    """A provenance-bound editorial route through one decade room.
+
+    Titles and questions provide the lens; every exhibit displayed beneath
+    them is an existing fact from that same room. The renderer validates the
+    membership before building, so interpretation cannot borrow a foreign or
+    unresolved exhibit.
+    """
+
+    decade: str
+    title: str
+    question: str
+    fact_ids: tuple[str, ...]
+
+
 def _ids(pattern: str, decades: str) -> dict[str, str]:
     return {d + "0s": pattern.format(decade=d + "0s") for d in decades.split()}
 
@@ -450,6 +466,161 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
         ),
     ),
 )
+
+
+# Four sourced exhibits per room form its opening route. These selections do
+# not replace the complete six-panel collection; they give a first-time
+# visitor a way into it. Questions are deliberately interpretive rather than
+# declarative: the fact cards below them carry every historical claim.
+ROOM_STORIES: tuple[RoomStory, ...] = (
+    RoomStory(
+        "1900s",
+        "The work behind the household",
+        "What did it take to keep one family housed, fed, and running?",
+        (
+            "us-1900s-annual-family-income",
+            "us-1900s-food-share",
+            "us-1900s-weekly-hours",
+            "us-1900s-home-production-household",
+        ),
+    ),
+    RoomStory(
+        "1910s",
+        "The record goes quiet",
+        "What can a room reveal when the national household books are missing?",
+        (
+            "us-1910s-housing-gap",
+            "us-1910s-income-gap",
+            "us-1910s-manufacturing-wages",
+            "us-1910s-electricity-gap",
+        ),
+    ),
+    RoomStory(
+        "1920s",
+        "Signals at the walls",
+        "Which parts of modern life appear before the household is fully measured?",
+        (
+            "us-1920s-radio-automobile",
+            "us-1920s-home-production-components",
+            "us-1920s-manufacturing-wages",
+            "us-1920s-housing-gap",
+        ),
+    ),
+    RoomStory(
+        "1930s",
+        "A modern room with missing books",
+        "What survives in the record when wages contract and household surveys fail us?",
+        (
+            "us-1930s-manufacturing-wages",
+            "us-1930s-radio-automobile",
+            "us-1930s-homeownership",
+            "us-1930s-work-buys-gap",
+        ),
+    ),
+    RoomStory(
+        "1940s",
+        "Between prewar and postwar",
+        "Can one room honestly hold a decade split by mobilization and reconversion?",
+        (
+            "us-1940s-prewar-wages",
+            "us-1940s-median-family-income",
+            "us-1940s-plumbing",
+            "us-1940s-no-television",
+        ),
+    ),
+    RoomStory(
+        "1950s",
+        "The equipped home arrives",
+        "Which conveniences became ordinary, and which work remained?",
+        (
+            "us-1950s-electricity-diffusion",
+            "us-1950s-refrigerator-diffusion",
+            "us-1950s-tv-diffusion",
+            "us-1950s-home-production-women",
+        ),
+    ),
+    RoomStory(
+        "1960s",
+        "Comfort becomes common",
+        "How evenly did the new baseline of domestic comfort arrive?",
+        (
+            "us-1960s-plumbing",
+            "us-1960s-television",
+            "us-1960s-air-conditioning",
+            "us-1960s-poverty-rate",
+        ),
+    ),
+    RoomStory(
+        "1970s",
+        "The budget changes shape",
+        "What happens when the house grows while time and spending are redistributed?",
+        (
+            "us-1970s-expenditure-shares",
+            "us-1970s-median-home-size",
+            "us-1970s-home-production-women",
+            "us-1970s-food-basket",
+        ),
+    ),
+    RoomStory(
+        "1980s",
+        "More house, more systems",
+        "How did space, media, computing, and price accumulate under one roof?",
+        (
+            "us-1980s-median-home-size",
+            "us-1980s-cable-tv",
+            "us-1980s-computer",
+            "us-1980s-home-as-income-years",
+        ),
+    ),
+    RoomStory(
+        "1990s",
+        "The connected threshold",
+        "When does a household become part of a network?",
+        (
+            "us-1990s-computer",
+            "us-1990s-internet-households",
+            "us-1990s-median-home-value",
+            "us-1990s-expenditure-shares",
+        ),
+    ),
+    RoomStory(
+        "2000s",
+        "The networked day",
+        "What changed when connection became infrastructure and time became measurable?",
+        (
+            "us-2000s-internet",
+            "us-2000s-atus-time-use",
+            "us-2000s-home-production-household",
+            "us-2000s-home-as-income-years",
+        ),
+    ),
+    RoomStory(
+        "2010s",
+        "Comfort under pressure",
+        "How can a well-equipped household still carry a strained budget?",
+        (
+            "us-2010s-internet",
+            "us-2010s-expenditure-shares",
+            "us-2010s-cex-quintile-q1-ratio",
+            "us-2010s-home-as-income-years",
+        ),
+    ),
+    RoomStory(
+        "2020s",
+        "The expensive connected present",
+        "What does the current room reveal when housing, time, and connection move together?",
+        (
+            "us-2020s-housing-surge",
+            "us-2020s-expenditure-breakdown-4p",
+            "us-2020s-time-use",
+            "us-2020s-internet-diffusion",
+        ),
+    ),
+)
+
+ROOM_STORY_BY_DECADE: dict[str, RoomStory] = {
+    story.decade: story for story in ROOM_STORIES
+}
 
 
 # ── budget composition (parseable "Category N.N%" facts) ─────────────────────

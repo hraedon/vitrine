@@ -20,6 +20,24 @@ decisions and the validation results.** A test asserts the two never drift
    cutaway annotations carry `data-fact-id`; the mark-coverage gate fails the
    build if a mark's id doesn't resolve to a corpus fact or derived fact.
 
+## Room dramaturgy
+
+Every decade room opens with a curator's route: an editorial question and four
+featured exhibits selected from that room's existing facts. The route is an
+entry point, not a synthetic narrative and not a replacement for the complete
+six-case collection below it.
+
+The selection is mechanically provenance-bound. `RoomStory.fact_ids` must name
+exactly four distinct facts, every fact must belong to the same decade room,
+and every built room must have exactly one story. The renderer fails rather
+than borrowing an exhibit from another decade. Titles and questions may frame
+the evidence; the fact tiles carry the historical claims and numbers.
+
+Placards lead with the evidence hierarchy in this order: observed value,
+measured population, source record, confidence tier, then optional
+affordability computation and the full source drawer. Derived placards name
+the computation and weakest-input confidence before exposing their inputs.
+
 ## Core tokens
 
 | Token | Hex | Role |

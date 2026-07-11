@@ -139,6 +139,29 @@ _BASE = """<!doctype html>
   .room-track a.on{color:{{ T.BRASS_LIT }};font-weight:700}
   .room-track a.on i{background:{{ T.BRASS_LIT }};box-shadow:0 0 0 2px {{ T.BRASS }},0 0 14px {{ T.BRASS_DEEP }}}
   .room-track.lobby{margin:12px 0 28px}
+  .room-overture{display:grid;grid-template-columns:minmax(240px,.72fr) minmax(0,1.6fr);gap:14px;margin:24px 0 18px}
+  .story-label{display:flex;flex-direction:column;justify-content:space-between;min-height:238px;padding:20px;border:1px solid {{ T.BRASS_DIM }};border-radius:4px;background:radial-gradient(circle at 18% 12%,#382d1d,{{ T.CASE }} 62%)}
+  .story-label .story-kicker{margin:0;font:10px {{ T.MONO }};letter-spacing:.17em;text-transform:uppercase;color:{{ T.BRASS }}}
+  .story-label h2{margin:18px 0 8px;font:italic 600 clamp(25px,3.2vw,36px)/1.05 {{ T.SERIF }};color:#f3ead7}
+  .story-label .story-question{margin:0;font:16px/1.45 {{ T.SERIF }};color:{{ T.BRASS_LIT }}}
+  .story-label .story-note{margin:22px 0 0;padding-top:10px;border-top:1px solid {{ T.EDGE }};font:10px/1.5 {{ T.MONO }};letter-spacing:.05em;color:{{ T.INK_SOFT }}}
+  .story-trail{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .story-stop{position:relative;display:flex;flex-direction:column;min-height:114px;padding:13px 14px;border:1px solid {{ T.EDGE }};border-radius:4px;background:linear-gradient(150deg,{{ T.CASE_2 }},{{ T.CASE }});text-decoration:none;color:inherit}
+  .story-stop:hover{border-color:{{ T.BRASS_DIM }};transform:translateY(-1px)}
+  .story-stop .stop-meta{font:9px {{ T.MONO }};letter-spacing:.11em;text-transform:uppercase;color:{{ T.BRASS }};padding-right:26px}
+  .story-stop .stop-value{margin:10px 0 3px;font:600 17px/1.22 {{ T.SERIF }};color:{{ T.IVORY }};text-wrap:balance}
+  .story-stop .stop-label{margin-top:auto;font-size:11.5px;line-height:1.35;color:{{ T.INK_SOFT }}}
+  .story-stop .tchip{position:absolute;top:11px;right:9px}
+  .room-disclaimer{margin-top:0;max-width:none}
+  .collection-head{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:end;margin:38px 0 10px}
+  .collection-head h2{margin:0;font:600 27px {{ T.SERIF }};color:#f3ead7}
+  .collection-head p{margin:3px 0 0;color:{{ T.INK_SOFT }};font-size:13px}
+  .collection-head span{font:10px {{ T.MONO }};letter-spacing:.12em;text-transform:uppercase;color:{{ T.BRASS }};white-space:nowrap}
+  .exhibit-map{position:sticky;top:0;z-index:30;display:grid;grid-template-columns:repeat(6,1fr);gap:1px;margin:0 0 18px;border:1px solid {{ T.EDGE }};border-radius:4px;background:{{ T.EDGE }};overflow:hidden;box-shadow:0 8px 22px -18px #000}
+  .exhibit-map a{display:flex;flex-direction:column;gap:2px;padding:9px 10px;background:rgba(36,32,25,.97);text-decoration:none;color:{{ T.INK_SOFT }};font:9px {{ T.MONO }};letter-spacing:.08em;text-transform:uppercase}
+  .exhibit-map a:hover{background:{{ T.CASE_2 }};color:{{ T.BRASS_LIT }}}
+  .exhibit-map b{font:600 12px {{ T.SERIF }};letter-spacing:0;text-transform:none;color:{{ T.IVORY }}}
+  .exhibit-map span{color:#746953}
    h2.case-title,summary.case-title{font-family:{{ T.MONO }};font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:{{ T.BRASS }};margin:34px 0 4px;font-weight:600;list-style:none;cursor:pointer}
    summary.case-title::-webkit-details-marker{display:none}
    details.panel-group{margin-bottom:10px}
@@ -195,8 +218,10 @@ _BASE = """<!doctype html>
     .overlay-close{position:absolute;top:8px;right:9px;z-index:103;font-size:25px;line-height:1;text-decoration:none;color:{{ T.BRASS_DEEP }};background:{{ T.IVORY_2 }};border:1px solid #cbbfa1;border-radius:3px;padding:2px 8px}
     .overlay-close:hover{color:{{ T.BRASS_LIT }}}
     .overlay-close:focus-visible{outline:3px solid {{ T.BRASS_LIT }};outline-offset:2px}
+   .placard-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:8px}
    .placard .ceyebrow{font-family:{{ T.MONO }};font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.BRASS_DEEP }}}
-  .placard .cval{font-family:{{ T.SERIF }};font-size:19px;line-height:1.2;margin:7px 0 2px;color:{{ T.INK }};text-wrap:balance}
+   .record-kind{display:block;margin-top:3px;font-size:8.5px;letter-spacing:.1em;color:#8a7d61}
+  .placard .cval{font-family:{{ T.SERIF }};font-size:21px;line-height:1.18;margin:7px 0 3px;color:{{ T.INK }};text-wrap:balance}
   .placard .clab{font-size:13.5px;color:#5f5540;margin:0 0 10px}
    .placard .cunit{font-family:{{ T.MONO }};font-size:10.5px;color:#8a7d61;margin:0 0 10px;overflow-wrap:anywhere;word-break:break-all}
   .tchip{font-family:{{ T.MONO }};font-size:10px;font-weight:700;color:#fff;border-radius:2px;padding:1px 5px;margin-left:7px;vertical-align:1px}
@@ -207,6 +232,10 @@ _BASE = """<!doctype html>
   .measured{margin:10px 0 0;padding:9px 11px;background:#e7dbc0;border-radius:3px;border-left:3px solid {{ T.BRASS_DEEP }}}
   .measured .mk{font-family:{{ T.MONO }};font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.BRASS_DEEP }};display:block;margin-bottom:2px}
   .measured .mv{font-size:12.5px;color:#453d2b;line-height:1.45}
+  .evidence-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:1px;margin:12px 0;background:#cfc2a5;border:1px solid #cfc2a5;border-radius:3px;overflow:hidden}
+  .evidence-cell{padding:9px 10px;background:#e7dbc0}
+  .evidence-cell .mk{display:block;margin-bottom:3px;font:9px {{ T.MONO }};letter-spacing:.13em;text-transform:uppercase;color:{{ T.BRASS_DEEP }}}
+  .evidence-cell .ev{display:block;font-size:11.5px;line-height:1.4;color:#4d4432}
   .placard details{margin-top:10px}
   .placard summary{cursor:pointer;font-family:{{ T.MONO }};font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:{{ T.BRASS_DEEP }}}
   .drawer{font-size:12.5px;color:#554b38;margin-top:6px;line-height:1.5}
@@ -280,6 +309,9 @@ _BASE = """<!doctype html>
     .exhibit-stack{margin-left:0}
     .wing-head{grid-template-columns:52px minmax(0,1fr);gap:12px}
     .wing-number{font-size:40px}
+    .room-overture{grid-template-columns:1fr}
+    .story-label{min-height:0}
+    .exhibit-map{grid-template-columns:repeat(3,1fr)}
   }
   @media(max-width:560px){
     .wrap{padding-left:16px;padding-right:16px}
@@ -300,6 +332,11 @@ _BASE = """<!doctype html>
     .exhibit-body{padding-left:12px;padding-right:12px}
     .atlas-portal{grid-template-columns:1fr}
     .epoch-grid{grid-template-columns:1fr}
+    .story-trail{grid-template-columns:1fr}
+    .collection-head{grid-template-columns:1fr}
+    .exhibit-map{display:flex;overflow-x:auto;scroll-snap-type:x proximity;border-left:0;border-right:0;border-radius:0;margin-left:-16px;margin-right:-16px}
+    .exhibit-map a{min-width:128px;scroll-snap-align:start}
+    .evidence-grid{grid-template-columns:1fr}
   }
   @media(prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto !important}}
 </style>
@@ -414,10 +451,19 @@ _PLACARD = """
 {% endif %}
 {% endmacro %}
 {% macro _placard_body(fact, room, sources, assumptions, affordability, root, modal) %}
-  <div class="ceyebrow">{{ panel_title(fact.panel) }} · {{ room.decade }}</div>
-  <div class="cval">{{ fact.value }}<span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}" title="{{ tier_label(fact.tier) }}">{{ fact.tier.value }}</span></div>
+  {% set src = sources[fact.source] %}
+  {% set is_gap = fact.value.strip().lower().startswith('no reliable record') %}
+  <div class="placard-head">
+    <div class="ceyebrow">{{ panel_title(fact.panel) }} · {{ room.decade }}<span class="record-kind">{% if is_gap %}documented gap{% else %}observed record{% endif %}</span></div>
+    <span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}" title="{{ tier_label(fact.tier) }}">Tier {{ fact.tier.value }}</span>
+  </div>
+  <div class="cval">{{ fact.value }}</div>
   <p class="clab">{{ fact.label }}</p>
   <p class="cunit">{{ fact.unit }}</p>
+  <div class="evidence-grid">
+    <div class="evidence-cell"><span class="mk">Population measured</span><span class="ev">{{ src.population }}</span></div>
+    <div class="evidence-cell"><span class="mk">Source record</span><span class="ev">{{ src.publisher }} · {{ src.year }} · Tier {{ fact.tier.value }}</span></div>
+  </div>
   {% if fact.id in affordability %}{% set aff = affordability[fact.id] %}
   {% if aff.hours or aff.pct %}<div class="afford-box"><span class="mk">Computed affordability</span>
   {% if aff.hours %}<p class="afford">{{ aff.hours }}</p>{% endif %}
@@ -425,10 +471,8 @@ _PLACARD = """
   {% if aff.hours_large %}<p class="afford-warning">Large ratio: inspect the wage population and anchor years in provenance before reading this as one household's timeline.</p>{% endif %}
   </div>{% endif %}
   {% endif %}
-  {% set src = sources[fact.source] %}
-  <div class="measured"><span class="mk">Measured</span><span class="mv">{{ src.population }}</span></div>
   <details>
-    <summary>provenance</summary>
+    <summary>Open source record</summary>
     <div class="drawer">
       <b>{{ src.title }}</b><br>
       {{ src.publisher }}, {{ src.year }} · <a href="{{ src.url }}">source</a><br>
@@ -458,12 +502,19 @@ _PLACARD = """
 {% endmacro %}
 {% macro derived_placard(cf, room, assumptions, root) %}
 <div class="placard" id="{{ cf.id }}">
-  <div class="ceyebrow">{{ panel_title(cf.panel) }} · {{ room.decade }} · computed</div>
-  <div class="cval">{{ cf.value }}<span class="tchip" style="background:{{ T.TIER_COLORS[cf.tier.value] }}" title="{{ tier_label(cf.tier) }} (weakest input)">{{ cf.tier.value }}</span></div>
+  <div class="placard-head">
+    <div class="ceyebrow">{{ panel_title(cf.panel) }} · {{ room.decade }}<span class="record-kind">computed exhibit</span></div>
+    <span class="tchip" style="background:{{ T.TIER_COLORS[cf.tier.value] }}" title="{{ tier_label(cf.tier) }} (weakest input)">Tier {{ cf.tier.value }}</span>
+  </div>
+  <div class="cval">{{ cf.value }}</div>
   <p class="clab">{{ cf.label }}</p>
   <p class="cunit">{{ cf.unit }}</p>
+  <div class="evidence-grid">
+    <div class="evidence-cell"><span class="mk">Method</span><span class="ev">Computed by vitrine · {{ cf.op.value }}</span></div>
+    <div class="evidence-cell"><span class="mk">Confidence</span><span class="ev">Tier {{ cf.tier.value }} · weakest input governs</span></div>
+  </div>
   <details>
-    <summary>derivation</summary>
+    <summary>Open derivation</summary>
     <div class="drawer">
       <em>Computed by vitrine</em> ({{ cf.op.value }}) — never authored by hand:<br>
       <em>Numerator:</em> {{ cf.numerator.value }} — {{ cf.numerator.label }} <span class="tchip" style="background:{{ T.TIER_COLORS[cf.numerator.tier.value] }}">{{ cf.numerator.tier.value }}</span><br>
@@ -489,13 +540,33 @@ _ROOM = (
 <p class="eyebrow">vitrine · {{ room.country | upper }} · the {{ room.decade }}</p>
 <h1>The <em>{{ room.decade }}</em> room</h1>
 {% if room.data_as_of %}<p class="case-sub">Data as of {{ room.data_as_of }} (decade ongoing — each fact states its own data year).</p>{% endif %}
-<div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
+<section class="room-overture" aria-labelledby="room-story-title">
+  <div class="story-label">
+    <div><p class="story-kicker">Curator's route · four sourced exhibits</p><h2 id="room-story-title">{{ story.title }}</h2><p class="story-question">{{ story.question }}</p></div>
+    <p class="story-note">An editorial selection, not a synthetic family. Every stop opens the original specimen label.</p>
+  </div>
+  <div class="story-trail">
+  {% for fact in story.facts %}
+    <a class="story-stop" href="#{{ fact.id }}--modal" data-fact-id="{{ fact.id }}">
+      <span class="stop-meta">Stop 0{{ loop.index }} · {{ panel_title(fact.panel) }}</span>
+      <span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}">{{ fact.tier.value }}</span>
+      <span class="stop-value">{{ fact.value|truncate(92, true, '…') }}</span>
+      <span class="stop-label">{{ fact.label }}</span>
+    </a>
+  {% endfor %}
+  </div>
+</section>
+<div class="plaque room-disclaimer"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
 {{ room_map(rooms, room, "", previous_room, next_room, room_position) }}
 {% if gap_banner %}<div class="gap-banner"><b>Structural gap</b>{{ gap_banner }}</div>{% endif %}
 <div class="stage">{{ stage_svg }}</div>
 <div class="stagehint">era-graded light · absent technology isn't drawn · every glyph opens its specimen label</div>
+<div class="collection-head"><div><h2>The complete room</h2><p>All six cases, including the curator's route above and the records around it.</p></div><span>{{ room.facts|length }} sourced facts{% if computed_count %} · {{ computed_count }} computed{% endif %}</span></div>
+<nav class="exhibit-map" aria-label="Room display cases">
+{% for panel, facts, computed in panels %}<a href="#panel-{{ panel.value }}"><b>{{ panel_title(panel) }}</b><span>{{ facts|length + computed|length }} exhibits</span></a>{% endfor %}
+</nav>
 {% for panel, facts, computed in panels %}
-<details open class="panel-group">
+<details open class="panel-group" id="panel-{{ panel.value }}">
 <summary class="case-title">{{ panel_title(panel) }}</summary>
 {% if not facts and not computed %}<p class="case-sub"><em>Not yet curated.</em></p>{% else %}
 <div class="cases">
@@ -840,8 +911,40 @@ class _FactRef:
     fact: Fact
 
 
+@dataclass(frozen=True, slots=True)
+class _RoomStoryView:
+    title: str
+    question: str
+    facts: tuple[Fact, ...]
+
+
 def _index_facts(corpus: Corpus) -> dict[str, _FactRef]:
     return {f.id: _FactRef(room, f) for room in corpus.rooms for f in room.facts}
+
+
+def _room_story(room: Room) -> _RoomStoryView:
+    story = curation.ROOM_STORY_BY_DECADE.get(room.decade)
+    if story is None:
+        raise ValueError(f"room {room.decade} has no curated opening route")
+    if any(character.isdigit() for character in story.title + story.question):
+        raise ValueError(
+            f"room {room.decade} story framing must not author historical numbers"
+        )
+    if len(story.fact_ids) != 4 or len(set(story.fact_ids)) != 4:
+        raise ValueError(
+            f"room {room.decade} story must name exactly four distinct facts"
+        )
+    facts_by_id = {fact.id: fact for fact in room.facts}
+    missing = [fact_id for fact_id in story.fact_ids if fact_id not in facts_by_id]
+    if missing:
+        raise ValueError(
+            f"room {room.decade} story names facts outside the room: {missing}"
+        )
+    return _RoomStoryView(
+        title=story.title,
+        question=story.question,
+        facts=tuple(facts_by_id[fact_id] for fact_id in story.fact_ids),
+    )
 
 
 def _placard_href(index: dict[str, _FactRef], fact_id: str, root: str) -> str:
@@ -1539,6 +1642,16 @@ def render_site(
     index = _index_facts(corpus)
     rooms = sorted(corpus.rooms, key=lambda r: r.decade)
     decades = [room.decade for room in rooms]
+    story_decades = set(curation.ROOM_STORY_BY_DECADE)
+    if (
+        len(curation.ROOM_STORIES) != len(curation.ROOM_STORY_BY_DECADE)
+        or story_decades != set(decades)
+    ):
+        raise ValueError(
+            "room story registry must cover the built rooms exactly; "
+            f"missing={sorted(set(decades) - story_decades)}, "
+            f"unknown={sorted(story_decades - set(decades))}"
+        )
 
     # lobby + methodology
     (out_dir / "index.html").write_text(
@@ -1560,6 +1673,7 @@ def render_site(
     all_affordability: dict[str, dict[str, str]] = {}
     for room_position, room in enumerate(rooms, start=1):
         computed = evaluate_room(room, series)
+        panel_groups = _panels_for(room, computed)
         room_afford = _affordability_for_room(corpus, room)
         all_affordability.update(room_afford)
         (out_dir / "rooms" / f"{room.slug}.html").write_text(
@@ -1568,11 +1682,13 @@ def render_site(
                 surface="rooms",
                 room=room,
                 rooms=rooms,
+                story=_room_story(room),
                 room_position=room_position,
                 previous_room=rooms[room_position - 2] if room_position > 1 else None,
                 next_room=rooms[room_position] if room_position < len(rooms) else None,
                 stage_svg=Markup(svg.stage_svg(_build_stage(room, index, "../"), overlay_links=True)),
-                panels=_panels_for(room, computed),
+                panels=panel_groups,
+                computed_count=len(computed),
                 sources=corpus.sources,
                 assumptions=corpus.assumptions,
                 affordability=room_afford,
