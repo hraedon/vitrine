@@ -152,6 +152,17 @@ source = "census-hist-housing-fuels"
 tier = "A"
 notes = "From the 1940 Census of Housing, Historical Census of Housing Tables: House Heating Fuel. Coal dominated American heating in 1940 — over half of all homes. Utility gas and bottled/LP gas were combined in 1940 (electricity was collected but not tabulated separately). By 1950, coal dropped to 35% as gas rose to 27%. Source: fuels1940.txt, www2.census.gov."
 
+[[fact]]
+id = "us-1940s-median-gross-rent"
+quantity = 27
+panel = "home"
+label = "Median gross rent, 1940"
+value = "$27/month"
+unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
+source = "census-hist-housing-rents"
+tier = "A"
+notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). National median gross rent for specified renter-occupied housing units paying cash rent. In 2000 dollars: $284/month (CPI-U-RS adjusted)."
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]

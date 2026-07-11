@@ -219,6 +219,28 @@ notes = "From BTS Figure 2-7 (Census Bureau ACS, 2010). 9.1% had no vehicle, 33.
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
+id = "us-2010s-nhe-total"
+quantity = 17.2
+panel = "table"
+label = "Healthcare spending, 2010"
+value = "$2,588.7 billion (17.2% of GDP)"
+unit = "USD billions, nominal; NHE as % of GDP"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01. NHE: $2,588.7B. GDP: $15,049.0B. Per capita: $8,377. Healthcare's GDP share jumped from 13.3% to 17.2% in the 2000s — the largest decade increase. Medicare Part D (prescription drug benefit, 2006) added spending."
+
+[[fact]]
+id = "us-2010s-nhe-out-of-pocket-share"
+quantity = 11.7
+panel = "budget"
+label = "Out-of-pocket share of health spending, 2010"
+value = "11.7% of national health expenditures paid out of pocket"
+unit = "% of total NHE"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02. Out of pocket: $303,421M of $2,588,734M total."
+
+[[fact]]
 id = "us-2010s-food-basket"
 quantity = 14
 panel = "table"

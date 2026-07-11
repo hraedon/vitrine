@@ -133,7 +133,40 @@ tier = "A"
 notes = "From Census Historical Housing Tables (values-unadj.txt). National median value of owner-occupied homes. Up from $7,354 in 1950 and $2,938 in 1940. By 1970: $17,000. In 2024 dollars: ~$125,500."
 assumptions = ["nominal-values"]
 
+[[fact]]
+id = "us-1960s-median-gross-rent"
+quantity = 71
+panel = "home"
+label = "Median gross rent, 1960"
+value = "$71/month"
+unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
+source = "census-hist-housing-rents"
+tier = "A"
+notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $42 in 1950. In 2000 dollars: $350/month. Cross-verified: NHGIS 1960 tract-level rent distribution (12.4M renter units) shows median falling in the $70-$79 bin."
+
 # ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1960s-nhe-total"
+quantity = 5.0
+panel = "table"
+label = "Healthcare spending, 1960"
+value = "$27.1 billion (5.0% of GDP)"
+unit = "USD billions, nominal; NHE as % of GDP"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE: $27.1B. GDP: $542.4B. Per capita: $146. In 1960, healthcare was 5% of the economy — before Medicare and Medicaid (enacted 1965)."
+
+[[fact]]
+id = "us-1960s-nhe-out-of-pocket-share"
+quantity = 47.1
+panel = "budget"
+label = "Out-of-pocket share of health spending, 1960"
+value = "47.1% of national health expenditures paid out of pocket"
+unit = "% of total NHE"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Out of pocket: $12,778M of $27,122M total. In 1960, families paid nearly half of all healthcare costs directly."
 
 [[fact]]
 id = "us-1960s-food-basket"

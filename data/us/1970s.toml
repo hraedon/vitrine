@@ -145,6 +145,17 @@ source = "census-soc-new-housing"
 tier = "A"
 notes = "From the Census Bureau's Survey of Construction (C-25 annual report, Series H-150). 1973 is the first year of data. New-construction median was 1,525 sq ft — this is NOT the median of all existing homes (which would be smaller, as older stock persists). By 1980: 1,595 sq ft. The 2020s room shows 1,500 sq ft for the existing stock (AHS 2023) — new homes grew 60% from 1973 to 2024, but the existing stock median is lower because older, smaller homes remain."
 
+[[fact]]
+id = "us-1970s-median-gross-rent"
+quantity = 108
+panel = "home"
+label = "Median gross rent, 1970"
+value = "$108/month"
+unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
+source = "census-hist-housing-rents"
+tier = "A"
+notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $71 in 1960. In 2000 dollars: $415/month."
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -242,6 +253,28 @@ tier = "A"
 notes = "From EIA Annual Energy Review 1988, Table 8.3 (republished in Census Bureau, USSR/USA Statistical Abstract 1990). Data sourced from RECS (Form EIA-84). 1978 is the first RECS survey. Refrigerator was already universal (99.7%). The microwave oven was just beginning its diffusion (7.8%). Compare 1960s: TV 91.4%, refrigerator 84.7%, washing machine 70.0%. The 1970s saw refrigerator reach saturation; color TV data starts in 1980 (82.1%)."
 
 # ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1970s-nhe-total"
+quantity = 6.9
+panel = "table"
+label = "Healthcare spending, 1970"
+value = "$74.1 billion (6.9% of GDP)"
+unit = "USD billions, nominal; NHE as % of GDP"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01. NHE: $74.1B. GDP: $1,073.3B. Per capita: $353. Medicare (enacted 1965) and Medicaid were now operational — health spending nearly tripled in a decade."
+
+[[fact]]
+id = "us-1970s-nhe-out-of-pocket-share"
+quantity = 32.7
+panel = "budget"
+label = "Out-of-pocket share of health spending, 1970"
+value = "32.7% of national health expenditures paid out of pocket"
+unit = "% of total NHE"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02. Out of pocket: $24,208M of $74,077M total. Down from 47.1% in 1960 — Medicare and Medicaid shifted costs to insurance/government."
 
 [[fact]]
 id = "us-1970s-food-basket"

@@ -200,6 +200,17 @@ tier = "A"
 notes = "From 1950 Census of Housing, HC-5 No. 2, Table 1. OCR'd from scanned image PDF at 400 DPI. TV was new — the 1940 census did not ask about it. Urban: 13.7%, rural nonfarm: 6.8%, rural farm: 3.0%. See diffusion panel for full detail."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-1950s-median-gross-rent"
+quantity = 42
+panel = "home"
+label = "Median gross rent, 1950"
+value = "$42/month"
+unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
+source = "census-hist-housing-rents"
+tier = "A"
+notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $27 in 1940. In 2000 dollars: $257/month. Alaska and Hawaii not included in 1950 US total."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]

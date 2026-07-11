@@ -670,6 +670,26 @@ population = "New single-family houses completed in the United States"
 notes = "Annual data on median square feet of floor area in new single-family houses completed, from the Census Bureau's Survey of Construction (SOC). Data available 1973-present. The C-25 annual reports (c25ann2003.pdf through c25ann2017.pdf) and H-150 reports (h150-73A.pdf through h150-89.pdf) are archived in vitrine-research/20-census-construction/. They contain the historical table 'Median and Average Square Feet of Floor Area in New Single-Family Houses Completed.' Pre-1999 reports use Series H-150 designation. Note: this measures NEW construction only, not the existing housing stock — the AHS measures the entire stock and yields lower medians because older, smaller homes remain in the inventory."
 
 [[source]]
+id = "census-hist-housing-rents"
+title = "Historical Census of Housing Tables: Gross Rents"
+short_cite = "U.S. Census Bureau, Historical Census of Housing Tables: Gross Rents"
+publisher = "U.S. Census Bureau"
+year = 2000
+url = "https://www2.census.gov/programs-surveys/decennial/tables/time-series/housing/grossrents.pdf"
+population = "All specified renter-occupied housing units in the United States paying cash rent"
+notes = "National and state median gross rent from the Census of Housing, 1940-2000. Files: grossrents-unadj.txt (nominal), grossrents-adj.txt (CPI-U-RS adjusted to 2000 dollars). Cross-verified against NHGIS national-level data (1980: $199 contract rent STF1, $243 gross rent STF4Hb; 1990: $447 FA4001 STF4b)."
+
+[[source]]
+id = "cms-nhe"
+title = "National Health Expenditure Accounts (NHEA)"
+short_cite = "CMS, National Health Expenditure Accounts"
+publisher = "Centers for Medicare & Medicaid Services, Office of the Actuary"
+year = 2024
+url = "https://www.cms.gov/data-research/statistics-trends-reports/national-health-expenditure-data"
+population = "US resident population and total national health spending (all payers)"
+notes = "CMS NHE tables cover calendar years 1960-2024. Table 01: aggregate amounts, per capita, percent of GDP. Table 02: by type of service and source of funds. Dollar amounts in current (nominal) dollars. Updated annually. Source files: NHE24_Summary.csv, NHE2024.csv."
+
+[[source]]
 id = "bea-new-car-price"
 title = "Average Transaction Price per New Car (Domestic and Import), 1970-2020"
 short_cite = "U.S. Bureau of Economic Analysis, Average Transaction Price per New Car (ORNL TEDB Table 11.13)"

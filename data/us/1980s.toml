@@ -115,14 +115,14 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1980s-plumbing"
-quantity = 97
+quantity = 2.7
 panel = "home"
 label = "Complete plumbing facilities, 1980"
-value = "~97% of homes had complete plumbing (~3% lacked)"
-unit = "% of occupied housing units"
+value = "97.3% of homes had complete plumbing (2.7% lacked)"
+unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
 source = "census-hist-housing-plumbing"
 tier = "A"
-notes = "From Census Historical Housing Tables: Plumbing. Estimated from the series: 1970: 6% lacked, 1990: 1% lacked. By 1980, only ~3% lacked complete plumbing."
+notes = "From Census Historical Housing Tables: Plumbing (plumbing-tab.txt, US row: 2,333,690 of 86,692,823 occupied units lacking). Down from 6.9% lacking in 1970. By 1990: 1.1% lacked."
 
 [[fact]]
 id = "us-1980s-heating-fuel"
@@ -144,6 +144,17 @@ unit = "median square feet of floor area, new single-family houses completed"
 source = "census-soc-new-housing"
 tier = "A"
 notes = "From the Census Bureau's Survey of Construction (C-25 annual report). New homes were modestly larger than 1973 (1,525). The 1980s saw a dip then recovery: 1982 was 1,520 (recession), 1985 was 1,605, 1989 was 1,850. By 1990: 1,905. Source: c25ann2003.pdf, 'Median and Average Square Feet of Floor Area in New Single-Family Houses Completed.'"
+
+[[fact]]
+id = "us-1980s-median-gross-rent"
+quantity = 243
+panel = "home"
+label = "Median gross rent, 1980"
+value = "$243/month"
+unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
+source = "census-hist-housing-rents"
+tier = "A"
+notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $108 in 1970 — more than doubling due to 1970s inflation. In 2000 dollars: $481/month. Cross-verified: NHGIS 1980 national median contract rent was $199 (C8O001, STF 1 100% data); the $243 figure is median gross rent (includes utilities), from STF 4Hb sample data."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -240,6 +251,28 @@ tier = "A"
 notes = "From EIA Annual Energy Review 1988, Table 8.3 (republished in Census Bureau, USSR/USA Statistical Abstract 1990). Data sourced from RECS (Form EIA-84). By 1980, refrigerator was universal (99.9%), color TV had reached 82.1% (up from NA in 1978), and the microwave oven was diffusing rapidly (14.2%, up from 7.8% in 1978). By 1987: color TV 92.7%, microwave 60.8%, dishwasher 43.1%. The 1980s were the decade of the microwave."
 
 # ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1980s-nhe-total"
+quantity = 8.9
+panel = "table"
+label = "Healthcare spending, 1980"
+value = "$253.2 billion (8.9% of GDP)"
+unit = "USD billions, nominal; NHE as % of GDP"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01. NHE: $253.2B. GDP: $2,857.3B. Per capita: $1,099. Healthcare's GDP share jumped 2 percentage points in the 1970s as Medicare/Medicaid expanded and medical inflation outpaced general inflation."
+
+[[fact]]
+id = "us-1980s-nhe-out-of-pocket-share"
+quantity = 21.8
+panel = "budget"
+label = "Out-of-pocket share of health spending, 1980"
+value = "21.8% of national health expenditures paid out of pocket"
+unit = "% of total NHE"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02. Out of pocket: $55,251M of $253,217M total. Down from 32.7% in 1970. Private health insurance expansion continued shifting costs away from direct payment."
 
 [[fact]]
 id = "us-1980s-food-basket"

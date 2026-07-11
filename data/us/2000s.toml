@@ -145,6 +145,17 @@ source = "census-soc-new-housing"
 tier = "A"
 notes = "From the Census Bureau's Survey of Construction (C-25 annual report). New homes crossed 2,000 sq ft in 1998 (2,000) and continued rising through the housing boom: 2005 peaked at 2,227 before the crash. 2009 fell to 2,135 (recession). By 2010: 2,169. Source: c25ann2009.pdf."
 
+[[fact]]
+id = "us-2000s-median-gross-rent"
+quantity = 602
+panel = "home"
+label = "Median gross rent, 2000"
+value = "$602/month"
+unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
+source = "census-hist-housing-rents"
+tier = "A"
+notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $447 in 1990. Cross-verified: NHGIS 2000 block-group-level data (208,790 BGs) shows median-of-BG-medians of $561, consistent with the Census national figure of $602."
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
@@ -229,6 +240,28 @@ tier = "A"
 notes = "From BTS Figure 2-7 (Census Bureau decennial census, 2000). 10.3% had no vehicle, 34.2% had one, 38.4% had two, 17.1% had three or more. Near-saturation — only one in ten households remained car-free. By 2010: 90.9%. Population: all occupied housing units."
 
 # ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2000s-nhe-total"
+quantity = 13.3
+panel = "table"
+label = "Healthcare spending, 2000"
+value = "$1,365.2 billion (13.3% of GDP)"
+unit = "USD billions, nominal; NHE as % of GDP"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01. NHE: $1,365.2B. GDP: $10,251.0B. Per capita: $4,842. Healthcare spending nearly doubled in the 1990s but GDP share growth slowed (managed care restraint)."
+
+[[fact]]
+id = "us-2000s-nhe-out-of-pocket-share"
+quantity = 14.5
+panel = "budget"
+label = "Out-of-pocket share of health spending, 2000"
+value = "14.5% of national health expenditures paid out of pocket"
+unit = "% of total NHE"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02. Out of pocket: $197,580M of $1,365,184M total."
 
 [[fact]]
 id = "us-2000s-food-basket"

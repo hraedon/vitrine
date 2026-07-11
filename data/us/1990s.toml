@@ -115,14 +115,14 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1990s-plumbing"
-quantity = 99
+quantity = 1.1
 panel = "home"
 label = "Complete plumbing facilities, 1990"
-value = "99% of homes had complete plumbing (1% lacked)"
-unit = "% of occupied housing units"
+value = "98.9% of homes had complete plumbing (1.1% lacked)"
+unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
 source = "census-hist-housing-plumbing"
 tier = "A"
-notes = "From Census Historical Housing Tables: Plumbing. Down from ~3% lacking in 1980 to 1% lacking in 1990. Plumbing was essentially universal."
+notes = "From Census Historical Housing Tables: Plumbing (plumbing-tab.txt, US row: 1,101,696 of 102,263,678 occupied units lacking). Down from 2.7% lacking in 1980."
 
 [[fact]]
 id = "us-1990s-heating-fuel"
@@ -144,6 +144,17 @@ unit = "median square feet of floor area, new single-family houses completed"
 source = "census-soc-new-housing"
 tier = "A"
 notes = "From the Census Bureau's Survey of Construction (C-25 annual report). New homes crossed 1,900 sq ft for the first time in 1990 — up from 1,595 in 1980 (+19%). The 1990s saw steady growth: 1995 was 1,920, 1999 was 2,028. By 2000: 2,057. Source: c25ann2003.pdf."
+
+[[fact]]
+id = "us-1990s-median-gross-rent"
+quantity = 447
+panel = "home"
+label = "Median gross rent, 1990"
+value = "$447/month"
+unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
+source = "census-hist-housing-rents"
+tier = "A"
+notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $243 in 1980. In 2000 dollars: $571/month. Cross-verified: NHGIS 1990 national median gross rent was $447 (FA4001, STF 4b)."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -261,6 +272,28 @@ tier = "A"
 notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1990). 11.5% had no vehicle, 33.8% had one, 37.4% had two, 17.3% had three or more. Two-vehicle households (37.4%) now exceeded one-vehicle households (33.8%) — car dependency peaked. By 2000: 89.7%. Population: all occupied housing units."
 
 # ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1990s-nhe-total"
+quantity = 12.1
+panel = "table"
+label = "Healthcare spending, 1990"
+value = "$718.7 billion (12.1% of GDP)"
+unit = "USD billions, nominal; NHE as % of GDP"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01. NHE: $718.7B. GDP: $5,963.1B. Per capita: $2,835. Healthcare crossed 12% of GDP — up from 8.9% in 1980. The 1980s saw rapid medical cost inflation and the spread of managed care."
+
+[[fact]]
+id = "us-1990s-nhe-out-of-pocket-share"
+quantity = 18.6
+panel = "budget"
+label = "Out-of-pocket share of health spending, 1990"
+value = "18.6% of national health expenditures paid out of pocket"
+unit = "% of total NHE"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02. Out of pocket: $133,752M of $718,689M total. Managed care expansion in the 1990s continued the shift from out-of-pocket to insurance."
 
 [[fact]]
 id = "us-1990s-food-basket"
