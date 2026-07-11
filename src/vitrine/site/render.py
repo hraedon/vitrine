@@ -125,7 +125,7 @@ _BASE = """<!doctype html>
    .placard .ceyebrow{font-family:{{ T.MONO }};font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:{{ T.BRASS_DEEP }}}
   .placard .cval{font-family:{{ T.SERIF }};font-size:19px;line-height:1.2;margin:7px 0 2px;color:{{ T.INK }};text-wrap:balance}
   .placard .clab{font-size:13.5px;color:#5f5540;margin:0 0 10px}
-  .placard .cunit{font-family:{{ T.MONO }};font-size:10.5px;color:#8a7d61;margin:0 0 10px}
+   .placard .cunit{font-family:{{ T.MONO }};font-size:10.5px;color:#8a7d61;margin:0 0 10px;overflow-wrap:anywhere;word-break:break-all}
   .tchip{font-family:{{ T.MONO }};font-size:10px;font-weight:700;color:#fff;border-radius:2px;padding:1px 5px;margin-left:7px;vertical-align:1px}
   .afford-box{margin:11px 0 4px;padding:9px 11px;background:#eadfc6;border-left:3px solid {{ T.BRASS_DEEP }};border-radius:3px}
   .afford-box .mk{font-family:{{ T.MONO }};font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:{{ T.BRASS_DEEP }};display:block;margin-bottom:3px}

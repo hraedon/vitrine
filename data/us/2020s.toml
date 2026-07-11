@@ -173,6 +173,18 @@ notes = "From American Housing Survey 2023 National tables (AHS Table Creator, g
 assumptions = ["composite-family", "dwelling-size-metric"]
 
 [[fact]]
+id = "us-2020s-median-home-size"
+quantity = 2146
+panel = "home"
+label = "Median square footage of new single-family homes, 2024"
+value = "2,146 sq ft (new construction)"
+unit = "median square feet of floor area, new single-family houses completed"
+source = "census-soc-new-housing"
+tier = "A"
+notes = "From the Census Bureau's Survey of Construction (Characteristics of New Housing, annual data, released 2026-07-01). Median floor area of new single-family houses completed in 2024: 2,146 sq ft, down from a 2022 peak of 2,299 sq ft as builders responded to higher interest rates by building smaller homes. This is new construction only; the existing stock median is 1,500 sq ft (AHS 2023)."
+assumptions = ["composite-family", "dwelling-size-metric"]
+
+[[fact]]
 id = "us-2020s-median-home-value"
 panel = "home"
 label = "Median home value, 2024 (ACS)"
