@@ -49,15 +49,33 @@ _BASE = """<!doctype html>
   :root{color-scheme:dark}
   *{box-sizing:border-box}
   body{margin:0;background:{{ T.GROUND }};color:{{ T.IVORY }};font-family:{{ T.SANS }};line-height:1.55;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1120px;margin:0 auto;padding:clamp(20px,4vw,44px)}
+  .wrap{max-width:1120px;margin:0 auto;padding:clamp(18px,4vw,44px)}
   a{color:{{ T.BRASS }}}
+  a:focus-visible,summary:focus-visible{outline:2px solid {{ T.BRASS_LIT }};outline-offset:4px;border-radius:2px}
+  .skip-link{position:fixed;top:10px;left:10px;z-index:200;transform:translateY(-160%);padding:8px 12px;background:{{ T.IVORY }};color:{{ T.INK }};font:700 12px {{ T.MONO }};text-decoration:none;border-radius:3px}
+  .skip-link:focus{transform:none}
   .eyebrow{font-family:{{ T.MONO }};font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:{{ T.BRASS }};margin:0 0 10px}
   h1{font-family:{{ T.SERIF }};font-weight:600;text-wrap:balance;font-size:clamp(28px,4.4vw,44px);line-height:1.08;margin:0 0 6px;color:#f3ead7}
   h1 em{font-style:italic;color:{{ T.BRASS }}}
   .sub{color:{{ T.INK_SOFT }};max-width:64ch;font-size:15px;margin:0}
-  .topnav{font-family:{{ T.MONO }};font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 22px}
-  .topnav a{color:{{ T.INK_SOFT }};text-decoration:none;margin-right:14px}
-  .topnav a:hover,.topnav a.here{color:{{ T.BRASS }}}
+  .museum-header{display:grid;grid-template-columns:auto 1fr;gap:14px 34px;align-items:end;margin:0 0 clamp(32px,5vw,54px);padding-bottom:15px;border-bottom:1px solid {{ T.EDGE }}}
+  .museum-brand{display:flex;flex-direction:column;align-items:flex-start;gap:0;color:#f3ead7;text-decoration:none;white-space:nowrap}
+  .museum-brand b{font:600 22px {{ T.SERIF }};letter-spacing:.02em}
+  .museum-brand span{font:9px {{ T.MONO }};letter-spacing:.11em;text-transform:uppercase;color:{{ T.INK_SOFT }}}
+  .museum-map{display:flex;justify-content:flex-end;align-items:flex-end;gap:24px}
+  .nav-group{display:flex;gap:5px;align-items:center}
+  .nav-group-label{font:9px {{ T.MONO }};letter-spacing:.18em;text-transform:uppercase;color:#756a55;margin-right:3px}
+  .museum-map a{position:relative;padding:5px 7px;color:{{ T.INK_SOFT }};font:10.5px {{ T.MONO }};letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap}
+  .museum-map a:hover{color:{{ T.IVORY }}}
+  .museum-map a.here{color:{{ T.BRASS_LIT }}}
+  .museum-map a.here::after{content:"";position:absolute;left:7px;right:7px;bottom:-16px;height:2px;background:{{ T.BRASS }};box-shadow:0 0 10px {{ T.BRASS_DEEP }}}
+  .route-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0 32px}
+  .route-card{min-height:168px;display:flex;flex-direction:column;padding:17px 18px;border:1px solid {{ T.EDGE }};border-radius:4px;background:linear-gradient(155deg,{{ T.CASE_2 }},{{ T.CASE }});text-decoration:none;color:inherit}
+  .route-card:hover{border-color:{{ T.BRASS_DIM }};transform:translateY(-1px)}
+  .route-no{font:10px {{ T.MONO }};letter-spacing:.16em;text-transform:uppercase;color:{{ T.BRASS }}}
+  .route-card h2{margin:18px 0 5px;font:600 23px/1.05 {{ T.SERIF }};color:#f3ead7}
+  .route-card p{margin:0;color:{{ T.INK_SOFT }};font-size:13px;line-height:1.5}
+  .route-enter{margin-top:auto;padding-top:14px;font:10px {{ T.MONO }};letter-spacing:.13em;text-transform:uppercase;color:{{ T.BRASS_LIT }}}
   .plaque{margin:24px 0 20px;padding:16px 20px;border:1px solid {{ T.EDGE }};border-left:3px solid {{ T.BRASS }};background:linear-gradient(180deg,{{ T.CASE_2 }},{{ T.CASE }});border-radius:3px;max-width:76ch}
   .plaque b{color:#f3ead7;font-family:{{ T.SERIF }};font-style:italic;font-weight:600}
   .plaque span{color:{{ T.INK_SOFT }};font-size:14.5px}
@@ -66,6 +84,21 @@ _BASE = """<!doctype html>
    .dbtn{font-family:{{ T.SERIF }};font-size:16px;color:{{ T.IVORY }};background:{{ T.CASE_2 }};border:1px solid {{ T.EDGE }};padding:5px 11px;border-radius:2px;text-decoration:none;white-space:nowrap}
   .dbtn:hover{border-color:{{ T.BRASS_DIM }};color:#f3ead7}
   .dbtn.on{background:{{ T.BRASS }};color:#241d10;border-color:{{ T.BRASS }};box-shadow:0 0 22px -6px {{ T.BRASS_DEEP }}}
+  .room-map{margin:24px 0 16px;padding:12px 14px 10px;border:1px solid {{ T.EDGE }};border-radius:4px;background:{{ T.CASE }};overflow:hidden}
+  .room-map-context{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-bottom:9px;font:10px {{ T.MONO }};letter-spacing:.1em;text-transform:uppercase}
+  .room-map-context span{color:{{ T.INK_SOFT }};text-align:center}
+  .room-map-context a{text-decoration:none;color:{{ T.BRASS }};white-space:nowrap}
+  .room-map-context a:last-child{text-align:right}
+  .room-track{position:relative;display:grid;grid-template-columns:repeat(var(--room-count),minmax(52px,1fr));gap:0;list-style:none;margin:0;padding:0;overflow-x:auto;scrollbar-color:{{ T.BRASS_DIM }} {{ T.GROUND }};scroll-snap-type:x proximity}
+  .room-track::before{content:"";position:absolute;top:8px;left:4%;right:4%;height:1px;background:{{ T.EDGE }}}
+  .room-track li{position:relative;z-index:1;text-align:center;scroll-snap-align:center}
+  .room-track a{display:flex;flex-direction:column;align-items:center;gap:5px;padding:2px 5px 4px;color:{{ T.INK_SOFT }};font:10px {{ T.MONO }};text-decoration:none}
+  .room-track i{width:13px;height:13px;border:3px solid {{ T.CASE }};border-radius:50%;background:{{ T.BRASS_DIM }};box-shadow:0 0 0 1px {{ T.EDGE }}}
+  .room-track a:hover{color:{{ T.IVORY }}}
+  .room-track a:hover i{background:{{ T.BRASS }}}
+  .room-track a.on{color:{{ T.BRASS_LIT }};font-weight:700}
+  .room-track a.on i{background:{{ T.BRASS_LIT }};box-shadow:0 0 0 2px {{ T.BRASS }},0 0 14px {{ T.BRASS_DEEP }}}
+  .room-track.lobby{margin:12px 0 28px}
    h2.case-title,summary.case-title{font-family:{{ T.MONO }};font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:{{ T.BRASS }};margin:34px 0 4px;font-weight:600;list-style:none;cursor:pointer}
    summary.case-title::-webkit-details-marker{display:none}
    details.panel-group{margin-bottom:10px}
@@ -195,20 +228,47 @@ _BASE = """<!doctype html>
   .hline.gaph{stroke:{{ T.GAP }};stroke-dasharray:4 4}
   footer{margin-top:34px;padding-top:16px;border-top:1px solid {{ T.EDGE }};font-size:12.5px;color:#6b6049;max-width:80ch}
   footer b{color:{{ T.INK_SOFT }}}
-  @media(prefers-reduced-motion:reduce){*{transition:none !important}}
+  @media(max-width:860px){
+    .museum-header{grid-template-columns:1fr;align-items:start;margin-bottom:34px}
+    .museum-map{justify-content:flex-start;flex-wrap:wrap;gap:10px 20px}
+    .museum-map a.here::after{bottom:-4px}
+    .route-grid{grid-template-columns:1fr}
+    .route-card{min-height:0}
+    .route-card h2{margin-top:10px}
+  }
+  @media(max-width:560px){
+    .wrap{padding-left:16px;padding-right:16px}
+    .museum-brand span,.nav-group-label{display:none}
+    .museum-map{display:grid;grid-template-columns:1fr;gap:5px}
+    .nav-group{flex-wrap:wrap;padding-bottom:4px}
+    .museum-map a{padding-left:4px;padding-right:4px}
+    .museum-map a.here::after{left:4px;right:4px}
+    .room-map{margin-left:-16px;margin-right:-16px;border-left:0;border-right:0;border-radius:0;padding-left:10px;padding-right:10px}
+    .room-map-context{grid-template-columns:1fr 1fr}
+    .room-map-context span{grid-column:1/-1;grid-row:1}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto !important}}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#content">Skip to exhibit</a>
 <div class="wrap">
-<nav class="topnav">
-  <a href="{{ root }}index.html">vitrine</a>
-  <a href="{{ root }}corridors/index.html">corridors</a>
-  <a href="{{ root }}affordability/index.html">affordability</a>
-  <a href="{{ root }}walkthrough.html">walkthrough</a>
-  <a href="{{ root }}methodology.html">methodology</a>
-  <a href="{{ root }}bibliography.html">bibliography</a>
-</nav>
-{% block body %}{% endblock %}
+<header class="museum-header">
+  <a class="museum-brand" href="{{ root }}index.html"><b>vitrine</b><span>museum of the median family</span></a>
+  <nav class="museum-map" aria-label="Museum map">
+    <div class="nav-group"><span class="nav-group-label">Visit</span>
+      <a{% if surface == "rooms" %} class="here" aria-current="page"{% endif %} href="{{ root }}index.html">Rooms</a>
+      <a{% if surface == "corridors" %} class="here" aria-current="page"{% endif %} href="{{ root }}corridors/index.html">Trends</a>
+      <a{% if surface == "affordability" %} class="here" aria-current="page"{% endif %} href="{{ root }}affordability/index.html">Affordability</a>
+      <a{% if surface == "walkthrough" %} class="here" aria-current="page"{% endif %} href="{{ root }}walkthrough.html">Guided tour</a>
+    </div>
+    <div class="nav-group"><span class="nav-group-label">Research</span>
+      <a{% if surface == "methodology" %} class="here" aria-current="page"{% endif %} href="{{ root }}methodology.html">Method</a>
+      <a{% if surface == "bibliography" %} class="here" aria-current="page"{% endif %} href="{{ root }}bibliography.html">Sources</a>
+    </div>
+  </nav>
+</header>
+<main id="content" tabindex="-1">{% block body %}{% endblock %}</main>
 </div>
 </body>
 </html>
@@ -233,27 +293,53 @@ _TIER_LEGEND = """
 
 _INDEX = (
     """{% extends "base" %}
+{% from "macros" import room_map %}
 {% block title %}vitrine — the museum lobby{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · a museum of the median family</p>
 <h1>The <em>median family's</em> century, behind glass</h1>
 <p class="sub">A decade-by-decade museum of the median-income four-person family's lifestyle. Every fact carries its source card and confidence tier; where the record is silent, the museum shows the gap.</p>
 <div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
-<h2 class="case-title">The rooms</h2>
-<p class="case-sub">One room per decade — the house cutaway, the six display cases, the specimen labels.</p>
-<div class="decades"><span class="lab">Decade</span>
-{% for room in rooms %}<a class="dbtn" href="rooms/{{ room.slug }}.html">{{ room.decade }}</a>
-{% endfor %}</div>
-<h2 class="case-title">The corridors</h2>
-<p class="case-sub"><a href="corridors/index.html">Cross-decade arcs</a> — diffusion, affordability in hours of work, budget composition, life expectancy — and the pairwise comparison set.</p>
-<h2 class="case-title">The walkthrough</h2>
-<p class="case-sub"><a href="walkthrough.html">The transect</a> — the composite household at three stops across the century.</p>
+<h2 class="case-title">Choose a way in</h2>
+<p class="case-sub">The same sourced collection, arranged for three kinds of visit.</p>
+<div class="route-grid">
+  <a class="route-card" href="rooms/{{ rooms[0].slug }}.html">
+    <span class="route-no">01 · Browse</span><h2>Enter the rooms</h2>
+    <p>Move decade by decade through the house cutaway, six display cases, and every specimen label.</p>
+    <span class="route-enter">Begin in {{ rooms[0].decade }} →</span>
+  </a>
+  <a class="route-card" href="corridors/index.html">
+    <span class="route-no">02 · Compare</span><h2>Follow the trends</h2>
+    <p>Trace diffusion, work, budgets, health, and family life across the century without flattening the gaps.</p>
+    <span class="route-enter">Enter the corridors →</span>
+  </a>
+  <a class="route-card" href="walkthrough.html">
+    <span class="route-no">03 · Tour</span><h2>Take the transect</h2>
+    <p>A guided three-stop view of paid work, unpaid work, childhood, and the changing home.</p>
+    <span class="route-enter">Start the guided tour →</span>
+  </a>
+</div>
+<h2 class="case-title">{{ rooms|length }} rooms · 1900s–2020s</h2>
+<p class="case-sub">Jump straight to a decade.</p>
+{{ room_map(rooms, none, "rooms/", none, none, none, true) }}
 """
     + _TIER_LEGEND
     + "{% endblock %}\n"
 )
 
 _PLACARD = """
+{% macro room_map(rooms, current, href_prefix, previous, following, position, lobby=false) %}
+<nav class="room-map" aria-label="Decade rooms">
+{% if not lobby %}<div class="room-map-context">
+  {% if previous %}<a rel="prev" href="{{ href_prefix }}{{ previous.slug }}.html">← {{ previous.decade }}</a>{% else %}<span aria-hidden="true"></span>{% endif %}
+  <span>Room {{ position }} of {{ rooms|length }}</span>
+  {% if following %}<a rel="next" href="{{ href_prefix }}{{ following.slug }}.html">{{ following.decade }} →</a>{% else %}<span aria-hidden="true"></span>{% endif %}
+</div>{% endif %}
+<ol class="room-track{% if lobby %} lobby{% endif %}" style="--room-count:{{ rooms|length }}">
+{% for r in rooms %}<li><a{% if current and r.slug == current.slug %} class="on" aria-current="page"{% endif %} href="{{ href_prefix }}{{ r.slug }}.html"><i aria-hidden="true"></i><span>{{ r.decade }}</span></a></li>{% endfor %}
+</ol>
+</nav>
+{% endmacro %}
 {% macro composition_details(rows) %}
 {% if rows %}
 <details class="composition-key">
@@ -343,16 +429,14 @@ _PLACARD = """
 
 _ROOM = (
     """{% extends "base" %}
-{% from "macros" import placard, derived_placard %}
+{% from "macros" import placard, derived_placard, room_map %}
 {% block title %}{{ room.country | upper }} · {{ room.decade }} — vitrine{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · {{ room.country | upper }} · the {{ room.decade }}</p>
 <h1>The <em>{{ room.decade }}</em> room</h1>
 {% if room.data_as_of %}<p class="case-sub">Data as of {{ room.data_as_of }} (decade ongoing — each fact states its own data year).</p>{% endif %}
 <div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
-<div class="decades"><span class="lab">Decade</span>
-{% for r in rooms %}<a class="dbtn{% if r.slug == room.slug %} on{% endif %}" href="{{ r.slug }}.html">{{ r.decade }}</a>
-{% endfor %}</div>
+{{ room_map(rooms, room, "", previous_room, next_room, room_position) }}
 {% if gap_banner %}<div class="gap-banner"><b>Structural gap</b>{{ gap_banner }}</div>{% endif %}
 <div class="stage">{{ stage_svg }}</div>
 <div class="stagehint">era-graded light · absent technology isn't drawn · every glyph opens its specimen label</div>
@@ -1245,6 +1329,7 @@ def _render_affordability(
     (out_dir / "affordability" / "index.html").write_text(
         env.get_template("affordability").render(
             root="../",
+            surface="affordability",
             sections=sections,
             disclaimer=env.globals["disclaimer"],
             recession_url=recession_url,
@@ -1307,31 +1392,35 @@ def render_site(
 
     # lobby + methodology
     (out_dir / "index.html").write_text(
-        env.get_template("index").render(root="", rooms=rooms)
+        env.get_template("index").render(root="", surface="rooms", rooms=rooms)
     )
     (out_dir / "methodology.html").write_text(
         env.get_template("methodology").render(
-            root="", assumptions=list(corpus.assumptions.values())
+            root="", surface="methodology", assumptions=list(corpus.assumptions.values())
         )
     )
     (out_dir / "bibliography.html").write_text(
         env.get_template("bibliography").render(
-            root="", sources=list(corpus.sources.values())
+            root="", surface="bibliography", sources=list(corpus.sources.values())
         )
     )
 
     # rooms
     rendered_ids: list[str] = []
     all_affordability: dict[str, dict[str, str]] = {}
-    for room in rooms:
+    for room_position, room in enumerate(rooms, start=1):
         computed = evaluate_room(room, series)
         room_afford = _affordability_for_room(corpus, room)
         all_affordability.update(room_afford)
         (out_dir / "rooms" / f"{room.slug}.html").write_text(
             env.get_template("room").render(
                 root="../",
+                surface="rooms",
                 room=room,
                 rooms=rooms,
+                room_position=room_position,
+                previous_room=rooms[room_position - 2] if room_position > 1 else None,
+                next_room=rooms[room_position] if room_position < len(rooms) else None,
                 stage_svg=Markup(svg.stage_svg(_build_stage(room, index, "../"), overlay_links=True)),
                 panels=_panels_for(room, computed),
                 sources=corpus.sources,
@@ -1426,6 +1515,7 @@ def render_site(
     (out_dir / "corridors" / "index.html").write_text(
         env.get_template("corridors").render(
             root=corridor_root,
+            surface="corridors",
             decades=decades,
             epochs=epochs,
             arc_sections=arc_sections,
@@ -1467,6 +1557,7 @@ def render_site(
             (out_dir / "corridors" / f"{a}--{b}.html").write_text(
                 env.get_template("pair").render(
                     root=corridor_root,
+                    surface="corridors",
                     a=a,
                     b=b,
                     families=pair_families,
@@ -1633,6 +1724,7 @@ def render_site(
     (out_dir / "walkthrough.html").write_text(
         env.get_template("walkthrough").render(
             root="",
+            surface="walkthrough",
             stops=list(curation.WALKTHROUGH_STOPS),
             stop_sections=stop_sections,
             metrics=metrics,

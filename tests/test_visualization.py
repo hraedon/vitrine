@@ -74,6 +74,51 @@ def test_all_three_surfaces_render(site: Path, corpus: Corpus) -> None:
     assert len(list((site / "corridors").glob("*--*.html"))) == n * (n - 1) // 2
 
 
+def test_museum_map_is_semantic_and_surface_aware(site: Path) -> None:
+    """The global museum map identifies location without JavaScript."""
+    pages = {
+        site / "index.html": "Rooms",
+        site / "corridors" / "index.html": "Trends",
+        site / "affordability" / "index.html": "Affordability",
+        site / "walkthrough.html": "Guided tour",
+        site / "methodology.html": "Method",
+        site / "bibliography.html": "Sources",
+    }
+    for page, active_label in pages.items():
+        html = page.read_text()
+        assert '<a class="skip-link" href="#content">' in html
+        assert '<nav class="museum-map" aria-label="Museum map">' in html
+        assert '<main id="content" tabindex="-1">' in html
+        assert re.search(
+            rf'<a class="here" aria-current="page"[^>]*>{re.escape(active_label)}</a>',
+            html,
+        ), page
+
+
+def test_room_map_has_context_and_complete_timeline(site: Path, corpus: Corpus) -> None:
+    rooms = sorted(corpus.rooms, key=lambda room: room.decade)
+    first = (site / "rooms" / f"{rooms[0].slug}.html").read_text()
+    middle_position = len(rooms) // 2
+    middle_room = rooms[middle_position]
+    middle = (site / "rooms" / f"{middle_room.slug}.html").read_text()
+    last = (site / "rooms" / f"{rooms[-1].slug}.html").read_text()
+
+    for html in (first, middle, last):
+        assert '<nav class="room-map" aria-label="Decade rooms">' in html
+        assert html.count('<i aria-hidden="true"></i>') == len(rooms)
+
+    assert 'rel="prev"' not in first
+    assert 'rel="next"' in first
+    assert 'rel="prev"' in middle and 'rel="next"' in middle
+    assert f"Room {middle_position + 1} of {len(rooms)}" in middle
+    assert (
+        f'class="on" aria-current="page" href="{middle_room.slug}.html"'
+        in middle
+    )
+    assert 'rel="prev"' in last
+    assert 'rel="next"' not in last
+
+
 def test_mark_coverage_green_on_build(site: Path, corpus: Corpus) -> None:
     assert check_mark_coverage(corpus, site) == []
 
