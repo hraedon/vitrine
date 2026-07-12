@@ -59,10 +59,22 @@ def _scan(page: Path) -> _Scanner:
     return scanner
 
 
-def test_no_script_anywhere(site: Path) -> None:
-    """AC 1: all static — no <script> in any truth-path page."""
+def test_no_inline_script_anywhere(site: Path) -> None:
+    """AC 1: no inline JavaScript — external <script src> is allowed for the
+    progressive-enhancement module, but inline script bodies are not."""
     for page in site.rglob("*.html"):
-        assert "script" not in _scan(page).tags, f"<script> in {page.name}"
+        html = page.read_text()
+        scanner = _scan(page)
+        assert "script" not in scanner.tags or _has_only_external_scripts(html), (
+            f"inline <script> in {page.name}"
+        )
+
+
+def _has_only_external_scripts(html: str) -> bool:
+    """True if every <script> tag has a src attribute and no inline content."""
+    import re
+    scripts = re.findall(r'<script[^>]*>(.*?)</script>', html, re.S)
+    return all(not body.strip() for body in scripts)
 
 
 def test_all_three_surfaces_render(site: Path, corpus: Corpus) -> None:

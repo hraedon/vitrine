@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}vitrine — the museum lobby{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · a museum of the median family</p>
+<h1>The <em>median family's</em> century, behind glass</h1>
+<p class="sub">A decade-by-decade museum of the median-income four-person family's lifestyle. Every fact carries its source card and confidence tier; where the record is silent, the museum shows the gap.</p>
+<div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
+<h2 class="case-title">The rooms</h2>
+<p class="case-sub">One room per decade — the house cutaway, the six display cases, the specimen labels.</p>
+<div class="decades"><span class="lab">Decade</span>
+{% for room in rooms %}<a class="dbtn" href="rooms/{{ room.slug }}.html">{{ room.decade }}</a>
+{% endfor %}</div>
+<h2 class="case-title">The corridors</h2>
+<p class="case-sub"><a href="corridors/index.html">Cross-decade arcs</a> — diffusion, affordability in hours of work, budget composition, life expectancy — and the pairwise comparison set.</p>
+<h2 class="case-title">The walkthrough</h2>
+<p class="case-sub"><a href="walkthrough.html">The transect</a> — the composite household at three stops across the century.</p>
+{% include "legend.html" %}
+{% endblock %}

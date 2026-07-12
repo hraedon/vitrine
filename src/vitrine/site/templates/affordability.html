@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}affordability — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · the affordability view</p>
+<h1>Affordability over <em>time</em></h1>
+<p class="sub">Five ratios, each computed at build from the underlying series — never authored. A metric's line runs only across the years both its numerator and denominator cover; the gaps are the honest shape of the record. Copper bands mark NBER recessions.</p>
+<div class="caveat">⚠ {{ disclaimer }}</div>
+{% for item in sections %}
+<h2 class="case-title" id="metric-{{ item.metric.slug }}">{{ item.metric.label }}</h2>
+<p class="case-sub">{{ item.metric.unit }}</p>
+{% for caveat in item.metric.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+{% if item.chart %}
+<div class="chart-panel">{{ item.chart }}</div>
+<p class="case-sub">{{ item.metric.caption }}</p>
+{% else %}
+<div class="chart-panel"><p class="case-sub gapv">{{ item.note }}</p></div>
+{% endif %}
+{% endfor %}
+<footer class="case-sub" style="margin-top:28px;border-top:1px solid #34291f;padding-top:12px;max-width:80ch;overflow-wrap:break-word;word-break:break-all">
+Recession bands: NBER Business Cycle Dating Committee chronology, transcribed from
+<a href="{{ recession_url }}">{{ recession_url }}</a>. They are annotation, not facts.
+Methodology: each ratio divides two structured series; values display in nominal
+period units. See <a href="{{ root }}methodology.html">methodology</a> for the
+assumption ledger entries behind the composites.
+</footer>
+{% endblock %}

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}vitrine{% endblock %}</title>
+<link rel="stylesheet" href="{{ root }}assets/vitrine.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="topnav" aria-label="Primary">
+  <a href="{{ root }}index.html">vitrine</a>
+  <a href="{{ root }}corridors/index.html">corridors</a>
+  <a href="{{ root }}affordability/index.html">affordability</a>
+  <a href="{{ root }}walkthrough.html">walkthrough</a>
+  <a href="{{ root }}methodology.html">methodology</a>
+  <a href="{{ root }}bibliography.html">bibliography</a>
+</nav>
+<main>
+{% block body %}{% endblock %}
+</main>
+</div>
+<script src="{{ root }}assets/placard.js" defer></script>
+</body>
+</html>

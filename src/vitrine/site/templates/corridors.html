@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "macros.html" import placard, composition_details %}
+{% block title %}corridors — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · the corridors</p>
+<h1>The <em>corridors</em> — cross-decade arcs</h1>
+<p class="sub">Where the charts live. Every point is a sourced fact and opens its specimen card here; a decade whose record is silent renders as the gap it is.</p>
+<p class="case-sub"><a href="affordability/index.html">Affordability over time →</a> — five computed ratios (home, car, wages, food, real pay) across the full annual record.</p>
+<h2 class="case-title">Detailed epoch comparisons</h2>
+<p class="case-sub">Side-by-side fact families for each pair — the charts above cover the full century.</p>
+<div class="decades">
+{% for a, b in epochs %}<a class="dbtn" href="{{ a }}--{{ b }}.html">{{ a }} ↔ {{ b }}</a>
+{% endfor %}</div>
+{% for item in afford_sections %}
+<h2 class="case-title">{{ item.label }} — in hours of work</h2>
+<p class="case-sub">Price ÷ the room's wage anchor, computed at build. Tier letters carry the weakest input.</p>
+{% for caveat in item.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+<div class="chart-panel">{{ item.chart }}</div>
+{% endfor %}
+<h2 class="case-title">Budget composition</h2>
+<p class="case-sub">Share of household expenditure, fixed category palette, direct labels. Decades without a parseable breakdown are not drawn.</p>
+{% for caveat in comp_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+<div class="chart-panel">
+{% for row in comp_rows %}{{ row.bar }}{% endfor %}
+</div>
+{{ composition_details(comp_rows) }}
+{% for arc in arc_sections %}
+<h2 class="case-title" id="{{ arc.slug }}">{{ arc.label }}</h2>
+<p class="case-sub">{{ arc.unit }}</p>
+{% for caveat in arc.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}<div class="chart-panel">{{ arc.chart }}</div>
+{% endfor %}
+<h2 class="case-title">The pairwise set</h2>
+<p class="case-sub">Every decade against every other — each page shows only the fact families the measure guard certifies comparable for that pair.</p>
+<div style="overflow-x:auto">
+<table class="pairtable"><tr><th></th>{% for d in decades %}<th>{{ d[2:4] }}s</th>{% endfor %}</tr>
+{% for a in decades %}<tr><th>{{ a[2:4] }}s</th>
+{% for b in decades %}<td>{% if a < b %}<a href="{{ a }}--{{ b }}.html">↔</a>{% else %}·{% endif %}</td>{% endfor %}</tr>
+{% endfor %}</table>
+</div>
+<div class="overlay-deck">
+{% for ref in overlay_facts %}{{ placard(ref.fact, ref.room, sources, assumptions, affordability, root, inline=false) }}{% endfor %}
+</div>
+{% include "legend.html" %}
+{% endblock %}

@@ -15,6 +15,8 @@ dev = [
     "ruff",
     "mypy",
     "pytest",
+    "playwright",
+    "pytest-playwright",
     "vitrine[site]",
 ]
 
@@ -23,6 +25,9 @@ vitrine = "vitrine.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"vitrine.site" = ["templates/*.html", "assets/*.css", "assets/*.js"]
 
 [tool.mypy]
 strict = true
@@ -39,9 +44,12 @@ allowed-confusables = ["–", "’"]
 
 [tool.ruff.lint.per-file-ignores]
 # embedded HTML/SVG markup; markup lines don't wrap usefully
-"src/vitrine/site/render.py" = ["E501"]
+"src/vitrine/site/build.py" = ["E501"]
 "src/vitrine/site/svg.py" = ["E501"]
 "src/vitrine/site/symbols.py" = ["E501"]
+"src/vitrine/site/curation/corridor.py" = ["E501"]
+"src/vitrine/site/curation/room.py" = ["E501"]
+"tests/test_browser.py" = ["E501"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

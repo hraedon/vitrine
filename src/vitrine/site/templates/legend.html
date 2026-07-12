@@ -1,0 +1,14 @@
+<div class="legends">
+  <div class="leg">
+    <h2>Confidence &amp; flags</h2>
+    {% for t, color in T.TIER_COLORS.items() %}
+    <div class="tierrow"><span class="swatch" style="background:{{ color }}"></span> {{ t }} — {{ tier_names[t] }}</div>
+    {% endfor %}
+    <div class="tierrow"><span class="swatch" style="background:{{ T.GAP }};opacity:.5;border:1px dashed {{ T.GAP }}"></span> Gap — no reliable record; shown as the gap it is</div>
+  </div>
+  <div class="leg">
+    <h2>Reading the museum</h2>
+    <p><b>Every fact is behind glass</b>: its placard names the source, the year, who was measured, and how sure we are. Chart points and stage glyphs deep-link to their placards.</p>
+    <p style="margin-top:8px"><b>Falling</b> metrics render in <b style="color:{{ T.COPPER }}">copper</b>, <b>rising</b> in <b style="color:{{ T.BRASS }}">brass</b>. Absent technology isn't drawn — a bare house says more than ghosts.</p>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from "macros.html" import placard, derived_placard %}
+{% block title %}{{ room.country | upper }} · {{ room.decade }} — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · {{ room.country | upper }} · the {{ room.decade }}</p>
+<h1>The <em>{{ room.decade }}</em> room</h1>
+{% if room.data_as_of %}<p class="case-sub">Data as of {{ room.data_as_of }} (decade ongoing — each fact states its own data year).</p>{% endif %}
+<div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
+<div class="decades"><span class="lab">Decade</span>
+{% for r in rooms %}<a class="dbtn{% if r.slug == room.slug %} on{% endif %}" href="{{ r.slug }}.html">{{ r.decade }}</a>
+{% endfor %}</div>
+{% if gap_banner %}<div class="gap-banner"><b>Structural gap</b>{{ gap_banner }}</div>{% endif %}
+<div class="stage">{{ stage_svg }}</div>
+<div class="stagehint">era-graded light · absent technology isn't drawn · every glyph opens its specimen label</div>
+{% for ps in panels %}
+<details open class="panel-group">
+<summary class="case-title"><h2 class="case-title">{{ panel_title(ps.panel) }}</h2></summary>
+{% if not ps.facts and not ps.computed %}<p class="case-sub"><em>Not yet curated.</em></p> {% else %}
+<div class="cases">
+{% for fact in ps.facts %}{{ placard(fact, room, sources, assumptions, affordability, root) }}{% endfor %}
+{% for cf in ps.computed %}{{ derived_placard(cf, room, assumptions, root) }}{% endfor %}
+</div>
+{% endif %}
+{% if ps.panel.value == "work-buys" and ps.facts %}<p class="case-sub"><a href="{{ root }}affordability/index.html">See this metric across all decades →</a></p>{% endif %}
+</details>
+{% endfor %}
+{% include "legend.html" %}
+{% endblock %}
