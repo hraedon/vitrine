@@ -1,6 +1,7 @@
 # Plan 014 — Corridor expansion: eight data-supported journeys
 
-**Status:** draft
+**Status:** implemented 2026-07-12 (WI-1 through WI-6, WI-8; WI-5 and WI-7
+deferred as documented)
 **Triggered by:** 2026-07-11 verification pass. The three recent data commits
 (`836648e`, `dd21822`, `f52a182`) added ~60 facts across mortality, healthcare
 costs, CEX expenditure shares, RECS energy, ATUS time use, rent, and FCC video

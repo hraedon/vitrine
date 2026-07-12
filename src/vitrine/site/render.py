@@ -700,7 +700,7 @@ def _arc_group_chart_for(
     root: str,
 ) -> str:
     """Render a curated group of related arcs on one honest shared scale."""
-    colors = {"copper": tokens.COPPER, "brass": tokens.BRASS}
+    colors = {"copper": tokens.COPPER, "brass": tokens.BRASS, "brass-deep": tokens.BRASS_DEEP}
     chart_series = tuple(
         svg.ArcSeries(
             label=label,

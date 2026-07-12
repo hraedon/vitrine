@@ -97,6 +97,18 @@ notes = "From BLS CEX Table 4 (cusize-1985.pdf). All consumer units. Income befo
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
+id = "us-1980s-cex-expenditure-income-ratio"
+panel = "budget"
+label = "Expenditure-to-income ratio, 1985"
+quantity = 93.5
+value = "93.5% — expenditures $23,490 vs income $25,127"
+unit = "% (total expenditures ÷ income before taxes)"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX Table 4 (cusize-1985.pdf). All consumer units. Total expenditures: $23,490. Income before taxes: $25,127. Ratio: 93.5%. Consumer units spent nearly all their income — the highest ratio in the CEX series."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
 id = "us-1980s-cex-food-share"
 panel = "budget"
 label = "Food share of household budget, 1985"
@@ -118,6 +130,18 @@ unit = "% of total annual expenditures; USD nominal"
 source = "bls-cex"
 tier = "A"
 notes = "From BLS CEX Table 4 (cusize-1985.pdf). All consumer units. Healthcare: $1,108 of $23,490. Health insurance: $375. Medical services: $496. Drugs: $178. Medical supplies: $60."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1980s-cex-apparel-share"
+panel = "budget"
+label = "Apparel share of household budget, 1985"
+quantity = 6.0
+value = "6.0% of total expenditures"
+unit = "% of total annual expenditures"
+source = "bls-cex"
+tier = "A"
+notes = "From the 1985 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 4-person CUs. Apparel and services: $1,884 of $31,408 total. Population differs from 2000s+ facts (all consumer units from multi-year tables)."
 assumptions = ["composite-family", "nominal-values"]
 
 # ── Home panel ────────────────────────────────────────────────────────────

@@ -74,6 +74,18 @@ notes = "From the 1972-73 Consumer Expenditure Survey, Bulletin 1992, Table 2 (b
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
+id = "us-1970s-cex-apparel-share"
+panel = "budget"
+label = "Apparel share of household budget, 1972-73"
+quantity = 6.4
+value = "6.4% of total expenditures"
+unit = "% of total annual expenditures"
+source = "bls-cex"
+tier = "A"
+notes = "From the 1972-73 Consumer Expenditure Survey, Bulletin 1992, Table 2 (by family size). 4-person families. Apparel and services: $782 of $12,226 total expenditure. Population differs from 2000s+ facts (all consumer units)."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
 id = "us-1970s-poverty-rate"
 quantity = 12.6
 panel = "budget"

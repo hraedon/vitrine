@@ -97,6 +97,18 @@ notes = "From BLS CEX multi-year table (cu-all-multi-year-2000-2005.xlsx). All c
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
+id = "us-2000s-cex-expenditure-income-ratio"
+panel = "budget"
+label = "Expenditure-to-income ratio, 2000"
+quantity = 85.2
+value = "85.2% — expenditures $38,045 vs income $44,649"
+unit = "% (total expenditures ÷ income before taxes)"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2000-2005.xlsx). All consumer units. Total expenditures: $38,045. Income before taxes: $44,649. Ratio: 85.2%."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
 id = "us-2000s-cex-food-share"
 panel = "budget"
 label = "Food share of household budget, 2000"
@@ -118,6 +130,18 @@ unit = "% of total annual expenditures; USD nominal"
 source = "bls-cex"
 tier = "A"
 notes = "From BLS CEX multi-year table (cu-all-multi-year-2000-2005.xlsx). All consumer units. Healthcare: $2,066 of $38,045. Health insurance: $983. Medical services: $568. Drugs: $416."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2000s-cex-apparel-share"
+panel = "budget"
+label = "Apparel share of household budget, 2000"
+quantity = 4.9
+value = "4.9% of total expenditures ($1,856)"
+unit = "% of total annual expenditures"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2000-2005.xlsx). All consumer units. Apparel and services: $1,856 of $38,045 total."
 assumptions = ["composite-family", "nominal-values"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
@@ -240,7 +264,7 @@ value = "Sleeping 8.57 hrs, working 3.69 hrs, leisure 5.11 hrs, watching TV 2.58
 unit = "hours per day, civilian population ages 15+ (annual average)"
 source = "bls-atus"
 tier = "A"
-notes = "From BLS American Time Use Survey, Table A-1 (2003 annual averages). First year of ATUS. Sleeping rose to 9.04 hrs by 2024; TV watching peaked at 2.82 in 2009 then declined to 2.60 by 2024; working declined to 3.32 by 2025. Percent working fell from 46.2% (2003) to 28.9% (2024), reflecting aging population."
+notes = "From BLS American Time Use Survey, Table A-1 (2003 annual averages). First year of ATUS. Sleeping rose to 9.04 hrs by 2024; TV watching peaked at 2.82 in 2009 then declined to 2.60 by 2024; working declined to 3.32 by 2025. Percent working fell from 46.2% (2003) to 37.3% (2024), reflecting aging population."
 assumptions = ["composite-family"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────

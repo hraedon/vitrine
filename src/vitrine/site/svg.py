@@ -353,7 +353,7 @@ def multi_arc_chart(
             f'<text class="unit" x="{legend_x + 26}" y="15">{escape(item.label)}</text>'
         )
         legend_x += 112
-    out.append(f'<text class="unit" x="{pad_l + 250}" y="15">{escape(unit)}</text>')
+    out.append(f'<text class="unit" x="{legend_x}" y="15">{escape(unit)}</text>')
     for frac in (0.0, 0.5, 1.0):
         gy = pad_t + plot_h * (1 - frac)
         out.append(

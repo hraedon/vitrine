@@ -97,6 +97,18 @@ notes = "From BLS CEX multi-year table (cu-all-multi-year-2006-2012.xlsx). All c
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
+id = "us-2010s-cex-expenditure-income-ratio"
+panel = "budget"
+label = "Expenditure-to-income ratio, 2012"
+quantity = 78.4
+value = "78.4% — expenditures $51,442 vs income $65,596"
+unit = "% (total expenditures ÷ income before taxes)"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2006-2012.xlsx). All consumer units. Total expenditures: $51,442. Income before taxes: $65,596. Ratio: 78.4%. The ratio fell below 80% as income growth outpaced spending growth."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
 id = "us-2010s-cex-healthcare-share"
 panel = "budget"
 label = "Healthcare share of household budget, 2012"
@@ -106,6 +118,18 @@ unit = "% of total annual expenditures; USD nominal"
 source = "bls-cex"
 tier = "A"
 notes = "From BLS CEX multi-year table (cu-all-multi-year-2006-2012.xlsx). All consumer units. Healthcare: $3,556 of $51,442. Health insurance: $2,061. Medical services: $839. Drugs: $515. Healthcare share rose from 4.7% (1985) to 6.9% (2012). Note: health insurance estimates beginning in 2014 are not strictly comparable to prior years due to questionnaire changes (ACA)."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2010s-cex-apparel-share"
+panel = "budget"
+label = "Apparel share of household budget, 2012"
+quantity = 3.4
+value = "3.4% of total expenditures ($1,736)"
+unit = "% of total annual expenditures"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2006-2012.xlsx). All consumer units. Apparel and services: $1,736 of $51,442 total."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]

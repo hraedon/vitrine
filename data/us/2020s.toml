@@ -123,6 +123,18 @@ notes = "From BLS CEX multi-year table (cu-all-multi-year-2021-2024.xlsx). All c
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
+id = "us-2020s-cex-expenditure-income-ratio"
+panel = "budget"
+label = "Expenditure-to-income ratio, 2024"
+quantity = 75.4
+value = "75.4% — expenditures $78,535 vs income $104,207"
+unit = "% (total expenditures ÷ income before taxes)"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2021-2024.xlsx). All consumer units. Total expenditures: $78,535. Income before taxes: $104,207. Ratio: 75.4%. The lowest ratio in the series — high-income households pulling the aggregate ratio down. The bottom quintile spends over 200% of income (see us-2010s-cex-quintile-q1-ratio for the 2012 benchmark)."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
 id = "us-2020s-cex-healthcare-share"
 panel = "budget"
 label = "Healthcare share of household budget, 2024"

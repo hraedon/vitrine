@@ -97,6 +97,18 @@ notes = "From BLS CEX Table 4 (cusize-1996.pdf). All consumer units. Income befo
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
+id = "us-1990s-cex-expenditure-income-ratio"
+panel = "budget"
+label = "Expenditure-to-income ratio, 1996"
+quantity = 88.9
+value = "88.9% — expenditures $33,797 vs income $38,014"
+unit = "% (total expenditures ÷ income before taxes)"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX Table 4 (cusize-1996.pdf). All consumer units. Total expenditures: $33,797. Income before taxes: $38,014. Ratio: 88.9%. The ratio fell below 90% for the first time in the series."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
 id = "us-1990s-cex-healthcare-share"
 panel = "budget"
 label = "Healthcare share of household budget, 1996"
@@ -106,6 +118,18 @@ unit = "% of total annual expenditures; USD nominal"
 source = "bls-cex"
 tier = "A"
 notes = "From BLS CEX Table 4 (cusize-1996.pdf). All consumer units. Healthcare: $1,770 of $33,797. Health insurance: $827. Medical services: $543. Drugs: $303. Medical supplies: $97. Healthcare share rose from 4.7% (1985) to 5.2% (1996)."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1990s-cex-apparel-share"
+panel = "budget"
+label = "Apparel share of household budget, 1996"
+quantity = 5.7
+value = "5.7% of total expenditures"
+unit = "% of total annual expenditures"
+source = "bls-cex"
+tier = "A"
+notes = "From the 1996 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 4-person CUs. Apparel and services: $2,489 of $43,670 total. Population differs from 2000s+ facts (all consumer units from multi-year tables)."
 assumptions = ["composite-family", "nominal-values"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
