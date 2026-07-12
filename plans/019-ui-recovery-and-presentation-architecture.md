@@ -323,15 +323,32 @@ Screenshots may supplement these assertions but may not replace them.
 
 ## Work packages and sequencing
 
+**Orchestration guard (read first).** This incident was not caused by a code
+defect in either the museum UI or the Plan 018 refactor. Both were sound. It
+was caused by two workstreams advancing on *divergent baselines* with no shared
+integration point and no invariant that would notice a whole UI had vanished.
+The recovery must not reproduce that shape. Therefore:
+
+- WP0 lands, is verified, and is **pushed to a single shared branch**
+  (`plan-019/ui-recovery`). Every later work package branches from that pushed
+  tip — never from `main`, `9953a0e`, or a private local baseline.
+- Integration is **serialized through one owner** (WP4). No work package other
+  than WP0/WP4 may touch `build.py`.
+- Any owner who has been branched for more than a short window rebases onto the
+  current shared tip before opening their change, and re-runs the ancestry
+  assertion and structural contracts. Divergence is the enemy, not merge noise.
+
 ### WP0 — Recovery baseline and contracts (integration owner, lands first)
 
-1. Branch from `9953a0e`.
+1. Branch from `9953a0e` as `plan-019/ui-recovery`.
 2. Build and record page count, generated size, URLs, fact marks, and registry
    coverage.
 3. Restore and run structural page contracts.
 4. Add the ancestry assertion to the migration checklist.
+5. Push the branch so every other owner has one authoritative baseline to fork
+   from.
 
-No other work package lands before WP0.
+No other work package lands — or branches — before WP0 is pushed.
 
 ### WP1 — Curation split
 
@@ -359,7 +376,16 @@ Split by surface after WP1's public curation interface is stable:
 
 Each owner creates its projection module, typed contexts, focused unit tests,
 and template adaptation. Owners do not edit `build.py`; the integration owner
-wires completed projection APIs in WP4.
+wires completed projection APIs in WP4. Owners branch from the pushed WP0 tip,
+not from a local baseline.
+
+Port `e4ef903`'s modules as a **corrected** donor, not a verbatim replay: its
+prior session already knows its own defects (dead-code page contexts, the
+`comp_caveats` `str`-vs-`tuple` annotation, the duplicated `_panels_for`, and
+the missing caveat-content test — see the typed-boundary and validation
+sections above). Faithfulness is owed to `9953a0e`'s *output contracts*, not to
+`e4ef903`'s source. When the donor module and the recovery baseline disagree,
+the baseline and its restored contracts win.
 
 ### WP4 — Build orchestration and compatibility layer
 
