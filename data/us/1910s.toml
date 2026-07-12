@@ -163,3 +163,30 @@ source = "ramey-2009"
 tier = "C"
 notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
 assumptions = ["composite-family"]
+
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-1910s-married-women-lfpr"
+quantity = 10.7
+panel = "day"
+label = "Married women's labor force participation, 1910"
+value = "~10.7%"
+unit = "% of married women (husband present) in the civilian labor force"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 49-62. The 1910 census recorded ~10.7% — nearly double the 1900 figure — but Historical Statistics notes 1910 data is 'not comparable with other censuses' due to different enumerator instructions. The true rate may have been lower. Total female LFPR was 25.4%. Still a predominantly single-earner era."
+assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-1910s-median-age-first-marriage"
+quantity = 25.1
+panel = "day"
+label = "Median age at first marriage, 1910"
+value = "Men: 25.1, Women: 21.6"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2. Decennial census. The age gap was narrowing slightly: 3.5 years vs 4.0 in 1900. WWI would temporarily disrupt marriage patterns."

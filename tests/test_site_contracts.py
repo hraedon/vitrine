@@ -1,4 +1,4 @@
-"""Compact structural contracts for Plan 014's presentation refactor.
+"""Compact structural contracts for Plan 018's presentation refactor.
 
 These are characterization snapshots, not visual snapshots. They pin the
 shape most likely to disappear during template extraction: page landmarks,
@@ -140,47 +140,47 @@ EXPECTED: dict[str, PageContract] = {
     "index.html": _page(
         "vitrine — the museum lobby",
         landmarks=(1, 2, 1, 0, 0), disclosures=(0, 0),
-        local=(20, "24d267b5a8f7"), marks=(0, "e3b0c44298fc"), overlays=0,
+        local=(21, "2911f436424d"), marks=(0, "e3b0c44298fc"), overlays=0,
     ),
     "rooms/us-1950s.html": _page(
         "US · 1950s — vitrine",
-        landmarks=(1, 3, 1, 1, 0), disclosures=(81, 6),
-        local=(47, "2005b3e01d2e"), marks=(10, "1ef9c695b820"), overlays=37,
+        landmarks=(1, 3, 1, 1, 0), disclosures=(89, 6),
+        local=(48, "c8cdfe41eccc"), marks=(10, "1ef9c695b820"), overlays=41,
     ),
     "rooms/us-1910s.html": _page(
         "US · 1910s — vitrine",
-        landmarks=(1, 3, 1, 1, 0), disclosures=(30, 6),
-        local=(36, "7d97a51e2a92"), marks=(6, "f83300610bb2"), overlays=12,
+        landmarks=(1, 3, 1, 1, 0), disclosures=(34, 6),
+        local=(37, "360a2bd931a7"), marks=(6, "f83300610bb2"), overlays=14,
     ),
     "corridors/index.html": _page(
         "corridors — vitrine",
-        landmarks=(5, 2, 1, 5, 0), disclosures=(212, 4),
-        local=(284, "f6bf17da0f82"), marks=(187, "a363600a8e74"), overlays=187,
+        landmarks=(5, 2, 1, 5, 0), disclosures=(281, 4),
+        local=(347, "b0498ecb7765"), marks=(249, "7992409d6a16"), overlays=249,
     ),
     "corridors/1900s--2020s.html": _page(
         "1900s ↔ 2020s — vitrine corridors",
         landmarks=(1, 1, 1, 0, 0), disclosures=(22, 0),
-        local=(36, "b7f2325f312c"), marks=(21, "85b5b512d0b6"), overlays=21,
+        local=(37, "f1c5eabd2f3c"), marks=(21, "85b5b512d0b6"), overlays=21,
     ),
     "affordability/index.html": _page(
         "affordability — vitrine",
         landmarks=(1, 1, 1, 0, 1), disclosures=(0, 0),
-        local=(16, "e2635b979e1a"), marks=(9, "cc00d43721f7"), overlays=0,
+        local=(17, "55b9a8ae5d8b"), marks=(9, "cc00d43721f7"), overlays=0,
     ),
     "walkthrough.html": _page(
         "the walkthrough — vitrine",
         landmarks=(1, 1, 1, 0, 0), disclosures=(53, 0),
-        local=(73, "bd00f0e8cb4d"), marks=(53, "6de4963985b6"), overlays=53,
+        local=(74, "81673a9f58f7"), marks=(53, "6de4963985b6"), overlays=53,
     ),
     "methodology.html": _page(
         "methodology — vitrine",
         landmarks=(1, 1, 1, 0, 0), disclosures=(0, 0),
-        local=(7, "eb0b50efd29b"), marks=(0, "e3b0c44298fc"), overlays=0,
+        local=(8, "7329590bb4c4"), marks=(0, "e3b0c44298fc"), overlays=0,
     ),
     "bibliography.html": _page(
         "bibliography — vitrine",
-        landmarks=(1, 1, 1, 0, 0), disclosures=(73, 0),
-        local=(7, "eb0b50efd29b"), marks=(0, "e3b0c44298fc"), overlays=0,
+        landmarks=(1, 1, 1, 0, 0), disclosures=(80, 0),
+        local=(8, "7329590bb4c4"), marks=(0, "e3b0c44298fc"), overlays=0,
     ),
 }
 

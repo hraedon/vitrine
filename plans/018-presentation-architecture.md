@@ -1,7 +1,8 @@
-# Plan 014 — Presentation architecture: from renderer to museum system
+# Plan 018 — Presentation architecture: from renderer to museum system
 
-**Status:** proposed after the 2026-07-11 interface branches; no migration
-phase started
+**Status:** in progress; Phase A characterization is in place, the shared base
+template and stylesheet are package resources, and the progressive interaction
+asset is implemented
 **Triggered by:** the visitor-route, corridor-atlas, and room-dramaturgy passes.
 Those passes proved that the fact model can support a much stronger museum,
 but they also grew `site/render.py` to roughly 2,000 lines and
@@ -44,8 +45,8 @@ is now the wrong shape for maintaining it. The costs are concrete:
 4. Move templates and styles into inspectable package resources.
 5. Keep the generated site static, offline-capable, and deployable exactly as
    today.
-6. Define an explicit boundary for optional JavaScript instead of treating
-   either “no JS ever” or “add a frontend framework” as the only choices.
+6. Keep JavaScript behind an explicit progressive-enhancement boundary rather
+   than introducing a second truth or rendering path.
 
 ## Non-goals
 
@@ -143,11 +144,11 @@ does not move it outside the truth path.
 
 ### D5 — JavaScript is progressive enhancement, not a new truth path
 
-The current redesign does not need JavaScript. Native links, fragments,
-`details`, and static SVG still cover the primary visit.
+Native links, fragments, `details`, and static SVG cover the primary visit.
+`assets/enhancements.js` improves placard focus management, Escape dismissal,
+background inertness, and focus restoration when JavaScript is available.
 
-If observed usability testing identifies a large remaining problem, a small
-`enhancements.js` may be proposed under these rules:
+Future enhancements remain subject to these rules:
 
 - the page remains complete and navigable when the asset fails to load;
 - JavaScript may manage focus, Escape-to-close, disclosure state, and visitor
@@ -156,11 +157,10 @@ If observed usability testing identifies a large remaining problem, a small
   geometry;
 - it may not fetch data or introduce analytics by default;
 - behavior gets browser tests with JavaScript enabled and disabled; and
-- adding the asset is a separate decision surfaced before implementation,
-  because it changes the published no-JS contract.
+- dependencies or client frameworks require a separate decision supported by
+  a concrete interaction or state-management need.
 
-A first candidate would be accessible focus management for placard overlays.
-Filters, animated charts, and client-rendered rooms are not candidates.
+Filters, animated charts, and client-rendered rooms are not current candidates.
 
 ## Migration phases
 
@@ -189,6 +189,9 @@ destination is deliberately removed.
 manifest are identical.
 
 ### Phase C — Extract the stylesheet
+
+**Implemented 2026-07-12.** The stylesheet is rendered once from the tokenized
+package resource and all page depths link to the shared output asset.
 
 1. Move CSS into `assets/museum.css.j2`.
 2. Emit one `_site/assets/museum.css` file and link it from every page.
@@ -235,15 +238,11 @@ before and after its migration.
 **Gate:** registry partition tests continue proving that every rendered arc is
 placed once and every room story names four local facts.
 
-### Phase F — Decide whether enhancement JavaScript earns its cost
+### Phase F — Validate and contain enhancement JavaScript
 
 Run keyboard and small-screen usability checks after the mechanical migration.
-Document observed failures, not imagined features. Only propose JavaScript if
-native HTML cannot solve a material issue.
-
-If approved, start with placard focus management and Escape dismissal in one
-small asset. Keep CSS `:target` behavior as the no-JS fallback and do not alter
-deep-link URLs.
+Keep the enhancement asset small, dependency-free, and covered with browser
+tests. CSS `:target` remains the no-JS fallback and deep-link URLs do not change.
 
 ## Acceptance criteria
 

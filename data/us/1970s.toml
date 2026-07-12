@@ -74,6 +74,18 @@ notes = "From the 1972-73 Consumer Expenditure Survey, Bulletin 1992, Table 2 (b
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
+id = "us-1970s-cex-apparel-share"
+panel = "budget"
+label = "Apparel share of household budget, 1972-73"
+quantity = 6.4
+value = "6.4% of total expenditures"
+unit = "% of total annual expenditures"
+source = "bls-cex"
+tier = "A"
+notes = "From the 1972-73 Consumer Expenditure Survey, Bulletin 1992, Table 2 (by family size). 4-person families. Apparel and services: $782 of $12,226 total expenditure. Population differs from 2000s+ facts (all consumer units)."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
 id = "us-1970s-poverty-rate"
 quantity = 12.6
 panel = "budget"
@@ -277,6 +289,39 @@ tier = "A"
 notes = "From CMS NHE Table 02. Out of pocket: $24,208M of $74,077M total. Down from 47.1% in 1960 — Medicare and Medicaid shifted costs to insurance/government."
 
 [[fact]]
+id = "us-1970s-nhe-per-capita"
+quantity = 353
+panel = "table"
+label = "National health spending per person, 1970"
+value = "$353 per capita ($297 for personal health care)"
+unit = "USD per person, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01. NHE per capita: $353. Personal Health Care per capita: $297. Population: 210M."
+
+[[fact]]
+id = "us-1970s-nhe-medicare"
+quantity = 7672
+panel = "table"
+label = "Medicare spending, 1970"
+value = "$7,672 million (10.4% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02. Medicare: $7,672M. Medicare did not exist before 1966 (enacted 1965). By 1970 it already accounted for over 10% of all health spending."
+
+[[fact]]
+id = "us-1970s-nhe-medicaid"
+quantity = 5290
+panel = "table"
+label = "Medicaid spending, 1970"
+value = "$5,290 million (7.1% of NHE); Federal $2,842M, State/Local $2,447M"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02. Medicaid (Title XIX): $5,290M total. Federal share: $2,842M. State/Local share: $2,447M. Medicaid did not exist before 1966."
+
+[[fact]]
 id = "us-1970s-heart-disease-mortality"
 quantity = 492.7
 panel = "table"
@@ -442,3 +487,56 @@ source = "nchs-nvss"
 tier = "A"
 notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 15.1; postneonatal: 4.9. The 1970s saw the steepest decade decline (37%, from 20.0 to 12.6) driven by neonatal medicine advances and regionalization of perinatal services."
 assumptions = ["composite-family"]
+
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-1970s-married-women-lfpr"
+quantity = 40.8
+panel = "day"
+label = "Married women's labor force participation, 1970"
+value = "40.8%"
+unit = "% of married women (husband present) in the civilian labor force"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 63-74. With children under 6: 30.3% (1970). With children 6-17 only: 30.2%. No children under 18: 30.5%. Crossed 40% — two in five married women were in the labor force. From 5.6% (1900) to 40.8% (1970), married women's LFPR increased more than sevenfold across seven decades. The single-earner family was no longer the norm."
+assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-1970s-median-age-first-marriage"
+quantity = 23.2
+panel = "day"
+label = "Median age at first marriage, 1970"
+value = "Men: 23.2, Women: 20.8"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2. CPS ASEC. Marriage ages began rising from the mid-century low. By 1980: 24.7/22.0 — the beginning of a multi-decade increase that would push both past 28 by the 2020s."
+
+# ── Education ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1970s-education"
+quantity = 55.2
+panel = "day"
+label = "Educational attainment, 1970"
+value = "HS grad or more: 55.2%, Bachelor's or more: 11.0%, Less than 9th grade: 27.7%. Median school years: 12.2."
+unit = "% of population 25+ (all races, both sexes); median years completed"
+source = "census-table-a1-a2"
+tier = "A"
+notes = "From Census Table A-1. Decennial census. HS graduation crossed 50% — the majority of adults now had a diploma. Less-than-9th-grade fell below 30%. Median school years: 12.2 — just past high school. Bachelor's or more crossed 11%."
+
+# ── Net worth (aggregate household sector) ────────────────────────────────
+
+[[fact]]
+id = "us-1970s-household-net-worth"
+quantity = 3876
+panel = "day"
+label = "Household sector net worth, 1970"
+value = "$3,876 billion"
+unit = "aggregate net worth, households + nonprofit organizations, current dollars"
+source = "fed-z1"
+tier = "A"
+notes = "From FRED TNWBSHNO (Fed Z.1 Table B.101.h, Q4 1970). Total assets: $4,354B. Total liabilities: $479B. Net worth: $3,876B. Up from $2,091B in 1960. Liabilities grew to 11% of assets — mortgage debt expanding as homeownership rose. Aggregate — NOT median. From 1945 ($592B Goldsmith / $807B Z.1) to 1970 ($3,876B), household wealth grew 5x in 25 years."

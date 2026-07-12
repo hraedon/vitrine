@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}vitrine{% endblock %}</title>
+<script src="{{ root }}assets/enhancements.js" defer></script>
+<link rel="stylesheet" href="{{ root }}assets/museum.css">
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to exhibit</a>
+<div class="wrap">
+<header class="museum-header">
+  <a class="museum-brand" href="{{ root }}index.html"><b>vitrine</b><span>museum of the median family</span></a>
+  <nav class="museum-map" aria-label="Museum map">
+    <div class="nav-group"><span class="nav-group-label">Visit</span>
+      <a{% if surface == "rooms" %} class="here" aria-current="page"{% endif %} href="{{ root }}index.html">Rooms</a>
+      <a{% if surface == "corridors" %} class="here" aria-current="page"{% endif %} href="{{ root }}corridors/index.html">Trends</a>
+      <a{% if surface == "affordability" %} class="here" aria-current="page"{% endif %} href="{{ root }}affordability/index.html">Affordability</a>
+      <a{% if surface == "walkthrough" %} class="here" aria-current="page"{% endif %} href="{{ root }}walkthrough.html">Guided tour</a>
+    </div>
+    <div class="nav-group"><span class="nav-group-label">Research</span>
+      <a{% if surface == "methodology" %} class="here" aria-current="page"{% endif %} href="{{ root }}methodology.html">Method</a>
+      <a{% if surface == "bibliography" %} class="here" aria-current="page"{% endif %} href="{{ root }}bibliography.html">Sources</a>
+    </div>
+  </nav>
+</header>
+<main id="content" tabindex="-1">{% block body %}{% endblock %}</main>
+</div>
+</body>
+</html>

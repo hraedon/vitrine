@@ -361,6 +361,129 @@ ARCS: tuple[Arc, ...] = (
             "The 1940s point is 1947 — the first postwar CPS tabulation.",
         ),
     ),
+    # ── Plan 014: corridor expansion arcs ──────────────────────────────────
+    Arc(
+        "heart-disease-mortality",
+        "Heart disease mortality",
+        "age-adjusted deaths per 100,000",
+        _ids(
+            "us-{decade}-heart-disease-mortality",
+            "194 195 196 197 198 199 200 201 202",
+        ),
+        falling=True,
+    ),
+    Arc(
+        "cancer-mortality",
+        "Cancer mortality",
+        "age-adjusted deaths per 100,000",
+        _ids(
+            "us-{decade}-cancer-mortality",
+            "194 195 197 199 201 202",
+        ),
+        caveats=(
+            "Six points across nine decades — 1960s, 1980s, and 2000s are "
+            "missing from the NCHS series and render as gaps.",
+        ),
+    ),
+    Arc(
+        "stroke-mortality",
+        "Stroke mortality",
+        "age-adjusted deaths per 100,000",
+        _ids("us-{decade}-stroke-mortality", "195 197 202"),
+        falling=True,
+        caveats=(
+            "Only three points span the 70-year window — the decline is "
+            "dramatic but sparsely sampled. Additional decades are available "
+            "from the same NCHS source for a future curation pass.",
+        ),
+    ),
+    Arc(
+        "cancer-survival",
+        "Cancer 5-year relative survival",
+        "% surviving 5 years after diagnosis (SEER)",
+        _ids(
+            "us-{decade}-cancer-survival",
+            "196 197 198 199 200 201 202",
+        ),
+        caveats=(
+            "Different source family (SEER/NCI, not CDC NCHS) and different "
+            "unit (% surviving, not deaths per 100,000) — not grouped with "
+            "the mortality arcs.",
+        ),
+    ),
+    Arc(
+        "nhe-gdp-share",
+        "Healthcare spending as share of GDP",
+        "% of GDP (national health expenditures)",
+        _ids("us-{decade}-nhe-total", "196 197 198 199 200 201 202"),
+    ),
+    Arc(
+        "out-of-pocket-share",
+        "Out-of-pocket share of health spending",
+        "% of total NHE paid out of pocket",
+        _ids(
+            "us-{decade}-nhe-out-of-pocket-share",
+            "196 197 198 199 200 201 202",
+        ),
+        falling=True,
+    ),
+    Arc(
+        "cex-healthcare-share",
+        "Healthcare share of household budget",
+        "% of total expenditures (CEX, consumer units)",
+        _ids(
+            "us-{decade}-cex-healthcare-share",
+            "198 199 200 201 202",
+        ),
+        caveats=(
+            "Different population from the NHE arcs (consumer units, not "
+            "national health spending) and different concept (family budget "
+            "share, not GDP share). The trend is the same direction.",
+        ),
+    ),
+    Arc(
+        "median-gross-rent",
+        "Median gross rent",
+        "USD/month, nominal (specified renter-occupied units)",
+        _ids("us-{decade}-median-gross-rent", "194 195 196 197 198 199 200"),
+        caveats=(
+            "Nominal dollars — the CPI arc and affordability dashboard "
+            "provide deflation context. No 2010s or 2020s point: Census "
+            "Historical Housing Tables end at 2000; ACS rent data (Table "
+            "B25064) would extend the arc in a future curation pass.",
+        ),
+    ),
+    Arc(
+        "expenditure-income-ratio",
+        "Expenditure-to-income ratio",
+        "% (total expenditures ÷ income before taxes, all CUs)",
+        _ids(
+            "us-{decade}-cex-expenditure-income-ratio",
+            "198 199 200 201 202",
+        ),
+        falling=True,
+        caveats=(
+            "The aggregate ratio hides inequality — the bottom quintile "
+            "spent 221.8% of income in 2012 (see us-2010s-cex-quintile-q1-ratio). "
+            "The falling aggregate reflects high-income households pulling "
+            "the ratio down, not broad-based affordability improvement.",
+        ),
+    ),
+    Arc(
+        "apparel-share",
+        "Apparel's share of spending",
+        "% of total expenditures",
+        _ids(
+            "us-{decade}-cex-apparel-share",
+            "197 198 199 200 201 202",
+        ),
+        falling=True,
+        caveats=(
+            "Population changes mid-series: 1970s–1990s are 4-person CUs "
+            "(CEX Table 4), 2000s–2020s are all consumer units (multi-year "
+            "tables). Every placard names the measured population.",
+        ),
+    ),
 )
 
 ARC_BY_SLUG: dict[str, Arc] = {a.slug: a for a in ARCS}
@@ -379,6 +502,37 @@ ARC_GROUPS: tuple[ArcGroup, ...] = (
             ("home-production-men", "Men", "brass"),
         ),
         caveats=ARC_BY_SLUG["home-production-women"].caveats,
+    ),
+    ArcGroup(
+        "mortality-revolution",
+        "The mortality revolution: heart disease, cancer, stroke",
+        "age-adjusted deaths per 100,000 population",
+        (
+            ("heart-disease-mortality", "Heart disease", "copper"),
+            ("cancer-mortality", "Cancer", "brass"),
+            ("stroke-mortality", "Stroke", "brass-deep"),
+        ),
+        caveats=(
+            "Three trajectories on one axis: heart disease peaked early and "
+            "fell steadily; cancer rose for decades before turning; stroke "
+            "fell dramatically throughout. Cancer survival is charted "
+            "separately (different unit and source family).",
+        ),
+    ),
+    ArcGroup(
+        "healthcare-cost",
+        "Healthcare cost transformation: spending rose, direct payment fell",
+        "% (share of GDP / share of NHE)",
+        (
+            ("nhe-gdp-share", "NHE as % of GDP", "brass"),
+            ("out-of-pocket-share", "Out-of-pocket % of NHE", "copper"),
+        ),
+        caveats=(
+            "Two complementary halves of one story: national healthcare "
+            "spending rose from 5% to 18% of GDP while the out-of-pocket "
+            "share fell from 47% to 10.5%. Insurance and public programs "
+            "shifted costs from direct payment to third-party payment.",
+        ),
     ),
 )
 
@@ -406,6 +560,8 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
         arc_slugs=(
             "life-expectancy",
             "infant-mortality",
+            "mortality-revolution",
+            "cancer-survival",
             "poverty-rate",
             "family-size",
             "number-of-families",
@@ -427,6 +583,7 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
             "air-conditioning",
             "vehicle",
             "home-size",
+            "median-gross-rent",
         ),
     ),
     CorridorWing(
@@ -462,6 +619,10 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
             "home-production-by-sex",
             "weekly-hours",
             "food-share",
+            "apparel-share",
+            "expenditure-income-ratio",
+            "healthcare-cost",
+            "cex-healthcare-share",
             "cpi",
         ),
     ),

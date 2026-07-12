@@ -1,8 +1,8 @@
-"""Plan 007 acceptance criteria over the built site.
+"""Presentation acceptance criteria over the built site.
 
 Builds once per session from the committed corpus and asserts on the actual
-HTML: static (no script), marks resolve, symbols gated per room, deep links
-land, gaps render as gaps.
+HTML: progressively enhanced static output, resolved marks, gated symbols,
+working deep links, and honest gaps.
 """
 
 import re
@@ -60,10 +60,30 @@ def _scan(page: Path) -> _Scanner:
     return scanner
 
 
-def test_no_script_anywhere(site: Path) -> None:
-    """AC 1: all static — no <script> in any truth-path page."""
+def test_only_shared_progressive_enhancement_script(site: Path) -> None:
+    """Pages use one external interaction asset and contain no inline script."""
     for page in site.rglob("*.html"):
-        assert "script" not in _scan(page).tags, f"<script> in {page.name}"
+        html = page.read_text()
+        assert _scan(page).tags.count("script") == 1, page
+        assert '<script src="' in html
+        assert 'assets/enhancements.js" defer></script>' in html
+    script = (site / "assets" / "enhancements.js").read_text()
+    assert "aria-modal" in script
+    assert ".inert" in script
+    assert 'event.key === "Escape"' in script
+
+
+def test_only_shared_stylesheet(site: Path) -> None:
+    """The tokenized design system is emitted once rather than per page."""
+    stylesheet = site / "assets" / "museum.css"
+    assert stylesheet.is_file()
+    css = stylesheet.read_text()
+    assert "body{margin:0" in css
+    assert "{{" not in css
+    for page in site.rglob("*.html"):
+        html = page.read_text()
+        assert "<style" not in html, page
+        assert 'assets/museum.css">' in html, page
 
 
 def test_all_three_surfaces_render(site: Path, corpus: Corpus) -> None:

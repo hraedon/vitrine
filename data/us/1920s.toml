@@ -174,3 +174,43 @@ source = "ramey-2009"
 tier = "C"
 notes = "Ramey (2009) Table 3, '1920s Town Housewives, Wilson Study' column. Total home production: 52.4 hrs/week. Wilson's time-diary study (conducted ~1920s, published 193-). For comparison, 1965 housewives (AHTUS) spent less on food prep (16.5) and clothing care (6.9) but more on purchasing/management/travel (10.4) — market substitution shifted time between categories, not eliminated it. Farm housewives (USDA 1944) spent even more on food prep (23.5 hrs) due to preservation and from-scratch cooking."
 assumptions = ["composite-family"]
+
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-1920s-married-women-lfpr"
+quantity = 9.0
+panel = "day"
+label = "Married women's labor force participation, 1920"
+value = "~9.0%"
+unit = "% of married women (husband present) in the civilian labor force"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 49-62. Down from ~10.7% in 1910 (the 1910 figure had enumerator-instruction issues; this 1920 figure is more reliable). Total female LFPR was 23.7%. The 'flapper' era saw more women working, but married women with husbands present remained mostly at home."
+assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-1920s-median-age-first-marriage"
+quantity = 24.6
+panel = "day"
+label = "Median age at first marriage, 1920"
+value = "Men: 24.6, Women: 21.2"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2. Decennial census. Both men and women marrying slightly younger than in 1910. The 1920s prosperity made earlier family formation possible."
+
+# ── Net worth (aggregate household sector) ────────────────────────────────
+
+[[fact]]
+id = "us-1920s-household-net-worth"
+quantity = 406
+panel = "day"
+label = "Nonfarm household net worth, 1929"
+value = "$406 billion"
+unit = "aggregate net worth of nonfarm household sector, current dollars"
+source = "goldsmith-balance-sheet"
+tier = "D"
+notes = "From Goldsmith, Lipsey & Mendelson (1963), Table 1, Sector I.1 (Nonfarm households). Total assets: $448B. Tangible assets: $158B. Financial assets: $291B. Debt: $42B. Net worth: $406B. The 1920s boom inflated financial assets to 65% of total — stocks and securities surged. After the 1929 crash, net worth would fall to $341B by 1939 (−16%). Aggregate — NOT median."

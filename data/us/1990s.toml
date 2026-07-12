@@ -97,6 +97,18 @@ notes = "From BLS CEX Table 4 (cusize-1996.pdf). All consumer units. Income befo
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
+id = "us-1990s-cex-expenditure-income-ratio"
+panel = "budget"
+label = "Expenditure-to-income ratio, 1996"
+quantity = 88.9
+value = "88.9% — expenditures $33,797 vs income $38,014"
+unit = "% (total expenditures ÷ income before taxes)"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX Table 4 (cusize-1996.pdf). All consumer units. Total expenditures: $33,797. Income before taxes: $38,014. Ratio: 88.9%. The ratio fell below 90% for the first time in the series."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
 id = "us-1990s-cex-healthcare-share"
 panel = "budget"
 label = "Healthcare share of household budget, 1996"
@@ -106,6 +118,18 @@ unit = "% of total annual expenditures; USD nominal"
 source = "bls-cex"
 tier = "A"
 notes = "From BLS CEX Table 4 (cusize-1996.pdf). All consumer units. Healthcare: $1,770 of $33,797. Health insurance: $827. Medical services: $543. Drugs: $303. Medical supplies: $97. Healthcare share rose from 4.7% (1985) to 5.2% (1996)."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-1990s-cex-apparel-share"
+panel = "budget"
+label = "Apparel share of household budget, 1996"
+quantity = 5.7
+value = "5.7% of total expenditures"
+unit = "% of total annual expenditures"
+source = "bls-cex"
+tier = "A"
+notes = "From the 1996 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 4-person CUs. Apparel and services: $2,489 of $43,670 total. Population differs from 2000s+ facts (all consumer units from multi-year tables)."
 assumptions = ["composite-family", "nominal-values"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
@@ -511,3 +535,55 @@ source = "nchs-nvss"
 tier = "A"
 notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 5.8; postneonatal: 3.4. The 1990s decline was driven by a 50%+ reduction in SIDS rates (back-to-sleep campaign) and improved survival of low-birthweight infants."
 assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-1990s-median-age-first-marriage"
+quantity = 26.1
+panel = "day"
+label = "Median age at first marriage, 1990"
+value = "Men: 26.1, Women: 23.9"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2. CPS ASEC. Men crossed 26 — back to the 1890 level after the mid-century dip. Women at 23.9, up 3.6 years from the 1950/1960 low of 20.3. The four-person composite family was forming later."
+
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-1990s-married-women-lfpr"
+quantity = 58.4
+panel = "day"
+label = "Married women's labor force participation, 1990"
+value = "58.4%"
+unit = "% of married women (spouse present) in the civilian labor force"
+source = "statab-lfpr-marital"
+tier = "A"
+notes = "From Statistical Abstract Table 596 (11s0596.xls, BLS CPS annual averages). Up from 49.8% in 1980. Peaked at 61.6% in 1997 before leveling off. The 1990s were the last decade of rapid growth in married women's LFPR."
+
+# ── Education ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1990s-education"
+quantity = 77.6
+panel = "day"
+label = "Educational attainment, 1990"
+value = "HS grad or more: 77.6%, Bachelor's or more: 21.3%, Less than 9th grade: 11.2%. Median school years: 12.7."
+unit = "% of population 25+ (all races, both sexes); median years completed"
+source = "census-table-a1-a2"
+tier = "A"
+notes = "From Census Table A-1. Decennial census. HS graduation approaching 80%. Less-than-9th-grade down to 11% — from 60% in 1940. Bachelor's or more crossed 21%. Median school years: 12.7."
+
+# ── Net worth (median family) ────────────────────────────────────────────
+
+[[fact]]
+id = "us-1990s-median-net-worth"
+quantity = 87.5
+panel = "day"
+label = "Median family net worth, 1989"
+value = "$87,500 (87.5 thousand, 2016 dollars)"
+unit = "median net worth, all families (SCF)"
+source = "fed-scf"
+tier = "A"
+notes = "From SCF Chartbook (bulletincharts.pdf, Table: Median value of net worth for families with holdings, all families). 1989 survey, in 2016 dollars. The SCF Chartbook provides a consistent real-dollar series from 1989-2016. By 1998: $105,800; by 2001: $117,300 — median wealth rose sharply in the late 1990s boom."

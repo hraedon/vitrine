@@ -97,6 +97,18 @@ notes = "From BLS CEX multi-year table (cu-all-multi-year-2000-2005.xlsx). All c
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
+id = "us-2000s-cex-expenditure-income-ratio"
+panel = "budget"
+label = "Expenditure-to-income ratio, 2000"
+quantity = 85.2
+value = "85.2% — expenditures $38,045 vs income $44,649"
+unit = "% (total expenditures ÷ income before taxes)"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2000-2005.xlsx). All consumer units. Total expenditures: $38,045. Income before taxes: $44,649. Ratio: 85.2%."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
 id = "us-2000s-cex-food-share"
 panel = "budget"
 label = "Food share of household budget, 2000"
@@ -118,6 +130,18 @@ unit = "% of total annual expenditures; USD nominal"
 source = "bls-cex"
 tier = "A"
 notes = "From BLS CEX multi-year table (cu-all-multi-year-2000-2005.xlsx). All consumer units. Healthcare: $2,066 of $38,045. Health insurance: $983. Medical services: $568. Drugs: $416."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "us-2000s-cex-apparel-share"
+panel = "budget"
+label = "Apparel share of household budget, 2000"
+quantity = 4.9
+value = "4.9% of total expenditures ($1,856)"
+unit = "% of total annual expenditures"
+source = "bls-cex"
+tier = "A"
+notes = "From BLS CEX multi-year table (cu-all-multi-year-2000-2005.xlsx). All consumer units. Apparel and services: $1,856 of $38,045 total."
 assumptions = ["composite-family", "nominal-values"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
@@ -240,7 +264,7 @@ value = "Sleeping 8.57 hrs, working 3.69 hrs, leisure 5.11 hrs, watching TV 2.58
 unit = "hours per day, civilian population ages 15+ (annual average)"
 source = "bls-atus"
 tier = "A"
-notes = "From BLS American Time Use Survey, Table A-1 (2003 annual averages). First year of ATUS. Sleeping rose to 9.04 hrs by 2024; TV watching peaked at 2.82 in 2009 then declined to 2.60 by 2024; working declined to 3.32 by 2025. Percent working fell from 46.2% (2003) to 28.9% (2024), reflecting aging population."
+notes = "From BLS American Time Use Survey, Table A-1 (2003 annual averages). First year of ATUS. Sleeping rose to 9.04 hrs by 2024; TV watching peaked at 2.82 in 2009 then declined to 2.60 by 2024; working declined to 3.32 by 2025. Percent working fell from 46.2% (2003) to 37.3% (2024), reflecting aging population."
 assumptions = ["composite-family"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
@@ -489,3 +513,55 @@ source = "nchs-nvss"
 tier = "A"
 notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 4.6; postneonatal: 2.3. The rate was essentially flat from 2000-2005 before resuming decline."
 assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-2000s-median-age-first-marriage"
+quantity = 26.8
+panel = "day"
+label = "Median age at first marriage, 2000"
+value = "Men: 26.8, Women: 25.1"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2. CPS ASEC. Women crossed 25 — up nearly 5 years from the mid-century low. The composite family was forming 3-4 years later than in the 1950s."
+
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-2000s-married-women-lfpr"
+quantity = 61.1
+panel = "day"
+label = "Married women's labor force participation, 2000"
+value = "61.1%"
+unit = "% of married women (spouse present) in the civilian labor force"
+source = "statab-lfpr-marital"
+tier = "A"
+notes = "From Statistical Abstract Table 596 (11s0596.xls, BLS CPS annual averages). The peak era — 61.1% in 2000, essentially flat through 2009 (61.4%). LFPR plateaued in the 2000s after decades of rapid growth. From 5.6% (1900) to 61.1% (2000) — an elevenfold increase across the century."
+
+# ── Education ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-2000s-education"
+quantity = 84.1
+panel = "day"
+label = "Educational attainment, 2000"
+value = "HS grad or more: 84.1%, Bachelor's or more: 25.6%, Less than 9th grade: 7.0%"
+unit = "% of population 25+ (all races, both sexes)"
+source = "census-table-a1-a2"
+tier = "A"
+notes = "From Census Table A-1. Decennial census. HS graduation crossed 84%. Less-than-9th-grade fell to 7% — down from 60% in 1940. Bachelor's or more crossed 25%. Median school years no longer reported after 1991 (Census switched to percentage-only measures)."
+
+# ── Net worth (median family) ────────────────────────────────────────────
+
+[[fact]]
+id = "us-2000s-median-net-worth"
+quantity = 139.7
+panel = "day"
+label = "Median family net worth, 2007"
+value = "$139,700 (139.7 thousand, 2016 dollars)"
+unit = "median net worth, all families (SCF)"
+source = "fed-scf"
+tier = "A"
+notes = "From SCF Chartbook (bulletincharts.pdf). 2007 survey, in 2016 dollars. The peak before the Great Recession — up from $117,300 in 2001. The housing bubble inflated median net worth to its highest level in the SCF series. By 2010 it would collapse to $85,400 (−39%) as home values and stock markets crashed."

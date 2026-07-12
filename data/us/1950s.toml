@@ -497,6 +497,46 @@ tier = "C"
 notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
 assumptions = ["composite-family"]
 
+# ── Married women's labor force participation ─────────────────────────────
+
+[[fact]]
+id = "us-1950s-married-women-lfpr"
+quantity = 23.8
+panel = "day"
+label = "Married women's labor force participation, 1950"
+value = "23.8%"
+unit = "% of married women (husband present) in the civilian labor force"
+source = "hist-stats-colonial-1970"
+tier = "A"
+notes = "From Historical Statistics Vol 1, Series D 63-74 (Married Women, Husband Present, in Labor Force, 1948-1970). Annual data: 1948: 22.0%, 1950: 23.8%, 1955: 27.7%. With children under 6: 11.9% (1950). With children 6-17 only: 11.2%. No children under 18: 12.6%. The 1950s 'Ozzie and Harriet' image obscures that nearly a quarter of married women were already working — the dual-earner transition was underway. By 1960: 30.5%."
+assumptions = ["composite-family"]
+
+# ── Median age at first marriage ──────────────────────────────────────────
+
+[[fact]]
+id = "us-1950s-median-age-first-marriage"
+quantity = 22.8
+panel = "day"
+label = "Median age at first marriage, 1950"
+value = "Men: 22.8, Women: 20.3"
+unit = "years (median age at first marriage)"
+source = "census-table-ms2"
+tier = "A"
+notes = "From Census Table MS-2. CPS ASEC (1947+). The mid-century low — men married at 22.8, women at 20.3. This is the youngest marriage age in the entire 1890-2023 series. The postwar economic boom and GI Bill enabled early family formation. By 1960: 22.8/20.3 (same)."
+
+# ── Education ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "us-1950s-education"
+quantity = 34.3
+panel = "day"
+label = "Educational attainment, 1950"
+value = "HS grad or more: 34.3%, Bachelor's or more: 6.2%, Less than 9th grade: 47.0%. Median school years: 9.3."
+unit = "% of population 25+ (all races, both sexes); median years completed"
+source = "census-table-a1-a2"
+tier = "A"
+notes = "From Census Table A-1. Decennial census. Up from 24.5% HS grad in 1940. Nearly half of adults still had less than a 9th-grade education. Median school years: 9.3 — cross-validated against 1956 County and City Data Book (item 10: median school years completed = 9.3, exact match)."
+
 [[fact]]
 id = "us-1950s-infant-mortality"
 quantity = 29.2
@@ -508,3 +548,16 @@ source = "nchs-nvss"
 tier = "A"
 notes = "From NCHS, Health, United States, 2016, Table 11 (Infant mortality rates, by race: United States, selected years 1950-2015). All races. Down from ~100 in 1900. Neonatal (under 28 days): 20.5; postneonatal (28-364 days): 8.7. The 1950s saw slow decline (1% per year) as postneonatal gains plateaued."
 assumptions = ["composite-family"]
+
+# ── Net worth (aggregate household sector) ────────────────────────────────
+
+[[fact]]
+id = "us-1950s-household-net-worth"
+quantity = 1171
+panel = "day"
+label = "Household sector net worth, 1950"
+value = "$1,171 billion"
+unit = "aggregate net worth, households + nonprofit organizations, current dollars"
+source = "fed-z1"
+tier = "A"
+notes = "From FRED TNWBSHNO (Fed Z.1 Table B.101.h, Q4 1950). Total assets: $1,248B. Total liabilities: $77B. Net worth: $1,171B. Up from $807B in 1945 (Z.1) / $592B (Goldsmith nonfarm). Liabilities were only 6% of assets — the lowest debt-to-asset ratio in the series. Aggregate — NOT median."

@@ -8,9 +8,11 @@ decisions and the validation results.** A test asserts the two never drift
 
 ## Principles
 
-1. **Static, no JS.** Every page is pre-rendered; every interactive affordance
-   works with JS disabled. The demo's click-to-inspect becomes anchor +
-   CSS `:target`: every placard is a deep-linkable, citable URL.
+1. **Static truth, progressively enhanced interaction.** Every page is
+   pre-rendered and every fact, chart, link, and placard works with JavaScript
+   disabled. Anchor + CSS `:target` keeps placards deep-linkable and citable;
+   one dependency-free script adds focus containment, Escape dismissal,
+   background inertness, and focus restoration.
 2. **Light is the mood channel; hue is the meaning channel.** Hue does
    epistemology (tier chips, provisional, gap) and editorial voice (brass;
    copper for falling metrics). Decorative colorization is rejected — no
