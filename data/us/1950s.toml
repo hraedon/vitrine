@@ -316,30 +316,27 @@ basis = "hourly"
 notes = "Annual average computed from FRED CES3000000008 monthly data (12 observations for 1950, averaged). BLS Current Employment Statistics."
 assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency"]
 
-[[fact]]
+[[derived]]
 id = "us-1950s-weekly-earnings"
 panel = "day"
 label = "Implied average weekly earnings, manufacturing, 1950"
-value = "$53.29"
-unit = "USD per week, nominal (computed: $1.32 × 40.5)"
-source = "fred-ces-manuf-earnings"
-tier = "A"
-amount_minor = 5329
-currency = "USD"
-price_year = 1950
-basis = "weekly"
-notes = "Computed from unrounded monthly averages: average hourly earnings × average weekly hours, averaged across 12 months. The rounded display values ($1.32 × 40.5) yield $53.46; the actual value $53.29 reflects monthly variation in both series. This is a multiplication of two Tier A series — no adjustment or estimation."
+op = "product"
+numerator = "us-1950s-hourly-earnings-manufacturing"
+denominator = "us-1950s-weekly-hours-manufacturing"
+unit = "USD per week, nominal (computed: hourly rate x weekly hours)"
+precision = 2
+notes = "Computed: average hourly earnings ($1.32) x average weekly hours (40.5) = $53.46. The BLS's own weekly earnings series (CES3000000030) gives $53.33 for 1950, computed from unrounded monthly averages; the derived fact uses the rounded annual averages stored in the fact model, so the result differs slightly. This is the honest computation from the structured inputs."
 assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1950s-annual-earnings"
 panel = "day"
 label = "Implied average annual earnings, manufacturing, 1950"
-value = "$2,665"
-unit = "USD per year, nominal (computed: $53.29 × 50 weeks)"
+value = "$2,673"
+unit = "USD per year, nominal (computed: $53.46 × 50 weeks)"
 source = "fred-ces-manuf-earnings"
 tier = "A"
-notes = "Computed: weekly earnings ($53.29) × 50 weeks. Assumes 2 weeks unpaid time off, which is a convention — the actual weeks worked varied. This is a rough annualization, not an official series. Compare to median family income of $3,319 (all families) — manufacturing wages alone do not cover the median family income, implying a second earner or non-manufacturing employment."
+notes = "Computed: weekly earnings ($53.46, derived from hourly x hours) × 50 weeks. Assumes 2 weeks unpaid time off, which is a convention — the actual weeks worked varied. This is a rough annualization, not an official series. Compare to median family income of $3,319 (all families) — manufacturing wages alone do not cover the median family income, implying a second earner or non-manufacturing employment."
 assumptions = ["nominal-values", "composite-family"]
 
 # ── Diffusion panel (upgraded to Tier A via tesseract OCR of Census HC-5-02) ─
@@ -432,14 +429,31 @@ notes = "From FRED CPIAUCNS (not seasonally adjusted). Annual average of 12 mont
 assumptions = ["nominal-values"]
 
 [[fact]]
+id = "us-1950s-all-family-income-real-2024"
+quantity = 35290
+panel = "work-buys"
+label = "All-family median income, 1950 (in 2024 dollars)"
+value = "$35,290"
+unit = "USD per year, real (C-CPI-U-RS adjusted, Census F-8 2024-dollar column)"
+source = "census-f08-allraces"
+tier = "A"
+amount_minor = 3529000
+currency = "USD"
+price_year = 2024
+basis = "annual"
+notes = "From Census Table F-8's own 2024-dollar column (C-CPI-U-RS adjusted). The nominal 1950 all-family median was $3,319; this is the same income adjusted to 2024 purchasing power by the source's own deflator, not by the repo's CPI-U series (which would give a different result). Used as the denominator for the cross-room real-income-growth derived fact in the 2020s room."
+assumptions = ["composite-family", "nominal-values"]
+
+[[derived]]
 id = "us-1950s-purchasing-power"
 panel = "work-buys"
 label = "Purchasing power: $1 in 1950 vs 2024"
-value = "$1.00 in 1950 = $13.03 in 2024"
+op = "quantity_ratio"
+numerator = "us-2020s-cpi"
+denominator = "us-1950s-cpi"
 unit = "CPI-U ratio (313.7 / 24.1)"
-source = "fred-cpiaucns"
-tier = "A"
-notes = "Computed: 2024 CPI-U annual average (313.7) divided by 1950 CPI-U annual average (24.1). This means a good costing $1 in 1950 would cost approximately $13.03 in 2024, assuming the same relative price."
+precision = 2
+notes = "Computed: 2024 CPI-U annual average (313.7) divided by 1950 CPI-U annual average (24.1). This means a good costing $1 in 1950 would cost approximately $13.02 in 2024, assuming the same relative price. Cross-room derived fact: numerator is in the 2020s room."
 assumptions = ["nominal-values"]
 
 [[derived]]
@@ -458,11 +472,11 @@ assumptions = ["composite-family", "nominal-values", "affordability-normalizatio
 id = "us-1950s-week-of-work-buys"
 panel = "work-buys"
 label = "What a week of manufacturing work bought, 1950"
-value = "$53.29/week — a full year of it (×52) ≈ 83% of median family income"
+value = "$53.46/week — a full year of it (×52) ≈ 84% of median family income"
 unit = "weekly manufacturing earnings vs annual median family income"
 source = "fred-ces-manuf-earnings"
 tier = "A"
-notes = "Computed: weekly earnings ($53.29) × 52 = $2,771, which is 83.5% of the all-family median income ($3,319). A lone manufacturing wage fell about 17% short of the median family's income — the gap implies second earners or higher-paying work. (Reframed 2026-07-07 from '$53.29 = 1.6% of annual income', which was correct but only meaningful against the unstated benchmark of 1/52 ≈ 1.9%.)"
+notes = "Computed: weekly earnings ($53.46, derived from hourly rate x weekly hours) x 52 = $2,780, which is 83.8% of the all-family median income ($3,319). A lone manufacturing wage fell about 16% short of the median family's income — the gap implies second earners or higher-paying work. (Reframed 2026-07-07 from the original framing.)"
 assumptions = ["composite-family", "nominal-values"]
 
 

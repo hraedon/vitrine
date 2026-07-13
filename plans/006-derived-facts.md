@@ -1,6 +1,6 @@
 # Plan 006 — Derived facts: derivations move out of the data files
 
-**Status:** WI-1..4 implemented; WI-5 (quantity generalization) open
+**Status:** All work items implemented (WI-1..5)
 **Triggered by:** the 2026-07-07 external review.
 
 ## The finding
@@ -85,7 +85,29 @@ method named in `notes` — visible debt, listed by this plan, not hidden.
   authored `[[fact]]` to `[[derived]]`; tests. ✅
 - **WI-5** quantity generalization: structured non-monetary amounts (hours,
   index points), `deflate` op (CPI-adjusted cross-room ratios), then migrate
-  `weekly-earnings`, `purchasing-power`, `real-income-growth`. Open.
+  `weekly-earnings`, `purchasing-power`, `real-income-growth`. ✅
+
+## WI-5 implementation notes
+
+Added `PRODUCT` and `QUANTITY_RATIO` ops to the closed `DerivedOp` set, plus
+cross-room operand resolution (a `fact_index` parameter threads a corpus-wide
+fact lookup through `evaluate` → `evaluate_room` → `build.py`).
+
+**Migrated facts (5 authored → 5 derived):**
+- `us-1950s-purchasing-power`: `QUANTITY_RATIO(us-2020s-cpi, us-1950s-cpi)` [cross-room]
+- `us-2020s-purchasing-power-comparison`: same ratio, opposite room [cross-room]
+- `us-1950s-weekly-earnings`: `PRODUCT(hourly-earnings, weekly-hours)` = $53.46
+- `us-2020s-weekly-earnings`: `PRODUCT(hourly-earnings, weekly-hours)` = $1,225.88
+- `us-2020s-real-income-growth`: `RATIO(all-family-income, 1950-real-income)` [cross-room]
+
+**New facts added (2):**
+- `us-1950s-all-family-income-real-2024` ($35,290, Census F-8 2024-dollar column)
+- `us-2020s-all-family-income` ($105,800, Census F-8 nominal)
+
+**Value corrections:** The CPI ratio computes to 13.02 (not 13.03 as the old
+authored value claimed). The 1950s weekly earnings computes to $53.46 (not
+$53.29) because the fact model stores the rounded hourly rate ($1.32); the
+derived fact's notes explain the discrepancy with the BLS series ($53.33).
 
 ## Acceptance criteria
 

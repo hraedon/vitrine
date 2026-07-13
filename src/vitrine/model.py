@@ -73,6 +73,8 @@ class DerivedOp(enum.Enum):
     RATIO = "ratio"    # numerator / denominator
     PCT_OF = "pct_of"  # numerator / denominator * 100
     INFLATE = "inflate"  # numerator x series[to_year] / series[from_year] (Plan 012)
+    PRODUCT = "product"  # numerator.amount_minor * denominator.quantity -> minor units (WI-5)
+    QUANTITY_RATIO = "quantity_ratio"  # numerator.quantity / denominator.quantity (WI-5)
 
 
 def weakest_tier(*tiers: Tier) -> Tier:
@@ -226,8 +228,8 @@ class DerivedFact:
     label: str
     unit: str
     op: DerivedOp
-    numerator: str  # Fact.id in the same room; must be structured
-    denominator: str  # Fact.id in the same room; must be structured, non-zero
+    numerator: str  # Fact.id in this room or another room (cross-room, WI-5)
+    denominator: str  # Fact.id in this room or another room (cross-room, WI-5)
     precision: int = 1  # decimal places in the rendered value
     notes: str = ""
     assumptions: tuple[str, ...] = field(default=())

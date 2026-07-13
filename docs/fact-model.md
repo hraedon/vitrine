@@ -109,9 +109,9 @@ room with the same currency.
 | `panel` | Panel | Which room panel it renders in |
 | `label` | str | Visitor-facing caption |
 | `unit` | str | Carries the semantics ("years of four-person median family income") |
-| `op` | DerivedOp | `ratio` or `pct_of` (closed set) |
-| `numerator` | str | Fact id in this room; must have `amount_minor` |
-| `denominator` | str | Fact id in this room; must have `amount_minor`, non-zero |
+| `op` | DerivedOp | `ratio`, `pct_of`, `inflate`, `product`, or `quantity_ratio` (closed set) |
+| `numerator` | str | Fact id in this room or another room (cross-room, WI-5); must have `amount_minor` (for ratio/pct_of/product/inflate) or `quantity` (for quantity_ratio) |
+| `denominator` | str | Fact id in this room or another room (cross-room, WI-5); must have `amount_minor` (for ratio/pct_of), `quantity` (for product/quantity_ratio), or empty (for inflate) |
 | `precision` | int | Decimal places in the rendered value (0–4, default 1) |
 | `notes` | str | Curator note — **must not hand-quote numbers**; the drawer shows operands |
 | `assumptions` | list[str] | Ids resolving into the ledger |
@@ -221,9 +221,11 @@ The gate loads everything under `data/` and fails on any of:
    or whose measure sits on the wrong axis (a wage anchor measuring an income
    concept, or vice versa). You cannot divide by a denominator without saying
    what it measures.
-9. A `[[derived]]` entry whose operands don't resolve in-room, aren't
-   structured, mix currencies, or divide by zero (plan 006). Derived ids obey
-   the same prefix/uniqueness rules as fact ids.
+9. A `[[derived]]` entry whose operands don't resolve in-room or cross-room,
+   aren't structured (amount_minor for monetary ops, quantity for
+   quantity-based ops), mix currencies (for ratio/pct_of), or divide by zero
+   (plan 006, WI-5). Derived ids obey the same prefix/uniqueness rules as
+   fact ids.
 
 CI runs `vitrine check` alongside ruff/mypy/pytest; a red gate blocks merge.
 

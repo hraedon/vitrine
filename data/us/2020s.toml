@@ -401,19 +401,16 @@ basis = "hourly"
 notes = "Annual average computed from FRED AHETPI monthly data (12 observations for 2024, averaged). BLS Current Employment Statistics. Note: AHETPI covers all private-sector production/nonsupervisory employees, not just manufacturing (unlike the 1950 CES3000000008 series). The 1964 AHETPI value was $2.50."
 assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency"]
 
-[[fact]]
+[[derived]]
 id = "us-2020s-weekly-earnings"
 panel = "day"
 label = "Implied average weekly earnings, 2024"
-value = "$1,225.88"
-unit = "USD per week, nominal (computed: $30.12 × 40.7)"
-source = "fred-ahetpi"
-tier = "A"
-amount_minor = 122588
-currency = "USD"
-price_year = 2024
-basis = "weekly"
-notes = "Computed: average hourly earnings ($30.12) × average weekly hours for manufacturing (40.7). Note: this mixes all-private-sector wages with manufacturing hours — a slight inconsistency. The actual all-private-sector weekly hours series (AWHAETP) would be more consistent but starts in 2006."
+op = "product"
+numerator = "us-2020s-hourly-earnings"
+denominator = "us-2020s-weekly-hours-manufacturing"
+unit = "USD per week, nominal (computed: hourly rate x weekly hours)"
+precision = 2
+notes = "Computed: average hourly earnings ($30.12) x average weekly hours for manufacturing (40.7) = $1,225.88. Note: this mixes all-private-sector wages with manufacturing hours — a slight inconsistency. The actual all-private-sector weekly hours series (AWHAETP) would be more consistent but starts in 2006."
 assumptions = ["nominal-values"]
 
 [[fact]]
@@ -480,15 +477,16 @@ tier = "A"
 notes = "From FRED CPIAUCNS (not seasonally adjusted). Annual average of 12 monthly observations for 2024."
 assumptions = ["nominal-values"]
 
-[[fact]]
+[[derived]]
 id = "us-2020s-purchasing-power-comparison"
 panel = "work-buys"
 label = "Purchasing power: 1950 vs 2024"
-value = "$1.00 in 1950 = $13.03 in 2024"
+op = "quantity_ratio"
+numerator = "us-2020s-cpi"
+denominator = "us-1950s-cpi"
 unit = "CPI-U ratio (313.7 / 24.1)"
-source = "fred-cpiaucns"
-tier = "A"
-notes = "Same computation as the 1950s room: 2024 CPI (313.7) / 1950 CPI (24.1) = 13.03. The median family income rose from $3,319 to $105,800 — a factor of 31.9, far exceeding inflation (13.0x). Real median family income approximately tripled."
+precision = 2
+notes = "Same computation as the 1950s room: 2024 CPI (313.7) / 1950 CPI (24.1) = 13.02. The median family income rose from $3,319 to $105,800 — a factor of 31.9, far exceeding inflation (13.0x). Real median family income approximately tripled. Cross-room derived fact: denominator is in the 1950s room."
 assumptions = ["nominal-values"]
 
 [[derived]]
@@ -503,15 +501,16 @@ precision = 2
 notes = "Both inputs Tier A (ACS B25077 home value; Census F-8 four-person income). Modestly above the 1950 ratio (see us-1950s-home-as-income-years) — but the composition shifted: mortgage rates, property taxes, and home size all changed, so 'years of income' understates the difference in monthly carrying cost. An earlier hand-authored version used a ~$420,000 home value from a secondary source; the ACS figure is lower."
 assumptions = ["composite-family", "nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
-[[fact]]
+[[derived]]
 id = "us-2020s-real-income-growth"
 panel = "work-buys"
 label = "Real median family income growth, 1950-2024"
-value = "3.0x ($35,290 → $105,800 in 2024 dollars, Census-published real series)"
+op = "ratio"
+numerator = "us-2020s-median-income-all-families"
+denominator = "us-1950s-all-family-income-real-2024"
 unit = "real (CPI-adjusted) median family income"
-source = "census-f08-allraces"
-tier = "A"
-notes = "From Table F-8's own 2024-dollar column (C-CPI-U-RS adjusted): 1950 all-family median = $35,290 in 2024 dollars vs 2024 median = $105,800, a factor of 3.0. Alternative deflator: using raw CPI-U (CPIAUCNS, 13.03x per us-2020s-purchasing-power-comparison) gives $3,319 × 13.03 = $43,246, a factor of 2.4x — CPI-U-RS corrects known overstatement of early inflation, so the published 3.0x is primary. CORRECTION 2026-07-07: this fact previously displayed '3.1x ($25,633 → $79,490)', figures traceable to no source in the registry."
+precision = 1
+notes = "From Table F-8's own 2024-dollar column (C-CPI-U-RS adjusted): 1950 all-family median = $35,290 in 2024 dollars vs 2024 median = $105,800, a factor of 3.0. Alternative deflator: using raw CPI-U (CPIAUCNS, 13.02x per us-2020s-purchasing-power-comparison) gives $3,319 x 13.02 = $43,236, a factor of 2.4x — CPI-U-RS corrects known overstatement of early inflation, so the published 3.0x is primary. Cross-room derived fact: denominator is in the 1950s room. CORRECTION 2026-07-07: this fact previously displayed '3.1x ($25,633 -> $79,490)', figures traceable to no source in the registry."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]

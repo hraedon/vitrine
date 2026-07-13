@@ -1,0 +1,13 @@
+
+{% macro room_map(rooms, current, href_prefix, previous, following, position, lobby=false) %}
+<nav class="room-map" aria-label="Decade rooms">
+{% if not lobby %}<div class="room-map-context">
+  {% if previous %}<a rel="prev" href="{{ href_prefix }}{{ previous.slug }}.html">← {{ previous.decade }}</a>{% else %}<span aria-hidden="true"></span>{% endif %}
+  <span>Room {{ position }} of {{ rooms|length }}</span>
+  {% if following %}<a rel="next" href="{{ href_prefix }}{{ following.slug }}.html">{{ following.decade }} →</a>{% else %}<span aria-hidden="true"></span>{% endif %}
+</div>{% endif %}
+<ol class="room-track{% if lobby %} lobby{% endif %}" style="--room-count:{{ rooms|length }}">
+{% for r in rooms %}<li><a{% if current and r.slug == current.slug %} class="on" aria-current="page"{% endif %} href="{{ href_prefix }}{{ r.slug }}.html"><i aria-hidden="true"></i><span>{{ r.decade }}</span></a></li>{% endfor %}
+</ol>
+</nav>
+{% endmacro %}

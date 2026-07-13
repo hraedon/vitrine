@@ -26,7 +26,7 @@ vitrine = "vitrine.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-"vitrine.site" = ["assets/*.js", "assets/*.j2", "templates/*.html"]
+"vitrine.site" = ["assets/*.js", "assets/*.j2", "templates/*.html", "templates/macros/*.html"]
 
 [tool.mypy]
 strict = true

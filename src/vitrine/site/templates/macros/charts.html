@@ -1,0 +1,19 @@
+{% macro composition_details(rows) %}
+{% if rows %}
+<details class="composition-key">
+  <summary>Inspect the folded categories</summary>
+  <div class="composition-grid">
+  {% for row in rows %}
+    <div class="composition-decade">
+      <a href="#{{ row.fact_id }}--modal">{{ row.decade }}</a>
+      {% for segment in row.segments %}
+      <div><b>{{ segment.slot }}</b>:
+        {% for name, pct in segment.breakdown %}{{ name }} {{ pct|round(2) }}%{% if not loop.last %} + {% endif %}{% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+  </div>
+</details>
+{% endif %}
+{% endmacro %}

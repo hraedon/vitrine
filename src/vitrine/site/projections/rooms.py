@@ -73,7 +73,8 @@ def project_room(
     series: dict[str, Series],
 ) -> RoomPage:
     """Project one room into a fully-prepared ``RoomPage``."""
-    computed = evaluate_room(room, series)
+    fact_index = {fid: ref.fact for fid, ref in index.items()}
+    computed = evaluate_room(room, series, fact_index)
     affordability = affordability_for_room(corpus, room)
     stage = build_stage(room, index, "../")
     return RoomPage(

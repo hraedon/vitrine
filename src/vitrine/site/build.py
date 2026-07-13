@@ -9,6 +9,7 @@ by a ``projections.project_*`` function that hands back a typed ``context.*Page`
 
 from __future__ import annotations
 
+import tomllib
 from importlib.resources import files
 from pathlib import Path
 
@@ -17,7 +18,7 @@ from jinja2 import Environment
 from vitrine.derive import evaluate_room
 from vitrine.model import Corpus
 from vitrine.series import Series
-from vitrine.site import curation, tokens
+from vitrine.site import curation, svg, tokens
 from vitrine.site.context import (
     AffordabilityPage,
     BibliographyPage,
@@ -41,7 +42,6 @@ from vitrine.site.projections.affordability import (
     project_affordability_dashboard,
 )
 from vitrine.site.projections.facts import index_facts
-from vitrine.site.projections.metrics import load_recessions
 from vitrine.site.projections.rooms import project_lobby, project_room
 
 
@@ -67,6 +67,26 @@ def _render_page(
     out_path.write_text(
         env.get_template(template_name).render(root=root, surface=surface, page=page)
     )
+
+
+def _ym_to_year(ym: str) -> float:
+    """'1973-11' → 1973 + (11-1)/12 ≈ 1973.83 (fractional year for band edges)."""
+    year_s, month_s = ym.split("-")
+    return int(year_s) + (int(month_s) - 1) / 12.0
+
+
+def load_recessions(path: Path) -> tuple[tuple[svg.Recession, ...], str]:
+    """Load NBER recession bands + the source url from data/recessions.toml."""
+    if not path.is_file():
+        return (), ""
+    with path.open("rb") as fh:
+        data = tomllib.load(fh)
+    bands: list[svg.Recession] = []
+    for entry in data.get("recession", []):
+        bands.append(
+            svg.Recession(peak=_ym_to_year(entry["peak"]), trough=_ym_to_year(entry["trough"]))
+        )
+    return tuple(bands), str(data.get("url", ""))
 
 
 def _write_assets(out_dir: Path) -> None:
@@ -112,6 +132,7 @@ def build_site(
     _write_assets(out_dir)
 
     index = index_facts(corpus)
+    fact_index = {fid: ref.fact for fid, ref in index.items()}
     rooms = sorted(corpus.rooms, key=lambda r: r.decade)
     decades = [room.decade for room in rooms]
 
@@ -145,7 +166,7 @@ def build_site(
     rendered_ids: list[str] = []
     all_affordability: dict[str, dict[str, str]] = {}
     for room_position, room in enumerate(rooms, start=1):
-        computed = evaluate_room(room, series)
+        computed = evaluate_room(room, series, fact_index)
         rendered_ids.extend(fact.id for fact in room.facts)
         rendered_ids.extend(cf.id for cf in computed)
         all_affordability.update(affordability_for_room(corpus, room))

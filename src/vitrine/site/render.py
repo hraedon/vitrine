@@ -15,6 +15,7 @@ continue to pass unchanged.
 from __future__ import annotations
 
 from vitrine.site.build import build_site as render_site
+from vitrine.site.build import load_recessions as _load_recessions
 from vitrine.site.projections.affordability import (
     afford_arc_chart as _afford_arc_chart,
 )
@@ -55,9 +56,6 @@ from vitrine.site.projections.facts import (
     placard_href as _placard_href,
 )
 from vitrine.site.projections.metrics import (
-    load_recessions as _load_recessions,
-)
-from vitrine.site.projections.metrics import (
     metric_markers as _metric_markers,
 )
 from vitrine.site.projections.metrics import (
@@ -65,9 +63,6 @@ from vitrine.site.projections.metrics import (
 )
 from vitrine.site.projections.metrics import (
     series_numeric as _series_numeric,
-)
-from vitrine.site.projections.metrics import (
-    ym_to_year as _ym_to_year,
 )
 from vitrine.site.projections.rooms import (
     panels_for as _panels_for,
@@ -101,7 +96,6 @@ __all__ = [
     "_resolve_metric",
     "_room_story",
     "_series_numeric",
-    "_ym_to_year",
     "project_room",
     "render_site",
 ]

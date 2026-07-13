@@ -1,14 +1,12 @@
 """Annual metric and recession projections for the affordability dashboard.
 
 ``resolve_metric`` computes a metric's year→value ratio (or reports why it
-can't). ``metric_markers`` lifts direct-mode decade markers. ``load_recessions``
-reads the NBER band file. Pure functions; the orchestrator renders them.
+can't). ``metric_markers`` lifts direct-mode decade markers. Pure functions;
+the orchestrator (build.py) owns recession-band file I/O and passes the
+parsed data in.
 """
 
 from __future__ import annotations
-
-import tomllib
-from pathlib import Path
 
 from vitrine.series import Series
 from vitrine.site import curation, svg
@@ -111,23 +109,3 @@ def metric_markers(
             )
         )
     return tuple(markers)
-
-
-def ym_to_year(ym: str) -> float:
-    """'1973-11' → 1973 + (11-1)/12 ≈ 1973.83 (fractional year for band edges)."""
-    year_s, month_s = ym.split("-")
-    return int(year_s) + (int(month_s) - 1) / 12.0
-
-
-def load_recessions(path: Path) -> tuple[tuple[svg.Recession, ...], str]:
-    """Load NBER recession bands + the source url from data/recessions.toml."""
-    if not path.is_file():
-        return (), ""
-    with path.open("rb") as fh:
-        data = tomllib.load(fh)
-    bands: list[svg.Recession] = []
-    for entry in data.get("recession", []):
-        bands.append(
-            svg.Recession(peak=ym_to_year(entry["peak"]), trough=ym_to_year(entry["trough"]))
-        )
-    return tuple(bands), str(data.get("url", ""))

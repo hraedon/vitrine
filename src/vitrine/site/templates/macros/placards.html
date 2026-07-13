@@ -1,35 +1,3 @@
-
-{% macro room_map(rooms, current, href_prefix, previous, following, position, lobby=false) %}
-<nav class="room-map" aria-label="Decade rooms">
-{% if not lobby %}<div class="room-map-context">
-  {% if previous %}<a rel="prev" href="{{ href_prefix }}{{ previous.slug }}.html">← {{ previous.decade }}</a>{% else %}<span aria-hidden="true"></span>{% endif %}
-  <span>Room {{ position }} of {{ rooms|length }}</span>
-  {% if following %}<a rel="next" href="{{ href_prefix }}{{ following.slug }}.html">{{ following.decade }} →</a>{% else %}<span aria-hidden="true"></span>{% endif %}
-</div>{% endif %}
-<ol class="room-track{% if lobby %} lobby{% endif %}" style="--room-count:{{ rooms|length }}">
-{% for r in rooms %}<li><a{% if current and r.slug == current.slug %} class="on" aria-current="page"{% endif %} href="{{ href_prefix }}{{ r.slug }}.html"><i aria-hidden="true"></i><span>{{ r.decade }}</span></a></li>{% endfor %}
-</ol>
-</nav>
-{% endmacro %}
-{% macro composition_details(rows) %}
-{% if rows %}
-<details class="composition-key">
-  <summary>Inspect the folded categories</summary>
-  <div class="composition-grid">
-  {% for row in rows %}
-    <div class="composition-decade">
-      <a href="#{{ row.fact_id }}--modal">{{ row.decade }}</a>
-      {% for segment in row.segments %}
-      <div><b>{{ segment.slot }}</b>:
-        {% for name, pct in segment.breakdown %}{{ name }} {{ pct|round(2) }}%{% if not loop.last %} + {% endif %}{% endfor %}
-      </div>
-      {% endfor %}
-    </div>
-  {% endfor %}
-  </div>
-</details>
-{% endif %}
-{% endmacro %}
 {% macro _placard_body(fact, room, sources, assumptions, affordability, root) %}
   {% set src = sources[fact.source] %}
   {% set is_gap = fact.value.strip().lower().startswith('no reliable record') %}
@@ -102,6 +70,8 @@
       <em>Numerator:</em> {{ cf.numerator.value }} — {{ cf.numerator.label }} <span class="tchip" style="background:{{ T.TIER_COLORS[cf.numerator.tier.value] }}">{{ cf.numerator.tier.value }}</span><br>
       {% if cf.op.value == "inflate" %}
       <em>Inflation series:</em> {{ cf.inflate_series }} ({{ cf.inflate_from_year }} → {{ cf.inflate_to_year }})<br>
+      {% elif cf.op.value == "product" %}
+      <em>Multiplier:</em> {{ cf.denominator.value }} — {{ cf.denominator.label }} <span class="tchip" style="background:{{ T.TIER_COLORS[cf.denominator.tier.value] }}">{{ cf.denominator.tier.value }}</span><br>
       {% else %}
       <em>Denominator:</em> {{ cf.denominator.value }} — {{ cf.denominator.label }} <span class="tchip" style="background:{{ T.TIER_COLORS[cf.denominator.tier.value] }}">{{ cf.denominator.tier.value }}</span><br>
       {% endif %}
