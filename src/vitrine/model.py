@@ -73,6 +73,8 @@ class DerivedOp(enum.Enum):
     RATIO = "ratio"    # numerator / denominator
     PCT_OF = "pct_of"  # numerator / denominator * 100
     INFLATE = "inflate"  # numerator x series[to_year] / series[from_year] (Plan 012)
+    PRODUCT = "product"  # numerator.amount_minor * denominator.quantity -> minor units (WI-5)
+    QUANTITY_RATIO = "quantity_ratio"  # numerator.quantity / denominator.quantity (WI-5)
 
 
 def weakest_tier(*tiers: Tier) -> Tier:

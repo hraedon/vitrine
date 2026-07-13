@@ -126,9 +126,10 @@ def test_committed_corpus_derived_all_evaluate() -> None:
 
     corpus = load_corpus(DATA)
     series = load_series(DATA)
+    fact_index = {f.id: f for room in corpus.rooms for f in room.facts}
     n = 0
     for room in corpus.rooms:
-        n += len(evaluate_room(room, series))
+        n += len(evaluate_room(room, series, fact_index))
     assert n >= 3  # two home-as-income-years + one car-price inflate (Plan 012)
 
 
@@ -200,3 +201,148 @@ def test_inflate_zero_base_raises() -> None:
     series = _inflate_series({2020: 0.0, 2024: 100.0})
     with pytest.raises(DeriveError, match="zero"):
         evaluate(room, _inflate_derived(), series)
+
+
+# ── PRODUCT op (WI-5): monetary x quantity → monetary ──────────────────────
+
+
+def _hours_fact(fact_id: str, hours: float, tier: Tier = Tier.A) -> Fact:
+    return Fact(
+        id=fact_id,
+        panel=Panel.DAY,
+        label="Weekly hours",
+        value=str(hours),
+        unit="hours per week",
+        source="src-1",
+        tier=tier,
+        quantity=hours,
+    )
+
+
+def _product_derived(
+    numerator_id: str = "us-1950s-wage", denominator_id: str = "us-1950s-hours"
+) -> DerivedFact:
+    return DerivedFact(
+        id="us-1950s-weekly-earnings",
+        panel=Panel.DAY,
+        label="Weekly earnings",
+        unit="USD per week",
+        op=DerivedOp.PRODUCT,
+        numerator=numerator_id,
+        denominator=denominator_id,
+        precision=2,
+    )
+
+
+def test_product_computes_correct_value() -> None:
+    """$1.32 (132 cents) x 40.5 hours = $53.46."""
+    room = _room((
+        _fact("us-1950s-wage", 132, Tier.A),
+        _hours_fact("us-1950s-hours", 40.5),
+    ))
+    computed = evaluate(room, _product_derived())
+    assert computed.value == "≈ $53.46"
+    assert computed.tier is Tier.A
+
+
+def test_product_tier_is_weakest_input() -> None:
+    room = _room((
+        _fact("us-1950s-wage", 132, Tier.A),
+        _hours_fact("us-1950s-hours", 40.5, Tier.C),
+    ))
+    computed = evaluate(room, _product_derived())
+    assert computed.tier is Tier.C
+
+
+def test_product_missing_quantity_raises() -> None:
+    room = _room((
+        _fact("us-1950s-wage", 132),
+        _fact("us-1950s-hours", None),  # no amount_minor, no quantity
+    ))
+    with pytest.raises(DeriveError, match="no quantity"):
+        evaluate(room, _product_derived())
+
+
+# ── QUANTITY_RATIO op (WI-5): quantity / quantity → ratio ─────────────────
+
+
+def _quantity_fact(fact_id: str, value: float, tier: Tier = Tier.A) -> Fact:
+    return Fact(
+        id=fact_id,
+        panel=Panel.WORK_BUYS,
+        label="CPI",
+        value=str(value),
+        unit="index",
+        source="src-1",
+        tier=tier,
+        quantity=value,
+    )
+
+
+def _qty_ratio_derived() -> DerivedFact:
+    return DerivedFact(
+        id="us-1950s-purchasing-power",
+        panel=Panel.WORK_BUYS,
+        label="Purchasing power",
+        unit="CPI ratio",
+        op=DerivedOp.QUANTITY_RATIO,
+        numerator="us-2020s-cpi",
+        denominator="us-1950s-cpi",
+        precision=2,
+    )
+
+
+def test_quantity_ratio_computes_correct_value() -> None:
+    """313.7 / 24.1 = 13.02 (the old authored value '13.03' was slightly wrong)."""
+    room = _room((_quantity_fact("us-1950s-cpi", 24.1),))
+    fact_index = {"us-2020s-cpi": _quantity_fact("us-2020s-cpi", 313.7)}
+    computed = evaluate(room, _qty_ratio_derived(), fact_index=fact_index)
+    assert computed.value == "≈ 13.02"
+    assert computed.tier is Tier.A
+
+
+def test_quantity_ratio_cross_room_denominator() -> None:
+    """Cross-room: numerator in the room, denominator in the index."""
+    room = _room((_quantity_fact("us-2020s-cpi", 313.7),))
+    fact_index = {"us-1950s-cpi": _quantity_fact("us-1950s-cpi", 24.1)}
+    derived = DerivedFact(
+        id="us-2020s-purchasing-power",
+        panel=Panel.WORK_BUYS,
+        label="Purchasing power",
+        unit="CPI ratio",
+        op=DerivedOp.QUANTITY_RATIO,
+        numerator="us-2020s-cpi",
+        denominator="us-1950s-cpi",
+        precision=2,
+    )
+    computed = evaluate(room, derived, fact_index=fact_index)
+    assert computed.value == "≈ 13.02"
+
+
+def test_quantity_ratio_zero_denominator_raises() -> None:
+    room = _room((_quantity_fact("us-1950s-cpi", 0.0),))
+    fact_index = {"us-2020s-cpi": _quantity_fact("us-2020s-cpi", 313.7)}
+    with pytest.raises(DeriveError, match="quantity is zero"):
+        evaluate(room, _qty_ratio_derived(), fact_index=fact_index)
+
+
+# ── Cross-room RATIO (WI-5): real-income-growth ────────────────────────────
+
+
+def test_cross_room_ratio_computes_correct_value() -> None:
+    """$105,800 / $35,290 = 3.0 (real income growth)."""
+    room = _room((_fact("us-2020s-income", 10580000, Tier.A),))
+    fact_index = {"us-1950s-real-income": _fact("us-1950s-real-income", 3529000, Tier.A)}
+    derived = DerivedFact(
+        id="us-2020s-real-income-growth",
+        panel=Panel.WORK_BUYS,
+        label="Real income growth",
+        unit="ratio",
+        op=DerivedOp.RATIO,
+        numerator="us-2020s-income",
+        denominator="us-1950s-real-income",
+        precision=1,
+    )
+    computed = evaluate(room, derived, fact_index=fact_index)
+    assert computed.value == "≈ 3.0"
+    assert computed.tier is Tier.A

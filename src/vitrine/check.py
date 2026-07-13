@@ -177,13 +177,15 @@ def _check_derived(
 ) -> list[str]:
     """Derived facts author structure, never numbers — check the structure.
 
-    Operands must resolve to structured facts in the same room, share a
-    currency, and never divide by zero; ids share the fact namespace and
-    prefix rules. The value and tier are computed (plan 006), so there is
-    nothing else a curator could get numerically wrong here.
+    Operands must resolve to structured facts in the same room (or, for
+    cross-room derived facts, anywhere in the corpus), share a currency
+    (for monetary ops), and never divide by zero; ids share the fact
+    namespace and prefix rules. The value and tier are computed (plan 006),
+    so there is nothing else a curator could get numerically wrong here.
     """
     problems: list[str] = []
     prefix = f"{room.country}-{room.decade}-"
+    all_facts: dict[str, Fact] = {f.id: f for r in corpus.rooms for f in r.facts}
     for derived in room.derived:
         where = f"room {room.slug}, derived {derived.id!r}"
 
@@ -204,11 +206,11 @@ def _check_derived(
 
         # INFLATE (Plan 012): numerator only; the series provides the ratio.
         if derived.op is DerivedOp.INFLATE:
-            operand = by_id.get(derived.numerator)
+            operand = by_id.get(derived.numerator) or all_facts.get(derived.numerator)
             if operand is None:
                 problems.append(
                     f"{where}: numerator {derived.numerator!r} does not resolve "
-                    f"to a fact in this room"
+                    f"to a fact in this room or the corpus"
                 )
             elif operand.amount_minor is None:
                 problems.append(
@@ -236,16 +238,69 @@ def _check_derived(
                             )
             continue
 
+        # PRODUCT (WI-5): numerator.amount_minor * denominator.quantity
+        if derived.op is DerivedOp.PRODUCT:
+            num = by_id.get(derived.numerator) or all_facts.get(derived.numerator)
+            den = by_id.get(derived.denominator) or all_facts.get(derived.denominator)
+            if num is None:
+                problems.append(
+                    f"{where}: numerator {derived.numerator!r} does not resolve "
+                    f"to a fact in this room or the corpus"
+                )
+            elif num.amount_minor is None:
+                problems.append(
+                    f"{where}: numerator {derived.numerator!r} has no amount_minor"
+                )
+            if den is None:
+                problems.append(
+                    f"{where}: denominator {derived.denominator!r} does not resolve "
+                    f"to a fact in this room or the corpus"
+                )
+            elif den.quantity is None:
+                problems.append(
+                    f"{where}: denominator {derived.denominator!r} has no quantity"
+                )
+            continue
+
+        # QUANTITY_RATIO (WI-5): numerator.quantity / denominator.quantity
+        if derived.op is DerivedOp.QUANTITY_RATIO:
+            num = by_id.get(derived.numerator) or all_facts.get(derived.numerator)
+            den = by_id.get(derived.denominator) or all_facts.get(derived.denominator)
+            if num is None:
+                problems.append(
+                    f"{where}: numerator {derived.numerator!r} does not resolve "
+                    f"to a fact in this room or the corpus"
+                )
+            elif num.quantity is None:
+                problems.append(
+                    f"{where}: numerator {derived.numerator!r} has no quantity"
+                )
+            if den is None:
+                problems.append(
+                    f"{where}: denominator {derived.denominator!r} does not resolve "
+                    f"to a fact in this room or the corpus"
+                )
+            elif den.quantity is None:
+                problems.append(
+                    f"{where}: denominator {derived.denominator!r} has no quantity"
+                )
+            elif den.quantity == 0:
+                problems.append(
+                    f"{where}: denominator {derived.denominator!r} quantity is zero"
+                )
+            continue
+
+        # RATIO and PCT_OF: both operands must be structured monetary facts
         operands: list[Fact] = []
         for role, operand_id in (
             ("numerator", derived.numerator),
             ("denominator", derived.denominator),
         ):
-            operand = by_id.get(operand_id)
+            operand = by_id.get(operand_id) or all_facts.get(operand_id)
             if operand is None:
                 problems.append(
                     f"{where}: {role} {operand_id!r} does not resolve to a fact "
-                    f"in this room"
+                    f"in this room or the corpus"
                 )
                 continue
             if operand.amount_minor is None:

@@ -145,7 +145,7 @@ EXPECTED: dict[str, PageContract] = {
     "rooms/us-1950s.html": _page(
         "US · 1950s — vitrine",
         landmarks=(1, 3, 1, 1, 0), disclosures=(89, 6),
-        local=(48, "c8cdfe41eccc"), marks=(10, "1ef9c695b820"), overlays=41,
+        local=(48, "c8cdfe41eccc"), marks=(10, "1ef9c695b820"), overlays=40,
     ),
     "rooms/us-1910s.html": _page(
         "US · 1910s — vitrine",

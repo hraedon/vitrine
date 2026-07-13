@@ -132,6 +132,7 @@ def build_site(
     _write_assets(out_dir)
 
     index = index_facts(corpus)
+    fact_index = {fid: ref.fact for fid, ref in index.items()}
     rooms = sorted(corpus.rooms, key=lambda r: r.decade)
     decades = [room.decade for room in rooms]
 
@@ -165,7 +166,7 @@ def build_site(
     rendered_ids: list[str] = []
     all_affordability: dict[str, dict[str, str]] = {}
     for room_position, room in enumerate(rooms, start=1):
-        computed = evaluate_room(room, series)
+        computed = evaluate_room(room, series, fact_index)
         rendered_ids.extend(fact.id for fact in room.facts)
         rendered_ids.extend(cf.id for cf in computed)
         all_affordability.update(affordability_for_room(corpus, room))
