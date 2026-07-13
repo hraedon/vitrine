@@ -52,7 +52,7 @@ def _cmd_build(data_dir: Path, out_dir: Path) -> int:
     if status != 0:
         return status
     try:
-        from vitrine.site.render import render_site
+        from vitrine.site.build import build_site as render_site
     except ImportError:
         print(
             "build requires the [site] extra: uv pip install -e '.[site]'",
