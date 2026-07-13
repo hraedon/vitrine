@@ -501,28 +501,12 @@ precision = 2
 notes = "Both inputs Tier A (ACS B25077 home value; Census F-8 four-person income). Modestly above the 1950 ratio (see us-1950s-home-as-income-years) — but the composition shifted: mortgage rates, property taxes, and home size all changed, so 'years of income' understates the difference in monthly carrying cost. An earlier hand-authored version used a ~$420,000 home value from a secondary source; the ACS figure is lower."
 assumptions = ["composite-family", "nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
-[[fact]]
-id = "us-2020s-all-family-income"
-quantity = 105800
-panel = "work-buys"
-label = "All-family median income, 2024"
-value = "$105,800"
-unit = "USD per year, nominal, money income before tax"
-source = "census-f08-allraces"
-tier = "A"
-amount_minor = 10580000
-currency = "USD"
-price_year = 2024
-basis = "annual"
-notes = "From Census Table F-8 (All Races), all-family median income, 2024. This is the all-family median, not the four-person family median ($139,900). Used as the numerator for the real-income-growth derived fact."
-assumptions = ["composite-family", "nominal-values"]
-
 [[derived]]
 id = "us-2020s-real-income-growth"
 panel = "work-buys"
 label = "Real median family income growth, 1950-2024"
 op = "ratio"
-numerator = "us-2020s-all-family-income"
+numerator = "us-2020s-median-income-all-families"
 denominator = "us-1950s-all-family-income-real-2024"
 unit = "real (CPI-adjusted) median family income"
 precision = 1

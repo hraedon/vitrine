@@ -31,9 +31,9 @@ title = "Census Historical Income Table F-8: Families by Size and Median and Mea
 short_cite = "U.S. Census Bureau, CPS Historical Income Tables (Table F-8)"
 publisher = "U.S. Census Bureau"
 year = 2024
-url = "https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-families/f08a.xlsx"
+url = "https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-families/f08ar.xlsx"
 population = "All US families by family size (2, 3, 4, 5, 6, 7+ persons), CPS money income"
-notes = "Excel file. The 4-person-family column is the primary source for the museum's family-of-four medians. Coverage window starts at 1947 — verify the 4-person column covers the full window. Also available: f08ar (All Races revised), f08w (White), f08b (Black), f08h (Hispanic), f08wnh (White not Hispanic)."
+notes = "Excel file (f08ar = All Races). The 4-person-family section is the primary source for the museum's family-of-four medians. Coverage window starts at 1947 — verify the 4-person column covers the full window. CORRECTION 2026-07-13: this source was registered with the f08a.xlsx URL, which is the ASIAN-families table (sections 'Asian Alone or in Combination'/'Asian Alone', 2002-2020 only); every transcribed value re-verified against the fetched f08ar.xlsx (All Families 2024 row 10: $105,800 median/$144,500 mean; 1950 row 86: $3,319 current/$35,290 in 2024$; Four People 2024 row 259: $139,900). Race variants: f08w (White), f08b (Black), f08h (Hispanic), f08wnh (White not Hispanic), f08a (Asian)."
 measure = "money_income"
 
 [[source]]

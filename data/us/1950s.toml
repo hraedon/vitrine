@@ -453,7 +453,7 @@ numerator = "us-2020s-cpi"
 denominator = "us-1950s-cpi"
 unit = "CPI-U ratio (313.7 / 24.1)"
 precision = 2
-notes = "Computed: 2024 CPI-U annual average (313.7) divided by 1950 CPI-U annual average (24.1). This means a good costing $1 in 1950 would cost approximately $13.03 in 2024, assuming the same relative price. Cross-room derived fact: numerator is in the 2020s room."
+notes = "Computed: 2024 CPI-U annual average (313.7) divided by 1950 CPI-U annual average (24.1). This means a good costing $1 in 1950 would cost approximately $13.02 in 2024, assuming the same relative price. Cross-room derived fact: numerator is in the 2020s room."
 assumptions = ["nominal-values"]
 
 [[derived]]
