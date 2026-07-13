@@ -14,7 +14,7 @@ def build_environment(disclaimer: str, disclaimer_title: str) -> Environment:
     Templates resolve off ``PackageLoader("vitrine.site", "templates")`` so
     page templates live as files under ``site/templates/`` and reference one
     another by filename (``{% extends "base.html" %}``,
-    ``{% from "macros.html" import ... %}``). Autoescape defaults on, matching
+    ``{% from "macros/placards.html" import ... %}``). Autoescape defaults on, matching
     the prior ``DictLoader`` configuration; the rendered output is unchanged.
 
     ``disclaimer`` / ``disclaimer_title`` are the composite-family assumption's

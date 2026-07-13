@@ -486,7 +486,7 @@ numerator = "us-2020s-cpi"
 denominator = "us-1950s-cpi"
 unit = "CPI-U ratio (313.7 / 24.1)"
 precision = 2
-notes = "Same computation as the 1950s room: 2024 CPI (313.7) / 1950 CPI (24.1) = 13.03. The median family income rose from $3,319 to $105,800 — a factor of 31.9, far exceeding inflation (13.0x). Real median family income approximately tripled. Cross-room derived fact: denominator is in the 1950s room."
+notes = "Same computation as the 1950s room: 2024 CPI (313.7) / 1950 CPI (24.1) = 13.02. The median family income rose from $3,319 to $105,800 — a factor of 31.9, far exceeding inflation (13.0x). Real median family income approximately tripled. Cross-room derived fact: denominator is in the 1950s room."
 assumptions = ["nominal-values"]
 
 [[derived]]
@@ -526,7 +526,7 @@ numerator = "us-2020s-all-family-income"
 denominator = "us-1950s-all-family-income-real-2024"
 unit = "real (CPI-adjusted) median family income"
 precision = 1
-notes = "From Table F-8's own 2024-dollar column (C-CPI-U-RS adjusted): 1950 all-family median = $35,290 in 2024 dollars vs 2024 median = $105,800, a factor of 3.0. Alternative deflator: using raw CPI-U (CPIAUCNS, 13.03x per us-2020s-purchasing-power-comparison) gives $3,319 x 13.03 = $43,246, a factor of 2.4x — CPI-U-RS corrects known overstatement of early inflation, so the published 3.0x is primary. Cross-room derived fact: denominator is in the 1950s room. CORRECTION 2026-07-07: this fact previously displayed '3.1x ($25,633 -> $79,490)', figures traceable to no source in the registry."
+notes = "From Table F-8's own 2024-dollar column (C-CPI-U-RS adjusted): 1950 all-family median = $35,290 in 2024 dollars vs 2024 median = $105,800, a factor of 3.0. Alternative deflator: using raw CPI-U (CPIAUCNS, 13.02x per us-2020s-purchasing-power-comparison) gives $3,319 x 13.02 = $43,236, a factor of 2.4x — CPI-U-RS corrects known overstatement of early inflation, so the published 3.0x is primary. Cross-room derived fact: denominator is in the 1950s room. CORRECTION 2026-07-07: this fact previously displayed '3.1x ($25,633 -> $79,490)', figures traceable to no source in the registry."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]

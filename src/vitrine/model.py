@@ -228,8 +228,8 @@ class DerivedFact:
     label: str
     unit: str
     op: DerivedOp
-    numerator: str  # Fact.id in the same room; must be structured
-    denominator: str  # Fact.id in the same room; must be structured, non-zero
+    numerator: str  # Fact.id in this room or another room (cross-room, WI-5)
+    denominator: str  # Fact.id in this room or another room (cross-room, WI-5)
     precision: int = 1  # decimal places in the rendered value
     notes: str = ""
     assumptions: tuple[str, ...] = field(default=())

@@ -121,6 +121,117 @@ def test_gate_green_on_valid_derived(tmp_path: Path) -> None:
     assert check_corpus(corpus) == []
 
 
+def _write_corpus_with_product(tmp_path: Path, valid: bool = True) -> Path:
+    (tmp_path / "sources.toml").write_text(
+        '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "all families"\n'
+    )
+    (tmp_path / "assumptions.toml").write_text(
+        '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
+    )
+    room_dir = tmp_path / "us"
+    room_dir.mkdir()
+    hours_line = 'quantity = 40.5\n' if valid else ''
+    (room_dir / "1950s.toml").write_text(
+        '[room]\ncountry = "us"\ndecade = "1950s"\n\n'
+        '[[fact]]\nid = "us-1950s-wage"\npanel = "day"\nlabel = "W"\nvalue = "$1.32"\n'
+        'unit = "U"\nsource = "src-1"\ntier = "A"\namount_minor = 132\n'
+        'currency = "USD"\nprice_year = 1950\nbasis = "hourly"\n\n'
+        '[[fact]]\nid = "us-1950s-hours"\npanel = "day"\nlabel = "H"\nvalue = "40.5"\n'
+        'unit = "hours"\nsource = "src-1"\ntier = "A"\n'
+        f'{hours_line}'
+        '[[derived]]\nid = "us-1950s-weekly-earnings"\npanel = "day"\nlabel = "D"\n'
+        'unit = "USD"\nop = "product"\nnumerator = "us-1950s-wage"\n'
+        'denominator = "us-1950s-hours"\n'
+    )
+    return tmp_path
+
+
+def test_gate_flags_product_missing_quantity(tmp_path: Path) -> None:
+    corpus = load_corpus(_write_corpus_with_product(tmp_path, valid=False))
+    problems = check_corpus(corpus)
+    assert any("us-1950s-hours" in p and "no quantity" in p for p in problems)
+
+
+def test_gate_green_on_valid_product(tmp_path: Path) -> None:
+    corpus = load_corpus(_write_corpus_with_product(tmp_path, valid=True))
+    assert check_corpus(corpus) == []
+
+
+def _write_corpus_with_qty_ratio(tmp_path: Path, valid: bool = True) -> Path:
+    (tmp_path / "sources.toml").write_text(
+        '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "all families"\n'
+    )
+    (tmp_path / "assumptions.toml").write_text(
+        '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
+    )
+    room_dir = tmp_path / "us"
+    room_dir.mkdir()
+    qty_line = 'quantity = 24.1\n' if valid else ''
+    (room_dir / "1950s.toml").write_text(
+        '[room]\ncountry = "us"\ndecade = "1950s"\n\n'
+        '[[fact]]\nid = "us-1950s-cpi"\npanel = "work-buys"\nlabel = "C"\n'
+        'value = "24.1"\nunit = "index"\nsource = "src-1"\ntier = "A"\n'
+        f'{qty_line}'
+        '[[derived]]\nid = "us-1950s-purchasing-power"\npanel = "work-buys"\n'
+        'label = "P"\nunit = "ratio"\nop = "quantity_ratio"\n'
+        'numerator = "us-1950s-cpi"\ndenominator = "us-1950s-cpi"\n'
+    )
+    return tmp_path
+
+
+def test_gate_flags_qty_ratio_missing_quantity(tmp_path: Path) -> None:
+    corpus = load_corpus(_write_corpus_with_qty_ratio(tmp_path, valid=False))
+    problems = check_corpus(corpus)
+    assert any("us-1950s-cpi" in p and "no quantity" in p for p in problems)
+
+
+def test_gate_green_on_valid_qty_ratio(tmp_path: Path) -> None:
+    corpus = load_corpus(_write_corpus_with_qty_ratio(tmp_path, valid=True))
+    assert check_corpus(corpus) == []
+
+
+def _write_corpus_with_cross_room(tmp_path: Path, valid: bool = True) -> Path:
+    (tmp_path / "sources.toml").write_text(
+        '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "all families"\n'
+    )
+    (tmp_path / "assumptions.toml").write_text(
+        '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
+    )
+    room_dir = tmp_path / "us"
+    room_dir.mkdir()
+    (room_dir / "1950s.toml").write_text(
+        '[room]\ncountry = "us"\ndecade = "1950s"\n\n'
+        '[[fact]]\nid = "us-1950s-cpi"\npanel = "work-buys"\nlabel = "C"\n'
+        'value = "24.1"\nunit = "index"\nsource = "src-1"\ntier = "A"\n'
+        'quantity = 24.1\n'
+    )
+    (room_dir / "2020s.toml").write_text(
+        '[room]\ncountry = "us"\ndecade = "2020s"\n\n'
+        '[[fact]]\nid = "us-2020s-cpi"\npanel = "work-buys"\nlabel = "C"\n'
+        'value = "313.7"\nunit = "index"\nsource = "src-1"\ntier = "A"\n'
+        'quantity = 313.7\n\n'
+        '[[derived]]\nid = "us-2020s-purchasing-power"\npanel = "work-buys"\n'
+        'label = "P"\nunit = "ratio"\nop = "quantity_ratio"\n'
+        f'numerator = "us-2020s-cpi"\n'
+        f'denominator = "{"us-1950s-cpi" if valid else "us-1950s-nope"}"\n'
+    )
+    return tmp_path
+
+
+def test_gate_flags_cross_room_dangling_operand(tmp_path: Path) -> None:
+    corpus = load_corpus(_write_corpus_with_cross_room(tmp_path, valid=False))
+    problems = check_corpus(corpus)
+    assert any("us-1950s-nope" in p and "does not resolve" in p for p in problems)
+
+
+def test_gate_green_on_valid_cross_room(tmp_path: Path) -> None:
+    corpus = load_corpus(_write_corpus_with_cross_room(tmp_path, valid=True))
+    assert check_corpus(corpus) == []
+
+
 def test_committed_corpus_derived_all_evaluate() -> None:
     from vitrine.series import load_series
 

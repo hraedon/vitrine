@@ -476,7 +476,7 @@ value = "$53.46/week — a full year of it (×52) ≈ 84% of median family incom
 unit = "weekly manufacturing earnings vs annual median family income"
 source = "fred-ces-manuf-earnings"
 tier = "A"
-notes = "Computed: weekly earnings ($53.29) × 52 = $2,771, which is 83.5% of the all-family median income ($3,319). A lone manufacturing wage fell about 17% short of the median family's income — the gap implies second earners or higher-paying work. (Reframed 2026-07-07 from '$53.29 = 1.6% of annual income', which was correct but only meaningful against the unstated benchmark of 1/52 ≈ 1.9%.)"
+notes = "Computed: weekly earnings ($53.46, derived from hourly rate x weekly hours) x 52 = $2,780, which is 83.8% of the all-family median income ($3,319). A lone manufacturing wage fell about 16% short of the median family's income — the gap implies second earners or higher-paying work. (Reframed 2026-07-07 from the original framing.)"
 assumptions = ["composite-family", "nominal-values"]
 
 
