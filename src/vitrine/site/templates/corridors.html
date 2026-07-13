@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% from "macros.html" import placard_overlay, composition_details %}
+{% from "macros/placards.html" import placard_overlay %}
+{% from "macros/charts.html" import composition_details %}
 {% block title %}corridors — vitrine{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · the corridors · an atlas in four wings</p>
@@ -97,10 +98,6 @@
     {% endfor %}</table>
   </details>
 </section>
-<div class="overlay-deck">
-{% for ref in page.overlay_facts %}{{ placard_overlay(ref.fact, ref.room, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
-</div>
-
 <div class="legends">
   <div class="leg">
     <h4>Confidence &amp; flags</h4>
@@ -114,5 +111,10 @@
     <p><b>Every fact is behind glass</b>: its placard names the source, the year, who was measured, and how sure we are. Chart points and stage glyphs deep-link to their placards.</p>
     <p style="margin-top:8px"><b>Falling</b> metrics render in <b style="color:{{ T.COPPER }}">copper</b>, <b>rising</b> in <b style="color:{{ T.BRASS }}">brass</b>. Absent technology isn't drawn — a bare house says more than ghosts.</p>
   </div>
+</div>
+{% endblock %}
+{% block overlays %}
+<div class="overlay-deck">
+{% for ref in page.overlay_facts %}{{ placard_overlay(ref.fact, ref.room, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
 </div>
 {% endblock %}

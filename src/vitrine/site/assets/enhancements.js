@@ -12,7 +12,6 @@
   const page = document.querySelector(".wrap");
   let active = null;
   let origin = null;
-  let placeholder = null;
 
   const focusableSelector = [
     "a[href]",
@@ -35,20 +34,18 @@
     closing.removeAttribute("aria-modal");
     closing.removeEventListener("keydown", containFocus);
     if (page) page.inert = false;
-    if (placeholder?.parentNode) placeholder.replaceWith(closing);
-    placeholder = null;
 
     if (restoreFocus && origin?.isConnected) origin.focus();
     origin = null;
   }
 
   function dismissOverlay() {
-    // closeOverlay() first: removes aria-modal, de-inerts .wrap, restores the
-    // overlay to its DOM position, and restores focus to the originating
-    // trigger. Then a real same-document hash navigation updates CSS :target
-    // (pushState does not — :target only recalculates on fragment navigation,
-    // so the overlay would stay display:flex after Escape/close/backdrop).
-    // The hashchange this fires is a no-op in syncWithHash (active is null).
+    // closeOverlay() first: removes aria-modal, de-inerts .wrap, and restores
+    // focus to the originating trigger. Then a real same-document hash
+    // navigation updates CSS :target (pushState does not — :target only
+    // recalculates on fragment navigation, so the overlay would stay
+    // display:flex after Escape/close/backdrop). The hashchange this fires
+    // is a no-op in syncWithHash (active is null).
     closeOverlay();
     location.hash = "#dismissed";
   }
@@ -83,9 +80,6 @@
     closeOverlay({ restoreFocus: false });
 
     active = overlay;
-    placeholder = document.createComment("placard position");
-    overlay.replaceWith(placeholder);
-    document.body.append(overlay);
     overlay.setAttribute("aria-modal", "true");
     overlay.addEventListener("keydown", containFocus);
     if (page) page.inert = true;
