@@ -218,7 +218,7 @@ site from `/tmp` — byte-for-byte identical to the WP2 baseline.
 is empty — byte-for-byte identical to the WP2 build. Full suite 162 green,
 ruff + mypy --strict clean (35 source files), provenance and mark-coverage
 gates green, ancestry gate PASS, `tests/test_site_contracts.py` unchanged and
-passing (10 tests).
+passing (9 tests).
 
 ## WP5 — placard macro split, browser suite, enhancements.js fix (landed)
 
@@ -246,7 +246,7 @@ Serves the built site over local HTTP (`http.server` in a module-scoped
 fixture — the plan requires this, not `file://`). Covers the plan's full
 matrix:
 
-- **Enhanced (23 tests):** open from room-story trigger, SVG chart mark, and
+- **Enhanced (17 tests):** open from room-story trigger, SVG chart mark, and
   direct hash; focus enters overlay; `.wrap` inert + active `aria-modal=true`;
   Tab / Shift-Tab containment; dismissal via Escape, close button, backdrop,
   browser Back; focus returns to the exact originating trigger (element
@@ -304,6 +304,39 @@ changed file (`assets/enhancements.js`, the bug fix) — all HTML is
 byte-identical. Full suite **196 green** (162 existing + 34 browser),
 ruff + mypy --strict clean, provenance + mark-coverage green, ancestry PASS,
 `tests/test_site_contracts.py` unchanged and passing.
+
+### Adversarial-review follow-ups
+
+A cross-lineage adversarial review of WP2–WP5 found no critical or major
+defects (byte-identity verified by `git worktree` rebuild + `diff -r`; all 8
+page contexts + 14 view types constructed and consumed — no dead types;
+mypy --strict clean; wheel-install loads all templates and assets). Four
+minor findings addressed in this follow-up:
+
+- **Dead `modal` parameter** in `_placard_body` (`macros.html`): declared and
+  passed at both call sites but never read inside the body — a leftover from
+  the placard macro split. Removed from the signature and both call sites.
+- **`.gitignore` + ruff `build/` exclusion**: setuptools' ephemeral `build/`
+  dir (created on first `pip install -e` when no wheel is cached) mirrors
+  `src/` and surfaced 21 spurious E501s under `build/lib/...` on first CI
+  runs (the per-file-ignore paths didn't match the duplicated tree). Added
+  `build/` to `.gitignore` and `exclude = ["build"]` to `[tool.ruff]`.
+  Verified: a simulated `build/lib/` no longer affects `ruff check`.
+- **Recovery-log test-count drift**: corrected "10 contract tests" → 9 (the
+  parametrized `EXPECTED` dict has 9 entries) and "23 enhanced" → 17
+  (34 total − 6 no-JS − 11 responsive).
+- **Post-dismissal Forward coverage gap**: added
+  `test_dismiss_then_back_forward` proving Escape creates a real history
+  entry (Back reopens, Forward returns to the dismissed state). Full browser
+  suite now 35 tests.
+
+Borderline finding noted but not acted on: `projections/metrics.py:load_recessions`
+reads `data/recessions.toml` directly — a projection module doing file I/O on
+a non-corpus, non-curation data file. Functionally correct (build.py calls
+it and threads the result through); the cleaner home would be build.py-owned
+ingestion passed in as a parameter (the way `series` is). Left as-is because
+moving it risks a signature change across the byte-identical window for
+marginal abstraction benefit; flagged for a future cleanup pass.
 
 ## Migration checklist (every commit on this branch)
 

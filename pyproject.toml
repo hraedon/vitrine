@@ -35,6 +35,9 @@ files = ["src"]
 [tool.ruff]
 line-length = 100
 target-version = "py313"
+# exclude setuptools' ephemeral build dir (created on first `pip install -e`,
+# mirrors src/ and would surface duplicate E501s that aren't real findings)
+exclude = ["build"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]

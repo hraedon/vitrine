@@ -76,6 +76,9 @@ def _write_assets(out_dir: Path) -> None:
     enhancements = files("vitrine.site").joinpath("assets/enhancements.js").read_text()
     (assets_dir / "enhancements.js").write_text(enhancements)
     css_source = files("vitrine.site").joinpath("assets/museum.css.j2").read_text()
+    # The stylesheet renders in its own non-autoescaping env on purpose: the
+    # CSS uses {{ T.COPPER }} etc. and would be mangled by HTML autoescape.
+    # build_environment() is for HTML templates only.
     museum_css = Environment(autoescape=False).from_string(css_source).render(T=tokens)
     (assets_dir / "museum.css").write_text(museum_css)
 

@@ -30,7 +30,7 @@
 </details>
 {% endif %}
 {% endmacro %}
-{% macro _placard_body(fact, room, sources, assumptions, affordability, root, modal) %}
+{% macro _placard_body(fact, room, sources, assumptions, affordability, root) %}
   {% set src = sources[fact.source] %}
   {% set is_gap = fact.value.strip().lower().startswith('no reliable record') %}
   <div class="placard-head">
@@ -69,7 +69,7 @@
 {% macro placard_card(fact, room, sources, assumptions, affordability, root) %}
 
 <div class="placard{% if fact.value.strip().lower().startswith('no reliable record') %} gap-placard{% endif %}" id="{{ fact.id }}">
-  {{ _placard_body(fact, room, sources, assumptions, affordability, root, modal=false) }}
+  {{ _placard_body(fact, room, sources, assumptions, affordability, root) }}
 </div>
 {%- endmacro %}
 {% macro placard_overlay(fact, room, sources, assumptions, affordability, root) %}
@@ -78,7 +78,7 @@
   <a href="#dismissed" class="overlay-backdrop" aria-label="Close placard"></a>
   <div class="placard placard-card{% if fact.value.strip().lower().startswith('no reliable record') %} gap-placard{% endif %}">
     <a href="#dismissed" class="overlay-close" aria-label="Close placard">&times;</a>
-    {{ _placard_body(fact, room, sources, assumptions, affordability, root, modal=true) }}
+    {{ _placard_body(fact, room, sources, assumptions, affordability, root) }}
   </div>
 </div>
 {% endmacro %}

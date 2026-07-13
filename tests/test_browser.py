@@ -318,6 +318,21 @@ class TestStateTransfer:
         page.wait_for_timeout(40)
         assert _focus_inside(page, MODAL_TV)
 
+    def test_dismiss_then_back_forward(
+        self, page: Page, server_url: str
+    ) -> None:
+        """Escape dismissal creates a real history entry: Back reopens the
+        overlay and Forward returns to the dismissed state."""
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        _expect_open(page, MODAL_TV)
+        page.keyboard.press("Escape")  # dismisses → hash #dismissed (new entry)
+        _expect_closed(page, MODAL_TV)
+        page.go_back()  # back to #tv--modal → reopens enhanced
+        _expect_open(page, MODAL_TV)
+        page.go_forward()  # forward to #dismissed → closes again
+        _expect_closed(page, MODAL_TV)
+
 
 # ── Dense decks ──────────────────────────────────────────────────────────────
 
