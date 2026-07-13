@@ -81,6 +81,36 @@ contracts will re-pin, so a future refactor cannot silently drop it again.
 - Only the integration owner (WP0/WP4) touches `build.py`.
 - No work package lands before it re-runs the migration checklist below.
 
+## WP1 — curation split (landed)
+
+Decomposed the monolithic `src/vitrine/site/curation.py` (1096 lines) into the
+`site/curation/` package specified by the Plan 019 target layout:
+
+| module | holds |
+|--------|-------|
+| `models.py` | the 5 frozen dataclasses (Arc, ArcGroup, CorridorWing, RoomStory, Metric) |
+| `corridors.py` | `_ids`, ARCS, ARC_BY_SLUG, ARC_GROUPS, ARC_GROUP_BY_MEMBER, CORRIDOR_WINGS, AFFORD_ITEMS/_CAVEATS |
+| `rooms.py` | ROOM_STORIES, ROOM_STORY_BY_DECADE, COMPOSITIONS, STAGE_DIFFUSION/STATS, HOME_SIZE_FACTS, ROOM_GAP_BANNERS, ZONE_NOTE_POS |
+| `affordability.py` | AFFORDABILITY_METRICS, METRIC_BY_SLUG |
+| `walkthrough.py` | WALKTHROUGH_STOPS/PEOPLE/METRICS/FLOOR_AREA |
+| `__init__.py` | deliberate public surface — re-exports all 26 names as `curation.*` |
+
+**Ownership honored:** only `site/curation/` changed. `render.py` is untouched
+— it still does `from vitrine.site import curation` and reads `curation.X`, which
+the re-exporting `__init__` preserves exactly.
+
+**Corrected-donor notes:** unlike the donor (`e4ef903`, pre-museum-UI), this
+split adds a `models.py` home for the museum models `CorridorWing`/`RoomStory`
+the donor never had; `rooms.py` imports `ARC_BY_SLUG` from `corridors.py`
+(the stage registries key off it); `AFFORD_ITEMS` stays with corridors per the
+donor's grouping. No selection or copy was altered — declarations were sliced
+verbatim from the original, not retyped.
+
+**Correctness proof:** the generated site is **byte-for-byte identical** to the
+WP0 baseline build (`diff -r` clean) — a pure structural refactor. Full suite
+162 green (incl. contracts), ruff + mypy --strict clean, provenance and
+mark-coverage gates green, ancestry gate PASS.
+
 ## Migration checklist (every commit on this branch)
 
 1. `git merge-base --is-ancestor 9953a0e HEAD` exits 0 (ancestry gate).
