@@ -154,6 +154,72 @@ is empty — byte-for-byte identical to the WP1 build. Full suite 162 green,
 ruff + mypy --strict clean (22 source files), provenance and mark-coverage
 gates green, ancestry gate PASS.
 
+## WP3 + WP4 — typed contexts, surface projections, build orchestration (landed)
+
+Split the 1170-line `render.py` into the Plan 019 target presentation
+architecture: typed page contexts (`context.py`), one projection module per
+surface (`projections/*.py`), a thin build orchestrator (`build.py`), and a
+compatibility-only `render.py`. Per §"Typed page boundary", every template now
+receives a single typed `page` object produced by a `project_*` function;
+templates format and branch only, never resolving fact IDs or computing ratios.
+
+| module | lines | role |
+|--------|-------|------|
+| `context.py` | 342 | 8 page contexts + 9 intermediate view types (all `frozen=True, slots=True`) |
+| `build.py` | 188 | orchestration: env, dirs, assets, render+write loop, manifest, registry gates |
+| `render.py` | 107 | compatibility re-exports only (`render_site` + private names tests pin) |
+| `projections/rooms.py` | 93 | `project_lobby`, `project_room`, `room_story`, `panels_for` |
+| `projections/corridors.py` | 202 | `project_corridor` + wing-validation `ValueError` |
+| `projections/pairs.py` | 156 | `project_pair`, `pair_families`, `pair_afford` |
+| `projections/walkthrough.py` | 231 | `project_walkthrough` + `_FIGS` decoration primitives |
+| `projections/affordability.py` | 195 | `project_affordability_dashboard`, `affordability_for_room`, afford-arc chart |
+| `projections/references.py` | 20 | `project_methodology`, `project_bibliography` |
+| `projections/stage.py` | 94 | `build_stage` |
+| `projections/arcs.py` | 143 | arc/group chart + coverage projections |
+| `projections/metrics.py` | 133 | annual metric/recession projections |
+| `projections/facts.py` | 43 | `FactRef` (re-export), `index_facts`, `placard_href`, `GAP_PREFIX` |
+
+**Size budgets met:** `build.py` 188 ≤ 250; `render.py` 107 ≤ 120; largest
+projection module 231 < 600.
+
+**Ownership honored:** only `build.py`, `context.py`, `render.py`,
+`projections/` (new), the 9 templates (rewritten to `page.X`), and one
+`pyproject.toml` per-file-ignore line (the `_FIGS` SVG literals carry the same
+E501 carve-out they had in the original `render.py`) changed. `environment.py`,
+`curation/`, `assets/`, `svg.py`, `symbols.py`, `tokens.py`, and
+`tests/test_site_contracts.py` untouched.
+
+**Decision points:**
+- `FactRef` lives in `context.py` (the boundary leaf) and is re-exported from
+  `projections/facts.py` — placing it in facts.py created a circular import
+  (context → projections.facts → package `__init__` → projections.affordability
+  → context). The current DAG is clean: context is the leaf every projection
+  reads from.
+- `CorridorWingView.arcs` typed as `tuple[ArcSection, ...]` — one uniform shape
+  whether the section is a lone arc or a collapsed group.
+- The wing-validation `ValueError` lives in `projections/corridors.py`
+  (`_build_wings`), not `build.py` — it is mechanically inseparable from arc
+  assembly (it validates rendered-arc slugs against wing membership, which only
+  `project_corridor` computes). The room-story-registry `ValueError` stays in
+  `build.py` (a decades-vs-registry check build.py owns).
+- `_render_page(env, template, out, *, root, surface, page)` helper in
+  `build.py` standardizes the render+write loop.
+- `evaluate_room` / `affordability_for_room` run twice (once in `build.py` for
+  the manifest + merged affordability, once inside `project_room` for
+  self-contained page assembly) — acceptable double-compute for 13 rooms; keeps
+  `project_room`'s signature clean.
+- `comp_caveats` typed as `tuple[str, ...]` (it was already a 1-tuple in the
+  original — the template iterates it).
+
+**Wheel verification:** built a wheel, installed in a clean venv, rendered the
+site from `/tmp` — byte-for-byte identical to the WP2 baseline.
+
+**Correctness proof:** `diff -r /tmp/vitrine-wp2-baseline /tmp/vitrine-wp34-result`
+is empty — byte-for-byte identical to the WP2 build. Full suite 162 green,
+ruff + mypy --strict clean (35 source files), provenance and mark-coverage
+gates green, ancestry gate PASS, `tests/test_site_contracts.py` unchanged and
+passing (10 tests).
+
 ## Migration checklist (every commit on this branch)
 
 1. `git merge-base --is-ancestor 9953a0e HEAD` exits 0 (ancestry gate).

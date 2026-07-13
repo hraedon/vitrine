@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% from "macros.html" import placard, derived_placard, room_map %}
-{% block title %}{{ room.country | upper }} · {{ room.decade }} — vitrine{% endblock %}
+{% block title %}{{ page.room.country | upper }} · {{ page.room.decade }} — vitrine{% endblock %}
 {% block body %}
-<p class="eyebrow">vitrine · {{ room.country | upper }} · the {{ room.decade }}</p>
-<h1>The <em>{{ room.decade }}</em> room</h1>
-{% if room.data_as_of %}<p class="case-sub">Data as of {{ room.data_as_of }} (decade ongoing — each fact states its own data year).</p>{% endif %}
+<p class="eyebrow">vitrine · {{ page.room.country | upper }} · the {{ page.room.decade }}</p>
+<h1>The <em>{{ page.room.decade }}</em> room</h1>
+{% if page.room.data_as_of %}<p class="case-sub">Data as of {{ page.room.data_as_of }} (decade ongoing — each fact states its own data year).</p>{% endif %}
 <section class="room-overture" aria-labelledby="room-story-title">
   <div class="story-label">
-    <div><p class="story-kicker">Curator's route · four sourced exhibits</p><h2 id="room-story-title">{{ story.title }}</h2><p class="story-question">{{ story.question }}</p></div>
+    <div><p class="story-kicker">Curator's route · four sourced exhibits</p><h2 id="room-story-title">{{ page.story.title }}</h2><p class="story-question">{{ page.story.question }}</p></div>
     <p class="story-note">An editorial selection, not a synthetic family. Every stop opens the original specimen label.</p>
   </div>
   <div class="story-trail">
-  {% for fact in story.facts %}
+  {% for fact in page.story.facts %}
     <a class="story-stop" href="#{{ fact.id }}--modal" data-fact-id="{{ fact.id }}">
       <span class="stop-meta">Stop 0{{ loop.index }} · {{ panel_title(fact.panel) }}</span>
       <span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}">{{ fact.tier.value }}</span>
@@ -22,24 +22,24 @@
   </div>
 </section>
 <div class="plaque room-disclaimer"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
-{{ room_map(rooms, room, "", previous_room, next_room, room_position) }}
-{% if gap_banner %}<div class="gap-banner"><b>Structural gap</b>{{ gap_banner }}</div>{% endif %}
-<div class="stage">{{ stage_svg }}</div>
+{{ room_map(page.rooms, page.room, "", page.previous_room, page.next_room, page.room_position) }}
+{% if page.gap_banner %}<div class="gap-banner"><b>Structural gap</b>{{ page.gap_banner }}</div>{% endif %}
+<div class="stage">{{ page.stage_svg }}</div>
 <div class="stagehint">era-graded light · absent technology isn't drawn · every glyph opens its specimen label</div>
-<div class="collection-head"><div><h2>The complete room</h2><p>All six cases, including the curator's route above and the records around it.</p></div><span>{{ room.facts|length }} sourced facts{% if computed_count %} · {{ computed_count }} computed{% endif %}</span></div>
+<div class="collection-head"><div><h2>The complete room</h2><p>All six cases, including the curator's route above and the records around it.</p></div><span>{{ page.room.facts|length }} sourced facts{% if page.computed_count %} · {{ page.computed_count }} computed{% endif %}</span></div>
 <nav class="exhibit-map" aria-label="Room display cases">
-{% for panel, facts, computed in panels %}<a href="#panel-{{ panel.value }}"><b>{{ panel_title(panel) }}</b><span>{{ facts|length + computed|length }} exhibits</span></a>{% endfor %}
+{% for ps in page.panels %}<a href="#panel-{{ ps.panel.value }}"><b>{{ panel_title(ps.panel) }}</b><span>{{ ps.facts|length + ps.computed|length }} exhibits</span></a>{% endfor %}
 </nav>
-{% for panel, facts, computed in panels %}
-<details open class="panel-group" id="panel-{{ panel.value }}">
-<summary class="case-title">{{ panel_title(panel) }}</summary>
-{% if not facts and not computed %}<p class="case-sub"><em>Not yet curated.</em></p>{% else %}
+{% for ps in page.panels %}
+<details open class="panel-group" id="panel-{{ ps.panel.value }}">
+<summary class="case-title">{{ panel_title(ps.panel) }}</summary>
+{% if not ps.facts and not ps.computed %}<p class="case-sub"><em>Not yet curated.</em></p>{% else %}
 <div class="cases">
-{% for fact in facts %}{{ placard(fact, room, sources, assumptions, affordability, root) }}{% endfor %}
-{% for cf in computed %}{{ derived_placard(cf, room, assumptions, root) }}{% endfor %}
+{% for fact in ps.facts %}{{ placard(fact, page.room, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
+{% for cf in ps.computed %}{{ derived_placard(cf, page.room, page.assumptions, root) }}{% endfor %}
 </div>
 {% endif %}
-{% if panel.value == "work-buys" and facts %}<p class="case-sub"><a href="{{ root }}affordability/index.html">See this metric across all decades →</a></p>{% endif %}
+{% if ps.panel.value == "work-buys" and ps.facts %}<p class="case-sub"><a href="{{ root }}affordability/index.html">See this metric across all decades →</a></p>{% endif %}
 </details>
 {% endfor %}
 

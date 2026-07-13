@@ -7,7 +7,7 @@
 <p class="sub">The rooms hold snapshots; the atlas follows change. Its exhibits are arranged around four questions rather than one long register of charts. Every mark still opens the sourced specimen card behind it, and every silence in the record remains visible.</p>
 
 <nav class="atlas-directory" aria-label="Atlas wings">
-{% for wing in wings %}
+{% for wing in page.wings %}
   <a class="atlas-card" href="#wing-{{ wing.slug }}">
     <span class="anum" aria-hidden="true">{{ wing.number }}</span>
     <span><b>{{ wing.title }}</b><em>{{ wing.question }}</em></span>
@@ -22,7 +22,7 @@
   <div><b>Read the silence</b>A broken line or empty decade is a documented gap, not an invitation to interpolate.</div>
 </div>
 
-{% for wing in wings %}
+{% for wing in page.wings %}
 <section class="atlas-wing" id="wing-{{ wing.slug }}" aria-labelledby="wing-{{ wing.slug }}-title">
   <header class="wing-head">
     <div class="wing-number" aria-hidden="true">{{ wing.number }}</div>
@@ -40,7 +40,7 @@
       <span><b>Affordability over time</b><span>Five annual ratios trace housing, cars, wages, food, and real pay through recessions and shocks.</span></span>
       <strong>Enter the annual gallery →</strong>
     </a>
-    {% for item in afford_sections %}
+    {% for item in page.afford_sections %}
     <details class="atlas-exhibit"{% if loop.first %} open{% endif %} id="afford-{{ item.slug }}">
       <summary class="exhibit-summary">
         <span class="exhibit-title"><b>{{ item.label }} · in hours of work</b><span>Price ÷ the room's wage anchor · computed at build</span></span>
@@ -56,12 +56,12 @@
     <details class="atlas-exhibit" id="budget-composition">
       <summary class="exhibit-summary">
         <span class="exhibit-title"><b>Budget composition</b><span>Share of household expenditure · fixed categories</span></span>
-        <span class="coverage">{{ comp_rows|length }} rooms charted</span>
+        <span class="coverage">{{ page.comp_rows|length }} rooms charted</span>
       </summary>
       <div class="exhibit-body">
-        {% for caveat in comp_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-        <div class="chart-panel">{% for row in comp_rows %}{{ row.bar }}{% endfor %}</div>
-        {{ composition_details(comp_rows) }}
+        {% for caveat in page.comp_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+        <div class="chart-panel">{% for row in page.comp_rows %}{{ row.bar }}{% endfor %}</div>
+        {{ composition_details(page.comp_rows) }}
       </div>
     </details>
   {% endif %}
@@ -87,18 +87,18 @@
   <h2 id="study-room-title">Put two decades on the same table</h2>
   <p>The atlas follows one measure through time. Pairwise pages instead gather every fact family the measure guard certifies comparable between two chosen rooms.</p>
   <div class="epoch-grid">
-  {% for a, b in epochs %}<a class="epoch-card" href="{{ a }}--{{ b }}.html">{{ a }} ↔ {{ b }}</a>{% endfor %}
+  {% for a, b in page.epochs %}<a class="epoch-card" href="{{ a }}--{{ b }}.html">{{ a }} ↔ {{ b }}</a>{% endfor %}
   </div>
   <details class="pair-archive">
-    <summary>Open all {{ pair_count }} decade pairs</summary>
-    <table class="pairtable" aria-label="All pairwise decade comparisons"><tr><th></th>{% for d in decades %}<th scope="col">{{ d[2:4] }}s</th>{% endfor %}</tr>
-    {% for a in decades %}<tr><th scope="row">{{ a[2:4] }}s</th>
-    {% for b in decades %}<td>{% if a < b %}<a href="{{ a }}--{{ b }}.html" aria-label="Compare {{ a }} and {{ b }}">↔</a>{% else %}·{% endif %}</td>{% endfor %}</tr>
+    <summary>Open all {{ page.pair_count }} decade pairs</summary>
+    <table class="pairtable" aria-label="All pairwise decade comparisons"><tr><th></th>{% for d in page.decades %}<th scope="col">{{ d[2:4] }}s</th>{% endfor %}</tr>
+    {% for a in page.decades %}<tr><th scope="row">{{ a[2:4] }}s</th>
+    {% for b in page.decades %}<td>{% if a < b %}<a href="{{ a }}--{{ b }}.html" aria-label="Compare {{ a }} and {{ b }}">↔</a>{% else %}·{% endif %}</td>{% endfor %}</tr>
     {% endfor %}</table>
   </details>
 </section>
 <div class="overlay-deck">
-{% for ref in overlay_facts %}{{ placard(ref.fact, ref.room, sources, assumptions, affordability, root, inline=false) }}{% endfor %}
+{% for ref in page.overlay_facts %}{{ placard(ref.fact, ref.room, page.sources, page.assumptions, page.affordability, root, inline=false) }}{% endfor %}
 </div>
 
 <div class="legends">

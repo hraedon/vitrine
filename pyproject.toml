@@ -45,6 +45,7 @@ allowed-confusables = ["–", "’"]
 "src/vitrine/site/render.py" = ["E501"]
 "src/vitrine/site/svg.py" = ["E501"]
 "src/vitrine/site/symbols.py" = ["E501"]
+"src/vitrine/site/projections/walkthrough.py" = ["E501"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
