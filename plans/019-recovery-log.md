@@ -338,6 +338,107 @@ ingestion passed in as a parameter (the way `series` is). Left as-is because
 moving it risks a signature change across the byte-identical window for
 marginal abstraction benefit; flagged for a future cleanup pass.
 
+## WP6 — accessibility/responsive audit and final migration report (landed)
+
+The browser suite added in WP5 already exercises the plan's full viewport and
+keyboard matrix. WP6 records the audit results, lands documentation, and
+closes the plan.
+
+### Viewport and keyboard matrix (browser-verified)
+
+| surface | viewport | covered by |
+|---------|----------|------------|
+| corridor page (densest, 249 overlays) | 1280×800, 768×1024, 375×667 | `TestResponsive::test_no_horizontal_overflow_corridor` (parametrized × 3) |
+| room page (dense, 41 overlays) | 1280×800, 768×1024, 375×667 | `TestResponsive::test_no_horizontal_overflow_room` (parametrized × 3) |
+| mobile placard fit | 375×667 | `TestResponsive::test_placard_fits_mobile` |
+| decade navigation exposes current room | 375×667 | `TestResponsive::test_decade_nav_visible_mobile` |
+| focused control within viewport | 1280×800, 768×1024, 375×667 | `TestResponsive::test_focused_control_within_viewport` (parametrized × 3) |
+| keyboard open + Tab/Shift-Tab containment | desktop | `TestTabContainment` (2 tests) |
+| keyboard Escape dismissal + focus restoration | desktop | `TestDismissal::test_escape_dismissal`, `TestFocusRestoration::test_focus_returns_to_origin` |
+
+All 35 browser tests pass on the pinned Chromium.
+
+### Wheel-install verification
+
+Built and installed the package into a clean venv at
+`/tmp/vitrine-wheel-test/venv` with the `[site]` extra, changed to
+`/tmp/vitrine-wheel-test/`, and ran `vitrine build` against the corpus.
+Result: **byte-for-byte identical** to the in-tree build. All 10 templates
+and both assets load correctly via `PackageLoader` / `importlib.resources`
+from the installed wheel, with no repository-relative path dependencies.
+
+### Module-size scorecard
+
+```
+src/vitrine/site/
+  build.py              191 lines  (≤250 budget)
+  render.py             107 lines  (≤120 budget, compat re-exports only)
+  context.py            342 lines  (8 page contexts + 14 view types)
+  environment.py         41 lines  (PackageLoader + globals)
+  projections/
+    walkthrough.py      231 lines  (largest; <600 budget)
+    corridors.py        202
+    affordability.py    196
+    pairs.py            156
+    arcs.py             143
+    metrics.py          133
+    stage.py             94
+    rooms.py             93
+    facts.py             43
+    references.py        20
+```
+
+### Generated-site size
+
+9.0 MB, 97 pages — equal to the `9953a0e` baseline (byte-identical except
+`assets/enhancements.js`, the intentional WP5 dismissal fix).
+
+### Acceptance-criteria scorecard
+
+| criterion (Plan 019 §"Acceptance criteria") | status | evidence |
+|----------------------------------------------|--------|----------|
+| `9953a0e` is an ancestor of the final branch | MET | `git merge-base --is-ancestor 9953a0e HEAD` exits 0 |
+| Structural contracts demonstrate the complete museum UI survived | MET | `tests/test_site_contracts.py` unchanged, 9/9 green; all 8 contracted page types pinned |
+| All 13 rooms have one validated four-fact opening route | MET | `project_room` validates `ROOM_STORY_BY_DECADE` coverage; gate fires on mismatch |
+| Every rendered corridor arc is assigned to exactly one atlas wing | MET | `_build_wings` in `projections/corridors.py` raises on registry mismatch |
+| Every template receives a typed page object produced by a `project_*` function | MET | `build.py:_render_page` is the only render path; all 9 templates read `page.*` |
+| No page context is dead code; no page boundary uses open-ended dictionaries | MET | adversarial review confirmed all 8 page contexts + 14 view types constructed and consumed |
+| Templates and assets build from an installed wheel outside the repository | MET | wheel-install verification above |
+| `build.py` is orchestration, not a replacement renderer monolith | MET | 191 lines; no SVG geometry, fact-id resolution, or ratio computation |
+| Placard modal semantics, inertness, focus containment, restoration, and repeated lifecycle behavior pass with JS enabled | MET | `TestFocusAndInert`, `TestTabContainment`, `TestDismissal`, `TestFocusRestoration`, `TestReopen`, `TestStateTransfer` |
+| CSS-only deep links and dismissal pass with JS disabled | MET | `TestJavaScriptDisabled` (6 tests) |
+| Desktop, tablet, and mobile geometry assertions pass | MET | `TestResponsive` (11 parametrized tests across 3 viewports) |
+| Public URLs, fact manifests, render coverage, and mark coverage remain exact | MET | byte-identity ⇒ same 97-page set; mark-coverage gate green (459 exhibits) |
+| Ruff, strict mypy, all unit/contract/browser tests, provenance check, build, cross-check, and identifier gate are green | MET | 197 tests; ruff clean (with `build/` exclude); mypy --strict clean (35 files); provenance + mark coverage green |
+| The final migration report records module sizes, generated-site size, wheel verification, browser matrix, and every intentional output change | MET | this section |
+
+### Intentional output changes (vs. the `9953a0e` baseline)
+
+Exactly one: `assets/enhancements.js` line 46–53 — `dismissOverlay()` changed
+from `history.pushState(...)` to `closeOverlay(); location.hash = "#dismissed"`
+to fix the CSS `:target` dismissal bug (Escape/close/backdrop left the overlay
+visually `display:flex` because `pushState` does not recalculate `:target`).
+All HTML output is byte-identical. This change is a pure correctness fix; the
+prior behavior was a latent defect inherited from `9953a0e`.
+
+### Deferred (not blockers; documented for a future pass)
+
+- **Overlay decks outside `.wrap` in the static HTML.** The plan's §"DOM
+  placement" prefers overlays rendered as siblings of `.wrap` near the end of
+  `<body>`. The current architecture renders overlays inline (inside `.wrap`)
+  and `enhancements.js` moves the active overlay to `document.body` at
+  runtime via a comment-placeholder swap. This meets the functional
+  requirement (the active overlay is outside the inert `.wrap` subtree —
+  browser-verified by the `.wrap` inert + aria-modal + visibility tests). The
+  macro split landed here (`placard_card` + `placard_overlay` called
+  separately) is the structural prerequisite; the static-DOM move is a clean
+  follow-up that would also let the JS drop its placeholder-swap logic.
+- **`load_recessions` file I/O in a projection module.** Borderline ownership
+  leak (see follow-up notes above); functionally correct, flagged for cleanup.
+- **Per-surface macro split.** `macros.html` is one flat file; the plan's
+  eventual `macros/{placards,navigation,charts}.html` split is a future
+  readability improvement.
+
 ## Migration checklist (every commit on this branch)
 
 1. `git merge-base --is-ancestor 9953a0e HEAD` exits 0 (ancestry gate).
