@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "macros.html" import placard %}
+{% from "macros.html" import placard_overlay %}
 {% block title %}the walkthrough — vitrine{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · the walkthrough · {{ page.stops | join(" → ") }}</p>
@@ -73,6 +73,6 @@
 </div>
 <p class="case-sub" style="margin-top:20px"><a href="affordability/index.html">How did we get here? →</a> — the affordability view traces five ratios across the full annual record.</p>
 <div class="overlay-deck">
-{% for ref in page.overlay_facts %}{{ placard(ref.fact, ref.room, page.sources, page.assumptions, page.affordability, root, inline=false) }}{% endfor %}
+{% for ref in page.overlay_facts %}{{ placard_overlay(ref.fact, ref.room, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
 </div>
 {% endblock %}

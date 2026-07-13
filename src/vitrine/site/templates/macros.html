@@ -66,12 +66,14 @@
     </div>
   </details>
 {% endmacro %}
-{% macro placard(fact, room, sources, assumptions, affordability, root, inline=true) %}
-{% if inline %}
+{% macro placard_card(fact, room, sources, assumptions, affordability, root) %}
+
 <div class="placard{% if fact.value.strip().lower().startswith('no reliable record') %} gap-placard{% endif %}" id="{{ fact.id }}">
   {{ _placard_body(fact, room, sources, assumptions, affordability, root, modal=false) }}
 </div>
-{% endif %}
+{%- endmacro %}
+{% macro placard_overlay(fact, room, sources, assumptions, affordability, root) %}
+
 <div class="placard-overlay" id="{{ fact.id }}--modal" role="dialog" tabindex="-1" aria-label="{{ fact.label }}">
   <a href="#dismissed" class="overlay-backdrop" aria-label="Close placard"></a>
   <div class="placard placard-card{% if fact.value.strip().lower().startswith('no reliable record') %} gap-placard{% endif %}">

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "macros.html" import placard, composition_details %}
+{% from "macros.html" import placard_overlay, composition_details %}
 {% block title %}{{ page.a }} ↔ {{ page.b }} — vitrine corridors{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · corridor · pairwise</p>
@@ -44,6 +44,6 @@
 </div>
 {% endfor %}
 <div class="overlay-deck">
-{% for ref in page.overlay_facts %}{{ placard(ref.fact, ref.room, page.sources, page.assumptions, page.affordability, root, inline=false) }}{% endfor %}
+{% for ref in page.overlay_facts %}{{ placard_overlay(ref.fact, ref.room, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
 </div>
 {% endblock %}

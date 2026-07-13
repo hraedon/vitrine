@@ -43,8 +43,14 @@
   }
 
   function dismissOverlay() {
-    history.pushState(null, "", `${location.pathname}${location.search}#dismissed`);
+    // closeOverlay() first: removes aria-modal, de-inerts .wrap, restores the
+    // overlay to its DOM position, and restores focus to the originating
+    // trigger. Then a real same-document hash navigation updates CSS :target
+    // (pushState does not — :target only recalculates on fragment navigation,
+    // so the overlay would stay display:flex after Escape/close/backdrop).
+    // The hashchange this fires is a no-op in syncWithHash (active is null).
     closeOverlay();
+    location.hash = "#dismissed";
   }
 
   function containFocus(event) {

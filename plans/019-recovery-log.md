@@ -220,6 +220,91 @@ ruff + mypy --strict clean (35 source files), provenance and mark-coverage
 gates green, ancestry gate PASS, `tests/test_site_contracts.py` unchanged and
 passing (10 tests).
 
+## WP5 — placard macro split, browser suite, enhancements.js fix (landed)
+
+Split the combined `placard` macro into `placard_card` (inline specimen card)
+and `placard_overlay` (page-level overlay deck) per Plan 019 §"Placard DOM and
+enhancement contract", added a 34-test Playwright browser suite covering the
+plan's enhanced / no-JS / responsive matrix, wired Playwright into CI on both
+Python versions, and fixed a real `:target` dismissal bug the new tests
+surfaced in `enhancements.js`.
+
+### Macro split (byte-identical)
+
+`macros.html`: `_placard_body` unchanged; `placard` replaced by
+`placard_card(fact, room, sources, assumptions, affordability, root)` and
+`placard_overlay(fact, room, sources, assumptions, affordability, root)`.
+Call sites in `room.html`, `corridors.html`, `pair.html`, `walkthrough.html`
+updated: inline exhibits call both macros (card then overlay, matching the
+prior combined output); overlay-deck loops call `placard_overlay` only. The
+generated HTML is byte-for-byte identical to the WP3+WP4 baseline — a pure
+macro-organization refactor.
+
+### Browser suite (tests/test_browser.py, 34 tests)
+
+Serves the built site over local HTTP (`http.server` in a module-scoped
+fixture — the plan requires this, not `file://`). Covers the plan's full
+matrix:
+
+- **Enhanced (23 tests):** open from room-story trigger, SVG chart mark, and
+  direct hash; focus enters overlay; `.wrap` inert + active `aria-modal=true`;
+  Tab / Shift-Tab containment; dismissal via Escape, close button, backdrop,
+  browser Back; focus returns to the exact originating trigger (element
+  identity, not tag name); open-close-reopen lifecycle; A→B state transfer;
+  Forward restores enhanced state; dense deck cycles on the 41-overlay room
+  and 249-overlay corridor page.
+- **JavaScript-disabled (6 tests):** `:target` deep link visible; close
+  control, backdrop, Back, and Forward work; no false `aria-modal="true"`;
+  fact marks and navigation present without client execution.
+- **Responsive (11 parametrized tests):** no document-level horizontal
+  overflow at 1280×800, 768×1024, 375×667 (corridor + room pages); decade
+  navigation exposes the current room at 375×667; placard card fits the mobile
+  viewport; focused control stays within viewport at every breakpoint.
+
+### enhancements.js dismissal bug (fixed)
+
+The browser suite uncovered a real defect: `dismissOverlay()` used
+`history.pushState(null, "", "...#dismissed")`, which updates the URL but
+does **not** recalculate CSS `:target` in Chromium. After Escape / close /
+backdrop dismissal, the enhanced state was cleaned up correctly (aria-modal
+removed, `.wrap` de-inerted, focus restored to origin) but the overlay stayed
+visually `display:flex` because `:target` still matched the old hash. Browser
+Back dismissal and A→B transfer already worked (they use real fragment
+navigations).
+
+Fix: `dismissOverlay()` now calls `closeOverlay()` first, then
+`location.hash = "#dismissed"` — a same-document fragment navigation that
+updates `:target` and fires `hashchange`. The `hashchange` handler
+(`syncWithHash`) no-ops because `active` is already null by then. This is the
+only byte difference from the WP3+WP4 baseline (one asset file). All five
+previously-xfailed dismissal/reopen/dense-deck tests now pass green.
+
+### CI
+
+Both Python 3.13 and 3.14 now install the pinned Chromium browser
+(`.venv/bin/python -m playwright install --with-deps chromium`) and run the
+browser suite (`pytest tests/test_browser.py -v`) after the existing build
+step. A skipped browser module is no longer a green browser gate.
+
+### Scope deferred
+
+The plan's §"DOM placement" prefers overlays rendered outside `.wrap` as
+siblings near the end of `<body>`. The current architecture renders overlays
+inline (inside `.wrap`) and `enhancements.js` moves the active overlay to
+`document.body` at runtime via a comment-placeholder swap. This meets the
+functional requirement (the active overlay is outside the inert `.wrap`
+subtree whenever a placard is open — now verified by the `.wrap` inert + aria
++ visibility tests). Restructuring the static HTML would break byte-identity
+and require simplifying the JS's move logic; it is a clean follow-up, not a
+correctness gap. The macro split here is the structural prerequisite for that
+future move (templates already call `placard_overlay` separately).
+
+**Correctness proof:** `diff -r` against the WP2 baseline shows exactly one
+changed file (`assets/enhancements.js`, the bug fix) — all HTML is
+byte-identical. Full suite **196 green** (162 existing + 34 browser),
+ruff + mypy --strict clean, provenance + mark-coverage green, ancestry PASS,
+`tests/test_site_contracts.py` unchanged and passing.
+
 ## Migration checklist (every commit on this branch)
 
 1. `git merge-base --is-ancestor 9953a0e HEAD` exits 0 (ancestry gate).

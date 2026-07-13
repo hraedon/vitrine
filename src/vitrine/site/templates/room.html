@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% from "macros.html" import placard, derived_placard, room_map %}
+{% from "macros.html" import placard_card, placard_overlay, derived_placard, room_map %}
 {% block title %}{{ page.room.country | upper }} · {{ page.room.decade }} — vitrine{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · {{ page.room.country | upper }} · the {{ page.room.decade }}</p>
@@ -35,7 +35,7 @@
 <summary class="case-title">{{ panel_title(ps.panel) }}</summary>
 {% if not ps.facts and not ps.computed %}<p class="case-sub"><em>Not yet curated.</em></p>{% else %}
 <div class="cases">
-{% for fact in ps.facts %}{{ placard(fact, page.room, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
+{% for fact in ps.facts %}{{ placard_card(fact, page.room, page.sources, page.assumptions, page.affordability, root) }}{{ placard_overlay(fact, page.room, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
 {% for cf in ps.computed %}{{ derived_placard(cf, page.room, page.assumptions, root) }}{% endfor %}
 </div>
 {% endif %}
