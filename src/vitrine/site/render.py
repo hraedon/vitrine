@@ -1,15 +1,15 @@
-"""Compatibility layer — re-exports from the split presentation modules.
+"""Compatibility re-exports for the presentation layer.
 
-The presentation code is now split into:
-  build.py          — orchestration (build_site)
-  context.py        — typed page contexts
-  projections/      — fact-to-SVG projection helpers
-  curation/          — editorial registries split by surface
-  templates/        — Jinja2 templates as package resources
-  assets/            — external CSS stylesheet
+Historically this 1170-line module held the renderer, projections, and typed
+views together. Plan 019 split it into:
+  * ``build.py``      — output orchestration (``build_site``)
+  * ``context.py``    — frozen typed page/view models
+  * ``projections/``  — one module per surface, each exposing a ``project_*``
 
-This module preserves the old import paths (render_site, _build_stage, etc.)
-so existing tests and the CLI continue to work during the migration.
+This file now exists only so legacy imports keep resolving. New code should
+import from the split modules directly. The private underscore-prefixed names
+are re-exported so the characterization tests (which pin the projections)
+continue to pass unchanged.
 """
 
 from __future__ import annotations
@@ -24,23 +24,26 @@ from vitrine.site.projections.affordability import (
 from vitrine.site.projections.affordability import (
     affordability_for_room as _affordability_for_room,
 )
-from vitrine.site.projections.affordability import (
-    format_hours as _format_hours,
-)
-from vitrine.site.projections.affordability import (
-    format_pct as _format_pct,
-)
-from vitrine.site.projections.affordability import (
-    panels_for as _panels_for,
-)
 from vitrine.site.projections.arcs import (
     arc_chart_for as _arc_chart_for,
+)
+from vitrine.site.projections.arcs import (
+    arc_coverage as _arc_coverage,
 )
 from vitrine.site.projections.arcs import (
     arc_group_chart_for as _arc_group_chart_for,
 )
 from vitrine.site.projections.arcs import (
+    arc_group_coverage as _arc_group_coverage,
+)
+from vitrine.site.projections.arcs import (
     arc_points as _arc_points,
+)
+from vitrine.site.projections.arcs import (
+    fold_shares as _fold_shares,
+)
+from vitrine.site.projections.facts import (
+    GAP_PREFIX as _GAP_PREFIX,
 )
 from vitrine.site.projections.facts import (
     FactRef as _FactRef,
@@ -66,32 +69,39 @@ from vitrine.site.projections.metrics import (
 from vitrine.site.projections.metrics import (
     ym_to_year as _ym_to_year,
 )
-from vitrine.site.projections.stage import (
-    build_stage as _build_stage,
+from vitrine.site.projections.rooms import (
+    panels_for as _panels_for,
 )
-from vitrine.site.projections.stage import (
-    fold_shares as _fold_shares,
+from vitrine.site.projections.rooms import (
+    project_room,
 )
+from vitrine.site.projections.rooms import (
+    room_story as _room_story,
+)
+from vitrine.site.projections.stage import build_stage as _build_stage
 
 __all__ = [
+    "_GAP_PREFIX",
     "_FactRef",
     "_afford_arc_chart",
     "_afford_fact_ids",
     "_affordability_for_room",
     "_arc_chart_for",
+    "_arc_coverage",
     "_arc_group_chart_for",
+    "_arc_group_coverage",
     "_arc_points",
     "_build_stage",
     "_fold_shares",
-    "_format_hours",
-    "_format_pct",
     "_index_facts",
     "_load_recessions",
     "_metric_markers",
     "_panels_for",
     "_placard_href",
     "_resolve_metric",
+    "_room_story",
     "_series_numeric",
     "_ym_to_year",
+    "project_room",
     "render_site",
 ]

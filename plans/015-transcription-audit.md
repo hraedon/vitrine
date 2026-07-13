@@ -148,7 +148,7 @@ an xlsx/csv sample), CEX expenditure-share facts, food-price facts. Run the
 audit; every mismatch found is fixed fact-side or locator-side with a
 verification-log entry explaining which.
 
-**Acceptance:** `vitrine audit` exits 0 on the operator box; ledger + 
+**Acceptance:** `vitrine audit` exits 0 on the operator box; ledger +
 SHA256SUMS committed; coverage report shows the three families at 100% of
 sample-backed facts.
 

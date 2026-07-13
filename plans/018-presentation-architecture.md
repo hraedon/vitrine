@@ -1,71 +1,285 @@
-# Plan 018 — Presentation Architecture
+# Plan 018 — Presentation architecture: from renderer to museum system
 
-**Status:** in progress
-**Started:** 2026-07-12
+**Status:** in progress; Phase A characterization is in place, the shared base
+template and stylesheet are package resources, and the progressive interaction
+asset is implemented
+**Triggered by:** the visitor-route, corridor-atlas, and room-dramaturgy passes.
+Those passes proved that the fact model can support a much stronger museum,
+but they also grew `site/render.py` to roughly 2,000 lines and
+`site/curation.py` to roughly 900. The interface now deserves an architecture
+that can carry it without making every visual change a monolithic Python diff.
 
-## Goal
+## The problem
 
-Split the monolithic `render.py` (~1,650 lines) and `curation.py` (~820 lines)
-into a well-separated presentation layer: package-resource templates, typed
-page contexts, projection helpers, and curation split by surface.
+The production site is still generated from one Python module containing:
 
-## Target structure
+- the full CSS design system;
+- eight large in-memory Jinja templates;
+- projection and chart orchestration;
+- affordability calculations and page-context assembly;
+- room, corridor, comparison, walkthrough, methodology, and bibliography
+  rendering; and
+- a growing set of untyped `dict[str, object]` view models.
 
-```
-site/
-  __init__.py
-  build.py            # orchestration — build_site()
-  context.py          # frozen, slotted page-context dataclasses
-  svg.py              # SVG primitives (unchanged)
-  tokens.py           # design tokens (unchanged)
-  symbols.py          # artifact symbols (unchanged)
+`curation.py` similarly holds arcs, stage registries, affordability metrics,
+walkthrough selections, corridor wings, and room stories in one namespace.
+
+This was the right shape while the visual language was being discovered. It
+is now the wrong shape for maintaining it. The costs are concrete:
+
+1. Template syntax errors are found only when a page builds.
+2. Type checking stops at the dictionary boundary between projection and
+   template.
+3. CSS is repeated inline in every generated HTML page, inflating the site and
+   making browser inspection noisy.
+4. A room-only change conflicts with corridor and data work because all roads
+   lead through `render.py` and `curation.py`.
+5. Output-equivalence reviews are difficult: structural refactors and visible
+   design changes arrive in the same diff.
+
+## Goals
+
+1. Make each museum surface independently understandable and changeable.
+2. Preserve the stdlib-only truth path and every provenance/build invariant.
+3. Replace loosely shaped page dictionaries with typed, immutable view models.
+4. Move templates and styles into inspectable package resources.
+5. Keep the generated site static, offline-capable, and deployable exactly as
+   today.
+6. Keep JavaScript behind an explicit progressive-enhancement boundary rather
+   than introducing a second truth or rendering path.
+
+## Non-goals
+
+- No SPA, hydration framework, client-side chart library, or API server.
+- No movement of facts, sources, assumptions, series, or derivations into the
+  presentation package.
+- No URL changes, new runtime dependency, or corpus/schema migration as part
+  of the mechanical extraction phases.
+- No visual redesign hidden inside an output-preserving refactor.
+
+## Target shape
+
+```text
+src/vitrine/site/
+  build.py                 # public render_site orchestration only
+  context.py               # frozen typed page/view models
   projections/
-    __init__.py
-    facts.py           # FactRef, index_facts, placard_href
-    stage.py           # build_stage, fold_shares
-    arcs.py            # arc chart projections
-    pairs.py           # pairwise corridor projections
-    affordability.py   # affordability projections + formatting
-    metrics.py         # dashboard metric resolution + recession loading
+    rooms.py
+    corridors.py
+    affordability.py
+    walkthrough.py
+    references.py
   curation/
-    __init__.py        # re-exports for backward compat
-    room.py            # stage, compositions, gap banners, zone notes
-    corridor.py        # arcs, arc groups, afford items
-    affordability.py   # dashboard metrics
-    walkthrough.py     # walkthrough stops, people, metrics, floor area
+    models.py              # Arc, Wing, RoomStory, Metric declarations
+    rooms.py
+    corridors.py
+    walkthrough.py
+    affordability.py
   templates/
     base.html
-    macros.html
-    index.html
+    lobby.html
     room.html
-    methodology.html
-    bibliography.html
     corridors.html
     pair.html
-    walkthrough.html
     affordability.html
-    legend.html
+    walkthrough.html
+    methodology.html
+    bibliography.html
+    macros/
+      placard.html
+      navigation.html
+      charts.html
   assets/
-    vitrine.css
+    museum.css.j2          # tokenized at build time
+    enhancements.js        # absent until a later, separately approved phase
+  svg.py
+  symbols.py
+  tokens.py
 ```
 
-## Phases
+The core package (`model`, `loader`, `check`, `derive`, `series`,
+`affordability`, `compare`) must not import any module under `site/`. The
+existing architecture test remains the enforcement boundary.
 
-1. Extract inline CSS into `assets/vitrine.css` (resolve Jinja vars to static values)
-2. Extract all templates into `templates/` package resources
-3. Replace `DictLoader` with `PackageLoader`
-4. Split `curation.py` into `curation/` package
-5. Create `context.py` with typed page contexts
-6. Split `render.py` into `build.py` + `projections/`
-7. Update `pyproject.toml` for package data
-8. Update tests for new import paths
-9. Add Playwright browser tests
-10. Accessibility audit
+## Decisions
 
-## Constraints
+### D1 — Templates become package resources
 
-- No inline CSS or JS in generated HTML
-- No public URL changes
-- No facts or computations in templates
-- Installed-wheel builds must work
-- Existing test suite must pass
+Load Jinja templates from `site/templates/` using a package loader or
+`importlib.resources`, not repository-relative paths. Installed wheels and
+editable checkouts must build identical output. Template loading must work
+without the source repository present.
+
+### D2 — One generated stylesheet
+
+Render `museum.css.j2` once per build to `_site/assets/museum.css`, substituting
+the existing token module. Every page links to it with the correct relative
+root. CSS custom properties expose the token vocabulary to the rest of the
+stylesheet.
+
+This changes generated bytes but not presentation. The phase should land alone
+and include a size report showing the reduction from removing repeated inline
+CSS.
+
+### D3 — Typed projection boundary
+
+Templates receive frozen dataclasses such as `RoomPage`, `RoomStoryView`,
+`CorridorWingView`, `ChartExhibit`, and `PlacardView`. They do not receive the
+entire corpus or dictionaries whose keys are known only by convention.
+
+Projection modules may read core entities and site curation. Templates perform
+formatting and branching only; they do not resolve fact IDs, compute ratios, or
+decide comparability.
+
+### D4 — Editorial statements name their evidence
+
+`RoomStory` establishes the pattern: a curation object that makes an
+interpretive selection must name the facts it displays, and build validation
+must prove those facts exist in the intended scope. Extend that rule to future
+curator routes, decade theses, annotations, and comparison callouts.
+
+Narrative prose containing a historical number remains forbidden unless the
+number is projected from a fact or derived fact. Moving prose into a template
+does not move it outside the truth path.
+
+### D5 — JavaScript is progressive enhancement, not a new truth path
+
+Native links, fragments, `details`, and static SVG cover the primary visit.
+`assets/enhancements.js` improves placard focus management, Escape dismissal,
+background inertness, and focus restoration when JavaScript is available.
+
+Future enhancements remain subject to these rules:
+
+- the page remains complete and navigable when the asset fails to load;
+- JavaScript may manage focus, Escape-to-close, disclosure state, and visitor
+  position;
+- it may not create facts, chart marks, values, comparisons, citations, or
+  geometry;
+- it may not fetch data or introduce analytics by default;
+- behavior gets browser tests with JavaScript enabled and disabled; and
+- dependencies or client frameworks require a separate decision supported by
+  a concrete interaction or state-management need.
+
+Filters, animated charts, and client-rendered rooms are not current candidates.
+
+## Migration phases
+
+### Phase A — Characterize the output
+
+1. Add page-family smoke tests for one dense room, one sparse room, the
+   corridor atlas, one pairwise page, affordability, walkthrough,
+   methodology, and bibliography.
+2. Record normalized structural snapshots: title, landmarks, local links,
+   fact-mark IDs, placard IDs, and open/closed disclosure state. Do not snapshot
+   all prose or SVG bytes.
+3. Record total generated HTML/CSS size and page count.
+
+**Gate:** the characterization tests fail when a landmark, fact mark, or local
+destination is deliberately removed.
+
+### Phase B — Extract templates without changing output
+
+1. Move each in-memory template verbatim into package resources.
+2. Introduce a template-environment factory with the existing globals and
+   autoescape policy.
+3. Keep projection functions in `render.py` during this phase.
+4. Compare normalized output before and after; visible changes are defects.
+
+**Gate:** all current tests plus the Phase A snapshots pass; built URLs and
+manifest are identical.
+
+### Phase C — Extract the stylesheet
+
+**Implemented 2026-07-12.** The stylesheet is rendered once from the tokenized
+package resource and all page depths link to the shared output asset.
+
+1. Move CSS into `assets/museum.css.j2`.
+2. Emit one `_site/assets/museum.css` file and link it from every page.
+3. Extend internal-link/build checks to require the stylesheet target.
+4. Verify all root depths: lobby, rooms, corridors, pairwise pages, and
+   affordability.
+5. Report generated-size change.
+
+**Gate:** responsive visual baselines match within the intentional antialiasing
+tolerance; every page resolves its stylesheet offline.
+
+### Phase D — Introduce typed contexts surface by surface
+
+Order the migration by independence:
+
+1. methodology + bibliography;
+2. lobby;
+3. rooms + placards;
+4. corridor atlas + pairwise pages;
+5. affordability;
+6. walkthrough.
+
+For each surface:
+
+- define frozen view-model dataclasses;
+- move projection logic into its module;
+- make invalid states unrepresentable where practical;
+- replace template dictionary access with attributes; and
+- delete the migrated functions from `render.py` in the same commit.
+
+Do not create a second compatibility renderer. Each surface has one owner
+before and after its migration.
+
+### Phase E — Split curation by editorial ownership
+
+1. Move shared declaration types to `curation/models.py`.
+2. Move room stories, stage registries, and gap banners to `curation/rooms.py`.
+3. Move arcs and corridor wings to `curation/corridors.py`.
+4. Move walkthrough selections and affordability metric declarations to their
+   respective modules.
+5. Preserve deliberate cross-links explicitly—for example, the room stage may
+   import the published arc registry rather than duplicating its fact maps.
+
+**Gate:** registry partition tests continue proving that every rendered arc is
+placed once and every room story names four local facts.
+
+### Phase F — Validate and contain enhancement JavaScript
+
+Run keyboard and small-screen usability checks after the mechanical migration.
+Keep the enhancement asset small, dependency-free, and covered with browser
+tests. CSS `:target` remains the no-JS fallback and deep-link URLs do not change.
+
+## Acceptance criteria
+
+- `vitrine check` and `check --against-build` remain green.
+- Render and mark coverage remain exact.
+- Every current public path is generated at the same location.
+- Every page works from a static file server with the network unavailable.
+- No new runtime dependency is introduced by Phases A–E.
+- `mypy --strict`, Ruff, and the complete test suite pass after every phase.
+- Dense and sparse rooms are inspected at desktop and mobile widths.
+- Generated CSS is shared, not repeated inline.
+- Templates contain no fact lookup, arithmetic, or unvalidated fact ID.
+- The original `render.py` is reduced to orchestration or removed in favor of
+  `build.py`; no replacement monolith exceeds the concern it owns.
+
+## Risks and controls
+
+- **Large noisy move:** use output-preserving phases and one concern per
+  commit. Do not combine template extraction with restyling.
+- **Package-data omission:** build and install a wheel in CI, then run
+  `vitrine build` from outside the repository.
+- **Relative asset paths:** test every page depth and run an internal-link
+  checker over the complete build.
+- **View-model duplication:** projection models may format core entities but
+  never become a second fact model. Fact/source IDs remain the identity.
+- **JavaScript scope creep:** keep the asset absent until a separately reviewed
+  Phase F proposal demonstrates the inaccessible or unusable native behavior.
+
+## Decisions that still belong to the owner
+
+Surface these before acting:
+
+- changing any public path or redirect behavior;
+- adding JavaScript to the published site;
+- adding a runtime dependency or frontend toolchain;
+- changing the no-JS statement in the charter/design spec; or
+- changing what counts as an authored, sourced, or derived historical claim.
+
+Everything else in Phases A–E is an implementation refactor under the existing
+contract.

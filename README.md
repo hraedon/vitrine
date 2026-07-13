@@ -88,7 +88,7 @@ not cryptographic.
 
 ## Status
 
-US corpus curated: 13 decade rooms (1900s–2020s), 313 facts, 3 derived
+US corpus curated: 13 decade rooms (1900s–2020s), 456 facts, 3 derived
 facts, zero Tier D estimates; 16 rendered gaps are structural (pre-WWII
 income/housing/food for 1910s–1930s, 1940s wartime bifurcation, 1990s
 home-production data) and listed in `docs/resource-hunt.md`. The
@@ -96,11 +96,12 @@ visualization layer (Plan 007) is implemented: three static surfaces —
 rooms (dark-gallery cutaway, era-graded light, CSS-only popup placards),
 corridors (cross-decade arc charts plus the 78-page pairwise comparison
 set), and the walkthrough (the three-stop transect) — all pre-rendered,
-no JS, every chart mark carrying the fact id it projects (`data-fact-id`,
+with one progressive-enhancement asset for accessible placards, every chart
+mark carrying the fact id it projects (`data-fact-id`,
 enforced by the mark-coverage gate in `vitrine check --against-build`).
 Design tokens and the validated palette: `docs/design-spec.md` /
-`src/vitrine/site/tokens.py`. Plan 009 (visitor experience pass) is in
-progress: 9 of 23 items done, 2 partial, 11 pending. See
+`src/vitrine/site/tokens.py`. Plan 009's implementation pass is complete: 17
+of 23 items done, 3 partial on data dependencies, and 3 deliberately deferred. See
 `docs/fact-model.md` (design spine) and `plans/` for the full series.
 
 ## Quick start

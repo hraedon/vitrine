@@ -1,19 +1,19 @@
 {% extends "base.html" %}
-{% from "macros.html" import placard %}
+{% from "macros.html" import placard_overlay %}
 {% block title %}the walkthrough — vitrine{% endblock %}
 {% block body %}
-<p class="eyebrow">vitrine · the walkthrough · {{ stops | join(" → ") }}</p>
+<p class="eyebrow">vitrine · the walkthrough · {{ page.stops | join(" → ") }}</p>
 <h1>Walk the <em>composite household</em></h1>
 <p class="sub">The home and its paid-work, unpaid-work, and childhood records at three stops across the century. No invented family biography — only sourced facts, their tiers, and the gaps.</p>
 <div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
-{% for stop in stop_sections %}
+{% for stop in page.stop_sections %}
 <h2 class="case-title">The {{ stop.decade }} — <a href="rooms/us-{{ stop.decade }}.html">enter the room</a></h2>
 <div class="stage">{{ stop.stage }}</div>
 <div class="people">
 {% for person in stop.people %}
 <div class="person-card">
   <svg viewBox="-40 -60 80 130" width="64" height="104" role="img" aria-label="{{ person.name }}">{{ person.fig }}</svg>
-  <h3>{{ person.name }}</h3>
+  <h5>{{ person.name }}</h5>
   {% for row in person.rows %}
   <a class="prow" href="{{ row.href }}" data-fact-id="{{ row.fact_id }}">
     <span class="sk">{{ row.label }}</span>
@@ -25,9 +25,9 @@
 </div>
 {% endfor %}
 <div class="thesis">
-<h2>The same measures, three stops</h2>
+<h4>The same measures, three stops</h4>
 <p class="tcap">Each row is one measure across the transect. A silent record renders as a gap, never a guess.</p>
-{% for m in metrics %}
+{% for m in page.metrics %}
 <div class="metric">
   <div class="mlab"><span>{{ m.label }}</span><em>{{ m.unit }}</em></div>
   <div class="traj">
@@ -55,12 +55,12 @@
 </div>
 <h2 class="case-title">The labour-hours meter</h2>
 <p class="case-sub">Women's weekly unpaid home production, drawn to the data's shape — including its gaps.</p>
-{% for caveat in meter_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-<div class="chart-panel">{{ meter }}</div>
+{% for caveat in page.meter_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+<div class="chart-panel">{{ page.meter }}</div>
 <h2 class="case-title">The true-scale house</h2>
 <p class="case-sub">The house is drawn to the sourced floor-area datum; a stop without one keeps the dashed reference outline.</p>
 <div class="houses">
-{% for h in houses %}
+{% for h in page.houses %}
 <figure>
 {% if h.fact_id %}<a href="{{ h.href }}">{% endif %}
 <svg viewBox="0 0 {{ h.w }} {{ h.hgt }}" width="{{ h.w }}" height="{{ h.hgt }}" role="img" aria-label="House scale, {{ h.decade }}">
@@ -73,6 +73,6 @@
 </div>
 <p class="case-sub" style="margin-top:20px"><a href="affordability/index.html">How did we get here? →</a> — the affordability view traces five ratios across the full annual record.</p>
 <div class="overlay-deck">
-{% for ref in overlay_facts %}{{ placard(ref.fact, ref.room, sources, assumptions, affordability, root, inline=false) }}{% endfor %}
+{% for ref in page.overlay_facts %}{{ placard_overlay(ref.fact, ref.room, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
 </div>
 {% endblock %}

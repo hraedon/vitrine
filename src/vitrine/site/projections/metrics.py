@@ -1,4 +1,9 @@
-"""Affordability dashboard metric resolution and recession loading."""
+"""Annual metric and recession projections for the affordability dashboard.
+
+``resolve_metric`` computes a metric's year→value ratio (or reports why it
+can't). ``metric_markers`` lifts direct-mode decade markers. ``load_recessions``
+reads the NBER band file. Pure functions; the orchestrator renders them.
+"""
 
 from __future__ import annotations
 
@@ -22,9 +27,15 @@ def resolve_metric(
     metric: curation.Metric,
     series: dict[str, Series],
 ) -> tuple[dict[int, float], str]:
-    """Compute a metric's year→value map, or report why it can't render."""
+    """Compute a metric's year→value map, or report why it can't render.
+
+    Ratio mode: merge each numerator/denominator series, take the intersection
+    of years, divide (numerator x scale). base_year re-scales to an index;
+    percent multiplies by 100. Direct mode returns an empty map (the caller
+    draws the arc's decade markers instead). Returns (values, note).
+    """
     if metric.source_arc:
-        return {}, ""
+        return {}, ""  # direct mode — markers carry the data
     if not metric.numerator or not metric.denominator:
         return {}, "metric declares no numerator/denominator"
     if metric.base_year is not None and metric.percent:
@@ -55,7 +66,7 @@ def resolve_metric(
     for y in years:
         d = den[y]
         if d == 0:
-            continue
+            continue  # render the gap — never divide by zero
         ratios[y] = (num[y] * metric.numerator_scale) / d
     if not ratios:
         return {}, "denominator is zero for every coverage year"
@@ -117,9 +128,6 @@ def load_recessions(path: Path) -> tuple[tuple[svg.Recession, ...], str]:
     bands: list[svg.Recession] = []
     for entry in data.get("recession", []):
         bands.append(
-            svg.Recession(
-                peak=ym_to_year(entry["peak"]),
-                trough=ym_to_year(entry["trough"]),
-            )
+            svg.Recession(peak=ym_to_year(entry["peak"]), trough=ym_to_year(entry["trough"]))
         )
     return tuple(bands), str(data.get("url", ""))

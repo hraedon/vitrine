@@ -1,37 +1,12 @@
-"""Corridor curation: cross-decade arcs, arc groups, and affordability items.
+"""Corridor atlas curation: cross-decade arcs, shared-axis groups, wings.
 
-This module authors *structure only*: which fact ids form a cross-decade arc.
-Values, tiers and geometry all come from the corpus at build time.
+Also holds the affordability-corridor items (median home, new car) projected
+across decades. Authors structure only; the corpus supplies every value.
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-
-
-@dataclass(frozen=True, slots=True)
-class Arc:
-    """One cross-decade fact family, charted in the corridors."""
-
-    slug: str
-    label: str
-    unit: str
-    fact_ids: dict[str, str]  # decade → fact id
-    falling: bool = False  # falling metrics render in copper
-    caveats: tuple[str, ...] = field(default=())
-    series_id: str = ""  # plan 010: annual series backing this arc, if any
-    plot_gaps: frozenset[str] = field(default_factory=frozenset)
-
-
-@dataclass(frozen=True, slots=True)
-class ArcGroup:
-    """Several related arcs rendered on one shared axis."""
-
-    slug: str
-    label: str
-    unit: str
-    members: tuple[tuple[str, str, str], ...]  # (arc slug, legend label, color role)
-    caveats: tuple[str, ...] = field(default=())
+from vitrine.site.curation.models import Arc, ArcGroup, CorridorWing
 
 
 def _ids(pattern: str, decades: str) -> dict[str, str]:
@@ -320,6 +295,7 @@ ARCS: tuple[Arc, ...] = (
             "The 1940s point is 1947 — the first postwar CPS tabulation.",
         ),
     ),
+    # ── Plan 014: corridor expansion arcs ──────────────────────────────────
     Arc(
         "heart-disease-mortality",
         "Heart disease mortality",
@@ -447,6 +423,9 @@ ARCS: tuple[Arc, ...] = (
 ARC_BY_SLUG: dict[str, Arc] = {a.slug: a for a in ARCS}
 
 
+# These two series answer one question and must share one scale.  Separate
+# charts made the smaller men's series look visually comparable in magnitude
+# to the women's series and hid the convergence that is the actual story.
 ARC_GROUPS: tuple[ArcGroup, ...] = (
     ArcGroup(
         "home-production-by-sex",
@@ -498,11 +477,106 @@ ARC_GROUP_BY_MEMBER: dict[str, ArcGroup] = {
 }
 
 
+# The corridor page is an atlas, not a registry dump. These four questions
+# provide an editorial route through every rendered chart while leaving the
+# underlying arc registry—and therefore every provenance invariant—unchanged.
+CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
+    CorridorWing(
+        slug="household",
+        number="I",
+        title="The household",
+        question="Who made up the family, and how long did life last?",
+        introduction=(
+            "Population records describe the household from the outside: its "
+            "size, its prevalence, and the health conditions surrounding it. "
+            "The gaps show where the national series had not yet learned to count."
+        ),
+        arc_slugs=(
+            "life-expectancy",
+            "infant-mortality",
+            "mortality-revolution",
+            "cancer-survival",
+            "poverty-rate",
+            "family-size",
+            "number-of-families",
+        ),
+    ),
+    CorridorWing(
+        slug="shelter",
+        number="II",
+        title="The threshold",
+        question="When did shelter become infrastructure?",
+        introduction=(
+            "Tenure, plumbing, cooling, mobility, and floor area entered the "
+            "record on different clocks. Read together, they show a house becoming "
+            "a bundle of systems rather than a single possession."
+        ),
+        arc_slugs=(
+            "homeownership",
+            "plumbing",
+            "air-conditioning",
+            "vehicle",
+            "home-size",
+            "median-gross-rent",
+        ),
+    ),
+    CorridorWing(
+        slug="signals",
+        number="III",
+        title="Signals into the home",
+        question="How did the outside world cross the walls?",
+        introduction=(
+            "Broadcast, voice, cable, computing, and networks arrived in waves. "
+            "Short series remain short: an absent line is not filled from a later "
+            "technology with a similar name."
+        ),
+        arc_slugs=(
+            "radio",
+            "television",
+            "telephone",
+            "cable-tv",
+            "computer",
+            "internet",
+        ),
+    ),
+    CorridorWing(
+        slug="economy",
+        number="IV",
+        title="The household economy",
+        question="Where did the family's time and money go?",
+        introduction=(
+            "Paid hours, unpaid production, prices, and the food budget expose the "
+            "work behind the room. This wing also holds the computed affordability "
+            "exhibits: ratios made at build time, never authored as facts."
+        ),
+        arc_slugs=(
+            "home-production-by-sex",
+            "weekly-hours",
+            "food-share",
+            "apparel-share",
+            "expenditure-income-ratio",
+            "healthcare-cost",
+            "cex-healthcare-share",
+            "cpi",
+        ),
+    ),
+)
+
+
+# ── affordability corridors (structured amounts + room anchors) ──────────────
+# decade lists resolved against the corpus at build time; a decade whose fact
+# is missing simply isn't a point (render the gap).
+
 AFFORD_ITEMS: tuple[tuple[str, str, str], ...] = (
+    # (slug, label, fact id pattern)
     ("median-home", "A median home", "us-{decade}-median-home-value"),
     ("new-car", "A new car", "us-{decade}-car-price"),
 )
 
+# Static caveats the dynamic measure-guard can't detect (Plan 011 WI-5). The
+# car-price line mixes wholesale (pre-1970) and transaction (1970+) price
+# methodologies — a step between points that the comparator sees as a price
+# change is partly a concept change. Surfaced, not smoothed.
 AFFORD_ITEM_CAVEATS: dict[str, tuple[str, ...]] = {
     "new-car": (
         "Pre-1970 car prices are wholesale averages; 1970+ are BEA transaction "

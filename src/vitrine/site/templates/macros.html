@@ -1,3 +1,16 @@
+
+{% macro room_map(rooms, current, href_prefix, previous, following, position, lobby=false) %}
+<nav class="room-map" aria-label="Decade rooms">
+{% if not lobby %}<div class="room-map-context">
+  {% if previous %}<a rel="prev" href="{{ href_prefix }}{{ previous.slug }}.html">← {{ previous.decade }}</a>{% else %}<span aria-hidden="true"></span>{% endif %}
+  <span>Room {{ position }} of {{ rooms|length }}</span>
+  {% if following %}<a rel="next" href="{{ href_prefix }}{{ following.slug }}.html">{{ following.decade }} →</a>{% else %}<span aria-hidden="true"></span>{% endif %}
+</div>{% endif %}
+<ol class="room-track{% if lobby %} lobby{% endif %}" style="--room-count:{{ rooms|length }}">
+{% for r in rooms %}<li><a{% if current and r.slug == current.slug %} class="on" aria-current="page"{% endif %} href="{{ href_prefix }}{{ r.slug }}.html"><i aria-hidden="true"></i><span>{{ r.decade }}</span></a></li>{% endfor %}
+</ol>
+</nav>
+{% endmacro %}
 {% macro composition_details(rows) %}
 {% if rows %}
 <details class="composition-key">
@@ -17,11 +30,20 @@
 </details>
 {% endif %}
 {% endmacro %}
-{% macro _placard_body(fact, room, sources, assumptions, affordability, root, modal) %}
-  <div class="ceyebrow">{{ panel_title(fact.panel) }} · {{ room.decade }}</div>
-  <div class="cval">{{ fact.value }}<span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}" title="{{ tier_label(fact.tier) }}">{{ fact.tier.value }}</span></div>
+{% macro _placard_body(fact, room, sources, assumptions, affordability, root) %}
+  {% set src = sources[fact.source] %}
+  {% set is_gap = fact.value.strip().lower().startswith('no reliable record') %}
+  <div class="placard-head">
+    <div class="ceyebrow">{{ panel_title(fact.panel) }} · {{ room.decade }}<span class="record-kind">{% if is_gap %}documented gap{% else %}observed record{% endif %}</span></div>
+    <span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}" title="{{ tier_label(fact.tier) }}">Tier {{ fact.tier.value }}</span>
+  </div>
+  <div class="cval">{{ fact.value }}</div>
   <p class="clab">{{ fact.label }}</p>
   <p class="cunit">{{ fact.unit }}</p>
+  <div class="evidence-grid">
+    <div class="evidence-cell"><span class="mk">Population measured</span><span class="ev">{{ src.population }}</span></div>
+    <div class="evidence-cell"><span class="mk">Source record</span><span class="ev">{{ src.publisher }} · {{ src.year }} · Tier {{ fact.tier.value }}</span></div>
+  </div>
   {% if fact.id in affordability %}{% set aff = affordability[fact.id] %}
   {% if aff.hours or aff.pct %}<div class="afford-box"><span class="mk">Computed affordability</span>
   {% if aff.hours %}<p class="afford">{{ aff.hours }}</p>{% endif %}
@@ -29,10 +51,8 @@
   {% if aff.hours_large %}<p class="afford-warning">Large ratio: inspect the wage population and anchor years in provenance before reading this as one household's timeline.</p>{% endif %}
   </div>{% endif %}
   {% endif %}
-  {% set src = sources[fact.source] %}
-  <div class="measured"><span class="mk">Measured</span><span class="mv">{{ src.population }}</span></div>
   <details>
-    <summary aria-label="Provenance for {{ fact.label }}">provenance</summary>
+    <summary>Open source record</summary>
     <div class="drawer">
       <b>{{ src.title }}</b><br>
       {{ src.publisher }}, {{ src.year }} · <a href="{{ src.url }}">source</a><br>
@@ -46,28 +66,37 @@
     </div>
   </details>
 {% endmacro %}
-{% macro placard(fact, room, sources, assumptions, affordability, root, inline=true) %}
-{% if inline %}
+{% macro placard_card(fact, room, sources, assumptions, affordability, root) %}
+
 <div class="placard{% if fact.value.strip().lower().startswith('no reliable record') %} gap-placard{% endif %}" id="{{ fact.id }}">
-  {{ _placard_body(fact, room, sources, assumptions, affordability, root, modal=false) }}
+  {{ _placard_body(fact, room, sources, assumptions, affordability, root) }}
 </div>
-{% endif %}
-<div class="placard-overlay" id="{{ fact.id }}--modal" role="dialog" aria-modal="true" aria-label="{{ fact.label }}">
-  <a href="#dismissed" class="overlay-backdrop" aria-label="Close placard" tabindex="-1"></a>
+{%- endmacro %}
+{% macro placard_overlay(fact, room, sources, assumptions, affordability, root) %}
+
+<div class="placard-overlay" id="{{ fact.id }}--modal" role="dialog" tabindex="-1" aria-label="{{ fact.label }}">
+  <a href="#dismissed" class="overlay-backdrop" aria-label="Close placard"></a>
   <div class="placard placard-card{% if fact.value.strip().lower().startswith('no reliable record') %} gap-placard{% endif %}">
     <a href="#dismissed" class="overlay-close" aria-label="Close placard">&times;</a>
-    {{ _placard_body(fact, room, sources, assumptions, affordability, root, modal=true) }}
+    {{ _placard_body(fact, room, sources, assumptions, affordability, root) }}
   </div>
 </div>
 {% endmacro %}
 {% macro derived_placard(cf, room, assumptions, root) %}
 <div class="placard" id="{{ cf.id }}">
-  <div class="ceyebrow">{{ panel_title(cf.panel) }} · {{ room.decade }} · computed</div>
-  <div class="cval">{{ cf.value }}<span class="tchip" style="background:{{ T.TIER_COLORS[cf.tier.value] }}" title="{{ tier_label(cf.tier) }} (weakest input)">{{ cf.tier.value }}</span></div>
+  <div class="placard-head">
+    <div class="ceyebrow">{{ panel_title(cf.panel) }} · {{ room.decade }}<span class="record-kind">computed exhibit</span></div>
+    <span class="tchip" style="background:{{ T.TIER_COLORS[cf.tier.value] }}" title="{{ tier_label(cf.tier) }} (weakest input)">Tier {{ cf.tier.value }}</span>
+  </div>
+  <div class="cval">{{ cf.value }}</div>
   <p class="clab">{{ cf.label }}</p>
   <p class="cunit">{{ cf.unit }}</p>
+  <div class="evidence-grid">
+    <div class="evidence-cell"><span class="mk">Method</span><span class="ev">Computed by vitrine · {{ cf.op.value }}</span></div>
+    <div class="evidence-cell"><span class="mk">Confidence</span><span class="ev">Tier {{ cf.tier.value }} · weakest input governs</span></div>
+  </div>
   <details>
-    <summary>derivation</summary>
+    <summary>Open derivation</summary>
     <div class="drawer">
       <em>Computed by vitrine</em> ({{ cf.op.value }}) — never authored by hand:<br>
       <em>Numerator:</em> {{ cf.numerator.value }} — {{ cf.numerator.label }} <span class="tchip" style="background:{{ T.TIER_COLORS[cf.numerator.tier.value] }}">{{ cf.numerator.tier.value }}</span><br>

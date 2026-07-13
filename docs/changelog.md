@@ -1,5 +1,49 @@
 # Changelog
 
+## 2026-07-13 — Plan 019 (presentation architecture recovery)
+
+A controlled recovery of the museum UI onto a maintainable presentation
+architecture. Plan 018 split the presentation code off the pre-museum-UI
+baseline; Plan 019 transplants that split onto the content-complete `9953a0e`
+baseline (the museum lobby, atlas-wing corridors, room opening routes,
+visitor navigation, evidence-first placards, and walkthrough that Plan 018
+had omitted) without losing a single rendered byte.
+
+**What landed (six work packages, all byte-identical except one intentional
+asset fix):**
+
+- **WP0/WP1** — recovery baseline + ancestry gate; `curation.py` (1096 lines)
+  split into the `site/curation/` package (`models`, `corridors`, `rooms`,
+  `affordability`, `walkthrough`, re-exporting `__init__`).
+- **WP2** — ten inline Jinja template strings extracted from `render.py` into
+  `templates/*.html`; `environment.py` centralizes the `PackageLoader` +
+  globals. `render.py` 1732→1170 lines.
+- **WP3+WP4** — `render.py` (1170 lines) split into `context.py` (8 typed
+  page contexts + 14 intermediate view types, all `frozen=True, slots=True`),
+  `projections/*.py` (11 surface modules, one `project_*` per page), and
+  `build.py` (188 lines, orchestration only). All 9 templates rewritten to
+  receive a single typed `page` object. `render.py` reduced to a 107-line
+  compatibility re-export.
+- **WP5** — `placard` macro split into `placard_card` + `placard_overlay`;
+  35-test Playwright browser suite covering the enhanced / no-JS / responsive
+  matrix; wired Playwright into CI on both Python versions. Surfaced and
+  fixed a real `:target` dismissal bug in `enhancements.js`
+  (`pushState("#dismissed")` did not recalculate CSS `:target`; replaced with
+  a real fragment navigation). This is the only byte difference from the
+  baseline.
+- **WP6** — adversarial review (no critical/major defects), follow-up fixes
+  (dead macro parameter, ruff `build/` exclusion, test-count drift,
+  post-dismissal Forward coverage), and this report.
+
+**Size budgets met:** `build.py` 191 ≤ 250; `render.py` 107 ≤ 120; largest
+projection module 231 < 600. **Wheel verification:** an installed wheel
+builds the site byte-identically from outside the repository. **Tests:**
+197 (162 existing + 35 browser). ruff + mypy --strict clean across 35 files.
+Ancestry gate PASS (`9953a0e` is an ancestor of HEAD). Contracts unchanged.
+
+See `plans/019-recovery-log.md` for the per-work-package landing notes and
+`plans/019-ui-recovery-and-presentation-architecture.md` for the full plan.
+
 ## 2026-07-08 — Plan 007 (the visualization layer)
 
 The production renderer replaces the V0 schematic with three static surfaces
@@ -8,7 +52,8 @@ era-graded stage light, ivory `:target` specimen placards), corridors (17
 cross-decade arc charts, affordability-in-hours, budget composition, and the
 78-page measure-guard-filtered pairwise set), and the walkthrough (the
 1900s→1950s→2020s transect with the labour-hours meter and true-scale house).
-No JS anywhere; every interactive affordance works with scripts disabled.
+One progressive-enhancement asset; every interactive affordance still works
+with scripts disabled.
 
 Model change: facts gained an optional structured `quantity` — the one number
 a chart mark may project — gate-enforced to appear verbatim in the display

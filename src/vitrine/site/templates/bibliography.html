@@ -3,9 +3,9 @@
 {% block body %}
 <p class="eyebrow">vitrine · bibliography</p>
 <h1>Bibliography &mdash; <em>all sources</em></h1>
-<p class="sub">Every fact in the museum traces to one of these {{ sources|length }} sources. Each entry names the publisher, publication year, the population actually measured, and a link to verify.</p>
+<p class="sub">Every fact in the museum traces to one of these {{ page.sources|length }} sources. Each entry names the publisher, publication year, the population actually measured, and a link to verify.</p>
 <div class="cases" style="margin-top:22px">
-{% for src in sources %}
+{% for src in page.sources %}
 <div class="placard" id="{{ src.id }}">
   <div class="ceyebrow">source</div>
   <div class="cval">{{ src.title }}</div>

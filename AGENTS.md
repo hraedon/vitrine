@@ -71,9 +71,9 @@ uv venv && uv pip install -e ".[dev]"
 .venv/bin/vitrine check --against-build _site  # + render & mark coverage
 ```
 
-The site (Plan 007) is three static surfaces — rooms, corridors, walkthrough —
-with a small progressive-enhancement JS module for placard focus management
-(`assets/placard.js`); design tokens live in `docs/design-spec.md` +
+The site (Plan 007) is three pre-rendered surfaces — rooms, corridors,
+walkthrough — with a small progressive-enhancement asset for accessible
+placards; design tokens live in `docs/design-spec.md` +
 `src/vitrine/site/tokens.py`, editorial chart/stage registries in
 `src/vitrine/site/curation/`. Chart marks carry `data-fact-id`; a mark that
 can't name a curated fact is a red build. A fact's chartable number is its

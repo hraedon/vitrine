@@ -1,11 +1,12 @@
-"""Plan 007 acceptance criteria over the built site.
+"""Presentation acceptance criteria over the built site.
 
 Builds once per session from the committed corpus and asserts on the actual
-HTML: static (no script), marks resolve, symbols gated per room, deep links
-land, gaps render as gaps.
+HTML: progressively enhanced static output, resolved marks, gated symbols,
+working deep links, and honest gaps.
 """
 
 import re
+from html import unescape
 from html.parser import HTMLParser
 from itertools import combinations
 from pathlib import Path
@@ -14,7 +15,7 @@ import pytest
 
 from vitrine.check import check_mark_coverage
 from vitrine.loader import load_corpus
-from vitrine.model import Corpus
+from vitrine.model import Corpus, Panel
 from vitrine.series import load_series
 from vitrine.site import curation, symbols
 from vitrine.site.render import _build_stage, _index_facts, render_site
@@ -59,22 +60,30 @@ def _scan(page: Path) -> _Scanner:
     return scanner
 
 
-def test_no_inline_script_anywhere(site: Path) -> None:
-    """AC 1: no inline JavaScript — external <script src> is allowed for the
-    progressive-enhancement module, but inline script bodies are not."""
+def test_only_shared_progressive_enhancement_script(site: Path) -> None:
+    """Pages use one external interaction asset and contain no inline script."""
     for page in site.rglob("*.html"):
         html = page.read_text()
-        scanner = _scan(page)
-        assert "script" not in scanner.tags or _has_only_external_scripts(html), (
-            f"inline <script> in {page.name}"
-        )
+        assert _scan(page).tags.count("script") == 1, page
+        assert '<script src="' in html
+        assert 'assets/enhancements.js" defer></script>' in html
+    script = (site / "assets" / "enhancements.js").read_text()
+    assert "aria-modal" in script
+    assert ".inert" in script
+    assert 'event.key === "Escape"' in script
 
 
-def _has_only_external_scripts(html: str) -> bool:
-    """True if every <script> tag has a src attribute and no inline content."""
-    import re
-    scripts = re.findall(r'<script[^>]*>(.*?)</script>', html, re.S)
-    return all(not body.strip() for body in scripts)
+def test_only_shared_stylesheet(site: Path) -> None:
+    """The tokenized design system is emitted once rather than per page."""
+    stylesheet = site / "assets" / "museum.css"
+    assert stylesheet.is_file()
+    css = stylesheet.read_text()
+    assert "body{margin:0" in css
+    assert "{{" not in css
+    for page in site.rglob("*.html"):
+        html = page.read_text()
+        assert "<style" not in html, page
+        assert 'assets/museum.css">' in html, page
 
 
 def test_all_three_surfaces_render(site: Path, corpus: Corpus) -> None:
@@ -84,6 +93,129 @@ def test_all_three_surfaces_render(site: Path, corpus: Corpus) -> None:
     n = len(corpus.rooms)
     assert len(list((site / "rooms").glob("*.html"))) == n
     assert len(list((site / "corridors").glob("*--*.html"))) == n * (n - 1) // 2
+
+
+def test_museum_map_is_semantic_and_surface_aware(site: Path) -> None:
+    """The global museum map identifies location without JavaScript."""
+    pages = {
+        site / "index.html": "Rooms",
+        site / "corridors" / "index.html": "Trends",
+        site / "affordability" / "index.html": "Affordability",
+        site / "walkthrough.html": "Guided tour",
+        site / "methodology.html": "Method",
+        site / "bibliography.html": "Sources",
+    }
+    for page, active_label in pages.items():
+        html = page.read_text()
+        assert '<a class="skip-link" href="#content">' in html
+        assert '<nav class="museum-map" aria-label="Museum map">' in html
+        assert '<main id="content" tabindex="-1">' in html
+        assert re.search(
+            rf'<a class="here" aria-current="page"[^>]*>{re.escape(active_label)}</a>',
+            html,
+        ), page
+
+
+def test_room_map_has_context_and_complete_timeline(site: Path, corpus: Corpus) -> None:
+    rooms = sorted(corpus.rooms, key=lambda room: room.decade)
+    first = (site / "rooms" / f"{rooms[0].slug}.html").read_text()
+    middle_position = len(rooms) // 2
+    middle_room = rooms[middle_position]
+    middle = (site / "rooms" / f"{middle_room.slug}.html").read_text()
+    last = (site / "rooms" / f"{rooms[-1].slug}.html").read_text()
+
+    for html in (first, middle, last):
+        assert '<nav class="room-map" aria-label="Decade rooms">' in html
+        assert html.count('<i aria-hidden="true"></i>') == len(rooms)
+
+    assert 'rel="prev"' not in first
+    assert 'rel="next"' in first
+    assert 'rel="prev"' in middle and 'rel="next"' in middle
+    assert f"Room {middle_position + 1} of {len(rooms)}" in middle
+    assert (
+        f'class="on" aria-current="page" href="{middle_room.slug}.html"'
+        in middle
+    )
+    assert 'rel="prev"' in last
+    assert 'rel="next"' not in last
+
+
+def test_corridor_wings_partition_every_rendered_arc_once() -> None:
+    """The atlas may reorder charts, but it may not lose or duplicate one."""
+    rendered_slugs: list[str] = []
+    seen_groups: set[str] = set()
+    for arc in curation.ARCS:
+        group = curation.ARC_GROUP_BY_MEMBER.get(arc.slug)
+        if group is None:
+            rendered_slugs.append(arc.slug)
+        elif group.slug not in seen_groups:
+            seen_groups.add(group.slug)
+            rendered_slugs.append(group.slug)
+
+    wing_slugs = [
+        slug for wing in curation.CORRIDOR_WINGS for slug in wing.arc_slugs
+    ]
+    assert len(wing_slugs) == len(set(wing_slugs))
+    assert set(wing_slugs) == set(rendered_slugs)
+
+
+def test_corridor_atlas_is_navigable_and_progressively_disclosed(site: Path) -> None:
+    html = (site / "corridors" / "index.html").read_text()
+    visible_text = unescape(html)
+    assert '<nav class="atlas-directory" aria-label="Atlas wings">' in html
+    assert html.count('<section class="atlas-wing"') == len(
+        curation.CORRIDOR_WINGS
+    )
+    for wing in curation.CORRIDOR_WINGS:
+        assert f'href="#wing-{wing.slug}"' in html
+        assert f'id="wing-{wing.slug}"' in html
+        assert wing.question in visible_text
+
+    rendered_arc_count = sum(len(wing.arc_slugs) for wing in curation.CORRIDOR_WINGS)
+    expected_exhibits = rendered_arc_count + len(curation.AFFORD_ITEMS) + 1
+    assert html.count('class="atlas-exhibit"') == expected_exhibits
+    assert html.count('class="atlas-exhibit" open') == len(
+        curation.CORRIDOR_WINGS
+    )
+    assert 'href="../affordability/index.html"' in html
+    assert '<section class="study-room"' in html
+    assert 'aria-label="All pairwise decade comparisons"' in html
+
+
+def test_room_stories_are_local_complete_and_distinct(corpus: Corpus) -> None:
+    rooms = {room.decade: room for room in corpus.rooms}
+    assert len(curation.ROOM_STORIES) == len(curation.ROOM_STORY_BY_DECADE)
+    assert set(curation.ROOM_STORY_BY_DECADE) == set(rooms)
+    for decade, story in curation.ROOM_STORY_BY_DECADE.items():
+        assert not re.search(r"\d", story.title + story.question)
+        assert len(story.fact_ids) == 4
+        assert len(set(story.fact_ids)) == 4
+        room_fact_ids = {fact.id for fact in rooms[decade].facts}
+        assert set(story.fact_ids) <= room_fact_ids
+
+
+def test_every_room_opens_with_a_sourced_route_and_case_map(
+    site: Path, corpus: Corpus
+) -> None:
+    for room in corpus.rooms:
+        html = (site / "rooms" / f"{room.slug}.html").read_text()
+        story = curation.ROOM_STORY_BY_DECADE[room.decade]
+        assert '<section class="room-overture"' in html
+        assert html.count('class="story-stop"') == 4
+        for fact_id in story.fact_ids:
+            assert f'href="#{fact_id}--modal" data-fact-id="{fact_id}"' in html
+        assert '<nav class="exhibit-map" aria-label="Room display cases">' in html
+        for panel in Panel:
+            assert f'href="#panel-{panel.value}"' in html
+            assert f'id="panel-{panel.value}"' in html
+
+
+def test_placards_lead_with_evidence_hierarchy(site: Path) -> None:
+    html = (site / "rooms" / "us-1950s.html").read_text()
+    assert "Population measured" in html
+    assert "Source record" in html
+    assert "observed record" in html
+    assert "Open source record" in html
 
 
 def test_mark_coverage_green_on_build(site: Path, corpus: Corpus) -> None:
@@ -422,3 +554,13 @@ def test_automobile_glyph_absent_before_1960s(site: Path) -> None:
         sym = symbols.symbol("automobile", decade)
         if sym is not None:
             assert sym.svg[:60] not in html, f"automobile glyph unexpectedly drawn in {decade}"
+
+
+def test_transport_note_is_right_anchored_inside_stage(site: Path) -> None:
+    """A boundary-positioned transport label must grow into the house, not clip."""
+    html = (site / "rooms" / "us-2020s.html").read_text()
+    assert re.search(
+        r'<text class="znote"[^>]*style="text-anchor:end"[^>]*'
+        r'data-fact-id="us-2020s-expenditure-breakdown-4p"',
+        html,
+    )

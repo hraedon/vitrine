@@ -1,36 +1,14 @@
-"""Affordability dashboard metrics (Plan 011)."""
+"""Affordability dashboard curation: computed ratio metrics over time."""
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from vitrine.site.curation.models import Metric
 
-
-@dataclass(frozen=True, slots=True)
-class Metric:
-    """One affordability metric on the dashboard — a computed ratio over time.
-
-    Ratio mode: ``numerator`` / ``denominator`` (each a tuple of series ids
-    whose values merge; monetary series convert cents→dollars uniformly). A
-    ``base_year`` re-scales the ratio so that year = 100 (an index).
-    Direct mode: ``source_arc`` names an arc whose decade quantities plot
-    as-is (for metrics with no annual series, e.g. food share).
-    """
-
-    slug: str
-    label: str
-    unit: str
-    caption: str
-    caveats: tuple[str, ...] = field(default=())
-    numerator: tuple[str, ...] = field(default=())
-    denominator: tuple[str, ...] = field(default=())
-    numerator_scale: float = 1.0
-    base_year: int | None = None
-    percent: bool = False
-    source_arc: str = ""
-    falling: bool = False
-    zero_baseline: bool = True
-
-
+# ── affordability dashboard metrics (Plan 011) ───────────────────────────────
+# Every metric is a ratio of two series (or a direct arc projection), computed
+# by the renderer — never authored. A metric's coverage is the intersection of
+# its numerator and denominator years; years missing on either side render as
+# gaps (the "render the gap" ethos, extended to cross-decade metrics).
 AFFORDABILITY_METRICS: tuple[Metric, ...] = (
     Metric(
         "home-as-income-years",

@@ -1,15 +1,15 @@
 {% extends "base.html" %}
-{% from "macros.html" import placard, composition_details %}
-{% block title %}{{ a }} ↔ {{ b }} — vitrine corridors{% endblock %}
+{% from "macros.html" import placard_overlay, composition_details %}
+{% block title %}{{ page.a }} ↔ {{ page.b }} — vitrine corridors{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · corridor · pairwise</p>
-<h1>{{ a }} <em>↔</em> {{ b }}</h1>
+<h1>{{ page.a }} <em>↔</em> {{ page.b }}</h1>
 <p class="sub">Fact families the measure guard certifies comparable for this pair. Everything else renders as the gap it is. Every value links to its placard.</p>
 <div class="decades" style="margin-top:16px"><span class="lab">Rooms</span>
-<a class="dbtn" href="../rooms/us-{{ a }}.html">{{ a }}</a>
-<a class="dbtn" href="../rooms/us-{{ b }}.html">{{ b }}</a>
+<a class="dbtn" href="../rooms/us-{{ page.a }}.html">{{ page.a }}</a>
+<a class="dbtn" href="../rooms/us-{{ page.b }}.html">{{ page.b }}</a>
 <a class="dbtn" href="index.html">all corridors</a></div>
-{% for item in afford_sections %}
+{% for item in page.afford_sections %}
 <h2 class="case-title">{{ item.label }} — affordability</h2>
 {% for caveat in item.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
 {% if item.rows %}
@@ -22,15 +22,15 @@
     {% endfor %}
     </div>
 {% else %}
-<div class="pairgrid"><span class="valcard"><div class="td">{{ a }} ↔ {{ b }}</div><div class="tv gapv">not comparable for this pair — {{ item.gap_reason }}</div></span></div>
+<div class="pairgrid"><span class="valcard"><div class="td">{{ page.a }} ↔ {{ page.b }}</div><div class="tv gapv">not comparable for this pair — {{ item.gap_reason }}</div></span></div>
 {% endif %}
 {% endfor %}
-{% if comp_rows %}
+{% if page.comp_rows %}
 <h2 class="case-title">Budget composition</h2>
-<div class="chart-panel">{% for row in comp_rows %}{{ row.bar }}{% endfor %}</div>
-{{ composition_details(comp_rows) }}
+<div class="chart-panel">{% for row in page.comp_rows %}{{ row.bar }}{% endfor %}</div>
+{{ composition_details(page.comp_rows) }}
 {% endif %}
-{% for fam in families %}
+{% for fam in page.families %}
 <h2 class="case-title">{{ fam.label }}</h2>
 <p class="case-sub">{{ fam.unit }}</p>
 {% for caveat in fam.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
@@ -44,6 +44,6 @@
 </div>
 {% endfor %}
 <div class="overlay-deck">
-{% for ref in overlay_facts %}{{ placard(ref.fact, ref.room, sources, assumptions, affordability, root, inline=false) }}{% endfor %}
+{% for ref in page.overlay_facts %}{{ placard_overlay(ref.fact, ref.room, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
 </div>
 {% endblock %}

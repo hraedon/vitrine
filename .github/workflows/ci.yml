@@ -32,6 +32,10 @@ jobs:
         run: .venv/bin/vitrine check
       - name: Build renders
         run: .venv/bin/vitrine build --out _site
+      - name: Install Playwright browser
+        run: .venv/bin/python -m playwright install --with-deps chromium
+      - name: Browser tests
+        run: .venv/bin/pytest tests/test_browser.py -v
       - name: Render-coverage gate
         run: .venv/bin/vitrine check --against-build _site
       - name: Cross-check (source-topic consistency)

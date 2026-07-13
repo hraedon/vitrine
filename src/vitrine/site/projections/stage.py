@@ -1,41 +1,16 @@
-"""Stage projection: build the room cutaway from corpus facts."""
+"""Stage projection — the house cutaway for one room or walkthrough stop.
+
+Builds the ``svg.Stage`` (artifacts placed by curation, zone notes folded from
+the composition fact, home-scale from the floor-area datum). The orchestrator
+wraps the returned stage with ``svg.stage_svg`` + ``Markup``.
+"""
 
 from __future__ import annotations
 
-from vitrine.model import Fact, Room
-from vitrine.site import curation, svg, symbols, tokens
+from vitrine.model import Room
+from vitrine.site import curation, svg, symbols
+from vitrine.site.projections.arcs import fold_shares
 from vitrine.site.projections.facts import FactRef, placard_href
-
-
-def fold_shares(
-    fact: Fact, index: dict[str, FactRef], root: str
-) -> tuple[svg.ShareSegment, ...]:
-    """Parse a composition fact and fold categories into the fixed palette slots."""
-    parsed = svg.parse_shares(fact.value)
-    href = placard_href(index, fact.id, root)
-    by_slot: dict[str, list[tuple[str, float]]] = {}
-    for category, pct in parsed:
-        slot = tokens.CATEGORY_SLOT.get(category, "other")
-        by_slot.setdefault(slot, []).append((category, pct))
-    segments = []
-    for slot in tokens.COMPOSITION_ORDER:
-        if slot not in by_slot:
-            continue
-        breakdown = by_slot[slot]
-        names = [name for name, _pct in breakdown]
-        total = sum(pct for _name, pct in breakdown)
-        label = "other" if slot == "other" else " + ".join(names)
-        segments.append(
-            svg.ShareSegment(
-                slot=slot,
-                category=label,
-                pct=round(total, 2),
-                fact_id=fact.id,
-                href=href,
-                breakdown=tuple(breakdown),
-            )
-        )
-    return tuple(segments)
 
 
 def build_stage(room: Room, index: dict[str, FactRef], root: str) -> svg.Stage:
@@ -47,7 +22,7 @@ def build_stage(room: Room, index: dict[str, FactRef], root: str) -> svg.Stage:
             fid = curation.STAGE_STATS.get(artifact, {}).get(room.decade)
             kind = "stat"
         if fid is None:
-            continue
+            continue  # absent technology isn't drawn
         ref = index[fid]
         sym = symbols.symbol(artifact, room.decade, ref.fact.value)
         if sym is None:
@@ -100,11 +75,15 @@ def build_stage(room: Room, index: dict[str, FactRef], root: str) -> svg.Stage:
                 )
             )
 
+    # home-scale: proportionally scale the house outline to the sourced
+    # floor-area datum, so the visitor sees the home grow across decades.
     home_scale = 1.0
     size_fid = curation.HOME_SIZE_FACTS.get(room.decade)
     if size_fid is not None and size_fid in index:
         size_fact = index[size_fid].fact
         if size_fact.quantity is not None:
+            # baseline: 1,525 sq ft (1970s, the earliest datum). Scale by
+            # sqrt so the linear dimension changes proportionally.
             home_scale = max(0.6, min(1.35, (size_fact.quantity / 1525.0) ** 0.5))
 
     return svg.Stage(

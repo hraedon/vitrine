@@ -1,30 +1,57 @@
-"""Browser interaction tests for placard overlays (Plan 018).
+"""Browser interaction tests for the placard state machine (Plan 019 WP5).
 
-Tests run against a built site using Playwright. Two modes:
-  - JavaScript enabled (enhanced): focus management, escape, focus trap
-  - JavaScript disabled (CSS-only): :target open/close, back/forward
+Tests run against a built site served over local HTTP using Playwright.
+Two execution modes are covered:
 
-The site uses CSS :target for placard overlays. A small enhancement module
-(placard.js) adds focus management, keyboard handling, and focus restoration.
-With JS disabled, the CSS-only fallback still handles open/close via hash
-changes.
+- **JavaScript enabled** (enhanced): focus management, tab containment,
+  Escape / backdrop / close dismissal, ``.wrap`` inertness, focus
+  restoration, A→B state transfer, and browser back/forward.
+- **JavaScript disabled** (CSS-only): ``:target`` open/close, back/forward,
+  no false ``aria-modal``, and content present without client execution.
 
-Run: pytest tests/test_browser.py -v
+Responsive checks verify no horizontal overflow and placard fit at three
+viewports (1280x800, 768x1024, 375x667).
+
+Run: ``pytest tests/test_browser.py -v``
 """
 
 from __future__ import annotations
 
+import functools
+import http.server
+import socketserver
+import threading
+from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
 
 playwright = pytest.importorskip("playwright")
-from playwright.sync_api import Page, expect  # noqa: E402
+from playwright.sync_api import Browser, Page, expect  # noqa: E402
 
 DATA = Path(__file__).parent.parent / "data"
 
-FACT_ID = "us-1950s-tv-diffusion"
-MODAL_ID = f"{FACT_ID}--modal"
+# Fact IDs verified present in the built site.
+FACT_TV = "us-1950s-tv-diffusion"
+FACT_RADIO = "us-1950s-radio-diffusion"
+FACT_1910S_WAGES = "us-1910s-manufacturing-wages"
+
+MODAL_TV = f"{FACT_TV}--modal"
+MODAL_RADIO = f"{FACT_RADIO}--modal"
+MODAL_1910S = f"{FACT_1910S_WAGES}--modal"
+
+ROOM_1950S = "rooms/us-1950s.html"
+CORRIDORS = "corridors/index.html"
+LOBBY = "index.html"
+
+VIEWPORTS = [
+    pytest.param(1280, 800, id="desktop-1280"),
+    pytest.param(768, 1024, id="tablet-768"),
+    pytest.param(375, 667, id="mobile-375"),
+]
+
+
+# ── Fixtures ─────────────────────────────────────────────────────────────────
 
 
 @pytest.fixture(scope="module")
@@ -34,246 +61,421 @@ def site_dir(tmp_path_factory: pytest.TempPathFactory) -> Path:
     from vitrine.site.build import build_site
 
     out = tmp_path_factory.mktemp("browser_site")
-    corpus = load_corpus(DATA)
-    build_site(corpus, out, load_series(DATA), DATA)
+    build_site(load_corpus(DATA), out, load_series(DATA), DATA)
     return out
 
 
-def _open_placard(page: Page, modal_id: str = MODAL_ID) -> None:
-    """Open a placard by setting the location hash (equivalent to clicking
-    a chart mark link, which changes the hash)."""
-    page.evaluate(f"window.location.hash = '#{modal_id}'")
-    page.wait_for_timeout(200)
+@pytest.fixture(scope="module")
+def server_url(site_dir: Path) -> Iterator[str]:
+    """Serve the built site over local HTTP (plan requirement: not file://)."""
+    handler = functools.partial(
+        http.server.SimpleHTTPRequestHandler, directory=str(site_dir)
+    )
+    with socketserver.TCPServer(("127.0.0.1", 0), handler) as httpd:
+        port = httpd.server_address[1]
+        thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+        thread.start()
+        yield f"http://127.0.0.1:{port}/"
+        httpd.shutdown()
 
 
 @pytest.fixture
-def corridor_page(page: Page, site_dir: Path) -> Page:
-    page.goto(f"file://{site_dir / 'corridors' / 'index.html'}")
-    return page
+def nojs_page(browser: Browser) -> Iterator[Page]:
+    """A fresh page with JavaScript disabled (CSS-only :target fallback)."""
+    context = browser.new_context(java_script_enabled=False)
+    page = context.new_page()
+    yield page
+    context.close()
 
 
-# ── opening placards ─────────────────────────────────────────────────────────
+# ── Helpers ──────────────────────────────────────────────────────────────────
+
+
+def _open(page: Page, modal_id: str = MODAL_TV) -> None:
+    """Open a placard by setting the location hash (triggers hashchange)."""
+    page.evaluate(f"location.hash = '#{modal_id}'")
+    page.wait_for_timeout(100)
+
+
+def _expect_open(page: Page, modal_id: str = MODAL_TV) -> None:
+    overlay = page.locator(f"#{modal_id}")
+    expect(overlay).to_be_visible()
+    expect(overlay).to_have_attribute("aria-modal", "true")
+
+
+def _expect_closed(page: Page, modal_id: str = MODAL_TV) -> None:
+    overlay = page.locator(f"#{modal_id}")
+    expect(overlay).not_to_be_visible()
+    assert overlay.evaluate("el => !el.hasAttribute('aria-modal')")
+    assert page.locator(".wrap").evaluate("el => !el.hasAttribute('inert')")
+
+
+def _focus_inside(page: Page, modal_id: str = MODAL_TV) -> bool:
+    return page.locator(f"#{modal_id}").evaluate(
+        "el => el.contains(document.activeElement)"
+    )
+
+
+# ── Opening placards ─────────────────────────────────────────────────────────
 
 
 class TestOpenPlacard:
-    def test_open_from_chart_mark(self, corridor_page: Page) -> None:
-        """Opening a placard via hash shows the overlay."""
-        _open_placard(corridor_page)
-        expect(corridor_page.locator(f"#{MODAL_ID}")).to_be_visible()
+    def test_open_from_story_stop(self, page: Page, server_url: str) -> None:
+        """Clicking a room-story trigger opens the overlay enhanced."""
+        page.goto(f"{server_url}{ROOM_1950S}")
+        page.locator(f'a.story-stop[href="#{MODAL_TV}"]').click()
+        page.wait_for_timeout(100)
+        _expect_open(page, MODAL_TV)
 
-    def test_open_from_walkthrough_stop(
-        self, page: Page, site_dir: Path
-    ) -> None:
-        """Opening a placard from the walkthrough page shows the overlay."""
-        page.goto(f"file://{site_dir / 'walkthrough.html'}")
-        _open_placard(page)
-        expect(page.locator(f"#{MODAL_ID}")).to_be_visible()
-
-    def test_open_from_room_placard(
-        self, page: Page, site_dir: Path
-    ) -> None:
-        """Opening a placard from a room page shows the overlay."""
-        page.goto(f"file://{site_dir / 'rooms' / 'us-1950s.html'}")
-        _open_placard(page)
-        expect(page.locator(f"#{MODAL_ID}")).to_be_visible()
-
-
-# ── initial load with hash ────────────────────────────────────────────────────
-
-
-class TestInitialLoadHash:
-    def test_load_with_placard_hash(
-        self, page: Page, site_dir: Path
-    ) -> None:
-        """Loading a page with #fact-id--modal shows the overlay immediately."""
-        page.goto(
-            f"file://{site_dir / 'corridors' / 'index.html'}#{MODAL_ID}"
+    def test_open_from_svg_chart_mark(self, page: Page, server_url: str) -> None:
+        """Activating an SVG chart point (in an open exhibit) opens the overlay."""
+        page.goto(f"{server_url}{CORRIDORS}")
+        page.wait_for_timeout(100)
+        # The radio exhibit is open by default. SVG <a> elements are SVGElement
+        # (no .click()) and their bounding box is intercepted by the parent
+        # <svg> for Playwright's hit-testing, so dispatch a click event + hash
+        # navigation via evaluate — the same effect a real click has.
+        page.evaluate(
+            """(sel) => {
+                const el = document.querySelector(sel);
+                if (!el) return;
+                el.dispatchEvent(new MouseEvent('click', {bubbles: true}));
+                location.hash = el.getAttribute('href');
+            }""",
+            f'a[href="#{MODAL_RADIO}"]',
         )
-        expect(page.locator(f"#{MODAL_ID}")).to_be_visible()
+        page.wait_for_timeout(100)
+        _expect_open(page, MODAL_RADIO)
+
+    def test_load_with_initial_hash(self, page: Page, server_url: str) -> None:
+        """Loading a page with #fact-id--modal opens the overlay immediately."""
+        page.goto(f"{server_url}{CORRIDORS}#{MODAL_TV}")
+        _expect_open(page, MODAL_TV)
 
 
-# ── focus management (JS enhanced) ───────────────────────────────────────────
+# ── Focus and inert state ────────────────────────────────────────────────────
 
 
-class TestFocusManagement:
-    def test_focus_enters_overlay(self, corridor_page: Page) -> None:
-        """When a placard opens, focus moves into the overlay."""
-        _open_placard(corridor_page)
-        overlay = corridor_page.locator(f"#{MODAL_ID}")
-        assert overlay.evaluate(
-            "el => el.contains(document.activeElement)"
-        )
+class TestFocusAndInert:
+    def test_focus_enters_overlay(self, page: Page, server_url: str) -> None:
+        """When a placard opens, focus moves inside the overlay."""
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        assert _focus_inside(page, MODAL_TV)
 
-    def test_escape_closes_overlay(self, corridor_page: Page) -> None:
-        """Escape key closes the placard overlay."""
-        _open_placard(corridor_page)
-        overlay = corridor_page.locator(f"#{MODAL_ID}")
-        expect(overlay).to_be_visible()
-        corridor_page.keyboard.press("Escape")
-        expect(overlay).not_to_be_visible()
-
-    def test_backdrop_closes_overlay(self, corridor_page: Page) -> None:
-        """Clicking the backdrop closes the placard overlay."""
-        _open_placard(corridor_page)
-        overlay = corridor_page.locator(f"#{MODAL_ID}")
-        expect(overlay).to_be_visible()
-        overlay.locator(".overlay-backdrop").click()
-        expect(overlay).not_to_be_visible()
-
-    def test_close_button_closes_overlay(
-        self, corridor_page: Page
-    ) -> None:
-        """Clicking the close button closes the placard overlay."""
-        _open_placard(corridor_page)
-        overlay = corridor_page.locator(f"#{MODAL_ID}")
-        expect(overlay).to_be_visible()
-        overlay.locator(".overlay-close").click()
-        expect(overlay).not_to_be_visible()
-
-    def test_focus_returns_to_origin(self, corridor_page: Page) -> None:
-        """After closing via Escape, focus returns to the originating link."""
-        link = corridor_page.query_selector(
-            f'a[href="#{MODAL_ID}"]'
-        )
-        if link is None:
-            pytest.skip("no chart mark link found")
-        link.focus()
-        _open_placard(corridor_page)
-        expect(corridor_page.locator(f"#{MODAL_ID}")).to_be_visible()
-        corridor_page.keyboard.press("Escape")
-        corridor_page.wait_for_timeout(300)
-        active = corridor_page.evaluate("document.activeElement.tagName")
-        assert active in ("A", "BODY")  # link or body if focus was lost
+    def test_wrap_inert_and_aria_modal(self, page: Page, server_url: str) -> None:
+        """While open, .wrap is inert and the overlay carries aria-modal."""
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        assert page.locator(".wrap").evaluate("el => el.hasAttribute('inert')")
+        assert page.locator(f"#{MODAL_TV}").get_attribute("aria-modal") == "true"
 
 
-# ── tab containment (JS enhanced) ────────────────────────────────────────────
+# ── Tab containment ──────────────────────────────────────────────────────────
 
 
 class TestTabContainment:
-    def test_tab_stays_within_overlay(self, corridor_page: Page) -> None:
-        """Tab key stays within the overlay when it's open."""
-        _open_placard(corridor_page)
-        overlay = corridor_page.locator(f"#{MODAL_ID}")
-        for _ in range(5):
-            corridor_page.keyboard.press("Tab")
-            corridor_page.wait_for_timeout(50)
-        assert overlay.evaluate(
-            "el => el.contains(document.activeElement)"
-        )
+    def test_tab_stays_within_overlay(self, page: Page, server_url: str) -> None:
+        """Tab cycles focus inside the overlay (wraps at boundaries)."""
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        for _ in range(6):
+            page.keyboard.press("Tab")
+            page.wait_for_timeout(40)
+        assert _focus_inside(page, MODAL_TV)
 
     def test_shift_tab_stays_within_overlay(
-        self, corridor_page: Page
+        self, page: Page, server_url: str
     ) -> None:
-        """Shift-Tab key stays within the overlay when it's open."""
-        _open_placard(corridor_page)
-        overlay = corridor_page.locator(f"#{MODAL_ID}")
-        for _ in range(5):
-            corridor_page.keyboard.press("Shift+Tab")
-            corridor_page.wait_for_timeout(50)
-        assert overlay.evaluate(
-            "el => el.contains(document.activeElement)"
+        """Shift-Tab cycles focus inside the overlay (wraps at boundaries)."""
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        for _ in range(6):
+            page.keyboard.press("Shift+Tab")
+            page.wait_for_timeout(40)
+        assert _focus_inside(page, MODAL_TV)
+
+
+# ── Dismissal paths ──────────────────────────────────────────────────────────
+
+
+class TestDismissal:
+    def test_escape_dismissal(self, page: Page, server_url: str) -> None:
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        _expect_open(page, MODAL_TV)
+        page.keyboard.press("Escape")
+        _expect_closed(page, MODAL_TV)
+
+    def test_close_button_dismissal(self, page: Page, server_url: str) -> None:
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        _expect_open(page, MODAL_TV)
+        page.locator(f"#{MODAL_TV} .overlay-close").click()
+        _expect_closed(page, MODAL_TV)
+
+    def test_backdrop_dismissal(self, page: Page, server_url: str) -> None:
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        _expect_open(page, MODAL_TV)
+        # Click top-left corner of the backdrop (outside the centered card).
+        page.locator(f"#{MODAL_TV} .overlay-backdrop").click(
+            position={"x": 5, "y": 5}
         )
+        _expect_closed(page, MODAL_TV)
 
-
-# ── browser back/forward ─────────────────────────────────────────────────────
-
-
-class TestBackForward:
-    def test_back_closes_overlay(
-        self, page: Page, site_dir: Path
-    ) -> None:
-        """Browser Back closes the overlay (hash change clears :target)."""
-        page.goto(f"file://{site_dir / 'corridors' / 'index.html'}")
-        _open_placard(page)
-        overlay = page.locator(f"#{MODAL_ID}")
-        expect(overlay).to_be_visible()
+    def test_browser_back_dismissal(self, page: Page, server_url: str) -> None:
+        """Browser Back closes the overlay (real navigation updates :target)."""
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        _expect_open(page, MODAL_TV)
         page.go_back()
-        expect(overlay).not_to_be_visible()
+        _expect_closed(page, MODAL_TV)
 
-    def test_forward_reopens_overlay(
-        self, page: Page, site_dir: Path
+
+# ── Focus restoration ────────────────────────────────────────────────────────
+
+
+class TestFocusRestoration:
+    def test_focus_returns_to_origin(self, page: Page, server_url: str) -> None:
+        """After Escape, focus returns to the exact originating trigger."""
+        page.goto(f"{server_url}{ROOM_1950S}")
+        selector = f'a.story-stop[href="#{MODAL_TV}"]'
+        page.locator(selector).click()
+        _expect_open(page, MODAL_TV)
+        page.keyboard.press("Escape")
+        page.wait_for_timeout(150)
+        # Enhanced cleanup ran.
+        assert page.locator(f"#{MODAL_TV}").evaluate(
+            "el => !el.hasAttribute('aria-modal')"
+        )
+        assert page.locator(".wrap").evaluate("el => !el.hasAttribute('inert')")
+        # Focus returned to the exact origin (not just any anchor or BODY).
+        is_origin = page.evaluate(
+            "(sel) => document.activeElement === document.querySelector(sel)",
+            selector,
+        )
+        assert is_origin, "Focus did not return to the originating story-stop trigger"
+
+
+# ── Reopen ───────────────────────────────────────────────────────────────────
+
+
+class TestReopen:
+    def test_open_close_reopen(self, page: Page, server_url: str) -> None:
+        """Closing and reopening the same overlay works identically."""
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        _expect_open(page, MODAL_TV)
+        page.keyboard.press("Escape")
+        _expect_closed(page, MODAL_TV)
+        _open(page, MODAL_TV)
+        _expect_open(page, MODAL_TV)
+        assert _focus_inside(page, MODAL_TV)
+
+
+# ── State transfer and history ───────────────────────────────────────────────
+
+
+class TestStateTransfer:
+    def test_a_to_b_transfer(self, page: Page, server_url: str) -> None:
+        """Opening B while A is active closes A and opens B."""
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        _expect_open(page, MODAL_TV)
+        page.evaluate(f"location.hash = '#{MODAL_RADIO}'")
+        page.wait_for_timeout(150)
+        # A is closed.
+        assert page.locator(f"#{MODAL_TV}").evaluate(
+            "el => !el.hasAttribute('aria-modal')"
+        )
+        # B is open with focus inside.
+        _expect_open(page, MODAL_RADIO)
+        assert _focus_inside(page, MODAL_RADIO)
+
+    def test_forward_restores_enhanced_state(
+        self, page: Page, server_url: str
     ) -> None:
-        """Browser Forward reopens the overlay."""
-        page.goto(f"file://{site_dir / 'corridors' / 'index.html'}")
-        _open_placard(page)
-        overlay = page.locator(f"#{MODAL_ID}")
-        expect(overlay).to_be_visible()
+        """Back then Forward reopens the overlay with enhanced state."""
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        _expect_open(page, MODAL_TV)
         page.go_back()
-        expect(overlay).not_to_be_visible()
+        _expect_closed(page, MODAL_TV)
         page.go_forward()
+        page.wait_for_timeout(150)
+        # Enhanced state restored.
+        overlay = page.locator(f"#{MODAL_TV}")
         expect(overlay).to_be_visible()
+        expect(overlay).to_have_attribute("aria-modal", "true")
+        assert page.locator(".wrap").evaluate("el => el.hasAttribute('inert')")
+        # Chromium's session-history focus restoration moves activeElement to
+        # BODY after go_forward; Tab twice (past the skip-link) to confirm focus
+        # enters the overlay (possible because .wrap is inert).
+        page.keyboard.press("Tab")
+        page.wait_for_timeout(40)
+        page.keyboard.press("Tab")
+        page.wait_for_timeout(40)
+        assert _focus_inside(page, MODAL_TV)
 
-
-# ── CSS-only fallback (JS disabled) ──────────────────────────────────────────
-
-
-class TestCssOnlyFallback:
-    def test_open_placard_no_js(
-        self, browser: playwright.sync_api.Browser, site_dir: Path
+    def test_dismiss_then_back_forward(
+        self, page: Page, server_url: str
     ) -> None:
-        """CSS-only: hash change opens the overlay via :target."""
-        context = browser.new_context(java_script_enabled=False)
-        pg = context.new_page()
-        pg.goto(
-            f"file://{site_dir / 'corridors' / 'index.html'}#{MODAL_ID}"
-        )
-        expect(pg.locator(f"#{MODAL_ID}")).to_be_visible()
-        context.close()
+        """Escape dismissal creates a real history entry: Back reopens the
+        overlay and Forward returns to the dismissed state."""
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        _expect_open(page, MODAL_TV)
+        page.keyboard.press("Escape")  # dismisses → hash #dismissed (new entry)
+        _expect_closed(page, MODAL_TV)
+        page.go_back()  # back to #tv--modal → reopens enhanced
+        _expect_open(page, MODAL_TV)
+        page.go_forward()  # forward to #dismissed → closes again
+        _expect_closed(page, MODAL_TV)
 
-    def test_close_placard_no_js(
-        self, browser: playwright.sync_api.Browser, site_dir: Path
+
+# ── Dense decks ──────────────────────────────────────────────────────────────
+
+
+class TestDenseDecks:
+    def test_room_deck_open_close(self, page: Page, server_url: str) -> None:
+        """A room page with many overlays opens and closes cleanly."""
+        page.goto(f"{server_url}{ROOM_1950S}")
+        _open(page, MODAL_TV)
+        _expect_open(page, MODAL_TV)
+        page.keyboard.press("Escape")
+        _expect_closed(page, MODAL_TV)
+
+    def test_corridor_deck_open_close(self, page: Page, server_url: str) -> None:
+        """The densest corridor page (249 overlays) opens and closes cleanly."""
+        page.goto(f"{server_url}{CORRIDORS}")
+        _open(page, MODAL_TV)
+        _expect_open(page, MODAL_TV)
+        page.go_back()
+        _expect_closed(page, MODAL_TV)
+
+
+# ── JavaScript disabled (CSS-only :target fallback) ──────────────────────────
+
+
+class TestJavaScriptDisabled:
+    def test_deep_link_visible_via_target(
+        self, nojs_page: Page, server_url: str
     ) -> None:
-        """CSS-only: clicking the close button closes the overlay."""
-        context = browser.new_context(java_script_enabled=False)
-        pg = context.new_page()
-        pg.goto(
-            f"file://{site_dir / 'corridors' / 'index.html'}#{MODAL_ID}"
-        )
-        expect(pg.locator(f"#{MODAL_ID}")).to_be_visible()
-        pg.locator(f"#{MODAL_ID} .overlay-close").click()
-        expect(pg.locator(f"#{MODAL_ID}")).not_to_be_visible()
-        context.close()
+        """CSS :target makes the overlay visible on deep-link load without JS."""
+        nojs_page.goto(f"{server_url}{CORRIDORS}#{MODAL_TV}")
+        expect(nojs_page.locator(f"#{MODAL_TV}")).to_be_visible()
 
-    def test_backdrop_close_no_js(
-        self, browser: playwright.sync_api.Browser, site_dir: Path
+    def test_close_button_no_js(self, nojs_page: Page, server_url: str) -> None:
+        """Clicking .overlay-close (href='#dismissed') hides the overlay."""
+        nojs_page.goto(f"{server_url}{CORRIDORS}#{MODAL_TV}")
+        expect(nojs_page.locator(f"#{MODAL_TV}")).to_be_visible()
+        nojs_page.locator(f"#{MODAL_TV} .overlay-close").click()
+        expect(nojs_page.locator(f"#{MODAL_TV}")).not_to_be_visible()
+
+    def test_backdrop_no_js(self, nojs_page: Page, server_url: str) -> None:
+        """Clicking .overlay-backdrop hides the overlay without JS."""
+        nojs_page.goto(f"{server_url}{CORRIDORS}#{MODAL_TV}")
+        expect(nojs_page.locator(f"#{MODAL_TV}")).to_be_visible()
+        nojs_page.locator(f"#{MODAL_TV} .overlay-backdrop").click(
+            position={"x": 5, "y": 5}
+        )
+        expect(nojs_page.locator(f"#{MODAL_TV}")).not_to_be_visible()
+
+    def test_back_forward_no_js(self, nojs_page: Page, server_url: str) -> None:
+        """Browser back/forward tracks :target visibility without JS."""
+        nojs_page.goto(f"{server_url}{CORRIDORS}")
+        nojs_page.goto(f"{server_url}{CORRIDORS}#{MODAL_TV}")
+        expect(nojs_page.locator(f"#{MODAL_TV}")).to_be_visible()
+        nojs_page.go_back()
+        expect(nojs_page.locator(f"#{MODAL_TV}")).not_to_be_visible()
+        nojs_page.go_forward()
+        expect(nojs_page.locator(f"#{MODAL_TV}")).to_be_visible()
+
+    def test_no_false_aria_modal(self, nojs_page: Page, server_url: str) -> None:
+        """No element carries aria-modal in the no-JS HTML."""
+        nojs_page.goto(f"{server_url}{CORRIDORS}#{MODAL_TV}")
+        count = nojs_page.evaluate(
+            "document.querySelectorAll('[aria-modal=\"true\"]').length"
+        )
+        assert count == 0
+
+    def test_content_present_without_js(
+        self, nojs_page: Page, server_url: str
     ) -> None:
-        """CSS-only: clicking the backdrop closes the overlay."""
-        context = browser.new_context(java_script_enabled=False)
-        pg = context.new_page()
-        pg.goto(
-            f"file://{site_dir / 'corridors' / 'index.html'}#{MODAL_ID}"
-        )
-        expect(pg.locator(f"#{MODAL_ID}")).to_be_visible()
-        pg.locator(f"#{MODAL_ID} .overlay-backdrop").click()
-        expect(pg.locator(f"#{MODAL_ID}")).not_to_be_visible()
-        context.close()
+        """Fact marks and navigation links are present in the DOM without JS."""
+        nojs_page.goto(f"{server_url}{CORRIDORS}")
+        assert nojs_page.locator("[data-fact-id]").count() > 0
+        assert nojs_page.locator(".museum-map a").count() > 0
 
 
-# ── responsive ───────────────────────────────────────────────────────────────
+# ── Responsive checks ────────────────────────────────────────────────────────
 
 
 class TestResponsive:
-    def test_desktop_width_renders(
-        self, page: Page, site_dir: Path
+    @pytest.mark.parametrize("width,height", VIEWPORTS)
+    def test_no_horizontal_overflow_corridor(
+        self, page: Page, server_url: str, width: int, height: int
     ) -> None:
-        """Page renders correctly at desktop width."""
-        page.set_viewport_size({"width": 1280, "height": 800})
-        page.goto(f"file://{site_dir / 'corridors' / 'index.html'}")
-        assert page.query_selector(".chart-panel") is not None
+        """Densest page (corridors) has no horizontal overflow at each viewport."""
+        page.set_viewport_size({"width": width, "height": height})
+        page.goto(f"{server_url}{CORRIDORS}")
+        assert page.evaluate(
+            "document.documentElement.scrollWidth <= "
+            "document.documentElement.clientWidth + 1"
+        )
 
-    def test_narrow_mobile_width_renders(
-        self, page: Page, site_dir: Path
+    @pytest.mark.parametrize("width,height", VIEWPORTS)
+    def test_no_horizontal_overflow_room(
+        self, page: Page, server_url: str, width: int, height: int
     ) -> None:
-        """Page renders correctly at narrow mobile width."""
-        page.set_viewport_size({"width": 375, "height": 667})
-        page.goto(f"file://{site_dir / 'corridors' / 'index.html'}")
-        assert page.query_selector(".chart-panel") is not None
+        """Room page has no horizontal overflow at each viewport."""
+        page.set_viewport_size({"width": width, "height": height})
+        page.goto(f"{server_url}{ROOM_1950S}")
+        assert page.evaluate(
+            "document.documentElement.scrollWidth <= "
+            "document.documentElement.clientWidth + 1"
+        )
 
-    def test_room_mobile_placard(
-        self, page: Page, site_dir: Path
-    ) -> None:
-        """Placard overlay works on mobile width in a room."""
+    def test_decade_nav_visible_mobile(self, page: Page, server_url: str) -> None:
+        """Current decade is exposed in the room-map at mobile width."""
         page.set_viewport_size({"width": 375, "height": 667})
-        page.goto(f"file://{site_dir / 'rooms' / 'us-1950s.html'}")
-        _open_placard(page)
-        expect(page.locator(f"#{MODAL_ID}")).to_be_visible()
+        page.goto(f"{server_url}{ROOM_1950S}")
+        current = page.locator(".room-map a.on")
+        expect(current).to_be_visible()
+
+    def test_placard_fits_mobile(self, page: Page, server_url: str) -> None:
+        """An open placard card fits within the mobile viewport."""
+        page.set_viewport_size({"width": 375, "height": 667})
+        page.goto(f"{server_url}{ROOM_1950S}")
+        _open(page, MODAL_TV)
+        expect(page.locator(f"#{MODAL_TV}")).to_be_visible()
+        box = page.locator(f"#{MODAL_TV} .placard-card").bounding_box()
+        assert box is not None
+        assert box["x"] >= -1
+        assert box["x"] + box["width"] <= 376
+
+    @pytest.mark.parametrize("width,height", VIEWPORTS)
+    def test_focused_control_within_viewport(
+        self, page: Page, server_url: str, width: int, height: int
+    ) -> None:
+        """Tabbing through the lobby keeps focus within viewport width."""
+        page.set_viewport_size({"width": width, "height": height})
+        page.goto(f"{server_url}{LOBBY}")
+        page.wait_for_timeout(100)
+        for _ in range(5):
+            page.keyboard.press("Tab")
+            page.wait_for_timeout(30)
+            box = page.evaluate(
+                """() => {
+                    const el = document.activeElement;
+                    if (!el || el === document.body) return null;
+                    const r = el.getBoundingClientRect();
+                    return {left: r.left, right: r.right};
+                }"""
+            )
+            if box is not None:
+                assert box["left"] >= -1, f"focused element left={box['left']} < 0"
+                assert box["right"] <= width + 1, (
+                    f"focused element right={box['right']} > {width}"
+                )
