@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}methodology — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · methodology</p>
+<h1>Methodology &amp; assumptions</h1>
+<p class="sub">Every methodological choice that would mislead if left implicit is written here once and linked from every placard it touches.</p>
+<div class="cases" style="margin-top:22px">
+{% for a in assumptions %}
+<div class="placard" id="{{ a.id }}">
+  <div class="ceyebrow">assumption</div>
+  <div class="cval">{{ a.title }}</div>
+  <p class="clab">{{ a.statement }}</p>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

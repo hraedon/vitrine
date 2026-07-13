@@ -111,6 +111,49 @@ WP0 baseline build (`diff -r` clean) — a pure structural refactor. Full suite
 162 green (incl. contracts), ruff + mypy --strict clean, provenance and
 mark-coverage gates green, ancestry gate PASS.
 
+## WP2 — environment, templates, and static assets (landed)
+
+Extracted the ten inline Jinja template constants from `render.py` into
+package-resource template files and centralized Jinja environment construction
+in a new `environment.py`, per Plan 019 §"Template and asset loading".
+
+| template file | source constant | render.py lines |
+|---------------|-----------------|-----------------|
+| `templates/index.html` | `_INDEX` (+ folded `_TIER_LEGEND`) | 63–97 |
+| `templates/macros.html` | `_PLACARD` (the `room_map` macro) | 99–211 |
+| `templates/room.html` | `_ROOM` | 213–261 |
+| `templates/methodology.html` | `_METHODOLOGY` | 263–279 |
+| `templates/bibliography.html` | `_BIBLIOGRAPHY` | 281–300 |
+| `templates/affordability.html` | `_AFFORDABILITY` | 302–328 |
+| `templates/corridors.html` | `_CORRIDORS` | 330–436 |
+| `templates/pair.html` | `_PAIR` | 438–489 |
+| `templates/walkthrough.html` | `_WALKTHROUGH` | 491–572 |
+| `environment.py` (new) | globals block from `render_site` | ~1296–1314 |
+
+`render.py` shrank from 1732 → 1170 lines (−562). The `DictLoader({...})`
+construction was replaced by `build_environment(disclaimer, disclaimer_title)`
+from `environment.py`, which uses `PackageLoader("vitrine.site", "templates")`.
+Template references updated from loader keys (`"base"`, `"macros"`, `"index"`)
+to filenames (`"base.html"`, `"macros.html"`, `"index.html"`) — these are
+loader-resolution directives that emit no output, so rendered HTML is
+unchanged.
+
+**Ownership honored:** only `environment.py`, the new template files, and
+`render.py` changed. `build.py` was not touched (doesn't exist yet — WP4
+territory); `curation/`, assets, `tests/`, and `pyproject.toml` untouched
+(the existing `templates/*.html` package-data glob already covers the new
+files).
+
+**Scope deferred to later WPs:** the plan's eventual `templates/macros/
+{placards,navigation,charts}.html` split is not done here — `macros.html`
+stays one flat file. The placard-overlay macro split (into `placard_card` and
+`placard_overlay`) is WP5.
+
+**Correctness proof:** `diff -r /tmp/vitrine-wp1-baseline /tmp/vitrine-wp2-result`
+is empty — byte-for-byte identical to the WP1 build. Full suite 162 green,
+ruff + mypy --strict clean (22 source files), provenance and mark-coverage
+gates green, ancestry gate PASS.
+
 ## Migration checklist (every commit on this branch)
 
 1. `git merge-base --is-ancestor 9953a0e HEAD` exits 0 (ancestry gate).

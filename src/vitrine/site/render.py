@@ -18,7 +18,7 @@ from dataclasses import dataclass
 from importlib.resources import files
 from pathlib import Path
 
-from jinja2 import DictLoader, Environment, select_autoescape
+from jinja2 import Environment
 from markupsafe import Markup
 
 from vitrine.affordability import afford
@@ -31,544 +31,11 @@ from vitrine.model import (
     Measure,
     Panel,
     Room,
-    basis_label,
     measure_label,
-    panel_title,
-    tier_label,
 )
 from vitrine.series import Series
 from vitrine.site import curation, svg, symbols, tokens
-
-# ── page shell ────────────────────────────────────────────────────────────────
-
-_BASE = files("vitrine.site").joinpath("templates/base.html").read_text()
-
-_TIER_LEGEND = """
-<div class="legends">
-  <div class="leg">
-    <h4>Confidence &amp; flags</h4>
-    {% for t, color in T.TIER_COLORS.items() %}
-    <div class="tierrow"><span class="swatch" style="background:{{ color }}"></span> {{ t }} — {{ tier_names[t] }}</div>
-    {% endfor %}
-    <div class="tierrow"><span class="swatch" style="background:{{ T.GAP }};opacity:.5;border:1px dashed {{ T.GAP }}"></span> Gap — no reliable record; shown as the gap it is</div>
-  </div>
-  <div class="leg">
-    <h4>Reading the museum</h4>
-    <p><b>Every fact is behind glass</b>: its placard names the source, the year, who was measured, and how sure we are. Chart points and stage glyphs deep-link to their placards.</p>
-    <p style="margin-top:8px"><b>Falling</b> metrics render in <b style="color:{{ T.COPPER }}">copper</b>, <b>rising</b> in <b style="color:{{ T.BRASS }}">brass</b>. Absent technology isn't drawn — a bare house says more than ghosts.</p>
-  </div>
-</div>
-"""
-
-_INDEX = (
-    """{% extends "base" %}
-{% from "macros" import room_map %}
-{% block title %}vitrine — the museum lobby{% endblock %}
-{% block body %}
-<p class="eyebrow">vitrine · a museum of the median family</p>
-<h1>The <em>median family's</em> century, behind glass</h1>
-<p class="sub">A decade-by-decade museum of the median-income four-person family's lifestyle. Every fact carries its source card and confidence tier; where the record is silent, the museum shows the gap.</p>
-<div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
-<h2 class="case-title">Choose a way in</h2>
-<p class="case-sub">The same sourced collection, arranged for three kinds of visit.</p>
-<div class="route-grid">
-  <a class="route-card" href="rooms/{{ rooms[0].slug }}.html">
-    <span class="route-no">01 · Browse</span><h2>Enter the rooms</h2>
-    <p>Move decade by decade through the house cutaway, six display cases, and every specimen label.</p>
-    <span class="route-enter">Begin in {{ rooms[0].decade }} →</span>
-  </a>
-  <a class="route-card" href="corridors/index.html">
-    <span class="route-no">02 · Compare</span><h2>Follow the trends</h2>
-    <p>Trace diffusion, work, budgets, health, and family life across the century without flattening the gaps.</p>
-    <span class="route-enter">Enter the corridors →</span>
-  </a>
-  <a class="route-card" href="walkthrough.html">
-    <span class="route-no">03 · Tour</span><h2>Take the transect</h2>
-    <p>A guided three-stop view of paid work, unpaid work, childhood, and the changing home.</p>
-    <span class="route-enter">Start the guided tour →</span>
-  </a>
-</div>
-<h2 class="case-title">{{ rooms|length }} rooms · 1900s–2020s</h2>
-<p class="case-sub">Jump straight to a decade.</p>
-{{ room_map(rooms, none, "rooms/", none, none, none, true) }}
-"""
-    + _TIER_LEGEND
-    + "{% endblock %}\n"
-)
-
-_PLACARD = """
-{% macro room_map(rooms, current, href_prefix, previous, following, position, lobby=false) %}
-<nav class="room-map" aria-label="Decade rooms">
-{% if not lobby %}<div class="room-map-context">
-  {% if previous %}<a rel="prev" href="{{ href_prefix }}{{ previous.slug }}.html">← {{ previous.decade }}</a>{% else %}<span aria-hidden="true"></span>{% endif %}
-  <span>Room {{ position }} of {{ rooms|length }}</span>
-  {% if following %}<a rel="next" href="{{ href_prefix }}{{ following.slug }}.html">{{ following.decade }} →</a>{% else %}<span aria-hidden="true"></span>{% endif %}
-</div>{% endif %}
-<ol class="room-track{% if lobby %} lobby{% endif %}" style="--room-count:{{ rooms|length }}">
-{% for r in rooms %}<li><a{% if current and r.slug == current.slug %} class="on" aria-current="page"{% endif %} href="{{ href_prefix }}{{ r.slug }}.html"><i aria-hidden="true"></i><span>{{ r.decade }}</span></a></li>{% endfor %}
-</ol>
-</nav>
-{% endmacro %}
-{% macro composition_details(rows) %}
-{% if rows %}
-<details class="composition-key">
-  <summary>Inspect the folded categories</summary>
-  <div class="composition-grid">
-  {% for row in rows %}
-    <div class="composition-decade">
-      <a href="#{{ row.fact_id }}--modal">{{ row.decade }}</a>
-      {% for segment in row.segments %}
-      <div><b>{{ segment.slot }}</b>:
-        {% for name, pct in segment.breakdown %}{{ name }} {{ pct|round(2) }}%{% if not loop.last %} + {% endif %}{% endfor %}
-      </div>
-      {% endfor %}
-    </div>
-  {% endfor %}
-  </div>
-</details>
-{% endif %}
-{% endmacro %}
-{% macro _placard_body(fact, room, sources, assumptions, affordability, root, modal) %}
-  {% set src = sources[fact.source] %}
-  {% set is_gap = fact.value.strip().lower().startswith('no reliable record') %}
-  <div class="placard-head">
-    <div class="ceyebrow">{{ panel_title(fact.panel) }} · {{ room.decade }}<span class="record-kind">{% if is_gap %}documented gap{% else %}observed record{% endif %}</span></div>
-    <span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}" title="{{ tier_label(fact.tier) }}">Tier {{ fact.tier.value }}</span>
-  </div>
-  <div class="cval">{{ fact.value }}</div>
-  <p class="clab">{{ fact.label }}</p>
-  <p class="cunit">{{ fact.unit }}</p>
-  <div class="evidence-grid">
-    <div class="evidence-cell"><span class="mk">Population measured</span><span class="ev">{{ src.population }}</span></div>
-    <div class="evidence-cell"><span class="mk">Source record</span><span class="ev">{{ src.publisher }} · {{ src.year }} · Tier {{ fact.tier.value }}</span></div>
-  </div>
-  {% if fact.id in affordability %}{% set aff = affordability[fact.id] %}
-  {% if aff.hours or aff.pct %}<div class="afford-box"><span class="mk">Computed affordability</span>
-  {% if aff.hours %}<p class="afford">{{ aff.hours }}</p>{% endif %}
-  {% if aff.pct %}<p class="afford">{{ aff.pct }}</p>{% endif %}
-  {% if aff.hours_large %}<p class="afford-warning">Large ratio: inspect the wage population and anchor years in provenance before reading this as one household's timeline.</p>{% endif %}
-  </div>{% endif %}
-  {% endif %}
-  <details>
-    <summary>Open source record</summary>
-    <div class="drawer">
-      <b>{{ src.title }}</b><br>
-      {{ src.publisher }}, {{ src.year }} · <a href="{{ src.url }}">source</a><br>
-      <em>Confidence:</em> {{ fact.tier.value }} — {{ tier_label(fact.tier) }}
-      {% if fact.basis is not none %}<br><em>Basis:</em> {{ basis_label(fact.basis) }}{% endif %}
-      {% if fact.id in affordability and affordability[fact.id].anchor_note %}<br><em>Affordability anchors:</em> {{ affordability[fact.id].anchor_note }}{% endif %}
-      {% if fact.id in affordability and affordability[fact.id].measures %}<br><em>Denominators measure:</em> {{ affordability[fact.id].measures }}{% endif %}
-      {% if fact.notes %}<br><em>Curator note:</em> {{ fact.notes }}{% endif %}
-      {% if src.notes %}<br><em>Source note:</em> {{ src.notes }}{% endif %}
-      {% for aid in fact.assumptions %}<br><em>Assumption:</em> <a href="{{ root }}methodology.html#{{ aid }}">{{ assumptions[aid].title }}</a>{% endfor %}
-    </div>
-  </details>
-{% endmacro %}
-{% macro placard(fact, room, sources, assumptions, affordability, root, inline=true) %}
-{% if inline %}
-<div class="placard{% if fact.value.strip().lower().startswith('no reliable record') %} gap-placard{% endif %}" id="{{ fact.id }}">
-  {{ _placard_body(fact, room, sources, assumptions, affordability, root, modal=false) }}
-</div>
-{% endif %}
-<div class="placard-overlay" id="{{ fact.id }}--modal" role="dialog" tabindex="-1" aria-label="{{ fact.label }}">
-  <a href="#dismissed" class="overlay-backdrop" aria-label="Close placard"></a>
-  <div class="placard placard-card{% if fact.value.strip().lower().startswith('no reliable record') %} gap-placard{% endif %}">
-    <a href="#dismissed" class="overlay-close" aria-label="Close placard">&times;</a>
-    {{ _placard_body(fact, room, sources, assumptions, affordability, root, modal=true) }}
-  </div>
-</div>
-{% endmacro %}
-{% macro derived_placard(cf, room, assumptions, root) %}
-<div class="placard" id="{{ cf.id }}">
-  <div class="placard-head">
-    <div class="ceyebrow">{{ panel_title(cf.panel) }} · {{ room.decade }}<span class="record-kind">computed exhibit</span></div>
-    <span class="tchip" style="background:{{ T.TIER_COLORS[cf.tier.value] }}" title="{{ tier_label(cf.tier) }} (weakest input)">Tier {{ cf.tier.value }}</span>
-  </div>
-  <div class="cval">{{ cf.value }}</div>
-  <p class="clab">{{ cf.label }}</p>
-  <p class="cunit">{{ cf.unit }}</p>
-  <div class="evidence-grid">
-    <div class="evidence-cell"><span class="mk">Method</span><span class="ev">Computed by vitrine · {{ cf.op.value }}</span></div>
-    <div class="evidence-cell"><span class="mk">Confidence</span><span class="ev">Tier {{ cf.tier.value }} · weakest input governs</span></div>
-  </div>
-  <details>
-    <summary>Open derivation</summary>
-    <div class="drawer">
-      <em>Computed by vitrine</em> ({{ cf.op.value }}) — never authored by hand:<br>
-      <em>Numerator:</em> {{ cf.numerator.value }} — {{ cf.numerator.label }} <span class="tchip" style="background:{{ T.TIER_COLORS[cf.numerator.tier.value] }}">{{ cf.numerator.tier.value }}</span><br>
-      {% if cf.op.value == "inflate" %}
-      <em>Inflation series:</em> {{ cf.inflate_series }} ({{ cf.inflate_from_year }} → {{ cf.inflate_to_year }})<br>
-      {% else %}
-      <em>Denominator:</em> {{ cf.denominator.value }} — {{ cf.denominator.label }} <span class="tchip" style="background:{{ T.TIER_COLORS[cf.denominator.tier.value] }}">{{ cf.denominator.tier.value }}</span><br>
-      {% endif %}
-      <em>Confidence:</em> {{ cf.tier.value }} — {{ tier_label(cf.tier) }}, the weakest input tier
-      {% if cf.notes %}<br><em>Curator note:</em> {{ cf.notes }}{% endif %}
-      {% for aid in cf.assumptions %}<br><em>Assumption:</em> <a href="{{ root }}methodology.html#{{ aid }}">{{ assumptions[aid].title }}</a>{% endfor %}
-    </div>
-  </details>
-</div>
-{% endmacro %}
-"""
-
-_ROOM = (
-    """{% extends "base" %}
-{% from "macros" import placard, derived_placard, room_map %}
-{% block title %}{{ room.country | upper }} · {{ room.decade }} — vitrine{% endblock %}
-{% block body %}
-<p class="eyebrow">vitrine · {{ room.country | upper }} · the {{ room.decade }}</p>
-<h1>The <em>{{ room.decade }}</em> room</h1>
-{% if room.data_as_of %}<p class="case-sub">Data as of {{ room.data_as_of }} (decade ongoing — each fact states its own data year).</p>{% endif %}
-<section class="room-overture" aria-labelledby="room-story-title">
-  <div class="story-label">
-    <div><p class="story-kicker">Curator's route · four sourced exhibits</p><h2 id="room-story-title">{{ story.title }}</h2><p class="story-question">{{ story.question }}</p></div>
-    <p class="story-note">An editorial selection, not a synthetic family. Every stop opens the original specimen label.</p>
-  </div>
-  <div class="story-trail">
-  {% for fact in story.facts %}
-    <a class="story-stop" href="#{{ fact.id }}--modal" data-fact-id="{{ fact.id }}">
-      <span class="stop-meta">Stop 0{{ loop.index }} · {{ panel_title(fact.panel) }}</span>
-      <span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}">{{ fact.tier.value }}</span>
-      <span class="stop-value">{{ fact.value|truncate(92, true, '…') }}</span>
-      <span class="stop-label">{{ fact.label }}</span>
-    </a>
-  {% endfor %}
-  </div>
-</section>
-<div class="plaque room-disclaimer"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
-{{ room_map(rooms, room, "", previous_room, next_room, room_position) }}
-{% if gap_banner %}<div class="gap-banner"><b>Structural gap</b>{{ gap_banner }}</div>{% endif %}
-<div class="stage">{{ stage_svg }}</div>
-<div class="stagehint">era-graded light · absent technology isn't drawn · every glyph opens its specimen label</div>
-<div class="collection-head"><div><h2>The complete room</h2><p>All six cases, including the curator's route above and the records around it.</p></div><span>{{ room.facts|length }} sourced facts{% if computed_count %} · {{ computed_count }} computed{% endif %}</span></div>
-<nav class="exhibit-map" aria-label="Room display cases">
-{% for panel, facts, computed in panels %}<a href="#panel-{{ panel.value }}"><b>{{ panel_title(panel) }}</b><span>{{ facts|length + computed|length }} exhibits</span></a>{% endfor %}
-</nav>
-{% for panel, facts, computed in panels %}
-<details open class="panel-group" id="panel-{{ panel.value }}">
-<summary class="case-title">{{ panel_title(panel) }}</summary>
-{% if not facts and not computed %}<p class="case-sub"><em>Not yet curated.</em></p>{% else %}
-<div class="cases">
-{% for fact in facts %}{{ placard(fact, room, sources, assumptions, affordability, root) }}{% endfor %}
-{% for cf in computed %}{{ derived_placard(cf, room, assumptions, root) }}{% endfor %}
-</div>
-{% endif %}
-{% if panel.value == "work-buys" and facts %}<p class="case-sub"><a href="{{ root }}affordability/index.html">See this metric across all decades →</a></p>{% endif %}
-</details>
-{% endfor %}
-"""
-    + _TIER_LEGEND
-    + "{% endblock %}\n"
-)
-
-_METHODOLOGY = """{% extends "base" %}
-{% block title %}methodology — vitrine{% endblock %}
-{% block body %}
-<p class="eyebrow">vitrine · methodology</p>
-<h1>Methodology &amp; assumptions</h1>
-<p class="sub">Every methodological choice that would mislead if left implicit is written here once and linked from every placard it touches.</p>
-<div class="cases" style="margin-top:22px">
-{% for a in assumptions %}
-<div class="placard" id="{{ a.id }}">
-  <div class="ceyebrow">assumption</div>
-  <div class="cval">{{ a.title }}</div>
-  <p class="clab">{{ a.statement }}</p>
-</div>
-{% endfor %}
-</div>
-{% endblock %}
-"""
-
-_BIBLIOGRAPHY = """{% extends "base" %}
-{% block title %}bibliography — vitrine{% endblock %}
-{% block body %}
-<p class="eyebrow">vitrine · bibliography</p>
-<h1>Bibliography &mdash; <em>all sources</em></h1>
-<p class="sub">Every fact in the museum traces to one of these {{ sources|length }} sources. Each entry names the publisher, publication year, the population actually measured, and a link to verify.</p>
-<div class="cases" style="margin-top:22px">
-{% for src in sources %}
-<div class="placard" id="{{ src.id }}">
-  <div class="ceyebrow">source</div>
-  <div class="cval">{{ src.title }}</div>
-  <p class="clab">{{ src.publisher }}{% if src.year %}, {{ src.year }}{% endif %}{% if src.short_cite %} &middot; <em>{{ src.short_cite }}</em>{% endif %}</p>
-  <div class="measured"><span class="mk">Measured</span><span class="mv">{{ src.population }}</span></div>
-  {% if src.url %}<p class="cunit"><a href="{{ src.url }}">{{ src.url }}</a></p>{% endif %}
-  {% if src.notes %}<details><summary>source notes</summary><div class="drawer">{{ src.notes }}</div></details>{% endif %}
-</div>
-{% endfor %}
-</div>
-{% endblock %}
-"""
-
-_AFFORDABILITY = """{% extends "base" %}
-{% block title %}affordability — vitrine{% endblock %}
-{% block body %}
-<p class="eyebrow">vitrine · the affordability view</p>
-<h1>Affordability over <em>time</em></h1>
-<p class="sub">Five ratios, each computed at build from the underlying series — never authored. A metric's line runs only across the years both its numerator and denominator cover; the gaps are the honest shape of the record. Copper bands mark NBER recessions.</p>
-<div class="caveat">⚠ {{ disclaimer }}</div>
-{% for item in sections %}
-<h2 class="case-title" id="metric-{{ item.metric.slug }}">{{ item.metric.label }}</h2>
-<p class="case-sub">{{ item.metric.unit }}</p>
-{% for caveat in item.metric.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-{% if item.chart %}
-<div class="chart-panel">{{ item.chart }}</div>
-<p class="case-sub">{{ item.metric.caption }}</p>
-{% else %}
-<div class="chart-panel"><p class="case-sub gapv">{{ item.note }}</p></div>
-{% endif %}
-{% endfor %}
-<footer class="case-sub" style="margin-top:28px;border-top:1px solid #34291f;padding-top:12px;max-width:80ch;overflow-wrap:break-word;word-break:break-all">
-Recession bands: NBER Business Cycle Dating Committee chronology, transcribed from
-<a href="{{ recession_url }}">{{ recession_url }}</a>. They are annotation, not facts.
-Methodology: each ratio divides two structured series; values display in nominal
-period units. See <a href="{{ root }}methodology.html">methodology</a> for the
-assumption ledger entries behind the composites.
-</footer>
-{% endblock %}
-"""
-
-_CORRIDORS = (
-    """{% extends "base" %}
-{% from "macros" import placard, composition_details %}
-{% block title %}corridors — vitrine{% endblock %}
-{% block body %}
-<p class="eyebrow">vitrine · the corridors · an atlas in four wings</p>
-<h1>An atlas of <em>ordinary life</em></h1>
-<p class="sub">The rooms hold snapshots; the atlas follows change. Its exhibits are arranged around four questions rather than one long register of charts. Every mark still opens the sourced specimen card behind it, and every silence in the record remains visible.</p>
-
-<nav class="atlas-directory" aria-label="Atlas wings">
-{% for wing in wings %}
-  <a class="atlas-card" href="#wing-{{ wing.slug }}">
-    <span class="anum" aria-hidden="true">{{ wing.number }}</span>
-    <span><b>{{ wing.title }}</b><em>{{ wing.question }}</em></span>
-    <span class="acount">{{ wing.exhibit_count }} exhibits</span>
-  </a>
-{% endfor %}
-</nav>
-
-<div class="atlas-key" aria-label="How to read the atlas">
-  <div><b>Open selectively</b>Each wing begins with one chart open. The rest stay folded until chosen.</div>
-  <div><b>Inspect the evidence</b>Every plotted point opens its source, population, year, and confidence tier.</div>
-  <div><b>Read the silence</b>A broken line or empty decade is a documented gap, not an invitation to interpolate.</div>
-</div>
-
-{% for wing in wings %}
-<section class="atlas-wing" id="wing-{{ wing.slug }}" aria-labelledby="wing-{{ wing.slug }}-title">
-  <header class="wing-head">
-    <div class="wing-number" aria-hidden="true">{{ wing.number }}</div>
-    <div>
-      <p class="wing-kicker">Atlas wing {{ wing.number }} · {{ wing.exhibit_count }} exhibits</p>
-      <h2 id="wing-{{ wing.slug }}-title">{{ wing.title }}</h2>
-      <p class="wing-question">{{ wing.question }}</p>
-      <p class="wing-intro">{{ wing.introduction }}</p>
-    </div>
-  </header>
-
-  <div class="exhibit-stack">
-  {% if wing.slug == "economy" %}
-    <a class="atlas-portal" href="../affordability/index.html">
-      <span><b>Affordability over time</b><span>Five annual ratios trace housing, cars, wages, food, and real pay through recessions and shocks.</span></span>
-      <strong>Enter the annual gallery →</strong>
-    </a>
-    {% for item in afford_sections %}
-    <details class="atlas-exhibit"{% if loop.first %} open{% endif %} id="afford-{{ item.slug }}">
-      <summary class="exhibit-summary">
-        <span class="exhibit-title"><b>{{ item.label }} · in hours of work</b><span>Price ÷ the room's wage anchor · computed at build</span></span>
-        <span class="coverage">{{ item.coverage }}</span>
-      </summary>
-      <div class="exhibit-body">
-        {% for caveat in item.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-        <div class="chart-panel">{{ item.chart }}</div>
-        <p class="case-sub">Tier letters carry the weakest input. The ratio is computed, never authored as a fact.</p>
-      </div>
-    </details>
-    {% endfor %}
-    <details class="atlas-exhibit" id="budget-composition">
-      <summary class="exhibit-summary">
-        <span class="exhibit-title"><b>Budget composition</b><span>Share of household expenditure · fixed categories</span></span>
-        <span class="coverage">{{ comp_rows|length }} rooms charted</span>
-      </summary>
-      <div class="exhibit-body">
-        {% for caveat in comp_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-        <div class="chart-panel">{% for row in comp_rows %}{{ row.bar }}{% endfor %}</div>
-        {{ composition_details(comp_rows) }}
-      </div>
-    </details>
-  {% endif %}
-
-  {% for arc in wing.arcs %}
-    <details class="atlas-exhibit"{% if loop.first and wing.slug != "economy" %} open{% endif %} id="{{ arc.slug }}">
-      <summary class="exhibit-summary">
-        <span class="exhibit-title"><b>{{ arc.label }}</b><span>{{ arc.unit }}</span></span>
-        <span class="coverage">{{ arc.coverage }}</span>
-      </summary>
-      <div class="exhibit-body">
-        {% for caveat in arc.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-        <div class="chart-panel">{{ arc.chart }}</div>
-      </div>
-    </details>
-  {% endfor %}
-  </div>
-</section>
-{% endfor %}
-
-<section class="study-room" aria-labelledby="study-room-title">
-  <p class="wing-kicker">The study room</p>
-  <h2 id="study-room-title">Put two decades on the same table</h2>
-  <p>The atlas follows one measure through time. Pairwise pages instead gather every fact family the measure guard certifies comparable between two chosen rooms.</p>
-  <div class="epoch-grid">
-  {% for a, b in epochs %}<a class="epoch-card" href="{{ a }}--{{ b }}.html">{{ a }} ↔ {{ b }}</a>{% endfor %}
-  </div>
-  <details class="pair-archive">
-    <summary>Open all {{ pair_count }} decade pairs</summary>
-    <table class="pairtable" aria-label="All pairwise decade comparisons"><tr><th></th>{% for d in decades %}<th scope="col">{{ d[2:4] }}s</th>{% endfor %}</tr>
-    {% for a in decades %}<tr><th scope="row">{{ a[2:4] }}s</th>
-    {% for b in decades %}<td>{% if a < b %}<a href="{{ a }}--{{ b }}.html" aria-label="Compare {{ a }} and {{ b }}">↔</a>{% else %}·{% endif %}</td>{% endfor %}</tr>
-    {% endfor %}</table>
-  </details>
-</section>
-<div class="overlay-deck">
-{% for ref in overlay_facts %}{{ placard(ref.fact, ref.room, sources, assumptions, affordability, root, inline=false) }}{% endfor %}
-</div>
-"""
-    + _TIER_LEGEND
-    + "{% endblock %}\n"
-)
-
-_PAIR = (
-    """{% extends "base" %}
-{% from "macros" import placard, composition_details %}
-{% block title %}{{ a }} ↔ {{ b }} — vitrine corridors{% endblock %}
-{% block body %}
-<p class="eyebrow">vitrine · corridor · pairwise</p>
-<h1>{{ a }} <em>↔</em> {{ b }}</h1>
-<p class="sub">Fact families the measure guard certifies comparable for this pair. Everything else renders as the gap it is. Every value links to its placard.</p>
-<div class="decades" style="margin-top:16px"><span class="lab">Rooms</span>
-<a class="dbtn" href="../rooms/us-{{ a }}.html">{{ a }}</a>
-<a class="dbtn" href="../rooms/us-{{ b }}.html">{{ b }}</a>
-<a class="dbtn" href="index.html">all corridors</a></div>
-{% for item in afford_sections %}
-<h2 class="case-title">{{ item.label }} — affordability</h2>
-{% for caveat in item.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-{% if item.rows %}
-    <div class="pairgrid">
-    {% for row in item.rows %}
-    <a class="valcard" href="{{ row.overlay_href }}" data-fact-id="{{ row.fact_id }}">
-      <div class="td">{{ row.decade }} · Tier {{ row.tier }}</div>
-      <div class="tv">{{ row.text }}</div>
-    </a>
-    {% endfor %}
-    </div>
-{% else %}
-<div class="pairgrid"><span class="valcard"><div class="td">{{ a }} ↔ {{ b }}</div><div class="tv gapv">not comparable for this pair — {{ item.gap_reason }}</div></span></div>
-{% endif %}
-{% endfor %}
-{% if comp_rows %}
-<h2 class="case-title">Budget composition</h2>
-<div class="chart-panel">{% for row in comp_rows %}{{ row.bar }}{% endfor %}</div>
-{{ composition_details(comp_rows) }}
-{% endif %}
-{% for fam in families %}
-<h2 class="case-title">{{ fam.label }}</h2>
-<p class="case-sub">{{ fam.unit }}</p>
-{% for caveat in fam.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-<div class="pairgrid">
-{% for cell in fam.cells %}
-<a class="valcard" href="{{ cell.overlay_href }}" data-fact-id="{{ cell.fact_id }}">
-  <div class="td">{{ cell.decade }} · Tier {{ cell.tier }}</div>
-  <div class="tv{% if cell.gap %} gapv{% endif %}">{{ cell.text }}</div>
-</a>
-{% endfor %}
-</div>
-{% endfor %}
-<div class="overlay-deck">
-{% for ref in overlay_facts %}{{ placard(ref.fact, ref.room, sources, assumptions, affordability, root, inline=false) }}{% endfor %}
-</div>
-"""
-    + "{% endblock %}\n"
-)
-
-_WALKTHROUGH = (
-    """{% extends "base" %}
-{% from "macros" import placard %}
-{% block title %}the walkthrough — vitrine{% endblock %}
-{% block body %}
-<p class="eyebrow">vitrine · the walkthrough · {{ stops | join(" → ") }}</p>
-<h1>Walk the <em>composite household</em></h1>
-<p class="sub">The home and its paid-work, unpaid-work, and childhood records at three stops across the century. No invented family biography — only sourced facts, their tiers, and the gaps.</p>
-<div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
-{% for stop in stop_sections %}
-<h2 class="case-title">The {{ stop.decade }} — <a href="rooms/us-{{ stop.decade }}.html">enter the room</a></h2>
-<div class="stage">{{ stop.stage }}</div>
-<div class="people">
-{% for person in stop.people %}
-<div class="person-card">
-  <svg viewBox="-40 -60 80 130" width="64" height="104" role="img" aria-label="{{ person.name }}">{{ person.fig }}</svg>
-  <h5>{{ person.name }}</h5>
-  {% for row in person.rows %}
-  <a class="prow" href="{{ row.href }}" data-fact-id="{{ row.fact_id }}">
-    <span class="sk">{{ row.label }}</span>
-    <span class="sv">{{ row.value }}<span class="tchip" style="background:{{ T.TIER_COLORS[row.tier] }}">{{ row.tier }}</span></span>
-  </a>
-  {% endfor %}
-</div>
-{% endfor %}
-</div>
-{% endfor %}
-<div class="thesis">
-<h4>The same measures, three stops</h4>
-<p class="tcap">Each row is one measure across the transect. A silent record renders as a gap, never a guess.</p>
-{% for m in metrics %}
-<div class="metric">
-  <div class="mlab"><span>{{ m.label }}</span><em>{{ m.unit }}</em></div>
-  <div class="traj">
-  {% for cell in m.cells %}
-  {% if not cell.fact_id %}
-  <span class="tnode">
-    <div class="td">{{ cell.decade }}</div>
-    <div class="tv gapv">not yet curated</div>
-    <div style="margin-top:5px"><span class="flag gapf">gap</span></div>
-  </span>
-  {% else %}
-  <a class="tnode" href="{{ cell.href }}" data-fact-id="{{ cell.fact_id }}">
-    <div class="td">{{ cell.decade }}</div>
-    {% if cell.gap %}<div class="tv gapv">{{ cell.text }}</div><div style="margin-top:5px"><span class="flag gapf">gap</span></div>
-    {% else %}<div class="tv">{{ cell.text }}</div>
-    <div class="tbar{% if m.falling %} fall{% endif %}"><i style="width:{{ cell.bar }}%"></i></div>
-    <div style="margin-top:5px"><span class="flag tier" style="background:{{ T.TIER_COLORS[cell.tier] }}">Tier {{ cell.tier }}</span></div>
-    {% endif %}
-  </a>
-  {% endif %}
-  {% endfor %}
-  </div>
-</div>
-{% endfor %}
-</div>
-<h2 class="case-title">The labour-hours meter</h2>
-<p class="case-sub">Women's weekly unpaid home production, drawn to the data's shape — including its gaps.</p>
-{% for caveat in meter_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-<div class="chart-panel">{{ meter }}</div>
-<h2 class="case-title">The true-scale house</h2>
-<p class="case-sub">The house is drawn to the sourced floor-area datum; a stop without one keeps the dashed reference outline.</p>
-<div class="houses">
-{% for h in houses %}
-<figure>
-{% if h.fact_id %}<a href="{{ h.href }}">{% endif %}
-<svg viewBox="0 0 {{ h.w }} {{ h.hgt }}" width="{{ h.w }}" height="{{ h.hgt }}" role="img" aria-label="House scale, {{ h.decade }}">
-  <path class="hline{% if h.gap %} gaph{% endif %}" {% if h.fact_id %}data-fact-id="{{ h.fact_id }}"{% endif %} d="{{ h.path }}"/>
-</svg>
-{% if h.fact_id %}</a>{% endif %}
-<figcaption>{{ h.decade }} — {{ h.caption }}</figcaption>
-</figure>
-{% endfor %}
-</div>
-<p class="case-sub" style="margin-top:20px"><a href="affordability/index.html">How did we get here? →</a> — the affordability view traces five ratios across the full annual record.</p>
-<div class="overlay-deck">
-{% for ref in overlay_facts %}{{ placard(ref.fact, ref.room, sources, assumptions, affordability, root, inline=false) }}{% endfor %}
-</div>
-"""
-    + "{% endblock %}\n"
-)
+from vitrine.site.environment import build_environment
 
 # demo figure primitives (decoration; the stats beside them carry the facts)
 _FIGS = {
@@ -1258,7 +725,7 @@ def _render_affordability(
         sections.append({"metric": metric, "chart": Markup(chart), "note": note})
     (out_dir / "affordability").mkdir(exist_ok=True)
     (out_dir / "affordability" / "index.html").write_text(
-        env.get_template("affordability").render(
+        env.get_template("affordability.html").render(
             root="../",
             surface="affordability",
             sections=sections,
@@ -1276,42 +743,13 @@ def render_site(
 ) -> None:
     if series is None:
         series = {}
-    env = Environment(
-        loader=DictLoader(
-            {
-                "base": _BASE,
-                "index": _INDEX,
-                "room": _ROOM,
-                "methodology": _METHODOLOGY,
-                "bibliography": _BIBLIOGRAPHY,
-                "affordability": _AFFORDABILITY,
-                "corridors": _CORRIDORS,
-                "pair": _PAIR,
-                "walkthrough": _WALKTHROUGH,
-                "macros": _PLACARD,
-            }
-        ),
-        autoescape=select_autoescape(default=True),
-    )
-    env.globals["panel_title"] = panel_title
-    env.globals["tier_label"] = tier_label
-    env.globals["basis_label"] = basis_label
-    env.globals["T"] = tokens
-    env.globals["tier_names"] = {
-        "A": "official statistical series",
-        "B": "official microdata, computed by this project",
-        "C": "reconstructed from period surveys",
-        "D": "scholarly estimate",
-    }
-
     disclaimer_entry = corpus.assumptions.get("composite-family")
     if disclaimer_entry is None:
         raise ValueError(
             "assumption ledger must contain 'composite-family' — "
             "the disclaimer renders on every room (charter rule)"
         )
-    env.globals["disclaimer"] = disclaimer_entry.statement
-    env.globals["disclaimer_title"] = disclaimer_entry.title
+    env = build_environment(disclaimer_entry.statement, disclaimer_entry.title)
 
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "rooms").mkdir(exist_ok=True)
@@ -1340,15 +778,15 @@ def render_site(
 
     # lobby + methodology
     (out_dir / "index.html").write_text(
-        env.get_template("index").render(root="", surface="rooms", rooms=rooms)
+        env.get_template("index.html").render(root="", surface="rooms", rooms=rooms)
     )
     (out_dir / "methodology.html").write_text(
-        env.get_template("methodology").render(
+        env.get_template("methodology.html").render(
             root="", surface="methodology", assumptions=list(corpus.assumptions.values())
         )
     )
     (out_dir / "bibliography.html").write_text(
-        env.get_template("bibliography").render(
+        env.get_template("bibliography.html").render(
             root="", surface="bibliography", sources=list(corpus.sources.values())
         )
     )
@@ -1362,7 +800,7 @@ def render_site(
         room_afford = _affordability_for_room(corpus, room)
         all_affordability.update(room_afford)
         (out_dir / "rooms" / f"{room.slug}.html").write_text(
-            env.get_template("room").render(
+            env.get_template("room.html").render(
                 root="../",
                 surface="rooms",
                 room=room,
@@ -1499,7 +937,7 @@ def render_site(
         corridor_overlay_ids.extend(_afford_fact_ids(corpus, pattern).values())
     corridor_overlay_ids.extend(curation.COMPOSITIONS.values())
     (out_dir / "corridors" / "index.html").write_text(
-        env.get_template("corridors").render(
+        env.get_template("corridors.html").render(
             root=corridor_root,
             surface="corridors",
             decades=decades,
@@ -1542,7 +980,7 @@ def render_site(
             for section in pair_afford_sections:
                 pair_overlay_ids.extend(row.fact_id for row in section.rows)
             (out_dir / "corridors" / f"{a}--{b}.html").write_text(
-                env.get_template("pair").render(
+                env.get_template("pair.html").render(
                     root=corridor_root,
                     surface="corridors",
                     a=a,
@@ -1709,7 +1147,7 @@ def render_site(
             walkthrough_overlay_ids.append(area_fid)
 
     (out_dir / "walkthrough.html").write_text(
-        env.get_template("walkthrough").render(
+        env.get_template("walkthrough.html").render(
             root="",
             surface="walkthrough",
             stops=list(curation.WALKTHROUGH_STOPS),

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% from "macros.html" import placard, composition_details %}
+{% block title %}corridors — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · the corridors · an atlas in four wings</p>
+<h1>An atlas of <em>ordinary life</em></h1>
+<p class="sub">The rooms hold snapshots; the atlas follows change. Its exhibits are arranged around four questions rather than one long register of charts. Every mark still opens the sourced specimen card behind it, and every silence in the record remains visible.</p>
+
+<nav class="atlas-directory" aria-label="Atlas wings">
+{% for wing in wings %}
+  <a class="atlas-card" href="#wing-{{ wing.slug }}">
+    <span class="anum" aria-hidden="true">{{ wing.number }}</span>
+    <span><b>{{ wing.title }}</b><em>{{ wing.question }}</em></span>
+    <span class="acount">{{ wing.exhibit_count }} exhibits</span>
+  </a>
+{% endfor %}
+</nav>
+
+<div class="atlas-key" aria-label="How to read the atlas">
+  <div><b>Open selectively</b>Each wing begins with one chart open. The rest stay folded until chosen.</div>
+  <div><b>Inspect the evidence</b>Every plotted point opens its source, population, year, and confidence tier.</div>
+  <div><b>Read the silence</b>A broken line or empty decade is a documented gap, not an invitation to interpolate.</div>
+</div>
+
+{% for wing in wings %}
+<section class="atlas-wing" id="wing-{{ wing.slug }}" aria-labelledby="wing-{{ wing.slug }}-title">
+  <header class="wing-head">
+    <div class="wing-number" aria-hidden="true">{{ wing.number }}</div>
+    <div>
+      <p class="wing-kicker">Atlas wing {{ wing.number }} · {{ wing.exhibit_count }} exhibits</p>
+      <h2 id="wing-{{ wing.slug }}-title">{{ wing.title }}</h2>
+      <p class="wing-question">{{ wing.question }}</p>
+      <p class="wing-intro">{{ wing.introduction }}</p>
+    </div>
+  </header>
+
+  <div class="exhibit-stack">
+  {% if wing.slug == "economy" %}
+    <a class="atlas-portal" href="../affordability/index.html">
+      <span><b>Affordability over time</b><span>Five annual ratios trace housing, cars, wages, food, and real pay through recessions and shocks.</span></span>
+      <strong>Enter the annual gallery →</strong>
+    </a>
+    {% for item in afford_sections %}
+    <details class="atlas-exhibit"{% if loop.first %} open{% endif %} id="afford-{{ item.slug }}">
+      <summary class="exhibit-summary">
+        <span class="exhibit-title"><b>{{ item.label }} · in hours of work</b><span>Price ÷ the room's wage anchor · computed at build</span></span>
+        <span class="coverage">{{ item.coverage }}</span>
+      </summary>
+      <div class="exhibit-body">
+        {% for caveat in item.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+        <div class="chart-panel">{{ item.chart }}</div>
+        <p class="case-sub">Tier letters carry the weakest input. The ratio is computed, never authored as a fact.</p>
+      </div>
+    </details>
+    {% endfor %}
+    <details class="atlas-exhibit" id="budget-composition">
+      <summary class="exhibit-summary">
+        <span class="exhibit-title"><b>Budget composition</b><span>Share of household expenditure · fixed categories</span></span>
+        <span class="coverage">{{ comp_rows|length }} rooms charted</span>
+      </summary>
+      <div class="exhibit-body">
+        {% for caveat in comp_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+        <div class="chart-panel">{% for row in comp_rows %}{{ row.bar }}{% endfor %}</div>
+        {{ composition_details(comp_rows) }}
+      </div>
+    </details>
+  {% endif %}
+
+  {% for arc in wing.arcs %}
+    <details class="atlas-exhibit"{% if loop.first and wing.slug != "economy" %} open{% endif %} id="{{ arc.slug }}">
+      <summary class="exhibit-summary">
+        <span class="exhibit-title"><b>{{ arc.label }}</b><span>{{ arc.unit }}</span></span>
+        <span class="coverage">{{ arc.coverage }}</span>
+      </summary>
+      <div class="exhibit-body">
+        {% for caveat in arc.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+        <div class="chart-panel">{{ arc.chart }}</div>
+      </div>
+    </details>
+  {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+<section class="study-room" aria-labelledby="study-room-title">
+  <p class="wing-kicker">The study room</p>
+  <h2 id="study-room-title">Put two decades on the same table</h2>
+  <p>The atlas follows one measure through time. Pairwise pages instead gather every fact family the measure guard certifies comparable between two chosen rooms.</p>
+  <div class="epoch-grid">
+  {% for a, b in epochs %}<a class="epoch-card" href="{{ a }}--{{ b }}.html">{{ a }} ↔ {{ b }}</a>{% endfor %}
+  </div>
+  <details class="pair-archive">
+    <summary>Open all {{ pair_count }} decade pairs</summary>
+    <table class="pairtable" aria-label="All pairwise decade comparisons"><tr><th></th>{% for d in decades %}<th scope="col">{{ d[2:4] }}s</th>{% endfor %}</tr>
+    {% for a in decades %}<tr><th scope="row">{{ a[2:4] }}s</th>
+    {% for b in decades %}<td>{% if a < b %}<a href="{{ a }}--{{ b }}.html" aria-label="Compare {{ a }} and {{ b }}">↔</a>{% else %}·{% endif %}</td>{% endfor %}</tr>
+    {% endfor %}</table>
+  </details>
+</section>
+<div class="overlay-deck">
+{% for ref in overlay_facts %}{{ placard(ref.fact, ref.room, sources, assumptions, affordability, root, inline=false) }}{% endfor %}
+</div>
+
+<div class="legends">
+  <div class="leg">
+    <h4>Confidence &amp; flags</h4>
+    {% for t, color in T.TIER_COLORS.items() %}
+    <div class="tierrow"><span class="swatch" style="background:{{ color }}"></span> {{ t }} — {{ tier_names[t] }}</div>
+    {% endfor %}
+    <div class="tierrow"><span class="swatch" style="background:{{ T.GAP }};opacity:.5;border:1px dashed {{ T.GAP }}"></span> Gap — no reliable record; shown as the gap it is</div>
+  </div>
+  <div class="leg">
+    <h4>Reading the museum</h4>
+    <p><b>Every fact is behind glass</b>: its placard names the source, the year, who was measured, and how sure we are. Chart points and stage glyphs deep-link to their placards.</p>
+    <p style="margin-top:8px"><b>Falling</b> metrics render in <b style="color:{{ T.COPPER }}">copper</b>, <b>rising</b> in <b style="color:{{ T.BRASS }}">brass</b>. Absent technology isn't drawn — a bare house says more than ghosts.</p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% from "macros.html" import placard, derived_placard, room_map %}
+{% block title %}{{ room.country | upper }} · {{ room.decade }} — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · {{ room.country | upper }} · the {{ room.decade }}</p>
+<h1>The <em>{{ room.decade }}</em> room</h1>
+{% if room.data_as_of %}<p class="case-sub">Data as of {{ room.data_as_of }} (decade ongoing — each fact states its own data year).</p>{% endif %}
+<section class="room-overture" aria-labelledby="room-story-title">
+  <div class="story-label">
+    <div><p class="story-kicker">Curator's route · four sourced exhibits</p><h2 id="room-story-title">{{ story.title }}</h2><p class="story-question">{{ story.question }}</p></div>
+    <p class="story-note">An editorial selection, not a synthetic family. Every stop opens the original specimen label.</p>
+  </div>
+  <div class="story-trail">
+  {% for fact in story.facts %}
+    <a class="story-stop" href="#{{ fact.id }}--modal" data-fact-id="{{ fact.id }}">
+      <span class="stop-meta">Stop 0{{ loop.index }} · {{ panel_title(fact.panel) }}</span>
+      <span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}">{{ fact.tier.value }}</span>
+      <span class="stop-value">{{ fact.value|truncate(92, true, '…') }}</span>
+      <span class="stop-label">{{ fact.label }}</span>
+    </a>
+  {% endfor %}
+  </div>
+</section>
+<div class="plaque room-disclaimer"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
+{{ room_map(rooms, room, "", previous_room, next_room, room_position) }}
+{% if gap_banner %}<div class="gap-banner"><b>Structural gap</b>{{ gap_banner }}</div>{% endif %}
+<div class="stage">{{ stage_svg }}</div>
+<div class="stagehint">era-graded light · absent technology isn't drawn · every glyph opens its specimen label</div>
+<div class="collection-head"><div><h2>The complete room</h2><p>All six cases, including the curator's route above and the records around it.</p></div><span>{{ room.facts|length }} sourced facts{% if computed_count %} · {{ computed_count }} computed{% endif %}</span></div>
+<nav class="exhibit-map" aria-label="Room display cases">
+{% for panel, facts, computed in panels %}<a href="#panel-{{ panel.value }}"><b>{{ panel_title(panel) }}</b><span>{{ facts|length + computed|length }} exhibits</span></a>{% endfor %}
+</nav>
+{% for panel, facts, computed in panels %}
+<details open class="panel-group" id="panel-{{ panel.value }}">
+<summary class="case-title">{{ panel_title(panel) }}</summary>
+{% if not facts and not computed %}<p class="case-sub"><em>Not yet curated.</em></p>{% else %}
+<div class="cases">
+{% for fact in facts %}{{ placard(fact, room, sources, assumptions, affordability, root) }}{% endfor %}
+{% for cf in computed %}{{ derived_placard(cf, room, assumptions, root) }}{% endfor %}
+</div>
+{% endif %}
+{% if panel.value == "work-buys" and facts %}<p class="case-sub"><a href="{{ root }}affordability/index.html">See this metric across all decades →</a></p>{% endif %}
+</details>
+{% endfor %}
+
+<div class="legends">
+  <div class="leg">
+    <h4>Confidence &amp; flags</h4>
+    {% for t, color in T.TIER_COLORS.items() %}
+    <div class="tierrow"><span class="swatch" style="background:{{ color }}"></span> {{ t }} — {{ tier_names[t] }}</div>
+    {% endfor %}
+    <div class="tierrow"><span class="swatch" style="background:{{ T.GAP }};opacity:.5;border:1px dashed {{ T.GAP }}"></span> Gap — no reliable record; shown as the gap it is</div>
+  </div>
+  <div class="leg">
+    <h4>Reading the museum</h4>
+    <p><b>Every fact is behind glass</b>: its placard names the source, the year, who was measured, and how sure we are. Chart points and stage glyphs deep-link to their placards.</p>
+    <p style="margin-top:8px"><b>Falling</b> metrics render in <b style="color:{{ T.COPPER }}">copper</b>, <b>rising</b> in <b style="color:{{ T.BRASS }}">brass</b>. Absent technology isn't drawn — a bare house says more than ghosts.</p>
+  </div>
+</div>
+{% endblock %}
