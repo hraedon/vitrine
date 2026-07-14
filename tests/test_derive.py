@@ -116,6 +116,30 @@ def test_gate_flags_dangling_operand(tmp_path: Path) -> None:
     assert any("us-1950s-d" in p and "does not resolve" in p for p in problems)
 
 
+def test_gate_flags_unknown_currency(tmp_path: Path) -> None:
+    """A priced fact in a currency the registry doesn't know is a red build
+    (plan 022 WI-1) — the guard that keeps v2 rooms from shipping a currency
+    the money layer can't format."""
+    (tmp_path / "sources.toml").write_text(
+        '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "all families"\n'
+    )
+    (tmp_path / "assumptions.toml").write_text(
+        '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
+    )
+    room_dir = tmp_path / "uk"
+    room_dir.mkdir()
+    (room_dir / "1950s.toml").write_text(
+        '[room]\ncountry = "uk"\ndecade = "1950s"\n\n'
+        '[[fact]]\nid = "uk-1950s-a"\npanel = "budget"\nlabel = "L"\nvalue = "V"\n'
+        'unit = "U"\nsource = "src-1"\ntier = "A"\namount_minor = 100\n'
+        'currency = "ZZZ"\nprice_year = 1950\nbasis = "annual"\n'
+    )
+    corpus = load_corpus(tmp_path)
+    problems = check_corpus(corpus)
+    assert any("uk-1950s-a" in p and "unknown currency" in p for p in problems)
+
+
 def test_gate_green_on_valid_derived(tmp_path: Path) -> None:
     corpus = load_corpus(_write_corpus_with_derived(tmp_path, "us-1950s-a"))
     assert check_corpus(corpus) == []
@@ -282,6 +306,14 @@ def test_inflate_computes_correct_value() -> None:
     assert computed.tier is Tier.A  # both inputs Tier A
 
 
+def test_inflate_renders_in_the_operand_currency() -> None:
+    """A GBP INFLATE renders £, not $ (plan 022 WI-2)."""
+    room = _room((_fact("us-2020s-base", 2736600, Tier.A, currency="GBP"),))
+    series = _inflate_series({2020: 147.600, 2024: 177.886})
+    computed = evaluate(room, _inflate_derived(), series)
+    assert computed.value == "≈ £32,981"
+
+
 def test_inflate_tier_is_weakest_input() -> None:
     """A Tier C inflation series weakens the derived tier."""
     from vitrine.series import Series
@@ -354,6 +386,20 @@ def test_product_computes_correct_value() -> None:
     computed = evaluate(room, _product_derived())
     assert computed.value == "≈ $53.46"
     assert computed.tier is Tier.A
+
+
+def test_product_renders_in_the_operand_currency() -> None:
+    """A GBP-denominated PRODUCT renders £, not $ (plan 022 WI-2).
+
+    £1.32 (132 pence) x 40.5 hours = £53.46. This is the world-wing keystone:
+    the money layer, not a hardcoded dollar sign, decides the symbol.
+    """
+    room = _room((
+        _fact("us-1950s-wage", 132, Tier.A, currency="GBP"),
+        _hours_fact("us-1950s-hours", 40.5),
+    ))
+    computed = evaluate(room, _product_derived())
+    assert computed.value == "≈ £53.46"
 
 
 def test_product_tier_is_weakest_input() -> None:

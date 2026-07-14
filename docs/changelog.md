@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-07-14 — Plan 022 WI-1/WI-2 (the multi-currency foundation)
+
+The money layer the world wing (plan 021) stands on. New `vitrine.money`: a
+closed currency registry (USD, GBP seeded) with per-currency formatting and an
+`UnknownCurrency` guard. `vitrine check` now rejects a priced fact whose
+`currency` isn't registered. Derivation threads the operand's currency through
+`_op_value`, so `INFLATE`/`PRODUCT` render in the fact's own currency
+(closing WI-021: the hardcoded `$` is gone) — a GBP derived fact renders `£`,
+not `$`. No FX anywhere: the museum never converts between currencies as a
+truth-path number.
+
+**Foundation-only invariant held:** the entire US corpus rebuilds
+**byte-identical** (108 files, identical checksums) — USD formatting is
+provably unchanged. 220 tests pass (10 new), mypy --strict + ruff clean.
+
+WI-3 (site-layer money-formatting audit + cross-currency non-comparison gate)
+is deferred to plan 023: the render path was already clean — it renders
+authored `value` and derived `value`, never re-formatting money — so there is
+nothing to reroute until a second currency's data exists to guard against.
+
 ## 2026-07-13 — Plan 019 (presentation architecture recovery)
 
 A controlled recovery of the museum UI onto a maintainable presentation
