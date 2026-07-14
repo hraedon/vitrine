@@ -12,6 +12,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import assert_never
 
+from vitrine import money
 from vitrine.model import (
     DerivedFact,
     DerivedOp,
@@ -66,16 +67,19 @@ def _resolve_structured(
     raise DeriveError(f"{ctx}: operand {fact_id!r} not found in room {room.slug}")
 
 
-def _op_value(op: DerivedOp, ratio: float, precision: int) -> str:
+def _op_value(op: DerivedOp, ratio: float, precision: int, currency: str) -> str:
+    """Render a derived value. Monetary ops (INFLATE, PRODUCT) carry the
+    operand's ``currency`` and format through the money registry; the
+    dimensionless ops (RATIO, PCT_OF, QUANTITY_RATIO) ignore it."""
     match op:
         case DerivedOp.RATIO:
             return f"≈ {ratio:,.{precision}f}"
         case DerivedOp.PCT_OF:
             return f"≈ {ratio * 100:,.{precision}f}%"
         case DerivedOp.INFLATE:
-            return f"≈ ${ratio:,.{precision}f}"
+            return f"≈ {money.format_amount(ratio, currency, precision)}"
         case DerivedOp.PRODUCT:
-            return f"≈ ${ratio:,.{precision}f}"
+            return f"≈ {money.format_amount(ratio, currency, precision)}"
         case DerivedOp.QUANTITY_RATIO:
             return f"≈ {ratio:,.{precision}f}"
         case _:
@@ -118,7 +122,7 @@ def evaluate(
             panel=derived.panel,
             label=derived.label,
             unit=derived.unit,
-            value=_op_value(derived.op, inflated / 100.0, derived.precision),
+            value=_op_value(derived.op, inflated / 100.0, derived.precision, numerator.currency),
             tier=weakest_tier(numerator.tier, s.tier),  # weakest input — series too
             numerator=numerator,
             denominator=numerator,  # no denominator fact; self-reference for the type
@@ -143,7 +147,7 @@ def evaluate(
             panel=derived.panel,
             label=derived.label,
             unit=derived.unit,
-            value=_op_value(derived.op, product / 100.0, derived.precision),
+            value=_op_value(derived.op, product / 100.0, derived.precision, numerator.currency),
             tier=weakest_tier(numerator.tier, denominator.tier),
             numerator=numerator,
             denominator=denominator,
@@ -170,7 +174,7 @@ def evaluate(
             panel=derived.panel,
             label=derived.label,
             unit=derived.unit,
-            value=_op_value(derived.op, ratio, derived.precision),
+            value=_op_value(derived.op, ratio, derived.precision, numerator.currency),
             tier=weakest_tier(numerator.tier, denominator.tier),
             numerator=numerator,
             denominator=denominator,
@@ -198,7 +202,7 @@ def evaluate(
         panel=derived.panel,
         label=derived.label,
         unit=derived.unit,
-        value=_op_value(derived.op, ratio, derived.precision),
+        value=_op_value(derived.op, ratio, derived.precision, numerator.currency),
         tier=weakest_tier(numerator.tier, denominator.tier),
         numerator=numerator,
         denominator=denominator,
