@@ -23,7 +23,7 @@ The atomic exhibit unit. One claim, one source, one tier.
 | `notes` | str | Optional curator note shown in the provenance drawer |
 | `assumptions` | list[str] | Ids resolving into `data/assumptions.toml` |
 | `amount_minor` | int? | Structured value in integer minor units (cents) — no float drift |
-| `currency` | str | e.g. `"USD"`; required iff `amount_minor` is set |
+| `currency` | str | ISO 4217 code, e.g. `"USD"`; required iff `amount_minor` is set. Must be registered in `vitrine.money.CURRENCIES` — an unknown code is a red `vitrine check`. `vitrine.money` also formats amounts per-currency; **no FX** — the museum never converts between currencies as a truth-path number. |
 | `price_year` | int? | Year the amount is quoted in |
 | `basis` | Basis? | What the amount is measured against (closed set, below); required iff `amount_minor` is set |
 | `quantity` | float? | Headline non-monetary numeric for chart projection (a percentage, hours, a rate); must appear verbatim in `value` — gate-enforced |

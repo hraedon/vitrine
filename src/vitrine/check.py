@@ -12,6 +12,7 @@ import math
 from html.parser import HTMLParser
 from pathlib import Path
 
+from vitrine import money
 from vitrine.model import Basis, Corpus, DerivedOp, Fact, Room, measure_axis
 from vitrine.series import Series
 
@@ -76,6 +77,11 @@ def check_corpus(corpus: Corpus, series: dict[str, Series] | None = None) -> lis
                 has_priced = True
                 if not fact.currency.strip():
                     problems.append(f"{where}: amount_minor set but currency is empty")
+                elif not money.is_known(fact.currency):
+                    problems.append(
+                        f"{where}: unknown currency {fact.currency!r} — register it "
+                        f"in vitrine.money.CURRENCIES"
+                    )
                 if fact.price_year is None:
                     problems.append(f"{where}: amount_minor set but price_year is missing")
                 if fact.basis is None:
