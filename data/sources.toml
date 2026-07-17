@@ -828,3 +828,35 @@ year = 2022
 url = "https://www.federalreserve.gov/econres/scfindex.htm"
 population = "U.S. families (survey sample, ~6,500 families per wave)"
 notes = "Triennial survey of U.S. family finances. Provides median and mean net worth by income quintile, age, family structure. Full asset/liability composition: home equity, vehicles, financial assets (deposits, stocks, retirement accounts), business equity, and debt (mortgage, credit cards, installment loans). Survey years: 1983, 1989, 1992, 1995, 1998, 2001, 2004, 2007, 2010, 2013, 2016, 2019, 2022. Interactive tables at federalreserve.gov/econres/scf/dataviz/scf/table/. Tier A (official survey)."
+
+# ── CDC: smoking/tobacco ─────────────────────────────────────────────────
+
+[[source]]
+id = "cdc-mmwr-tobacco-surveillance"
+title = "Surveillance for Selected Tobacco-Use Behaviors -- United States, 1900-1994"
+short_cite = "CDC MMWR Surveillance Summary, Tobacco Use 1900-1994"
+publisher = "Centers for Disease Control and Prevention (CDC)"
+year = 1994
+url = "https://www.cdc.gov/mmwr/preview/mmwrhtml/00033881.htm"
+population = "U.S. adults ≥18 years (NHIS) and total U.S. cigarette consumption (USDA)"
+notes = "MMWR Surveillance Summary Vol. 43 No. SS-3. Table 1: per capita cigarette consumption 1900-1994 from USDA Economic Research Service (based on BATF tax data, imports, Census population). Table 2: adult smoking prevalence 1965-1991 from NHIS. Per capita = cigarettes per adult ≥18 per year."
+
+[[source]]
+id = "cdc-tobacco-consumption-2000"
+title = "Adult Tobacco Consumption in the U.S., 2000-Present"
+short_cite = "CDC, Adult Tobacco Consumption 2000-Present"
+publisher = "Centers for Disease Control and Prevention (CDC)"
+year = 2024
+url = "https://data.cdc.gov/CDC/Adult-Tobacco-Consumption-In-The-U-S-2000-Present/rnvb-cpxx"
+population = "U.S. adults ≥18 years (per capita consumption based on taxable removals)"
+notes = "Dataset on data.cdc.gov. Annual per capita cigarette consumption 2000-2023 based on Alcohol and Tobacco Tax and Trade Bureau (TTB) taxable removals data and Census adult population estimates. Downloads as CSV via Socrata API."
+
+[[source]]
+id = "cdc-nhis-smoking-prevalence"
+title = "National Health Interview Survey: Adult Cigarette Smoking Prevalence, 1965-2022"
+short_cite = "CDC NCHS, NHIS Adult Smoking Prevalence (compiled by American Lung Association)"
+publisher = "National Center for Health Statistics (CDC)"
+year = 2024
+url = "https://www.lung.org/research/trends-in-lung-disease/tobacco-trends-brief/data-tables/ad-cig-smoke-rate-sex-race-age"
+population = "U.S. civilian noninstitutionalized adults ≥18 years (NHIS household interview survey)"
+notes = "NHIS data 1965-2022. Pre-1997 from published NCHS Series 10 reports; 1997-2022 from ALA analysis of NHIS public-use files using SPSS. Current smoker defined as smoked ≥100 cigarettes and currently smoking every day or some days. 2025 preliminary: 9.1% (CDC FastStats). Survey redesign in 1997 means pre/post may not be directly comparable."

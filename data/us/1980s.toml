@@ -466,6 +466,30 @@ tier = "A"
 notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, per lb), APU0000704111 (bacon, per lb), APU0000708111 (eggs, per doz), APU0000712211 (lettuce, per lb). Values are December 1980 monthly averages. CORRECTION 2026-07-08: previous version had mismatched labels (same error as 2020s room — series IDs were assigned to wrong food items). Bread at $0.52/lb is 2.2× the 1970 price (23.9¢). Ground beef at $1.86/lb is 1.4× the 1970 price. Food prices surged in the late 1970s due to inflation: the CPI for food rose 8.6% in 1978, 10.9% in 1979, and 8.6% in 1980."
 
 [[fact]]
+id = "us-1980s-cigarette-consumption"
+quantity = 3849
+panel = "table"
+label = "Adult per capita cigarette consumption, 1980"
+value = "3,849 cigarettes per adult per year"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-mmwr-tobacco-surveillance"
+tier = "A"
+notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Consumption was beginning its long decline. Total U.S. consumption peaked at 640 billion cigarettes in 1981, then fell steadily."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1980s-smoking-prevalence"
+quantity = 33.2
+panel = "table"
+label = "Adult cigarette smoking prevalence, 1980"
+value = "33.2% of adults smoked (37.6% of men, 29.3% of women)"
+unit = "% of adults ≥18 who currently smoke (NHIS)"
+source = "cdc-nhis-smoking-prevalence"
+tier = "A"
+notes = "From CDC NHIS (compiled by American Lung Association). Steady decline from 37.4% in 1970. The 1988 Surgeon General's Report on nicotine addiction further increased awareness."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1980s-infant-mortality"
 quantity = 12.6
 panel = "day"

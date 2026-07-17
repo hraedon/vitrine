@@ -525,6 +525,30 @@ tier = "A"
 notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, per lb), APU0000704111 (bacon, per lb), APU0000708111 (eggs, per doz), APU0000712211 (lettuce, per lb). Values are December 1990 monthly averages. CORRECTION 2026-07-08: previous version had mismatched labels (same error as 2020s room). Food price inflation moderated in the 1980s after the Volcker disinflation. Bread up 35% from 1980 ($0.52→$0.70), ground beef up 9% ($1.86→$2.02)."
 
 [[fact]]
+id = "us-1990s-cigarette-consumption"
+quantity = 2817
+panel = "table"
+label = "Adult per capita cigarette consumption, 1990"
+value = "2,817 cigarettes per adult per year"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-mmwr-tobacco-surveillance"
+tier = "A"
+notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Consumption had fallen sharply from the 1980 level of 3,849. The 1990s saw the Master Settlement Agreement (1998) between major tobacco companies and 46 states."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1990s-smoking-prevalence"
+quantity = 25.5
+panel = "table"
+label = "Adult cigarette smoking prevalence, 1990"
+value = "25.5% of adults smoked (28.4% of men, 22.8% of women)"
+unit = "% of adults ≥18 who currently smoke (NHIS)"
+source = "cdc-nhis-smoking-prevalence"
+tier = "A"
+notes = "From CDC NHIS (compiled by American Lung Association). Smoking prevalence fell below 30% for the first time. Down from 33.2% in 1980."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1990s-infant-mortality"
 quantity = 9.2
 panel = "day"

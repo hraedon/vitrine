@@ -477,6 +477,30 @@ tier = "A"
 notes = "From 1970 Statistical Abstract Table 530 (BLS data, April 1970 — most recent available). Milk is per quart, delivered. By April 1970, food inflation was accelerating: bread up 18% from 1960, round steak up 26%, milk up 152% (from 26.0¢ to 65.5¢/qt). The 1970s would bring double-digit food price inflation, especially after the 1973-74 oil shock and Soviet grain purchases."
 
 [[fact]]
+id = "us-1970s-cigarette-consumption"
+quantity = 3985
+panel = "table"
+label = "Adult per capita cigarette consumption, 1970"
+value = "3,985 cigarettes per adult per year"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-mmwr-tobacco-surveillance"
+tier = "A"
+notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Consumption had declined from the 1963 peak of 4,345 but remained high. The 1971 broadcast ad ban and 1972 health warning labels were early tobacco control measures."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1970s-smoking-prevalence"
+quantity = 37.4
+panel = "table"
+label = "Adult cigarette smoking prevalence, 1970"
+value = "37.4% of adults smoked (44.1% of men, 31.5% of women)"
+unit = "% of adults ≥18 who currently smoke (NHIS)"
+source = "cdc-nhis-smoking-prevalence"
+tier = "A"
+notes = "From CDC NHIS (compiled by American Lung Association). Down from 42.4% in 1965. Men's smoking declined faster than women's during this period."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1970s-infant-mortality"
 quantity = 20
 panel = "day"

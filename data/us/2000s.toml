@@ -503,6 +503,30 @@ tier = "A"
 notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, per lb), APU0000704111 (bacon, per lb), APU0000708111 (eggs, per doz), APU0000712211 (lettuce, per lb). Values are December 2000 monthly averages. CORRECTION 2026-07-08: previous version had mismatched labels. Bread up 41% from 1990 ($0.70→$0.99), bacon up 33% ($2.28→$3.03). Ground beef actually decreased slightly ($2.02→$1.98), reflecting changes in beef production. The 2000s saw rising global food demand and the beginning of biofuel-driven corn price increases."
 
 [[fact]]
+id = "us-2000s-cigarette-consumption"
+quantity = 2076
+panel = "table"
+label = "Adult per capita cigarette consumption, 2000"
+value = "2,076 cigarettes per adult per year"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-tobacco-consumption-2000"
+tier = "A"
+notes = "From CDC Adult Tobacco Consumption dataset (data.cdc.gov). Based on TTB taxable removals and Census adult population estimates. Down from 2,817 in 1990."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2000s-smoking-prevalence"
+quantity = 23.3
+panel = "table"
+label = "Adult cigarette smoking prevalence, 2000"
+value = "23.3% of adults smoked (25.7% of men, 20.7% of women)"
+unit = "% of adults ≥18 who currently smoke (NHIS)"
+source = "cdc-nhis-smoking-prevalence"
+tier = "A"
+notes = "From CDC NHIS (compiled by American Lung Association). Note: NHIS survey was redesigned in 1997, so pre-1997 and post-1997 data may not be directly comparable. Smoking continued its steady decline."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2000s-infant-mortality"
 quantity = 6.9
 panel = "day"
