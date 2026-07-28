@@ -137,3 +137,20 @@ uv venv && uv pip install -e ".[dev]"
 .venv/bin/vitrine gaps             # mechanical gap inventory (never hand-kept)
 .venv/bin/pytest -q
 ```
+
+## Deploying
+
+The museum is public at <https://vitrine.hraedon.com>. Pushing to `main` builds
+and pushes the container image, but **does not deploy it** — the Deployment
+references a mutable tag, and a running pod never re-pulls one, so a new image
+does not reach visitors until the pods are replaced. Deploy explicitly:
+
+```bash
+scripts/deploy.sh                  # roll the Deployment, then verify the live
+                                   # site serves the current corpus
+```
+
+`scripts/check_deploy_freshness.py` is the verification on its own: it diffs the
+live `facts-manifest.txt` against a local build, so "deployed" means the served
+facts match the curated ones rather than merely that pods restarted. The weekly
+`Deploy Freshness` workflow runs the same check against the public site.
