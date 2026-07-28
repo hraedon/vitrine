@@ -483,6 +483,70 @@ def test_quantity_ratio_zero_denominator_raises() -> None:
         evaluate(room, _qty_ratio_derived(), fact_index=fact_index)
 
 
+def _quantity_fact_with_unit(fact_id: str, value: float, unit: str) -> Fact:
+    return Fact(
+        id=fact_id,
+        panel=Panel.WORK_BUYS,
+        label="L",
+        value=str(value),
+        unit=unit,
+        source="src-1",
+        tier=Tier.A,
+        quantity=value,
+    )
+
+
+def test_quantity_ratio_unit_mismatch_raises() -> None:
+    """WI-022: hours ÷ CPI-index nonsense must not evaluate."""
+    room = _room(
+        (_quantity_fact_with_unit("us-1950s-hours", 40.0, "hours per week"),)
+    )
+    fact_index = {
+        "us-2020s-cpi": _quantity_fact_with_unit("us-2020s-cpi", 313.7, "index points")
+    }
+    derived = DerivedFact(
+        id="us-1950s-nonsense",
+        panel=Panel.WORK_BUYS,
+        label="Nonsense",
+        unit="ratio",
+        op=DerivedOp.QUANTITY_RATIO,
+        numerator="us-1950s-hours",
+        denominator="us-2020s-cpi",
+        precision=2,
+    )
+    with pytest.raises(DeriveError, match="unit mismatch"):
+        evaluate(room, derived, fact_index=fact_index)
+
+
+def test_quantity_ratio_unit_comparison_ignores_case_and_whitespace() -> None:
+    """Formatting differences are not a dimension difference."""
+    room = _room(
+        (_quantity_fact_with_unit("us-1950s-cpi", 24.1, "CPI-U,  1982-84=100"),)
+    )
+    fact_index = {
+        "us-2020s-cpi": _quantity_fact_with_unit("us-2020s-cpi", 313.7, "cpi-u, 1982-84=100")
+    }
+    computed = evaluate(room, _qty_ratio_derived(), fact_index=fact_index)
+    assert computed.value == "≈ 13.02"
+
+
+def test_gate_flags_quantity_ratio_unit_mismatch(tmp_path: Path) -> None:
+    """WI-022: the gate, not just evaluation, rejects unlike-unit ratios."""
+    data = _write_corpus_with_qty_ratio(tmp_path, valid=True)
+    room = data / "us" / "1950s.toml"
+    text = room.read_text()
+    text = text.replace(
+        '[[derived]]\nid = "us-1950s-purchasing-power"',
+        '[[fact]]\nid = "us-1950s-hours"\npanel = "day"\nlabel = "H"\n'
+        'value = "40"\nunit = "hours per week"\nsource = "src-1"\ntier = "A"\n'
+        'quantity = 40\n\n'
+        '[[derived]]\nid = "us-1950s-purchasing-power"',
+    ).replace('numerator = "us-1950s-cpi"', 'numerator = "us-1950s-hours"')
+    room.write_text(text)
+    problems = check_corpus(load_corpus(data))
+    assert any("unit mismatch" in p for p in problems)
+
+
 # ── Cross-room RATIO (WI-5): real-income-growth ────────────────────────────
 
 

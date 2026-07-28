@@ -169,6 +169,18 @@ def basis_label(basis: Basis) -> str:
             assert_never(basis)
 
 
+def normalized_unit(unit: str) -> str:
+    """A fact's ``unit`` string canonicalized for comparability checks.
+
+    QUANTITY_RATIO derivations divide two quantities, which is only
+    meaningful when both measure the same dimension; the gate compares
+    normalized unit strings so trivial formatting differences (letter case,
+    whitespace runs) are not treated as a dimension difference, while a real
+    mismatch (hours per week ÷ CPI index points) is a red build.
+    """
+    return " ".join(unit.split()).casefold()
+
+
 @dataclass(frozen=True, slots=True)
 class Source:
     """An entry in the global source registry (data/sources.toml)."""

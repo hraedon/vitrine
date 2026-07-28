@@ -13,7 +13,15 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 from vitrine import money
-from vitrine.model import Basis, Corpus, DerivedOp, Fact, Room, measure_axis
+from vitrine.model import (
+    Basis,
+    Corpus,
+    DerivedOp,
+    Fact,
+    Room,
+    measure_axis,
+    normalized_unit,
+)
 from vitrine.series import Series
 
 
@@ -293,6 +301,20 @@ def _check_derived(
             elif den.quantity == 0:
                 problems.append(
                     f"{where}: denominator {derived.denominator!r} quantity is zero"
+                )
+            if (
+                num is not None
+                and num.quantity is not None
+                and den is not None
+                and den.quantity is not None
+                and normalized_unit(num.unit) != normalized_unit(den.unit)
+            ):
+                problems.append(
+                    f"{where}: unit mismatch ({num.unit!r} vs {den.unit!r}) — "
+                    f"a quantity_ratio divides like quantities; if these share "
+                    f"a dimension, harmonize the unit strings (the distinction "
+                    f"belongs in label/notes), otherwise the ratio is not "
+                    f"meaningful"
                 )
             continue
 

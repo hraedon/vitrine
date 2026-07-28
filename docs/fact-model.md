@@ -62,6 +62,7 @@ An entry in the global registry `data/sources.toml`.
 | `population` | str | **Who was actually measured** — the anti-composite field |
 | `notes` | str | Access date, edition, table number, caveats |
 | `short_cite` | str | Brief inline citation for footnote display on visualizations |
+| `expect` | list[str]? | Content markers `scripts/link_check.py` verifies against the served document — a 200 OK is not proof the URL serves the described document (the f08a/f08ar wrong-variant incident). Text/HTML and `.xlsx` (shared strings) are searchable; opaque formats (PDF) stay resolve-only. |
 
 `population` is mandatory and load-bearing: "all US families, CPS money
 income" vs "urban wage-earner families with a male head" is the difference
@@ -222,10 +223,13 @@ The gate loads everything under `data/` and fails on any of:
    concept, or vice versa). You cannot divide by a denominator without saying
    what it measures.
 9. A `[[derived]]` entry whose operands don't resolve in-room or cross-room,
-   aren't structured (amount_minor for monetary ops, quantity for
-   quantity-based ops), mix currencies (for ratio/pct_of), or divide by zero
-   (plan 006, WI-5). Derived ids obey the same prefix/uniqueness rules as
-   fact ids.
+    aren't structured (amount_minor for monetary ops, quantity for
+    quantity-based ops), mix currencies (for ratio/pct_of), mismatch `unit`
+    (for quantity_ratio — a ratio of unlike quantities is not meaningful;
+    comparison is case/whitespace-insensitive, and quantities that share a
+    dimension should harmonize their unit strings and carry the distinction
+    in label/notes), or divide by zero (plan 006, WI-5; unit guard WI-022).
+    Derived ids obey the same prefix/uniqueness rules as fact ids.
 
 CI runs `vitrine check` alongside ruff/mypy/pytest; a red gate blocks merge.
 
