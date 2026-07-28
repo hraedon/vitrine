@@ -12,7 +12,16 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import assert_never
 
-from vitrine.model import DerivedFact, DerivedOp, Fact, Panel, Room, Tier, weakest_tier
+from vitrine.model import (
+    DerivedFact,
+    DerivedOp,
+    Fact,
+    Panel,
+    Room,
+    Tier,
+    normalized_unit,
+    weakest_tier,
+)
 from vitrine.series import Series
 
 
@@ -150,6 +159,11 @@ def evaluate(
             raise DeriveError(f"{ctx}: denominator {denominator.id!r} has no quantity")
         if denominator.quantity == 0:
             raise DeriveError(f"{ctx}: denominator {denominator.id!r} quantity is zero")
+        if normalized_unit(numerator.unit) != normalized_unit(denominator.unit):
+            raise DeriveError(
+                f"{ctx}: unit mismatch ({numerator.unit!r} vs "
+                f"{denominator.unit!r}) — a quantity_ratio divides like quantities"
+            )
         ratio = numerator.quantity / denominator.quantity
         return ComputedFact(
             id=derived.id,
