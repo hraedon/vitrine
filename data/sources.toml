@@ -28,6 +28,7 @@ measure = "money_income"
 [[source]]
 id = "census-f08-allraces"
 title = "Census Historical Income Table F-8: Families by Size and Median and Mean Income (All Races)"
+expect = ["Table F-8", "Size of Family--All Families"]
 short_cite = "U.S. Census Bureau, CPS Historical Income Tables (Table F-8)"
 publisher = "U.S. Census Bureau"
 year = 2024
@@ -675,9 +676,10 @@ title = "Historical Census of Housing Tables: Gross Rents"
 short_cite = "U.S. Census Bureau, Historical Census of Housing Tables: Gross Rents"
 publisher = "U.S. Census Bureau"
 year = 2000
-url = "https://www2.census.gov/programs-surveys/decennial/tables/time-series/housing/grossrents.pdf"
+url = "https://www.census.gov/data/tables/time-series/dec/coh-grossrents.html"
+expect = ["Historical Census of Housing Tables", "Gross Rents"]
 population = "All specified renter-occupied housing units in the United States paying cash rent"
-notes = "National and state median gross rent from the Census of Housing, 1940-2000. Files: grossrents-unadj.txt (nominal), grossrents-adj.txt (CPI-U-RS adjusted to 2000 dollars). Cross-verified against NHGIS national-level data (1980: $199 contract rent STF1, $243 gross rent STF4Hb; 1990: $447 FA4001 STF4b)."
+notes = "National and state median gross rent from the Census of Housing, 1940-2000. Files: grossrents-unadj.txt (nominal), grossrents-adj.txt (CPI-U-RS adjusted to 2000 dollars). Cross-verified against NHGIS national-level data (1980: $199 contract rent STF1, $243 gross rent STF4Hb; 1990: $447 FA4001 STF4b). URL CORRECTION 2026-07-28: the registered direct-PDF link (www2.census.gov .../housing/grossrents.pdf) 404s; repointed at the table's landing page, which links the same files."
 
 [[source]]
 id = "cms-nhe"
@@ -685,9 +687,10 @@ title = "National Health Expenditure Accounts (NHEA)"
 short_cite = "CMS, National Health Expenditure Accounts"
 publisher = "Centers for Medicare & Medicaid Services, Office of the Actuary"
 year = 2024
-url = "https://www.cms.gov/data-research/statistics-trends-reports/national-health-expenditure-data"
+url = "https://www.cms.gov/data-research/statistics-trends-and-reports/national-health-expenditure-data"
+expect = ["National Health Expenditure"]
 population = "US resident population and total national health spending (all payers)"
-notes = "CMS NHE tables cover calendar years 1960-2024. Table 01: aggregate amounts, per capita, percent of GDP. Table 02: by type of service and source of funds. Dollar amounts in current (nominal) dollars. Updated annually. Source files: NHE24_Summary.csv, NHE2024.csv."
+notes = "CMS NHE tables cover calendar years 1960-2024. Table 01: aggregate amounts, per capita, percent of GDP. Table 02: by type of service and source of funds. Dollar amounts in current (nominal) dollars. Updated annually. Source files: NHE24_Summary.csv, NHE2024.csv. URL CORRECTION 2026-07-28: CMS changed the page slug from statistics-trends-reports to statistics-trends-and-reports (old URL 404s); content re-verified as the NHE data page."
 
 [[source]]
 id = "nchs-mortality-trends"

@@ -194,6 +194,9 @@ class Source:
     notes: str = ""
     short_cite: str = ""  # brief inline citation for footnote display
     measure: Measure | None = None  # what it measures, iff used as an affordability anchor
+    expect: tuple[str, ...] = ()  # content markers scripts/link_check.py verifies
+    # against the served document (WI-023: a 200 OK is not proof the URL
+    # serves the described document — see the f08a/f08ar incident)
 
 
 @dataclass(frozen=True, slots=True)
