@@ -216,3 +216,29 @@ unit = "aggregate net worth of nonfarm household sector, current dollars"
 source = "goldsmith-balance-sheet"
 tier = "D"
 notes = "From Goldsmith, Lipsey & Mendelson (1963), Table 1, Sector I.1 (Nonfarm households). Total assets: $371B. Tangible assets: $145B. Financial assets: $232B. Debt: $30B. Net worth: $341B. The Depression destroyed ~$65B of household wealth (from $406B in 1929). Financial assets fell from $291B to $232B as stock values collapsed. Debt was actually reduced — from $42B to $30B — as households deleveraged. Aggregate — NOT median."
+
+# ── Price components: the Depression collapse, measured ────────────────────
+
+[[fact]]
+id = "us-1930s-food-price-index"
+quantity = 11.8
+panel = "table"
+label = "Food prices, 1939 (index, 1982-84=100)"
+value = "11.8 in 1939, down from 16.5 in 1929"
+unit = "CPI-U food index (1982-84=100), annual average"
+source = "bls-api"
+tier = "A"
+notes = "BLS series CUUR0000SAF1. Food fell from 16.5 in 1929 to a trough of 10.4 in 1933 — a 37% collapse that returned the price of eating to its 1913 level, twenty years erased — and recovered only to 11.8 by 1939. Cheaper food did not mean a better-fed family: incomes fell faster and unemployment reached roughly a quarter of the labour force, which is precisely why this room still declares an income gap. Deflation is not affordability."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1930s-rent-index"
+quantity = 23.7
+panel = "home"
+label = "Rent, 1939 (index, 1982-84=100)"
+value = "23.7 in 1939, down from 31.2 in 1930"
+unit = "CPI-U rent-of-primary-residence index (1982-84=100), annual average"
+source = "bls-api"
+tier = "A"
+notes = "BLS series CUUR0000SEHA. Rent fell from 31.2 in 1930 to 21.4 in 1934-35, back to its 1913 level, and had recovered only to 23.7 by 1939. Shelter, the price that refused to fall in the 1920s, finally did — by 31%. Landlords cut rather than hold empty units, and the sticky line in the budget turned out to be sticky in both directions, just slower downward."
+assumptions = ["composite-family"]

@@ -202,3 +202,44 @@ unit = "years (median age at first marriage)"
 source = "census-table-ms2"
 tier = "A"
 notes = "From Census Table MS-2. Decennial census. The age gap was narrowing slightly: 3.5 years vs 4.0 in 1900. WWI would temporarily disrupt marriage patterns."
+
+# ── Price components: what eating, shelter and clothing cost ───────────────
+# BLS has published food, rent and apparel indexes continuously since 1913.
+# These are price indexes, not a household basket: they show how the cost of
+# each moved, never what the family bought. The food-basket gap above stands.
+
+[[fact]]
+id = "us-1910s-food-price-index"
+quantity = 18.6
+panel = "table"
+label = "Food prices, 1919 (index, 1982-84=100)"
+value = "18.6 in 1919, up from 10.0 in 1913"
+unit = "CPI-U food index (1982-84=100), annual average"
+source = "bls-api"
+tier = "A"
+notes = "BLS series CUUR0000SAF1. The war nearly doubled the price of eating: 10.0 in 1913 to 18.6 in 1919, +86% in six years. Set against apparel (+143%) and rent (+11%) over the same span, this is the decade's central household fact — the two things a family buys weekly rose steeply while the rent, fixed by lease and slow-moving housing stock, did not. A price index is not a basket; what the family actually ate in the 1910s remains a declared gap."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1910s-rent-index"
+quantity = 23.3
+panel = "home"
+label = "Rent, 1919 (index, 1982-84=100)"
+value = "23.3 in 1919, up from 21.0 in 1913"
+unit = "CPI-U rent-of-primary-residence index (1982-84=100), annual average"
+source = "bls-api"
+tier = "A"
+notes = "BLS series CUUR0000SEHA. Rent rose just 11% across the war years — 21.0 in 1913 to 23.3 in 1919 — while food rose 86% and apparel 143%. Rent is the stickiest line in the household budget: leases are annual, and housing stock cannot be produced quickly. The lag reversed in the 1920s, when rents kept climbing after other prices collapsed."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1910s-apparel-price-index"
+quantity = 36.2
+panel = "budget"
+label = "Clothing prices, 1919 (index, 1982-84=100)"
+value = "36.2 in 1919, up from 14.9 in 1913"
+unit = "CPI-U apparel index (1982-84=100), annual average"
+source = "bls-api"
+tier = "A"
+notes = "BLS series CUUR0000SAA. Clothing was the most violently inflated thing the family bought during the war: 14.9 in 1913 to 36.2 in 1919, +143%, and still climbing to 43.1 in 1920 before collapsing. Wartime demand for wool and cotton, and the diversion of textile capacity to uniforms, fell directly on a household expense that could be deferred but not avoided."
+assumptions = ["composite-family"]

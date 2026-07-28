@@ -226,3 +226,29 @@ unit = "aggregate net worth of nonfarm household sector, current dollars"
 source = "goldsmith-balance-sheet"
 tier = "D"
 notes = "From Goldsmith, Lipsey & Mendelson (1963), Table 1, Sector I.1 (Nonfarm households). Total assets: $448B. Tangible assets: $158B. Financial assets: $291B. Debt: $42B. Net worth: $406B. The 1920s boom inflated financial assets to 65% of total — stocks and securities surged. After the 1929 crash, net worth would fall to $341B by 1939 (−16%). Aggregate — NOT median."
+
+# ── Price components: the decade food and rent moved in opposite directions ─
+
+[[fact]]
+id = "us-1920s-food-price-index"
+quantity = 16.5
+panel = "table"
+label = "Food prices, 1929 (index, 1982-84=100)"
+value = "16.5 in 1929, down from 21.0 in 1920"
+unit = "CPI-U food index (1982-84=100), annual average"
+source = "bls-api"
+tier = "A"
+notes = "BLS series CUUR0000SAF1. The postwar collapse was abrupt: food fell from 21.0 in 1920 to 15.9 in 1921, a 24% drop in a single year, and never regained its wartime peak — 16.5 by 1929. For a family, the 1920s were a decade in which eating got cheaper while the rent did not (rent rose 17% over the same span). The often-told story of 1920s prosperity is usually an income story; on the price side the decade was deflationary."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1920s-rent-index"
+quantity = 32.1
+panel = "home"
+label = "Rent, 1929 (index, 1982-84=100)"
+value = "32.1 in 1929, up from 27.4 in 1920"
+unit = "CPI-U rent-of-primary-residence index (1982-84=100), annual average"
+source = "bls-api"
+tier = "A"
+notes = "BLS series CUUR0000SEHA. Rent kept rising for five years after other prices crashed, peaking at 34.6 in 1925 — the wartime housing shortage worked its way through leases and construction with a long lag — before easing to 32.1 by 1929. Across the decade rent rose 17% while food fell 21%: shelter took a visibly larger share of the household budget in 1929 than in 1920, without any change in what the family occupied."
+assumptions = ["composite-family"]
