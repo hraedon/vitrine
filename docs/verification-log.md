@@ -671,3 +671,80 @@ URL for `census-historical-housing-values` returned a genuine 404.
 - 2025 preliminary rate of 9.1% confirmed via CDC FastStats page
 - Sex breakdown (1965: 51.9% men / 33.9% women) confirmed via ALA table extraction
 - Pre-1965 prevalence: structural gap (NHIS first assessed tobacco in 1965)
+
+---
+
+## Plan 028 WI-1: CPI component series for the early rooms (2026-07-28)
+
+**Date:** 2026-07-28
+**Verifier:** claude-opus-5 session
+**Context:** The 1910s/1920s/1930s rooms carried four declared gaps each and no
+price content at all in the `table` panel. BLS has published food, rent and
+apparel indexes continuously since 1913, so the price record for those decades
+is excellent even though the income and expenditure record is not. Added
+`data/series/cpi-{food,rent,apparel}.toml` (112 years each, 1913-2024) via
+`scripts/bls_cpi_components_extract.py`, and seven Tier A facts across the three
+rooms.
+
+### 1a: Source selection — why not the scanned table
+
+Historical Statistics of the United States 1789-1945, Series L 40-47 (p. 246 of
+`hist_stats_1789-1945.pdf`) carries the same data. **Its PDF text layer is not
+usable for curation.** The scan's OCR renders zeros as ".0", so 100.0 appears as
+`1.0.0 . .0` and 106.3 as `1.06.3`; it also mangles letters (`l'JATIOl'JAL` for
+NATIONAL). Two independent extractors (pypdf and pymupdf) reproduce the same
+corruption, which establishes it is baked into the document rather than an
+artefact of one reader.
+
+A PDF having a text layer is not the same as that text being transcribable —
+the same shape as WI-023's finding that a 200 OK is not proof a URL serves the
+described document. The values were therefore taken from the BLS Public Data
+API, which has no transcription step at all.
+
+### 1b: Independent cross-check — BLS API against the printed 1949 table
+
+The printed table is unusable for bulk transcription but perfectly usable as an
+*independent check* on a handful of cells, and it is a genuinely independent
+source: a 1949 Census/BLS publication, on a different base (1935-39=100) from
+the API's (1982-84=100). BLS values were rebased by dividing by their own
+1935-39 mean and compared against the printed figures.
+
+| Year | Component | BLS API (1982-84=100) | Rebased to 1935-39=100 | HSUS L 40-47 printed | Difference |
+|---|---|---|---|---|---|
+| 1920 | All items | 20.0 | 142.9 | 143.3 | −0.31% |
+| 1920 | Food | 21.0 | 169.4 | 168.8 | +0.33% |
+| 1920 | Apparel | 43.1 | 200.8 | 201.0 | −0.08% |
+| 1920 | Rent | 27.4 | 120.6 | 120.7 | −0.08% |
+| 1925 | All items | 17.5 | 125.0 | 125.4 | −0.32% |
+| 1925 | Food | 16.5 | 133.1 | 132.9 | +0.12% |
+| 1925 | Apparel | 26.3 | 122.6 | 122.4 | +0.13% |
+| 1925 | Rent | 34.6 | 152.3 | 152.2 | +0.06% |
+| 1929 | All items | 17.1 | 122.1 | 122.5 | −0.29% |
+| 1929 | Food | 16.5 | 133.1 | 132.5 | +0.43% |
+| 1929 | Apparel | 24.7 | 115.1 | 115.3 | −0.18% |
+| 1929 | Rent | 32.1 | 141.3 | 141.4 | −0.08% |
+
+**Result: 12/12 agree within 0.43%.** Residuals of this size are expected from
+rounding in the printed table (one decimal place, on a base that is itself a
+five-year mean) and from series revisions in the intervening 77 years. Two
+sources, two bases, two eras of publication, same series.
+
+This also incidentally confirms that the four HSUS cells were read correctly
+despite the corrupt text layer — the corruption is systematic (zeros) rather
+than random, so a rebased match at four significant figures is not a coincidence.
+
+### 1c: Extraction reproducibility
+
+The extractor was run once, and its output spot-checked against a separate
+ad-hoc API pull made before the script existed: `cpi-food` 1913=10.0, 1920=21.0,
+1932=10.7; `cpi-rent` 1913=21.0, 1921=31.5; `cpi-apparel` 1920=43.1. All match.
+
+### 1d: What these facts do not claim
+
+The seven facts are price indexes. They do **not** close the food-basket gap in
+any of the three rooms, and the room notes say so explicitly: an index shows how
+the cost of eating moved, never what the family ate. The income gaps and
+work-buys gaps are untouched — without a family-income figure, affordability
+still cannot be computed for these decades. The 1930s food fact states the point
+directly, because it is the one most likely to be misread: food fell 37% while
+incomes fell faster, so deflation is not affordability.
