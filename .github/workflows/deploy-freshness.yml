@@ -1,0 +1,48 @@
+name: Deploy Freshness
+
+# Does the public museum serve the corpus in main?
+#
+# CI proves the corpus is valid and that an image was built and pushed. None of
+# that proves a visitor sees it: a running Deployment does not re-pull a mutable
+# tag, so the site sat fifteen days and twenty facts behind main with every
+# signal green. This job watches the artifact instead of the pipeline.
+#
+# It needs no cluster access — the site is public, so a hosted runner can just
+# read it.
+#
+# Scheduled and manual only, deliberately. Deployment is a manual step
+# (scripts/deploy.sh — the cluster is not reachable from hosted runners), so a
+# push trigger would red on every merge until someone deployed, and a check
+# that is red for expected reasons is a check people learn to ignore. This
+# repository has already lost two weeks to an ignored red canary; the fix for
+# that is fewer false alarms, not more alarms.
+
+on:
+  schedule:
+    - cron: '30 8 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install
+        run: |
+          uv venv
+          uv pip install -e ".[dev]"
+
+      - name: Build the current corpus
+        run: .venv/bin/vitrine build --out _site
+
+      - name: Compare the live site against the corpus
+        run: .venv/bin/python scripts/check_deploy_freshness.py _site/facts-manifest.txt
