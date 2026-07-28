@@ -105,6 +105,18 @@ source = "bls-bulletin-49-1903"
 tier = "D"
 notes = "The BLS Bulletin No. 49 (1903) and 18th Annual Report (1903) cover the 1900s. No comparable survey exists for the 1910s. The next major consumer expenditure survey would be the 1918-19 study, conducted during wartime."
 
+[[fact]]
+id = "us-1910s-cigarette-consumption"
+quantity = 151
+panel = "table"
+label = "Adult per capita cigarette consumption, 1910"
+value = "151 cigarettes per adult per year"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-mmwr-tobacco-surveillance"
+tier = "A"
+notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Cigarette consumption was growing rapidly — up from 54 in 1900. WWI (1917-18) drove a spike: 697 per adult by 1918. Total consumption reached 45.6 billion cigarettes in 1918."
+assumptions = ["composite-family"]
+
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]

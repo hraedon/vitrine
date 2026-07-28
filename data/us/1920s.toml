@@ -105,6 +105,18 @@ source = "bls-bulletin-49-1903"
 tier = "D"
 notes = "No consumer expenditure survey for the 1920s. The 1918-19 wartime study and the 1934-36 study bracket the decade. BLS retail food price data exists for the 1920s but not in a household basket format."
 
+[[fact]]
+id = "us-1920s-cigarette-consumption"
+quantity = 665
+panel = "table"
+label = "Adult per capita cigarette consumption, 1920"
+value = "665 cigarettes per adult per year"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-mmwr-tobacco-surveillance"
+tier = "A"
+notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Cigarette smoking became mainstream in the 1920s. Consumption more than quadrupled from 151 in 1910. Total U.S. consumption was 44.6 billion cigarettes in 1920."
+assumptions = ["composite-family"]
+
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]

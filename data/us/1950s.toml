@@ -273,6 +273,18 @@ notes = "From the 1960-61 Consumer Expenditure Survey data tables (ce_196061_tab
 assumptions = ["income-vs-consumption", "nominal-values"]
 
 [[fact]]
+id = "us-1950s-cigarette-consumption"
+quantity = 3552
+panel = "table"
+label = "Adult per capita cigarette consumption, 1950"
+value = "3,552 cigarettes per adult per year"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-mmwr-tobacco-surveillance"
+tier = "A"
+notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Smoking was at near-peak levels. The 1964 Surgeon General's Report was still 14 years away. By 1953 consumption briefly dipped to 3,778 before resuming. Total U.S. consumption was 369.8 billion cigarettes in 1950."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1950s-car-price"
 panel = "work-buys"
 label = "Average new car price, 1950"

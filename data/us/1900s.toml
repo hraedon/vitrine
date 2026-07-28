@@ -147,6 +147,18 @@ tier = "A"
 notes = "From the 18th Annual Report, Table IV-M (p.499), OCR'd via GLM-OCR. Summary of expenditure per family for various items of food, by nativity of head of family. National totals for 1,578 families. These 10 categories total $185.71 — 56.8% of the $326.90 total food expenditure. The remainder covers flour, bread, vegetables, fruits, sugar, coffee, etc. Beef (fresh) was the single largest food expenditure at $46.38. Butter ($27.73) exceeded milk ($20.03) — reflecting the era's dietary patterns."
 assumptions = ["composite-family", "nominal-values"]
 
+[[fact]]
+id = "us-1900s-cigarette-consumption"
+quantity = 54
+panel = "table"
+label = "Adult per capita cigarette consumption, 1900"
+value = "54 cigarettes per adult per year"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-mmwr-tobacco-surveillance"
+tier = "A"
+notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. USDA estimate based on federal cigarette tax data and Census adult population. Total U.S. consumption was 2.5 billion cigarettes in 1900. Cigarettes were a minor product — chewing tobacco and cigars were dominant."
+assumptions = ["composite-family"]
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]

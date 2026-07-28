@@ -372,6 +372,30 @@ tier = "A"
 notes = "From CEX Table 1400 (Size of CU, 2024), cu-size-2024.xlsx — same computation as us-2020s-expenditure-breakdown-4p: food's within-budget share for 4-person CUs is 13.5% of $109,622 average annual expenditure. CORRECTION 2026-07-07: this fact previously displayed 17.8%, a misread of Table 1400's aggregate-share column (the share of NATIONAL food spending attributable to 4-person CUs — they are 12.3% of CUs and outspend the average, so their aggregate shares cluster at 15-18% in every category); that column is not a budget share. Compared to 1901: food dropped from 42.54% to 13.5% — Engel's Law in action."
 assumptions = ["income-vs-consumption"]
 
+[[fact]]
+id = "us-2020s-cigarette-consumption"
+quantity = 890
+panel = "table"
+label = "Adult per capita cigarette consumption, 2020"
+value = "890 cigarettes per adult per year"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-tobacco-consumption-2000"
+tier = "A"
+notes = "From CDC Adult Tobacco Consumption dataset (data.cdc.gov). Consumption fell below 1,000 for the first time since the 1930s. By 2023 it had declined further to 678 per adult."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2020s-smoking-prevalence"
+quantity = 12.5
+panel = "table"
+label = "Adult cigarette smoking prevalence, 2020"
+value = "12.5% of adults smoked (14.0% of men, 11.0% of women)"
+unit = "% of adults ≥18 who currently smoke (NHIS)"
+source = "cdc-nhis-smoking-prevalence"
+tier = "A"
+notes = "From CDC NHIS (compiled by American Lung Association). Smoking prevalence fell below 15% for the first time. By 2025, preliminary CDC data showed 9.1% — the lowest ever recorded. The gap between male and female smoking continued to narrow."
+assumptions = ["composite-family"]
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]

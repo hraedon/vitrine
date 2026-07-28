@@ -106,6 +106,18 @@ source = "bls-1935-consumer-purchases"
 tier = "D"
 notes = "The BLS 1935-36 Consumer Purchases Survey collected detailed expenditure data, but it has not been transcribed into our data files. Wartime food controls and the 1935-36 survey bracket the decade. Food prices collapsed during the Depression (farm prices fell ~60% from 1929 to 1932)."
 
+[[fact]]
+id = "us-1930s-cigarette-consumption"
+quantity = 1485
+panel = "table"
+label = "Adult per capita cigarette consumption, 1930"
+value = "1,485 cigarettes per adult per year"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-mmwr-tobacco-surveillance"
+tier = "A"
+notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Consumption doubled from 665 in 1920 despite the Depression. By 1939 it reached 1,900. Total U.S. consumption was 119.3 billion cigarettes in 1930."
+assumptions = ["composite-family"]
+
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]

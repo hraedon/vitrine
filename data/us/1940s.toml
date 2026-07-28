@@ -260,6 +260,18 @@ source = "bls-bulletin-1055-1952"
 tier = "D"
 notes = "BLS Bulletin 1055 (1952) covers retail food prices 1939-50 but does not provide a household food basket comparable to the CEX-based baskets in other rooms. The wartime economy (rationing from 1942-46, price controls) makes 1940s food expenditure patterns fundamentally different from peacetime decades. A food basket for the 1940s would need to be reconstructed from the 1942 wartime consumption survey, which is not yet in our source collection."
 
+[[fact]]
+id = "us-1940s-cigarette-consumption"
+quantity = 1976
+panel = "table"
+label = "Adult per capita cigarette consumption, 1940"
+value = "1,976 cigarettes per adult per year"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-mmwr-tobacco-surveillance"
+tier = "A"
+notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. WWII drove massive increases — free cigarettes were distributed to soldiers. By 1945 consumption hit 3,449 per adult. Total U.S. consumption was 181.9 billion cigarettes in 1940."
+assumptions = ["composite-family"]
+
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]

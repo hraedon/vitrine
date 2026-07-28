@@ -258,6 +258,30 @@ source = "statab-food-prices"
 tier = "A"
 notes = "From 1970 Statistical Abstract Table 530 (BLS Retail Food Prices by Cities). 1960 annual averages for 51 cities. Milk is per quart, delivered. Bread 20.3¢/lb vs 14.3¢/lb in 1950 (+42%). Round steak $1.06/lb vs $0.94/lb in 1950 (+13%). Potatoes 7.2¢/lb vs 4.6¢/lb in 1950 (+57%). The 1950→1960 food price increase was modest compared to the inflation that followed in the 1970s."
 
+[[fact]]
+id = "us-1960s-cigarette-consumption"
+quantity = 4345
+panel = "table"
+label = "Adult per capita cigarette consumption, 1963 (peak)"
+value = "4,345 cigarettes per adult per year (1963 peak)"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-mmwr-tobacco-surveillance"
+tier = "A"
+notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. 1963 was the all-time U.S. peak for per capita cigarette consumption. The Surgeon General's Report on Smoking and Health (January 1964) triggered a sharp decline — consumption fell to 4,194 in 1964 and continued declining."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1960s-smoking-prevalence"
+quantity = 42.4
+panel = "table"
+label = "Adult cigarette smoking prevalence, 1965"
+value = "42.4% of adults smoked (51.9% of men, 33.9% of women)"
+unit = "% of adults ≥18 who currently smoke (NHIS)"
+source = "cdc-nhis-smoking-prevalence"
+tier = "A"
+notes = "From CDC NHIS (compiled by American Lung Association). First NHIS tobacco survey in 1965, one year after the Surgeon General's Report. 42.4% overall: 51.9% of men and 33.9% of women were current smokers. Definition: smoked ≥100 cigarettes and currently smoking."
+assumptions = ["composite-family"]
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]

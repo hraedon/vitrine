@@ -627,3 +627,47 @@ URL for `census-historical-housing-values` returned a genuine 404.
 - Direct retrieval confirmed the U.S. row is unchanged: 1940 $2,938; 1950
   $7,354; 1960 $11,900; 1970 $17,000; 1980 $47,200; 1990 $79,100; 2000
   $119,600. No fact or series value changed.
+
+## WI-37: Smoking facts (20 new facts, 1900s-2020s)
+
+**Date:** 2026-07-17
+**Verifier:** umans-glm-5.2 session
+**Source checked:** CDC MMWR Surveillance Summary Vol. 43 No. SS-3 (Table 1), CDC Adult Tobacco Consumption dataset (data.cdc.gov), CDC NHIS via American Lung Association compilation
+**Method:** Downloaded HTML/CSV from CDC websites, parsed Table 1 (per-capita consumption 1900-1994) and ALA prevalence table (1965-2022). Cross-checked key values against published CDC FastStats (9.1% in 2025) and MMWR narrative text.
+
+### Per-capita consumption (13 facts)
+
+| Decade | Fact value | Source value | Result |
+|--------|-----------|-------------|--------|
+| 1900s | 54 | 54 (MMWR Table 1, 1900) | **verified** |
+| 1910s | 151 | 151 (MMWR Table 1, 1910) | **verified** |
+| 1920s | 665 | 665 (MMWR Table 1, 1920) | **verified** |
+| 1930s | 1,485 | 1,485 (MMWR Table 1, 1930) | **verified** |
+| 1940s | 1,976 | 1,976 (MMWR Table 1, 1940) | **verified** |
+| 1950s | 3,552 | 3,552 (MMWR Table 1, 1950) | **verified** |
+| 1960s | 4,345 | 4,345 (MMWR Table 1, 1963 peak) | **verified** |
+| 1970s | 3,985 | 3,985 (MMWR Table 1, 1970) | **verified** |
+| 1980s | 3,849 | 3,849 (MMWR Table 1, 1980) | **verified** |
+| 1990s | 2,817 | 2,817 (MMWR Table 1, 1990) | **verified** |
+| 2000s | 2,076 | 2,076 (CDC Adult Tobacco CSV, 2000) | **verified** |
+| 2010s | 1,278 | 1,278 (CDC Adult Tobacco CSV, 2010) | **verified** |
+| 2020s | 890 | 890 (CDC Adult Tobacco CSV, 2020) | **verified** |
+
+### Smoking prevalence (7 facts)
+
+| Decade | Fact value | Source value | Result |
+|--------|-----------|-------------|--------|
+| 1960s | 42.4% | 42.4% (NHIS 1965 via ALA) | **verified** |
+| 1970s | 37.4% | 37.4% (NHIS 1970 via ALA) | **verified** |
+| 1980s | 33.2% | 33.2% (NHIS 1980 via ALA) | **verified** |
+| 1990s | 25.5% | 25.5% (NHIS 1990 via ALA) | **verified** |
+| 2000s | 23.3% | 23.3% (NHIS 2000 via ALA) | **verified** |
+| 2010s | 19.3% | 19.3% (NHIS 2010 via ALA) | **verified** |
+| 2020s | 12.5% | 12.5% (NHIS 2020 via ALA) | **verified** |
+
+### Cross-checks
+
+- 1963 peak of 4,345 cigarettes/adult confirmed in MMWR text: "Per capita annual consumption was 54 cigarettes in 1900, peaked at 4,345 in 1963"
+- 2025 preliminary rate of 9.1% confirmed via CDC FastStats page
+- Sex breakdown (1965: 51.9% men / 33.9% women) confirmed via ALA table extraction
+- Pre-1965 prevalence: structural gap (NHIS first assessed tobacco in 1965)

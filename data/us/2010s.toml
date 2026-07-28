@@ -460,6 +460,30 @@ tier = "A"
 notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, per lb), APU0000704111 (bacon, per lb), APU0000708111 (eggs, per doz), APU0000712211 (lettuce, per lb). Values are December 2010 monthly averages. CORRECTION 2026-07-08: previous version had mismatched labels. Bread up 40% from 2000 ($0.99→$1.39), ground beef up 48% ($1.98→$2.93), bacon up 37% ($3.03→$4.16). The 2007-08 and 2010-11 global food price crises drove significant increases. By December 2024: bread $1.91/lb, ground beef $5.58/lb, bacon $6.92/lb — food prices continued rising sharply in the 2020s."
 
 [[fact]]
+id = "us-2010s-cigarette-consumption"
+quantity = 1278
+panel = "table"
+label = "Adult per capita cigarette consumption, 2010"
+value = "1,278 cigarettes per adult per year"
+unit = "cigarettes per adult (≥18 years) per year"
+source = "cdc-tobacco-consumption-2000"
+tier = "A"
+notes = "From CDC Adult Tobacco Consumption dataset (data.cdc.gov). Consumption nearly halved from 2000's 2,076. E-cigarettes were emerging as an alternative but are not counted in cigarette consumption."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2010s-smoking-prevalence"
+quantity = 19.3
+panel = "table"
+label = "Adult cigarette smoking prevalence, 2010"
+value = "19.3% of adults smoked (21.5% of men, 17.3% of women)"
+unit = "% of adults ≥18 who currently smoke (NHIS)"
+source = "cdc-nhis-smoking-prevalence"
+tier = "A"
+notes = "From CDC NHIS (compiled by American Lung Association). Smoking fell below 20% for the first time. The 2009 Family Smoking Prevention and Tobacco Control Act gave FDA regulatory authority over tobacco products."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2010s-infant-mortality"
 quantity = 6.1
 panel = "day"
