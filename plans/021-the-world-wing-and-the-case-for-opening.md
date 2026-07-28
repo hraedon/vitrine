@@ -7,9 +7,14 @@ execute directly.*
 
 ## Where we are, honestly
 
-The US wing is finished and good: 13 decade rooms (1900s–2020s), 456 facts,
-zero Tier D estimates, 16 structural gaps rendered as gaps rather than
-papered over. The site renders three surfaces — rooms, corridors, walkthrough
+The US wing is finished and good: 13 decade rooms (1900s–2020s), 452 facts,
+16 structural gaps rendered as gaps rather than papered over, 6 Tier D
+estimates disclosed as such (balance-sheet reconstructions and one
+cancer-survival estimate, per `vitrine gaps`).
+*(Counts corrected 2026-07-28 — this section said "456 facts, zero Tier D
+estimates," stale from an earlier corpus: 5a195e5 had since introduced the
+first displayed-value Tier D facts, unrecorded. The README status line is
+now machine-checked against the corpus so this class of drift fails CI.)* The site renders three surfaces — rooms, corridors, walkthrough
 — every chart mark carrying the fact id it projects, a mechanical gate that
 reddens the build if a number can't name its source. The provenance
 discipline has been stress-tested in anger: the recurring finding across

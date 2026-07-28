@@ -88,10 +88,15 @@ not cryptographic.
 
 ## Status
 
-US corpus curated: 13 decade rooms (1900s–2020s), 456 facts, 3 derived
-facts, zero Tier D estimates; 16 rendered gaps are structural (pre-WWII
-income/housing/food for 1910s–1930s, 1940s wartime bifurcation, 1990s
-home-production data) and listed in `docs/resource-hunt.md`. The
+<!-- The marked line is machine-checked by tests/test_docs_sync.py;
+     regenerate with `python scripts/sync_readme_status.py` after curating. -->
+US corpus curated: <!-- corpus-status:begin -->13 decade rooms (1900s–2020s), 452 facts, 8 derived facts, 6 Tier D estimates, 16 rendered gaps<!-- corpus-status:end -->. The Tier D
+estimates are disclosed scholarly reconstructions (the Goldsmith
+balance-sheet aggregates in the early rooms, one cancer-survival estimate
+in the 1960s) — `vitrine gaps` lists them by name. The rendered gaps are
+structural (pre-WWII income/housing/food for 1910s–1930s, 1940s wartime
+bifurcation, 1990s home-production data) and listed in
+`docs/resource-hunt.md`. The
 visualization layer (Plan 007) is implemented: three static surfaces —
 rooms (dark-gallery cutaway, era-graded light, CSS-only popup placards),
 corridors (cross-decade arc charts plus the 78-page pairwise comparison
