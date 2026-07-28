@@ -109,6 +109,18 @@ Design tokens and the validated palette: `docs/design-spec.md` /
 of 23 items done, 3 partial on data dependencies, and 3 deliberately deferred. See
 `docs/fact-model.md` (design spine) and `plans/` for the full series.
 
+## Licence and reuse
+
+Dual-licensed: the software (`src/`, `tests/`, `scripts/`, `k8s/`, `.github/`)
+under **MIT**; the corpus and prose (`data/`, `docs/`, `plans/`, and the
+rendered site) under **CC BY-SA 4.0**. See `LICENSE` for which applies where,
+and for what is *not* vitrine's to license — the underlying federal statistics
+and IPUMS-derived aggregates carry their own terms.
+
+When reusing a number, cite the primary source on its source card for the datum,
+and vitrine for the compilation and tier assignment. Sanitization and reuse
+review: `docs/publication-review.md`.
+
 ## Quick start
 
 ```bash

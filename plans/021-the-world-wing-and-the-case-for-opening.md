@@ -23,7 +23,13 @@ the *famous headline numbers* are the ones that arrive wearing a fake
 citation. The machine that catches that is real and working.
 
 And yet the README promises a museum of **seven nations**, and one is built.
-It promises something you can *visit*, and it is private. It promises
+It promises something you can *visit*, and there is no deployed site to visit.
+*(Corrected 2026-07-28: this said "it is private." The **repository** has been
+public since shortly after it was created — the flip happened without the
+publication review this pillar names as its prerequisite. The review has since
+been written and passes: `docs/publication-review.md`. What is genuinely
+missing is the **deployed museum**, not the source. Pillar IV below is
+re-scoped accordingly.)* It promises
 "provenance under glass," and today the glass shows the source *card* but not
 the *chain* — a visitor is asked to trust that the number came from the cited
 table; they cannot yet watch it do so. The plan queue is empty. This is the
@@ -86,11 +92,15 @@ owner's own reason for building things this way.
 
 ### Pillar IV — Open the doors
 
-A museum nobody can enter has not met its promise. The public flip is
-mechanically unblocked — the identifier gate and its CI secret are both in
-place. What remains is a written sanitization/publication review, an entrance
-that states the thesis and the honesty rule before the first room, and the
-deploy (ghcr + k8s already wired). Opening is not a victory lap; it is the
+A museum nobody can enter has not met its promise. **Status 2026-07-28:** the
+source repository is already public, the identifier gate and its CI secret are
+in place, the sanitization review is written and passes
+(`docs/publication-review.md`), and reuse terms are explicit (`LICENSE`:
+MIT for software, CC BY-SA 4.0 for the corpus). What remains is therefore
+narrower than this pillar originally assumed: an entrance that states the
+thesis and the honesty rule before the first room, and the **deploy** — the
+part that actually makes the museum visitable (ghcr + k8s already wired,
+`vitrine.hraedon.com` the intended target). Opening is not a victory lap; it is the
 acceptance test for every other pillar, because a stranger's eye is the only
 one that has never seen the data before.
 
