@@ -1,5 +1,40 @@
 # Changelog
 
+## 2026-07-28 — Docs-drift repair, QUANTITY_RATIO unit guard, link-content check
+
+A review found the README Status section disagreeing with the gate it
+advertises: it claimed 456 facts / 3 derived / zero Tier D estimates against
+an actual 452 / 8 / 6. Repairs and hardening:
+
+- **README + plan 021 counts corrected.** The README Status line now sits
+  between `corpus-status` markers and is machine-checked:
+  `tests/test_docs_sync.py` regenerates the canonical counts from the corpus
+  (new stdlib `vitrine.stats`) and fails CI on drift;
+  `scripts/sync_readme_status.py` rewrites the block after curating.
+- **Retroactive record — the corpus's first displayed-value Tier D facts**
+  entered in 5a195e5 (2026-07-11, "Add net worth data: Goldsmith, Fed Z.1,
+  SCF") with no changelog entry, silently lapsing the README's "zero Tier D"
+  badge. The six current Tier D estimates (five Goldsmith balance-sheet
+  aggregates, one 1960s cancer-survival estimate from the pre-SEER
+  registries) are disclosed scholarly reconstructions; `vitrine gaps` lists
+  them by name.
+- **WI-022 closed:** `vitrine check` now rejects a `quantity_ratio` derived
+  fact whose operand `unit` strings disagree (case/whitespace-insensitive) —
+  hours ÷ CPI-index nonsense no longer passes the gate. `derive.evaluate`
+  mirrors the guard; both current corpus uses divide CPI-U by CPI-U and pass.
+- **WI-023 partially closed:** `scripts/link_check.py` now verifies an
+  optional per-source `expect` marker list against the served document —
+  plain-text search for HTML/text responses, `xl/sharedStrings.xml` +
+  `xl/workbook.xml` search for `.xlsx` (stdlib `zipfile`). Seeded on
+  `census-f08-allraces`, whose f08a/f08ar wrong-variant incident (a 200 OK
+  serving the wrong table) is exactly what this catches. PDFs remain
+  resolve-only (compressed streams defeat stdlib text search).
+- **Two dead source URLs repaired** (found by the first content-aware run):
+  `census-hist-housing-rents` (direct-PDF link 404s → repointed at the
+  table's landing page) and `cms-nhe` (CMS slug changed to
+  `statistics-trends-and-reports`). Both re-verified as the same document
+  and given `expect` markers so the next silent move is caught.
+
 ## 2026-07-14 — Plan 022 WI-1/WI-2 (the multi-currency foundation)
 
 The money layer the world wing (plan 021) stands on. New `vitrine.money`: a
