@@ -322,6 +322,17 @@ tier = "A"
 notes = "From CMS NHE Table 02. Medicaid (Title XIX): $5,290M total. Federal share: $2,842M. State/Local share: $2,447M. Medicaid did not exist before 1966."
 
 [[fact]]
+id = "us-1970s-nhe-prescription-drugs"
+quantity = 5497
+panel = "table"
+label = "Prescription drug spending, 1970"
+value = "$5,497 million (7.4% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $5,497M of $74,077M total."
+
+[[fact]]
 id = "us-1970s-heart-disease-mortality"
 quantity = 492.7
 panel = "table"

@@ -174,6 +174,17 @@ tier = "A"
 notes = "From ACS Table B25077, 2010 1-year estimates. Post-housing-crash median: down from $240,500 (2019) and $360,600 (2024). The Census Historical Housing Tables (values-unadj.txt) decennial series ends at 2000 ($119,600). Source: censusreporter.org/tables/B25077/."
 
 [[fact]]
+id = "us-2010s-median-gross-rent"
+quantity = 855
+panel = "home"
+label = "Median gross rent, 2010"
+value = "$855/month"
+unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
+source = "census-acs-gross-rent"
+tier = "A"
+notes = "From ACS Table B25064, 2010 1-year estimates (Census API). Up from $602 in 2000 (decennial census). The decennial gross-rents series ends at 2000; the ACS is its successor. The renter half of the housing story: at 65.1% homeownership, a third of families rented."
+
+[[fact]]
 id = "us-2010s-heating-fuel"
 panel = "home"
 label = "House heating fuel, 2015 (RECS)"

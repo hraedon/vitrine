@@ -680,6 +680,16 @@ population = "All specified renter-occupied housing units in the United States p
 notes = "National and state median gross rent from the Census of Housing, 1940-2000. Files: grossrents-unadj.txt (nominal), grossrents-adj.txt (CPI-U-RS adjusted to 2000 dollars). Cross-verified against NHGIS national-level data (1980: $199 contract rent STF1, $243 gross rent STF4Hb; 1990: $447 FA4001 STF4b)."
 
 [[source]]
+id = "census-acs-gross-rent"
+title = "ACS Table B25064: Median Gross Rent"
+short_cite = "U.S. Census Bureau, American Community Survey (B25064)"
+publisher = "U.S. Census Bureau"
+year = 2024
+url = "https://censusreporter.org/tables/B25064/"
+population = "Renter-occupied housing units paying cash rent (ACS 1-year estimates)"
+notes = "Median gross rent (USD/month): 2010 $855, 2015 $959, 2019 $1,097, 2022 $1,300, 2023 $1,406, 2024 $1,487. Retrieved via Census API (api.census.gov). Successor to the decennial Census of Housing gross rents series, which ends at 2000 ($602) — the long-form census question was replaced by the ACS."
+
+[[source]]
 id = "cms-nhe"
 title = "National Health Expenditure Accounts (NHEA)"
 short_cite = "CMS, National Health Expenditure Accounts"
