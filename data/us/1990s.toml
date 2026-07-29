@@ -392,6 +392,50 @@ tier = "A"
 notes = "From CMS NHE Table 02. Out of pocket: $133,752M of $718,689M total. Managed care expansion in the 1990s continued the shift from out-of-pocket to insurance."
 
 [[fact]]
+id = "us-1990s-nhe-per-capita"
+quantity = 2835
+panel = "table"
+label = "National health spending per person, 1990"
+value = "$2,835 per capita ($2,413 for personal health care)"
+unit = "USD per person, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE per capita: $2,835. Personal Health Care per capita: $2,413. Population: 254M."
+
+[[fact]]
+id = "us-1990s-nhe-medicare"
+quantity = 110182
+panel = "table"
+label = "Medicare spending, 1990"
+value = "$110,182 million (15.3% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Medicare: $110,182M of $718,689M total."
+
+[[fact]]
+id = "us-1990s-nhe-medicaid"
+quantity = 73661
+panel = "table"
+label = "Medicaid spending, 1990"
+value = "$73,661 million (10.2% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Medicaid: $73,661M of $718,689M total."
+
+[[fact]]
+id = "us-1990s-nhe-prescription-drugs"
+quantity = 40290
+panel = "table"
+label = "Prescription drug spending, 1990"
+value = "$40,290 million (5.6% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $40,290M of $718,689M total."
+
+[[fact]]
 id = "us-1990s-heart-disease-mortality"
 quantity = 321.8
 panel = "table"

@@ -359,6 +359,50 @@ tier = "A"
 notes = "From CMS NHE Table 02. Out of pocket: $197,580M of $1,365,184M total."
 
 [[fact]]
+id = "us-2000s-nhe-per-capita"
+quantity = 4842
+panel = "table"
+label = "National health spending per person, 2000"
+value = "$4,842 per capita ($4,101 for personal health care)"
+unit = "USD per person, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE per capita: $4,842. Personal Health Care per capita: $4,101. Population: 282M."
+
+[[fact]]
+id = "us-2000s-nhe-medicare"
+quantity = 224829
+panel = "table"
+label = "Medicare spending, 2000"
+value = "$224,829 million (16.5% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Medicare: $224,829M of $1,365,184M total."
+
+[[fact]]
+id = "us-2000s-nhe-medicaid"
+quantity = 200367
+panel = "table"
+label = "Medicaid spending, 2000"
+value = "$200,367 million (14.7% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Medicaid: $200,367M of $1,365,184M total."
+
+[[fact]]
+id = "us-2000s-nhe-prescription-drugs"
+quantity = 122003
+panel = "table"
+label = "Prescription drug spending, 2000"
+value = "$122,003 million (8.9% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $122,003M of $1,365,184M total."
+
+[[fact]]
 id = "us-2000s-heart-disease-mortality"
 quantity = 257.6
 panel = "table"
