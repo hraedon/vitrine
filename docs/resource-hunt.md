@@ -83,16 +83,18 @@ figures below are recalled orientation, never transcription material.
 
 ### 6. Median rent — the renter half of the housing story
 
+**Status:** Closed. The full decennial→ACS arc is now curated:
+`us-<decade>-median-gross-rent` exists for all decades 1940s–2020s.
+1940s–2000s from Census Historical Housing Tables: Gross Rents
+(`census-hist-housing-rents`, decennial, $27→$602); 2010s ($855) and
+2020s ($1,487) from ACS Table B25064 (`census-acs-gross-rent`,
+1-year estimates via Census API). The renter half of the housing
+story now has a number in every census-era room.
+
 **Why:** Homeownership facts show 35–55% of families rented for the first
 half of the century — the museum prices the home the median family often
 did NOT own, and prices nothing it rented. The biggest single coverage
 hole. Priority 1.
-
-**Where to look:** Census of Housing decennial median gross rent (1940→)
-and contract rent (1930→) — same publication family as the home-value
-facts already curated; ACS B25064 annual 2005→; BLS cost-of-living
-surveys (1901, 1918-19) already in the source registry carry rent for
-wage-earner families. Tier A throughout the census years.
 
 ### 7. Married women's labor force participation — who earns
 
