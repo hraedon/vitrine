@@ -1,0 +1,147 @@
+# UK, the 1990s. Three verified sources, early-decade snapshots: ONS weekly
+# earnings (1990), ONS England & Wales tenure (1991), GHS durable-goods diffusion
+# (1990). No affordability anchors (weekly, not hourly, earnings only; no
+# household-income series in the archive).
+# Data year anchors: 1990 (earnings, diffusion), 1991 (tenure).
+
+[room]
+country = "uk"
+decade = "1990s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1990s-weekly-earnings"
+basis = "weekly"
+amount_minor = 29560
+currency = "GBP"
+price_year = 1990
+panel = "budget"
+label = "Average gross weekly earnings, adult male full-time employees, 1990"
+quantity = 295.6
+value = "£295.60"
+unit = "GBP per week, nominal (mean gross weekly earnings, male full-time)"
+source = "ons-earnings-1938-2025"
+tier = "A"
+notes = "From the ONS long-run earnings series. 1990 (April sample, NES): adult male full-time £295.60/week; adult female full-time £201.50/week. Great Britain. Individual earnings, not family income. The decade began in recession (1990–92) and saw the start of the long real-wage slowdown."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "uk-1990s-household-income-gap"
+panel = "budget"
+label = "Median household income, 1990s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "No median household-income series is transcribed for the 1990s. The HBAI series (from 1979/80, DWP) is the relevant source but is not in the archive. The weekly-earnings figure above is the available wage anchor, not a household-income median."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1990s-tenure"
+quantity = 68
+panel = "home"
+label = "Tenure of households, England and Wales, 1991"
+value = "Owned 68%, private rented 9%, socially rented 23%"
+unit = "% of households"
+source = "ons-century-homeownership"
+tier = "A"
+notes = "From ONS analysis of Census of England and Wales tenure. Owner-occupation peaked in this decade (68% in 1991), the high-water mark of Right to Buy. Private renting had fallen to 9% — its low point — while the social sector continued shrinking. Households, not families."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-1990s-housing-amenities-gap"
+panel = "home"
+label = "Rooms, floor area, amenities (bath, WC, central heating)"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-ghs-40yr"
+tier = "D"
+notes = "The GHS recorded central-heating and appliance ownership through the 1990s, but the fuller GHS durable-goods table (central heating, refrigerator, washing machine, vacuum, dishwasher) is not in the archive for transcription."
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1990s-colour-tv"
+quantity = 93
+panel = "diffusion"
+label = "Households with a colour television, 1990"
+value = "93%"
+unit = "% of households with a colour television"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Colour TV reached 93% in 1990 (95% by 1993) — effectively universal, as black-and-white-only sets became rare."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-1990s-computer"
+quantity = 21
+panel = "diffusion"
+label = "Households with a home computer, 1990"
+value = "21%"
+unit = "% of households with a home computer"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Home computers, first recorded by the GHS at 9% in 1984, reached 21% in 1990 (24% by 1993) as home PCs and early internet use spread."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-1990s-telephone"
+quantity = 88
+panel = "diffusion"
+label = "Households with a telephone, 1990"
+value = "88%"
+unit = "% of households with a telephone"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Fixed-line telephone neared universality (88% in 1990, 90% by 1993) after BT privatisation and network expansion; mobile phones were just beginning (this GHS series counts the fixed line)."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-1990s-car"
+quantity = 67
+panel = "diffusion"
+label = "Households with a car or van, 1990"
+value = "67%"
+unit = "% of households with a car or van"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Car ownership reached 67% in 1990 (68% by 1993), approaching the levels of the denser US suburbs but still well below US national family ownership."
+assumptions = ["composite-family"]
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1990s-work-hours-gap"
+panel = "day"
+label = "Weekly work hours, 1990s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "The LFS hours-worked series runs through the 1990s but is not in the archive. Without hours, weekly earnings cannot be converted to an hourly wage, so no affordability anchor is set."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1990s-food-basket-gap"
+panel = "table"
+label = "The food basket, 1990s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-ghs-40yr"
+tier = "D"
+notes = "The National Food Survey (NFS) ran continuously 1940–2000; the 1990s NFS data is not in the archive. (Archive holds NFS 1940–49 and 2023–24, but not the 1990s.)"
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1990s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 1990s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "Without an hourly wage (no hours data) or item prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 1990s. The weekly-earnings figure (£295.60 male full-time, 1990) is the available wage reference."

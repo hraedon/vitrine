@@ -1,0 +1,148 @@
+# UK, the 2010s. Three verified sources, early-decade snapshots: ONS weekly
+# earnings (2010), ONS England & Wales tenure (2011), GHS durable-goods diffusion
+# (2011 — the final GHS year before the survey was discontinued in 2012). No
+# affordability anchors (weekly, not hourly, earnings only; no household-income
+# series in the archive).
+# Data year anchors: 2010 (earnings), 2011 (tenure, diffusion).
+
+[room]
+country = "uk"
+decade = "2010s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-2010s-weekly-earnings"
+basis = "weekly"
+amount_minor = 65700
+currency = "GBP"
+price_year = 2010
+panel = "budget"
+label = "Average gross weekly earnings, adult male full-time employees, 2010"
+quantity = 657.0
+value = "£657.00"
+unit = "GBP per week, nominal (mean gross weekly earnings, male full-time)"
+source = "ons-earnings-1938-2025"
+tier = "A"
+notes = "From the ONS long-run earnings series. 2010 (April sample, ASHE): adult male full-time £657.00/week; adult female full-time £514.70/week. Great Britain. Individual earnings, not family income. The decade saw the longest real-wage squeeze since the 1860s (the post-2008 'wage stagnation'), with nominal growth barely outpacing prices."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "uk-2010s-household-income-gap"
+panel = "budget"
+label = "Median household income, 2010s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "No median household-income series is transcribed for the 2010s. The HBAI series (DWP, from 1979/80) is the relevant source but is not in the archive. The weekly-earnings figure above is the available wage anchor, not a household-income median."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-2010s-tenure"
+quantity = 64
+panel = "home"
+label = "Tenure of households, England and Wales, 2011"
+value = "Owned 64%, private rented 18%, socially rented 18%"
+unit = "% of households"
+source = "ons-century-homeownership"
+tier = "A"
+notes = "From ONS analysis of Census of England and Wales tenure. Owner-occupation had begun its decline (64% in 2011, down from the 69% peak) as house prices outpaced wages; private renting rose sharply (18%, double its 1991 low). Households, not families."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-2010s-housing-amenities-gap"
+panel = "home"
+label = "Rooms, floor area, amenities (bath, WC, central heating)"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-ghs-40yr"
+tier = "D"
+notes = "The GHS was discontinued after 2012; its central-heating and appliance tables for the early 2010s are not in the archive. The English Housing Survey (EHS) is the successor for housing amenity data but is not transcribed here."
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-2010s-colour-tv"
+quantity = 99
+panel = "diffusion"
+label = "Households with a colour television, 2011"
+value = "99%"
+unit = "% of households with a colour television"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Colour TV was universal (99% in 2011, the GHS's final year). The figure counts any colour set; multi-screen and on-demand viewing are beyond this series."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-2010s-computer"
+quantity = 80
+panel = "diffusion"
+label = "Households with a home computer, 2011"
+value = "80%"
+unit = "% of households with a home computer"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Home computers reached 80% in 2011 (from 54% in 2002), though the smartphone was beginning to displace the household computer as the primary connected device."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-2010s-telephone"
+quantity = 100
+panel = "diffusion"
+label = "Households with a telephone, 2011"
+value = "100%"
+unit = "% of households with a telephone"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). The GHS recorded 100% telephone coverage in 2011 — near-universal, combining residual fixed lines with mobile phones. The GHS was discontinued after 2012; later diffusion (smartphones, broadband) is tracked by Ofcom and the ONS Internet Access survey, not transcribed here."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-2010s-car"
+quantity = 76
+panel = "diffusion"
+label = "Households with a car or van, 2011"
+value = "76%"
+unit = "% of households with a car or van"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Car ownership reached 76% in 2011 (slightly below the 78% peak of 2008, reflecting the post-2008 downturn) — the GHS's final reading."
+assumptions = ["composite-family"]
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-2010s-work-hours-gap"
+panel = "day"
+label = "Weekly work hours, 2010s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "The LFS / ASHE hours-worked series runs through the 2010s but is not in the archive. The decade saw persistent post-2008 underemployment and a rise in atypical (zero-hours, part-time, self-employed) work that complicates any single 'weekly hours' figure. Without hours, weekly earnings cannot be converted to an hourly wage, so no affordability anchor is set."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-2010s-food-basket-gap"
+panel = "table"
+label = "The food basket, 2010s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-ghs-40yr"
+tier = "D"
+notes = "Defra's Family Food module (LCFS) covers the 2010s, but that data is not in the archive. (Archive holds NFS 1940–49 and Family Food 2023–24, but not the 2010s.)"
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-2010s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 2010s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "Without an hourly wage (no hours data) or item prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 2010s. The weekly-earnings figure (£657.00 male full-time, 2010) is the available wage reference."

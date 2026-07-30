@@ -870,3 +870,35 @@ year = 2024
 url = "https://www.lung.org/research/trends-in-lung-disease/tobacco-trends-brief/data-tables/ad-cig-smoke-rate-sex-race-age"
 population = "U.S. civilian noninstitutionalized adults ≥18 years (NHIS household interview survey)"
 notes = "NHIS data 1965-2022. Pre-1997 from published NCHS Series 10 reports; 1997-2022 from ALA analysis of NHIS public-use files using SPSS. Current smoker defined as smoked ≥100 cigarettes and currently smoking every day or some days. 2025 preliminary: 9.1% (CDC FastStats). Survey redesign in 1997 means pre/post may not be directly comparable."
+
+# ── v2 world rooms: United Kingdom (uk) ────────────────────────────────────
+
+[[source]]
+id = "ons-earnings-1938-2025"
+title = "Earnings time series of mean gross weekly earnings from 1938 to 2025"
+short_cite = "ONS, Mean gross weekly earnings 1938–2025 (historical / ASHE)"
+publisher = "Office for National Statistics"
+year = 2025
+url = "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/earningstimeseriesofmeangrossweeklyearningsfrom1938to2022"
+population = "Adult full-time employees in Great Britain whose pay for the survey period was not affected by absence"
+notes = "Long-run weekly earnings series. 1938–1968 from Annual Abstract of Statistics (adult manual workers); 1968–2003 New Earnings Survey (NES); 2004+ Annual Survey of Hours and Earnings (ASHE), weighted to LFS population totals. Male/female reported separately for 1938–1969; a combined all-employee series is available from 1970. Discontinuities at each methodology change are documented in the file. Data file resolves at /file?uri=.../current/19382025.xlsx (HTTP 200 verified)."
+
+[[source]]
+id = "ons-century-homeownership"
+title = "Home ownership down and renting up for the first time in a century"
+short_cite = "ONS, A century of home ownership and renting (England and Wales, 1918–2011)"
+publisher = "Office for National Statistics"
+year = 2015
+url = "https://www.ons.gov.uk/peoplepopulationandcommunity/housing/articles/homeownershipdownandrentingupforfirsttimeinacentury/2015-06-19"
+population = "Households in England and Wales"
+notes = "ONS analysis of tenure 1918–2011 from the Census of England and Wales, interpolated between census years. Reported as % of households: owned (owner-occupied), private rented, socially rented. Data CSV at https://static.ons.gov.uk/visual/2015/06/data.csv (HTTP 200 verified and byte-identical to the local copy). Figures are for households, not families — single-person and low-income households pull the tenure mix differently than a median four-person family would."
+
+[[source]]
+id = "ons-ghs-40yr"
+title = "General Lifestyle Survey: 40 years of data collection (Figure 40.2 — consumer durables and cars)"
+short_cite = "ONS, General Household Survey 40-year overview, Figure 40.2 (durable goods)"
+publisher = "Office for National Statistics"
+year = 2013
+url = "https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/compendium/generallifestylesurvey/2013-03-07/40yearsofdatacollection"
+population = "Households in Great Britain (General Household Survey / General Lifestyle Survey)"
+notes = "Figure 40.2: percentage of households with consumer durables and cars, 1972–2011. Reports colour television, home computer, telephone, and car or van (the fuller durable basket — central heating, refrigerator, washing machine, vacuum cleaner, dishwasher — is in a separate table not included in this overview). Unweighted data. The GHS covered Great Britain (England, Wales, Scotland); the survey was discontinued after 2012. Values transcribed from the figure's underlying data CSV (ghs-data-chart3.csv); an OCR pass of the figure misread two cells (telephone 42→43, colour TV 61→60), confirming the CSV, not the OCR, is authoritative."

@@ -1,0 +1,147 @@
+# UK, the 2000s. Three verified sources, early-decade snapshots: ONS weekly
+# earnings (2000), ONS England & Wales tenure (2001), GHS durable-goods diffusion
+# (2002). No affordability anchors (weekly, not hourly, earnings only; no
+# household-income series in the archive).
+# Data year anchors: 2000 (earnings), 2001 (tenure), 2002 (diffusion).
+
+[room]
+country = "uk"
+decade = "2000s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-2000s-weekly-earnings"
+basis = "weekly"
+amount_minor = 47360
+currency = "GBP"
+price_year = 2000
+panel = "budget"
+label = "Average gross weekly earnings, adult male full-time employees, 2000"
+quantity = 473.6
+value = "£473.60"
+unit = "GBP per week, nominal (mean gross weekly earnings, male full-time)"
+source = "ons-earnings-1938-2025"
+tier = "A"
+notes = "From the ONS long-run earnings series. 2000 (April sample, ASHE from 2004 back-cast; 2000 reported under NES methodology): adult male full-time £473.60/week; adult female full-time £345.80/week. Great Britain. Individual earnings, not family income."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "uk-2000s-household-income-gap"
+panel = "budget"
+label = "Median household income, 2000s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "No median household-income series is transcribed for the 2000s. The HBAI series (DWP, from 1979/80) is the relevant source but is not in the archive. The weekly-earnings figure above is the available wage anchor, not a household-income median."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-2000s-tenure"
+quantity = 69
+panel = "home"
+label = "Tenure of households, England and Wales, 2001"
+value = "Owned 69%, private rented 12%, socially rented 19%"
+unit = "% of households"
+source = "ons-century-homeownership"
+tier = "A"
+notes = "From ONS analysis of Census of England and Wales tenure. Owner-occupation at 69% in 2001 — the peak decade before the long decline. Private renting had begun its recovery (12%, up from 9% in 1991) as buy-to-let mortgages expanded; the social sector continued to shrink. Households, not families."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-2000s-housing-amenities-gap"
+panel = "home"
+label = "Rooms, floor area, amenities (bath, WC, central heating)"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-ghs-40yr"
+tier = "D"
+notes = "The GHS recorded central-heating and appliance ownership into the 2000s, but the fuller GHS durable-goods table (central heating, refrigerator, washing machine, vacuum, dishwasher) is not in the archive for transcription."
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-2000s-colour-tv"
+quantity = 99
+panel = "diffusion"
+label = "Households with a colour television, 2002"
+value = "99%"
+unit = "% of households with a colour television"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Colour TV was effectively universal by 2002 (99%), as it would remain through the survey's end."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-2000s-computer"
+quantity = 54
+panel = "diffusion"
+label = "Households with a home computer, 2002"
+value = "54%"
+unit = "% of households with a home computer"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Home computers crossed half of households in 2002 (54%, from 27% in 1996) as broadband began to spread. (Internet take-up is tracked separately by the ONS Internet Access survey from 1998, not transcribed here.)"
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-2000s-telephone"
+quantity = 99
+panel = "diffusion"
+label = "Households with a telephone, 2002"
+value = "99%"
+unit = "% of households with a telephone"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Fixed-line telephone reached near-universality (99% in 2002); the GHS series counts the fixed line, while mobile-only households were just beginning to appear."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-2000s-car"
+quantity = 73
+panel = "diffusion"
+label = "Households with a car or van, 2002"
+value = "73%"
+unit = "% of households with a car or van"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Car ownership reached 73% in 2002 (75% by 2005), with a rising share of two-car households."
+assumptions = ["composite-family"]
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-2000s-work-hours-gap"
+panel = "day"
+label = "Weekly work hours, 2000s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "The LFS / ASHE hours-worked series runs through the 2000s but is not in the archive. Without hours, weekly earnings cannot be converted to an hourly wage, so no affordability anchor is set."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-2000s-food-basket-gap"
+panel = "table"
+label = "The food basket, 2000s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-ghs-40yr"
+tier = "D"
+notes = "The National Food Survey (NFS) ran to 2000 and was succeeded by Defra's Family Food module of the Living Costs and Food Survey; the 2000s data is not in the archive. (Archive holds NFS 1940–49 and 2023–24 Family Food, but not the 2000s.)"
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-2000s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 2000s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "Without an hourly wage (no hours data) or item prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 2000s. The weekly-earnings figure (£473.60 male full-time, 2000) is the available wage reference."
