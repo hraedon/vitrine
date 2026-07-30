@@ -902,3 +902,13 @@ year = 2013
 url = "https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/compendium/generallifestylesurvey/2013-03-07/40yearsofdatacollection"
 population = "Households in Great Britain (General Household Survey / General Lifestyle Survey)"
 notes = "Figure 40.2: percentage of households with consumer durables and cars, 1972–2011. Reports colour television, home computer, telephone, and car or van (the fuller durable basket — central heating, refrigerator, washing machine, vacuum cleaner, dishwasher — is in a separate table not included in this overview). Unweighted data. The GHS covered Great Britain (England, Wales, Scotland); the survey was discontinued after 2012. Values transcribed from the figure's underlying data CSV (ghs-data-chart3.csv); an OCR pass of the figure misread two cells (telephone 42→43, colour TV 61→60), confirming the CSV, not the OCR, is authoritative."
+
+[[source]]
+id = "terramedia-tv-licences"
+title = "UK television receiving licences (annual counts, from 1946)"
+short_cite = "BBC / TV Licensing, UK television receiving licences (terramedia.co.uk compilation)"
+publisher = "BBC / TV Licensing (compiled by terramededia.co.uk)"
+year = 2024
+url = "https://www.terramedia.co.uk/reference/statistics/television/television_licences.htm"
+population = "UK television receiving licence holders at 31 March each year (one licence required per household operating any TV set)"
+notes = "Annual count of television receiving licences, at 31 March. A TV licence was mandatory for any household operating a television set, so the count is a close proxy for TV-owning households (slight undercount from evasion). Combined sound-and-television licences were introduced 1 June 1946; colour TV licences from 1968. terramededia.co.uk compiles the BBC / TV Licensing administrative series (URL resolves HTTP 200, verified 2026-07). The count is NOT a household percentage and is not directly comparable to the post-1972 GHS household-% diffusion series without a household-count denominator."
