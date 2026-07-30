@@ -29,23 +29,32 @@ from vitrine.site.projections.facts import GAP_PREFIX, FactRef
 from vitrine.site.projections.stage import build_stage
 
 
-def room_story(room: Room) -> RoomStoryView:
-    story = curation.ROOM_STORY_BY_DECADE.get(room.decade)
+def room_story(room: Room) -> RoomStoryView | None:
+    """The curated opening route for *room*, or None if it has none.
+
+    A room without a story is not an error: the v2 world-rooms program lands a
+    country's data before its editorial layer, and an un-curated room renders a
+    bare stage rather than blocking the build. What remains an error is a story
+    that exists but does not hold up -- framing that authors its own numbers, a
+    route that is not four distinct facts, or a fact borrowed from another room.
+    """
+
+    story = curation.ROOM_STORY_BY_SLUG.get(room.slug)
     if story is None:
-        raise ValueError(f"room {room.decade} has no curated opening route")
+        return None
     if any(character.isdigit() for character in story.title + story.question):
         raise ValueError(
-            f"room {room.decade} story framing must not author historical numbers"
+            f"room {room.slug} story framing must not author historical numbers"
         )
     if len(story.fact_ids) != 4 or len(set(story.fact_ids)) != 4:
         raise ValueError(
-            f"room {room.decade} story must name exactly four distinct facts"
+            f"room {room.slug} story must name exactly four distinct facts"
         )
     facts_by_id = {fact.id: fact for fact in room.facts}
     missing = [fact_id for fact_id in story.fact_ids if fact_id not in facts_by_id]
     if missing:
         raise ValueError(
-            f"room {room.decade} story names facts outside the room: {missing}"
+            f"room {room.slug} story names facts outside the room: {missing}"
         )
     return RoomStoryView(
         title=story.title,
@@ -99,7 +108,7 @@ def atlas_matrix(
     all_facts: list[Fact] = []
     all_computed: list[ComputedFact] = []
     for room in rooms:
-        computed = list(computed_by_room.get(room.decade, ()))
+        computed = list(computed_by_room.get(room.slug, ()))
         cells = tuple(
             _matrix_cell(
                 [f for f in room.facts if f.panel is panel],
@@ -134,7 +143,7 @@ def project_lobby(
             [
                 c
                 for room in rooms
-                for c in computed_by_room.get(room.decade, ())
+                for c in computed_by_room.get(room.slug, ())
                 if c.panel is panel
             ],
         )
@@ -180,5 +189,9 @@ def project_room(
         sources=corpus.sources,
         assumptions=corpus.assumptions,
         affordability=affordability,
-        gap_banner=curation.ROOM_GAP_BANNERS.get(room.decade, ""),
+        gap_banner=(
+            curation.ROOM_GAP_BANNERS.get(room.decade, "")
+            if room.country in curation.CURATED_COUNTRIES
+            else ""
+        ),
     )

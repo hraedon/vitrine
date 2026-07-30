@@ -64,12 +64,22 @@ class RoomStory:
     them is an existing fact from that same room. The renderer validates the
     membership before building, so interpretation cannot borrow a foreign or
     unresolved exhibit.
+
+    ``country`` defaults to "us" because every story authored before the v2
+    world-rooms program is a US room. A second country's "1950s" is a
+    different room, so the registry is keyed by ``country-decade`` -- the
+    same slug ``Room`` uses -- not by decade alone.
     """
 
     decade: str
     title: str
     question: str
     fact_ids: tuple[str, ...]
+    country: str = "us"
+
+    @property
+    def slug(self) -> str:
+        return f"{self.country}-{self.decade}"
 
 
 @dataclass(frozen=True, slots=True)

@@ -303,7 +303,7 @@ class RoomPage:
 
     room: Room
     rooms: tuple[Room, ...]
-    story: RoomStoryView
+    story: RoomStoryView | None
     previous_room: Room | None
     next_room: Room | None
     room_position: int

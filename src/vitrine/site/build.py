@@ -144,25 +144,36 @@ def build_site(
 
     index = index_facts(corpus)
     fact_index = {fid: ref.fact for fid, ref in index.items()}
-    rooms = sorted(corpus.rooms, key=lambda r: r.decade)
-    decades = [room.decade for room in rooms]
+    rooms = sorted(corpus.rooms, key=lambda r: (r.country, r.decade))
 
-    # room-story registry must cover the built rooms exactly (charter gate)
-    story_decades = set(curation.ROOM_STORY_BY_DECADE)
+    # Curation is still single-country. A second country's rooms are built and
+    # navigable, but the comparative surfaces below -- the pair matrix, the
+    # corridors, the walkthrough -- are US analyses keyed by decade alone, and a
+    # second "1950s" collides with the first. Until those are country-aware they
+    # are projected over the curated rooms only; the rest render as bare stages.
+    curated_countries = {story.country for story in curation.ROOM_STORIES}
+    curated_rooms = [room for room in rooms if room.country in curated_countries]
+    decades = [room.decade for room in curated_rooms]
+
+    # Every curated story must name a room that exists, and the registry must not
+    # collapse two stories onto one key. The converse is deliberately NOT
+    # required: a room may exist with no story yet (see room_story).
+    story_slugs = set(curation.ROOM_STORY_BY_SLUG)
+    room_slugs = {room.slug for room in rooms}
     if (
-        len(curation.ROOM_STORIES) != len(curation.ROOM_STORY_BY_DECADE)
-        or story_decades != set(decades)
+        len(curation.ROOM_STORIES) != len(curation.ROOM_STORY_BY_SLUG)
+        or not story_slugs <= room_slugs
     ):
         raise ValueError(
-            "room story registry must cover the built rooms exactly; "
-            f"missing={sorted(set(decades) - story_decades)}, "
-            f"unknown={sorted(story_decades - set(decades))}"
+            "every room story must name a built room, and story slugs must be "
+            f"unique; unknown={sorted(story_slugs - room_slugs)}, "
+            f"stories={len(curation.ROOM_STORIES)}, keys={len(story_slugs)}"
         )
 
     # derived facts evaluated once, shared by the room loop, the lobby's
     # record-at-a-glance matrix, and the essay interpolation layer
     computed_by_room = {
-        room.decade: evaluate_room(room, series, fact_index) for room in rooms
+        room.slug: evaluate_room(room, series, fact_index) for room in rooms
     }
 
     # docent tours: chart slugs resolve or nothing renders (registry gate)
@@ -173,7 +184,7 @@ def build_site(
     _render_page(
         env, "index.html", out_dir / "index.html", root="", surface="rooms",
         page=project_lobby(
-            corpus, rooms, computed_by_room,
+            corpus, curated_rooms, computed_by_room,
             essay_entry_views(corpus, index, computed_by_room, ""),
         ),
     )
@@ -189,31 +200,42 @@ def build_site(
     # rooms — accumulate the render-coverage manifest and merged affordability
     rendered_ids: list[str] = []
     all_affordability: dict[str, dict[str, str]] = {}
-    for room_position, room in enumerate(rooms, start=1):
-        computed = computed_by_room[room.decade]
-        rendered_ids.extend(fact.id for fact in room.facts)
-        rendered_ids.extend(cf.id for cf in computed)
-        all_affordability.update(affordability_for_room(corpus, room))
-        _render_page(
-            env, "room.html", out_dir / "rooms" / f"{room.slug}.html",
-            root="../", surface="rooms",
-            page=project_room(
-                corpus,
-                room,
-                rooms,
-                room_position,
-                index,
-                series,
-                computed,
-                tour_links.get(room.decade, ()),
-            ),
-        )
+    # Each country is its own wing: previous/next and the room map stay inside
+    # it, so the last US room does not link to the first UK one as though the
+    # timeline continued. Tours are US-authored and keyed by decade, so they
+    # attach only to curated rooms -- otherwise a UK room would inherit the
+    # backlinks of the US room sharing its decade.
+    for country in sorted({room.country for room in rooms}):
+        wing = [room for room in rooms if room.country == country]
+        for room_position, room in enumerate(wing, start=1):
+            computed = computed_by_room[room.slug]
+            rendered_ids.extend(fact.id for fact in room.facts)
+            rendered_ids.extend(cf.id for cf in computed)
+            all_affordability.update(affordability_for_room(corpus, room))
+            _render_page(
+                env, "room.html", out_dir / "rooms" / f"{room.slug}.html",
+                root="../", surface="rooms",
+                page=project_room(
+                    corpus,
+                    room,
+                    wing,
+                    room_position,
+                    index,
+                    series,
+                    computed,
+                    tour_links.get(room.decade, ())
+                    if room.country in curated_countries
+                    else (),
+                ),
+            )
 
     # corridors index (wing validation happens inside project_corridor)
     _render_page(
         env, "corridors.html", out_dir / "corridors" / "index.html",
         root="../", surface="corridors",
-        page=project_corridor(corpus, index, series, rooms, all_affordability),
+        page=project_corridor(
+            corpus, index, series, curated_rooms, all_affordability
+        ),
     )
 
     # the pairwise set (the three epoch pages are the featured pairs)
@@ -229,7 +251,7 @@ def build_site(
     _render_page(
         env, "walkthrough.html", out_dir / "walkthrough.html",
         root="", surface="walkthrough",
-        page=project_walkthrough(corpus, index, rooms, all_affordability),
+        page=project_walkthrough(corpus, index, curated_rooms, all_affordability),
     )
 
     # the affordability dashboard (Plan 011)

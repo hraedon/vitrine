@@ -155,9 +155,19 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
     ),
 )
 
-ROOM_STORY_BY_DECADE: dict[str, RoomStory] = {
-    story.decade: story for story in ROOM_STORIES
+ROOM_STORY_BY_SLUG: dict[str, RoomStory] = {
+    story.slug: story for story in ROOM_STORIES
 }
+
+# Every registry below this line -- stories, compositions, the stage, the gap
+# banners -- is keyed by decade alone and holds US fact ids. A second country's
+# "1950s" is a different room, so those registries must never be consulted for
+# it: doing so let uk-2010s draw us-2010s-expenditure-shares, which is exactly
+# the borrowed-exhibit failure the museum exists to prevent. Curation is
+# single-country until each registry is country-keyed in its own right.
+CURATED_COUNTRIES: frozenset[str] = frozenset(
+    story.country for story in ROOM_STORIES
+)
 
 
 # ── budget composition (parseable "Category N.N%" facts) ─────────────────────
