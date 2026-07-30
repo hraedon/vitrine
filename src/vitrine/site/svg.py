@@ -542,7 +542,7 @@ def arc_chart_series(
             f'<a href={quoteattr(f"#{m.fact_id}--modal")}><g data-fact-id={quoteattr(m.fact_id)}>'
             f"<title>{escape(m.label)}: {escape(m.value)} — Tier {m.tier}</title>"
             f'<circle class="dot" cx="{mx:.1f}" cy="{my:.1f}" r="4.5" '
-            f'fill="ivory" stroke="{stroke}" stroke-width="2"/>'
+             f'fill="{tokens.CASE}" stroke="{stroke}" stroke-width="2"/>'
             f'<text class="vlab" x="{mx:.1f}" y="{my - 9:.1f}">{_fmt(m.quantity)}</text>'
             f'<text class="tlet" x="{mx:.1f}" y="{height - 12}" fill="{tier_color}">{m.tier}</text>'
             f"</g></a>"
@@ -698,7 +698,7 @@ def affordability_chart(
             f'<a href={quoteattr(m.href)}><g data-fact-id={quoteattr(m.fact_id)}>'
             f"<title>{escape(m.label)}: {escape(m.value)} — Tier {m.tier}</title>"
             f'<circle class="dot" cx="{mx:.1f}" cy="{my:.1f}" r="4.5" '
-            f'fill="ivory" stroke="{stroke}" stroke-width="2"/>'
+             f'fill="{tokens.CASE}" stroke="{stroke}" stroke-width="2"/>'
             + (f'<text class="vlab" x="{mx:.1f}" y="{my - 9:.1f}">{_fmt(m.quantity)}</text>'
                if label_all else "")
             + f'<text class="tlet" x="{mx:.1f}" y="{height - 12}" fill="{tier_color}">{m.tier}</text>'
@@ -734,7 +734,7 @@ def composition_bar(
     scale = plot_w / max(total, 100.0)
     for s in segments:
         w = max(s.pct * scale - 2, 1.5)  # 2px surface gap
-        color = tokens.COMPOSITION_DARK[s.slot]
+        color = tokens.COMPOSITION_SHEET[s.slot]
         detail = " + ".join(f"{name} {pct:g}%" for name, pct in s.breakdown)
         out.append(
             f'<a href={quoteattr(f"#{s.fact_id}--modal")}><g data-fact-id={quoteattr(s.fact_id)}>'
@@ -866,9 +866,9 @@ class Stage:
 
 
 def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
-    """The dark-gallery house cutaway with era-graded light.
+    """The paper house cutaway with the era-graded wash.
 
-    The spotlight tint per decade is the mood channel (design-spec); glyph
+    The faint tint per decade is the mood channel (design-spec); glyph
     opacity is the diffusion datum; a fact with no quantity keeps the dashed
     gap ring. Every glyph links to its placard. When ``overlay_links`` is true
     the click target is the CSS-only popup layer (``#fact-id--modal``) rather

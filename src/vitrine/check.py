@@ -9,10 +9,20 @@ and nothing verifiability-critical is blank.
 from __future__ import annotations
 
 import math
+import re
 from html.parser import HTMLParser
 from pathlib import Path
 
-from vitrine.model import Basis, Corpus, DerivedOp, Fact, Room, measure_axis
+from vitrine.model import (
+    INTERPOLATION_RE,
+    Basis,
+    BlockKind,
+    Corpus,
+    DerivedOp,
+    Fact,
+    Room,
+    measure_axis,
+)
 from vitrine.series import Series
 
 
@@ -470,6 +480,108 @@ def check_series(series: dict[str, Series], corpus: Corpus) -> list[str]:
                     f"— the same number drifted in two places"
                 )
 
+    return problems
+
+
+# ── the docent numeral gate (plan 016) ────────────────────────────────────────
+# Essay prose is editorial voice, but its numbers must all be bound to facts
+# by interpolation. Stripping the ``{fact:...}`` bindings, the only numerals
+# allowed bare are four-digit years (1850–2035), decade words, and ranges of
+# the two. Everything else — percentages, dollars, hours, counts — fails.
+
+_YEAR = r"(?:18[5-9]\d|19\d\d|20(?:[01]\d|2\d|3[0-5]))"
+_TOKEN_OK = re.compile(rf"(?:{_YEAR}s?(?:[-–—]{_YEAR}s?)?)")
+_EDGE_PUNCT = ".,;:!?()[]{}\"'“”‘’*·—–-"  # noqa: RUF001 — punctuation strip set, not prose
+_SLUG_RE = re.compile(r"[a-z0-9][a-z0-9-]*")
+
+
+def _unbound_numerals(text: str) -> list[str]:
+    """Prose tokens carrying a digit that isn't an allowed year/decade."""
+    stripped = INTERPOLATION_RE.sub(" ", text)
+    bad: list[str] = []
+    for token in stripped.split():
+        core = token.strip(_EDGE_PUNCT)
+        if not any(character.isdigit() for character in core):
+            continue
+        if not _TOKEN_OK.fullmatch(core):
+            bad.append(token)
+    return bad
+
+
+def check_essays(corpus: Corpus) -> list[str]:
+    """The docent gate: prose may interpret, but every numeral is bound.
+
+    Chart-block *slugs* (arc/group/metric) are validated at build time in the
+    presentation layer, which owns those registries — the core gate validates
+    block shape, ids, interpolation resolution, and the numeral rule.
+    """
+    problems: list[str] = []
+    curated_ids = {fact.id for room in corpus.rooms for fact in room.facts}
+    curated_ids |= {derived.id for room in corpus.rooms for derived in room.derived}
+
+    seen_slugs: set[str] = set()
+    for essay in corpus.essays:
+        where = f"essay {essay.slug!r}"
+        if not _SLUG_RE.fullmatch(essay.slug):
+            problems.append(f"{where}: slug must be lowercase alphanumerics and hyphens")
+        if essay.slug in seen_slugs:
+            problems.append(f"{where}: duplicate essay slug")
+        seen_slugs.add(essay.slug)
+        if not essay.title.strip():
+            problems.append(f"{where}: empty title")
+        if not essay.standfirst.strip():
+            problems.append(f"{where}: empty standfirst")
+        if not essay.blocks:
+            problems.append(f"{where}: an essay needs at least one block")
+            continue
+
+        bound = False
+        for token in _unbound_numerals(essay.title) + _unbound_numerals(essay.standfirst):
+            problems.append(
+                f"{where}: unbound numeral {token!r} in head matter — bind it "
+                f"with {{fact:<id>}} or write it in words"
+            )
+        if INTERPOLATION_RE.search(essay.standfirst):
+            bound = True
+        for match in INTERPOLATION_RE.finditer(essay.standfirst):
+            if match.group(1) not in curated_ids:
+                problems.append(
+                    f"{where}: standfirst cites unknown fact {match.group(1)!r}"
+                )
+
+        for i, block in enumerate(essay.blocks, start=1):
+            block_where = f"{where}, block {i}"
+            if block.kind is BlockKind.PROSE:
+                if not block.text.strip():
+                    problems.append(f"{block_where}: prose block with empty text")
+                    continue
+                for token in _unbound_numerals(block.text):
+                    problems.append(
+                        f"{block_where}: unbound numeral {token!r} — bind it "
+                        f"with {{fact:<id>}} or write it in words"
+                    )
+                for match in INTERPOLATION_RE.finditer(block.text):
+                    bound = True
+                    if match.group(1) not in curated_ids:
+                        problems.append(
+                            f"{block_where}: cites unknown fact {match.group(1)!r}"
+                        )
+            else:
+                slugs = [s for s in (block.arc, block.group, block.metric) if s]
+                if len(slugs) != 1:
+                    problems.append(
+                        f"{block_where}: chart block must name exactly one of "
+                        f"arc/group/metric"
+                    )
+                else:
+                    bound = True
+                if block.text.strip():
+                    problems.append(f"{block_where}: chart blocks carry no prose text")
+        if not bound:
+            problems.append(
+                f"{where}: an essay must engage the record — at least one fact "
+                f"interpolation or chart block"
+            )
     return problems
 
 

@@ -1,148 +1,155 @@
-# Design spec — the visualization layer (Plan 007 WI-2)
+# Design spec — the statistical atlas (Plan 020)
 
-The production renderer's design language, inherited from the concept demo
-(`docs/concept-demo/walkthrough.html`, non-truth-path) and made executable in
-`src/vitrine/site/tokens.py`. **Tokens live in code; this document records the
-decisions and the validation results.** A test asserts the two never drift
-(`tests/test_design.py`).
+The production renderer's design language. Tokens are executable in
+`src/vitrine/site/tokens.py`; **this document records the decisions and the
+validation results.** A test suite asserts the two never drift and computes
+every contrast constraint (`tests/test_design.py`).
+
+Plan 020 replaced the dark "night gallery" of Plan 007/019 with a light
+statistical folio. The reasoning and the information-design moves are recorded
+in `plans/020-the-statistical-atlas.md`; this file is the normative palette.
 
 ## Principles
 
-1. **Static truth, progressively enhanced interaction.** Every page is
-   pre-rendered and every fact, chart, link, and placard works with JavaScript
-   disabled. Anchor + CSS `:target` keeps placards deep-linkable and citable;
-   one dependency-free script adds focus containment, Escape dismissal,
-   background inertness, and focus restoration.
-2. **Light is the mood channel; hue is the meaning channel.** Hue does
-   epistemology (tier chips, provisional, gap) and editorial voice (brass;
-   copper for falling metrics). Decorative colorization is rejected — no
-   era wallpaper, no upholstery reds. The ivory specimen label stays the
-   brightest object on every page.
-3. **Every mark names its fact.** Chart points, glyphs, meter segments and
-   cutaway annotations carry `data-fact-id`; the mark-coverage gate fails the
-   build if a mark's id doesn't resolve to a corpus fact or derived fact.
-
-## Room dramaturgy
-
-Every decade room opens with a curator's route: an editorial question and four
-featured exhibits selected from that room's existing facts. The route is an
-entry point, not a synthetic narrative and not a replacement for the complete
-six-case collection below it.
-
-The selection is mechanically provenance-bound. `RoomStory.fact_ids` must name
-exactly four distinct facts, every fact must belong to the same decade room,
-and every built room must have exactly one story. The renderer fails rather
-than borrowing an exhibit from another decade. Titles and questions may frame
-the evidence; the fact tiles carry the historical claims and numbers.
-
-Placards lead with the evidence hierarchy in this order: observed value,
-measured population, source record, confidence tier, then optional
-affordability computation and the full source drawer. Derived placards name
-the computation and weakest-input confidence before exposing their inputs.
+1. **Static truth, progressively enhanced interaction.** Unchanged from the
+   dark atlas: everything works with JavaScript disabled; anchor + CSS
+   `:target` keeps record cards deep-linkable; one dependency-free script adds
+   focus containment, Escape dismissal, background inertness, and focus
+   restoration.
+2. **Paper is the surface; ink is the voice; color is epistemology.** Pages
+   are folio sheets with hairline rules and tabular numerals. Hue does only
+   epistemology (tier chips, provisional, gap) and series direction (petrol
+   rising, ember falling). The overlay record card is the brightest object on
+   the page, still printed on the old ivory.
+3. **Provenance in the scan-line.** Every fact row carries value, tier chip,
+   the measured population, and the source record (publisher · year · tier)
+   without a click. Drawers and overlays add depth, never prerequisites.
+4. **Every mark names its fact.** Unchanged: chart points, glyphs, meter
+   segments and cutaway annotations carry `data-fact-id`; the mark-coverage
+   gate fails the build if a mark's id doesn't resolve to a curated fact.
 
 ## Core tokens
 
 | Token | Hex | Role |
 |---|---|---|
-| `ground` | `#1b1815` | page background — the dark gallery |
-| `case` | `#242019` | display-case panel background |
-| `case-2` | `#2c261e` | raised case surface / gradient partner |
-| `edge` | `#413728` | case borders and hairlines |
-| `ivory` | `#ece2cf` | specimen label card (brightest object) |
-| `ivory-2` | `#e3d7bf` | label gradient partner |
-| `ink` | `#2a2317` | text on ivory |
-| `ink-soft` | `#998b70` | secondary text on dark surfaces (4.5:1 minimum) |
-| `brass` | `#cf9f4c` | editorial voice: rising metrics, highlights, glyph strokes |
-| `brass-dim` | `#7d663a` | quiet brass: structure lines, idle rings |
-| `brass-deep` | `#a97f34` | brass on ivory (pressed/accent) |
-| `brass-lit` | `#f0c778` | brass at full glow (hover/`:target`) |
-| `copper` | `#c98a6a` | falling-metric bars (labour hours, food share) |
+| `ground` | `#f2ecdd` | page background — paper |
+| `case` | `#fbf7ec` | sheet/panel background |
+| `case-2` | `#f5efe0` | inset tint (summing rows, drawer fills) |
+| `edge` | `#d5c9ab` | hairline rules |
+| `ivory` | `#fffdf7` | the overlay record card (brightest object) |
+| `ivory-2` | `#f8f2e2` | card gradient partner |
+| `ink` | `#29241b` | body text (≥ 7:1 on every surface — checked) |
+| `ink-soft` | `#6e6450` | secondary text (4.5:1 minimum on paper) |
+| `brass` | `#175d75` | atlas petrol — editorial voice, rising series |
+| `brass-dim` | `#61798a` | quiet petrol — structure strokes, idle rings |
+| `brass-deep` | `#0f4253` | petrol on hover/pressed |
+| `brass-lit` | `#1e7a9c` | petrol bright — focus rings, current marker |
+| `copper` | `#b34a13` | ember — falling series, caution borders |
+| `copper-deep` | `#933d0e` | ember for small caution text (4.5:1) |
 
 **Type.** Display serif `"Iowan Old Style", "Palatino Linotype", Palatino,
-"Book Antiqua", Georgia, serif`; letterspaced uppercase mono labels
+"Book Antiqua", Georgia, serif`; letterspaced uppercase mono metadata
 (`ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace`); system sans
-body. Numerals tabular in stat rows.
+body. Numerals tabular in stat rows and matrix counts.
 
 ## The honesty vocabulary
 
-Three states, rendered exactly as the demo drew them — never restyled per page:
+Rendered identically on every page, never restyled per page:
 
 | State | Color | Rendering |
 |---|---|---|
-| Tier A | `#7aa38c` | solid chip, white letter |
-| Tier B | `#c79a44` | solid chip, white letter |
-| Tier C | `#c5763e` | solid chip, white letter |
-| Tier D | `#948a78` | solid chip, white letter |
-| Provisional | `#b07a52` | `prov.` chip; value in copper-brown on ivory |
-| Gap | dashed `#948a78` ring / italic | "not yet curated · would source from …" — never a confident guess |
+| Tier A | `#2f7a55` | solid chip, white letter |
+| Tier B | `#8f6512` | solid chip, white letter |
+| Tier C | `#7d4a63` | solid chip, white letter |
+| Tier D | `#6e6a5e` | solid chip, white letter |
+| Provisional | `#a45a2b` | `prov.` chip; flag styling |
+| Gap | dashed `#6e6a5e` ring / italic, ember `#933d0e` counts | "no reliable record" — never a confident guess |
 
-A gap is content, not absence: chart slots and stage glyphs for gap facts render
-a dashed outline and the words, at the same size as a sourced value.
+A gap is content, not absence: chart slots, stage glyph rings, fact rows, and
+corpus-matrix cells all render it as a first-class state at full size.
 
-## Era-graded stage light
+**Constraints (checked, not assumed):**
 
-The one place mood color moves: the stage spotlight tints per decade, an
-editorial rendering of the sourced lighting-fuel / electrification fact family
-(kerosene → incandescent → fluorescent → LED). Tints are the *inner glow* stop
-of the stage's radial gradient (outer stops stay `case` → `ground`):
+- every semantic color — the four tier colors, provisional, petrol, copper —
+  holds **≥ 3:1** against every sheet and every era wash;
+- white chip letters hold **≥ 4.5:1** against every chip color;
+- body `ink` holds **≥ 7:1** against every sheet and wash;
+- `ink-soft` captions hold **≥ 4.5:1** on the three untinted sheets and are
+  never placed on the tinted stage.
 
-| Decades | Glow | Character |
+`tests/test_design.py` computes the full cross-product; a new tint or
+semantic color that breaks it is a red build.
+
+## Era-graded stage wash
+
+The one place mood color moves: the stage's radial glaze per decade, the same
+editorial rendering of the sourced lighting-fuel / electrification family as
+before, re-inked for paper — deep amber pools for the kerosene decades,
+clearing toward the neutral sheet as the grid and LED arrive.
+
+| Decades | Wash | Character |
 |---|---|---|
-| 1890s–1910s | `#3a2c17` | kerosene amber; narrow, dim pool |
-| 1920s–1940s | `#392e1c` | early electric; warmer, wider |
-| 1950s–1970s | `#322a20` | incandescent gold (the demo's stop) |
-| 1980s–1990s | `#2f2b22` | fluorescent-warm white |
-| 2000s–2010s | `#2c2b24` | CFL, cooler |
-| 2020s | `#2d2e29` | LED white; brightest, widest pool |
+| 1890s–1910s | `#e8d9b8` | kerosene amber; narrow, saturated pool |
+| 1920s–1940s | `#ece0c4` | early electric; softer, wider |
+| 1950s–1970s | `#efe7d2` | incandescent tan |
+| 1980s–1990s | `#f0ead8` | fluorescent-warm |
+| 2000s–2010s | `#f2edde` | CFL, cooler |
+| 2020s | `#f4f0e4` | LED neutral; widest, clearest pool |
 
-**Constraint (checked, not assumed):** every semantic color that renders on
-the stage — the four tier colors, provisional, brass, copper — holds **≥ 3:1
-WCAG contrast against every era glow tint** and against `case`/`ground`.
-`ink-soft` caption text never sits on the tinted stage; it is held to 4.5:1 on
-`case`/`ground` where it does render. `tests/test_design.py` computes the full
-cross-product; a new tint or semantic color that breaks it is a red build.
+The pool's geometry (radius tokens) is unchanged; the gradient runs
+wash → `case` → `ground`, so the wash stays a tint of the paper, not a
+foreign overlay.
 
-## Budget-composition categorical palette
+## Budget-composition categorical palette (sheet variant)
 
-*Position* carries category identity inside the cutaway (food at the table,
-clothing at the closet), so the cutaway stays in the brass ramp. Categorical
-hue appears only in corridor composition charts. Fixed assignment, never
-cycled:
+*Position* carries category identity inside the cutaway, so the cutaway stays
+in the petrol/ink family. Categorical hue appears only in corridor composition
+charts, which now sit on light sheets. Fixed assignment, never cycled; every
+segment carries its mandatory **white** direct label.
 
-| Category | Dark stage `#1b1815` | Ivory card `#ece2cf` |
-|---|---|---|
-| housing | `#5b8fd6` | `#4d7fc4` |
-| apparel | `#c06fae` | `#b05f9e` |
-| food | `#8d983a` | `#7f8a2f` |
-| health | `#1ca69e` | `#0f948c` |
-| transport | `#d16a55` | `#c05a46` |
-| other | `#9a938a` (neutral, outside the validated slots) | `#8a8378` |
+| Category | Sheet hex |
+|---|---|
+| housing | `#38618f` |
+| apparel | `#8f3f7d` |
+| food | `#4f6b20` |
+| health | `#11706a` |
+| transport | `#a84c38` |
+| other | `#6e6a5e` (neutral, outside the validated slots) |
 
-Segments get **mandatory direct labels** and 2px surface gaps.
+Segments keep the 2px surface gaps. **Validator results** (computed by
+`tests/test_design.py` at this writing, 2026-07-29): every slot holds
+≥ 4.5:1 against its white label and ≥ 3:1 against the sheet `#fbf7ec`;
+weakest pairs are `other` at 5.40:1 (label) and 4.58:1 (sheet).
 
-**Validator results** (six-checks validator, re-run 2026-07-08 against these
-exact hexes):
+## The corpus matrix
 
-- Dark stage, surface `#1b1815`: lightness band PASS (all 5 in L 0.48–0.67);
-  chroma floor PASS (all ≥ 0.10); CVD separation PASS (worst adjacent
-  `#c06fae`↔`#5b8fd6` ΔE 14.7 protan); contrast vs surface PASS (all ≥ 3:1).
-- Ivory card, surface `#ece2cf`: lightness band PASS (all 5 in L 0.43–0.77);
-  chroma floor PASS; CVD separation PASS (worst adjacent ΔE 14.0 protan);
-  contrast **WARN** — `#7f8a2f` 2.93:1 and `#0f948c` 2.90:1 sit just under
-  3:1. The WARN's mandated relief is the direct labels, which are therefore
-  not optional on ivory.
+The index leads with the record at a glance: rooms × the six cases, counted.
+Counts are **build metadata** (sourced facts `N`, computed exhibits `+M`,
+documented gaps in ember), folded in the projection layer from the corpus
+itself; the tier-mix sliver under each count uses the honesty colors in tier
+order. No number in the matrix is authored anywhere.
 
 ## The artifact symbol library
 
-Committed SVG symbols in `src/vitrine/site/symbols.py`, drawn in the demo's
-stroke language: thin brass line work (`stroke-width` ≈ 1.7, round caps/joins),
-sparing fills, 2–4 stroke primitives. One symbol per artifact **per era
-bucket** (icebox → round-top refrigerator → french-door; console radio →
-tabletop set; aerial TV → flat panel …). Acceptance bar: recognizable at 48px
-without a label.
+Unchanged: committed SVG symbols in `src/vitrine/site/symbols.py` per artifact
+per era bucket, gated by the existence of a diffusion-family fact in the room;
+diffusion percentage maps to glyph opacity (`0.16 + 0.84 × pct/100`,
+floor 0.12). Strokes re-inked: glyphs and annotations in petrol `#175d75`,
+structure in quiet `#61798a`, gaps dashed in `#6e6a5e`.
 
-Symbols are decoration (non-truth-path) but their **appearance is gated**: a
-symbol renders in a room only if a diffusion-family fact for that artifact
-exists in that room. Absent technology isn't drawn. A fact with no `quantity`
-keeps the dashed gap ring; diffusion percentage maps to glyph opacity
-(`0.16 + 0.84 × pct/100`, floor 0.12), carried over from the demo unchanged.
+## Page dramaturgy
+
+Every decade room still opens with the curator's route — an editorial question
+and four sourced exhibits, mechanically provenance-bound (exactly four
+distinct in-room facts; the renderer fails on borrowing). The route renders as
+a ruled marginalia list above the cutaway. Below it the room is a ledger: six
+panel sections of fact rows, each row leading with the observed value and
+carrying the evidence hierarchy — tier, measured population, source record —
+in the same scan, with the full drawer one disclosure away and the overlay
+record card one click away. Derived exhibits wear their computed mantle and
+their weakest-input tier before their inputs.
+
+Docent tours (Plan 016) render as narrow reading columns: prose blocks with an
+accent rule, every interpolated figure an inline chip (petrol value, tier
+letter), chart blocks identical to their corridor renderings. No new tokens;
+the disclaimer strip rides below the standfirst on every tour.

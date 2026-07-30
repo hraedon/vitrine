@@ -88,20 +88,25 @@ not cryptographic.
 
 ## Status
 
-US corpus curated: 13 decade rooms (1900s–2020s), 456 facts, 3 derived
-facts, zero Tier D estimates; 16 rendered gaps are structural (pre-WWII
-income/housing/food for 1910s–1930s, 1940s wartime bifurcation, 1990s
-home-production data) and listed in `docs/resource-hunt.md`. The
-visualization layer (Plan 007) is implemented: three static surfaces —
-rooms (dark-gallery cutaway, era-graded light, CSS-only popup placards),
-corridors (cross-decade arc charts plus the 78-page pairwise comparison
-set), and the walkthrough (the three-stop transect) — all pre-rendered,
-with one progressive-enhancement asset for accessible placards, every chart
-mark carrying the fact id it projects (`data-fact-id`,
-enforced by the mark-coverage gate in `vitrine check --against-build`).
-Design tokens and the validated palette: `docs/design-spec.md` /
-`src/vitrine/site/tokens.py`. Plan 009's implementation pass is complete: 17
-of 23 items done, 3 partial on data dependencies, and 3 deliberately deferred. See
+US corpus curated: 13 decade rooms (1900s–2020s), 491 facts, 8 derived
+facts; 16 rendered gaps are structural (pre-WWII income/housing/food for
+1910s–1930s, 1940s wartime bifurcation, 1990s home-production data) and
+listed in `docs/resource-hunt.md`, alongside 6 Tier D scholarly estimates
+kept honest by the tier rule (`vitrine gaps` prints the mechanical
+inventory). The
+presentation is the "statistical atlas" (Plan 020): a light folio where
+every fact row carries its value, tier chip, measured population, and
+source record in one scan-line, and the index leads with a corpus matrix —
+rooms × cases with tier mixes and documented silences counted. Three static
+surfaces — rooms, corridors (cross-decade plates plus the 78-page pairwise
+comparison set), and the walkthrough (the three-stop transect) — all
+pre-rendered, with one progressive-enhancement asset for accessible
+record cards, every chart mark carrying the fact id it projects
+(`data-fact-id`, enforced by the mark-coverage gate in
+`vitrine check --against-build`). The docent layer (Plan 016) adds curated
+tours — connective prose whose every numeral is a `{fact:<id>}` binding, so
+an unbound number in tour copy fails the build. Design tokens and the
+validated palette: `docs/design-spec.md` / `src/vitrine/site/tokens.py`. See
 `docs/fact-model.md` (design spine) and `plans/` for the full series.
 
 ## Quick start

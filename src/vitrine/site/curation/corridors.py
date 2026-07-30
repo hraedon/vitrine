@@ -476,6 +476,8 @@ ARC_GROUP_BY_MEMBER: dict[str, ArcGroup] = {
     for member_slug, _label, _color in group.members
 }
 
+ARC_GROUP_BY_SLUG: dict[str, ArcGroup] = {group.slug: group for group in ARC_GROUPS}
+
 
 # The corridor page is an atlas, not a registry dump. These four questions
 # provide an editorial route through every rendered chart while leaving the

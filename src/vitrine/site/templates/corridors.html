@@ -1,24 +1,25 @@
 {% extends "base.html" %}
 {% from "macros/placards.html" import placard_overlay %}
 {% from "macros/charts.html" import composition_details %}
+{% from "macros/legends.html" import legend_block %}
 {% block title %}corridors — vitrine{% endblock %}
 {% block body %}
-<p class="eyebrow">vitrine · the corridors · an atlas in four wings</p>
+<p class="eyebrow">vitrine · the corridors · an atlas in four plates</p>
 <h1>An atlas of <em>ordinary life</em></h1>
-<p class="sub">The rooms hold snapshots; the atlas follows change. Its exhibits are arranged around four questions rather than one long register of charts. Every mark still opens the sourced specimen card behind it, and every silence in the record remains visible.</p>
+<p class="sub">The rooms hold snapshots; the plates follow change. Its exhibits are arranged around four questions rather than one long register of charts. Every mark still opens the sourced record behind it, and every silence in the record remains visible.</p>
 
 <nav class="atlas-directory" aria-label="Atlas wings">
 {% for wing in page.wings %}
   <a class="atlas-card" href="#wing-{{ wing.slug }}">
     <span class="anum" aria-hidden="true">{{ wing.number }}</span>
-    <span><b>{{ wing.title }}</b><em>{{ wing.question }}</em></span>
+    <b>{{ wing.title }}</b><span class="aquest">{{ wing.question }}</span>
     <span class="acount">{{ wing.exhibit_count }} exhibits</span>
   </a>
 {% endfor %}
 </nav>
 
 <div class="atlas-key" aria-label="How to read the atlas">
-  <div><b>Open selectively</b>Each wing begins with one chart open. The rest stay folded until chosen.</div>
+  <div><b>Open selectively</b>Each plate begins with one chart open. The rest stay folded until chosen.</div>
   <div><b>Inspect the evidence</b>Every plotted point opens its source, population, year, and confidence tier.</div>
   <div><b>Read the silence</b>A broken line or empty decade is a documented gap, not an invitation to interpolate.</div>
 </div>
@@ -28,7 +29,7 @@
   <header class="wing-head">
     <div class="wing-number" aria-hidden="true">{{ wing.number }}</div>
     <div>
-      <p class="wing-kicker">Atlas wing {{ wing.number }} · {{ wing.exhibit_count }} exhibits</p>
+      <p class="wing-kicker">Plate {{ wing.number }} · {{ wing.exhibit_count }} exhibits</p>
       <h2 id="wing-{{ wing.slug }}-title">{{ wing.title }}</h2>
       <p class="wing-question">{{ wing.question }}</p>
       <p class="wing-intro">{{ wing.introduction }}</p>
@@ -84,7 +85,7 @@
 {% endfor %}
 
 <section class="study-room" aria-labelledby="study-room-title">
-  <p class="wing-kicker">The study room</p>
+  <p class="wing-kicker">The study table</p>
   <h2 id="study-room-title">Put two decades on the same table</h2>
   <p>The atlas follows one measure through time. Pairwise pages instead gather every fact family the measure guard certifies comparable between two chosen rooms.</p>
   <div class="epoch-grid">
@@ -98,20 +99,7 @@
     {% endfor %}</table>
   </details>
 </section>
-<div class="legends">
-  <div class="leg">
-    <h4>Confidence &amp; flags</h4>
-    {% for t, color in T.TIER_COLORS.items() %}
-    <div class="tierrow"><span class="swatch" style="background:{{ color }}"></span> {{ t }} — {{ tier_names[t] }}</div>
-    {% endfor %}
-    <div class="tierrow"><span class="swatch" style="background:{{ T.GAP }};opacity:.5;border:1px dashed {{ T.GAP }}"></span> Gap — no reliable record; shown as the gap it is</div>
-  </div>
-  <div class="leg">
-    <h4>Reading the museum</h4>
-    <p><b>Every fact is behind glass</b>: its placard names the source, the year, who was measured, and how sure we are. Chart points and stage glyphs deep-link to their placards.</p>
-    <p style="margin-top:8px"><b>Falling</b> metrics render in <b style="color:{{ T.COPPER }}">copper</b>, <b>rising</b> in <b style="color:{{ T.BRASS }}">brass</b>. Absent technology isn't drawn — a bare house says more than ghosts.</p>
-  </div>
-</div>
+{{ legend_block() }}
 {% endblock %}
 {% block overlays %}
 <div class="overlay-deck">

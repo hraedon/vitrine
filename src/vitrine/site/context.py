@@ -20,7 +20,7 @@ from typing import TYPE_CHECKING
 
 from markupsafe import Markup
 
-from vitrine.model import Assumption, Fact, Panel, Room, Source
+from vitrine.model import Assumption, BlockKind, Fact, Panel, Room, Source
 from vitrine.site.curation import Metric
 from vitrine.site.svg import ShareSegment
 
@@ -215,14 +215,86 @@ class AffordabilityDashboardSection:
     note: str
 
 
+# ── lobby: the record at a glance (corpus metadata matrix) ───────────────────
+
+
+@dataclass(frozen=True, slots=True)
+class MatrixCell:
+    """Exhibit counts for one (room, panel) slot of the corpus matrix.
+
+    These are counts of curated exhibits — build metadata, never historical
+    claims — so the landing page can display the corpus's honest shape.
+    """
+
+    facts: int
+    computed: int
+    gaps: int  # curated facts whose value is the documented gap
+    tier_counts: tuple[tuple[str, int], ...]  # (tier, count) in tier order, nonzero only
+
+    @property
+    def exhibits(self) -> int:
+        return self.facts + self.computed
+
+
+@dataclass(frozen=True, slots=True)
+class MatrixRow:
+    """One decade's row in the corpus matrix (cells in ``Panel`` order)."""
+
+    decade: str
+    slug: str
+    cells: tuple[MatrixCell, ...]
+    totals: MatrixCell
+
+
+# ── the docent layer (essays) ─────────────────────────────────────────────────
+
+
+@dataclass(frozen=True, slots=True)
+class EssayBlockView:
+    """One rendered essay block: interpolated prose, or a referenced chart."""
+
+    kind: BlockKind
+    prose: Markup  # interpolated html (PROSE)
+    chart_slug: str  # arc/group/metric slug (CHART)
+    chart: Markup  # build-time SVG (CHART; empty string when the record gaps)
+    chart_label: str
+    chart_unit: str
+    caveats: tuple[str, ...]
+    note: str = ""  # documented reason the chart is empty, when it is
+
+
+@dataclass(frozen=True, slots=True)
+class EssayLink:
+    """A backlink from a room to a docent tour that cites its exhibits."""
+
+    slug: str
+    title: str
+
+
+@dataclass(frozen=True, slots=True)
+class EssayEntryView:
+    """One row of the docent-tour index."""
+
+    slug: str
+    title: str
+    standfirst: Markup
+    blocks: int
+    rooms_cited: tuple[str, ...]
+
+
 # ── page contexts (one per template) ──────────────────────────────────────────
 
 
 @dataclass(frozen=True, slots=True)
 class LobbyPage:
-    """Context for ``index.html`` — the museum lobby / room directory."""
+    """Context for ``index.html`` — the atlas index / corpus directory."""
 
     rooms: tuple[Room, ...]
+    matrix: tuple[MatrixRow, ...]
+    panel_totals: tuple[MatrixCell, ...]  # column totals, in ``Panel`` order
+    totals: MatrixCell
+    sources: int
+    essays: tuple[EssayEntryView, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -237,6 +309,7 @@ class RoomPage:
     room_position: int
     stage_svg: Markup
     panels: tuple[PanelSection, ...]
+    essay_links: tuple[EssayLink, ...]
     computed_count: int
     sources: Mapping[str, Source]
     assumptions: Mapping[str, Assumption]
@@ -314,6 +387,32 @@ class BibliographyPage:
     sources: tuple[Source, ...]
 
 
+@dataclass(frozen=True, slots=True)
+class EssaysIndexPage:
+    """Context for ``essays/index.html`` — the docent-tour directory."""
+
+    entries: tuple[EssayEntryView, ...]
+    overlay_facts: tuple[FactRef, ...]
+    sources: Mapping[str, Source]
+    assumptions: Mapping[str, Assumption]
+    affordability: Mapping[str, Mapping[str, str]]
+
+
+@dataclass(frozen=True, slots=True)
+class EssayPage:
+    """Context for ``essays/<slug>.html`` — one docent tour."""
+
+    slug: str
+    title: str
+    standfirst: Markup
+    blocks: tuple[EssayBlockView, ...]
+    rooms_cited: tuple[str, ...]
+    sources: Mapping[str, Source]
+    assumptions: Mapping[str, Assumption]
+    affordability: Mapping[str, Mapping[str, str]]
+    overlay_facts: tuple[FactRef, ...]
+
+
 # Re-exported so svg type references resolve cleanly from this module's namespace.
 __all__ = [
     "AffordabilityDashboardSection",
@@ -323,8 +422,15 @@ __all__ = [
     "CompositionRow",
     "CorridorPage",
     "CorridorWingView",
+    "EssayBlockView",
+    "EssayEntryView",
+    "EssayLink",
+    "EssayPage",
+    "EssaysIndexPage",
     "FactRef",
     "LobbyPage",
+    "MatrixCell",
+    "MatrixRow",
     "MethodologyPage",
     "PairAffordSection",
     "PairCell",

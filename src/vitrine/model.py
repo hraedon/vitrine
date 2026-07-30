@@ -9,6 +9,7 @@ unhandled site.
 from __future__ import annotations
 
 import enum
+import re
 from dataclasses import dataclass, field
 from typing import assert_never
 
@@ -257,6 +258,43 @@ class Room:
         return f"{self.country}-{self.decade}"
 
 
+# ── the docent layer (plan 016) ───────────────────────────────────────────────
+
+# In essay prose, a number may appear only by binding to a fact:
+# ``{fact:<id>}`` renders the fact's as-authored value plus its tier chip;
+# ``{fact:<id>:label}`` renders the label. The numeral gate in ``check``
+# strips these before scanning — a bare numeral in prose is a red build.
+INTERPOLATION_RE = re.compile(r"\{fact:(us-[a-z0-9-]+)(?::(label))?\}")
+
+
+class BlockKind(enum.Enum):
+    """The shape of one essay block — closed set."""
+
+    PROSE = "prose"  # docent copy; every numeral bound to a fact
+    CHART = "chart"  # exactly one of arc / group / metric, resolved at build
+
+
+@dataclass(frozen=True, slots=True)
+class EssayBlock:
+    """One block of a docent essay: prose, or a referenced exhibit chart."""
+
+    kind: BlockKind
+    text: str = ""  # prose copy (PROSE blocks only)
+    arc: str = ""  # corridor arc slug (CHART: exactly one of arc/group/metric)
+    group: str = ""  # arc-group slug
+    metric: str = ""  # affordability metric slug
+
+
+@dataclass(frozen=True, slots=True)
+class Essay:
+    """A curated docent tour: titled prose blocks interleaved with charts."""
+
+    slug: str
+    title: str
+    standfirst: str
+    blocks: tuple[EssayBlock, ...]
+
+
 @dataclass(frozen=True, slots=True)
 class Corpus:
     """Everything under data/: the museum, before projection."""
@@ -264,3 +302,4 @@ class Corpus:
     sources: dict[str, Source]
     assumptions: dict[str, Assumption]
     rooms: tuple[Room, ...]
+    essays: tuple[Essay, ...] = field(default=())

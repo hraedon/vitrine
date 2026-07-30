@@ -131,6 +131,25 @@ axis divides each priced fact by these. Country codes are lowercase ISO-ish
 slugs (`us`, `uk`, `pl`, `ru`, `cn`, `in`, `jp`); decades are
 `"1890s"`…`"2020s"`.
 
+### Essay (plan 016)
+
+The docent layer: curated connective prose — "tours" — for the century-scale
+stories the corpus proves but no chart tells. One file per tour,
+`data/essays/<slug>.toml`: an `[essay]` table (`slug`, `title`, `standfirst`)
+and `[[block]]` entries of kind `prose` (copy) or `chart` (exactly one of
+`arc` / `group` / `metric`, resolved against the site's registries at build).
+
+The defining rule: **the docent may interpret; the docent may not quote from
+memory.** A number enters prose only by binding to a fact — `{fact:<id>}`
+renders the fact's as-authored `value` with its tier chip, deep-linked;
+`{fact:<id>:label}` renders the label; derived facts interpolate identically
+(linking to their room row). After stripping these bindings, the numeral gate
+(`vitrine check`) fails the build on any remaining numeric token except
+four-digit years (1850–2035), decade words, and ranges of the two. The gate
+checks numbers; the adversarial-review pass checks words. Honest limits
+(recorded in plan 016): verbal arithmetic is words, and fact selection is
+editorial — every essay page carries the composite-family disclaimer strip.
+
 ## Closed sets
 
 Each is a Python enum; every dispatch over them ends in
@@ -226,6 +245,11 @@ The gate loads everything under `data/` and fails on any of:
    quantity-based ops), mix currencies (for ratio/pct_of), or divide by zero
    (plan 006, WI-5). Derived ids obey the same prefix/uniqueness rules as
    fact ids.
+10. An essay whose prose carries a numeral not bound to a fact (after the
+    year/decade allowance), cites an unknown fact id, duplicates slugs, or
+    fails the block-shape rules (plan 016's numeral gate). Chart-block slugs
+    resolve against the site's arc/group/metric registries at build time —
+    same as the wing and room-story registry gates — or the build fails.
 
 CI runs `vitrine check` alongside ruff/mypy/pytest; a red gate blocks merge.
 

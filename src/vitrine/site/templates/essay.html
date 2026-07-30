@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% from "macros/placards.html" import placard_overlay %}
+{% block title %}{{ page.title }} — docent tours · vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · docent tour · <a href="index.html">all tours</a></p>
+<h1>{{ page.title }}</h1>
+<p class="sub">{{ page.standfirst }}</p>
+<div class="plaque"><b>Docent's interpretation.</b> {{ disclaimer }} Every figure in this tour links to its exhibit.</div>
+<div class="docent-sheet">
+{% for block in page.blocks %}
+  {% if block.kind.value == "prose" %}
+  <div class="docent-card">{{ block.prose }}</div>
+  {% else %}
+  <figure class="docent-chart">
+    <figcaption><b>{{ block.chart_label }}</b> · {{ block.chart_unit }}</figcaption>
+    {% for caveat in block.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
+    {% if block.chart %}<div class="chart-panel">{{ block.chart }}</div>{% endif %}
+    {% if block.note %}<p class="case-sub">{{ block.note }}</p>{% endif %}
+  </figure>
+  {% endif %}
+{% endfor %}
+</div>
+{% if page.rooms_cited %}
+<p class="case-sub docent-rooms">Rooms cited in this tour:
+{% for decade in page.rooms_cited %}<a href="../rooms/us-{{ decade }}.html">{{ decade }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
+</p>
+{% endif %}
+{% endblock %}
+{% block overlays %}
+<div class="overlay-deck">
+{% for ref in page.overlay_facts %}{{ placard_overlay(ref.fact, ref.room, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
+</div>
+{% endblock %}

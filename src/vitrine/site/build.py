@@ -23,6 +23,8 @@ from vitrine.site.context import (
     AffordabilityPage,
     BibliographyPage,
     CorridorPage,
+    EssayPage,
+    EssaysIndexPage,
     LobbyPage,
     MethodologyPage,
     PairPage,
@@ -41,6 +43,13 @@ from vitrine.site.projections.affordability import (
     affordability_for_room,
     project_affordability_dashboard,
 )
+from vitrine.site.projections.essays import (
+    essay_entry_views,
+    essays_by_room,
+    project_essay,
+    project_essays_index,
+    validate_essay_registries,
+)
 from vitrine.site.projections.facts import index_facts
 from vitrine.site.projections.rooms import project_lobby, project_room
 
@@ -56,6 +65,8 @@ def _render_page(
         AffordabilityPage
         | BibliographyPage
         | CorridorPage
+        | EssayPage
+        | EssaysIndexPage
         | LobbyPage
         | MethodologyPage
         | PairPage
@@ -148,10 +159,23 @@ def build_site(
             f"unknown={sorted(story_decades - set(decades))}"
         )
 
+    # derived facts evaluated once, shared by the room loop, the lobby's
+    # record-at-a-glance matrix, and the essay interpolation layer
+    computed_by_room = {
+        room.decade: evaluate_room(room, series, fact_index) for room in rooms
+    }
+
+    # docent tours: chart slugs resolve or nothing renders (registry gate)
+    validate_essay_registries(corpus)
+    tour_links = essays_by_room(corpus, index)
+
     # lobby + methodology + bibliography
     _render_page(
         env, "index.html", out_dir / "index.html", root="", surface="rooms",
-        page=project_lobby(rooms),
+        page=project_lobby(
+            corpus, rooms, computed_by_room,
+            essay_entry_views(corpus, index, computed_by_room, ""),
+        ),
     )
     _render_page(
         env, "methodology.html", out_dir / "methodology.html",
@@ -166,14 +190,23 @@ def build_site(
     rendered_ids: list[str] = []
     all_affordability: dict[str, dict[str, str]] = {}
     for room_position, room in enumerate(rooms, start=1):
-        computed = evaluate_room(room, series, fact_index)
+        computed = computed_by_room[room.decade]
         rendered_ids.extend(fact.id for fact in room.facts)
         rendered_ids.extend(cf.id for cf in computed)
         all_affordability.update(affordability_for_room(corpus, room))
         _render_page(
             env, "room.html", out_dir / "rooms" / f"{room.slug}.html",
             root="../", surface="rooms",
-            page=project_room(corpus, room, rooms, room_position, index, series),
+            page=project_room(
+                corpus,
+                room,
+                rooms,
+                room_position,
+                index,
+                series,
+                computed,
+                tour_links.get(room.decade, ()),
+            ),
         )
 
     # corridors index (wing validation happens inside project_corridor)
@@ -208,5 +241,31 @@ def build_site(
         root="../", surface="affordability",
         page=project_affordability_dashboard(series, recessions, index, recession_url),
     )
+
+    # docent tours (Plan 016): index + one page per essay
+    if corpus.essays:
+        (out_dir / "essays").mkdir(exist_ok=True)
+        _render_page(
+            env, "essays.html", out_dir / "essays" / "index.html",
+            root="../", surface="essays",
+            page=project_essays_index(
+                corpus, index, computed_by_room, all_affordability, "../"
+            ),
+        )
+        for essay in corpus.essays:
+            _render_page(
+                env, "essay.html", out_dir / "essays" / f"{essay.slug}.html",
+                root="../", surface="essays",
+                page=project_essay(
+                    corpus,
+                    essay,
+                    index,
+                    series,
+                    computed_by_room,
+                    all_affordability,
+                    recessions,
+                    "../",
+                ),
+            )
 
     (out_dir / "facts-manifest.txt").write_text("\n".join(rendered_ids) + "\n")

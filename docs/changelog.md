@@ -1,5 +1,71 @@
 # Changelog
 
+## 2026-07-29 — Plan 016 (the docent layer, WI-1–4)
+
+The museum gets a voice, within one constraint: the docent may interpret but
+may not quote from memory. Essays are data (`data/essays/*.toml`): prose
+blocks whose every number is a `{fact:<id>}` binding interpolated at build
+into a deep-linked tier chip, and chart blocks that reuse the corridor
+builders verbatim. After stripping bindings, the numeral gate
+(`check_essays`, part of `vitrine check`) fails the build on any remaining
+numeric token except years and decade words — the failure mode the project
+was built around (hand-authored numbers in prose) is closed *mechanically*,
+not socially. Unknown fact ids and unknown chart slugs fail too — the latter
+at build time, since core may not import the site's registries.
+
+Shipped surfaces: a `Tours` section (`essays/` + nav) with one page per tour
+(disclaimer strip, per-chart caveats, rooms-cited footer), computed
+room↔tour backlinks, tours listed on the lobby, and two essays written from
+the placards: **"One paycheck"** (single-earner-wage-coverage metric + the
+1950/2024 income, wage and LFPR exhibits, with the manufacturing-wage-proxy
+caveat stated in prose) and **"The work that moved"** (the home-production
+flat-then-cliff arc, the appliance arrival, and the ATUS/Ramey concept
+splice rendered as the honest stop it is). WI-5 ("How death changed") is
+unblocked and pending an editorial pass.
+
+Tests: `tests/test_essays.py` covers the gate's failure modes token by
+token, interpolation rendering, deck/mark coverage, and room backlinks —
+plus a DOM-level assertion that rendered docent cards carry no digit outside
+a chip or an allowed year form.
+
+## 2026-07-29 — Plan 020 (the statistical atlas)
+
+A presentation redesign with a single question: what does the data itself
+want to look like? Answer: the document class the museum cites — statistical
+annuals and census atlases. The dark night-gallery becomes a light folio:
+paper surfaces, hairline rules, tabular numerals, hue reserved for
+epistemology. Three structural moves, all projection/template-layer:
+
+- **Provenance in the scan-line.** Room panels are now ledgers of fact rows:
+  value, tier chip, measured population, and source record (publisher ·
+  year · tier) on every line without a click. The full drawer is one
+  disclosure; the overlay record card keeps its `--modal` deep links, its
+  `:target` CSS fallback, and its JS state machine unchanged (the entire
+  35-test browser battery pins the new DOM without a single edit).
+- **The index is the record at a glance.** A corpus matrix — 13 rooms × the
+  six cases — leads the landing page: exhibit counts (`N` sourced `+M`
+  computed), tier-mix slivers, and ember gap counts. Every number is build
+  metadata folded from the corpus in the projection layer; a test proves the
+  matrix equals the corpus's own per-room/panel counts.
+- **Gaps are structural everywhere.** The gap vocabulary (dashed, warm grey,
+  ember counts) now runs consistently through rows, chart slots, stage
+  rings, and matrix cells.
+
+No change to the fact model, loader, `check` gate, derivation engine,
+curation registries, SVG geometry, or any datum. The fact-mark hashes,
+overlay decks, corridor/pair/walkthrough/affordability structures, and both
+coverage gates are byte-identical to the pre-redesign build — the redesign
+is confined to tokens, one stylesheet, templates, the lobby projection,
+and their contract tests. New design-test disciplines: white chip letters
+≥ 4.5:1 on every chip, composition segments ≥ 4.5:1 against their mandatory
+white labels, body ink ≥ 7:1 on every sheet and era wash.
+
+Tests: 213 (was 210). ruff + mypy --strict clean. `vitrine check` and
+`check --against-build` green; cross-check 0 hard errors.
+
+See `plans/020-the-statistical-atlas.md` for the rationale and acceptance
+criteria and `docs/design-spec.md` for the validated palette.
+
 ## 2026-07-13 — Plan 019 (presentation architecture recovery)
 
 A controlled recovery of the museum UI onto a maintainable presentation

@@ -84,6 +84,11 @@ facts without one render as gaps.
 
 - One room file per (country, decade): `data/<country>/<decade>.toml`.
 - Global registries: `data/sources.toml`, `data/assumptions.toml`.
+- Docent essays (plan 016): `data/essays/<slug>.toml` — prose blocks with
+  fact interpolation only (`{fact:<id>}` / `{fact:<id>:label}`) plus chart
+  blocks (`arc`/`group`/`metric` slugs). **Never type a numeral into essay
+  prose**: the numeral gate fails the build — write the number as a binding
+  or in words; write essays with the cited placards on screen, like facts.
 - Fact ids are globally unique: `<country>-<decade>-<slug>`.
 - Tiers: A official series / B official microdata (computed) / C period-survey
   reconstruction / D scholarly estimate. When in doubt, tier *down* and note why.

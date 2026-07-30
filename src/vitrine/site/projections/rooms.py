@@ -11,12 +11,21 @@ from __future__ import annotations
 from markupsafe import Markup
 
 from vitrine.derive import ComputedFact, evaluate_room
-from vitrine.model import Corpus, Panel, Room
+from vitrine.model import Corpus, Fact, Panel, Room, Tier
 from vitrine.series import Series
 from vitrine.site import curation, svg
-from vitrine.site.context import LobbyPage, PanelSection, RoomPage, RoomStoryView
+from vitrine.site.context import (
+    EssayEntryView,
+    EssayLink,
+    LobbyPage,
+    MatrixCell,
+    MatrixRow,
+    PanelSection,
+    RoomPage,
+    RoomStoryView,
+)
 from vitrine.site.projections.affordability import affordability_for_room
-from vitrine.site.projections.facts import FactRef
+from vitrine.site.projections.facts import GAP_PREFIX, FactRef
 from vitrine.site.projections.stage import build_stage
 
 
@@ -59,9 +68,86 @@ def panels_for(
     )
 
 
-def project_lobby(rooms: list[Room] | tuple[Room, ...]) -> LobbyPage:
-    """Project the museum lobby / room directory."""
-    return LobbyPage(rooms=tuple(rooms))
+def _matrix_cell(facts: list[Fact], computed: list[ComputedFact]) -> MatrixCell:
+    """Count one (room, panel) slot into an immutable ``MatrixCell``."""
+    tier_counts = tuple(
+        (tier.value, sum(1 for f in facts if f.tier is tier))
+        for tier in Tier
+    )
+    return MatrixCell(
+        facts=len(facts),
+        computed=len(computed),
+        gaps=sum(
+            1 for f in facts if f.value.strip().lower().startswith(GAP_PREFIX)
+        ),
+        tier_counts=tuple(entry for entry in tier_counts if entry[1]),
+    )
+
+
+def atlas_matrix(
+    rooms: tuple[Room, ...],
+    computed_by_room: dict[str, tuple[ComputedFact, ...]],
+) -> tuple[tuple[MatrixRow, ...], MatrixCell]:
+    """The record at a glance: exhibit counts per (room, panel) and totals.
+
+    Pure corpus metadata — the counts let the index render the corpus's
+    honest shape (depth, tier mix, and the silences) without a visitor
+    leaving the first page. Derived exhibits count separately; gaps are
+    counted among the curated facts, exactly as the placard classifies them.
+    """
+    rows: list[MatrixRow] = []
+    all_facts: list[Fact] = []
+    all_computed: list[ComputedFact] = []
+    for room in rooms:
+        computed = list(computed_by_room.get(room.decade, ()))
+        cells = tuple(
+            _matrix_cell(
+                [f for f in room.facts if f.panel is panel],
+                [c for c in computed if c.panel is panel],
+            )
+            for panel in Panel
+        )
+        rows.append(
+            MatrixRow(
+                decade=room.decade,
+                slug=room.slug,
+                cells=cells,
+                totals=_matrix_cell(list(room.facts), computed),
+            )
+        )
+        all_facts.extend(room.facts)
+        all_computed.extend(computed)
+    return tuple(rows), _matrix_cell(all_facts, all_computed)
+
+
+def project_lobby(
+    corpus: Corpus,
+    rooms: list[Room] | tuple[Room, ...],
+    computed_by_room: dict[str, tuple[ComputedFact, ...]],
+    essays: tuple[EssayEntryView, ...] = (),
+) -> LobbyPage:
+    """Project the atlas index / corpus directory."""
+    matrix, totals = atlas_matrix(tuple(rooms), computed_by_room)
+    panel_totals = tuple(
+        _matrix_cell(
+            [f for room in rooms for f in room.facts if f.panel is panel],
+            [
+                c
+                for room in rooms
+                for c in computed_by_room.get(room.decade, ())
+                if c.panel is panel
+            ],
+        )
+        for panel in Panel
+    )
+    return LobbyPage(
+        rooms=tuple(rooms),
+        matrix=matrix,
+        panel_totals=panel_totals,
+        totals=totals,
+        sources=len(corpus.sources),
+        essays=essays,
+    )
 
 
 def project_room(
@@ -71,10 +157,13 @@ def project_room(
     room_position: int,
     index: dict[str, FactRef],
     series: dict[str, Series],
+    computed: tuple[ComputedFact, ...] | None = None,
+    essay_links: tuple[EssayLink, ...] = (),
 ) -> RoomPage:
     """Project one room into a fully-prepared ``RoomPage``."""
-    fact_index = {fid: ref.fact for fid, ref in index.items()}
-    computed = evaluate_room(room, series, fact_index)
+    if computed is None:
+        fact_index = {fid: ref.fact for fid, ref in index.items()}
+        computed = evaluate_room(room, series, fact_index)
     affordability = affordability_for_room(corpus, room)
     stage = build_stage(room, index, "../")
     return RoomPage(
@@ -86,6 +175,7 @@ def project_room(
         room_position=room_position,
         stage_svg=Markup(svg.stage_svg(stage, overlay_links=True)),
         panels=panels_for(room, computed),
+        essay_links=essay_links,
         computed_count=len(computed),
         sources=corpus.sources,
         assumptions=corpus.assumptions,

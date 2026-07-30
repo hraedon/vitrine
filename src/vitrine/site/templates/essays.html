@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% from "macros/placards.html" import placard_overlay %}
+{% block title %}docent tours — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · the docent layer</p>
+<h1>Docent <em>tours</em></h1>
+<p class="sub">Short curated walks through the evidence. The docent may interpret; the docent may not quote from memory — every figure in the text is bound to its exhibit and carries its tier chip inline. A bare numeral in tour copy fails the build.</p>
+<div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
+{% if not page.entries %}<p class="case-sub"><em>No tours curated yet.</em></p>{% endif %}
+<div class="ledger">
+{% for e in page.entries %}
+<a class="ledger-row essay-row" href="{{ e.slug }}.html">
+  <span class="l-num" aria-hidden="true">{{ loop.index }}</span>
+  <div><div class="l-title">{{ e.title }}</div>
+  <div class="l-meta">{{ e.blocks }} stops · cites {{ e.rooms_cited | length }} room{% if e.rooms_cited | length != 1 %}s{% endif %}: {{ e.rooms_cited | join(" · ") }}</div>
+  <p class="l-body">{{ e.standfirst }}</p></div>
+</a>
+{% endfor %}
+</div>
+{% endblock %}
+{% block overlays %}
+<div class="overlay-deck">
+{% for ref in page.overlay_facts %}{{ placard_overlay(ref.fact, ref.room, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
+</div>
+{% endblock %}

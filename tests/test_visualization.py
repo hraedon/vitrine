@@ -14,10 +14,13 @@ from pathlib import Path
 import pytest
 
 from vitrine.check import check_mark_coverage
+from vitrine.derive import evaluate_room
 from vitrine.loader import load_corpus
 from vitrine.model import Corpus, Panel
 from vitrine.series import load_series
 from vitrine.site import curation, symbols
+from vitrine.site.projections.facts import GAP_PREFIX
+from vitrine.site.projections.rooms import atlas_matrix, project_lobby
 from vitrine.site.render import _build_stage, _index_facts, render_site
 
 DATA = Path(__file__).parent.parent / "data"
@@ -95,6 +98,44 @@ def test_all_three_surfaces_render(site: Path, corpus: Corpus) -> None:
     assert len(list((site / "corridors").glob("*--*.html"))) == n * (n - 1) // 2
 
 
+def test_index_matrix_counts_match_the_corpus(site: Path, corpus: Corpus) -> None:
+    """Plan 020: the record-at-a-glance is folded from the corpus, never authored."""
+    rooms = tuple(sorted(corpus.rooms, key=lambda r: r.decade))
+    fact_index = {f.id: f for room in corpus.rooms for f in room.facts}
+    series = load_series(DATA)
+    computed_by_room = {
+        room.decade: evaluate_room(room, series, fact_index) for room in rooms
+    }
+    rows, totals = atlas_matrix(tuple(rooms), computed_by_room)
+
+    # per-cell values equal the corpus's own per-room/panel counts
+    for room, row in zip(rooms, rows, strict=True):
+        computed = computed_by_room[room.decade]
+        for panel, cell in zip(Panel, row.cells, strict=True):
+            by_panel = [f for f in room.facts if f.panel is panel]
+            assert cell.facts == len(by_panel)
+            assert cell.computed == sum(1 for c in computed if c.panel is panel)
+            assert cell.gaps == sum(
+                1
+                for f in by_panel
+                if f.value.strip().lower().startswith(GAP_PREFIX)
+            )
+    # corpus totals match the gate's own counting
+    assert totals.facts == sum(len(r.facts) for r in rooms)
+    assert totals.computed == sum(len(c) for c in computed_by_room.values())
+
+    page = project_lobby(corpus, rooms, computed_by_room)
+    assert sum(cell.facts for cell in page.panel_totals) == totals.facts
+    assert sum(cell.computed for cell in page.panel_totals) == totals.computed
+    assert page.sources == len(corpus.sources)
+
+    # every decade's row and the corpus totals render on the index
+    html = (site / "index.html").read_text()
+    for row in rows:
+        assert f'href="rooms/{row.slug}.html"' in html
+    assert f"Corpus · {totals.facts} facts" in html
+
+
 def test_museum_map_is_semantic_and_surface_aware(site: Path) -> None:
     """The global museum map identifies location without JavaScript."""
     pages = {
@@ -104,6 +145,7 @@ def test_museum_map_is_semantic_and_surface_aware(site: Path) -> None:
         site / "walkthrough.html": "Guided tour",
         site / "methodology.html": "Method",
         site / "bibliography.html": "Sources",
+        site / "essays" / "index.html": "Tours",
     }
     for page, active_label in pages.items():
         html = page.read_text()

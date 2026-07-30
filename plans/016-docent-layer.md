@@ -1,6 +1,8 @@
 # Plan 016 — The docent layer: prose that cannot misquote its own museum
 
-**Status:** draft
+**Status:** WI-1 through WI-4 delivered (branch `ui/statistical-atlas`,
+2026-07-29); WI-5 ("How death changed") unblocked — its Plan 014 dependencies
+landed — and awaiting an editorial pass.
 **Triggered by:** 2026-07-11 deep-dive over the evidence base. The corpus now
 *proves* several century-scale stories — the single-earner wage falling from
 near-parity with median family income, women's home production flat for
@@ -117,40 +119,52 @@ hand-maintained).
 
 ## Work items
 
-### WI-1: Model + loader + numeral gate
+### WI-1: Model + loader + numeral gate — DONE
 
-`Essay`/`Block` types, loader for `data/essays/`, interpolation resolution,
-the numeral gate with its allowlist, mark-coverage extension.
+`Essay`/`EssayBlock`/`BlockKind` in `model.py`, loader for `data/essays/`,
+interpolation resolution, the numeral gate in `check_essays` (allowed bare:
+years 1850–2035, decade words, ranges), mark coverage extended by reusing
+`data-fact-id` on every interpolated chip. Deferred to the build layer by
+architecture (core may not import `site`): chart-slug resolution runs as a
+build-time registry gate (`validate_essay_registries`), same pattern as the
+wing and room-story gates.
 
-**Acceptance:** fixture essay with a bound numeral passes; the same essay
-with one bare `$3,675` fails naming block and token; unknown fact id and
-unknown arc slug each fail. `vitrine check` green with zero essays present.
+**Acceptance:** met — `tests/test_essays.py`: dollar amounts, percentages,
+counts, "twenty 2" all fail naming block and token; year/decade forms pass;
+unknown fact id and unknown arc slug each fail; `vitrine check` green with
+zero essays present.
 
-### WI-2: Renderer
+### WI-2: Renderer — DONE
 
-Essay pages + index section, chart-block reuse of existing SVG builders,
-tier chips inline in prose, disclaimer strip, room↔tour backlinks.
+`projections/essays.py` (+ `EssaysIndexPage`/`EssayPage`/`EssayBlockView`/
+`EssayLink`), `essays/index.html` + one page per tour, `Tours` in the global
+nav, chart blocks reusing the arc/group/metric builders verbatim, tier chips
+inline in prose, the disclaimer strip, and computed room↔tour backlinks
+(`essays_by_room`; the lobby lists tours too). No new design tokens.
 
-**Acceptance:** `vitrine build` renders a fixture essay; every interpolated
-figure in the HTML carries `data-fact-id`; link-checker passes; no new
-design tokens introduced.
+**Acceptance:** met — every interpolated figure carries `data-fact-id`
+(coverage-gate green against the build); no new tokens; structural contracts
+re-baselined with the Tours link accounted on every page.
 
-### WI-3: Essay 1 — "One paycheck"
+### WI-3: Essay 1 — "One paycheck" — DONE
 
-**Acceptance:** gate green; every numeral interpolated; prose reviewed
-against each cited placard in one sitting (the adversarial-review pass this
-suite already practices).
+**Acceptance:** met — gate green; every numeral interpolated; prose reviewed
+against the cited placards (median incomes F-8 F-3, CES3000000008 wage
+facts, Historical Statistics LFPR, and the two derived weekly-earnings
+exhibits).
 
-### WI-4: Essay 2 — "The work that moved"
+### WI-4: Essay 2 — "The work that moved" — DONE
 
-**Acceptance:** as WI-3; the ATUS/Ramey concept splice appears in the prose
-as a stated limit, not smoothed over.
+**Acceptance:** met — the ATUS/Ramey concept splice is the essay's closing
+beat, stated as the reason the chart stops, with the gap rendered rather
+than plotted over.
 
 ### WI-5: Essay 3 — "How death changed"
 
-Depends on Plan 014 WI-1/WI-2 (mortality + healthcare arcs) landing first.
+Dependencies landed (the `mortality-revolution` and `healthcare-cost`
+groups and their supporting facts are in the corpus).
 
-**Acceptance:** as WI-3.
+**Acceptance:** as WI-3 — pending editorial pass.
 
 ## Phasing
 

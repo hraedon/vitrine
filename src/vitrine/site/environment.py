@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-from vitrine.model import basis_label, panel_title, tier_label
+from vitrine.model import Panel, basis_label, panel_title, tier_label
 from vitrine.site import tokens
 
 
@@ -26,6 +26,7 @@ def build_environment(disclaimer: str, disclaimer_title: str) -> Environment:
         loader=PackageLoader("vitrine.site", "templates"),
         autoescape=select_autoescape(default=True),
     )
+    env.globals["panels"] = tuple(Panel)
     env.globals["panel_title"] = panel_title
     env.globals["tier_label"] = tier_label
     env.globals["basis_label"] = basis_label

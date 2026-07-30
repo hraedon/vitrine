@@ -3,16 +3,17 @@
 {% block body %}
 <p class="eyebrow">vitrine · bibliography</p>
 <h1>Bibliography &mdash; <em>all sources</em></h1>
-<p class="sub">Every fact in the museum traces to one of these {{ page.sources|length }} sources. Each entry names the publisher, publication year, the population actually measured, and a link to verify.</p>
-<div class="cases" style="margin-top:22px">
+<p class="sub">Every fact in the museum traces to one of these {{ page.sources|length }} sources. Each entry names the publisher, the publication year, the population actually measured, and a link to verify.</p>
+<div class="ledger">
 {% for src in page.sources %}
-<div class="placard" id="{{ src.id }}">
-  <div class="ceyebrow">source</div>
-  <div class="cval">{{ src.title }}</div>
-  <p class="clab">{{ src.publisher }}{% if src.year %}, {{ src.year }}{% endif %}{% if src.short_cite %} &middot; <em>{{ src.short_cite }}</em>{% endif %}</p>
-  <div class="measured"><span class="mk">Measured</span><span class="mv">{{ src.population }}</span></div>
-  {% if src.url %}<p class="cunit"><a href="{{ src.url }}">{{ src.url }}</a></p>{% endif %}
-  {% if src.notes %}<details><summary>source notes</summary><div class="drawer">{{ src.notes }}</div></details>{% endif %}
+<div class="ledger-row" id="{{ src.id }}">
+  <span class="l-num" aria-hidden="true">{{ loop.index }}</span>
+  <div><div class="l-title">{{ src.title }}</div>
+  <div class="l-meta">{{ src.publisher }}{% if src.year %} · {{ src.year }}{% endif %}{% if src.short_cite %} · {{ src.short_cite }}{% endif %}</div>
+  <p class="l-body"><b>Population measured:</b> {{ src.population }}
+  {% if src.url %}<br><a href="{{ src.url }}">{{ src.url }}</a>{% endif %}</p>
+  {% if src.notes %}<details><summary>Source notes</summary><div class="drawer">{{ src.notes }}</div></details>{% endif %}
+  </div>
 </div>
 {% endfor %}
 </div>
