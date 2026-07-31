@@ -282,6 +282,19 @@ class EssayEntryView:
     rooms_cited: tuple[str, ...]
 
 
+# ── the wings (country galleries) ─────────────────────────────────────────────
+
+
+@dataclass(frozen=True, slots=True)
+class WingView:
+    """One country wing on the lobby: its rooms and curation status."""
+
+    country: str
+    rooms: tuple[Room, ...]
+    curated: bool  # the wing has curator's routes (vs bare stages)
+    facts: int
+
+
 # ── page contexts (one per template) ──────────────────────────────────────────
 
 
@@ -295,6 +308,7 @@ class LobbyPage:
     totals: MatrixCell
     sources: int
     essays: tuple[EssayEntryView, ...] = ()
+    wings: tuple[WingView, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -446,4 +460,5 @@ __all__ = [
     "WalkthroughPerson",
     "WalkthroughPersonRow",
     "WalkthroughStop",
+    "WingView",
 ]

@@ -51,10 +51,23 @@
   <a class="route-card" href="walkthrough.html">
     <span class="route-no">03 · Tour</span><h2>Take the transect</h2>
     <p>A guided three-stop view of paid work, unpaid work, childhood, and the changing home.</p>
-    <span class="route-enter">Start the guided tour →</span>
+    <span class="route-enter">Start the transect →</span>
   </a>
 </div>
 {{ room_map(page.rooms, none, "rooms/", none, none, none, true) }}
+{% if page.wings|length > 1 %}
+<h2 class="case-title">The wings</h2>
+<p class="case-sub">Each country is its own wing: its rooms interlink, and its exhibits never borrow another country's record. A wing without curator's routes shows bare stages over complete, sourced ledgers.</p>
+<div class="route-grid wing-grid">
+{% for wing in page.wings %}
+  <a class="route-card" href="rooms/{{ wing.rooms[0].slug }}.html">
+    <span class="route-no">Wing · {{ wing.country | upper }}</span><h2>The {{ wing.country | upper }} rooms</h2>
+    <p>{{ wing.rooms|length }} room{{ 's' if wing.rooms|length != 1 }} · {{ wing.facts }} sourced fact{{ 's' if wing.facts != 1 }} · {% if wing.curated %}curated routes{% else %}routes not yet written{% endif %}.</p>
+    <span class="route-enter">Begin in {{ wing.rooms[0].decade }} →</span>
+  </a>
+{% endfor %}
+</div>
+{% endif %}
 {% if page.essays %}
 <h2 class="case-title">Docent tours</h2>
 <p class="case-sub">Short curated walks through the evidence — every figure bound to its exhibit.</p>

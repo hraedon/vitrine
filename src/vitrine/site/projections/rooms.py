@@ -23,6 +23,7 @@ from vitrine.site.context import (
     PanelSection,
     RoomPage,
     RoomStoryView,
+    WingView,
 )
 from vitrine.site.projections.affordability import affordability_for_room
 from vitrine.site.projections.facts import GAP_PREFIX, FactRef
@@ -134,8 +135,29 @@ def project_lobby(
     rooms: list[Room] | tuple[Room, ...],
     computed_by_room: dict[str, tuple[ComputedFact, ...]],
     essays: tuple[EssayEntryView, ...] = (),
+    all_rooms: tuple[Room, ...] | None = None,
+    curated_countries: frozenset[str] | set[str] = frozenset(),
 ) -> LobbyPage:
-    """Project the atlas index / corpus directory."""
+    """Project the atlas index / corpus directory.
+
+    ``rooms`` is the curated set the comparative surfaces (matrix, ways in,
+    room map) project over; ``all_rooms`` is the full corpus, from which the
+    wing directory is derived so un-curated countries stay discoverable.
+    """
+    wings: tuple[WingView, ...] = ()
+    if all_rooms:
+        wings = tuple(
+            WingView(
+                country=country,
+                rooms=wing_rooms,
+                curated=country in curated_countries,
+                facts=sum(len(room.facts) for room in wing_rooms),
+            )
+            for country in sorted({room.country for room in all_rooms})
+            for wing_rooms in (
+                tuple(room for room in all_rooms if room.country == country),
+            )
+        )
     matrix, totals = atlas_matrix(tuple(rooms), computed_by_room)
     panel_totals = tuple(
         _matrix_cell(
@@ -156,6 +178,7 @@ def project_lobby(
         totals=totals,
         sources=len(corpus.sources),
         essays=essays,
+        wings=wings,
     )
 
 

@@ -13,7 +13,7 @@
 {% if page.story %}
 <section class="room-overture" aria-labelledby="room-story-title">
   <div class="story-label">
-    <div><p class="story-kicker">Curator's route · four sourced exhibits</p><h2 id="room-story-title">{{ page.story.title }}</h2><p class="story-question">{{ page.story.question }}</p></div>
+    <div><p class="story-kicker">Curator's route · {{ page.story.facts|length }} sourced exhibit{{ 's' if page.story.facts|length != 1 }}</p><h2 id="room-story-title">{{ page.story.title }}</h2><p class="story-question">{{ page.story.question }}</p></div>
     <p class="story-note">An editorial selection, not a synthetic family. Every stop opens the full specimen record.</p>
   </div>
   <div class="story-trail">
@@ -39,11 +39,11 @@
 {% if page.essay_links %}<p class="case-sub docent-crosslink">Docent tours stopping in this room: {% for link in page.essay_links %}<a href="../essays/{{ link.slug }}.html">{{ link.title }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
 <div class="collection-head"><div><h2>The complete room</h2><p>All six ledgers, including the curator's route above and the records around it. Value, tier, measured population, and source on every line.</p></div><span>{{ page.room.facts|length }} sourced facts{% if page.computed_count %} · {{ page.computed_count }} computed{% endif %}</span></div>
 <nav class="exhibit-map" aria-label="Room display cases">
-{% for ps in page.panels %}<a href="#panel-{{ ps.panel.value }}"><b>{{ panel_title(ps.panel) }}</b><span>{{ ps.facts|length + ps.computed|length }} exhibits</span></a>{% endfor %}
+{% for ps in page.panels %}{% set exhibit_count = ps.facts|length + ps.computed|length %}<a href="#panel-{{ ps.panel.value }}"><b>{{ panel_title(ps.panel) }}</b><span>{{ exhibit_count }} exhibit{{ 's' if exhibit_count != 1 }}</span></a>{% endfor %}
 </nav>
 {% for ps in page.panels %}
 <section class="panel-group" id="panel-{{ ps.panel.value }}" aria-labelledby="panel-{{ ps.panel.value }}-title">
-<div class="panel-head"><h3 id="panel-{{ ps.panel.value }}-title">{{ panel_title(ps.panel) }}</h3><span>{{ ps.facts|length + ps.computed|length }} exhibits</span></div>
+{% set exhibit_count = ps.facts|length + ps.computed|length %}<div class="panel-head"><h3 id="panel-{{ ps.panel.value }}-title">{{ panel_title(ps.panel) }}</h3><span>{{ exhibit_count }} exhibit{{ 's' if exhibit_count != 1 }}</span></div>
 {% if not ps.facts and not ps.computed %}<p class="case-sub"><em>Not yet curated.</em></p>{% endif %}
 {% for fact in ps.facts %}{{ fact_row(fact, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
 {% for cf in ps.computed %}{{ derived_row(cf, page.assumptions, root) }}{% endfor %}

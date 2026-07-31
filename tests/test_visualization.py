@@ -160,7 +160,7 @@ def test_museum_map_is_semantic_and_surface_aware(site: Path) -> None:
         site / "index.html": "Rooms",
         site / "corridors" / "index.html": "Trends",
         site / "affordability" / "index.html": "Affordability",
-        site / "walkthrough.html": "Guided tour",
+        site / "walkthrough.html": "Transect",
         site / "methodology.html": "Method",
         site / "bibliography.html": "Sources",
         site / "essays" / "index.html": "Tours",

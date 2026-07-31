@@ -52,6 +52,8 @@ h2.case-title{font-family:{{ T.MONO }};font-size:12px;letter-spacing:.2em;text-t
 .route-card h2{margin:14px 0 5px;font:600 21px/1.1 {{ T.SERIF }};color:{{ T.INK }}}
 .route-card p{margin:0;color:{{ T.INK_SOFT }};font-size:13px;line-height:1.5}
 .route-enter{margin-top:auto;padding-top:14px;font:10px {{ T.MONO }};letter-spacing:.13em;text-transform:uppercase;color:{{ T.BRASS }}}
+/* the wing directory reuses the route cards; auto-fit so any wing count fills the row */
+.route-grid.wing-grid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
 
 /* ── the record at a glance (corpus matrix) ── */
 .matrix-wrap{overflow-x:auto;border:1px solid {{ T.EDGE }};border-radius:3px;background:{{ T.CASE }};margin:10px 0 26px}
@@ -102,6 +104,10 @@ table.record-matrix{border-collapse:collapse;width:100%;min-width:760px}
 .story-label .story-question{margin:0;font:15.5px/1.45 {{ T.SERIF }};color:{{ T.BRASS_DEEP }}}
 .story-label .story-note{margin:20px 0 0;padding-top:10px;border-top:1px solid {{ T.EDGE }};font:10px/1.5 {{ T.MONO }};letter-spacing:.05em;color:{{ T.INK_SOFT }}}
 .story-trail{display:grid;grid-template-rows:repeat(4,1fr)}
+/* an un-curated room has no trail: the overture collapses to one full-width
+   label instead of leaving an empty case beside it */
+.room-overture--uncurated{grid-template-columns:1fr}
+.room-overture--uncurated .story-label{min-height:0;border-right:0}
 .story-stop{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:baseline;padding:12px 16px;border-bottom:1px solid {{ T.EDGE }};text-decoration:none;color:inherit}
 .story-stop:last-child{border-bottom:0}
 .story-stop:hover{background:{{ T.GROUND }}}

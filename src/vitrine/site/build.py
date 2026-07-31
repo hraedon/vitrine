@@ -186,6 +186,7 @@ def build_site(
         page=project_lobby(
             corpus, curated_rooms, computed_by_room,
             essay_entry_views(corpus, index, computed_by_room, ""),
+            all_rooms=tuple(rooms), curated_countries=curated_countries,
         ),
     )
     _render_page(
