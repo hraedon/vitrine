@@ -224,7 +224,7 @@ def build_site(
                     index,
                     series,
                     computed,
-                    tour_links.get(room.decade, ())
+                    tour_links.get(room.slug, ())
                     if room.country in curated_countries
                     else (),
                 ),

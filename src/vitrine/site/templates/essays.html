@@ -12,7 +12,7 @@
 <a class="ledger-row essay-row" href="{{ e.slug }}.html">
   <span class="l-num" aria-hidden="true">{{ loop.index }}</span>
   <div><div class="l-title">{{ e.title }}</div>
-  <div class="l-meta">{{ e.blocks }} stops · cites {{ e.rooms_cited | length }} room{% if e.rooms_cited | length != 1 %}s{% endif %}: {{ e.rooms_cited | join(" · ") }}</div>
+  <div class="l-meta">{{ e.blocks }} stops · cites {{ e.rooms_cited | length }} room{% if e.rooms_cited | length != 1 %}s{% endif %}: {% for slug in e.rooms_cited %}{{ slug.split("-")[1] }}{% if not loop.last %} · {% endif %}{% endfor %}</div>
   <p class="l-body">{{ e.standfirst }}</p></div>
 </a>
 {% endfor %}

@@ -53,8 +53,8 @@ def _chip(fact_id: str, label_only: bool, ref: FactRef) -> Markup:
 def _derived_chip(
     fact_id: str, label_only: bool, cf: ComputedFact, root: str
 ) -> Markup:
-    decade = cf.id.split("-")[1]
-    href = f"{root}rooms/us-{decade}.html#{cf.id}"
+    room_slug = "-".join(cf.id.split("-")[:2])
+    href = f"{root}rooms/{room_slug}.html#{cf.id}"
     tier = cf.tier.value
     chip = (
         f'<span class="tchip" title="Computed; weakest input governs" '
@@ -216,33 +216,45 @@ def _essay_fact_ids(essay: Essay, index: dict[str, FactRef]) -> set[str]:
     return ids
 
 
-def _essay_derived_decades(essay: Essay, index: dict[str, FactRef]) -> set[str]:
-    """Decades an essay engages via *derived* interpolations (not in the index)."""
-    decades: set[str] = set()
+def _essay_derived_room_slugs(essay: Essay, index: dict[str, FactRef]) -> set[str]:
+    """Room slugs an essay engages via *derived* interpolations (not in the index).
+
+    A derived fact's id follows ``<country>-<decade>-<slug>``; the room slug is
+    the first two parts. Keying by slug (not decade alone) keeps a second
+    country's room of the same decade from inheriting another country's tour
+    backlinks — the WI-024 collision.
+    """
+    slugs: set[str] = set()
     for text in (essay.standfirst, *(b.text for b in essay.blocks)):
         for match in INTERPOLATION_RE.finditer(text):
             if match.group(1) not in index:
-                decades.add(match.group(1).split("-")[1])
-    return decades
+                parts = match.group(1).split("-")
+                if len(parts) >= 2:
+                    slugs.add("-".join(parts[:2]))
+    return slugs
 
 
 def _rooms_cited(fact_ids: set[str], index: dict[str, FactRef]) -> tuple[str, ...]:
-    return tuple(sorted({index[fid].room.decade for fid in fact_ids}))
+    return tuple(sorted({index[fid].room.slug for fid in fact_ids}))
 
 
 def essays_by_room(
     corpus: Corpus, index: dict[str, FactRef]
 ) -> dict[str, tuple[EssayLink, ...]]:
-    """Room backlink index: which tours cite each decade's exhibits."""
+    """Room backlink index: which tours cite each room's exhibits.
+
+    Keyed by room slug (``<country>-<decade>``), not decade alone, so a second
+    country's room of the same decade never inherits another country's tours.
+    """
     by_room: dict[str, list[EssayLink]] = {}
     for essay in corpus.essays:
-        decades = set(_rooms_cited(_essay_fact_ids(essay, index), index))
-        decades |= _essay_derived_decades(essay, index)
-        for decade in sorted(decades):
-            by_room.setdefault(decade, []).append(
+        slugs = set(_rooms_cited(_essay_fact_ids(essay, index), index))
+        slugs |= _essay_derived_room_slugs(essay, index)
+        for slug in sorted(slugs):
+            by_room.setdefault(slug, []).append(
                 EssayLink(slug=essay.slug, title=essay.title)
             )
-    return {decade: tuple(links) for decade, links in by_room.items()}
+    return {slug: tuple(links) for slug, links in by_room.items()}
 
 
 def project_essay(
@@ -281,7 +293,7 @@ def project_essay(
         standfirst=interpolate(essay.standfirst, index, derived_by_id, root),
         blocks=tuple(blocks),
         rooms_cited=tuple(
-            sorted(set(_rooms_cited(prose_ids, index)) | _essay_derived_decades(essay, index))
+            sorted(set(_rooms_cited(prose_ids, index)) | _essay_derived_room_slugs(essay, index))
         ),
         sources=corpus.sources,
         assumptions=corpus.assumptions,
@@ -310,7 +322,7 @@ def essay_entry_views(
                 rooms_cited=tuple(
                     sorted(
                         set(_rooms_cited(ids, index))
-                        | _essay_derived_decades(essay, index)
+                        | _essay_derived_room_slugs(essay, index)
                     )
                 ),
             )
