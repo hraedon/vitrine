@@ -103,6 +103,7 @@ def _load_sources(path: Path) -> dict[str, Source]:
             notes=_get_str_opt(table, "notes", ctx),
             short_cite=_get_str_opt(table, "short_cite", ctx),
             measure=_parse_measure(table, ctx),
+            expect=_get_str_list(table, "expect", ctx),
         )
         if source.id in sources:
             raise LoadError(f"{path}: duplicate source id {source.id!r}")

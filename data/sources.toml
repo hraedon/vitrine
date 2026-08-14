@@ -28,6 +28,7 @@ measure = "money_income"
 [[source]]
 id = "census-f08-allraces"
 title = "Census Historical Income Table F-8: Families by Size and Median and Mean Income (All Races)"
+expect = ["Table F-8", "Size of Family--All Families"]
 short_cite = "U.S. Census Bureau, CPS Historical Income Tables (Table F-8)"
 publisher = "U.S. Census Bureau"
 year = 2024
@@ -521,9 +522,10 @@ title = "Early American Automobile Manufacturer Prices (1901–1910)"
 short_cite = "Automotive historical records (Oldsmobile, Ford, Rambler)"
 publisher = "Manufacturer records compiled by automotive historians"
 year = 2008
-url = "https://www.conceptcarz.com/vehicle/v31303,10036/1902-oldsmobile-model-r-curved-dash.aspx"
+url = "https://www.conceptcarz.com/s10036/oldsmobile-model-r-curved-dash.aspx"
+expect = ["Oldsmobile Model R Curved Dash"]
 population = "Manufacturer list prices for the US market"
-notes = "Oldsmobile Curved Dash Runabout: $650 (1901–1904), best-selling car in America. Ford Model A (first Ford): $750–$850 (1903). Rambler: $650 (1902–1913). Prices from manufacturer records compiled by ConceptCarz, RM Sotheby's, and PreWarCar. Tier C: manufacturer list prices verified through multiple automotive history sources."
+notes = "Oldsmobile Curved Dash Runabout: $650 (1901–1904), best-selling car in America. Ford Model A (first Ford): $750–$850 (1903). Rambler: $650 (1902–1913). Prices from manufacturer records compiled by ConceptCarz, RM Sotheby's, and PreWarCar. Tier C: manufacturer list prices verified through multiple automotive history sources. URL CORRECTION 2026-08-14: the old /vehicle/v31303,10036/ deep link now redirects to an error page with HTTP 200 (caught by the redirect advisory); repointed at the same car's live model page, content re-verified (1902 Model R Curved Dash valuation/specs)."
 
 [[source]]
 id = "ramey-2009"
@@ -675,9 +677,10 @@ title = "Historical Census of Housing Tables: Gross Rents"
 short_cite = "U.S. Census Bureau, Historical Census of Housing Tables: Gross Rents"
 publisher = "U.S. Census Bureau"
 year = 2000
-url = "https://www2.census.gov/programs-surveys/decennial/tables/time-series/housing/grossrents.pdf"
+url = "https://www.census.gov/data/tables/time-series/dec/coh-grossrents.html"
+expect = ["Historical Census of Housing Tables", "Gross Rents"]
 population = "All specified renter-occupied housing units in the United States paying cash rent"
-notes = "National and state median gross rent from the Census of Housing, 1940-2000. Files: grossrents-unadj.txt (nominal), grossrents-adj.txt (CPI-U-RS adjusted to 2000 dollars). Cross-verified against NHGIS national-level data (1980: $199 contract rent STF1, $243 gross rent STF4Hb; 1990: $447 FA4001 STF4b)."
+notes = "National and state median gross rent from the Census of Housing, 1940-2000. Files: grossrents-unadj.txt (nominal), grossrents-adj.txt (CPI-U-RS adjusted to 2000 dollars). Cross-verified against NHGIS national-level data (1980: $199 contract rent STF1, $243 gross rent STF4Hb; 1990: $447 FA4001 STF4b). URL CORRECTION 2026-07-28: the registered direct-PDF link (www2.census.gov .../housing/grossrents.pdf) 404s; repointed at the table's landing page, which links the same files."
 
 [[source]]
 id = "census-acs-gross-rent"
@@ -695,9 +698,10 @@ title = "National Health Expenditure Accounts (NHEA)"
 short_cite = "CMS, National Health Expenditure Accounts"
 publisher = "Centers for Medicare & Medicaid Services, Office of the Actuary"
 year = 2024
-url = "https://www.cms.gov/data-research/statistics-trends-reports/national-health-expenditure-data"
+url = "https://www.cms.gov/data-research/statistics-trends-and-reports/national-health-expenditure-data"
+expect = ["National Health Expenditure"]
 population = "US resident population and total national health spending (all payers)"
-notes = "CMS NHE tables cover calendar years 1960-2024. Table 01: aggregate amounts, per capita, percent of GDP. Table 02: by type of service and source of funds. Dollar amounts in current (nominal) dollars. Updated annually. Source files: NHE24_Summary.csv, NHE2024.csv."
+notes = "CMS NHE tables cover calendar years 1960-2024. Table 01: aggregate amounts, per capita, percent of GDP. Table 02: by type of service and source of funds. Dollar amounts in current (nominal) dollars. Updated annually. Source files: NHE24_Summary.csv, NHE2024.csv. URL CORRECTION 2026-07-28: CMS changed the page slug from statistics-trends-reports to statistics-trends-and-reports (old URL 404s); content re-verified as the NHE data page."
 
 [[source]]
 id = "nchs-mortality-trends"
@@ -775,9 +779,10 @@ title = "Census Historical Tables: Educational Attainment (Table A-1/A-2)"
 short_cite = "U.S. Census Bureau, Educational Attainment Historical Tables (Table A-1, A-2)"
 publisher = "U.S. Census Bureau"
 year = 2024
-url = "https://www.census.gov/data/tables/time-series/demo/educational-attainment.html"
+url = "https://www.census.gov/topics/education/educational-attainment.html"
+expect = ["Educational Attainment"]
 population = "U.S. civilian noninstitutionalized population aged 25 and over (CPS/ACS)"
-notes = "Table A-1: Years of school completed by age and sex (1940-present). Table A-2: Percent of population 25+ with specified years of school completed (high school graduate or more, bachelor's degree or more). 1940-2000 data from decennial census; 2001+ from CPS ASEC. Data series updated annually. Files: taba-1-educational-attainment.xlsx, taba-2-pct-high-school.xlsx."
+notes = "Table A-1: Years of school completed by age and sex (1940-present). Table A-2: Percent of population 25+ with specified years of school completed (high school graduate or more, bachelor's degree or more). 1940-2000 data from decennial census; 2001+ from CPS ASEC. Data series updated annually. Files: taba-1-educational-attainment.xlsx, taba-2-pct-high-school.xlsx. URL CORRECTION 2026-08-14: the old /data/tables/time-series/demo/educational-attainment.html deep link now redirects to the generic /data/tables.html landing (caught by the redirect advisory); repointed at the Educational Attainment topic page, which links the A-1/A-2 time-series tables."
 
 [[source]]
 id = "census-table-ms2"
@@ -921,9 +926,10 @@ title = "Family Income and Expenditure Survey (家計調査) — long-run time-s
 short_cite = "Statistics Bureau, FIES long-run tables (家計調査)"
 publisher = "Statistics Bureau, Ministry of Internal Affairs and Communications (MIC)"
 year = 2025
-url = "https://www.stat.go.jp/english/data/kakei/tsuki/index.html"
+url = "https://www.stat.go.jp/english/data/kakei/"
+expect = ["Family Income and Expenditure Survey"]
 population = "Two-or-more-person households (workers' households and all households), Japan. Urban-only before 1962; national from 1963."
-notes = "Monthly survey of household income and expenditure, continuous from 1946. Three universes: workers' households, all two-or-more-person households, one-person households. Expenditure classification revised in 1981 (methodology seam). Long-run Excel tables downloaded: fies-18-02-a.xls (workers' households, all cities, 1948–1962), fies-a18-2.xls (workers' households, 1963–2017), fies-a18-1.xls (all two-or-more-person households, 1963–2017). Before 1962 the survey covered cities only — pre-1962 facts carry the urban-rural-split caveat."
+notes = "Monthly survey of household income and expenditure, continuous from 1946. Three universes: workers' households, all two-or-more-person households, one-person households. Expenditure classification revised in 1981 (methodology seam). Long-run Excel tables downloaded: fies-18-02-a.xls (workers' households, all cities, 1948–1962), fies-a18-2.xls (workers' households, 1963–2017), fies-a18-1.xls (all two-or-more-person households, 1963–2017). Before 1962 the survey covered cities only — pre-1962 facts carry the urban-rural-split caveat. URL CORRECTION 2026-08-14: the Statistics Bureau reorganized the English site and the old /data/kakei/tsuki/ deep link 404s; repointed at the FIES English landing page, which links the outline, results, and Q&A pages (1560–1563). The long-run Excel tables cited above remain in samples/."
 
 [[source]]
 id = "jp-nsfiie"
