@@ -111,8 +111,9 @@ facts without one render as gaps.
 
 ## Repo hygiene
 
-- Private until a written sanitization review (no `docs/publication-review.md`
-  yet; the identifier gate — pre-commit hook + CI job — is the standing
-  sanitization enforcement).
+- Public since 2026-07 (the flip preceded its review — see the timing finding
+  in `docs/publication-review.md`, re-verified 2026-08-14). The identifier
+  gate — pre-commit hook + CI job — is the standing sanitization enforcement;
+  re-run the full review before any change in publication posture.
 - Breadcrumbs live in the agent-notes DB (`agent-notes` CLI), not in-repo dirs.
 - Plans in `plans/NNN-*.md`; keep headers honest or trust git log over them.

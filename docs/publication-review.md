@@ -8,6 +8,14 @@ microdata. The repository is safe to be public, subject to the conditions below.
 `1829a34`. Checks were executed, not asserted; each is named with its command
 and result in "What was checked" below.
 
+**Re-verified:** 2026-08-14, on the `ui/statistical-atlas` line (the working
+tree plus `git log -p --all` history check against the current canonical
+denylist, 13 tokens) when this review and `LICENSE` were adopted from
+`plan-022-multi-currency` (`8822fab`): working-tree scan exit 0, 0 matching
+lines in history. Commits since the original review point are covered by the
+standing identifier gate (CI job + pre-commit hook); per this document's own
+rule, re-run the full review before any future change in publication posture.
+
 **A finding about this review's timing.** This document is the gate Plan 021
 Pillar IV names as a prerequisite for opening the doors — and it is being
 written *after* the repository was already made public. The review passes, so
