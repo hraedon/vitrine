@@ -9,6 +9,7 @@ unhandled site.
 from __future__ import annotations
 
 import enum
+import re
 from dataclasses import dataclass, field
 from typing import assert_never
 
@@ -39,6 +40,7 @@ class Basis(enum.Enum):
     TOTAL = "total"      # a one-time price ($1,511 for a car)
     HOURLY = "hourly"    # a wage rate ($1.32/hr)
     WEEKLY = "weekly"    # a weekly figure ($53.29/wk)
+    MONTHLY = "monthly"  # a monthly figure (¥29,169/mo)
     ANNUAL = "annual"    # an annual figure ($3,319/yr)
 
 
@@ -163,10 +165,24 @@ def basis_label(basis: Basis) -> str:
             return "Hourly rate"
         case Basis.WEEKLY:
             return "Weekly figure"
+        case Basis.MONTHLY:
+            return "Monthly figure"
         case Basis.ANNUAL:
             return "Annual figure"
         case _:
             assert_never(basis)
+
+
+def normalized_unit(unit: str) -> str:
+    """A fact's ``unit`` string canonicalized for comparability checks.
+
+    QUANTITY_RATIO derivations divide two quantities, which is only
+    meaningful when both measure the same dimension; the gate compares
+    normalized unit strings so trivial formatting differences (letter case,
+    whitespace runs) are not treated as a dimension difference, while a real
+    mismatch (hours per week ÷ CPI index points) is a red build.
+    """
+    return " ".join(unit.split()).casefold()
 
 
 @dataclass(frozen=True, slots=True)
@@ -182,6 +198,9 @@ class Source:
     notes: str = ""
     short_cite: str = ""  # brief inline citation for footnote display
     measure: Measure | None = None  # what it measures, iff used as an affordability anchor
+    expect: tuple[str, ...] = ()  # content markers scripts/link_check.py verifies
+    # against the served document (WI-023: a 200 OK is not proof the URL
+    # serves the described document — see the f08a/f08ar incident)
 
 
 @dataclass(frozen=True, slots=True)
@@ -257,6 +276,43 @@ class Room:
         return f"{self.country}-{self.decade}"
 
 
+# ── the docent layer (plan 016) ───────────────────────────────────────────────
+
+# In essay prose, a number may appear only by binding to a fact:
+# ``{fact:<id>}`` renders the fact's as-authored value plus its tier chip;
+# ``{fact:<id>:label}`` renders the label. The numeral gate in ``check``
+# strips these before scanning — a bare numeral in prose is a red build.
+INTERPOLATION_RE = re.compile(r"\{fact:([a-z]+-[a-z0-9]+-[a-z0-9-]+)(?::(label))?\}")
+
+
+class BlockKind(enum.Enum):
+    """The shape of one essay block — closed set."""
+
+    PROSE = "prose"  # docent copy; every numeral bound to a fact
+    CHART = "chart"  # exactly one of arc / group / metric, resolved at build
+
+
+@dataclass(frozen=True, slots=True)
+class EssayBlock:
+    """One block of a docent essay: prose, or a referenced exhibit chart."""
+
+    kind: BlockKind
+    text: str = ""  # prose copy (PROSE blocks only)
+    arc: str = ""  # corridor arc slug (CHART: exactly one of arc/group/metric)
+    group: str = ""  # arc-group slug
+    metric: str = ""  # affordability metric slug
+
+
+@dataclass(frozen=True, slots=True)
+class Essay:
+    """A curated docent tour: titled prose blocks interleaved with charts."""
+
+    slug: str
+    title: str
+    standfirst: str
+    blocks: tuple[EssayBlock, ...]
+
+
 @dataclass(frozen=True, slots=True)
 class Corpus:
     """Everything under data/: the museum, before projection."""
@@ -264,3 +320,4 @@ class Corpus:
     sources: dict[str, Source]
     assumptions: dict[str, Assumption]
     rooms: tuple[Room, ...]
+    essays: tuple[Essay, ...] = field(default=())

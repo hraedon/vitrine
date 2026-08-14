@@ -174,6 +174,17 @@ tier = "A"
 notes = "From ACS Table B25077, 2010 1-year estimates. Post-housing-crash median: down from $240,500 (2019) and $360,600 (2024). The Census Historical Housing Tables (values-unadj.txt) decennial series ends at 2000 ($119,600). Source: censusreporter.org/tables/B25077/."
 
 [[fact]]
+id = "us-2010s-median-gross-rent"
+quantity = 855
+panel = "home"
+label = "Median gross rent, 2010"
+value = "$855/month"
+unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
+source = "census-acs-gross-rent"
+tier = "A"
+notes = "From ACS Table B25064, 2010 1-year estimates (Census API). Up from $602 in 2000 (decennial census). The decennial gross-rents series ends at 2000; the ACS is its successor. The renter half of the housing story: at 65.1% homeownership, a third of families rented."
+
+[[fact]]
 id = "us-2010s-heating-fuel"
 panel = "home"
 label = "House heating fuel, 2015 (RECS)"
@@ -323,6 +334,50 @@ unit = "% of total NHE"
 source = "cms-nhe"
 tier = "A"
 notes = "From CMS NHE Table 02. Out of pocket: $303,421M of $2,588,734M total."
+
+[[fact]]
+id = "us-2010s-nhe-per-capita"
+quantity = 8377
+panel = "table"
+label = "National health spending per person, 2010"
+value = "$8,377 per capita ($7,054 for personal health care)"
+unit = "USD per person, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE per capita: $8,377. Personal Health Care per capita: $7,054. Population: 309M."
+
+[[fact]]
+id = "us-2010s-nhe-medicare"
+quantity = 519534
+panel = "table"
+label = "Medicare spending, 2010"
+value = "$519,534 million (20.1% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Medicare: $519,534M of $2,588,734M total."
+
+[[fact]]
+id = "us-2010s-nhe-medicaid"
+quantity = 397425
+panel = "table"
+label = "Medicaid spending, 2010"
+value = "$397,425 million (15.4% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Medicaid: $397,425M of $2,588,734M total."
+
+[[fact]]
+id = "us-2010s-nhe-prescription-drugs"
+quantity = 253371
+panel = "table"
+label = "Prescription drug spending, 2010"
+value = "$253,371 million (9.8% of NHE)"
+unit = "USD millions, nominal"
+source = "cms-nhe"
+tier = "A"
+notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $253,371M of $2,588,734M total."
 
 [[fact]]
 id = "us-2010s-heart-disease-mortality"

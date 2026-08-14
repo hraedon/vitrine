@@ -3,13 +3,13 @@
 {% block body %}
 <p class="eyebrow">vitrine · methodology</p>
 <h1>Methodology &amp; assumptions</h1>
-<p class="sub">Every methodological choice that would mislead if left implicit is written here once and linked from every placard it touches.</p>
-<div class="cases" style="margin-top:22px">
+<p class="sub">Every methodological choice that would mislead if left implicit is written here once, and linked from every record it touches.</p>
+<div class="ledger">
 {% for a in page.assumptions %}
-<div class="placard" id="{{ a.id }}">
-  <div class="ceyebrow">assumption</div>
-  <div class="cval">{{ a.title }}</div>
-  <p class="clab">{{ a.statement }}</p>
+<div class="ledger-row" id="{{ a.id }}">
+  <span class="l-num" aria-hidden="true">{{ loop.index }}</span>
+  <div><div class="l-title">{{ a.title }}</div><div class="l-meta">Assumption · {{ a.id }}</div>
+  <p class="l-body">{{ a.statement }}</p></div>
 </div>
 {% endfor %}
 </div>

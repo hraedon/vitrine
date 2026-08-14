@@ -6,7 +6,13 @@ import argparse
 import sys
 from pathlib import Path
 
-from vitrine.check import check_corpus, check_mark_coverage, check_render_coverage, check_series
+from vitrine.check import (
+    check_corpus,
+    check_essays,
+    check_mark_coverage,
+    check_render_coverage,
+    check_series,
+)
 from vitrine.gaps import format_report, room_gaps
 from vitrine.loader import LoadError, load_corpus
 from vitrine.series import SeriesError, load_series
@@ -25,6 +31,7 @@ def _cmd_check(data_dir: Path, build_dir: Path | None = None) -> int:
         return 1
     problems = check_corpus(corpus, series)
     problems.extend(check_series(series, corpus))
+    problems.extend(check_essays(corpus))
     if build_dir is not None:
         problems.extend(check_render_coverage(corpus, build_dir))
         problems.extend(check_mark_coverage(corpus, build_dir))
@@ -38,7 +45,7 @@ def _cmd_check(data_dir: Path, build_dir: Path | None = None) -> int:
     print(
         f"ok: {len(corpus.rooms)} room(s), {n_facts} fact(s), {n_derived} derived, "
         f"{len(corpus.sources)} source(s), {len(corpus.assumptions)} assumption(s), "
-        f"{len(series)} series"
+        f"{len(series)} series, {len(corpus.essays)} essay(s)"
     )
     if build_dir is not None:
         print(f"render-coverage: verified ({n_facts + n_derived} exhibits match build)")

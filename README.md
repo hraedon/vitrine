@@ -88,21 +88,49 @@ not cryptographic.
 
 ## Status
 
-US corpus curated: 13 decade rooms (1900s–2020s), 456 facts, 3 derived
-facts, zero Tier D estimates; 16 rendered gaps are structural (pre-WWII
+<!-- The marked line is machine-checked by tests/test_docs_sync.py;
+     regenerate with `python scripts/sync_readme_status.py` after curating. -->
+Corpus: <!-- corpus-status:begin -->27 decade rooms (1900s–2020s), 655 facts, 8 derived facts, 6 Tier D estimates, 73 rendered gaps<!-- corpus-status:end --> (the US wing is complete,
+1900s–2020s; the v2 world rooms below extend it). The Tier D estimates are
+disclosed scholarly reconstructions kept honest by the tier rule
+`vitrine gaps` prints the mechanical inventory). The rendered gaps are of
+two kinds: structural silences in the US record (pre-WWII
 income/housing/food for 1910s–1930s, 1940s wartime bifurcation, 1990s
-home-production data) and listed in `docs/resource-hunt.md`. The
-visualization layer (Plan 007) is implemented: three static surfaces —
-rooms (dark-gallery cutaway, era-graded light, CSS-only popup placards),
-corridors (cross-decade arc charts plus the 78-page pairwise comparison
-set), and the walkthrough (the three-stop transect) — all pre-rendered,
-with one progressive-enhancement asset for accessible placards, every chart
-mark carrying the fact id it projects (`data-fact-id`,
-enforced by the mark-coverage gate in `vitrine check --against-build`).
-Design tokens and the validated palette: `docs/design-spec.md` /
-`src/vitrine/site/tokens.py`. Plan 009's implementation pass is complete: 17
-of 23 items done, 3 partial on data dependencies, and 3 deliberately deferred. See
+home-production data — see `docs/resource-hunt.md`) and archive-access
+limits in the v2 world rooms ("no reliable record accessible online").
+
+v2 world rooms in progress: the United Kingdom and Japan (1950s–2010s each)
+have been curated against their own official series (ONS, Statistics
+Bureau / MIC, MHLW) with country-specific assumptions
+(`jp-household-not-family`, `jp-kakei-1962-seam`,
+`jp-deflation-lost-decades`). The `MONTHLY` basis supports Japan's
+monthly-income-denominated surveys. The
+presentation is the "statistical atlas" (Plan 020): a light folio where
+every fact row carries its value, tier chip, measured population, and
+source record in one scan-line, and the index leads with a corpus matrix —
+rooms × cases with tier mixes and documented silences counted. Three static
+surfaces — rooms, corridors (cross-decade plates plus the 78-page pairwise
+comparison set), and the walkthrough (the three-stop transect) — all
+pre-rendered, with one progressive-enhancement asset for accessible
+record cards, every chart mark carrying the fact id it projects
+(`data-fact-id`, enforced by the mark-coverage gate in
+`vitrine check --against-build`). The docent layer (Plan 016) adds curated
+tours — connective prose whose every numeral is a `{fact:<id>}` binding, so
+an unbound number in tour copy fails the build. Design tokens and the
+validated palette: `docs/design-spec.md` / `src/vitrine/site/tokens.py`. See
 `docs/fact-model.md` (design spine) and `plans/` for the full series.
+
+## Licence and reuse
+
+Dual-licensed: the software (`src/`, `tests/`, `scripts/`, `k8s/`, `.github/`)
+under **MIT**; the corpus and prose (`data/`, `docs/`, `plans/`, and the
+rendered site) under **CC BY-SA 4.0**. See `LICENSE` for which applies where,
+and for what is *not* vitrine's to license — the underlying federal statistics
+and IPUMS-derived aggregates carry their own terms.
+
+When reusing a number, cite the primary source on its source card for the datum,
+and vitrine for the compilation and tier assignment. Sanitization and reuse
+review: `docs/publication-review.md`.
 
 ## Quick start
 
@@ -113,3 +141,20 @@ uv venv && uv pip install -e ".[dev]"
 .venv/bin/vitrine gaps             # mechanical gap inventory (never hand-kept)
 .venv/bin/pytest -q
 ```
+
+## Deploying
+
+The museum is public at <https://vitrine.hraedon.com>. Pushing to `main` builds
+and pushes the container image, but **does not deploy it** — the Deployment
+references a mutable tag, and a running pod never re-pulls one, so a new image
+does not reach visitors until the pods are replaced. Deploy explicitly:
+
+```bash
+scripts/deploy.sh                  # roll the Deployment, then verify the live
+                                   # site serves the current corpus
+```
+
+`scripts/check_deploy_freshness.py` is the verification on its own: it diffs the
+live `facts-manifest.txt` against a local build, so "deployed" means the served
+facts match the curated ones rather than merely that pods restarted. The weekly
+`Deploy Freshness` workflow runs the same check against the public site.

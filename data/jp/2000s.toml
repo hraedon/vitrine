@@ -1,0 +1,262 @@
+# Japan, the 2000s. The lost decades in full: nominal workers'-household
+# income fell from its 1995 peak (¥570,817) to ¥522,629 (2005), and MLS wages
+# declined from ¥408,864 to ¥381,807 — nominal contraction amid persistent
+# deflation. Real (CPI-adjusted) values rose as prices fell. Three Tier-A
+# official series anchor the room: FIES (2005), MLS (2005), HLS housing (2003).
+# Durable-goods diffusion comes from the NSFIIE 2004 survey and ICWP 2005
+# (data end 2004). No affordability anchors are set: the MLS wage is monthly
+# (not hourly) and no item prices are in the archive.
+# Data year anchors: 2005 (income, wages, hours, consumption), 2003 (housing),
+# 2004 (diffusion).
+# Country caveat: Japan's surveys measure households, not a four-person family
+# median — the composite-family disclaimer applies. Nominal-value facts carry
+# the jp-deflation-lost-decades assumption.
+
+[room]
+country = "jp"
+decade = "2000s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-2000s-workers-income"
+basis = "monthly"
+amount_minor = 522629
+currency = "JPY"
+price_year = 2005
+panel = "budget"
+label = "Workers' household monthly income, 2005"
+value = "¥522,629 per month"
+unit = "JPY per month, nominal (actual monthly income, workers' households)"
+source = "jp-fies"
+tier = "A"
+notes = "From FIES long-run time-series (fies-a18-2.xls), 2005, column 実収入, workers' households. Nominal income declined 8.4% from the 1995 peak (¥570,817) — the lost-decades contraction. It would stagnate near this level through 2015 (¥525,955). Two-or-more-person workers' households, Japan."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-deflation-lost-decades"]
+
+[[fact]]
+id = "jp-2000s-mls-wages"
+basis = "monthly"
+amount_minor = 381807
+currency = "JPY"
+price_year = 2005
+panel = "budget"
+label = "Average monthly cash earnings, all surveyed industries, 2005"
+value = "¥381,807 per month"
+unit = "JPY per month, nominal (total cash earnings, all surveyed industries, establishments with 30+ regular workers)"
+source = "jp-mls"
+tier = "A"
+notes = "From MLS long-term actual data (mls-long-term-actual.csv), year=2005, month=CY, industry=TL, size=0, emp_type=0. Calendar-year average of monthly total cash earnings. Down 6.6% from the 1995 peak (¥408,864); continued decline to ¥361,684 (2015). Establishment/payroll survey, not household income."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-deflation-lost-decades"]
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-2000s-homeownership"
+quantity = 61.2
+panel = "home"
+label = "Homeownership rate, 2003"
+value = "61.2%"
+unit = "% of occupied dwellings owner-occupied"
+source = "jp-hls"
+tier = "A"
+notes = "From HLS 2003 via JSY 2016 Table 21-5 (jsy2016-y652105000.xls): 28,666 thousand owned ÷ 46,863 thousand occupied dwellings = 61.2% (homeownership ratio). The 2008 survey gave 61.1%. Homeownership recovered above 61% after dipping near 60% in the 1990s and held steady through the decade. 2003 is the HLS year closest to the 2005 income anchor."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-2000s-floor-area"
+quantity = 94.85
+panel = "home"
+label = "Floor area per dwelling, 2003"
+value = "94.85 m²"
+unit = "m² per dwelling (occupied dwellings, nationwide)"
+source = "jp-hls"
+tier = "A"
+notes = "From HLS 2003 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 94.85 m² floor space per dwelling (occupied dwellings). Up from 91.92 m² (1993); the 2008 survey gave 94.13 m² (a slight decline). Floor area peaked around 2003–2008. Owned houses averaged 121.67 m² vs rented 51.56 m² (JSY 2016 Table 21-8)."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-2000s-rooms"
+quantity = 4.77
+panel = "home"
+label = "Rooms per dwelling, 2003"
+value = "4.77 rooms"
+unit = "rooms per dwelling (occupied dwellings, nationwide)"
+source = "jp-hls"
+tier = "A"
+notes = "From HLS 2003 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 4.77 rooms per dwelling. Down from 4.85 (1993); the 2008 survey gave 4.67. Persons per room 0.56 (down from 0.62 in 1993) as household size continued to fall. Nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-2000s-housing-amenities-gap"
+panel = "home"
+label = "Dwelling facilities (bath, flush toilet, kitchen)"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-hls"
+tier = "D"
+notes = "The HLS 'Situation of facilities' (bath, toilet, kitchen) data is not published in the English JSY tables — only aged-person and energy-saving facility tables appear. Basic facility prevalence for the 2000s is not transcribed; needs e-Stat (Japanese) or printed HLS reports."
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-2000s-color-tv"
+quantity = 97.3
+panel = "diffusion"
+label = "Households with a colour television, 2004"
+value = "97.3%"
+unit = "% of two-or-more-person households"
+source = "jp-nsfiie"
+tier = "A"
+notes = "From NSFIIE 2004 summary (https://www.stat.go.jp/english/data/zensho/2004/taikyu/gaiyo1.html): colour TV ownership rate 97.3% (2,140 units per 1,000 households). From 2004, plasma/LCD TV sets were assigned a separate category from CRT colour TVs — this figure is CRT/Braun-tube colour TVs only. Two-or-more-person households, nationwide, as of end of October."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-2000s-washing-machine"
+quantity = 99.2
+panel = "diffusion"
+label = "Households with a washing machine, 2004"
+value = "99.2%"
+unit = "% of two-or-more-person households"
+source = "jp-nsfiie"
+tier = "A"
+notes = "From NSFIIE 2004 summary: washing machine ownership rate 99.2%. Near-universal in two-or-more-person households. Two-or-more-person households, nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-2000s-refrigerator"
+quantity = 99.0
+panel = "diffusion"
+label = "Households with a refrigerator, 2004"
+value = "99.0%"
+unit = "% of two-or-more-person households"
+source = "jp-nsfiie"
+tier = "A"
+notes = "From NSFIIE 2004 summary: refrigerator ownership rate 99.0%. Near-universal in two-or-more-person households. Two-or-more-person households, nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-2000s-microwave"
+quantity = 97.4
+panel = "diffusion"
+label = "Households with a microwave oven, 2004"
+value = "97.4%"
+unit = "% of two-or-more-person households"
+source = "jp-nsfiie"
+tier = "A"
+notes = "From NSFIIE 2004 summary: microwave oven ownership rate 97.4%. Near-universal in two-or-more-person households. Two-or-more-person households, nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-2000s-mobile-phone-nsfiie"
+quantity = 84.7
+panel = "diffusion"
+label = "Households with a mobile phone (NSFIIE 2004)"
+value = "84.7%"
+unit = "% of two-or-more-person households"
+source = "jp-nsfiie"
+tier = "A"
+notes = "From NSFIIE 2004 summary: cellular phone ownership rate 84.7% (1,823 units per 1,000 households). Up from 64.9% (1999). The ICWP 2005 (end 2004) household penetration rate for mobile phones was 91.1% — the difference reflects the two surveys' methodologies (NSFIIE durable-goods questionnaire vs Communications Usage Trend Survey). Two-or-more-person households, nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-2000s-pc-nsfiie"
+quantity = 69.3
+panel = "diffusion"
+label = "Households with a personal computer (NSFIIE 2004)"
+value = "69.3%"
+unit = "% of two-or-more-person households"
+source = "jp-nsfiie"
+tier = "A"
+notes = "From NSFIIE 2004 summary: PC ownership rate 69.3% (999 units per 1,000 households). Up 106.0% from 1999 (37.7%). The ICWP 2005 (end 2004) household penetration for PCs was 77.5%. Two-or-more-person households, nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-2000s-car"
+quantity = 86.2
+panel = "diffusion"
+label = "Households with a car, 2004"
+value = "86.2%"
+unit = "% of two-or-more-person households"
+source = "jp-nsfiie"
+tier = "A"
+notes = "From NSFIIE 2004 summary: car ownership rate 86.2% (1,446 units per 1,000 households). Up from 84.9% (1999, per the 2004 text's comparison figures). Of these, 1,392 were domestic cars and 54 imported. Two-or-more-person households, nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-2000s-mobile-phone-icwp"
+quantity = 91.1
+panel = "diffusion"
+label = "Households with a mobile phone (ICWP, end 2004)"
+value = "91.1%"
+unit = "% of households (Communications Usage Trend Survey)"
+source = "jp-icwp"
+tier = "A"
+notes = "From ICWP 2005 white paper, Chapter 2, Section 7 (Figure 2-7-1, 'Digitization of homes'), data end of 2004: mobile phone household penetration 91.1%. Source: 2004 Communications Usage Trend Survey, MIC. This is a household penetration rate from a communications survey; the NSFIIE 2004 durable-goods rate was 84.7%."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-2000s-pc-icwp"
+quantity = 77.5
+panel = "diffusion"
+label = "Households with a personal computer (ICWP, end 2004)"
+value = "77.5%"
+unit = "% of households (Communications Usage Trend Survey)"
+source = "jp-icwp"
+tier = "A"
+notes = "From ICWP 2005 white paper, Chapter 2, Section 7 (Figure 2-7-1), data end of 2004: PC household penetration 77.5%. Source: 2004 Communications Usage Trend Survey, MIC. Higher than the NSFIIE 2004 rate (69.3%) due to survey-method differences."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-2000s-work-hours"
+quantity = 152.5
+panel = "day"
+label = "Average monthly working hours, 2005"
+value = "152.5 hours"
+unit = "hours per month, all surveyed industries, establishments with 30+ regular workers"
+source = "jp-mls"
+tier = "A"
+notes = "From MLS long-term actual data (mls-long-term-actual.csv), year=2005, month=CY, industry=TL, size=0, emp_type=0. Calendar-year average of monthly working hours. Continued decline from 159.1 (1995) and 175.8 (1985). Establishments with 30+ regular workers, all surveyed industries."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-2000s-consumption"
+basis = "monthly"
+amount_minor = 300903
+currency = "JPY"
+price_year = 2005
+panel = "table"
+label = "Monthly consumption expenditure, all households, 2005"
+value = "¥300,903 per month"
+unit = "JPY per month, nominal (consumption expenditure, all two-or-more-person households)"
+source = "jp-fies"
+tier = "A"
+notes = "From FIES long-run time-series (fies-a18-1.xls), 2005, all two-or-more-person households. Nominal consumption declined 8.6% from the 1995 peak (¥329,062) — deflation reduced both nominal income and nominal spending. Continued decline to ¥288,326 (2015). Population differs from the income fact (all households vs workers' households)."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-deflation-lost-decades"]
+
+[[fact]]
+id = "jp-2000s-food-share"
+quantity = 22.9
+panel = "table"
+label = "Food share of consumption expenditure, 2005"
+value = "22.9%"
+unit = "% of consumption expenditure spent on food"
+source = "jp-fies"
+tier = "A"
+notes = "From FIES (fies-a18-1.xls), 2005: food ¥68,910 ÷ consumption ¥300,903 = 22.9%. All two-or-more-person households. The Engel ratio reached its low point here (23.7% in 1995 → 22.9% in 2005) before rising to 25.0% in 2015 as nominal consumption fell faster than food spending."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-2000s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 2000s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-mls"
+tier = "D"
+notes = "No item prices are in the archive for the 2000s, so hours-of-work-to-afford comparisons cannot be computed. The MLS wage (¥381,807/month, 2005) is the available wage reference. Under deflation, the affordability axis (hours-to-afford) would be the more reliable comparator than nominal-value ratios."

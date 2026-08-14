@@ -222,6 +222,17 @@ tier = "A"
 notes = "Both endpoints transcribed from Census ACS 1-Year Estimates, Table B25077 (Median value of owner-occupied housing units). 2019: $240,500 (±$1,034). 2024: $360,600 (±$618). The increase far exceeds the prior decade's rate ($179,900 in 2010 → $240,500 in 2019). The surge reflects pandemic-era demand, low mortgage rates (2020-21), and supply constraints. The percentage change is not stated here — it would be cross-fact arithmetic; the two endpoints speak for themselves."
 assumptions = ["nominal-values"]
 
+[[fact]]
+id = "us-2020s-median-gross-rent"
+quantity = 1487
+panel = "home"
+label = "Median gross rent, 2024"
+value = "$1,487/month"
+unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
+source = "census-acs-gross-rent"
+tier = "A"
+notes = "From ACS Table B25064, 2024 1-year estimates (Census API). Up from $855 in 2010. The renter half of the housing story: rents rose faster than incomes in the 2020s. Arc: $602 (2000) → $855 (2010) → $1,097 (2019) → $1,487 (2024)."
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]

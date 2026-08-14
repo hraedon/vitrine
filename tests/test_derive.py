@@ -116,6 +116,30 @@ def test_gate_flags_dangling_operand(tmp_path: Path) -> None:
     assert any("us-1950s-d" in p and "does not resolve" in p for p in problems)
 
 
+def test_gate_flags_unknown_currency(tmp_path: Path) -> None:
+    """A priced fact in a currency the registry doesn't know is a red build
+    (plan 022 WI-1) — the guard that keeps v2 rooms from shipping a currency
+    the money layer can't format."""
+    (tmp_path / "sources.toml").write_text(
+        '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "all families"\n'
+    )
+    (tmp_path / "assumptions.toml").write_text(
+        '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
+    )
+    room_dir = tmp_path / "uk"
+    room_dir.mkdir()
+    (room_dir / "1950s.toml").write_text(
+        '[room]\ncountry = "uk"\ndecade = "1950s"\n\n'
+        '[[fact]]\nid = "uk-1950s-a"\npanel = "budget"\nlabel = "L"\nvalue = "V"\n'
+        'unit = "U"\nsource = "src-1"\ntier = "A"\namount_minor = 100\n'
+        'currency = "ZZZ"\nprice_year = 1950\nbasis = "annual"\n'
+    )
+    corpus = load_corpus(tmp_path)
+    problems = check_corpus(corpus)
+    assert any("uk-1950s-a" in p and "unknown currency" in p for p in problems)
+
+
 def test_gate_green_on_valid_derived(tmp_path: Path) -> None:
     corpus = load_corpus(_write_corpus_with_derived(tmp_path, "us-1950s-a"))
     assert check_corpus(corpus) == []
@@ -190,6 +214,42 @@ def test_gate_flags_qty_ratio_missing_quantity(tmp_path: Path) -> None:
 def test_gate_green_on_valid_qty_ratio(tmp_path: Path) -> None:
     corpus = load_corpus(_write_corpus_with_qty_ratio(tmp_path, valid=True))
     assert check_corpus(corpus) == []
+
+
+def _write_corpus_with_qty_ratio_unit_mismatch(tmp_path: Path) -> Path:
+    """WI-022: a QUANTITY_RATIO of hours to a CPI index is dimensionally
+    meaningless; the gate must refuse it even though both operands have a
+    quantity."""
+    (tmp_path / "sources.toml").write_text(
+        '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "all families"\n'
+    )
+    (tmp_path / "assumptions.toml").write_text(
+        '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
+    )
+    room_dir = tmp_path / "us"
+    room_dir.mkdir()
+    (room_dir / "1950s.toml").write_text(
+        '[room]\ncountry = "us"\ndecade = "1950s"\n\n'
+        '[[fact]]\nid = "us-1950s-hours"\npanel = "day"\nlabel = "Hours"\n'
+        'value = "40.5"\nunit = "hours per week"\nsource = "src-1"\ntier = "A"\n'
+        'quantity = 40.5\n'
+        '[[fact]]\nid = "us-1950s-cpi"\npanel = "work-buys"\nlabel = "CPI"\n'
+        'value = "24.1"\nunit = "CPI-U, 1982-84=100"\nsource = "src-1"\ntier = "A"\n'
+        'quantity = 24.1\n'
+        '[[derived]]\nid = "us-1950s-nonsense"\npanel = "work-buys"\n'
+        'label = "N"\nunit = "ratio"\nop = "quantity_ratio"\n'
+        'numerator = "us-1950s-hours"\ndenominator = "us-1950s-cpi"\n'
+    )
+    return tmp_path
+
+
+def test_gate_flags_qty_ratio_unit_mismatch(tmp_path: Path) -> None:
+    """WI-022: the gate refuses a QUANTITY_RATIO whose operands carry
+    incomparable units (hours / CPI-index)."""
+    corpus = load_corpus(_write_corpus_with_qty_ratio_unit_mismatch(tmp_path))
+    problems = check_corpus(corpus)
+    assert any("unit mismatch" in p and "us-1950s-nonsense" in p for p in problems)
 
 
 def _write_corpus_with_cross_room(tmp_path: Path, valid: bool = True) -> Path:
@@ -282,6 +342,14 @@ def test_inflate_computes_correct_value() -> None:
     assert computed.tier is Tier.A  # both inputs Tier A
 
 
+def test_inflate_renders_in_the_operand_currency() -> None:
+    """A GBP INFLATE renders £, not $ (plan 022 WI-2)."""
+    room = _room((_fact("us-2020s-base", 2736600, Tier.A, currency="GBP"),))
+    series = _inflate_series({2020: 147.600, 2024: 177.886})
+    computed = evaluate(room, _inflate_derived(), series)
+    assert computed.value == "≈ £32,981"
+
+
 def test_inflate_tier_is_weakest_input() -> None:
     """A Tier C inflation series weakens the derived tier."""
     from vitrine.series import Series
@@ -354,6 +422,20 @@ def test_product_computes_correct_value() -> None:
     computed = evaluate(room, _product_derived())
     assert computed.value == "≈ $53.46"
     assert computed.tier is Tier.A
+
+
+def test_product_renders_in_the_operand_currency() -> None:
+    """A GBP-denominated PRODUCT renders £, not $ (plan 022 WI-2).
+
+    £1.32 (132 pence) x 40.5 hours = £53.46. This is the world-wing keystone:
+    the money layer, not a hardcoded dollar sign, decides the symbol.
+    """
+    room = _room((
+        _fact("us-1950s-wage", 132, Tier.A, currency="GBP"),
+        _hours_fact("us-1950s-hours", 40.5),
+    ))
+    computed = evaluate(room, _product_derived())
+    assert computed.value == "≈ £53.46"
 
 
 def test_product_tier_is_weakest_input() -> None:
@@ -437,6 +519,70 @@ def test_quantity_ratio_zero_denominator_raises() -> None:
         evaluate(room, _qty_ratio_derived(), fact_index=fact_index)
 
 
+def _quantity_fact_with_unit(fact_id: str, value: float, unit: str) -> Fact:
+    return Fact(
+        id=fact_id,
+        panel=Panel.WORK_BUYS,
+        label="L",
+        value=str(value),
+        unit=unit,
+        source="src-1",
+        tier=Tier.A,
+        quantity=value,
+    )
+
+
+def test_quantity_ratio_unit_mismatch_raises() -> None:
+    """WI-022: hours ÷ CPI-index nonsense must not evaluate."""
+    room = _room(
+        (_quantity_fact_with_unit("us-1950s-hours", 40.0, "hours per week"),)
+    )
+    fact_index = {
+        "us-2020s-cpi": _quantity_fact_with_unit("us-2020s-cpi", 313.7, "index points")
+    }
+    derived = DerivedFact(
+        id="us-1950s-nonsense",
+        panel=Panel.WORK_BUYS,
+        label="Nonsense",
+        unit="ratio",
+        op=DerivedOp.QUANTITY_RATIO,
+        numerator="us-1950s-hours",
+        denominator="us-2020s-cpi",
+        precision=2,
+    )
+    with pytest.raises(DeriveError, match="unit mismatch"):
+        evaluate(room, derived, fact_index=fact_index)
+
+
+def test_quantity_ratio_unit_comparison_ignores_case_and_whitespace() -> None:
+    """Formatting differences are not a dimension difference."""
+    room = _room(
+        (_quantity_fact_with_unit("us-1950s-cpi", 24.1, "CPI-U,  1982-84=100"),)
+    )
+    fact_index = {
+        "us-2020s-cpi": _quantity_fact_with_unit("us-2020s-cpi", 313.7, "cpi-u, 1982-84=100")
+    }
+    computed = evaluate(room, _qty_ratio_derived(), fact_index=fact_index)
+    assert computed.value == "≈ 13.02"
+
+
+def test_gate_flags_quantity_ratio_unit_mismatch(tmp_path: Path) -> None:
+    """WI-022: the gate, not just evaluation, rejects unlike-unit ratios."""
+    data = _write_corpus_with_qty_ratio(tmp_path, valid=True)
+    room = data / "us" / "1950s.toml"
+    text = room.read_text()
+    text = text.replace(
+        '[[derived]]\nid = "us-1950s-purchasing-power"',
+        '[[fact]]\nid = "us-1950s-hours"\npanel = "day"\nlabel = "H"\n'
+        'value = "40"\nunit = "hours per week"\nsource = "src-1"\ntier = "A"\n'
+        'quantity = 40\n\n'
+        '[[derived]]\nid = "us-1950s-purchasing-power"',
+    ).replace('numerator = "us-1950s-cpi"', 'numerator = "us-1950s-hours"')
+    room.write_text(text)
+    problems = check_corpus(load_corpus(data))
+    assert any("unit mismatch" in p for p in problems)
+
+
 # ── Cross-room RATIO (WI-5): real-income-growth ────────────────────────────
 
 
@@ -457,3 +603,40 @@ def test_cross_room_ratio_computes_correct_value() -> None:
     computed = evaluate(room, derived, fact_index=fact_index)
     assert computed.value == "≈ 3.0"
     assert computed.tier is Tier.A
+
+
+def test_gate_rejects_inflate_on_monetary_series(tmp_path: Path) -> None:
+    """Plan 023 WI-3: INFLATE multiplies by a series *ratio*; a monetary
+    series is an amount, not an index — using one as the ratio smuggles a
+    currency into the result."""
+    from vitrine.series import Series
+
+    (tmp_path / "sources.toml").write_text(
+        '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "all families"\n'
+    )
+    (tmp_path / "assumptions.toml").write_text(
+        '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
+    )
+    room_dir = tmp_path / "us"
+    room_dir.mkdir()
+    (room_dir / "2020s.toml").write_text(
+        '[room]\ncountry = "us"\ndecade = "2020s"\n\n'
+        '[[fact]]\nid = "us-2020s-base"\npanel = "work-buys"\nlabel = "Base"\n'
+        'value = "$27,366"\nunit = "USD"\nsource = "src-1"\ntier = "A"\n'
+        'amount_minor = 2736600\ncurrency = "USD"\nprice_year = 2020\nbasis = "total"\n'
+        '[[derived]]\nid = "us-2020s-d"\npanel = "work-buys"\nlabel = "D"\n'
+        'unit = "USD"\nop = "inflate"\nnumerator = "us-2020s-base"\ndenominator = ""\n'
+        'inflate_series = "cpi-test"\ninflate_from_year = 2020\n'
+        'inflate_to_year = 2024\n'
+    )
+    monetary = Series(
+        id="cpi-test", label="L", source="src-1", tier=Tier.A,
+        unit="USD", population="p", currency="USD",
+        values_minor={2020: 14760, 2024: 17789},
+    )
+    corpus = load_corpus(tmp_path)
+    problems = check_corpus(corpus, {"cpi-test": monetary})
+    assert any(
+        "is monetary" in p and "us-2020s-d" in p for p in problems
+    ), problems

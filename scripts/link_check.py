@@ -5,20 +5,49 @@ Checks every source URL with a HEAD request, falls back to GET.
 Categorizes failures as: genuine 404, bot-blocked (403/405),
 or timeout.
 
+Sources may declare `expect = ["marker", ...]` (WI-023): the checker then
+also downloads the document and verifies each marker appears in it — a
+200 OK is not proof the URL serves the described document (the
+census-f08-allraces f08a/f08ar incident, where the URL served the wrong
+table variant with a 200). Text/HTML bodies are searched as decoded text;
+.xlsx files are searched in their shared strings and sheet names (stdlib
+zipfile). Formats opaque to stdlib extraction (PDFs, compressed streams)
+stay resolve-only and say so.
+
+Two further advisory checks are reported for OK URLs (neither changes the
+exit code):
+
+  - Content-type mismatch: a document URL (.pdf/.xlsx/.csv/...) that
+    returns text/html is almost certainly an error or landing page served
+    with HTTP 200 — a "wrong document" failure the status code alone hides.
+  - Redirect destination: a URL whose final destination differs in host or
+    path is surfaced so a human can confirm it still serves the described
+    document and not a moved landing page.
+
 Usage: python3 scripts/link_check.py [--verbose]
 """
 
 from __future__ import annotations
 
+import io
 import ssl
 import sys
 import tomllib
 import urllib.error
 import urllib.request
+import zipfile
+from collections.abc import Sequence
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import dataclass
 from pathlib import Path
+from urllib.parse import urlsplit
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+
+# File extensions that imply a binary document, not an HTML page. A 200
+# response with text/html for one of these URLs is a content-type mismatch
+# (WI-023): the server is likely serving an error/landing page.
+_DOCUMENT_EXTS = frozenset({".pdf", ".xlsx", ".xls", ".csv", ".zip", ".tif", ".tiff"})
 
 
 def load_sources() -> list[dict]:
@@ -27,126 +56,298 @@ def load_sources() -> list[dict]:
     return data.get("source", [])
 
 
-def check_url(sid: str, url: str) -> tuple[str, str, int, str]:
-    """Check a URL. Returns (source_id, url, status_code, message)."""
+# ── Content verification (WI-023) ───────────────────────────────────────────
+
+
+def _xlsx_text(body: bytes) -> str | None:
+    """The searchable text inside an .xlsx: shared strings + sheet names."""
+    try:
+        with zipfile.ZipFile(io.BytesIO(body)) as zf:
+            parts = []
+            for name in ("xl/sharedStrings.xml", "xl/workbook.xml"):
+                try:
+                    parts.append(zf.read(name).decode("utf-8", errors="replace"))
+                except KeyError:
+                    continue
+    except zipfile.BadZipFile:
+        return None
+    return "\n".join(parts) if parts else None
+
+
+def searchable_text(url: str, body: bytes, content_type: str) -> str | None:
+    """The text a marker search runs against, or None when the format is
+    opaque to stdlib extraction (PDFs etc.) — those stay resolve-only."""
+    path = url.lower().split("?")[0]
+    if path.endswith(".xlsx") or "spreadsheetml" in content_type:
+        return _xlsx_text(body)
+    if (
+        any(t in content_type for t in ("text/", "json", "xml", "html"))
+        or path.endswith((".html", ".htm", ".txt", ".csv", ".xml", ".json"))
+    ):
+        return body.decode("utf-8", errors="replace")
+    return None
+
+
+def _normalize(text: str) -> str:
+    """Markers match case/whitespace-insensitively."""
+    return " ".join(text.split()).casefold()
+
+
+def missing_markers(text: str, markers: Sequence[str]) -> list[str]:
+    """The markers that do not appear in the served document's text."""
+    haystack = _normalize(text)
+    return [m for m in markers if _normalize(m) not in haystack]
+
+
+# ── Advisory signals (WI-023) ───────────────────────────────────────────────
+
+
+def content_type_mismatch(url: str, content_type: str) -> bool:
+    """A document-extension URL returning text/html is a mismatch."""
+    if not content_type:
+        return False
+    suffix = Path(url.split("?")[0]).suffix.lower()
+    if suffix not in _DOCUMENT_EXTS:
+        return False
+    ct = content_type.split(";")[0].strip().lower()
+    return ct.startswith("text/html")
+
+
+def redirected_elsewhere(url: str, final_url: str) -> bool:
+    """True when the final destination differs in host or path.
+
+    Trailing slashes are ignored (canonical redirects); query strings are
+    ignored (session parameters). Advisory only — the point is to surface
+    destination drift for a human to confirm.
+    """
+    if not final_url or final_url == url:
+        return False
+    a, b = urlsplit(url), urlsplit(final_url)
+    if (a.hostname or "") != (b.hostname or ""):
+        return True
+    return a.path.rstrip("/") != b.path.rstrip("/")
+
+
+# ── URL checking ─────────────────────────────────────────────────────────────
+
+_UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+_OK_CODES = {200, 301, 302, 303, 307, 308}
+
+
+@dataclass
+class Result:
+    sid: str
+    url: str
+    status: int
+    message: str
+    missing: tuple[str, ...] = ()  # expect-markers absent from the served body
+    content_type: str = ""
+    final_url: str = ""
+
+
+def _ssl_ctx() -> ssl.SSLContext:
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
-    ua = (
-        "Mozilla/5.0 (X11; Linux x86_64) "
-        "AppleWebKit/537.36"
-    )
-    headers = {"User-Agent": ua}
+    return ctx
+
+
+def _get(url: str, ctx: ssl.SSLContext) -> tuple[int, bytes, str]:
+    req = urllib.request.Request(url, headers={"User-Agent": _UA})
+    with urllib.request.urlopen(req, timeout=30, context=ctx) as resp:
+        content_type = resp.headers.get("Content-Type", "")
+        return resp.status, resp.read(), content_type
+
+
+def check_url(sid: str, url: str, markers: Sequence[str] = ()) -> Result:
+    """Check a URL, and its content when markers are declared."""
+    ctx = _ssl_ctx()
+    headers = {"User-Agent": _UA}
     try:
-        req = urllib.request.Request(
-            url, method="HEAD", headers=headers
-        )
-        resp = urllib.request.urlopen(req, timeout=15, context=ctx)
-        return (sid, url, resp.status, "OK")
+        req = urllib.request.Request(url, method="HEAD", headers=headers)
+        with urllib.request.urlopen(req, timeout=15, context=ctx) as resp:
+            status = resp.status
+            head_type = resp.headers.get("Content-Type", "")
+            final_url = resp.url
+        if not markers:
+            return Result(
+                sid, url, status, "OK",
+                content_type=head_type, final_url=final_url,
+            )
     except urllib.error.HTTPError as e:
-        return (sid, url, e.code, f"HTTP {e.reason}")
+        return Result(sid, url, e.code, f"HTTP {e.reason}")
     except Exception:
         try:
-            req = urllib.request.Request(
-                url, method="GET", headers=headers
-            )
-            resp = urllib.request.urlopen(
-                req, timeout=15, context=ctx
-            )
-            return (sid, url, resp.status, "OK (GET)")
+            req = urllib.request.Request(url, method="GET", headers=headers)
+            with urllib.request.urlopen(req, timeout=15, context=ctx) as resp:
+                status = resp.status
+                head_type = resp.headers.get("Content-Type", "")
+                final_url = resp.url
+            if not markers:
+                return Result(
+                    sid, url, status, "OK (GET)",
+                    content_type=head_type, final_url=final_url,
+                )
         except urllib.error.HTTPError as e:
-            return (sid, url, e.code, f"HTTP {e.reason}")
+            return Result(sid, url, e.code, f"HTTP {e.reason}")
         except Exception as e2:
-            return (sid, url, 0, str(e2)[:80])
+            return Result(sid, url, 0, str(e2)[:80])
+
+    if status not in _OK_CODES:
+        return Result(sid, url, status, "unexpected status")
+    try:
+        _status, body, content_type = _get(url, ctx)
+    except Exception as e:
+        return Result(sid, url, 0, f"content fetch failed: {str(e)[:60]}")
+    text = searchable_text(url, body, content_type)
+    if text is None:
+        return Result(
+            sid, url, status, "OK (content check unsupported for this format)",
+            content_type=content_type,
+        )
+    missing = tuple(missing_markers(text, markers))
+    if missing:
+        return Result(sid, url, status, "content mismatch", missing)
+    return Result(sid, url, status, "OK (content verified)")
 
 
 def main() -> int:
     verbose = "--verbose" in sys.argv
     sources = load_sources()
-    urls = [(s["id"], s["url"]) for s in sources if s.get("url")]
+    checks = [
+        (s["id"], s["url"], tuple(s.get("expect", [])))
+        for s in sources
+        if s.get("url")
+    ]
 
-    print(f"Link checker: {len(urls)} URLs to check")
+    print(f"Link checker: {len(checks)} URLs to check")
     print()
 
-    results = []
+    results: list[Result] = []
     with ThreadPoolExecutor(max_workers=8) as executor:
         futures = {
-            executor.submit(check_url, sid, url): (sid, url)
-            for sid, url in urls
+            executor.submit(check_url, sid, url, markers): (sid, url)
+            for sid, url, markers in checks
         }
         for future in as_completed(futures):
             results.append(future.result())
 
-    ok_codes = {200, 301, 302, 303, 307, 308}
-    ok = [r for r in results if r[2] in ok_codes]
-    fail = [r for r in results if r[2] not in ok_codes]
+    ok = [r for r in results if r.status in _OK_CODES and not r.missing]
+    mismatch = [r for r in results if r.missing]
+    fail = [r for r in results if r.status not in _OK_CODES]
 
-    genuine_404 = [r for r in fail if r[2] == 404]
-    bot_blocked = [r for r in fail if r[2] in (403, 405)]
+    genuine_404 = [r for r in fail if r.status == 404]
+    bot_blocked = [r for r in fail if r.status in (403, 405)]
     timeout = [
-        r for r in fail if r[2] == 0 and "timeout" in r[3].lower()
+        r
+        for r in fail
+        if r.status == 0
+        and ("timeout" in r.message.lower() or "timed out" in r.message.lower())
     ]
-    server_error = [r for r in fail if r[2] in (500, 503, 520)]
+    server_error = [r for r in fail if r.status in (500, 503, 520)]
     other = [
-        r for r in fail
+        r
+        for r in fail
         if r not in genuine_404
         and r not in bot_blocked
         and r not in timeout
         and r not in server_error
     ]
 
-    print(f"Total: {len(results)}, OK: {len(ok)}, "
-          f"Failed: {len(fail)}")
+    # WI-023 advisories (do not change the exit code): a document URL
+    # serving text/html, or one whose redirect landed on a different host
+    # or path, is surfaced for a human to verify.
+    type_mismatch = [
+        r for r in ok if content_type_mismatch(r.url, r.content_type)
+    ]
+    redirected = [
+        r for r in ok if redirected_elsewhere(r.url, r.final_url)
+    ]
+
+    print(f"Total: {len(results)}, OK: {len(ok)}, Failed: {len(fail) + len(mismatch)}")
     print()
+
+    if mismatch:
+        print(f"=== CONTENT MISMATCH ({len(mismatch)}) — serves the wrong document? ===")
+        for r in sorted(mismatch, key=lambda r: r.sid):
+            print(f"  [{r.status}] {r.sid}: missing {list(r.missing)}")
+            print(f"       {r.url}")
+        print()
 
     if genuine_404:
         print(f"=== GENUINE 404 ({len(genuine_404)}) — must fix ===")
-        for sid, url, status, _msg in sorted(genuine_404):
-            print(f"  [{status}] {sid}")
-            print(f"       {url}")
+        for r in sorted(genuine_404, key=lambda r: r.sid):
+            print(f"  [{r.status}] {r.sid}")
+            print(f"       {r.url}")
         print()
 
     if bot_blocked:
         count = len(bot_blocked)
         print(f"=== BOT-BLOCKED ({count}) — works in browser ===")
-        for sid, url, status, _msg in sorted(bot_blocked):
-            print(f"  [{status}] {sid}: {url[:80]}")
+        for r in sorted(bot_blocked, key=lambda r: r.sid):
+            print(f"  [{r.status}] {r.sid}: {r.url[:80]}")
         print()
 
     if timeout:
         print(f"=== TIMEOUT ({len(timeout)}) — likely bot-block ===")
-        for sid, url, status, _msg in sorted(timeout):
-            print(f"  [{status}] {sid}: {url[:80]}")
+        for r in sorted(timeout, key=lambda r: r.sid):
+            print(f"  [{r.status}] {r.sid}: {r.url[:80]}")
         print()
 
     if server_error:
         count = len(server_error)
         print(f"=== SERVER ERROR ({count}) — transient ===")
-        for sid, url, status, _msg in sorted(server_error):
-            print(f"  [{status}] {sid}: {url[:80]}")
+        for r in sorted(server_error, key=lambda r: r.sid):
+            print(f"  [{r.status}] {r.sid}: {r.url[:80]}")
         print()
 
     if other:
         print(f"=== OTHER ({len(other)}) ===")
-        for sid, url, status, msg in sorted(other):
-            print(f"  [{status}] {sid}: {url[:80]} — {msg}")
+        for r in sorted(other, key=lambda r: r.sid):
+            print(f"  [{r.status}] {r.sid}: {r.url[:80]} — {r.message}")
+        print()
+
+    if type_mismatch:
+        count = len(type_mismatch)
+        print(f"=== CONTENT-TYPE MISMATCH ({count}) — advisory, verify ===")
+        print("  Document URL returned text/html (likely an error/landing page)")
+        for r in sorted(type_mismatch, key=lambda r: r.sid):
+            ct = r.content_type.split(";")[0]
+            print(f"  {r.sid}: {r.url[:80]}")
+            print(f"    content-type: {ct}")
+        print()
+
+    if redirected:
+        count = len(redirected)
+        print(f"=== REDIRECTED ({count}) — advisory, verify ===")
+        print("  Final destination differs in host or path from the registered URL")
+        for r in sorted(redirected, key=lambda r: r.sid):
+            print(f"  {r.sid}:")
+            print(f"    registered: {r.url[:90]}")
+            print(f"    final:      {r.final_url[:90]}")
         print()
 
     if verbose:
         print(f"=== ALL OK ({len(ok)}) ===")
-        for sid, url, status, _msg in sorted(ok):
-            print(f"  [{status}] {sid}: {url[:80]}")
+        for r in sorted(ok, key=lambda r: r.sid):
+            print(f"  [{r.status}] {r.sid}: {r.url[:80]} — {r.message}")
         print()
 
+    n_verified = sum(1 for r in ok if "content verified" in r.message)
+    n_unsupported = sum(1 for r in results if "unsupported" in r.message)
     print("=== SUMMARY ===")
     print(f"URLs checked: {len(results)}")
     print(f"OK: {len(ok)}")
+    print(f"Content mismatch (must fix): {len(mismatch)}")
     print(f"Genuine 404 (must fix): {len(genuine_404)}")
     print(f"Bot-blocked: {len(bot_blocked)}")
     print(f"Timeout: {len(timeout)}")
     print(f"Server error: {len(server_error)}")
     print(f"Other: {len(other)}")
-    return 1 if genuine_404 else 0
+    print(f"Content-type mismatch (advisory): {len(type_mismatch)}")
+    print(f"Redirected elsewhere (advisory): {len(redirected)}")
+    print(f"Content-verified: {n_verified}; content check unsupported: {n_unsupported}")
+    return 1 if genuine_404 or mismatch else 0
 
 
 if __name__ == "__main__":

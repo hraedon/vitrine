@@ -11,6 +11,7 @@ unit = "USD, nominal (average transaction price)"
 population = "All new passenger cars sold in the U.S. (domestic + import), excluding pickups, vans, and SUVs"
 notes = "BEA average transaction price per new car (ORNL TEDB Table 11.13, Edition 40). Sparse: only decade-point years are transcribed from the curated decade facts; the 45 intervening years are gaps pending the TEDB annual table file. Domestic + import passenger cars, excluding pickups, vans, and SUVs."
 
+currency = "USD"
 [series.values_minor]
 1970 = 354300
 1980 = 755700

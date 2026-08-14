@@ -1,0 +1,42 @@
+# Docent tour 1 — "One paycheck" (plan 016, WI-3)
+# Every figure below is bound to a curated exhibit by {fact:<id>}; the
+# numeral gate fails the build on any bare number in this prose.
+
+[essay]
+slug = "one-paycheck"
+title = "One paycheck"
+standfirst = "How a single production wage stopped covering the median family — and what moved in to cover the gap instead."
+
+[[block]]
+kind = "prose"
+text = '''
+In 1950 the median four-person family reported {fact:us-1950s-median-income-four-person} a year; the median for families of every size was {fact:us-1950s-median-income-all-families}. A production worker in manufacturing earned {fact:us-1950s-hourly-earnings-manufacturing} an hour across a {fact:us-1950s-weekly-hours-manufacturing}-hour week — {fact:us-1950s-weekly-earnings} a week, computed by the museum from those two exhibits.
+
+Fifty-two such weeks covered most of the four-person median, and nearly the all-family one. A single paycheck almost carried the median household.
+'''
+
+[[block]]
+kind = "chart"
+metric = "single-earner-wage-coverage"
+
+[[block]]
+kind = "prose"
+text = '''
+Follow the line forward. The peak it reached after the war never returns; the odd crisis rebound interrupts, but the share ends the chart a third below its postwar level.
+
+By 2024 the implied weekly wage was {fact:us-2020s-weekly-earnings} (the museum's own computation: all-private wages against manufacturing hours) against an all-family median of {fact:us-2020s-median-income-all-families}. The paycheck that once reached most of the median now covers barely more than half of it.
+'''
+
+[[block]]
+kind = "prose"
+text = '''
+One honesty note before the moral. The "one wage" on this line is a manufacturing production wage — urban, industrial, historically male. It stands in for "the worker" only because no broader hourly wage series reaches back across the century; the rooms declare that proxy on the exhibit, rather than hiding it. Conclusions about the median worker should hold that shape in mind.
+'''
+
+[[block]]
+kind = "prose"
+text = '''
+If one paycheck stopped covering the median, the household's arithmetic had to close another way — and the rooms show where it closed. In 1950 {fact:us-1950s-married-women-lfpr} of married women were already in the labor force; by the twenty-twenties it was {fact:us-2020s-married-women-lfpr}.
+
+The story the line tells is not that work left the family. It is that covering an ordinary life moved — from one wage to two, and from the paid week to the unpaid home. The sister tour, on the work that moved, picks up that thread.
+'''

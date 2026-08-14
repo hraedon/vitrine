@@ -1,0 +1,38 @@
+# The Dockerfile only COPYs pyproject.toml, src/, data/, deploy/.
+# Exclude everything else from the build context so it is never sent to the
+# daemon — especially samples/ (API keys, raw third-party data) and .git.
+
+.git
+.github
+.githooks
+githooks
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.venv
+__pycache__
+*.egg-info
+*.pyc
+
+# build outputs / projections
+_site
+build
+dist
+
+# never send to the daemon — secrets and raw third-party data (AGENTS.md)
+samples
+
+# dev-only docs and notes
+docs
+plans
+reflections
+tests
+scripts
+k8s
+
+# misc
+.claude
+*.md
+.gitignore
+.identifiers-denylist.local
+room-1950s-full.png

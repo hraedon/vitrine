@@ -3,7 +3,7 @@
 {% block body %}
 <p class="eyebrow">vitrine · the affordability view</p>
 <h1>Affordability over <em>time</em></h1>
-<p class="sub">Five ratios, each computed at build from the underlying series — never authored. A metric's line runs only across the years both its numerator and denominator cover; the gaps are the honest shape of the record. Copper bands mark NBER recessions.</p>
+<p class="sub">Five ratios, each computed at build from the underlying series — never authored. A metric's line runs only across the years both its numerator and denominator cover; the gaps are the honest shape of the record. Ember bands mark NBER recessions.</p>
 <div class="caveat">⚠ {{ disclaimer }}</div>
 {% for item in page.sections %}
 <h2 class="case-title" id="metric-{{ item.metric.slug }}">{{ item.metric.label }}</h2>
@@ -16,7 +16,7 @@
 <div class="chart-panel"><p class="case-sub gapv">{{ item.note }}</p></div>
 {% endif %}
 {% endfor %}
-<footer class="case-sub" style="margin-top:28px;border-top:1px solid #34291f;padding-top:12px;max-width:80ch;overflow-wrap:break-word;word-break:break-all">
+<footer class="case-sub recessions-credit">
 Recession bands: NBER Business Cycle Dating Committee chronology, transcribed from
 <a href="{{ page.recession_url }}">{{ page.recession_url }}</a>. They are annotation, not facts.
 Methodology: each ratio divides two structured series; values display in nominal

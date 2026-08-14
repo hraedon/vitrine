@@ -84,13 +84,18 @@ facts without one render as gaps.
 
 - One room file per (country, decade): `data/<country>/<decade>.toml`.
 - Global registries: `data/sources.toml`, `data/assumptions.toml`.
+- Docent essays (plan 016): `data/essays/<slug>.toml` — prose blocks with
+  fact interpolation only (`{fact:<id>}` / `{fact:<id>:label}`) plus chart
+  blocks (`arc`/`group`/`metric` slugs). **Never type a numeral into essay
+  prose**: the numeral gate fails the build — write the number as a binding
+  or in words; write essays with the cited placards on screen, like facts.
 - Fact ids are globally unique: `<country>-<decade>-<slug>`.
 - Tiers: A official series / B official microdata (computed) / C period-survey
   reconstruction / D scholarly estimate. When in doubt, tier *down* and note why.
 
 ## Research materials & API keys (gitignored `samples/`)
 
-- `samples/` holds the organized primary-source archive (19 topic dirs +
+- `samples/` holds the organized primary-source archive (topic dirs +
   `MANIFEST.md`, cross-referenced to `sources.toml`). **Verify transcriptions
   against these documents first** — bls.gov 403s non-browser clients from
   this environment; Wayback `…/web/<yyyy>id_/<url>` fetches work.
@@ -106,6 +111,9 @@ facts without one render as gaps.
 
 ## Repo hygiene
 
-- Private until a written sanitization review (`docs/publication-review.md`).
+- Public since 2026-07 (the flip preceded its review — see the timing finding
+  in `docs/publication-review.md`, re-verified 2026-08-14). The identifier
+  gate — pre-commit hook + CI job — is the standing sanitization enforcement;
+  re-run the full review before any change in publication posture.
 - Breadcrumbs live in the agent-notes DB (`agent-notes` CLI), not in-repo dirs.
 - Plans in `plans/NNN-*.md`; keep headers honest or trust git log over them.

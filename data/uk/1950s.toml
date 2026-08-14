@@ -1,0 +1,110 @@
+# UK, the 1950s. Pre-1970, only MANUAL-worker earnings exist in the ONS series
+# (the all-employee aggregate begins 1970), so the wage anchor is adult male
+# manual workers. TV diffusion is taken from receiving-licence counts (a proxy
+# for TV households), since the GHS begins only in 1972. No affordability
+# anchors (weekly manual earnings only; no household-income series in archive).
+# Data year anchors: 1953 (tenure), 1955 (earnings, TV licences).
+
+[room]
+country = "uk"
+decade = "1950s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1950s-weekly-earnings"
+basis = "weekly"
+amount_minor = 1087
+currency = "GBP"
+price_year = 1955
+panel = "budget"
+label = "Average gross weekly earnings, adult male manual workers, 1955"
+quantity = 10.87
+value = "£10.87"
+unit = "GBP per week, nominal (mean gross weekly earnings, male manual, full-time)"
+source = "ons-earnings-1938-2025"
+tier = "A"
+notes = "From the ONS long-run earnings series. 1955 (April sample, pre-NES / Dept of Employment Labour Statistics): adult male manual workers £10.87/week; adult female manual workers £5.63/week. Great Britain. Pre-1970 the series reports manual and non-manual workers separately, not a combined all-employee figure. Individual earnings, not family income. Postwar austerity gave way to rising real wages through the decade."
+assumptions = ["composite-family", "nominal-values", "manufacturing-wage-proxy"]
+
+[[fact]]
+id = "uk-1950s-household-income-gap"
+panel = "budget"
+label = "Median household income, 1950s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "No median household-income series is transcribed for the 1950s. The Family Expenditure Survey (FES) began collecting household income in 1957 but is not in the archive. The manual-earnings figure above is the available wage anchor, not a household-income median."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1950s-tenure"
+quantity = 32
+panel = "home"
+label = "Tenure of households, England and Wales, 1953"
+value = "Owned 32%, private rented 58%, socially rented 10%"
+unit = "% of households"
+source = "ons-century-homeownership"
+tier = "A"
+notes = "From ONS analysis of Census of England and Wales tenure. 1953: only a third of households owned their home (32%); the majority rented privately (58%, down from 76% in 1918). The social-rented sector (council housing) was expanding from a small base (10%) and would grow rapidly through the postwar building programmes. Households, not families."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-1950s-housing-amenities-gap"
+panel = "home"
+label = "Rooms, floor area, amenities (bath, WC, central heating)"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-ghs-40yr"
+tier = "D"
+notes = "The 1951 Census of England and Wales asked about piped water, water closet, and fixed bath, but those amenity tables are not in the archive. The GHS (which recorded central heating and appliances) did not begin until 1971. Postwar housing remained austere: many homes still lacked an inside bath or WC."
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1950s-television"
+panel = "diffusion"
+label = "Television receiving licences, 1955"
+value = "4,503,766 licences (1955)"
+unit = "television receiving licences at 31 March (≈ TV-owning households)"
+source = "terramedia-tv-licences"
+tier = "A"
+notes = "From BBC / TV Licensing receiving-licence counts. Television spread rapidly after the BBC service resumed in June 1946: from 343,882 licences (1950) to 4,503,766 (1955), roughly a thirteenfold rise. ITV launched in September 1955, accelerating take-up. One licence was required per household with a set, so the count approximates TV-owning households (slight evasion undercount). Radio had been near-universal since the late 1930s. This licence count is not directly comparable to the post-1972 GHS household-percentage series."
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1950s-work-hours-gap"
+panel = "day"
+label = "Weekly work hours, 1950s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "No continuous hours-worked survey exists before the Labour Force Survey (1973). The 1950s saw the consolidation of the postwar settlement on shorter hours and paid holidays through collective bargaining. Without hours, weekly earnings cannot be converted to an hourly wage, so no affordability anchor is set."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1950s-food-basket-gap"
+panel = "table"
+label = "The food basket, 1950s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-ghs-40yr"
+tier = "D"
+notes = "The National Food Survey (NFS) ran continuously 1940–2000, but the 1950s NFS data is not in the archive. (Archive holds NFS 1940–49 working-class-diet reports and 2023–24 Family Food, but not the 1950s.) Rationing did not fully end until 1954 (meat), so any 1950s basket would also need to reflect the early-decade rationed regime."
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1950s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 1950s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "Without an hourly wage (no hours data) or item prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 1950s. The weekly manual-earnings figure (£10.87 male manual, 1955) is the available wage reference."

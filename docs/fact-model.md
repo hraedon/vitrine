@@ -23,7 +23,7 @@ The atomic exhibit unit. One claim, one source, one tier.
 | `notes` | str | Optional curator note shown in the provenance drawer |
 | `assumptions` | list[str] | Ids resolving into `data/assumptions.toml` |
 | `amount_minor` | int? | Structured value in integer minor units (cents) — no float drift |
-| `currency` | str | e.g. `"USD"`; required iff `amount_minor` is set |
+| `currency` | str | ISO 4217 code, e.g. `"USD"`; required iff `amount_minor` is set. Must be registered in `vitrine.money.CURRENCIES` — an unknown code is a red `vitrine check`. `vitrine.money` also formats amounts per-currency; **no FX** — the museum never converts between currencies as a truth-path number. |
 | `price_year` | int? | Year the amount is quoted in |
 | `basis` | Basis? | What the amount is measured against (closed set, below); required iff `amount_minor` is set |
 | `quantity` | float? | Headline non-monetary numeric for chart projection (a percentage, hours, a rate); must appear verbatim in `value` — gate-enforced |
@@ -45,8 +45,12 @@ whose `value` carries no single honest headline number (a multi-series string,
 a range) simply has no `quantity`, and charts render it as the gap it is.
 
 A fact whose honest value is "the record is silent" is written with
-`value = "no reliable record"` and tiered `D` with a note explaining why.
-Rendering the gap is a feature; inventing a number is a charter violation.
+`value = "no reliable record"` (or the longer form `"no reliable record
+accessible online"` used by v2 world rooms where the gap is an archive-
+access limitation rather than a missing survey) and tiered `D` with a note
+explaining why. The gap detector matches any `value` that starts with
+`"no reliable record"`. Rendering the gap is a feature; inventing a number
+is a charter violation.
 
 ### Source
 
@@ -62,6 +66,8 @@ An entry in the global registry `data/sources.toml`.
 | `population` | str | **Who was actually measured** — the anti-composite field |
 | `notes` | str | Access date, edition, table number, caveats |
 | `short_cite` | str | Brief inline citation for footnote display on visualizations |
+| `measure` | Measure? | What economic quantity an affordability anchor measures; optional in general but **required on any source used as a `wage_anchor` or `income_anchor`** (see Measure, below) |
+| `expect` | list[str]? | Content markers `scripts/link_check.py` verifies against the served document — a 200 OK is not proof the URL serves the described document (the f08a/f08ar wrong-variant incident). Text/HTML and `.xlsx` (shared strings) are searchable; opaque formats (PDF) stay resolve-only. |
 
 `population` is mandatory and load-bearing: "all US families, CPS money
 income" vs "urban wage-earner families with a male head" is the difference
@@ -127,9 +133,37 @@ One file per (country, decade): `data/<country>/<decade>.toml`, e.g.
 tables. The `[room]` table carries `country` and `decade` and, optionally,
 the affordability anchors `wage_anchor` (a fact id whose `basis` is `hourly`)
 and `income_anchor` (a fact id whose `basis` is `annual`); the affordability
-axis divides each priced fact by these. Country codes are lowercase ISO-ish
-slugs (`us`, `uk`, `pl`, `ru`, `cn`, `in`, `jp`); decades are
+axis divides each priced fact by these. A room for the current (ongoing)
+decade may also declare `data_as_of` (e.g. `"2024"`) — the year the room's
+most recent facts were drawn from, shown so the visitor knows how stale the
+"current" decade is. Country codes are lowercase ISO-ish slugs
+(`us`, `uk`, `pl`, `ru`, `cn`, `in`, `jp`); decades are
 `"1890s"`…`"2020s"`.
+
+### Essay (plan 016)
+
+The docent layer: curated connective prose — "tours" — for the century-scale
+stories the corpus proves but no chart tells. One file per tour,
+`data/essays/<slug>.toml`: an `[essay]` table (`slug`, `title`, `standfirst`)
+and `[[block]]` entries of kind `prose` (copy) or `chart` (exactly one of
+`arc` / `group` / `metric`, resolved against the site's registries at build).
+
+The defining rule: **the docent may interpret; the docent may not quote from
+memory.** A number enters prose only by binding to a fact — `{fact:<id>}`
+renders the fact's as-authored `value` with its tier chip, deep-linked;
+`{fact:<id>:label}` renders the label; derived facts interpolate identically
+(linking to their room row). After stripping these bindings, the numeral gate
+(`vitrine check`) fails the build on any remaining numeric token except
+four-digit years (1850–2035), decade words, and ranges of the two. The gate
+checks numbers; the adversarial-review pass checks words. Honest limits
+(recorded in plan 016): verbal arithmetic is words, and fact selection is
+editorial — every essay page carries the composite-family disclaimer strip.
+
+> **Country scope.** The interpolation regex in `model.py`
+> (`INTERPOLATION_RE`) matches any `<country>-<decade>-<slug>` fact id, so
+> essays may bind to `uk-`/`jp-` facts exactly as to `us-` ones. The two
+> shipped essays bind exclusively to US facts; non-US bindings are covered
+> by tests (`tests/test_essays.py`).
 
 ## Closed sets
 
@@ -168,6 +202,7 @@ affordability axis dispatches on it:
 | `total` | A one-time price | $1,511 for a car |
 | `hourly` | A wage rate | $1.32/hr |
 | `weekly` | A weekly figure | $53.29/wk |
+| `monthly` | A monthly figure | ¥29,169/mo (Japan rooms) |
 | `annual` | An annual figure | $3,319/yr |
 
 **Measure** — what an affordability *anchor* denominator measures. Set on the
@@ -223,9 +258,26 @@ The gate loads everything under `data/` and fails on any of:
    what it measures.
 9. A `[[derived]]` entry whose operands don't resolve in-room or cross-room,
    aren't structured (amount_minor for monetary ops, quantity for
-   quantity-based ops), mix currencies (for ratio/pct_of), or divide by zero
-   (plan 006, WI-5). Derived ids obey the same prefix/uniqueness rules as
-   fact ids.
+   quantity-based ops), mix currencies (for ratio/pct_of), mismatch `unit`
+   (for quantity_ratio — a ratio of unlike quantities is not meaningful;
+   comparison is case/whitespace-insensitive, and quantities that share a
+   dimension should harmonize their unit strings and carry the distinction
+   in label/notes), or divide by zero (plan 006, WI-5; unit guard WI-022).
+   Derived ids obey the same prefix/uniqueness rules as fact ids.
+10. An essay whose prose carries a numeral not bound to a fact (after the
+    year/decade allowance), cites an unknown fact id, duplicates slugs, or
+    fails the block-shape rules (plan 016's numeral gate). Chart-block slugs
+    resolve against the site's arc/group/metric registries at build time —
+    same as the wing and room-story registry gates — or the build fails.
+11. A currency boundary crossed anywhere the truth path divides or chains
+    (plan 023 WI-3): a room whose structured facts mix currencies; a
+    `ratio`/`pct_of` derivation over operands of different currencies; a
+    monetary series (`values_minor`) without a registered `currency` (or a
+    dimensionless series with one); a `splices_from` chain across currencies;
+    or an `INFLATE` pointed at a monetary series — the ratio must be an
+    index, not an amount. Within-currency structure only: the museum never
+    converts between currencies. Cross-nation comparison travels on the
+    currency-free axes (hours-to-afford, shares), never on amounts.
 
 CI runs `vitrine check` alongside ruff/mypy/pytest; a red gate blocks merge.
 

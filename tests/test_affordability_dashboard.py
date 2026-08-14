@@ -15,11 +15,13 @@ from vitrine.site.render import (
 
 
 def _series(sid: str, values: dict[int, float] | None = None,
-            values_minor: dict[int, int] | None = None) -> Series:
+            values_minor: dict[int, int] | None = None,
+            currency: str = "USD") -> Series:
     return Series(
         id=sid, label="L", source="src", tier=Tier.A,
         unit="u", population="p",
         values=values or {}, values_minor=values_minor or {},
+        currency=currency if values_minor else "",
     )
 
 
@@ -28,6 +30,13 @@ def _series(sid: str, values: dict[int, float] | None = None,
 
 def test_series_numeric_converts_monetary_cents_to_dollars() -> None:
     assert _series_numeric(_series("s", values_minor={1950: 331900}))[1950] == 3319.0
+
+
+def test_series_numeric_scales_by_currency_minor_digits() -> None:
+    """JPY's minor unit is the yen (0 digits): whole yen stay whole — the
+    old hardcoded /100 would have divided a ¥29,169 series by a hundred."""
+    s = _series("s", values_minor={1950: 29169}, currency="JPY")
+    assert _series_numeric(s)[1950] == 29169.0
 
 
 def test_series_numeric_keeps_float_series_as_is() -> None:

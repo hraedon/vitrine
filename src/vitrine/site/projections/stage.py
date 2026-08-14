@@ -14,6 +14,12 @@ from vitrine.site.projections.facts import FactRef, placard_href
 
 
 def build_stage(room: Room, index: dict[str, FactRef], root: str) -> svg.Stage:
+    # The stage registries are decade-keyed US curation, so an un-curated
+    # country would silently borrow the US room of the same decade. It gets a
+    # bare stage instead; its facts still render in the ledgers below.
+    if room.country not in curation.CURATED_COUNTRIES:
+        return svg.Stage(decade=room.decade, artifacts=(), zone_notes=())
+
     artifacts: list[svg.StageArtifact] = []
     for artifact, (x, y) in svg.STAGE_POS.items():
         fid = curation.STAGE_DIFFUSION.get(artifact, {}).get(room.decade)

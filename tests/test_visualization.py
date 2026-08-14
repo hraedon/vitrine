@@ -14,10 +14,13 @@ from pathlib import Path
 import pytest
 
 from vitrine.check import check_mark_coverage
+from vitrine.derive import evaluate_room
 from vitrine.loader import load_corpus
 from vitrine.model import Corpus, Panel
 from vitrine.series import load_series
 from vitrine.site import curation, symbols
+from vitrine.site.projections.facts import GAP_PREFIX
+from vitrine.site.projections.rooms import atlas_matrix, project_lobby
 from vitrine.site.render import _build_stage, _index_facts, render_site
 
 DATA = Path(__file__).parent.parent / "data"
@@ -60,6 +63,19 @@ def _scan(page: Path) -> _Scanner:
     return scanner
 
 
+def _curated(corpus: Corpus) -> list:
+    """The rooms the editorial layer actually covers, in build order.
+
+    The comparative surfaces (lobby matrix, pair matrix, corridors, walkthrough)
+    are still keyed by decade alone, so they are projected over the curated
+    country only. Rooms outside it are built and navigable but not compared.
+    """
+    return sorted(
+        (r for r in corpus.rooms if r.country in curation.CURATED_COUNTRIES),
+        key=lambda r: (r.country, r.decade),
+    )
+
+
 def test_only_shared_progressive_enhancement_script(site: Path) -> None:
     """Pages use one external interaction asset and contain no inline script."""
     for page in site.rglob("*.html"):
@@ -90,9 +106,52 @@ def test_all_three_surfaces_render(site: Path, corpus: Corpus) -> None:
     """AC 1/5: rooms, corridors, and the walkthrough all exist."""
     assert (site / "walkthrough.html").is_file()
     assert (site / "corridors" / "index.html").is_file()
-    n = len(corpus.rooms)
-    assert len(list((site / "rooms").glob("*.html"))) == n
-    assert len(list((site / "corridors").glob("*--*.html"))) == n * (n - 1) // 2
+    # Every room gets a page; the pairwise matrix is over the curated country
+    # only, since a pair page is keyed by decade and cannot yet name a country.
+    assert len(list((site / "rooms").glob("*.html"))) == len(corpus.rooms)
+    paired = len(_curated(corpus))
+    assert (
+        len(list((site / "corridors").glob("*--*.html")))
+        == paired * (paired - 1) // 2
+    )
+
+
+def test_index_matrix_counts_match_the_corpus(site: Path, corpus: Corpus) -> None:
+    """Plan 020: the record-at-a-glance is folded from the corpus, never authored."""
+    rooms = tuple(_curated(corpus))
+    fact_index = {f.id: f for room in corpus.rooms for f in room.facts}
+    series = load_series(DATA)
+    computed_by_room = {
+        room.slug: evaluate_room(room, series, fact_index) for room in rooms
+    }
+    rows, totals = atlas_matrix(tuple(rooms), computed_by_room)
+
+    # per-cell values equal the corpus's own per-room/panel counts
+    for room, row in zip(rooms, rows, strict=True):
+        computed = computed_by_room[room.slug]
+        for panel, cell in zip(Panel, row.cells, strict=True):
+            by_panel = [f for f in room.facts if f.panel is panel]
+            assert cell.facts == len(by_panel)
+            assert cell.computed == sum(1 for c in computed if c.panel is panel)
+            assert cell.gaps == sum(
+                1
+                for f in by_panel
+                if f.value.strip().lower().startswith(GAP_PREFIX)
+            )
+    # corpus totals match the gate's own counting
+    assert totals.facts == sum(len(r.facts) for r in rooms)
+    assert totals.computed == sum(len(c) for c in computed_by_room.values())
+
+    page = project_lobby(corpus, rooms, computed_by_room)
+    assert sum(cell.facts for cell in page.panel_totals) == totals.facts
+    assert sum(cell.computed for cell in page.panel_totals) == totals.computed
+    assert page.sources == len(corpus.sources)
+
+    # every decade's row and the corpus totals render on the index
+    html = (site / "index.html").read_text()
+    for row in rows:
+        assert f'href="rooms/{row.slug}.html"' in html
+    assert f"Corpus · {totals.facts} facts" in html
 
 
 def test_museum_map_is_semantic_and_surface_aware(site: Path) -> None:
@@ -101,9 +160,10 @@ def test_museum_map_is_semantic_and_surface_aware(site: Path) -> None:
         site / "index.html": "Rooms",
         site / "corridors" / "index.html": "Trends",
         site / "affordability" / "index.html": "Affordability",
-        site / "walkthrough.html": "Guided tour",
+        site / "walkthrough.html": "Transect",
         site / "methodology.html": "Method",
         site / "bibliography.html": "Sources",
+        site / "essays" / "index.html": "Tours",
     }
     for page, active_label in pages.items():
         html = page.read_text()
@@ -117,7 +177,7 @@ def test_museum_map_is_semantic_and_surface_aware(site: Path) -> None:
 
 
 def test_room_map_has_context_and_complete_timeline(site: Path, corpus: Corpus) -> None:
-    rooms = sorted(corpus.rooms, key=lambda room: room.decade)
+    rooms = _curated(corpus)
     first = (site / "rooms" / f"{rooms[0].slug}.html").read_text()
     middle_position = len(rooms) // 2
     middle_room = rooms[middle_position]
@@ -183,14 +243,16 @@ def test_corridor_atlas_is_navigable_and_progressively_disclosed(site: Path) -> 
 
 
 def test_room_stories_are_local_complete_and_distinct(corpus: Corpus) -> None:
-    rooms = {room.decade: room for room in corpus.rooms}
-    assert len(curation.ROOM_STORIES) == len(curation.ROOM_STORY_BY_DECADE)
-    assert set(curation.ROOM_STORY_BY_DECADE) == set(rooms)
-    for decade, story in curation.ROOM_STORY_BY_DECADE.items():
+    rooms = {room.slug: room for room in corpus.rooms}
+    assert len(curation.ROOM_STORIES) == len(curation.ROOM_STORY_BY_SLUG)
+    # Subset, not equality: a room may exist before its editorial route does.
+    # What must never happen is a story naming a room that is not built.
+    assert set(curation.ROOM_STORY_BY_SLUG) <= set(rooms)
+    for slug, story in curation.ROOM_STORY_BY_SLUG.items():
         assert not re.search(r"\d", story.title + story.question)
         assert len(story.fact_ids) == 4
         assert len(set(story.fact_ids)) == 4
-        room_fact_ids = {fact.id for fact in rooms[decade].facts}
+        room_fact_ids = {fact.id for fact in rooms[slug].facts}
         assert set(story.fact_ids) <= room_fact_ids
 
 
@@ -199,11 +261,17 @@ def test_every_room_opens_with_a_sourced_route_and_case_map(
 ) -> None:
     for room in corpus.rooms:
         html = (site / "rooms" / f"{room.slug}.html").read_text()
-        story = curation.ROOM_STORY_BY_DECADE[room.decade]
-        assert '<section class="room-overture"' in html
-        assert html.count('class="story-stop"') == 4
-        for fact_id in story.fact_ids:
-            assert f'href="#{fact_id}--modal" data-fact-id="{fact_id}"' in html
+        story = curation.ROOM_STORY_BY_SLUG.get(room.slug)
+        if story is None:
+            # An un-curated room still opens honestly: it says the route is
+            # unwritten rather than silently rendering an empty overture.
+            assert 'class="room-overture room-overture--uncurated"' in html
+            assert 'class="story-stop"' not in html
+        else:
+            assert '<section class="room-overture"' in html
+            assert html.count('class="story-stop"') == 4
+            for fact_id in story.fact_ids:
+                assert f'href="#{fact_id}--modal" data-fact-id="{fact_id}"' in html
         assert '<nav class="exhibit-map" aria-label="Room display cases">' in html
         for panel in Panel:
             assert f'href="#panel-{panel.value}"' in html
@@ -246,12 +314,17 @@ def test_absent_technology_is_not_drawn(site: Path, corpus: Corpus) -> None:
         page = site / "rooms" / f"{room.slug}.html"
         room_ids = {f.id for f in room.facts}
         html = page.read_text()
+        # The registry is decade-keyed US curation. An un-curated country gets a
+        # bare stage precisely so it cannot borrow the US room of that decade.
+        uncurated = room.country not in curation.CURATED_COUNTRIES
         for artifact in ("television", "internet", "air-conditioning", "cable", "computer"):
             fid = curation.STAGE_DIFFUSION.get(artifact, {}).get(room.decade)
             sym = symbols.symbol(artifact, room.decade)
             assert sym is not None
             drawn = sym.svg[:60] in html
-            if fid is None:
+            if uncurated:
+                assert not drawn, f"{room.slug}: {artifact} drawn on a bare stage"
+            elif fid is None:
                 assert not drawn, f"{room.slug}: {artifact} drawn without a fact"
             else:
                 assert fid in room_ids

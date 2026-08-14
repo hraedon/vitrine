@@ -15,9 +15,12 @@ from typing import Any
 from vitrine.model import (
     Assumption,
     Basis,
+    BlockKind,
     Corpus,
     DerivedFact,
     DerivedOp,
+    Essay,
+    EssayBlock,
     Fact,
     Measure,
     Panel,
@@ -55,7 +58,7 @@ def _get_str_opt(table: Mapping[str, Any], key: str, ctx: str) -> str:
 
 def _get_int(table: Mapping[str, Any], key: str, ctx: str) -> int:
     value = table.get(key)
-    if not isinstance(value, int):
+    if isinstance(value, bool) or not isinstance(value, int):
         raise LoadError(f"{ctx}: field {key!r} missing or not an integer")
     return value
 
@@ -64,7 +67,7 @@ def _get_int_opt(table: Mapping[str, Any], key: str, ctx: str) -> int | None:
     if key not in table:
         return None
     value = table[key]
-    if not isinstance(value, int):
+    if isinstance(value, bool) or not isinstance(value, int):
         raise LoadError(f"{ctx}: field {key!r} must be an integer")
     return value
 
@@ -100,6 +103,7 @@ def _load_sources(path: Path) -> dict[str, Source]:
             notes=_get_str_opt(table, "notes", ctx),
             short_cite=_get_str_opt(table, "short_cite", ctx),
             measure=_parse_measure(table, ctx),
+            expect=_get_str_list(table, "expect", ctx),
         )
         if source.id in sources:
             raise LoadError(f"{path}: duplicate source id {source.id!r}")
@@ -229,6 +233,38 @@ def _load_room(path: Path) -> Room:
     )
 
 
+def _load_essay(path: Path) -> Essay:
+    data = _read_toml(path)
+    meta = data.get("essay")
+    if not isinstance(meta, dict):
+        raise LoadError(f"{path}: missing [essay] table")
+    ctx = f"{path} [essay]"
+    blocks: list[EssayBlock] = []
+    for table in data.get("block", []):
+        block_ctx = f"{path} [[block]]"
+        kind: BlockKind = _parse_enum(
+            _get_str(table, "kind", block_ctx),
+            {k.value: k for k in BlockKind},
+            "kind",
+            block_ctx,
+        )
+        blocks.append(
+            EssayBlock(
+                kind=kind,
+                text=_get_str_opt(table, "text", block_ctx),
+                arc=_get_str_opt(table, "arc", block_ctx),
+                group=_get_str_opt(table, "group", block_ctx),
+                metric=_get_str_opt(table, "metric", block_ctx),
+            )
+        )
+    return Essay(
+        slug=_get_str(meta, "slug", ctx),
+        title=_get_str(meta, "title", ctx),
+        standfirst=_get_str(meta, "standfirst", ctx),
+        blocks=tuple(blocks),
+    )
+
+
 def load_corpus(data_dir: Path) -> Corpus:
     """Load the whole museum from a data directory."""
     sources_path = data_dir / "sources.toml"
@@ -241,10 +277,15 @@ def load_corpus(data_dir: Path) -> Corpus:
     rooms = tuple(
         _load_room(path)
         for path in sorted(data_dir.glob("*/*.toml"))
-        if path.parent.name != "series"
+        if path.parent.name not in ("series", "essays")
+    )
+    essays_dir = data_dir / "essays"
+    essays = tuple(
+        _load_essay(path) for path in sorted(essays_dir.glob("*.toml"))
     )
     return Corpus(
         sources=_load_sources(sources_path),
         assumptions=_load_assumptions(assumptions_path),
         rooms=rooms,
+        essays=essays,
     )

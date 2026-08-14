@@ -1,0 +1,110 @@
+# Japan, the 1950s. Postwar recovery decade; official household surveys began in
+# 1946 but national coverage and English-language long-run tables arrive later.
+# The 1955 FIES workers' household income is urban-only; the yearbook wage is
+# establishment-based. Everything else in the archive begins after 1960.
+# Data year anchors: 1955.
+# Country caveat: Japanese surveys measure households; the composite-family
+# disclaimer applies.
+
+[room]
+country = "jp"
+decade = "1950s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1950s-fies-workers-income"
+panel = "budget"
+label = "Workers' household monthly income, 1955"
+value = "¥29,169"
+quantity = 29169
+unit = "JPY per month, nominal (workers' households, all cities)"
+source = "jp-fies"
+tier = "A"
+amount_minor = 29169
+currency = "JPY"
+price_year = 1955
+basis = "monthly"
+notes = "From the FIES long-run tables. 1955: workers' households (two-or-more-person), all cities. The pre-1962 FIES covered cities only — rural and agricultural households are excluded. This is a workers' household average, not a four-person family median."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-kakei-1962-seam"]
+
+[[fact]]
+id = "jp-1950s-yearbook-wage"
+panel = "budget"
+label = "Average monthly wage, establishments with 30+ workers, 1955"
+value = "¥18,300"
+quantity = 18300
+unit = "JPY per month, nominal (all industries, establishments with 30 or more regular workers)"
+source = "jp-jsy"
+tier = "A"
+amount_minor = 18300
+currency = "JPY"
+price_year = 1955
+basis = "monthly"
+notes = "From the Japan Statistical Yearbook historical wage tables. 1955: average monthly cash earnings for all industries, establishments with 30 or more regular workers. Establishment-based payroll data, not household income."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-kakei-1962-seam"]
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1950s-home-gap"
+panel = "home"
+label = "Housing tenure, floor area, and amenities, 1950s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-hls"
+tier = "D"
+notes = "The Housing and Land Survey summary results used by this project are extracted from the Japan Statistical Yearbook, which begins English-language housing tables in 1988. The 1950s HLS data is not in the archive."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1950s-diffusion-gap"
+panel = "diffusion"
+label = "Household durable goods and communications, 1950s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-nsfiie"
+tier = "D"
+notes = "The National Survey of Family Income and Expenditure publishes English durable-goods summaries from 1999 onward. Earlier survey waves (including the 1950s) are not in the archive in English."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1950s-day-gap"
+panel = "day"
+label = "Working hours, 1950s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-mls"
+tier = "D"
+notes = "The Monthly Labour Survey all-industry total (30+ regular workers) begins in 1970. Scanned yearbook data gives 1955/1965 wages but not hours. Without hours, no hourly wage or affordability anchor can be computed."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1950s-table-gap"
+panel = "table"
+label = "Consumption and food share, 1950s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-fies"
+tier = "D"
+notes = "The FIES all-household consumption and food-share series used by this project begins in 1965. The 1955 food basket is not in the archive."
+assumptions = ["composite-family", "jp-household-not-family", "jp-kakei-1962-seam"]
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1950s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 1950s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-mls"
+tier = "D"
+notes = "Without an hourly wage (no hours data) or durable-goods prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 1950s. The monthly wage figures above are the available wage references."
+assumptions = ["composite-family", "jp-household-not-family"]

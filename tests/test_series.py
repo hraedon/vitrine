@@ -43,7 +43,7 @@ _GOOD_VALUES = (
 _GOOD_MINOR = (
     '[[series]]\n'
     'id = "income-test"\nlabel = "Test income"\nsource = "src-1"\ntier = "A"\n'
-    'unit = "USD"\npopulation = "all"\n\n'
+    'unit = "USD"\npopulation = "all"\ncurrency = "USD"\n\n'
     "[series.values_minor]\n1950 = 331900\n1951 = 340000\n"
 )
 
@@ -145,7 +145,9 @@ def test_gate_rejects_empty_values(tmp_path: Path) -> None:
 def test_gate_rejects_both_values_and_values_minor(tmp_path: Path) -> None:
     data = _write_corpus(tmp_path)
     _write_series(
-        data, _series_body("[series.values]\n1950 = 1.0\n[series.values_minor]\n1950 = 100\n")
+        data,         _series_body(
+            'currency = "USD"\n[series.values]\n1950 = 1.0\n[series.values_minor]\n1950 = 100\n'
+        )
     )
     problems = check_series(load_series(data), load_corpus(data))
     assert any("both" in p for p in problems)
@@ -170,7 +172,9 @@ def test_drift_detector_catches_disagreement_with_fact(tmp_path: Path) -> None:
     """A unique-source series whose year overlaps a structured fact's price_year
     must agree — the same number must not drift in two places."""
     data = _write_corpus(tmp_path, fact_amount=_FACT_WITH_AMOUNT)
-    _write_series(data, _series_body("[series.values_minor]\n1950 = 999999\n"))
+    _write_series(
+        data, _series_body('currency = "USD"\n[series.values_minor]\n1950 = 999999\n')
+    )
     problems = check_series(load_series(data), load_corpus(data))
     assert any("drifted in two places" in p for p in problems)
 
@@ -187,8 +191,12 @@ def test_drift_detector_skips_when_two_series_share_source(tmp_path: Path) -> No
     data = _write_corpus(tmp_path, fact_amount=_FACT_WITH_AMOUNT)
     _write_series(
         data,
-        _series_body("[series.values_minor]\n1950 = 1\n", sid="a")
-        + _series_body("[series.values_minor]\n1950 = 2\n", sid="b"),
+        _series_body(
+            'currency = "USD"\n[series.values_minor]\n1950 = 1\n', sid="a"
+        )
+        + _series_body(
+            'currency = "USD"\n[series.values_minor]\n1950 = 2\n', sid="b"
+        ),
     )
     assert check_series(load_series(data), load_corpus(data)) == []
 
@@ -246,3 +254,64 @@ def test_float_drift_catches_mismatched_quantity(tmp_path: Path) -> None:
     _write_series(data, _series_body("[series.values]\n1950 = 50.0\n"))  # drifts
     problems = check_series(load_series(data), load_corpus(data))
     assert any("drifted in two places" in p for p in problems)
+
+
+# ── currency coupling (plan 023 WI-3) ────────────────────────────────────────
+
+
+def test_loader_requires_currency_on_values_minor(tmp_path: Path) -> None:
+    """A monetary series without currency fails at parse, exactly as a fact
+    with amount_minor and no currency does."""
+    data = _write_corpus(tmp_path)
+    _write_series(data, _series_body("[series.values_minor]\n1950 = 331900\n"))
+    with pytest.raises(SeriesError, match="must declare currency"):
+        load_series(data)
+
+
+def test_loader_forbids_currency_on_float_series(tmp_path: Path) -> None:
+    """An index/quantity series is dimensionless; declaring a currency would
+    imply a conversion the museum never performs."""
+    data = _write_corpus(tmp_path)
+    _write_series(
+        data,
+        _series_body('currency = "USD"\n[series.values]\n1950 = 24.1\n'),
+    )
+    with pytest.raises(SeriesError, match="non-monetary"):
+        load_series(data)
+
+
+def test_gate_rejects_unregistered_series_currency(tmp_path: Path) -> None:
+    data = _write_corpus(tmp_path)
+    _write_series(
+        data,
+        _series_body(
+            'currency = "XYZ"\n[series.values_minor]\n1950 = 331900\n'
+        ),
+    )
+    problems = check_series(load_series(data), load_corpus(data))
+    assert any("unknown currency" in p for p in problems)
+
+
+def test_gate_rejects_cross_currency_splice(tmp_path: Path) -> None:
+    """A splice chains two series into one; chaining USD to JPY would launder
+    an exchange rate into the corpus through the back door."""
+    data = _write_corpus(tmp_path)
+    _write_series(
+        data,
+        _series_body(
+            'currency = "USD"\n[series.values_minor]\n1950 = 100000\n',
+            sid="usd-old",
+        )
+        + _series_body(
+            'currency = "USD"\nsplices_from = "usd-old"\n'
+            "[series.values_minor]\n1960 = 120000\n",
+            sid="usd-new",
+        )
+        + _series_body(
+            'currency = "JPY"\nsplices_from = "usd-old"\n'
+            "[series.values_minor]\n1970 = 6500000\n",
+            sid="jpy-bad",
+        ),
+    )
+    problems = check_series(load_series(data), load_corpus(data))
+    assert any("stay within one currency" in p for p in problems)

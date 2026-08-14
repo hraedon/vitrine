@@ -1,0 +1,139 @@
+# UK, the 1970s. The decade UK official-statistics coverage "begins in earnest":
+# the General Household Survey (GHS, from 1971) gives durable-goods diffusion from
+# 1972; ONS holds a continuous weekly-earnings series from 1938; ONS analysis gives
+# England & Wales tenure from 1918. No affordability anchors are set for this room:
+# only weekly (not hourly) earnings are in hand and no median household-income series
+# is in the archive, so the affordability axis is not computed.
+# Data year anchors: 1970 (earnings), 1971 (tenure), 1972 (diffusion).
+# Country caveat: the UK official series measure households (not the four-person
+# family); the composite-family disclaimer applies.
+
+[room]
+country = "uk"
+decade = "1970s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1970s-weekly-earnings"
+basis = "weekly"
+amount_minor = 3000
+currency = "GBP"
+price_year = 1970
+panel = "budget"
+label = "Average gross weekly earnings, adult male full-time employees, 1970"
+quantity = 30.0
+value = "£30.00"
+unit = "GBP per week, nominal (mean gross weekly earnings, male full-time)"
+source = "ons-earnings-1938-2025"
+tier = "A"
+notes = "From the ONS long-run earnings series. 1970 (April sample, NES methodology): adult male full-time employees £30.00/week. Occupational spread in the source: manual £26.80, non-manual £35.80. Adult female full-time: £16.30/week (manual £13.40, non-manual £17.80). Great Britain. This is individual earnings, not family income — a two-earner family earned more, a single-earner family less."
+assumptions = ["composite-family", "nominal-values"]
+
+[[fact]]
+id = "uk-1970s-household-income-gap"
+panel = "budget"
+label = "Median household income, 1970s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "No median household-income series is in the archive for the 1970s. The Family Expenditure Survey (FES) collected household income from 1957, and the official low-income / Households Below Average Income series begins 1979, but neither is transcribed here yet. The weekly-earnings figure above is the available wage anchor, not a household-income median."
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1970s-tenure"
+quantity = 51
+panel = "home"
+label = "Tenure of households, England and Wales, 1971"
+value = "Owned 51%, private rented 20%, socially rented 29%"
+unit = "% of households"
+source = "ons-century-homeownership"
+tier = "A"
+notes = "From ONS analysis of Census of England and Wales tenure. 1971: owner-occupation had reached half of households (51%), up from 43% in 1961; the social-rented sector (largely council housing) stood at 29% and would hold near that level through the decade. Private renting continued its long decline (76% in 1918 → 20% in 1971). Households, not families."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-1970s-housing-amenities-gap"
+panel = "home"
+label = "Rooms, floor area, amenities (bath, WC, central heating)"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-ghs-40yr"
+tier = "D"
+notes = "The 1971 Census of England and Wales asked about hot water, fixed bath, and inside WC (amenity questions introduced 1951 and dropped after 2001 as access neared universal). The GHS recorded central-heating and appliance ownership from 1972. Neither the census amenity tables nor the fuller GHS durable-goods table (central heating, refrigerator, washing machine, vacuum cleaner, dishwasher) is in the archive for transcription."
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1970s-telephone"
+quantity = 42
+panel = "diffusion"
+label = "Households with a telephone, 1972"
+value = "42%"
+unit = "% of households with a telephone"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). The telephone was still a minority good in 1972 (42%), under the nationalised Post Office monopoly; new-line waiting lists ran years. Rose to 54% by 1975."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-1970s-car"
+quantity = 52
+panel = "diffusion"
+label = "Households with a car or van, 1972"
+value = "52%"
+unit = "% of households with a car or van"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Car ownership crossed half of households around 1970 — far behind the US (which passed 60% of families by 1929) but rising fast (56% by 1978). UK ownership was held back until the 1970s by lower incomes and denser cities; the majority of car-owning households had one car."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-1970s-colour-tv"
+quantity = 61
+panel = "diffusion"
+label = "Households with a colour television, 1978"
+value = "61%"
+unit = "% of households with a colour television"
+source = "ons-ghs-40yr"
+tier = "A"
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Colour television began in 1968 (BBC2); by 1978, 61% of households had a colour set. Total TV ownership (black-and-white plus colour) was near-universal by the late 1960s, so this colour figure understates TV access. The GHS did not record colour TV before 1978."
+assumptions = ["composite-family"]
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1970s-work-hours-gap"
+panel = "day"
+label = "Weekly work hours, 1970s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "Continuous hours-worked data begins with the Labour Force Survey (LFS) from 1973; the 1970s LFS hours series is not in the archive. The UK had no statutory maximum working hours until the 1998 Working Time Regulations (implementing an EU directive); before then, hours were set by collective bargaining. Without hours, the weekly-earnings figure cannot be converted to an hourly wage, so no affordability anchor is set for this room."
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1970s-food-basket-gap"
+panel = "table"
+label = "The food basket, 1970s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-ghs-40yr"
+tier = "D"
+notes = "The National Food Survey (NFS) ran continuously 1940–2000 and recorded household food consumption and expenditure; the 1970s NFS data is not in the archive. (The archive holds NFS 1940–49 working-class-diet reports and 2023–24 Family Food data, but not the 1970s.)"
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "uk-1970s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 1970s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "ons-earnings-1938-2025"
+tier = "D"
+notes = "Without an hourly wage (no hours data) or item prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 1970s. The weekly-earnings figure (£30.00 male full-time) is the available wage reference."

@@ -9,10 +9,22 @@ and nothing verifiability-critical is blank.
 from __future__ import annotations
 
 import math
+import re
 from html.parser import HTMLParser
 from pathlib import Path
 
-from vitrine.model import Basis, Corpus, DerivedOp, Fact, Room, measure_axis
+from vitrine import money
+from vitrine.model import (
+    INTERPOLATION_RE,
+    Basis,
+    BlockKind,
+    Corpus,
+    DerivedOp,
+    Fact,
+    Room,
+    measure_axis,
+    normalized_unit,
+)
 from vitrine.series import Series
 
 
@@ -76,6 +88,11 @@ def check_corpus(corpus: Corpus, series: dict[str, Series] | None = None) -> lis
                 has_priced = True
                 if not fact.currency.strip():
                     problems.append(f"{where}: amount_minor set but currency is empty")
+                elif not money.is_known(fact.currency):
+                    problems.append(
+                        f"{where}: unknown currency {fact.currency!r} — register it "
+                        f"in vitrine.money.CURRENCIES"
+                    )
                 if fact.price_year is None:
                     problems.append(f"{where}: amount_minor set but price_year is missing")
                 if fact.basis is None:
@@ -225,6 +242,15 @@ def _check_derived(
             else:
                 s = series[derived.inflate_series] if series else None
                 if s is not None:
+                    if s.values_minor:
+                        # Plan 023 WI-3: INFLATE multiplies by a series *ratio*;
+                        # a monetary series is an amount, not an index — using
+                        # one as the ratio smuggles a currency into the result.
+                        problems.append(
+                            f"{where}: inflate_series {derived.inflate_series!r} "
+                            f"is monetary (values_minor) — INFLATE requires an "
+                            f"index series (values)"
+                        )
                     for yr, label in (
                         (derived.inflate_from_year, "inflate_from_year"),
                         (derived.inflate_to_year, "inflate_to_year"),
@@ -262,7 +288,13 @@ def _check_derived(
                 )
             continue
 
-        # QUANTITY_RATIO (WI-5): numerator.quantity / denominator.quantity
+        # QUANTITY_RATIO (WI-5): numerator.quantity / denominator.quantity.
+        # The two operands must carry comparable units (WI-022): a ratio of
+        # hours to a CPI index is dimensionally meaningless and the gate must
+        # refuse it rather than produce a plausible-looking number. Units are
+        # authored display strings, so exact equality is the conservative test;
+        # a curator ratioing two equivalent-but-differently-described quantities
+        # normalizes the unit string (the corpus already does this for CPI).
         if derived.op is DerivedOp.QUANTITY_RATIO:
             num = by_id.get(derived.numerator) or all_facts.get(derived.numerator)
             den = by_id.get(derived.denominator) or all_facts.get(derived.denominator)
@@ -287,6 +319,20 @@ def _check_derived(
             elif den.quantity == 0:
                 problems.append(
                     f"{where}: denominator {derived.denominator!r} quantity is zero"
+                )
+            if (
+                num is not None
+                and num.quantity is not None
+                and den is not None
+                and den.quantity is not None
+                and normalized_unit(num.unit) != normalized_unit(den.unit)
+            ):
+                problems.append(
+                    f"{where}: unit mismatch ({num.unit!r} vs {den.unit!r}) — "
+                    f"a quantity_ratio divides like quantities; if these share "
+                    f"a dimension, harmonize the unit strings (the distinction "
+                    f"belongs in label/notes), otherwise the ratio is not "
+                    f"meaningful"
                 )
             continue
 
@@ -409,6 +455,28 @@ def check_series(series: dict[str, Series], corpus: Corpus) -> list[str]:
             problems.append(
                 f"{where}: splices_from {s.splices_from!r} resolves to no series"
             )
+        elif (
+            s.splices_from
+            and s.splices_from in series
+            and s.currency != series[s.splices_from].currency
+        ):
+            # Plan 023 WI-3: a splice chains two series into one; chaining
+            # across currencies would launder an exchange-rate conversion into
+            # the corpus through the back door. The museum never converts.
+            problems.append(
+                f"{where}: splices_from {s.splices_from!r} carries currency "
+                f"{series[s.splices_from].currency!r} but this series declares "
+                f"{s.currency!r} — a splice must stay within one currency"
+            )
+
+        # Plan 023 WI-3: a monetary series must name a currency the money
+        # registry knows (same rule as a priced fact), so every consumer
+        # scales it by the registry's minor digits instead of assuming cents.
+        if s.values_minor and s.currency and not money.is_known(s.currency):
+            problems.append(
+                f"{where}: unknown currency {s.currency!r} — register it in "
+                f"vitrine.money.CURRENCIES"
+            )
 
         # ── Drift detector (invariant 9) ───────────────────────────────────
         # Where a single series is the unique series for its source, a decade
@@ -470,6 +538,108 @@ def check_series(series: dict[str, Series], corpus: Corpus) -> list[str]:
                     f"— the same number drifted in two places"
                 )
 
+    return problems
+
+
+# ── the docent numeral gate (plan 016) ────────────────────────────────────────
+# Essay prose is editorial voice, but its numbers must all be bound to facts
+# by interpolation. Stripping the ``{fact:...}`` bindings, the only numerals
+# allowed bare are four-digit years (1850–2035), decade words, and ranges of
+# the two. Everything else — percentages, dollars, hours, counts — fails.
+
+_YEAR = r"(?:18[5-9]\d|19\d\d|20(?:[01]\d|2\d|3[0-5]))"
+_TOKEN_OK = re.compile(rf"(?:{_YEAR}s?(?:[-–—]{_YEAR}s?)?)")
+_EDGE_PUNCT = ".,;:!?()[]{}\"'“”‘’*·—–-"  # noqa: RUF001 — punctuation strip set, not prose
+_SLUG_RE = re.compile(r"[a-z0-9][a-z0-9-]*")
+
+
+def _unbound_numerals(text: str) -> list[str]:
+    """Prose tokens carrying a digit that isn't an allowed year/decade."""
+    stripped = INTERPOLATION_RE.sub(" ", text)
+    bad: list[str] = []
+    for token in stripped.split():
+        core = token.strip(_EDGE_PUNCT)
+        if not any(character.isdigit() for character in core):
+            continue
+        if not _TOKEN_OK.fullmatch(core):
+            bad.append(token)
+    return bad
+
+
+def check_essays(corpus: Corpus) -> list[str]:
+    """The docent gate: prose may interpret, but every numeral is bound.
+
+    Chart-block *slugs* (arc/group/metric) are validated at build time in the
+    presentation layer, which owns those registries — the core gate validates
+    block shape, ids, interpolation resolution, and the numeral rule.
+    """
+    problems: list[str] = []
+    curated_ids = {fact.id for room in corpus.rooms for fact in room.facts}
+    curated_ids |= {derived.id for room in corpus.rooms for derived in room.derived}
+
+    seen_slugs: set[str] = set()
+    for essay in corpus.essays:
+        where = f"essay {essay.slug!r}"
+        if not _SLUG_RE.fullmatch(essay.slug):
+            problems.append(f"{where}: slug must be lowercase alphanumerics and hyphens")
+        if essay.slug in seen_slugs:
+            problems.append(f"{where}: duplicate essay slug")
+        seen_slugs.add(essay.slug)
+        if not essay.title.strip():
+            problems.append(f"{where}: empty title")
+        if not essay.standfirst.strip():
+            problems.append(f"{where}: empty standfirst")
+        if not essay.blocks:
+            problems.append(f"{where}: an essay needs at least one block")
+            continue
+
+        bound = False
+        for token in _unbound_numerals(essay.title) + _unbound_numerals(essay.standfirst):
+            problems.append(
+                f"{where}: unbound numeral {token!r} in head matter — bind it "
+                f"with {{fact:<id>}} or write it in words"
+            )
+        if INTERPOLATION_RE.search(essay.standfirst):
+            bound = True
+        for match in INTERPOLATION_RE.finditer(essay.standfirst):
+            if match.group(1) not in curated_ids:
+                problems.append(
+                    f"{where}: standfirst cites unknown fact {match.group(1)!r}"
+                )
+
+        for i, block in enumerate(essay.blocks, start=1):
+            block_where = f"{where}, block {i}"
+            if block.kind is BlockKind.PROSE:
+                if not block.text.strip():
+                    problems.append(f"{block_where}: prose block with empty text")
+                    continue
+                for token in _unbound_numerals(block.text):
+                    problems.append(
+                        f"{block_where}: unbound numeral {token!r} — bind it "
+                        f"with {{fact:<id>}} or write it in words"
+                    )
+                for match in INTERPOLATION_RE.finditer(block.text):
+                    bound = True
+                    if match.group(1) not in curated_ids:
+                        problems.append(
+                            f"{block_where}: cites unknown fact {match.group(1)!r}"
+                        )
+            else:
+                slugs = [s for s in (block.arc, block.group, block.metric) if s]
+                if len(slugs) != 1:
+                    problems.append(
+                        f"{block_where}: chart block must name exactly one of "
+                        f"arc/group/metric"
+                    )
+                else:
+                    bound = True
+                if block.text.strip():
+                    problems.append(f"{block_where}: chart blocks carry no prose text")
+        if not bound:
+            problems.append(
+                f"{where}: an essay must engage the record — at least one fact "
+                f"interpolation or chart block"
+            )
     return problems
 
 

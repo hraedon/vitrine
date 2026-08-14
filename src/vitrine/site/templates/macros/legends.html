@@ -1,0 +1,16 @@
+{% macro legend_block() %}
+<div class="legends">
+  <div class="leg">
+    <h4>Confidence &amp; flags</h4>
+    {% for t, color in T.TIER_COLORS.items() %}
+    <div class="tierrow"><span class="swatch" style="background:{{ color }}"></span> {{ t }} — {{ tier_names[t] }}</div>
+    {% endfor %}
+    <div class="tierrow"><span class="swatch" style="background:{{ T.GAP }};opacity:.45;border:1px dashed {{ T.GAP }}"></span> Gap — no reliable record; shown as the gap it is</div>
+  </div>
+  <div class="leg">
+    <h4>Reading the atlas</h4>
+    <p><b>Provenance is in the scan-line</b>: every exhibit's row names its value, confidence tier, the population actually measured, and the source record. Chart points and stage glyphs open the same record.</p>
+    <p style="margin-top:8px"><b>Rising</b> series draw in <b style="color:{{ T.BRASS }}">petrol</b>, <b>falling</b> in <b style="color:{{ T.COPPER }}">ember</b>. Absent technology isn't drawn — a bare house says more than ghosts.</p>
+  </div>
+</div>
+{% endmacro %}

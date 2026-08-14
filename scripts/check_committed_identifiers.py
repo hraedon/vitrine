@@ -249,6 +249,11 @@ def scan_files(
         except OSError:
             unreadable.append(path)
             continue
+        # utf-16-le/be codecs decode the BOM as a stray \ufeff prefix on the
+        # first line; strip it so it neither hides an identifier on line one
+        # nor leaks into violation reports. (utf-8-sig strips it itself.)
+        if text.startswith("\ufeff"):
+            text = text[1:]
         for violation in scan_text(text, identifiers):
             violations.append(replace(violation, path=path))
     return violations

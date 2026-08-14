@@ -33,9 +33,6 @@ here. Hence `vitrine gaps`.
 
 ## Upgrade paths for standing Tier D estimates
 
-- **1950s new car price ($1,511).** Identified as the Ford Custom price, not
-  the overall average. A primary upgrade needs period trade publications or
-  NADA historical data.
 - **1950s rooms/heating-fuel detail.** The 1950 Census of Housing collected
   rooms and heating fuel; volumes are scanned online, not yet transcribed.
 - **1970s/1980s housing detail and TV/AC diffusion.** Census 1970 and AHS 1973+
