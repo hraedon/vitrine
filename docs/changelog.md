@@ -107,7 +107,7 @@ builds the site byte-identically from outside the repository. **Tests:**
 197 (162 existing + 35 browser). ruff + mypy --strict clean across 35 files.
 Ancestry gate PASS (`9953a0e` is an ancestor of HEAD). Contracts unchanged.
 
-See `plans/019-recovery-log.md` for the per-work-package landing notes and
+See `plans/019-recovery-log-output.md` for the per-work-package landing notes and
 `plans/019-ui-recovery-and-presentation-architecture.md` for the full plan.
 
 ## 2026-07-08 — Plan 007 (the visualization layer)

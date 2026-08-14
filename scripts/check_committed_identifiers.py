@@ -103,7 +103,11 @@ def scan_text(text: str, identifiers: frozenset[str]) -> Iterator[Violation]:
 
 
 def _sniff_encoding(chunk: bytes) -> str | None:
-    """Return the text encoding if *chunk* starts with a known BOM, else None."""
+    """Return the text encoding if *chunk* starts with a known BOM, else None.
+
+    Returns the BOM-stripping codec (``utf-16`` / ``utf-8-sig``) so the decoded
+    text does not carry a stray ``\\ufeff`` prefix.
+    """
     if chunk.startswith(b"\xff\xfe"):
         return "utf-16-le"
     if chunk.startswith(b"\xfe\xff"):
@@ -125,7 +129,8 @@ def scan_files(identifiers: frozenset[str], paths: list[Path]) -> list[Violation
 
     UTF-16 files (common in Windows tooling output) are detected via BOM and
     decoded correctly rather than misclassified as binary by the null-byte
-    heuristic.
+    heuristic. The BOM is stripped from the decoded text so it does not leak
+    into violation reports.
     """
     violations: list[Violation] = []
     for path in paths:
@@ -141,6 +146,8 @@ def scan_files(identifiers: frozenset[str], paths: list[Path]) -> list[Violation
             text = path.read_text(encoding=encoding, errors="replace")
         except OSError:
             continue
+        if text.startswith("\ufeff"):
+            text = text[1:]
         for violation in scan_text(text, identifiers):
             violations.append(replace(violation, path=path))
     return violations

@@ -95,7 +95,7 @@ facts without one render as gaps.
 
 ## Research materials & API keys (gitignored `samples/`)
 
-- `samples/` holds the organized primary-source archive (19 topic dirs +
+- `samples/` holds the organized primary-source archive (topic dirs +
   `MANIFEST.md`, cross-referenced to `sources.toml`). **Verify transcriptions
   against these documents first** — bls.gov 403s non-browser clients from
   this environment; Wayback `…/web/<yyyy>id_/<url>` fetches work.
@@ -111,6 +111,8 @@ facts without one render as gaps.
 
 ## Repo hygiene
 
-- Private until a written sanitization review (`docs/publication-review.md`).
+- Private until a written sanitization review (no `docs/publication-review.md`
+  yet; the identifier gate — pre-commit hook + CI job — is the standing
+  sanitization enforcement).
 - Breadcrumbs live in the agent-notes DB (`agent-notes` CLI), not in-repo dirs.
 - Plans in `plans/NNN-*.md`; keep headers honest or trust git log over them.
