@@ -53,6 +53,17 @@ def test_bad_tier_rejected_at_parse(tmp_path: Path) -> None:
         load_corpus(data)
 
 
+def test_bool_year_rejected_at_parse(tmp_path: Path) -> None:
+    """``bool`` is a subclass of ``int`` in Python, so a TOML ``year = true``
+    would silently become ``year = 1`` without an explicit guard. The loader
+    rejects bools on integer fields (year, price_year, amount_minor, precision)."""
+    data = _write_minimal(tmp_path)
+    sources = data / "sources.toml"
+    sources.write_text(sources.read_text().replace("year = 1950", "year = true"))
+    with pytest.raises(LoadError, match="not an integer"):
+        load_corpus(data)
+
+
 def test_wrong_id_prefix_fails_gate(tmp_path: Path) -> None:
     data = _write_minimal(tmp_path)
     room = data / "us" / "1950s.toml"

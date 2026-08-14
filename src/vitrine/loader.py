@@ -58,7 +58,7 @@ def _get_str_opt(table: Mapping[str, Any], key: str, ctx: str) -> str:
 
 def _get_int(table: Mapping[str, Any], key: str, ctx: str) -> int:
     value = table.get(key)
-    if not isinstance(value, int):
+    if isinstance(value, bool) or not isinstance(value, int):
         raise LoadError(f"{ctx}: field {key!r} missing or not an integer")
     return value
 
@@ -67,7 +67,7 @@ def _get_int_opt(table: Mapping[str, Any], key: str, ctx: str) -> int | None:
     if key not in table:
         return None
     value = table[key]
-    if not isinstance(value, int):
+    if isinstance(value, bool) or not isinstance(value, int):
         raise LoadError(f"{ctx}: field {key!r} must be an integer")
     return value
 

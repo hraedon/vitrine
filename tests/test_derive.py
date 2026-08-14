@@ -192,6 +192,42 @@ def test_gate_green_on_valid_qty_ratio(tmp_path: Path) -> None:
     assert check_corpus(corpus) == []
 
 
+def _write_corpus_with_qty_ratio_unit_mismatch(tmp_path: Path) -> Path:
+    """WI-022: a QUANTITY_RATIO of hours to a CPI index is dimensionally
+    meaningless; the gate must refuse it even though both operands have a
+    quantity."""
+    (tmp_path / "sources.toml").write_text(
+        '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "all families"\n'
+    )
+    (tmp_path / "assumptions.toml").write_text(
+        '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
+    )
+    room_dir = tmp_path / "us"
+    room_dir.mkdir()
+    (room_dir / "1950s.toml").write_text(
+        '[room]\ncountry = "us"\ndecade = "1950s"\n\n'
+        '[[fact]]\nid = "us-1950s-hours"\npanel = "day"\nlabel = "Hours"\n'
+        'value = "40.5"\nunit = "hours per week"\nsource = "src-1"\ntier = "A"\n'
+        'quantity = 40.5\n'
+        '[[fact]]\nid = "us-1950s-cpi"\npanel = "work-buys"\nlabel = "CPI"\n'
+        'value = "24.1"\nunit = "CPI-U, 1982-84=100"\nsource = "src-1"\ntier = "A"\n'
+        'quantity = 24.1\n'
+        '[[derived]]\nid = "us-1950s-nonsense"\npanel = "work-buys"\n'
+        'label = "N"\nunit = "ratio"\nop = "quantity_ratio"\n'
+        'numerator = "us-1950s-hours"\ndenominator = "us-1950s-cpi"\n'
+    )
+    return tmp_path
+
+
+def test_gate_flags_qty_ratio_unit_mismatch(tmp_path: Path) -> None:
+    """WI-022: the gate refuses a QUANTITY_RATIO whose operands carry
+    incomparable units (hours / CPI-index)."""
+    corpus = load_corpus(_write_corpus_with_qty_ratio_unit_mismatch(tmp_path))
+    problems = check_corpus(corpus)
+    assert any("unit mismatch" in p and "us-1950s-nonsense" in p for p in problems)
+
+
 def _write_corpus_with_cross_room(tmp_path: Path, valid: bool = True) -> Path:
     (tmp_path / "sources.toml").write_text(
         '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'

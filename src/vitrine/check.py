@@ -272,7 +272,13 @@ def _check_derived(
                 )
             continue
 
-        # QUANTITY_RATIO (WI-5): numerator.quantity / denominator.quantity
+        # QUANTITY_RATIO (WI-5): numerator.quantity / denominator.quantity.
+        # The two operands must carry comparable units (WI-022): a ratio of
+        # hours to a CPI index is dimensionally meaningless and the gate must
+        # refuse it rather than produce a plausible-looking number. Units are
+        # authored display strings, so exact equality is the conservative test;
+        # a curator ratioing two equivalent-but-differently-described quantities
+        # normalizes the unit string (the corpus already does this for CPI).
         if derived.op is DerivedOp.QUANTITY_RATIO:
             num = by_id.get(derived.numerator) or all_facts.get(derived.numerator)
             den = by_id.get(derived.denominator) or all_facts.get(derived.denominator)
@@ -297,6 +303,14 @@ def _check_derived(
             elif den.quantity == 0:
                 problems.append(
                     f"{where}: denominator {derived.denominator!r} quantity is zero"
+                )
+            elif num is not None and num.quantity is not None and num.unit != den.unit:
+                problems.append(
+                    f"{where}: QUANTITY_RATIO unit mismatch — numerator "
+                    f"{derived.numerator!r} unit {num.unit!r} differs from "
+                    f"denominator {derived.denominator!r} unit {den.unit!r}; "
+                    f"a ratio requires comparable units (normalize the unit "
+                    f"strings or the comparison is dimensionally meaningless)"
                 )
             continue
 
