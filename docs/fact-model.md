@@ -269,6 +269,15 @@ The gate loads everything under `data/` and fails on any of:
     fails the block-shape rules (plan 016's numeral gate). Chart-block slugs
     resolve against the site's arc/group/metric registries at build time —
     same as the wing and room-story registry gates — or the build fails.
+11. A currency boundary crossed anywhere the truth path divides or chains
+    (plan 023 WI-3): a room whose structured facts mix currencies; a
+    `ratio`/`pct_of` derivation over operands of different currencies; a
+    monetary series (`values_minor`) without a registered `currency` (or a
+    dimensionless series with one); a `splices_from` chain across currencies;
+    or an `INFLATE` pointed at a monetary series — the ratio must be an
+    index, not an amount. Within-currency structure only: the museum never
+    converts between currencies. Cross-nation comparison travels on the
+    currency-free axes (hours-to-afford, shares), never on amounts.
 
 CI runs `vitrine check` alongside ruff/mypy/pytest; a red gate blocks merge.
 

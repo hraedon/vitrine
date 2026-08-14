@@ -242,6 +242,15 @@ def _check_derived(
             else:
                 s = series[derived.inflate_series] if series else None
                 if s is not None:
+                    if s.values_minor:
+                        # Plan 023 WI-3: INFLATE multiplies by a series *ratio*;
+                        # a monetary series is an amount, not an index — using
+                        # one as the ratio smuggles a currency into the result.
+                        problems.append(
+                            f"{where}: inflate_series {derived.inflate_series!r} "
+                            f"is monetary (values_minor) — INFLATE requires an "
+                            f"index series (values)"
+                        )
                     for yr, label in (
                         (derived.inflate_from_year, "inflate_from_year"),
                         (derived.inflate_to_year, "inflate_to_year"),
@@ -445,6 +454,28 @@ def check_series(series: dict[str, Series], corpus: Corpus) -> list[str]:
         if s.splices_from and s.splices_from not in series:
             problems.append(
                 f"{where}: splices_from {s.splices_from!r} resolves to no series"
+            )
+        elif (
+            s.splices_from
+            and s.splices_from in series
+            and s.currency != series[s.splices_from].currency
+        ):
+            # Plan 023 WI-3: a splice chains two series into one; chaining
+            # across currencies would launder an exchange-rate conversion into
+            # the corpus through the back door. The museum never converts.
+            problems.append(
+                f"{where}: splices_from {s.splices_from!r} carries currency "
+                f"{series[s.splices_from].currency!r} but this series declares "
+                f"{s.currency!r} — a splice must stay within one currency"
+            )
+
+        # Plan 023 WI-3: a monetary series must name a currency the money
+        # registry knows (same rule as a priced fact), so every consumer
+        # scales it by the registry's minor digits instead of assuming cents.
+        if s.values_minor and s.currency and not money.is_known(s.currency):
+            problems.append(
+                f"{where}: unknown currency {s.currency!r} — register it in "
+                f"vitrine.money.CURRENCIES"
             )
 
         # ── Drift detector (invariant 9) ───────────────────────────────────

@@ -8,16 +8,19 @@ parsed data in.
 
 from __future__ import annotations
 
+from vitrine import money
 from vitrine.series import Series
 from vitrine.site import curation, svg
 from vitrine.site.projections.facts import FactRef, placard_href
 
 
 def series_numeric(s: Series) -> dict[int, float]:
-    """A series's values in canonical units: dollars for monetary series
-    (values_minor cents → dollars), raw floats otherwise (CPI index, hours)."""
+    """A series's values in canonical units: major units for monetary series
+    (values_minor scaled by the currency's minor digits — cents for USD, whole
+    yen for JPY), raw floats otherwise (CPI index, hours)."""
     if s.values_minor:
-        return {y: v / 100.0 for y, v in s.values_minor.items()}
+        minor_digits = money.get(s.currency).minor_digits
+        return {y: v / (10**minor_digits) for y, v in s.values_minor.items()}
     return dict(s.values)
 
 

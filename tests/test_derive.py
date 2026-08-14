@@ -603,3 +603,40 @@ def test_cross_room_ratio_computes_correct_value() -> None:
     computed = evaluate(room, derived, fact_index=fact_index)
     assert computed.value == "≈ 3.0"
     assert computed.tier is Tier.A
+
+
+def test_gate_rejects_inflate_on_monetary_series(tmp_path: Path) -> None:
+    """Plan 023 WI-3: INFLATE multiplies by a series *ratio*; a monetary
+    series is an amount, not an index — using one as the ratio smuggles a
+    currency into the result."""
+    from vitrine.series import Series
+
+    (tmp_path / "sources.toml").write_text(
+        '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "all families"\n'
+    )
+    (tmp_path / "assumptions.toml").write_text(
+        '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
+    )
+    room_dir = tmp_path / "us"
+    room_dir.mkdir()
+    (room_dir / "2020s.toml").write_text(
+        '[room]\ncountry = "us"\ndecade = "2020s"\n\n'
+        '[[fact]]\nid = "us-2020s-base"\npanel = "work-buys"\nlabel = "Base"\n'
+        'value = "$27,366"\nunit = "USD"\nsource = "src-1"\ntier = "A"\n'
+        'amount_minor = 2736600\ncurrency = "USD"\nprice_year = 2020\nbasis = "total"\n'
+        '[[derived]]\nid = "us-2020s-d"\npanel = "work-buys"\nlabel = "D"\n'
+        'unit = "USD"\nop = "inflate"\nnumerator = "us-2020s-base"\ndenominator = ""\n'
+        'inflate_series = "cpi-test"\ninflate_from_year = 2020\n'
+        'inflate_to_year = 2024\n'
+    )
+    monetary = Series(
+        id="cpi-test", label="L", source="src-1", tier=Tier.A,
+        unit="USD", population="p", currency="USD",
+        values_minor={2020: 14760, 2024: 17789},
+    )
+    corpus = load_corpus(tmp_path)
+    problems = check_corpus(corpus, {"cpi-test": monetary})
+    assert any(
+        "is monetary" in p and "us-2020s-d" in p for p in problems
+    ), problems

@@ -44,6 +44,7 @@ class Series:
     population: str
     values: dict[int, float] = field(default_factory=dict)
     values_minor: dict[int, int] = field(default_factory=dict)
+    currency: str = ""  # required iff values_minor set (plan 023 WI-3)
     notes: str = ""
     splices_from: str = ""  # optional: another series id + splice note
     measure: Measure | None = None  # set iff the series is an affordability axis
@@ -135,6 +136,29 @@ def _parse_minor_table(
     return out
 
 
+def _parse_currency(table: Mapping[str, Any], ctx: str, has_minor: bool) -> str:
+    """``currency`` couples to ``values_minor`` exactly as a Fact's couples to
+    ``amount_minor``: required on monetary series (the registry knows how to
+    format and scale them), forbidden on float series (an index or quantity is
+    dimensionless — a currency on it would imply a conversion that must never
+    happen)."""
+    raw = table.get("currency", "")
+    if not isinstance(raw, str):
+        raise SeriesError(f"{ctx}: field 'currency' must be a string")
+    if has_minor and not raw.strip():
+        raise SeriesError(
+            f"{ctx}: values_minor series must declare currency "
+            f"(e.g. \"USD\") — the money registry scales and formats it"
+        )
+    if not has_minor and raw.strip():
+        raise SeriesError(
+            f"{ctx}: currency {raw!r} set on a non-monetary series (values "
+            f"only) — indexes and quantities are dimensionless; the museum "
+            f"never converts between currencies"
+        )
+    return raw
+
+
 def _load_series_file(path: Path) -> list[Series]:
     data = _read_toml(path)
     raw_series = data.get("series", [])
@@ -156,6 +180,8 @@ def _load_series_file(path: Path) -> list[Series]:
             raise SeriesError(
                 f"{ctx}: tier {raw_tier!r} not one of: {', '.join(sorted(allowed_tiers))}"
             )
+        values = _parse_value_table(entry, "values", ctx)
+        values_minor = _parse_minor_table(entry, "values_minor", ctx)
         series_list.append(
             Series(
                 id=sid,
@@ -164,8 +190,9 @@ def _load_series_file(path: Path) -> list[Series]:
                 tier=allowed_tiers[raw_tier],
                 unit=_require_str(entry, "unit", ctx),
                 population=_require_str(entry, "population", ctx),
-                values=_parse_value_table(entry, "values", ctx),
-                values_minor=_parse_minor_table(entry, "values_minor", ctx),
+                values=values,
+                values_minor=values_minor,
+                currency=_parse_currency(entry, ctx, bool(values_minor)),
                 notes=_opt_str(entry, "notes", ctx),
                 splices_from=_opt_str(entry, "splices_from", ctx),
                 measure=_parse_measure(entry, ctx),

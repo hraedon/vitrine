@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-08-14 — Plan 023 WI-3 (cross-currency non-comparison gate)
+
+Un-deferred: the guard was waiting "until a second currency's data exists" —
+the UK (£) and Japan (¥) rooms are in the corpus, so it is now mechanical.
+`Series` gains a `currency` field, required iff `values_minor` and forbidden
+on dimensionless series; `vitrine check` rejects an unregistered series
+currency, a `splices_from` chain across currencies (an exchange rate laundered
+in through the back door), and an `INFLATE` derivation pointed at a monetary
+series (the ratio must be an index, not an amount). `series_numeric` scales
+minor units by the registry's per-currency digits — the hardcoded `/100`
+would have divided a yen series by a hundred. Room-level currency mixing and
+`ratio`/`pct_of` operand mixing were already gated by the multi-currency
+foundation; this closes the series-layer remainder. Fact-model invariant 11.
+
 ## 2026-07-29 — Plan 016 (the docent layer, WI-1–4)
 
 The museum gets a voice, within one constraint: the docent may interpret but

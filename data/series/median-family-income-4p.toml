@@ -11,6 +11,7 @@ unit = "USD per year, nominal"
 population = "Four-person US families, CPS money income (Census Table F-8, All Races)"
 notes = "Census Table F-8 (f08ar, All Races revised), median income in current dollars. Years 2017 and 2013 each appear twice in the source (methodology breaks, footnotes 40/39-38); the headline (first-listed, revised) value is kept."
 
+currency = "USD"
 [series.values_minor]
 1947 = 329200
 1948 = 346800
