@@ -1,0 +1,127 @@
+# Japan, the 1960s. The "income-doubling" decade: FIES becomes national in 1963,
+# so the 1965 income and consumption figures cover all households. The yearbook
+# wage series gives an establishment-based anchor. Hours and durable-goods
+# diffusion remain inaccessible in English for this decade.
+# Data year anchors: 1965.
+# Country caveat: Japanese surveys measure households; the composite-family
+# disclaimer applies.
+
+[room]
+country = "jp"
+decade = "1960s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1960s-fies-workers-income"
+panel = "budget"
+label = "Workers' household monthly income, 1965"
+value = "¥65,141"
+quantity = 65141
+unit = "JPY per month, nominal (workers' households, national)"
+source = "jp-fies"
+tier = "A"
+amount_minor = 65141
+currency = "JPY"
+price_year = 1965
+basis = "monthly"
+notes = "From the FIES long-run tables. 1965: workers' households (two-or-more-person), national coverage. FIES national coverage began in 1963; 1965 is the first anchor year after the urban-to-national seam. This is a workers' household average, not a four-person family median."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1960s-yearbook-wage"
+panel = "budget"
+label = "Average monthly wage, establishments with 30+ workers, 1965"
+value = "¥39,400"
+quantity = 39400
+unit = "JPY per month, nominal (all industries, establishments with 30 or more regular workers)"
+source = "jp-jsy"
+tier = "A"
+amount_minor = 39400
+currency = "JPY"
+price_year = 1965
+basis = "monthly"
+notes = "From the Japan Statistical Yearbook historical wage tables. 1965: average monthly cash earnings for all industries, establishments with 30 or more regular workers. Establishment-based payroll data, not household income."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1960s-home-gap"
+panel = "home"
+label = "Housing tenure, floor area, and amenities, 1960s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-hls"
+tier = "D"
+notes = "The Housing and Land Survey summary results used by this project are extracted from the Japan Statistical Yearbook, which begins English-language housing tables in 1988. The 1960s HLS data is not in the archive."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1960s-diffusion-gap"
+panel = "diffusion"
+label = "Household durable goods and communications, 1960s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-nsfiie"
+tier = "D"
+notes = "The National Survey of Family Income and Expenditure publishes English durable-goods summaries from 1999 onward. Earlier survey waves (including the 1960s) are not in the archive in English."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1960s-day-gap"
+panel = "day"
+label = "Working hours, 1960s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-mls"
+tier = "D"
+notes = "The Monthly Labour Survey all-industry total (30+ regular workers) begins in 1970. Scanned yearbook data gives 1965 wages but not hours. Without hours, no hourly wage or affordability anchor can be computed."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1960s-fies-consumption"
+panel = "table"
+label = "All-household monthly consumption expenditure, 1965"
+value = "¥48,396"
+quantity = 48396
+unit = "JPY per month, nominal (all two-or-more-person households)"
+source = "jp-fies"
+tier = "A"
+amount_minor = 48396
+currency = "JPY"
+price_year = 1965
+basis = "monthly"
+notes = "From the FIES long-run tables. 1965: monthly consumption expenditure for all two-or-more-person households, national coverage. This is total household consumption, not a food basket alone."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1960s-fies-food-share"
+panel = "table"
+label = "Food share of consumption expenditure, 1965"
+value = "38.1%"
+quantity = 38.1
+unit = "% of consumption expenditure (all two-or-more-person households)"
+source = "jp-fies"
+tier = "A"
+notes = "From the FIES long-run tables. 1965: food and non-alcoholic beverages as a share of all consumption expenditure for all two-or-more-person households. Engel's Law in motion: the food share would fall further by 1975."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1960s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 1960s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-mls"
+tier = "D"
+notes = "Without an hourly wage (no hours data) or durable-goods prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 1960s. The monthly wage figures above are the available wage references."
+assumptions = ["composite-family", "jp-household-not-family"]

@@ -1,0 +1,204 @@
+# Japan, the 1990s. The decade the asset-price bubble burst (1990–91) and the
+# "lost decades" of nominal stagnation began. Real (CPI-adjusted) living
+# standards continued to rise, but nominal wages, income, and prices flattened
+# or declined — the opposite of the US/UK inflation pattern. Three Tier-A
+# official series anchor the room: FIES workers'-household income (1995), MLS
+# wages and hours (1995), HLS housing (1993). The NSFIIE 1999 survey gives the
+# first English-language durable-goods diffusion in the archive (the 1994
+# NSFIIE is not in English). No affordability anchors are set: the MLS wage is
+# monthly (not hourly) and no item prices are in the archive.
+# Data year anchors: 1995 (income, wages, hours, consumption), 1993 (housing),
+# 1999 (diffusion).
+# Country caveat: Japan's surveys measure households, not a four-person family
+# median — the composite-family disclaimer applies. Nominal-value facts carry
+# the jp-deflation-lost-decades assumption: cross-decade nominal comparisons
+# understate real change.
+
+[room]
+country = "jp"
+decade = "1990s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1990s-workers-income"
+basis = "monthly"
+amount_minor = 570817
+currency = "JPY"
+price_year = 1995
+panel = "budget"
+label = "Workers' household monthly income, 1995"
+value = "¥570,817 per month"
+unit = "JPY per month, nominal (actual monthly income, workers' households)"
+source = "jp-fies"
+tier = "A"
+notes = "From FIES long-run time-series (fies-a18-2.xls), 1995, column 実収入, workers' households. This is the peak of the workers'-household income series — nominal income would decline to ¥522,629 by 2005 and stagnate through 2015 (¥525,955), the lost-decades effect. Two-or-more-person workers' households, Japan."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-deflation-lost-decades"]
+
+[[fact]]
+id = "jp-1990s-mls-wages"
+basis = "monthly"
+amount_minor = 408864
+currency = "JPY"
+price_year = 1995
+panel = "budget"
+label = "Average monthly cash earnings, all surveyed industries, 1995"
+value = "¥408,864 per month"
+unit = "JPY per month, nominal (total cash earnings, all surveyed industries, establishments with 30+ regular workers)"
+source = "jp-mls"
+tier = "A"
+notes = "From MLS long-term actual data (mls-long-term-actual.csv), year=1995, month=CY, industry=TL, size=0, emp_type=0. Calendar-year average of monthly total cash earnings. Peak of the MLS nominal series; declined to ¥381,807 (2005) and ¥361,684 (2015) as the lost decades wore on. Establishment/payroll survey, not household income."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-deflation-lost-decades"]
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1990s-homeownership"
+quantity = 59.8
+panel = "home"
+label = "Homeownership rate, 1993"
+value = "59.8%"
+unit = "% of occupied dwellings owner-occupied"
+source = "jp-hls"
+tier = "A"
+notes = "From HLS 1993 via JSY 2016 Table 21-5 (jsy2016-y652105000.xls): 24,376 thousand owned ÷ 40,773 thousand occupied dwellings = 59.8% (homeownership ratio). The 1998 survey gave 60.3%. Homeownership held near 60% through the decade despite the post-bubble property-price collapse; it would not return above 61% until 2003. 1993 is the HLS year closest to the 1995 income anchor."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1990s-floor-area"
+quantity = 91.92
+panel = "home"
+label = "Floor area per dwelling, 1993"
+value = "91.92 m²"
+unit = "m² per dwelling (occupied dwellings, nationwide)"
+source = "jp-hls"
+tier = "A"
+notes = "From HLS 1993 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 91.92 m² floor space per dwelling (occupied dwellings). Up from 89.29 m² (1988); the 1998 survey gave 92.43 m². Floor area continued rising even as property prices fell."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1990s-rooms"
+quantity = 4.85
+panel = "home"
+label = "Rooms per dwelling, 1993"
+value = "4.85 rooms"
+unit = "rooms per dwelling (occupied dwellings, nationwide)"
+source = "jp-hls"
+tier = "A"
+notes = "From HLS 1993 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 4.85 rooms per dwelling. The 1998 survey gave 4.79. Persons per room 0.62 (down from 0.66 in 1988) as household size fell. Nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1990s-housing-amenities-gap"
+panel = "home"
+label = "Dwelling facilities (bath, flush toilet, kitchen)"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-hls"
+tier = "D"
+notes = "The HLS 'Situation of facilities' (bath, toilet, kitchen) data is not published in the English JSY tables — only aged-person and energy-saving facility tables appear. Basic facility prevalence for the 1990s is not transcribed; needs e-Stat (Japanese) or printed HLS reports."
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1990s-pc"
+quantity = 37.7
+panel = "diffusion"
+label = "Households with a personal computer, 1999"
+value = "37.7%"
+unit = "% of two-or-more-person households"
+source = "jp-nsfiie"
+tier = "A"
+notes = "From NSFIIE 1999 summary (https://www.stat.go.jp/english/data/zensho/1999/1.html), narrative text: PC ownership rate 37.7% (485 units per 1,000 households). PCs had increased 2.6-fold from 1994. The 1994 NSFIIE English summary is not in the archive; 1999 is the earliest available English-language NSFIIE durable-goods data. Two-or-more-person households, nationwide, as of end of October."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1990s-mobile-phone"
+quantity = 64.9
+panel = "diffusion"
+label = "Households with a mobile phone, 1999"
+value = "64.9%"
+unit = "% of two-or-more-person households"
+source = "jp-nsfiie"
+tier = "A"
+notes = "From NSFIIE 1999 summary, narrative text: mobile phones (including PHS) ownership rate 64.9% (1,061 units per 1,000 households — many households owned multiple). Mobile subscriptions had surged from 2.1M (1993) to 51.1M (1999) per ICWP. Two-or-more-person households, nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1990s-fax"
+quantity = 33.1
+panel = "diffusion"
+label = "Households with a facsimile machine, 1999"
+value = "33.1%"
+unit = "% of two-or-more-person households"
+source = "jp-nsfiie"
+tier = "A"
+notes = "From NSFIIE 1999 summary, narrative text: facsimile ownership rate 33.1% (337 units per 1,000 households). Faxes had increased 3.5-fold from 1994 — a distinctly Japanese diffusion pattern, as the fax remained common in Japan far longer than in the US/UK. Two-or-more-person households, nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1990s-word-processor"
+quantity = 44.8
+panel = "diffusion"
+label = "Households with a word processor, 1999"
+value = "44.8%"
+unit = "% of two-or-more-person households"
+source = "jp-nsfiie"
+tier = "A"
+notes = "From NSFIIE 1999 summary, narrative text: word processor ownership rate 44.8% (508 units per 1,000 households). The standalone word processor (ワープロ) was a Japanese-market category that peaked in this era before being displaced by the PC. Two-or-more-person households, nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1990s-work-hours"
+quantity = 159.1
+panel = "day"
+label = "Average monthly working hours, 1995"
+value = "159.1 hours"
+unit = "hours per month, all surveyed industries, establishments with 30+ regular workers"
+source = "jp-mls"
+tier = "A"
+notes = "From MLS long-term actual data (mls-long-term-actual.csv), year=1995, month=CY, industry=TL, size=0, emp_type=0. Calendar-year average of monthly working hours. Down sharply from 175.8 (1985) — the 1992 reduction of the statutory working week (to 40 hours) and collective-bargaining cuts drove hours down through the decade. Establishments with 30+ regular workers, all surveyed industries."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1990s-consumption"
+basis = "monthly"
+amount_minor = 329062
+currency = "JPY"
+price_year = 1995
+panel = "table"
+label = "Monthly consumption expenditure, all households, 1995"
+value = "¥329,062 per month"
+unit = "JPY per month, nominal (consumption expenditure, all two-or-more-person households)"
+source = "jp-fies"
+tier = "A"
+notes = "From FIES long-run time-series (fies-a18-1.xls), 1995, all two-or-more-person households. Peak of the nominal consumption series; declined to ¥300,903 (2005) and ¥288,326 (2015) — nominal stagnation amid the lost decades. Population differs from the income fact (all households vs workers' households)."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-deflation-lost-decades"]
+
+[[fact]]
+id = "jp-1990s-food-share"
+quantity = 23.7
+panel = "table"
+label = "Food share of consumption expenditure, 1995"
+value = "23.7%"
+unit = "% of consumption expenditure spent on food"
+source = "jp-fies"
+tier = "A"
+notes = "From FIES (fies-a18-1.xls), 1995: food ¥77,886 ÷ consumption ¥329,062 = 23.7%. All two-or-more-person households. The Engel ratio continued its long decline (38.1% in 1965 → 27.0% in 1985 → 23.7% in 1995) as affluence rose."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1990s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 1990s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-mls"
+tier = "D"
+notes = "No item prices are in the archive for the 1990s, so hours-of-work-to-afford comparisons cannot be computed. The MLS wage (¥408,864/month, 1995) is the available wage reference. Under deflation, nominal values stagnated while real values rose — the affordability axis (hours-to-afford) would be the more reliable comparator."

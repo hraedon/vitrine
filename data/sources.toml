@@ -10,7 +10,7 @@ publisher = "U.S. Census Bureau"
 year = 1951
 url = "https://www2.census.gov/library/publications/1952/demographics/p60-09.pdf"
 population = "All US families (two or more related persons living together), CPS money income"
-notes = "Seed source for the skeleton. Plan 001 WI-1 supersedes the all-family median with the by-family-size series (Historical Income Tables, Table F-8) where its coverage window allows."
+notes = "Kept for historical context — seed source for the skeleton. Plan 001 WI-1 supersedes the all-family median with the by-family-size series (Historical Income Tables, Table F-8) where its coverage window allows."
 measure = "money_income"
 
 # ── Census: income ────────────────────────────────────────────────────────
@@ -43,7 +43,7 @@ publisher = "U.S. Census Bureau"
 year = 2024
 url = "https://www.census.gov/library/publications/time-series/p60.1989.List_1930924763.html"
 population = "All US families and persons, CPS money income"
-notes = "Series landing page listing individual P-60 reports from 1947 to present. Individual reports are also at www2.census.gov/library/publications/<year>/demographics/p60-<no>.pdf. Example: P-60 No. 69 (1970) at https://www2.census.gov/library/publications/1970/demographics/p60-69.pdf."
+notes = "Kept for reference even though individual P-60 reports are cited directly — this is the series landing page listing all P-60 reports from 1947 to present. Individual reports are also at www2.census.gov/library/publications/<year>/demographics/p60-<no>.pdf. Example: P-60 No. 69 (1970) at https://www2.census.gov/library/publications/1970/demographics/p60-69.pdf."
 measure = "money_income"
 
 # ── FRED (data republished from Census/BLS) ───────────────────────────────
@@ -55,7 +55,7 @@ publisher = "Federal Reserve Bank of St. Louis (source: U.S. Census Bureau)"
 year = 2024
 url = "https://fred.stlouisfed.org/series/MEFAINUSA646N"
 population = "All US families, CPS money income (nominal)"
-notes = "FRED republishes Census data. For provenance, cite the Census source (P-60 or Historical Income Tables) as primary. Coverage: 1953-2024. Useful for programmatic access and cross-referencing with wage/CPI series."
+notes = "Kept for cross-referencing — FRED republishes Census data. For provenance, cite the Census source (P-60 or Historical Income Tables) as primary. Coverage: 1953-2024. Useful for programmatic access and cross-referencing with wage/CPI series."
 measure = "money_income"
 
 [[source]]
@@ -65,7 +65,7 @@ publisher = "Federal Reserve Bank of St. Louis (source: U.S. Census Bureau)"
 year = 2024
 url = "https://fred.stlouisfed.org/series/MEFAINUSA672N"
 population = "All US families, CPS money income (CPI-adjusted to 2024 dollars)"
-notes = "Real (inflation-adjusted) median family income. Coverage: 1953-2024. CPI-U deflation applied by FRED."
+notes = "Kept for cross-referencing — real (inflation-adjusted) median family income from FRED. Coverage: 1953-2024. CPI-U deflation applied by FRED. Vitrine cites the nominal Census source directly; this is the real-value companion for comparison."
 
 [[source]]
 id = "fred-ahetpi"
@@ -95,7 +95,7 @@ publisher = "U.S. Bureau of Labor Statistics"
 year = 2024
 url = "https://fred.stlouisfed.org/series/CUUR0000SETA01"
 population = "All Urban Consumers (CPI-U), U.S. city average, new vehicles"
-notes = "Not seasonally adjusted. Coverage: 1935-present, monthly. Annual averages computed as the mean of 12 monthly values. Used to CPI-inflate the BEA 2020 car-price base to 2024 (Plan 012 WI-1)."
+notes = "Kept for CPI inflation — used to CPI-inflate the BEA 2020 car-price base to 2024 (Plan 012 WI-1). Not seasonally adjusted. Coverage: 1935-present, monthly. Annual averages computed as the mean of 12 monthly values."
 
 [[source]]
 id = "fred-cpiaucsl"
@@ -104,7 +104,7 @@ publisher = "Federal Reserve Bank of St. Louis (source: BLS)"
 year = 2024
 url = "https://fred.stlouisfed.org/series/CPIAUCSL"
 population = "All Urban Consumers (CPI-U), U.S. city average, all items"
-notes = "Seasonally adjusted. Coverage: 1947-present, monthly. Use for trend analysis; use CPIAUCNS for historical deflation pre-1947."
+notes = "Kept for trend analysis — seasonally adjusted. Coverage: 1947-present, monthly. Use for trend analysis; use CPIAUCNS for historical deflation pre-1947."
 
 # ── BLS ────────────────────────────────────────────────────────────────────
 
@@ -184,7 +184,7 @@ short_cite = "IPUMS USA, University of Minnesota, www.ipums.org"
 year = 2024
 url = "https://usa.ipums.org/usa/"
 population = "All US residents, 1940 (132 million records, full count)"
-notes = "1940 census was first to ask about income (wage/salary only — does not include self-employment, property income, or transfers). Housing variables: tenure, rooms, plumbing, electricity, radio, refrigerator, heating fuel. Procedural history: https://usa.ipums.org/usa/resources/voliii/enumproc1940.pdf. FULL COUNT DATA: subject to additional terms — will not be republished, not for genealogical research, will not link individual records with original enumeration images. Vitrine uses this data ONLY to compute aggregate statistics (medians, percentages) which are published as Facts; raw microdata is never committed."
+notes = "Kept for 1940s-room microdata work — the room currently cites published Census sources; this is the harmonized-microdata option for computed Tier B statistics, subject to IPUMS full-count terms. 1940 census was first to ask about income (wage/salary only — does not include self-employment, property income, or transfers). Housing variables: tenure, rooms, plumbing, electricity, radio, refrigerator, heating fuel. Procedural history: https://usa.ipums.org/usa/resources/voliii/enumproc1940.pdf. FULL COUNT DATA: subject to additional terms — will not be republished, not for genealogical research, will not link individual records with original enumeration images. Vitrine uses this data ONLY to compute aggregate statistics (medians, percentages) which are published as Facts; raw microdata is never committed."
 
 # ── Pre-1940 historical surveys ───────────────────────────────────────────
 
@@ -206,7 +206,7 @@ publisher = "U.S. Department of Labor, Commissioner of Labor"
 year = 1891
 url = "https://archive.org/details/sixthannualrepor0000unse_l7h8"
 population = "Industrial workers in selected industries (iron/steel, textiles, glass, coal) in 24 states — NOT a national median"
-notes = "Surveyed 9,000+ families. The FRASER series page for Commissioner of Labor annual reports: https://fraser.stlouisfed.org/title/annual-report-commissioner-labor-6306. Every fact from this survey must carry the proxy-population caveat."
+notes = "Kept for planned 1890s room — surveyed 9,000+ families. The FRASER series page for Commissioner of Labor annual reports: https://fraser.stlouisfed.org/title/annual-report-commissioner-labor-6306. Every fact from this survey must carry the proxy-population caveat."
 
 [[source]]
 id = "commissioner-labor-18th-1903"
@@ -224,7 +224,7 @@ publisher = "U.S. Bureau of Labor Statistics"
 year = 1919
 url = "https://archive.org/stream/changesincostofl00bure/changesincostofl00bure_djvu.txt"
 population = "Families of wage-earners in shipbuilding centers + 13 large cities — NOT a national median"
-notes = "Conducted during WWI — prices and availability distorted by wartime. FRASER: https://fraser.stlouisfed.org/title/monthly-labor-review-6130/august-1919-604874/fulltext. Digitized microdata: ICPSR 8299, 'Cost of Living in the United States, 1917-1919' (BLS 1986) — Tier B potential with ICPSR access."
+notes = "Kept for potential 1910s-room use — the existing 1910s room cites bls-bulletin-49-1903 instead. Conducted during WWI, prices and availability distorted by wartime. FRASER: https://fraser.stlouisfed.org/title/monthly-labor-review-6130/august-1919-604874/fulltext. Digitized microdata: ICPSR 8299, 'Cost of Living in the United States, 1917-1919' (BLS 1986) — Tier B potential with ICPSR access."
 
 [[source]]
 id = "bls-1935-consumer-purchases"
@@ -264,7 +264,7 @@ publisher = "Cambridge University Press"
 year = 2006
 url = "http://hsus.cambridge.org/"
 population = "Various national aggregates (depends on table)"
-notes = "Behind institutional access. Expanded and revised edition of the Bicentennial Edition. 5 volumes. Some tables go back to 1790. Use Colonial Times to 1970 (free) where coverage overlaps; use this for post-1970 extensions and more detailed series."
+notes = "Kept for future research — behind institutional access. Expanded and revised edition of the Bicentennial Edition. 5 volumes. Some tables go back to 1790. Use Colonial Times to 1970 (free) where coverage overlaps; use this for post-1970 extensions and more detailed series."
 
 [[source]]
 id = "measuringworth"
@@ -273,7 +273,7 @@ publisher = "MeasuringWorth (Lawrence Officer & Samuel Williamson)"
 year = 2024
 url = "https://www.measuringworth.com/"
 population = "Various (composite of BLS/Census historical series)"
-notes = "Provides calculators for relative value of money (CPI, GDP deflator, unskilled wage, etc.) and historical wage/price series. Useful for work-buys panel (converting wages to purchasing power) and cross-era deflation."
+notes = "Kept for reference — provides calculators for relative value of money (CPI, GDP deflator, unskilled wage, etc.) and historical wage/price series. Useful for work-buys panel (converting wages to purchasing power) and cross-era deflation."
 
 [[source]]
 id = "umizzou-prices-wages"
@@ -303,7 +303,7 @@ publisher = "National Telecommunications and Information Administration"
 year = 2024
 url = "https://www.ntia.gov/topics/data-central"
 population = "U.S. households and individuals (via CPS supplements)"
-notes = "NTIA sponsors the CPS Computer and Internet Use supplement and publishes data and reports. Data Central hosts downloadable datasets and visualizations."
+notes = "Kept for reference — NTIA sponsors the CPS Computer and Internet Use supplement and publishes data and reports. Data Central hosts downloadable datasets and visualizations. The underlying CPS supplement is registered separately as cps-computer-internet."
 
 [[source]]
 id = "cps-computer-internet"
@@ -312,7 +312,7 @@ publisher = "U.S. Census Bureau (sponsored by NTIA)"
 year = 2023
 url = "https://www.census.gov/data/datasets/2023/demo/cps/cps-computer.html"
 population = "U.S. households and individuals, civilian noninstitutionalized"
-notes = "Conducted in: 1997, 2000, 2001, 2003, 2007, 2009-2013, 2015, 2017, 2019, 2021-2023. Measures household access to computers, internet, broadband, and devices. Time series page: https://www.census.gov/data/datasets/time-series/demo/cps/cps-supp_cps-repwgt/cps-computer.html"
+notes = "Kept for future 1990s/2000s room curation — conducted in: 1997, 2000, 2001, 2003, 2007, 2009-2013, 2015, 2017, 2019, 2021-2023. Measures household access to computers, internet, broadband, and devices. Time series page: https://www.census.gov/data/datasets/time-series/demo/cps/cps-supp_cps-repwgt/cps-computer.html"
 
 [[source]]
 id = "pew-internet-broadband"
@@ -355,7 +355,7 @@ publisher = "Federal Reserve Bank of St. Louis (source: BLS Current Employment S
 year = 2024
 url = "https://fred.stlouisfed.org/series/CES3000000030"
 population = "Production and nonsupervisory employees in manufacturing"
-notes = "Coverage: 1939–present, monthly. BLS source code: CES3000000030. Feeds the weekly-earnings-manufacturing series (Plan 010); weekly x 52 yields annual earnings without smuggling in a weekly-hours assumption. Not a room affordability anchor, so no measure is declared. CSV API: https://fred.stlouisfed.org/graph/fredgraph.csv?id=CES3000000030."
+notes = "Kept for series feed — feeds the weekly-earnings-manufacturing series (Plan 010). Coverage: 1939–present, monthly. BLS source code: CES3000000030. Weekly x 52 yields annual earnings without smuggling in a weekly-hours assumption. Not a room affordability anchor, so no measure is declared. CSV API: https://fred.stlouisfed.org/graph/fredgraph.csv?id=CES3000000030."
 
 # ── Census: housing ───────────────────────────────────────────────────────
 
@@ -543,7 +543,7 @@ publisher = "National Bureau of Economic Research"
 year = 2008
 url = "https://www.nber.org/papers/w13985"
 population = "Prime-age women and men, ages 18–64 (benchmark years 1900–2005); also all-ages per-capita and per-household aggregates"
-notes = "Draft version of Ramey (2009). 63 pages. Data tables numerically identical to published version. Cited as draft companion; the published version (ramey-2009) is the primary source for all facts."
+notes = "Kept for reference — draft companion to the published version (ramey-2009). 63 pages. Data tables numerically identical to published version. The published version (ramey-2009) is the primary source for all facts; this is the NBER working paper draft."
 
 # ── Census: computer/internet use ──────────────────────────────────────────
 
@@ -747,7 +747,7 @@ publisher = "National Center for Health Statistics (CDC)"
 year = 2017
 url = "https://www.cdc.gov/nchs/data/hus/2016/037.pdf"
 population = "Cancer patients in SEER 9 registry areas, by race (White, Black) and sex"
-notes = "Survival by diagnosis period: 1975-77, 1981-83, 1987-89, 1999-2001, 2006-12. Includes all sites, breast, lung, prostate, colon, leukemia, NHL, pancreas."
+notes = "Kept for future health panel curation — survival by diagnosis period: 1975-77, 1981-83, 1987-89, 1999-2001, 2006-12. Includes all sites, breast, lung, prostate, colon, leukemia, NHL, pancreas."
 
 [[source]]
 id = "acs-cancer-facts-figures-2024"
@@ -912,3 +912,75 @@ year = 2024
 url = "https://www.terramedia.co.uk/reference/statistics/television/television_licences.htm"
 population = "UK television receiving licence holders at 31 March each year (one licence required per household operating any TV set)"
 notes = "Annual count of television receiving licences, at 31 March. A TV licence was mandatory for any household operating a television set, so the count is a close proxy for TV-owning households (slight undercount from evasion). Combined sound-and-television licences were introduced 1 June 1946; colour TV licences from 1968. terramededia.co.uk compiles the BBC / TV Licensing administrative series (URL resolves HTTP 200, verified 2026-07). The count is NOT a household percentage and is not directly comparable to the post-1972 GHS household-% diffusion series without a household-count denominator."
+
+# ── v2 world rooms: Japan (jp) ──────────────────────────────────────────────
+
+[[source]]
+id = "jp-fies"
+title = "Family Income and Expenditure Survey (家計調査) — long-run time-series tables"
+short_cite = "Statistics Bureau, FIES long-run tables (家計調査)"
+publisher = "Statistics Bureau, Ministry of Internal Affairs and Communications (MIC)"
+year = 2025
+url = "https://www.stat.go.jp/english/data/kakei/tsuki/index.html"
+population = "Two-or-more-person households (workers' households and all households), Japan. Urban-only before 1962; national from 1963."
+notes = "Monthly survey of household income and expenditure, continuous from 1946. Three universes: workers' households, all two-or-more-person households, one-person households. Expenditure classification revised in 1981 (methodology seam). Long-run Excel tables downloaded: fies-18-02-a.xls (workers' households, all cities, 1948–1962), fies-a18-2.xls (workers' households, 1963–2017), fies-a18-1.xls (all two-or-more-person households, 1963–2017). Before 1962 the survey covered cities only — pre-1962 facts carry the urban-rural-split caveat."
+
+[[source]]
+id = "jp-nsfiie"
+title = "National Survey of Family Income and Expenditure (全国消費実態調査) — durable goods summaries"
+short_cite = "Statistics Bureau, NSFIIE durable goods summaries (全国消費実態調査)"
+publisher = "Statistics Bureau, Ministry of Internal Affairs and Communications (MIC)"
+year = 2009
+url = "https://www.stat.go.jp/english/data/zensho/index.html"
+population = "Two-or-more-person households nationwide (separate data for one-person households). Excludes restaurants/boarding houses, foreign households (pre-2019)."
+notes = "Quinquennial deep-dive survey since 1959. Publishes 'Summary of Results Concerning Major Durable Goods' with possession rates (% of households) and ownership quantities (per 1,000 households) for ~40 categories. English HTML summaries available for 1999, 2004, 2009. The 2014 and 2019 (renamed) surveys do not publish English durable-goods summaries — data only via e-Stat (Japanese). Main data tables are image-based (GIF) on HTML pages; numbers transcribed from narrative text."
+
+[[source]]
+id = "jp-mls"
+title = "Monthly Labour Survey (毎月勤労統計調査) — long-term actual data"
+short_cite = "MHLW / e-Stat, Monthly Labour Survey long-term series (毎月勤労統計)"
+publisher = "Ministry of Health, Labour and Welfare (MHLW)"
+year = 2025
+url = "https://www.e-stat.go.jp/en/statistics/00450071"
+population = "Establishments with 30 or more regular workers, all surveyed industries (total), Japan. Calendar year averages."
+notes = "Monthly payroll survey of employment, wages (total cash earnings), and working hours. Long-term actual CSV (mls-long-term-actual.csv) covers 1960–2026 at industry level; all-industry (TL) total available from 1970. Data for 1955/1965 taken from scanned Japan Statistical Yearbook pages. 'Total cash earnings' includes regular pay (所定内給与) and special pay (特別に支給された給与)."
+
+[[source]]
+id = "jp-hls"
+title = "Housing and Land Survey (住宅・土地統計調査) — via Japan Statistical Yearbook"
+short_cite = "Statistics Bureau, HLS via JSY tables 21-1/21-5/21-6 (住宅・土地統計調査)"
+publisher = "Statistics Bureau, Ministry of Internal Affairs and Communications (MIC)"
+year = 2025
+url = "https://www.stat.go.jp/english/data/jyutaku/index.html"
+population = "Dwellings and households in sampled enumeration districts nationwide. Excludes diplomatic facilities, Imperial property, jails, SDF/US military bases."
+notes = "Quinquennial since 1948 (first survey was a census). Renamed from 'Housing Survey' to 'Housing and Land Survey' in 1998. English stat.go.jp pages provide only survey outlines; summary results extracted from Japan Statistical Yearbook (JSY) Excel tables: JSY 2016 (65nenkan) tables 21-1/21-5/21-8 covering 1988–2013, JSY 2026 (75nenkan) tables 21-1/21-5/21-6 covering 2013–2023. Homeownership rate, floor area, rooms per dwelling available. Basic bath/toilet facility data NOT in English JSY tables — needs e-Stat."
+
+[[source]]
+id = "jp-icwp"
+title = "Information and Communications White Paper (情報通信白書) — English summaries"
+short_cite = "MIC, Information and Communications White Paper (情報通信白書)"
+publisher = "Ministry of Internal Affairs and Communications (MIC)"
+year = 2015
+url = "https://www.soumu.go.jp/main_sosiki/joho_tsusin/eng/whitepaper/index.html"
+population = "Households and individuals in Japan (varies by chapter — household penetration vs individual users)"
+notes = "Annual white paper since 1973. English online summaries available 2001–2024. Key data: household penetration of mobile phones, PCs, fax, car navigation, broadband; internet users and penetration. Pre-2001 English summaries not available online (may be Japanese-only or print). Chapter PDFs downloaded for 2001 (ch.2), 2005 (ch.2), 2010 (ch.4), 2015 (ch.5)."
+
+[[source]]
+id = "jp-cpi"
+title = "Consumer Price Index (消費者物価指数) — long-term series"
+short_cite = "Statistics Bureau / e-Stat, CPI long-term series (消費者物価指数)"
+publisher = "Statistics Bureau, Ministry of Internal Affairs and Communications (MIC)"
+year = 2025
+url = "https://www.stat.go.jp/english/data/cpi/"
+population = "All households in Japan (index base 2020 = 100)"
+notes = "Kept for future Japan deflation — Official 'All items' (総合) series begins 1970. For 1955 and 1965, 'All items, less imputed rent' (持家の帰属家賃を除く総合) is the closest available series — not identical to 'All items' and flagged when used for deflation. Downloaded: cpi-all-items-less-imputed-rent-1947-recent.csv, cpi-indices-of-items-1970-recent.csv."
+
+[[source]]
+id = "jp-jsy"
+title = "Japan Statistical Yearbook (日本統計年鑑) — historical tables"
+short_cite = "Statistics Bureau, Japan Statistical Yearbook (日本統計年鑑)"
+publisher = "Statistics Bureau, Ministry of Internal Affairs and Communications (MIC)"
+year = 2025
+url = "https://www.stat.go.jp/english/data/nenkan/"
+population = "Varies by table — see individual source registrations for each survey."
+notes = "Annual compendium republishing data from all major surveys in consolidated form. JSY 2016 (65nenkan) covers 1988–2013; JSY 2026 (75nenkan) covers 2013–2023. Historical wage data for 1955/1965 from scanned JSY 1966 table 255 (image file ys1965_t213.jpg, ys1966_t210.jpg). Used as the retrieval vehicle for HLS housing data (tables 21-1, 21-5, 21-6, 21-8) since the English HLS pages publish only outlines."

@@ -1,0 +1,128 @@
+# Japan, the 1970s. FIES and MLS are both national by this decade, giving
+# household income, consumption, and establishment wages/hours. The HLS and
+# NSFIIE durable-goods summaries remain inaccessible in English for the 1970s,
+# so the home and diffusion panels are gaps.
+# Data year anchors: 1975.
+# Country caveat: Japanese surveys measure households; the composite-family
+# disclaimer applies.
+
+[room]
+country = "jp"
+decade = "1970s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1970s-fies-workers-income"
+panel = "budget"
+label = "Workers' household monthly income, 1975"
+value = "¥236,152"
+quantity = 236152
+unit = "JPY per month, nominal (workers' households, national)"
+source = "jp-fies"
+tier = "A"
+amount_minor = 236152
+currency = "JPY"
+price_year = 1975
+basis = "monthly"
+notes = "From the FIES long-run tables. 1975: workers' households (two-or-more-person), national coverage. This is a workers' household average, not a four-person family median."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1970s-mls-wage"
+panel = "budget"
+label = "Average monthly wage, establishments with 30+ workers, 1975"
+value = "¥177,213"
+quantity = 177213
+unit = "JPY per month, nominal (all surveyed industries, establishments with 30 or more regular workers)"
+source = "jp-mls"
+tier = "A"
+amount_minor = 177213
+currency = "JPY"
+price_year = 1975
+basis = "monthly"
+notes = "From the Monthly Labour Survey long-term actual data. 1975: average monthly total cash earnings for all surveyed industries, establishments with 30 or more regular workers. Includes regular and special pay. Establishment-based payroll data, not household income."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1970s-home-gap"
+panel = "home"
+label = "Housing tenure, floor area, and amenities, 1970s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-hls"
+tier = "D"
+notes = "The Housing and Land Survey summary results used by this project are extracted from the Japan Statistical Yearbook, which begins English-language housing tables in 1988. The 1970s HLS data is not in the archive."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1970s-diffusion-gap"
+panel = "diffusion"
+label = "Household durable goods and communications, 1970s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-nsfiie"
+tier = "D"
+notes = "The National Survey of Family Income and Expenditure publishes English durable-goods summaries from 1999 onward. The 1974 and 1979 survey waves are not in the archive in English."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1970s-mls-hours"
+panel = "day"
+label = "Average monthly working hours, establishments with 30+ workers, 1975"
+value = "172.0 hours"
+quantity = 172.0
+unit = "hours per month, all surveyed industries, establishments with 30 or more regular workers"
+source = "jp-mls"
+tier = "A"
+notes = "From the Monthly Labour Survey long-term actual data. 1975: average monthly scheduled working hours for all surveyed industries, establishments with 30 or more regular workers. This is a monthly, not weekly, figure — it cannot be used directly as an hourly-wage affordability anchor without a weeks-per-month conversion."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1970s-fies-consumption"
+panel = "table"
+label = "All-household monthly consumption expenditure, 1975"
+value = "¥157,982"
+quantity = 157982
+unit = "JPY per month, nominal (all two-or-more-person households)"
+source = "jp-fies"
+tier = "A"
+amount_minor = 157982
+currency = "JPY"
+price_year = 1975
+basis = "monthly"
+notes = "From the FIES long-run tables. 1975: monthly consumption expenditure for all two-or-more-person households, national coverage. This is total household consumption, not a food basket alone."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1970s-fies-food-share"
+panel = "table"
+label = "Food share of consumption expenditure, 1975"
+value = "32.0%"
+quantity = 32.0
+unit = "% of consumption expenditure (all two-or-more-person households)"
+source = "jp-fies"
+tier = "A"
+notes = "From the FIES long-run tables. 1975: food and non-alcoholic beverages as a share of all consumption expenditure for all two-or-more-person households. Down from 38.1% in 1965 as incomes rose and diet diversified."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1970s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 1970s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-mls"
+tier = "D"
+notes = "Monthly working hours are available from 1975, but no weekly-hour series or durable-goods prices are in the archive, so an hourly wage and hours-of-work-to-afford comparisons cannot be computed for the 1970s. The monthly wage figure above is the available wage reference."
+assumptions = ["composite-family", "jp-household-not-family"]

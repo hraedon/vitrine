@@ -45,8 +45,12 @@ whose `value` carries no single honest headline number (a multi-series string,
 a range) simply has no `quantity`, and charts render it as the gap it is.
 
 A fact whose honest value is "the record is silent" is written with
-`value = "no reliable record"` and tiered `D` with a note explaining why.
-Rendering the gap is a feature; inventing a number is a charter violation.
+`value = "no reliable record"` (or the longer form `"no reliable record
+accessible online"` used by v2 world rooms where the gap is an archive-
+access limitation rather than a missing survey) and tiered `D` with a note
+explaining why. The gap detector matches any `value` that starts with
+`"no reliable record"`. Rendering the gap is a feature; inventing a number
+is a charter violation.
 
 ### Source
 
@@ -62,6 +66,7 @@ An entry in the global registry `data/sources.toml`.
 | `population` | str | **Who was actually measured** — the anti-composite field |
 | `notes` | str | Access date, edition, table number, caveats |
 | `short_cite` | str | Brief inline citation for footnote display on visualizations |
+| `measure` | Measure? | What economic quantity an affordability anchor measures; optional in general but **required on any source used as a `wage_anchor` or `income_anchor`** (see Measure, below) |
 
 `population` is mandatory and load-bearing: "all US families, CPS money
 income" vs "urban wage-earner families with a male head" is the difference
@@ -127,8 +132,11 @@ One file per (country, decade): `data/<country>/<decade>.toml`, e.g.
 tables. The `[room]` table carries `country` and `decade` and, optionally,
 the affordability anchors `wage_anchor` (a fact id whose `basis` is `hourly`)
 and `income_anchor` (a fact id whose `basis` is `annual`); the affordability
-axis divides each priced fact by these. Country codes are lowercase ISO-ish
-slugs (`us`, `uk`, `pl`, `ru`, `cn`, `in`, `jp`); decades are
+axis divides each priced fact by these. A room for the current (ongoing)
+decade may also declare `data_as_of` (e.g. `"2024"`) — the year the room's
+most recent facts were drawn from, shown so the visitor knows how stale the
+"current" decade is. Country codes are lowercase ISO-ish slugs
+(`us`, `uk`, `pl`, `ru`, `cn`, `in`, `jp`); decades are
 `"1890s"`…`"2020s"`.
 
 ### Essay (plan 016)
@@ -149,6 +157,12 @@ four-digit years (1850–2035), decade words, and ranges of the two. The gate
 checks numbers; the adversarial-review pass checks words. Honest limits
 (recorded in plan 016): verbal arithmetic is words, and fact selection is
 editorial — every essay page carries the composite-family disclaimer strip.
+
+> **Country scope.** The interpolation regex in `model.py`
+> (`INTERPOLATION_RE`) matches any `<country>-<decade>-<slug>` fact id, so
+> essays may bind to `uk-`/`jp-` facts exactly as to `us-` ones. The two
+> shipped essays bind exclusively to US facts; non-US bindings are covered
+> by tests (`tests/test_essays.py`).
 
 ## Closed sets
 
@@ -187,6 +201,7 @@ affordability axis dispatches on it:
 | `total` | A one-time price | $1,511 for a car |
 | `hourly` | A wage rate | $1.32/hr |
 | `weekly` | A weekly figure | $53.29/wk |
+| `monthly` | A monthly figure | ¥29,169/mo (Japan rooms) |
 | `annual` | An annual figure | $3,319/yr |
 
 **Measure** — what an affordability *anchor* denominator measures. Set on the

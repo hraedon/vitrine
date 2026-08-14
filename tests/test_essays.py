@@ -119,6 +119,29 @@ def test_unknown_fact_in_prose_fails(corpus: Corpus) -> None:
     assert any("us-1999s-nope" in p for p in problems)
 
 
+def test_non_us_fact_id_interpolation_strips_and_resolves(corpus: Corpus) -> None:
+    """The interpolation regex must match any country-decade-slug fact id, not
+    only ``us-`` ones — the museum has ``uk`` and ``jp`` rooms. A binding to a
+    known non-us fact is stripped (no false numeral-gate flag) and resolves."""
+    # Find a known non-us fact id in the corpus.
+    non_us = next(
+        (f.id for room in corpus.rooms for f in room.facts if f.id.startswith("uk-")),
+        None,
+    )
+    assert non_us is not None, "corpus must have a uk fact for this test"
+    good = essay(
+        blocks=(
+            EssayBlock(
+                kind=BlockKind.PROSE,
+                text="By the decade it was {fact:" + non_us + "}.",
+            ),
+        )
+    )
+    problems = _gate_problem(corpus, good)
+    assert not any("numeral" in p for p in problems), problems
+    assert not any("unknown fact" in p for p in problems), problems
+
+
 def test_unknown_standfirst_fact_fails(corpus: Corpus) -> None:
     bad = essay(standfirst="Costs {fact:us-0000s-ghost}.")
     problems = _gate_problem(corpus, bad)

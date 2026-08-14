@@ -93,7 +93,14 @@ facts; 16 rendered gaps are structural (pre-WWII income/housing/food for
 1910s–1930s, 1940s wartime bifurcation, 1990s home-production data) and
 listed in `docs/resource-hunt.md`, alongside 6 Tier D scholarly estimates
 kept honest by the tier rule (`vitrine gaps` prints the mechanical
-inventory). The
+inventory).
+
+v2 world rooms in progress: the United Kingdom (7 rooms, 1950s–2010s) and
+Japan (7 rooms, 1950s–2010s) have been curated against their
+own official series (ONS, Statistics Bureau / MIC, MHLW) with country-specific
+assumptions (`jp-household-not-family`, `jp-kakei-1962-seam`,
+`jp-deflation-lost-decades`). The `MONTHLY` basis supports Japan's
+monthly-income-denominated surveys. The
 presentation is the "statistical atlas" (Plan 020): a light folio where
 every fact row carries its value, tier chip, measured population, and
 source record in one scan-line, and the index leads with a corpus matrix —

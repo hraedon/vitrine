@@ -40,6 +40,7 @@ class Basis(enum.Enum):
     TOTAL = "total"      # a one-time price ($1,511 for a car)
     HOURLY = "hourly"    # a wage rate ($1.32/hr)
     WEEKLY = "weekly"    # a weekly figure ($53.29/wk)
+    MONTHLY = "monthly"  # a monthly figure (¥29,169/mo)
     ANNUAL = "annual"    # an annual figure ($3,319/yr)
 
 
@@ -164,6 +165,8 @@ def basis_label(basis: Basis) -> str:
             return "Hourly rate"
         case Basis.WEEKLY:
             return "Weekly figure"
+        case Basis.MONTHLY:
+            return "Monthly figure"
         case Basis.ANNUAL:
             return "Annual figure"
         case _:
@@ -264,7 +267,7 @@ class Room:
 # ``{fact:<id>}`` renders the fact's as-authored value plus its tier chip;
 # ``{fact:<id>:label}`` renders the label. The numeral gate in ``check``
 # strips these before scanning — a bare numeral in prose is a red build.
-INTERPOLATION_RE = re.compile(r"\{fact:(us-[a-z0-9-]+)(?::(label))?\}")
+INTERPOLATION_RE = re.compile(r"\{fact:([a-z]+-[a-z0-9]+-[a-z0-9-]+)(?::(label))?\}")
 
 
 class BlockKind(enum.Enum):

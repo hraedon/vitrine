@@ -66,3 +66,18 @@ statement = "Before 1964 no broad, all-sector hourly earnings series exists. The
 id = "cpi-inflation-of-base-price"
 title = "CPI inflation of a base-year price"
 statement = "When a price series ends before the room's data year, the latest base price is inflated to the current year using the CPI for that item (e.g. new-vehicles CPI for a car). The computation is code (base × CPI_target / CPI_base), not a hand-quoted number; the result is an estimate, not a transcription, and carries the weakest input tier. The item-specific CPI (not the all-items CPI) is used so the inflation reflects the item's actual price change, not general inflation."
+
+[[assumption]]
+id = "jp-household-not-family"
+title = "Japanese surveys measure households, not four-person families"
+statement = "Japan's Family Income and Expenditure Survey (FIES) publishes by household type (two-or-more-person, one-person) and by household composition, not by a 'four-person family' median. The four-person-normalization assumption applies: where a by-household-size table exists, a four-person figure may be derivable, but it is not as cleanly published as the US Census F-8 table. All Japan room facts measure households and carry the composite-family disclaimer."
+
+[[assumption]]
+id = "jp-kakei-1962-seam"
+title = "FIES was urban-only before 1962"
+statement = "The Family Income and Expenditure Survey covered only cities before 1962; national coverage (including rural and agricultural households) began in 1963. Pre-1962 income and expenditure facts are urban-only and carry the urban-rural-split caveat. The 1962 extension is a methodology seam — series chaining across it must flag the population change."
+
+[[assumption]]
+id = "jp-deflation-lost-decades"
+title = "Japan's lost decades: nominal stagnation amid real gains"
+statement = "From the 1990s onward Japan experienced persistent deflation: nominal wages and prices stagnated or declined while real (CPI-adjusted) values rose. This is the opposite of the US/UK inflation pattern. Cross-decade comparisons of nominal values understated real change; the affordability axis (hours-to-afford) is inflation-free and therefore the more reliable comparator for Japan's post-1990 decades."

@@ -1,0 +1,163 @@
+# Japan, the 1980s. The decade Japan's official household statistics reach full
+# national coverage (FIES from 1963; MLS all-industry total from 1970; HLS
+# quinquennial from 1948). Three Tier-A official series anchor the room: FIES
+# workers'-household income (1985), MLS wages and hours (1985), HLS housing
+# (1988). No affordability anchors are set: the MLS wage is monthly (not hourly)
+# and no item prices are in the archive, so the affordability axis is not
+# computed.
+# Data year anchors: 1985 (income, wages, hours, consumption), 1988 (housing).
+# Country caveat: Japan's surveys measure households (two-or-more-person;
+# workers' households), not a four-person family median — the composite-family
+# disclaimer applies. The FIES income series is workers' households only; a
+# long-run all-household income series was not located.
+
+[room]
+country = "jp"
+decade = "1980s"
+
+# ── Budget panel ──────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1980s-workers-income"
+basis = "monthly"
+amount_minor = 444846
+currency = "JPY"
+price_year = 1985
+panel = "budget"
+label = "Workers' household monthly income, 1985"
+value = "¥444,846 per month"
+unit = "JPY per month, nominal (actual monthly income, workers' households)"
+source = "jp-fies"
+tier = "A"
+notes = "From FIES long-run time-series (fies-a18-2.xls), 1985, column 実収入 (actual monthly income), workers' households. Annual average of monthly figures, current yen. This is the workers'-household income series; a long-run all-household income series was not located in the downloaded FIES tables. Two-or-more-person workers' households, Japan (national from 1963)."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1980s-mls-wages"
+basis = "monthly"
+amount_minor = 317091
+currency = "JPY"
+price_year = 1985
+panel = "budget"
+label = "Average monthly cash earnings, all surveyed industries, 1985"
+value = "¥317,091 per month"
+unit = "JPY per month, nominal (total cash earnings, all surveyed industries, establishments with 30+ regular workers)"
+source = "jp-mls"
+tier = "A"
+notes = "From MLS long-term actual data (mls-long-term-actual.csv), year=1985, month=CY, industry=TL (all surveyed industries), size=0 (30+ regular workers), emp_type=0. Calendar-year average of monthly total cash earnings (regular + special pay). This is an establishment/payroll survey of workers, not a household-income figure."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
+
+# ── Home panel ────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1980s-homeownership"
+quantity = 61.3
+panel = "home"
+label = "Homeownership rate, 1988"
+value = "61.3%"
+unit = "% of occupied dwellings owner-occupied"
+source = "jp-hls"
+tier = "A"
+notes = "From HLS 1988 via JSY 2016 Table 21-5 (jsy2016-y652105000.xls): 22,948 thousand owned houses ÷ 37,413 thousand occupied dwellings = 61.3% (homeownership ratio, dwellings-based). The 'owner household ratio' (households-based) was 61.1%. HLS surveyed October 1988; nationwide, sampled enumeration districts."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1980s-floor-area"
+quantity = 89.29
+panel = "home"
+label = "Floor area per dwelling, 1988"
+value = "89.29 m²"
+unit = "m² per dwelling (occupied dwellings, nationwide)"
+source = "jp-hls"
+tier = "A"
+notes = "From HLS 1988 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 89.29 m² floor space per dwelling (occupied dwellings). Tatami equivalent 30.61 units per dwelling, 9.55 tatami per person. Nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1980s-rooms"
+quantity = 4.86
+panel = "home"
+label = "Rooms per dwelling, 1988"
+value = "4.86 rooms"
+unit = "rooms per dwelling (occupied dwellings, nationwide)"
+source = "jp-hls"
+tier = "A"
+notes = "From HLS 1988 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 4.86 rooms per dwelling (occupied dwellings). Persons per room 0.66. Nationwide."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1980s-housing-amenities-gap"
+panel = "home"
+label = "Dwelling facilities (bath, flush toilet, kitchen)"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-hls"
+tier = "D"
+notes = "The HLS questionnaire includes 'Situation of facilities' (bath, toilet, kitchen), but this data is not published in the English Japan Statistical Yearbook tables — only aged-person and energy-saving facility tables appear. The HLS e-Stat statistical tables (Japanese interface) or printed reports would be needed. Basic bath/toilet facility prevalence is not transcribed."
+
+# ── Diffusion panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1980s-diffusion-gap"
+panel = "diffusion"
+label = "Durable-goods diffusion, 1980s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-nsfiie"
+tier = "D"
+notes = "The NSFIIE is quinquennial (survey years 1978, 1983, 1988, 1989). The 1984 and 1989 NSFIIE English durable-goods summaries are not in the archive — English HTML summaries are available only from 1999 onward. The ICWP English summaries begin in 2001 (data ~1999–2000). No 1980s household durable-goods diffusion data is transcribed."
+
+# ── Day panel ─────────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1980s-work-hours"
+quantity = 175.8
+panel = "day"
+label = "Average monthly working hours, 1985"
+value = "175.8 hours"
+unit = "hours per month, all surveyed industries, establishments with 30+ regular workers"
+source = "jp-mls"
+tier = "A"
+notes = "From MLS long-term actual data (mls-long-term-actual.csv), year=1985, month=CY, industry=TL, size=0, emp_type=0. Calendar-year average of monthly working hours. Includes scheduled and non-scheduled (overtime) hours. Establishments with 30+ regular workers, all surveyed industries."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Table panel ───────────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1980s-consumption"
+basis = "monthly"
+amount_minor = 273114
+currency = "JPY"
+price_year = 1985
+panel = "table"
+label = "Monthly consumption expenditure, all households, 1985"
+value = "¥273,114 per month"
+unit = "JPY per month, nominal (consumption expenditure, all two-or-more-person households)"
+source = "jp-fies"
+tier = "A"
+notes = "From FIES long-run time-series (fies-a18-1.xls), 1985, all two-or-more-person households. Annual average of monthly consumption expenditure. Note the population differs from the income fact above (workers' households vs all two-or-more-person households)."
+assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
+
+[[fact]]
+id = "jp-1980s-food-share"
+quantity = 27.0
+panel = "table"
+label = "Food share of consumption expenditure, 1985"
+value = "27.0%"
+unit = "% of consumption expenditure spent on food"
+source = "jp-fies"
+tier = "A"
+notes = "From FIES (fies-a18-1.xls), 1985: food expenditure ¥73,735 ÷ consumption ¥273,114 = 27.0%. All two-or-more-person households. The Engel ratio had fallen from 38.1% (1965) and 32.0% (1975) as incomes rose."
+assumptions = ["composite-family", "jp-household-not-family"]
+
+# ── Work-buys panel ───────────────────────────────────────────────────────
+
+[[fact]]
+id = "jp-1980s-work-buys-gap"
+panel = "work-buys"
+label = "Affordability comparisons, 1980s"
+value = "no reliable record accessible online"
+unit = "n/a"
+source = "jp-mls"
+tier = "D"
+notes = "No item prices are in the archive for the 1980s, so hours-of-work-to-afford comparisons cannot be computed. The MLS wage (¥317,091/month, 1985) is the available wage reference."

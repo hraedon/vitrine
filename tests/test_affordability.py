@@ -266,6 +266,7 @@ def test_basis_label_returns_labels() -> None:
     assert basis_label(Basis.TOTAL) == "One-time price"
     assert basis_label(Basis.HOURLY) == "Hourly rate"
     assert basis_label(Basis.WEEKLY) == "Weekly figure"
+    assert basis_label(Basis.MONTHLY) == "Monthly figure"
     assert basis_label(Basis.ANNUAL) == "Annual figure"
 
 
