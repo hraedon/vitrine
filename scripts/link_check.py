@@ -11,8 +11,10 @@ also downloads the document and verifies each marker appears in it — a
 census-f08-allraces f08a/f08ar incident, where the URL served the wrong
 table variant with a 200). Text/HTML bodies are searched as decoded text;
 .xlsx files are searched in their shared strings and sheet names (stdlib
-zipfile). Formats opaque to stdlib extraction (PDFs, compressed streams)
-stay resolve-only and say so.
+zipfile); PDFs are searched after unwrapping their FlateDecode content
+streams (stdlib zlib) and collecting the strings their text operators
+show. Formats that stay opaque — encrypted PDFs, image-only scans with no
+text operators — fall back to resolve-only and say so.
 
 Two further advisory checks are reported for OK URLs (neither changes the
 exit code):
@@ -30,16 +32,19 @@ Usage: python3 scripts/link_check.py [--verbose]
 from __future__ import annotations
 
 import io
+import re
 import ssl
 import sys
 import tomllib
 import urllib.error
 import urllib.request
 import zipfile
+import zlib
 from collections.abc import Sequence
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any, cast
 from urllib.parse import urlsplit
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -50,10 +55,10 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 _DOCUMENT_EXTS = frozenset({".pdf", ".xlsx", ".xls", ".csv", ".zip", ".tif", ".tiff"})
 
 
-def load_sources() -> list[dict]:
+def load_sources() -> list[dict[str, Any]]:
     with open(REPO_ROOT / "data/sources.toml", "rb") as f:
         data = tomllib.load(f)
-    return data.get("source", [])
+    return cast("list[dict[str, Any]]", data.get("source", []))
 
 
 # ── Content verification (WI-023) ───────────────────────────────────────────
@@ -74,10 +79,234 @@ def _xlsx_text(body: bytes) -> str | None:
     return "\n".join(parts) if parts else None
 
 
+# ── PDF text extraction (WI-023 remaining item a) ───────────────────────────
+#
+# A PDF's page text lives in content streams, usually compressed with
+# FlateDecode — a raw substring search of the bytes sees only zlib noise.
+# stdlib has no PDF parser, but it does have zlib: find each `stream...endstream`
+# span, inflate the ones whose dictionary declares FlateDecode, and collect the
+# byte strings shown by the text operators (Tj, TJ, ', "). What remains is an
+# approximation of the rendered text — good enough to confirm a marker string
+# ("Table F-8", a table title, a series name) is or is not in the document.
+
+_STREAM_RE = re.compile(rb"stream\r?\n(.*?)endstream", re.DOTALL)
+_SHOW_TOKEN_RE = re.compile(rb"[A-Za-z'\*\"]+")
+
+# Streams larger than this are image/font binaries, not page text.
+_MAX_SCANNED_STREAM = 2_000_000
+
+
+def _inflate(data: bytes) -> bytes | None:
+    """zlib-inflate with tolerance for trailing garbage after the stream."""
+    try:
+        return zlib.decompress(data)
+    except zlib.error:
+        pass
+    try:
+        return zlib.decompressobj().decompress(data)
+    except zlib.error:
+        return None
+
+
+def _decode_pdf_string(raw: bytes) -> str:
+    """Decode one PDF string per its own conventions.
+
+    UTF-16BE strings carry a BOM; everything else is taken as PDFDocEncoding,
+    which matches latin-1 for the ASCII range marker search cares about.
+    """
+    if raw.startswith(b"\xfe\xff"):
+        return raw[2:].decode("utf-16-be", errors="replace")
+    return raw.decode("latin-1")
+
+
+def _unescape_pdf_literal(body: bytes) -> bytes:
+    out = bytearray()
+    i = 0
+    while i < len(body):
+        ch = body[i]
+        if ch != 0x5C or i + 1 >= len(body):  # backslash
+            out.append(ch)
+            i += 1
+            continue
+        nxt = body[i + 1]
+        simple = {0x6E: b"\n", 0x72: b"\r", 0x74: b"\t", 0x62: b"\b", 0x66: b"\f"}
+        if nxt in simple:
+            out += simple[nxt]
+            i += 2
+        elif nxt in (0x28, 0x29, 0x5C):  # ( ) \
+            out.append(nxt)
+            i += 2
+        elif 0x30 <= nxt <= 0x37:  # octal escape, up to 3 digits
+            j = i + 1
+            digits = bytearray()
+            while j < len(body) and len(digits) < 3 and 0x30 <= body[j] <= 0x37:
+                digits.append(body[j])
+                j += 1
+            out.append(int(digits, 8) & 0xFF)
+            i = j
+        elif nxt in (0x0A, 0x0D):  # line continuation: escaped EOL vanishes
+            i += 2 if nxt == 0x0D and body[i + 2 : i + 3] == b"\n" else 1
+            i += 1
+        else:
+            out.append(nxt)
+            i += 2
+    return bytes(out)
+
+
+def _scan_pdf_literal(content: bytes, i: int) -> tuple[bytes | None, int]:
+    """Read one literal string starting at content[i] == '('.
+
+    Returns (raw bytes between the outer parens, index past the closing
+    paren) — escapes are kept verbatim for _unescape_pdf_literal — or
+    (None, len(content)) when the string never terminates. Balanced nested
+    parens are part of PDF string syntax and must not end the string.
+    """
+    depth = 1
+    j = i + 1
+    buf = bytearray()
+    while j < len(content):
+        c = content[j]
+        if c == 0x5C:  # backslash: copy escape verbatim so \( \) stay escaped
+            buf += content[j : j + 2]
+            j += 2
+            continue
+        if c == 0x28:  # (
+            depth += 1
+        elif c == 0x29:  # )
+            depth -= 1
+            if depth == 0:
+                return bytes(buf), j + 1
+        buf.append(c)
+        j += 1
+    return None, len(content)
+
+
+def _pdf_show_strings(content: bytes) -> list[str]:
+    """The decoded strings shown by one content stream's text operators.
+
+    A linear character scanner rather than a regex: content streams share
+    the file with font-program binaries whose byte soup sends a
+    backtracking regex into catastrophic runtimes (a real Census PDF hung
+    on this). Strings accumulate as they appear; the show operators Tj,
+    TJ, ' and " flush them. Any other operator outside a TJ array drops
+    pending strings so operands of unrelated operators can't leak forward.
+    """
+    strings: list[str] = []
+    pending: list[str] = []  # strings seen since the last operator/array close
+    depth = 0  # nesting inside a [ ... ] TJ array
+    i = 0
+    n = len(content)
+    while i < n:
+        c = content[i]
+        if c == 0x28:  # ( literal string
+            raw, i = _scan_pdf_literal(content, i)
+            if raw is not None:
+                pending.append(_decode_pdf_string(_unescape_pdf_literal(raw)))
+            continue
+        if c == 0x3C:  # < hex string (but << is a dictionary)
+            if content[i + 1 : i + 2] == b"<":
+                i += 2
+                continue
+            end = content.find(b">", i + 1)
+            if end == -1:
+                break
+            nibbles = re.sub(rb"[^0-9A-Fa-f]", b"", content[i + 1 : end])
+            if len(nibbles) % 2:
+                nibbles += b"0"
+            pending.append(_decode_pdf_string(bytes.fromhex(nibbles.decode())))
+            i = end + 1
+            continue
+        if c == 0x5B:  # [ open array
+            depth += 1
+            i += 1
+            continue
+        if c == 0x5D:  # ] close array
+            depth = max(0, depth - 1)
+            i += 1
+            continue
+        if 0x41 <= c <= 0x5A or 0x61 <= c <= 0x7A or c in (0x27, 0x22, 0x2A):
+            m = _SHOW_TOKEN_RE.match(content, i)
+            if m is None:  # unreachable: the branch condition guarantees a match
+                i += 1
+                continue
+            token = m.group(0)
+            i = m.end()
+            if token in (b"Tj", b"'", b'"'):
+                if pending:
+                    strings.append(pending[-1])
+                    pending.clear()
+            elif token == b"TJ":
+                strings.extend(pending)
+                pending.clear()
+            elif depth == 0:
+                pending.clear()
+            continue
+        i += 1
+    return strings
+
+
+def _pdf_text(body: bytes) -> str | None:
+    """The searchable text of a PDF, or None when extraction cannot run.
+
+    None means "opaque to this extractor": not a PDF at all, unreadable
+    streams (e.g. encrypted), no text operators anywhere (an image-only
+    scan), or output dominated by non-printable bytes (embedded font
+    programs are FlateDecode streams too, and subset-font encodings turn
+    otherwise-real text into mojibake). Declared markers on such documents
+    stay unverifiable rather than failing on a false positive.
+    """
+    if not body.startswith(b"%PDF"):
+        return None
+    variants: set[str] = set()
+    for m in _STREAM_RE.finditer(body):
+        stream = m.group(1)
+        dict_start = max(0, m.start() - 400)
+        if b"FlateDecode" not in body[dict_start : m.start()]:
+            content = stream
+        else:
+            inflated = _inflate(stream.rstrip(b"\r\n"))
+            if inflated is None:
+                continue
+            content = inflated
+        if len(content) > _MAX_SCANNED_STREAM:
+            # Image and font streams dwarf page text; scanning hundreds of
+            # megabytes of binary buys nothing (and any real text lost this
+            # way only demotes the document to resolve-only, never to a
+            # false mismatch).
+            continue
+        if not (b"Tj" in content or b"TJ" in content):
+            # Emission requires a show operator somewhere; image/font
+            # binaries without one are skipped at C speed instead of
+            # paying the Python scanner.
+            continue
+        strings = _pdf_show_strings(content)
+        if not strings:
+            continue
+        # Words can be split across show operators ("(Medi)(an)" via TJ kerning)
+        # and operators can each hold whole words; search both joins.
+        joined_direct = "".join(strings)
+        joined_spaced = " ".join(strings)
+        for candidate in (joined_direct, joined_spaced):
+            # A fragment too short to be page text (a stray operator in a
+            # font binary) is noise: treating it as the document's text
+            # would accuse markers of being missing. Say opaque instead.
+            if len(candidate) < 16:
+                continue
+            printable = sum(
+                1 for ch in candidate if ch.isprintable() or ch in " \t\n\r"
+            )
+            if printable / len(candidate) >= 0.9:
+                variants.add(candidate)
+    return "\n".join(sorted(variants)) or None
+
+
 def searchable_text(url: str, body: bytes, content_type: str) -> str | None:
     """The text a marker search runs against, or None when the format is
-    opaque to stdlib extraction (PDFs etc.) — those stay resolve-only."""
+    opaque to stdlib extraction (encrypted PDFs, image-only scans etc.) —
+    those stay resolve-only."""
     path = url.lower().split("?")[0]
+    if path.endswith(".pdf") or "pdf" in content_type:
+        return _pdf_text(body)
     if path.endswith(".xlsx") or "spreadsheetml" in content_type:
         return _xlsx_text(body)
     if (

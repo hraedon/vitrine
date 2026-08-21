@@ -530,6 +530,7 @@ notes = "Oldsmobile Curved Dash Runabout: $650 (1901–1904), best-selling car i
 [[source]]
 id = "ramey-2009"
 title = "Time Spent in Home Production in the Twentieth-Century United States: New Estimates from Old Data"
+expect = ["Home Production", "Valerie A. Ramey"]
 short_cite = "Ramey, J. Econ. History 69(1), 2009"
 publisher = "Cambridge University Press (Journal of Economic History)"
 year = 2009
@@ -726,6 +727,7 @@ notes = "Final 2024 mortality data. Age-adjusted death rates: Heart disease 157.
 [[source]]
 id = "seer-csr-1975-2017"
 title = "SEER Cancer Statistics Review 1975-2017, Table 2.9: All Cancer Sites — Relative Survival by Year of Diagnosis"
+expect = ["SEER Cancer Statistics Review 1975-2017"]
 short_cite = "NCI SEER, Cancer Statistics Review 1975-2017, Table 2.9"
 publisher = "National Cancer Institute (NIH), Surveillance Research Program"
 year = 2020
@@ -817,6 +819,7 @@ notes = "BLS periodic report compiling CPS labor force data for women by marital
 [[source]]
 id = "goldsmith-balance-sheet"
 title = "Studies in the National Balance Sheet of the United States, Vol. I"
+expect = ["Goldsmith", "National Balance Sheet"]
 short_cite = "Goldsmith, Lipsey & Mendelson (1963), Table 1"
 publisher = "National Bureau of Economic Research / Princeton University Press"
 year = 1963
