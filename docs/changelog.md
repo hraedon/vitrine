@@ -1,5 +1,29 @@
 # Changelog
 
+## 2026-08-21 — WI-023 remaining item a (PDF expect-marker verification)
+
+The link checker could verify markers in HTML and .xlsx bodies but had to
+trust PDFs on status code alone — most of the corpus's primary documents
+are PDFs. Content streams are now inflated (`zlib`) and the strings shown
+by the text operators (`Tj`, `TJ`, `'`, `"`) become searchable text, so a
+200 that serves the wrong PDF fails the way the f08a/f08ar incident taught
+us to fail. Encrypted PDFs, image-only scans and subset-font encodings
+stay honestly opaque.
+
+The extraction is a linear character scanner rather than a regex, and that
+choice is load-bearing: a backtracking pattern over embedded font binaries
+had catastrophic runtime and hung indefinitely on a real 1950 Census PDF
+(hc-5-02). Streams over 2 MB, streams without a show operator, and
+fragments too short to be page text are skipped or treated as opaque —
+every shortcut demotes toward resolve-only, never toward a false
+mismatch. Three sources gained verified `expect` markers (ramey-2009,
+goldsmith-balance-sheet against `samples/` archive copies;
+seer-csr-1975-2017 against the live document); the other eight cited PDFs
+are scans or cipher-encoded and remain resolve-only by design. Live run:
+95 URLs, content-verified 6 → 9, 0 must-fix. `scripts/link_check.py` is
+now inside strict mypy (it runs as its own CI job and has a test suite);
+the one-off extract scripts are not held to strict yet.
+
 ## 2026-08-14 — Plan 023 WI-3 (cross-currency non-comparison gate)
 
 Un-deferred: the guard was waiting "until a second currency's data exists" —
