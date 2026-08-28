@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from vitrine.site.projections.affordability import project_affordability_dashboard
 from vitrine.site.projections.corridors import project_corridor
+from vitrine.site.projections.data import project_data
 from vitrine.site.projections.pairs import project_pair
 from vitrine.site.projections.references import project_bibliography, project_methodology
 from vitrine.site.projections.rooms import project_lobby, project_room
@@ -19,6 +20,7 @@ __all__ = [
     "project_affordability_dashboard",
     "project_bibliography",
     "project_corridor",
+    "project_data",
     "project_lobby",
     "project_methodology",
     "project_pair",

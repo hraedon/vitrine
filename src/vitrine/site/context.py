@@ -402,6 +402,18 @@ class BibliographyPage:
 
 
 @dataclass(frozen=True, slots=True)
+class DataPage:
+    """Context for ``data.html`` — the downloadable corpus collection."""
+
+    rooms: int
+    facts: int
+    derived: int
+    sources: int
+    assumptions: int
+    quantified_facts: int
+
+
+@dataclass(frozen=True, slots=True)
 class EssaysIndexPage:
     """Context for ``essays/index.html`` — the docent-tour directory."""
 
@@ -436,6 +448,7 @@ __all__ = [
     "CompositionRow",
     "CorridorPage",
     "CorridorWingView",
+    "DataPage",
     "EssayBlockView",
     "EssayEntryView",
     "EssayLink",

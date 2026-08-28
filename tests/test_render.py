@@ -15,6 +15,16 @@ def test_render_committed_corpus(tmp_path: Path) -> None:
 
     assert (tmp_path / "index.html").is_file()
     assert (tmp_path / "methodology.html").is_file()
+    assert (tmp_path / "data.html").is_file()
+    assert (tmp_path / "data" / "corpus.json").is_file()
+    assert (tmp_path / "data" / "facts.csv").is_file()
+    assert (tmp_path / "data" / "facts-raw.csv").is_file()
+    data_page = (tmp_path / "data.html").read_text()
+    assert "citable dataset" in data_page
+    assert "statistical composite" in data_page
+    assert "Tier A" in data_page
+    assert "CC BY-SA" in data_page
+    assert not list(tmp_path.rglob("*.publish.lock"))
 
     room_pages = list((tmp_path / "rooms").glob("*.html"))
     assert len(room_pages) == len(corpus.rooms)

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}data — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow">vitrine · archive wing</p>
+<h1>The corpus as a citable dataset</h1>
+<p class="sub">The museum's fact base is available as deterministic JSON and CSV
+exports. They are projections of the gated corpus, not a second source of truth.</p>
+
+<div class="ledger">
+  <div class="ledger-row">
+    <span class="l-num" aria-hidden="true">↓</span>
+    <div>
+      <div class="l-title"><a href="data/corpus.json">corpus.json</a></div>
+      <div class="l-meta">schema version 1 · {{ page.rooms }} rooms · {{ page.facts }} facts · {{ page.derived }} derived</div>
+      <p class="l-body">The versioned record includes room metadata, every authored
+      fact and all structured values, the computed results and operand ids for
+      derived facts, the source register, and the assumption ledger.</p>
+    </div>
+  </div>
+  <div class="ledger-row">
+    <span class="l-num" aria-hidden="true">↓</span>
+    <div>
+      <div class="l-title"><a href="data/facts.csv">facts.csv</a></div>
+      <div class="l-meta">{{ page.quantified_facts }} quantified facts · formula-safe CSV</div>
+      <p class="l-body">A flat projection with the fact id, decade, panel,
+      display value, structured quantity, unit, tier, source id, and short
+      citation. Cells that could be interpreted as formulas are prefixed with
+      an apostrophe. For exact, unmodified CSV values, use the
+      <a href="data/facts-raw.csv">raw CSV projection</a>; JSON remains the
+      canonical machine-readable record.</p>
+    </div>
+  </div>
+</div>
+
+<h2 class="case-title">What the record means</h2>
+<p class="case-sub"><b>{{ disclaimer_title }}</b> {{ disclaimer }}</p>
+
+<h2 class="case-title">Confidence tiers</h2>
+<div class="ledger">
+{% for tier, description in tier_names.items() %}
+  <div class="ledger-row">
+    <span class="l-num" aria-hidden="true">{{ tier }}</span>
+    <div><div class="l-title">Tier {{ tier }}</div>
+    <p class="l-body">{{ description|capitalize }}.</p></div>
+  </div>
+{% endfor %}
+</div>
+
+<h2 class="case-title">How to cite</h2>
+<p class="case-sub">For a number, cite the primary source named by its
+<code>source</code> in JSON (or <code>source_id</code> in CSV), then cite the
+vitrine corpus for the compilation and tier assignment. The repository's
+<code>CITATION.cff</code> is the corpus citation;
+the exporter software is separately MIT-licensed. The corpus and rendered site
+are licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+<p class="case-sub">This export contains aggregate facts and citations only;
+underlying source material keeps the terms stated on its source record. The
+full series observations included in <code>corpus.json</code> make computed
+derivations reproducible without republishing raw source files.</p>
+{% endblock %}

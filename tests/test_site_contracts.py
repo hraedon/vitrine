@@ -4,7 +4,7 @@ Two layers:
 
 1. **Exact snapshot** (``test_page_contract``): pins the shape most likely to
    change during template work — page landmarks, disclosure counts, local
-   destinations, provenance overlays, and the set of fact marks — for 11
+   destinations, provenance overlays, and the set of fact marks — for 12
    representative pages. Text and SVG bytes intentionally remain free to
    improve. These are characterization snapshots, not visual snapshots; update
    the inline literals when a page changes intentionally.
@@ -158,57 +158,62 @@ EXPECTED: dict[str, PageContract] = {
     "index.html": _page(
         "vitrine — the median family's century",
         landmarks=(1, 2, 1, 0, 1), disclosures=(0, 0),
-        local=(104, "7f0ea353b6ce"), marks=(0, "e3b0c44298fc"), overlays=0,
+        local=(105, "c9c5208fb138"), marks=(0, "e3b0c44298fc"), overlays=0,
     ),
     "rooms/us-1950s.html": _page(
         "US · 1950s — vitrine",
         landmarks=(1, 3, 1, 7, 1), disclosures=(85, 0),
-        local=(82, "367342b2b071"), marks=(10, "1ef9c695b820"), overlays=41,
+        local=(83, "f5349c1ddfd0"), marks=(10, "1ef9c695b820"), overlays=41,
     ),
     "rooms/us-1910s.html": _page(
         "US · 1910s — vitrine",
         landmarks=(1, 3, 1, 7, 1), disclosures=(36, 0),
-        local=(51, "92b9d53501f1"), marks=(6, "f83300610bb2"), overlays=18,
+        local=(52, "9e8d31ea835a"), marks=(6, "f83300610bb2"), overlays=18,
     ),
     "corridors/index.html": _page(
         "corridors — vitrine",
         landmarks=(5, 2, 1, 5, 1), disclosures=(281, 4),
-        local=(348, "c2ff69ead178"), marks=(249, "7992409d6a16"), overlays=249,
+        local=(349, "15dbf44802cd"), marks=(249, "7992409d6a16"), overlays=249,
     ),
     "corridors/1900s--2020s.html": _page(
         "1900s ↔ 2020s — vitrine corridors",
         landmarks=(1, 1, 1, 0, 1), disclosures=(22, 0),
-        local=(38, "115ac2e25f0e"), marks=(21, "85b5b512d0b6"), overlays=21,
+        local=(39, "133d8e3dcd1a"), marks=(21, "85b5b512d0b6"), overlays=21,
     ),
     "affordability/index.html": _page(
         "affordability — vitrine",
         landmarks=(1, 1, 1, 0, 2), disclosures=(0, 0),
-        local=(18, "bb96ecf96a67"), marks=(9, "cc00d43721f7"), overlays=0,
+        local=(19, "50f0f0203c0e"), marks=(9, "cc00d43721f7"), overlays=0,
     ),
     "walkthrough.html": _page(
         "the walkthrough — vitrine",
         landmarks=(1, 1, 1, 0, 1), disclosures=(53, 0),
-        local=(75, "76746a47d2a1"), marks=(53, "6de4963985b6"), overlays=53,
+        local=(76, "f6e23dbba0b1"), marks=(53, "6de4963985b6"), overlays=53,
     ),
     "methodology.html": _page(
         "methodology — vitrine",
         landmarks=(1, 1, 1, 0, 1), disclosures=(0, 0),
-        local=(9, "9f9775dbe453"), marks=(0, "e3b0c44298fc"), overlays=0,
+        local=(10, "15fee8e6a119"), marks=(0, "e3b0c44298fc"), overlays=0,
     ),
     "bibliography.html": _page(
         "bibliography — vitrine",
         landmarks=(1, 1, 1, 0, 1), disclosures=(95, 0),
-        local=(9, "9f9775dbe453"), marks=(0, "e3b0c44298fc"), overlays=0,
+        local=(10, "15fee8e6a119"), marks=(0, "e3b0c44298fc"), overlays=0,
     ),
     "essays/index.html": _page(
         "docent tours — vitrine",
         landmarks=(1, 1, 1, 0, 1), disclosures=(34, 0),
-        local=(17, "5d4fffb77a0e"), marks=(0, "e3b0c44298fc"), overlays=34,
+        local=(18, "4fe2e505d03a"), marks=(0, "e3b0c44298fc"), overlays=34,
     ),
     "essays/one-paycheck.html": _page(
         "One paycheck — docent tours · vitrine",
         landmarks=(1, 1, 1, 0, 1), disclosures=(7, 0),
-        local=(27, "9b2e9f014989"), marks=(9, "d7a0f3435114"), overlays=7,
+        local=(28, "d6b4a98ab573"), marks=(9, "d7a0f3435114"), overlays=7,
+    ),
+    "data.html": _page(
+        "data — vitrine",
+        landmarks=(1, 1, 1, 0, 1), disclosures=(0, 0),
+        local=(13, "c6f9e92196c3"), marks=(0, "e3b0c44298fc"), overlays=0,
     ),
 }
 
@@ -270,6 +275,16 @@ def test_page_has_nav(site: Path, all_pages: list[str]) -> None:
     for relative in all_pages:
         actual = _contract(site / relative)
         assert actual.nav >= 1, f"{relative}: expected >=1 nav, got {actual.nav}"
+
+
+def test_data_surface_is_globally_linked_and_active(site: Path) -> None:
+    """The archive surface is reachable from every navigation depth."""
+    root_page = (site / "index.html").read_text()
+    room_page = (site / "rooms" / "us-1950s.html").read_text()
+    data_page = (site / "data.html").read_text()
+    assert 'href="data.html">Data</a>' in root_page
+    assert 'href="../data.html">Data</a>' in room_page
+    assert data_page.count('<a class="here" aria-current="page" href="data.html">Data</a>') == 1
 
 
 def test_modal_targets_resolve(site: Path, all_pages: list[str]) -> None:

@@ -16,13 +16,21 @@ from pathlib import Path
 from jinja2 import Environment
 
 from vitrine.derive import evaluate_room
+from vitrine.export import export_corpus
 from vitrine.model import Corpus
+from vitrine.publish import (
+    ensure_publishable_directory,
+    ensure_publishable_tree,
+    staged_directory,
+    validate_destination,
+)
 from vitrine.series import Series
 from vitrine.site import curation, svg, tokens
 from vitrine.site.context import (
     AffordabilityPage,
     BibliographyPage,
     CorridorPage,
+    DataPage,
     EssayPage,
     EssaysIndexPage,
     LobbyPage,
@@ -35,6 +43,7 @@ from vitrine.site.environment import build_environment
 from vitrine.site.projections import (
     project_bibliography,
     project_corridor,
+    project_data,
     project_methodology,
     project_pair,
     project_walkthrough,
@@ -65,6 +74,7 @@ def _render_page(
         AffordabilityPage
         | BibliographyPage
         | CorridorPage
+        | DataPage
         | EssayPage
         | EssaysIndexPage
         | LobbyPage
@@ -73,10 +83,13 @@ def _render_page(
         | RoomPage
         | WalkthroughPage
     ),
+    standalone: bool = False,
 ) -> None:
     """Render ``template_name`` with ``page`` and write it to ``out_path``."""
     out_path.write_text(
-        env.get_template(template_name).render(root=root, surface=surface, page=page)
+        env.get_template(template_name).render(
+            root=root, surface=surface, page=page, standalone=standalone
+        )
     )
 
 
@@ -103,7 +116,8 @@ def load_recessions(path: Path) -> tuple[tuple[svg.Recession, ...], str]:
 def _write_assets(out_dir: Path) -> None:
     """Copy the enhancement script and render the token-driven stylesheet."""
     assets_dir = out_dir / "assets"
-    assets_dir.mkdir(exist_ok=True)
+    assets_dir.mkdir(mode=0o755, exist_ok=True)
+    ensure_publishable_directory(assets_dir)
     enhancements = files("vitrine.site").joinpath("assets/enhancements.js").read_text()
     (assets_dir / "enhancements.js").write_text(enhancements)
     css_source = files("vitrine.site").joinpath("assets/museum.css.j2").read_text()
@@ -114,20 +128,8 @@ def _write_assets(out_dir: Path) -> None:
     (assets_dir / "museum.css").write_text(museum_css)
 
 
-def build_site(
-    corpus: Corpus,
-    out_dir: Path,
-    series: dict[str, Series] | None = None,
-    data_dir: Path | None = None,
-) -> None:
-    """Render the full static site into ``out_dir``.
-
-    The provenance gate runs before this in the CLI; this function assembles
-    the typed page contexts via ``projections.project_*`` and renders each
-    template against its page. Output is byte-for-byte stable across the split.
-    """
-    if series is None:
-        series = {}
+def _environment_for(corpus: Corpus) -> Environment:
+    """Build the template environment after resolving the charter disclaimer."""
     disclaimer_entry = corpus.assumptions.get("composite-family")
     if disclaimer_entry is None:
         raise ValueError(
@@ -135,11 +137,77 @@ def build_site(
             "the disclaimer renders on every room (charter rule)"
         )
     env = build_environment(disclaimer_entry.statement, disclaimer_entry.title)
+    env.globals["essays_available"] = bool(corpus.essays)
+    return env
+
+
+def build_data_page(
+    corpus: Corpus, out_dir: Path, standalone: bool | None = None
+) -> None:
+    """Render the archive landing page and its presentation assets.
+
+    ``vitrine export`` uses this small site-layer surface without rendering the
+    museum's other pages.  The JSON/CSV files themselves are written by the
+    stdlib-only :func:`vitrine.export.export_corpus` function.
+    """
+    validate_destination(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    validate_destination(out_dir)
+    ensure_publishable_tree(out_dir)
+    if standalone is None:
+        required_core_pages = (
+            "index.html",
+            "corridors/index.html",
+            "affordability/index.html",
+            "walkthrough.html",
+            "methodology.html",
+            "bibliography.html",
+        )
+        # Essays are optional: an essay-free full build still has every core
+        # surface, while a standalone export has none of those destinations.
+        standalone = not all(
+            (out_dir / page).is_file() for page in required_core_pages
+        )
+    _write_assets(out_dir)
+    ensure_publishable_tree(out_dir)
+    _render_page(
+        _environment_for(corpus),
+        "data.html",
+        out_dir / "data.html",
+        root="",
+        surface="data",
+        page=project_data(corpus),
+        standalone=standalone,
+    )
+    ensure_publishable_tree(out_dir)
+
+
+def _build_site_contents(
+    corpus: Corpus,
+    out_dir: Path,
+    series: dict[str, Series] | None = None,
+    data_dir: Path | None = None,
+    publication_root: Path | None = None,
+) -> None:
+    """Render the full static site contents into a prepared directory.
+
+    The provenance gate runs before this in the CLI; this function assembles
+    the typed page contexts via ``projections.project_*`` and renders each
+    template against its page. Output is byte-for-byte stable across the split.
+    """
+    if series is None:
+        series = {}
+    env = _environment_for(corpus)
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "rooms").mkdir(exist_ok=True)
-    (out_dir / "corridors").mkdir(exist_ok=True)
-    (out_dir / "affordability").mkdir(exist_ok=True)
+    for directory in (
+        out_dir / "rooms",
+        out_dir / "corridors",
+        out_dir / "affordability",
+        out_dir / "data",
+    ):
+        directory.mkdir(mode=0o755, exist_ok=True)
+        ensure_publishable_directory(directory)
     _write_assets(out_dir)
 
     index = index_facts(corpus)
@@ -175,6 +243,14 @@ def build_site(
     computed_by_room = {
         room.slug: evaluate_room(room, series, fact_index) for room in rooms
     }
+    export_corpus(
+        corpus,
+        out_dir,
+        series,
+        computed_by_room,
+        source_dir=data_dir,
+        lock_root=publication_root if publication_root is not None else out_dir,
+    )
 
     # docent tours: chart slugs resolve or nothing renders (registry gate)
     validate_essay_registries(corpus)
@@ -196,6 +272,10 @@ def build_site(
     _render_page(
         env, "bibliography.html", out_dir / "bibliography.html",
         root="", surface="bibliography", page=project_bibliography(corpus),
+    )
+    _render_page(
+        env, "data.html", out_dir / "data.html",
+        root="", surface="data", page=project_data(corpus),
     )
 
     # rooms — accumulate the render-coverage manifest and merged affordability
@@ -267,7 +347,9 @@ def build_site(
 
     # docent tours (Plan 016): index + one page per essay
     if corpus.essays:
-        (out_dir / "essays").mkdir(exist_ok=True)
+        essays_dir = out_dir / "essays"
+        essays_dir.mkdir(mode=0o755, exist_ok=True)
+        ensure_publishable_directory(essays_dir)
         _render_page(
             env, "essays.html", out_dir / "essays" / "index.html",
             root="../", surface="essays",
@@ -292,3 +374,27 @@ def build_site(
             )
 
     (out_dir / "facts-manifest.txt").write_text("\n".join(rendered_ids) + "\n")
+
+
+def build_site(
+    corpus: Corpus,
+    out_dir: Path,
+    series: dict[str, Series] | None = None,
+    data_dir: Path | None = None,
+) -> None:
+    """Render the full static site via staged same-filesystem publication.
+
+    All pages, assets, and corpus exports are built in a sibling staging
+    directory. A successful handoff publishes one coherent build; replacing an
+    existing non-empty directory has the brief absence window documented by
+    :mod:`vitrine.publish`. Render failures leave the prior destination
+    untouched; publication rollback and backup-cleanup failures have the
+    explicit partial states documented by :mod:`vitrine.publish` instead of a
+    blanket unchanged-destination guarantee.
+    """
+    with staged_directory(
+        out_dir,
+        forbidden_paths=(data_dir,) if data_dir is not None else (),
+        cleanup_roots=(out_dir, out_dir / "data"),
+    ) as staging:
+        _build_site_contents(corpus, staging, series, data_dir, out_dir)

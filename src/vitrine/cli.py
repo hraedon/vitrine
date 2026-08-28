@@ -1,4 +1,4 @@
-"""Command-line entry point: `vitrine check` (the gate), `vitrine build`, `vitrine gaps`."""
+"""Command-line entry point for the gate, build, export, and gap inventory."""
 
 from __future__ import annotations
 
@@ -13,8 +13,10 @@ from vitrine.check import (
     check_render_coverage,
     check_series,
 )
+from vitrine.export import export_corpus
 from vitrine.gaps import format_report, room_gaps
 from vitrine.loader import LoadError, load_corpus
+from vitrine.publish import OutputError, copy_existing_tree, staged_directory
 from vitrine.series import SeriesError, load_series
 
 
@@ -68,7 +70,11 @@ def _cmd_build(data_dir: Path, out_dir: Path) -> int:
         return 1
     corpus = load_corpus(data_dir)
     series = load_series(data_dir)
-    render_site(corpus, out_dir, series, data_dir)
+    try:
+        render_site(corpus, out_dir, series, data_dir)
+    except (OutputError, OSError) as exc:
+        print(f"OUTPUT ERROR: {exc}", file=sys.stderr)
+        return 1
     print(f"built → {out_dir}")
     return 0
 
@@ -80,6 +86,47 @@ def _cmd_gaps(data_dir: Path) -> int:
         print(f"LOAD ERROR: {exc}", file=sys.stderr)
         return 1
     print(format_report(room_gaps(corpus)))
+    return 0
+
+
+def _cmd_export(data_dir: Path, out_dir: Path) -> int:
+    """Validate and write the corpus exports plus their landing page."""
+    status = _cmd_check(data_dir)
+    if status != 0:
+        return status
+    try:
+        from vitrine.site.build import build_data_page
+    except ImportError:
+        print(
+            "export requires the [site] extra: uv pip install -e '.[site]'",
+            file=sys.stderr,
+        )
+        return 1
+    try:
+        corpus = load_corpus(data_dir)
+        series = load_series(data_dir)
+    except (LoadError, SeriesError) as exc:
+        print(f"LOAD ERROR: {exc}", file=sys.stderr)
+        return 1
+    try:
+        with staged_directory(
+            out_dir,
+            forbidden_paths=(data_dir,),
+            cleanup_roots=(out_dir, out_dir / "data"),
+        ) as staging:
+            copy_existing_tree(out_dir, staging)
+            export_corpus(
+                corpus,
+                staging,
+                series,
+                source_dir=data_dir,
+                lock_root=out_dir,
+            )
+            build_data_page(corpus, staging)
+    except (OutputError, OSError) as exc:
+        print(f"OUTPUT ERROR: {exc}", file=sys.stderr)
+        return 1
+    print(f"exported → {out_dir}")
     return 0
 
 
@@ -100,6 +147,10 @@ def main(argv: list[str] | None = None) -> int:
     build.add_argument(
         "--out", type=Path, default=Path("_site"), help="output directory (default: ./_site)"
     )
+    export = sub.add_parser("export", help="export the corpus as JSON and CSV")
+    export.add_argument(
+        "--out", type=Path, default=Path("_site"), help="output directory (default: ./_site)"
+    )
     sub.add_parser("gaps", help="print the mechanical gap inventory (generated, never hand-kept)")
 
     args = parser.parse_args(argv)
@@ -107,6 +158,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_check(args.data, args.against_build)
     if args.command == "build":
         return _cmd_build(args.data, args.out)
+    if args.command == "export":
+        return _cmd_export(args.data, args.out)
     if args.command == "gaps":
         return _cmd_gaps(args.data)
     raise AssertionError(f"unhandled command {args.command!r}")
