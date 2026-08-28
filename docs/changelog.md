@@ -1,5 +1,44 @@
 # Changelog
 
+## 2026-08-28 — Plan 024 (corpus exports and the data surface)
+
+The corpus is now a citable dataset. `vitrine export` runs the full
+provenance gate first, then writes a standalone archive-wing surface:
+`data.html` plus `data/corpus.json` (schema version 1), `data/facts.csv`,
+and `data/facts-raw.csv`. The JSON export is the canonical machine record —
+rooms and metadata, every authored fact with all structured fields, the
+source register, the assumption ledger, and the complete series with their
+annual observations, so an `INFLATE` derivation is reproducible from the
+export alone; derived facts keep the authored derivation structure next to
+the computed result and the weakest-operand tier. The CSVs are deliberately
+narrower: quantified authored facts only, with `facts.csv` apostrophe-
+prefixing formula-like text so spreadsheets cannot reinterpret a value and
+`facts-raw.csv` preserving machine values exactly. The exports are
+projections of the gated corpus, never a second source of truth, and the
+IPUMS posture is unchanged: aggregates and citations only — no raw source
+material leaves the archive. The composite-family disclaimer renders on the
+data surface too.
+
+Both `vitrine build` and `vitrine export` now publish through staged
+same-filesystem swaps (`publish.py`): builders render into a sibling
+staging directory and the destination is never written file-by-file, so a
+render failure leaves the previous tree untouched and a successful handoff
+publishes one coherent build. Rollback and cleanup failures have explicitly
+documented partial states, and recovery fails closed — a destination plus a
+rollback artifact, or several artifacts, is an error rather than a guess.
+Advisory locks serialize cooperating local writers per logical output root
+(a nested data surface reuses the full site's lock); path overlap with the
+corpus and symlinked destinations or trees are rejected.
+
+Landing this surfaced a real display bug: `INFLATE` and `AMOUNT_PRODUCT`
+divided minor units by a hardcoded `100` on their way to a display string,
+which would have made a yen result a hundredth of its true amount.
+`ComputedFact` now carries `numeric_value`, `amount_minor`, and
+`currency`, and money display scales through the currency registry's minor
+digits (mirroring the plan-023 fix in `series_numeric`). `CITATION.cff`
+lands with the corpus citation — CC BY-SA 4.0 for corpus and site, MIT for
+the software — scoped by a contract test against the dual `LICENSE`.
+
 ## 2026-08-21 — WI-023 remaining item a (PDF expect-marker verification)
 
 The link checker could verify markers in HTML and .xlsx bodies but had to
