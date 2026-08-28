@@ -63,6 +63,7 @@ def test_pct_of_value() -> None:
     room = _room((_fact("us-1950s-a", 5329), _fact("us-1950s-b", 331900)))
     computed = evaluate(room, _derived(op=DerivedOp.PCT_OF))
     assert computed.value == "≈ 1.6%"
+    assert computed.numeric_value == pytest.approx(5329 / 331900 * 100)
 
 
 def test_zero_denominator_raises() -> None:
@@ -350,6 +351,15 @@ def test_inflate_renders_in_the_operand_currency() -> None:
     assert computed.value == "≈ £32,981"
 
 
+def test_inflate_scales_numeric_result_by_jpy_minor_digits() -> None:
+    room = _room((_fact("us-2020s-base", 27366, Tier.A, currency="JPY"),))
+    series = _inflate_series({2020: 147.600, 2024: 177.886})
+    computed = evaluate(room, _inflate_derived(), series)
+    expected_minor = 27366 * 177.886 / 147.600
+    assert computed.numeric_value == pytest.approx(expected_minor)
+    assert computed.value == "≈ ¥32,981"
+
+
 def test_inflate_tier_is_weakest_input() -> None:
     """A Tier C inflation series weakens the derived tier."""
     from vitrine.series import Series
@@ -436,6 +446,16 @@ def test_product_renders_in_the_operand_currency() -> None:
     ))
     computed = evaluate(room, _product_derived())
     assert computed.value == "≈ £53.46"
+
+
+def test_product_scales_numeric_result_by_jpy_minor_digits() -> None:
+    room = _room((
+        _fact("us-1950s-wage", 132, Tier.A, currency="JPY"),
+        _hours_fact("us-1950s-hours", 40.5),
+    ))
+    computed = evaluate(room, _product_derived())
+    assert computed.numeric_value == pytest.approx(5346)
+    assert computed.value == "≈ ¥5,346.00"
 
 
 def test_product_tier_is_weakest_input() -> None:

@@ -35,6 +35,7 @@ class ComputedFact:
     label: str
     unit: str
     value: str  # computed display string, e.g. "≈ 2.6"
+    numeric_value: float  # machine-readable result in the displayed unit
     tier: Tier  # weakest operand tier — computed, never authored
     numerator: Fact
     denominator: Fact
@@ -44,6 +45,8 @@ class ComputedFact:
     inflate_series: str = ""  # series id (INFLATE op only)
     inflate_from_year: int = 0  # base year (INFLATE op only)
     inflate_to_year: int = 0  # target year (INFLATE op only)
+    amount_minor: float | None = None  # exact monetary result where applicable
+    currency: str = ""  # result currency for monetary operations
 
 
 class DeriveError(Exception):
@@ -86,6 +89,13 @@ def _op_value(op: DerivedOp, ratio: float, precision: int, currency: str) -> str
             assert_never(op)
 
 
+def _major_amount(amount_minor: float, currency: str) -> float:
+    """Convert stored minor units using the declared currency scale."""
+    minor_digits = money.get(currency).minor_digits
+    scale = float(10**minor_digits)
+    return amount_minor / scale
+
+
 def evaluate(
     room: Room,
     derived: DerivedFact,
@@ -117,12 +127,14 @@ def evaluate(
             raise DeriveError(f"{ctx}: inflate_from_year value is zero")
         assert numerator.amount_minor is not None
         inflated = numerator.amount_minor * target / base
+        inflated_major = _major_amount(inflated, numerator.currency)
         return ComputedFact(
             id=derived.id,
             panel=derived.panel,
             label=derived.label,
             unit=derived.unit,
-            value=_op_value(derived.op, inflated / 100.0, derived.precision, numerator.currency),
+            value=_op_value(derived.op, inflated_major, derived.precision, numerator.currency),
+            numeric_value=inflated_major,
             tier=weakest_tier(numerator.tier, s.tier),  # weakest input — series too
             numerator=numerator,
             denominator=numerator,  # no denominator fact; self-reference for the type
@@ -132,6 +144,8 @@ def evaluate(
             inflate_series=derived.inflate_series,
             inflate_from_year=derived.inflate_from_year,
             inflate_to_year=derived.inflate_to_year,
+            amount_minor=inflated,
+            currency=numerator.currency,
         )
 
     denominator = _resolve_structured(room, derived.denominator, ctx, fact_index)
@@ -142,18 +156,22 @@ def evaluate(
         if denominator.quantity is None:
             raise DeriveError(f"{ctx}: denominator {denominator.id!r} has no quantity")
         product = numerator.amount_minor * denominator.quantity
+        product_major = _major_amount(product, numerator.currency)
         return ComputedFact(
             id=derived.id,
             panel=derived.panel,
             label=derived.label,
             unit=derived.unit,
-            value=_op_value(derived.op, product / 100.0, derived.precision, numerator.currency),
+            value=_op_value(derived.op, product_major, derived.precision, numerator.currency),
+            numeric_value=product_major,
             tier=weakest_tier(numerator.tier, denominator.tier),
             numerator=numerator,
             denominator=denominator,
             op=derived.op,
             notes=derived.notes,
             assumptions=derived.assumptions,
+            amount_minor=product,
+            currency=numerator.currency,
         )
 
     if derived.op is DerivedOp.QUANTITY_RATIO:
@@ -175,6 +193,7 @@ def evaluate(
             label=derived.label,
             unit=derived.unit,
             value=_op_value(derived.op, ratio, derived.precision, numerator.currency),
+            numeric_value=ratio,
             tier=weakest_tier(numerator.tier, denominator.tier),
             numerator=numerator,
             denominator=denominator,
@@ -203,6 +222,7 @@ def evaluate(
         label=derived.label,
         unit=derived.unit,
         value=_op_value(derived.op, ratio, derived.precision, numerator.currency),
+        numeric_value=ratio * 100 if derived.op is DerivedOp.PCT_OF else ratio,
         tier=weakest_tier(numerator.tier, denominator.tier),
         numerator=numerator,
         denominator=denominator,
