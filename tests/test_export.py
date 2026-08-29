@@ -137,12 +137,17 @@ def test_exports_are_byte_identical_and_csv_is_quantified_only(tmp_path: Path) -
     assert not list(first.rglob("*.publish.lock"))
     assert not list(second.rglob("*.publish.lock"))
 
-    with (first / "data" / SAFE_CSV_FILENAME).open(newline="") as handle:
+    with (first / "data" / SAFE_CSV_FILENAME).open(
+        encoding="utf-8-sig", newline=""
+    ) as handle:
         reader = csv.DictReader(handle)
         assert reader.fieldnames == list(CSV_FIELDS)
         rows = list(reader)
     assert len(rows) == quantified_fact_count(corpus)
     assert all(row["quantity"] for row in rows)
+    # the safe CSV carries a BOM for spreadsheet decoding; the raw one does not
+    assert (first / "data" / SAFE_CSV_FILENAME).read_bytes().startswith(b"\xef\xbb\xbf")
+    assert not (first / "data" / RAW_CSV_FILENAME).read_bytes().startswith(b"\xef\xbb\xbf")
 
 
 def test_formula_safe_csv_keeps_canonical_values_unchanged(tmp_path: Path) -> None:

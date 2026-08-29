@@ -231,16 +231,6 @@ assumptions = ["composite-family"]
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-1990s-cigarettes-per-capita"
-quantity = 2817
-panel = "day"
-label = "Cigarettes consumed per adult, 1990"
-value = "2,817 per adult per year"
-unit = "manufactured cigarettes per adult (18+) per year"
-source = "cdc-mmwr-tobacco-surveillance"
-tier = "A"
-notes = "MMWR SS-3 Table 1, per-capita column (USDA/ERS from ATF tax data, imports, Census population). Adults 18+; overseas military included in the basis from 1930."
-[[fact]]
 id = "us-1990s-life-expectancy"
 quantity = 75.4
 panel = "day"
@@ -585,6 +575,7 @@ panel = "table"
 label = "Adult per capita cigarette consumption, 1990"
 value = "2,817 cigarettes per adult per year"
 unit = "cigarettes per adult (≥18 years) per year"
+price_year = 1990
 source = "cdc-mmwr-tobacco-surveillance"
 tier = "A"
 notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Consumption had fallen sharply from the 1980 level of 3,849. The 1990s saw the Master Settlement Agreement (1998) between major tobacco companies and 46 states."
@@ -597,6 +588,7 @@ panel = "table"
 label = "Adult cigarette smoking prevalence, 1990"
 value = "25.5% of adults smoked (28.4% of men, 22.8% of women)"
 unit = "% of adults ≥18 who currently smoke (NHIS)"
+price_year = 1990
 source = "cdc-nhis-smoking-prevalence"
 tier = "A"
 notes = "From CDC NHIS (compiled by American Lung Association). Smoking prevalence fell below 30% for the first time. Down from 33.2% in 1980."

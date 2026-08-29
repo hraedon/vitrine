@@ -279,6 +279,7 @@ panel = "table"
 label = "Adult per capita cigarette consumption, 1950"
 value = "3,552 cigarettes per adult per year"
 unit = "cigarettes per adult (≥18 years) per year"
+price_year = 1950
 source = "cdc-mmwr-tobacco-surveillance"
 tier = "A"
 notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Smoking was at near-peak levels. The 1964 Surgeon General's Report was still 14 years away. By 1953 consumption briefly dipped to 3,778 before resuming. Total U.S. consumption was 369.8 billion cigarettes in 1950."
@@ -300,17 +301,6 @@ notes = "Computed from Historical Statistics, Series Q 148-162 (source: Automobi
 assumptions = ["nominal-values"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
-
-[[fact]]
-id = "us-1950s-cigarettes-per-capita"
-quantity = 3597
-panel = "day"
-label = "Cigarettes consumed per adult, 1955"
-value = "3,597 per adult per year"
-unit = "manufactured cigarettes per adult (18+) per year"
-source = "cdc-mmwr-tobacco-surveillance"
-tier = "A"
-notes = "MMWR SS-3 Table 1, per-capita column (USDA/ERS from ATF tax data, imports, Census population). Adults 18+; overseas military included in the basis from 1930."
 
 [[fact]]
 id = "us-1950s-weekly-hours-manufacturing"

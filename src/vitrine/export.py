@@ -361,7 +361,7 @@ def export_corpus(
         ) as handle:
             handle.write(_csv_text(corpus))
         with (data_dir / SAFE_CSV_FILENAME).open(
-            "w", encoding="utf-8", newline="\n"
+            "w", encoding="utf-8-sig", newline="\n"
         ) as handle:
             handle.write(_safe_csv_text(corpus))
 

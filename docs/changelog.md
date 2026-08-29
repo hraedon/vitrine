@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-08-29 — Adversarial-review corrections (Plan 027 Phase A + Plan 024 docs)
+
+A cross-lineage adversarial review re-verified every landed number against
+the archived documents (136/136 transcription values clean) and found
+provenance/presentation defects, all fixed: the smoking-prevalence series
+now cites the CDC/NCHS trends table it was actually transcribed from
+(registered as its own source; the ALA compilation it was mis-cited to
+reads 2006 as 20.6 where the trends table says 20.8, and supplies the 2000
+value where the trends table is blank — both divergences disclosed on the
+cards); unsourced definitional side-claims (1997/2019 redesigns) came out
+of truth-path strings, keeping the on-file 1992 some-days note named to the
+Surgeon General's report; arc markers now sit at their facts' own years via
+`price_year`, which also turns on the drift detector for all 19 bound
+facts; the consumption arc stops at 1994 where its table does instead of
+piling post-1994 markers on the chart edge; two ALA sex-split cells
+(female 2000, male 2020) corrected against the table on disk; and thirteen
+duplicate day-panel consumption facts were removed in favor of the
+pre-existing table-panel facts they unknowingly duplicated. Also from the
+review: `facts.csv` now carries a UTF-8 BOM (spreadsheets were mojibaking
+¥/£ cells), the export schema doc states the real quantity-containment
+rule and the empty-string anchor convention, the stage home-scale math
+rejects non-positive quantities, the walkthrough projection makes a
+decade collision a red build instead of silent dict last-wins, the
+architecture test lists the core modules explicitly, and StageCuration
+registries are mechanically checked (position keys, country-decade fact
+prefixes, home-size baseline presence) — verified 383 tests green.
+
 ## 2026-08-29 — Plan 027 Phase A (the "different country" wing + the smoking flagship)
 
 Wing V, "The past was a different country," opens with the smoking flagship:

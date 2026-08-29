@@ -850,6 +850,16 @@ notes = "Triennial survey of U.S. family finances. Provides median and mean net 
 # ── CDC: smoking/tobacco ─────────────────────────────────────────────────
 
 [[source]]
+id = "cdc-trends-cig-smoking"
+title = "Trends in Current Cigarette Smoking Among High School Students and Adults, United States, 1965-2014"
+short_cite = "CDC NCHS, Trends in Current Cigarette Smoking 1965-2014 (adults column)"
+publisher = "Centers for Disease Control and Prevention (CDC)"
+year = 2014
+url = "https://www.cdc.gov/tobacco/data_statistics/tables/trends/cig_smoking/index.htm"
+population = "U.S. civilian noninstitutionalized adults 18+ (NHIS household interview survey)"
+notes = "CDC/NCHS trends table, Adults column: % of adults who are current cigarette smokers, NHIS survey years only (sparse; blank cells are gaps). Current smoker defined as >=100 lifetime cigarettes and currently smoking. Page retired in the CDC site redesign; transcribed from the Internet Archive snapshot of 2018-11-13 (web.archive.org/web/20181113075538id_/). The 2006 adults cell reads 20.8 here; the American Lung Association compilation of the same NHIS (source cdc-nhis-smoking-prevalence) reads 20.6 — the difference is a compilation revision, disclosed rather than reconciled."
+
+[[source]]
 id = "cdc-mmwr-tobacco-surveillance"
 title = "Surveillance for Selected Tobacco-Use Behaviors -- United States, 1900-1994"
 short_cite = "CDC MMWR Surveillance Summary, Tobacco Use 1900-1994"

@@ -109,6 +109,12 @@ def build_stage(room: Room, index: dict[str, FactRef], root: str) -> svg.Stage:
                     f"room {room.slug}: home-scale datum needs a positive "
                     "home_size_baseline in the country's stage curation"
                 )
+            if size_fact.quantity <= 0:
+                raise ValueError(
+                    f"room {room.slug}: home-scale fact {size_fid!r} has a "
+                    "non-positive quantity — a floor area cannot scale the "
+                    "stage"
+                )
             # Scale by sqrt so the linear dimension changes proportionally,
             # clamped so a locale cannot balloon or vanish the outline.
             home_scale = max(

@@ -208,16 +208,6 @@ notes = "From the Census Bureau's Survey of Construction (C-25 annual report). N
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-2010s-cigarettes-per-capita"
-quantity = 1083
-panel = "day"
-label = "Cigarettes consumed per adult, 2015"
-value = "1,083 per adult per year"
-unit = "manufactured cigarettes per adult (18+) per year"
-source = "cdc-tobacco-consumption-2000"
-tier = "A"
-notes = "CDC Adult Tobacco Consumption dataset: TTB taxable removals (domestic + imports) over the Census 18+ population. Removals basis, not the USDA/ERS tax basis of the 1900-1994 segment."
-[[fact]]
 id = "us-2010s-life-expectancy"
 quantity = 78.7
 panel = "day"
@@ -531,6 +521,7 @@ panel = "table"
 label = "Adult per capita cigarette consumption, 2010"
 value = "1,278 cigarettes per adult per year"
 unit = "cigarettes per adult (≥18 years) per year"
+price_year = 2010
 source = "cdc-tobacco-consumption-2000"
 tier = "A"
 notes = "From CDC Adult Tobacco Consumption dataset (data.cdc.gov). Consumption nearly halved from 2000's 2,076. E-cigarettes were emerging as an alternative but are not counted in cigarette consumption."
@@ -543,6 +534,7 @@ panel = "table"
 label = "Adult cigarette smoking prevalence, 2010"
 value = "19.3% of adults smoked (21.5% of men, 17.3% of women)"
 unit = "% of adults ≥18 who currently smoke (NHIS)"
+price_year = 2010
 source = "cdc-nhis-smoking-prevalence"
 tier = "A"
 notes = "From CDC NHIS (compiled by American Lung Association). Smoking fell below 20% for the first time. The 2009 Family Smoking Prevention and Tobacco Control Act gave FDA regulatory authority over tobacco products."

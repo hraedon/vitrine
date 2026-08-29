@@ -154,23 +154,13 @@ panel = "table"
 label = "Adult per capita cigarette consumption, 1900"
 value = "54 cigarettes per adult per year"
 unit = "cigarettes per adult (≥18 years) per year"
+price_year = 1900
 source = "cdc-mmwr-tobacco-surveillance"
 tier = "A"
 notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. USDA estimate based on federal cigarette tax data and Census adult population. Total U.S. consumption was 2.5 billion cigarettes in 1900. Cigarettes were a minor product — chewing tobacco and cigars were dominant."
 assumptions = ["composite-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
-
-[[fact]]
-id = "us-1900s-cigarettes-per-capita"
-quantity = 70
-panel = "day"
-label = "Cigarettes consumed per adult, 1905"
-value = "70 per adult per year"
-unit = "manufactured cigarettes per adult (18+) per year"
-source = "cdc-mmwr-tobacco-surveillance"
-tier = "A"
-notes = "MMWR SS-3 Table 1, per-capita column (USDA/ERS from ATF tax data, imports, Census population). Adults 18+; overseas military included in the basis from 1930."
 
 [[fact]]
 id = "us-1900s-weekly-hours"

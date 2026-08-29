@@ -390,6 +390,7 @@ panel = "table"
 label = "Adult per capita cigarette consumption, 2020"
 value = "890 cigarettes per adult per year"
 unit = "cigarettes per adult (≥18 years) per year"
+price_year = 2020
 source = "cdc-tobacco-consumption-2000"
 tier = "A"
 notes = "From CDC Adult Tobacco Consumption dataset (data.cdc.gov). Consumption fell below 1,000 for the first time since the 1930s. By 2023 it had declined further to 678 per adult."
@@ -400,7 +401,7 @@ id = "us-2020s-smoking-prevalence"
 quantity = 12.5
 panel = "table"
 label = "Adult cigarette smoking prevalence, 2020"
-value = "12.5% of adults smoked (14.0% of men, 11.0% of women)"
+value = "12.5% of adults smoked (14.1% of men, 11.0% of women)"
 unit = "% of adults ≥18 who currently smoke (NHIS)"
 source = "cdc-nhis-smoking-prevalence"
 tier = "A"
@@ -408,17 +409,6 @@ notes = "From CDC NHIS (compiled by American Lung Association). Smoking prevalen
 assumptions = ["composite-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
-
-[[fact]]
-id = "us-2020s-cigarettes-per-capita"
-quantity = 678
-panel = "day"
-label = "Cigarettes consumed per adult, 2023"
-value = "678 per adult per year"
-unit = "manufactured cigarettes per adult (18+) per year"
-source = "cdc-tobacco-consumption-2000"
-tier = "A"
-notes = "CDC Adult Tobacco Consumption dataset: TTB taxable removals (domestic + imports) over the Census 18+ population. Removals basis, not the USDA/ERS tax basis of the 1900-1994 segment."
 
 [[fact]]
 id = "us-2020s-weekly-hours-manufacturing"

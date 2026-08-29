@@ -159,8 +159,9 @@ def main() -> None:
         "U.S. adult population (18+); consumption basis includes overseas military from 1930",
         "MMWR SS-3 Table 1, per-capita column (USDA/ERS from ATF tax data, "
         "imports, Census population). 1993 provisional, 1994 projected "
-        "(table footnotes). 1995-1999 have no published value in the "
-        "archived record: the gap is the exhibit.",
+        "(table footnotes). The table ends 1994 and no archived table "
+        "covers 1995-1999 (a prose figure for 1998 exists in the separate "
+        "MMWR 1999 achievements piece); the gap renders.",
         mmwr,
     )
     emit(
@@ -181,14 +182,16 @@ def main() -> None:
         OUT_DIR / "us-smoking-prevalence.toml",
         "us-smoking-prevalence",
         "Adult cigarette smoking prevalence (NHIS current smokers), 1965-2014",
-        "cdc-nhis-smoking-prevalence",
+        "cdc-trends-cig-smoking",
         "% of adults (18+) who are current cigarette smokers",
         "U.S. civilian noninstitutionalized adults 18+ (NHIS household interviews)",
         "CDC/NCHS trends table, Adults column, survey years only (sparse: "
         "absent years are gaps, never zeros). Definition: >=100 lifetime "
-        "cigarettes and currently smoking; 'some days' added 1992; "
-        "questionnaire redesigned 1997 and again Jan 2019. 2015+ omitted "
-        "pending final published values.",
+        "cigarettes and currently smoking (the some-days condition was added "
+        "in 1992 per the Surgeon General's 2014 report, Table 12.2 note, on "
+        "file in samples/). 2006 reads 20.8 here vs 20.6 in the ALA "
+        "compilation of the same survey. 2015+ omitted pending final "
+        "published values.",
         prev,
     )
 

@@ -32,7 +32,7 @@ Top level: `schema_version` (currently `1`), then four arrays.
 | Field | Meaning |
 |-------|---------|
 | `country`, `decade` | Room identity; `slug` is `<country>-<decade>` |
-| `wage_anchor`, `income_anchor` | Fact ids the affordability axis uses, or `null` |
+| `wage_anchor`, `income_anchor` | Fact ids the affordability axis uses; an empty string when the room has no anchor |
 | `data_as_of` | Editorial recency marker for the room |
 | `facts[]`, `derived[]` | The authored record, below |
 
@@ -52,9 +52,12 @@ Two conventions matter to consumers:
   (`vitrine.money.CURRENCIES`, currently USD/GBP with 2 minor digits, JPY
   with 0) is the scale table. Divide by `10 ** minor_digits` for major
   units; never assume 100.
-- **`quantity` is the chartable number and must appear verbatim inside
-  `value`** — the build gate enforces it, so a consumer may quote `value`
-  as the display form of `quantity` without re-checking.
+- **`quantity` is the chartable number, and the gate enforces that one of
+  its canonical renderings (plain, thousands-comma, or trailing-zero
+  forms) occurs inside `value`** — so `value` is the display form of
+  `quantity`. The containment is substring-based, not token-based: a
+  consumer quoting `value` verbatim is safe, but a consumer parsing
+  numbers back out of `value` should read `quantity` instead.
 
 ### `rooms[].derived[]` — one computed fact
 
@@ -65,8 +68,9 @@ result: `value` (display string), `computed_value` (float, in the displayed
 unit), `computed_amount_minor` / `computed_currency` (for money results),
 and `tier` — computed as the weakest operand tier, never authored. For
 `INFLATE`, `inflation` carries the exact series id and the two observations
-(base and target year, value as stored — minor units when the series is
-monetary) used by the computation, so the arithmetic is reproducible from
+(base and target year, value as stored by the series — the gate only
+permits `INFLATE` over a dimensionless index series, so these are index
+points) used by the computation, so the arithmetic is reproducible from
 this file alone.
 
 ### `sources[]`, `assumptions[]`, `series[]`
@@ -86,11 +90,12 @@ facts without one are display-only and appear in JSON alone). Columns:
 `id`, `decade`, `panel`, `label`, `value`, `quantity`, `unit`, `tier`,
 `source_id`, `short_cite`.
 
-- `facts.csv` prefixes any cell beginning with `=`, `+`, `-`, or `@` with
-  an apostrophe so spreadsheet applications cannot reinterpret it as a
-  formula. Canonical values are unchanged — nothing is rounded or
-  reformatted.
-- `facts-raw.csv` is byte-exact, for machine consumption.
+- `facts.csv` prefixes any cell whose text begins (after whitespace) with
+  `=`, `+`, `-`, or `@` with an apostrophe so spreadsheet applications
+  cannot reinterpret it as a formula, and carries a UTF-8 BOM so
+  spreadsheets decode non-ASCII (¥, £) correctly. Canonical values are
+  unchanged — nothing is rounded or reformatted.
+- `facts-raw.csv` is byte-exact (BOM-less UTF-8), for machine consumption.
 
 JSON remains the canonical machine-readable record; the CSVs are a
 convenience projection.

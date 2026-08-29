@@ -29,7 +29,9 @@ does not make that stronger security claim.
 
 This is deliberately stdlib-only. The site renderer and the corpus exporter
 both use it at their CLI boundary; direct projection functions remain useful
-for tests and callers that intentionally own their output directory.
+for tests and callers that intentionally own their output directory. Note
+that "stdlib-only" here also means POSIX-only: the advisory lock uses
+``fcntl``, so the module (and the CLI) does not import on Windows.
 """
 
 from __future__ import annotations

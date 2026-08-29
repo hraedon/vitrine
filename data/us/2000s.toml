@@ -230,16 +230,6 @@ assumptions = ["composite-family"]
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
-id = "us-2000s-cigarettes-per-capita"
-quantity = 1717
-panel = "day"
-label = "Cigarettes consumed per adult, 2005"
-value = "1,717 per adult per year"
-unit = "manufactured cigarettes per adult (18+) per year"
-source = "cdc-tobacco-consumption-2000"
-tier = "A"
-notes = "CDC Adult Tobacco Consumption dataset: TTB taxable removals (domestic + imports) over the Census 18+ population. Removals basis, not the USDA/ERS tax basis of the 1900-1994 segment."
-[[fact]]
 id = "us-2000s-life-expectancy"
 quantity = 77
 panel = "day"
@@ -563,6 +553,7 @@ panel = "table"
 label = "Adult per capita cigarette consumption, 2000"
 value = "2,076 cigarettes per adult per year"
 unit = "cigarettes per adult (≥18 years) per year"
+price_year = 2000
 source = "cdc-tobacco-consumption-2000"
 tier = "A"
 notes = "From CDC Adult Tobacco Consumption dataset (data.cdc.gov). Based on TTB taxable removals and Census adult population estimates. Down from 2,817 in 1990."
@@ -573,8 +564,9 @@ id = "us-2000s-smoking-prevalence"
 quantity = 23.3
 panel = "table"
 label = "Adult cigarette smoking prevalence, 2000"
-value = "23.3% of adults smoked (25.7% of men, 20.7% of women)"
+value = "23.3% of adults smoked (25.7% of men, 21.0% of women)"
 unit = "% of adults ≥18 who currently smoke (NHIS)"
+price_year = 2000
 source = "cdc-nhis-smoking-prevalence"
 tier = "A"
 notes = "From CDC NHIS (compiled by American Lung Association). Note: NHIS survey was redesigned in 1997, so pre-1997 and post-1997 data may not be directly comparable. Smoking continued its steady decline."

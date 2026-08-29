@@ -277,6 +277,42 @@ def test_plan027_smoking_arc_gaps_render_as_gaps(site: Path, corpus: Corpus) -> 
     assert "The past was a different country" in html
 
 
+def test_stage_curation_registries_are_well_formed() -> None:
+    """Every locale's stage curation is mechanically checkable:
+
+    - a positions override must name a real artifact (a typo'd key would
+      silently render at the default or vanish) and must not collide with
+      the merged layout it produces for any decade it affects;
+    - a country with home-size facts must declare a positive baseline;
+    - every bound fact id must carry its room's country-decade prefix, so
+      the renderer's room-membership guard can never be surprised.
+    """
+    from vitrine.site import svg
+
+    for country, curated in curation.STAGE_BY_COUNTRY.items():
+        for artifact in curated.positions:
+            assert artifact in svg.STAGE_POS or artifact in curated.diffusion \
+                or artifact in curated.stats, (
+                f"{country}: position override names unknown artifact {artifact!r}"
+            )
+        for registry in (curated.diffusion, curated.stats):
+            for artifact, decades in registry.items():
+                assert artifact in svg.STAGE_POS or artifact in curated.positions, (
+                    f"{country}: artifact {artifact!r} has no stage position"
+                )
+                for decade, fid in decades.items():
+                    assert fid.startswith(f"{country}-{decade}-"), (
+                        f"{country}: {artifact}/{decade} names foreign id {fid!r}"
+                    )
+        if curated.home_size:
+            assert curated.home_size_baseline is not None
+            assert curated.home_size_baseline > 0
+            for decade, fid in curated.home_size.items():
+                assert fid.startswith(f"{country}-{decade}-"), fid
+        for decade, fid in curated.food_share.items():
+            assert fid.startswith(f"{country}-{decade}-"), fid
+
+
 def test_room_stories_are_local_complete_and_distinct(corpus: Corpus) -> None:
     rooms = {room.slug: room for room in corpus.rooms}
     assert len(curation.ROOM_STORIES) == len(curation.ROOM_STORY_BY_SLUG)

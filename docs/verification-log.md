@@ -838,3 +838,76 @@ cannot be read as "cigarettes per smoker." The TTB segment (2000+) counts
 taxable removals, not consumption. Prevalence measures current smokers among
 civilian noninstitutionalized adults; institutionalized and military
 populations are outside the frame. No fact here claims health outcomes.
+
+---
+
+## Plan 027 WI-2 corrections (2026-08-29, adversarial review pass)
+
+**Date:** 2026-08-29
+**Verifier:** glm-5.3 session, applying cross-lineage adversarial review
+findings (deepseekv4flash reviewer; the reviewer independently re-verified
+all 136 values and found the transcription clean — the corrections below
+are provenance and presentation defects, not number errors).
+
+### 2e: Series provenance corrected (reviewer C1)
+
+The `us-smoking-prevalence` series was cited to `cdc-nhis-smoking-prevalence`
+(the American Lung Association compilation) while its values were
+transcribed from the CDC/NCHS trends table — two compilations that differ
+(2006: 20.8 CDC vs 20.6 ALA; the ALA table publishes 2000 = 23.3 where the
+CDC table's adults cell is blank). **Fix:** registered the trends table as
+its own source (`cdc-trends-cig-smoking`) with the snapshot URL and the
+2006 divergence disclosed in its notes; the series now cites the document
+it was actually read from. A visitor clicking the source card now lands on
+a table that shows the entered values.
+
+### 2f: Unsourced side-claims removed from the truth path (reviewer M2)
+
+The series note and arc caveat claimed "'some days' counted from 1992;
+questionnaire redesigned 1997 and again in 2019." Verification against the
+archive: the 1992 note IS on file (Surgeon General's 2014 report, Table
+12.2 note, samples/34-smoking/sg-2014-table12.2-prevalence.txt — "the some
+days condition was added in 1992") and is kept, named. The 1997 redesign is
+stated on the ALA compilation (its † marker) but not by either cited table;
+the 2019 redesign appears only in NCHS Early Release preamble text, not a
+cited document. Both were removed from truth-path strings (series notes,
+arc caveats); they remain above as archive observations with their
+documents named.
+
+### 2g: Marker-year coherence (reviewer M1/M3)
+
+Arc markers defaulted to mid-decade positions while the facts state their
+own years, visibly contradicting the annual lines (e.g. the 1980 prevalence
+fact 33.2@1980 plotted at 1985, where the series reads 30.1). **Fix:**
+`price_year` set on all 13 cigarette-consumption facts (label years,
+previously verified against the series) and all 6 smoking-prevalence facts
+— which also activates the invariant-9 drift detector over every one of
+them (series/fact agreement is now mechanical, not just logged). The
+consumption arc's fact_ids are trimmed to 1900s–1990s: its series line ends
+1994 where its table does, and post-1994 markers clamped to the chart edge
+(2005/2015/2023 piling at 1994) misrepresented the splice; the TTB-era
+decades stay in their room placards and the continuation series, with the
+arc caveat saying exactly that.
+
+### 2h: ALA compilation cells corrected (reviewer m2; pre-existing facts)
+
+Two sex-split cells in the 2026-07-17 facts were off by one column against
+the ALA table on disk (verified this session, parsing the table's year
+header including its footnoted "1997 †" column):
+
+- us-2000s-smoking-prevalence: female 2000 was 20.7 (the 2001 value);
+  ALA Female 2000 = 21.0. **Corrected to 21.0.**
+- us-2020s-smoking-prevalence: male 2020 was 14.0; ALA Male 2020 = 14.1.
+  **Corrected to 14.1.**
+
+All other cells in both facts re-verified against the table (total 23.3 /
+12.5 ✓, male 2000 25.7 ✓, female 2010 17.3 ✓, female 2020 11.0 ✓).
+
+### 2i: Duplicate concept facts removed (reviewer m1)
+
+The 2026-08-29 session added `us-{decade}-cigarettes-per-capita` day-panel
+facts without noticing the 2026-07-17 session's `us-{decade}-cigarette-
+consumption` table-panel facts (same sources, same series). The new
+duplicates were removed and the arc re-bound to the pre-existing facts,
+whose values match the new series at every label year (verified 13/13
+before binding; now drift-gated via price_year).

@@ -5,10 +5,16 @@ import sys
 
 
 def test_core_does_not_import_site_or_jinja2() -> None:
+    # Explicit module list (not just what cli happens to pull in): a new
+    # core module not reachable from cli must not silently lose protection.
+    core_modules = (
+        "vitrine.cli, vitrine.check, vitrine.loader, vitrine.model, "
+        "vitrine.affordability, vitrine.compare, vitrine.series, "
+        "vitrine.derive, vitrine.export, vitrine.publish, vitrine.money"
+    )
     code = (
         "import sys\n"
-        "import vitrine.cli, vitrine.check, vitrine.loader, vitrine.model, "
-        "vitrine.affordability, vitrine.compare, vitrine.series\n"
+        f"import {core_modules}\n"
         "bad = [m for m in sys.modules if m == 'jinja2' or m.startswith('vitrine.site')]\n"
         "sys.exit(1 if bad else 0)\n"
     )

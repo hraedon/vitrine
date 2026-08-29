@@ -207,7 +207,19 @@ def project_walkthrough(
     affordability: dict[str, dict[str, str]],
 ) -> WalkthroughPage:
     """Project the guided transect into a ``WalkthroughPage``."""
-    rooms_by_decade = {room.decade: room for room in rooms}
+    # The walkthrough's stops are decade-keyed US curation. A second curated
+    # country would collide silently (dict last-wins), so make the collision
+    # a red build instead: the walkthrough goes multi-country deliberately
+    # (per-stop curation), never by accident.
+    rooms_by_decade: dict[str, Room] = {}
+    for room in rooms:
+        if room.decade in rooms_by_decade:
+            raise ValueError(
+                f"walkthrough: two rooms share decade {room.decade!r} "
+                f"({rooms_by_decade[room.decade].slug}, {room.slug}) — the "
+                "transect is single-country curation"
+            )
+        rooms_by_decade[room.decade] = room
     overlay_ids: list[str] = []
 
     stop_sections = _build_stop_sections(rooms_by_decade, index, overlay_ids)

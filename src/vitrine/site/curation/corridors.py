@@ -424,17 +424,18 @@ ARCS: tuple[Arc, ...] = (
         "Cigarettes consumed per adult",
         "cigarettes per adult (18+) per year",
         _ids(
-            "us-{decade}-cigarettes-per-capita",
-            "190 191 192 193 194 195 196 197 198 199 200 201 202",
+            "us-{decade}-cigarette-consumption",
+            "190 191 192 193 194 195 196 197 198 199",
         ),
         falling=True,
         series_id="us-cigarettes-per-capita",
         caveats=(
-            "Consumption (tax-derived), not prevalence. 1995–1999 have no "
-            "published value in the archived record. The 2000s–2020s points "
-            "switch basis to TTB taxable removals (a methodology splice, "
-            "marked on the continuation series). 1993 provisional, 1994 "
-            "projected.",
+            "Consumption (tax-derived), not prevalence. The chart's line "
+            "ends 1994 where its table does: 1995-1999 have no table in the "
+            "archived record, and 2000-2023 continue on the TTB-removals "
+            "basis (series us-cigarettes-per-capita-ttb, a methodology "
+            "splice) — those decades stay in the room placards rather than "
+            "piling on this axis. 1993 provisional, 1994 projected.",
         ),
     ),
     Arc(
@@ -449,9 +450,12 @@ ARCS: tuple[Arc, ...] = (
         series_id="us-smoking-prevalence",
         caveats=(
             "NHIS survey years only; the survey begins 1965, so earlier "
-            "decades render as gaps, not zeros. Current smoker = 100+ "
-            "lifetime cigarettes and smoking now; 'some days' counted from "
-            "1992; questionnaire redesigned 1997 and again in 2019.",
+            "decades render as gaps, not zeros. Each marker sits at its "
+            "fact's own year. The decade placards come from the American "
+            "Lung Association compilation of the same survey, which agrees "
+            "with this table at every overlapping year except 2006 (20.8 "
+            "here, 20.6 there); the 2000 marker is that compilation's "
+            "value on a year this table leaves blank.",
         ),
     ),
 )
