@@ -208,6 +208,16 @@ notes = "From the Census Bureau's Survey of Construction (C-25 annual report). N
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
+id = "us-2010s-cigarettes-per-capita"
+quantity = 1083
+panel = "day"
+label = "Cigarettes consumed per adult, 2015"
+value = "1,083 per adult per year"
+unit = "manufactured cigarettes per adult (18+) per year"
+source = "cdc-tobacco-consumption-2000"
+tier = "A"
+notes = "CDC Adult Tobacco Consumption dataset: TTB taxable removals (domestic + imports) over the Census 18+ population. Removals basis, not the USDA/ERS tax basis of the 1900-1994 segment."
+[[fact]]
 id = "us-2010s-life-expectancy"
 quantity = 78.7
 panel = "day"

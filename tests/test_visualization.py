@@ -242,6 +242,41 @@ def test_corridor_atlas_is_navigable_and_progressively_disclosed(site: Path) -> 
     assert 'aria-label="All pairwise decade comparisons"' in html
 
 
+def test_plan027_smoking_arc_gaps_render_as_gaps(site: Path, corpus: Corpus) -> None:
+    """WI-2 acceptance: the honest gaps are gaps, never zeros.
+
+    - Pre-1965 smoking prevalence: the NHIS does not exist before 1965, so
+      the arc binds no fact in 1900s-1950s rooms and their placards carry
+      no prevalence number.
+    - 1995-1999 consumption: no published value in the archived record; the
+      series omits the years and nothing fabricates them.
+    - The 1963 peak is the series maximum, read off MMWR Table 1.
+    """
+    from vitrine.series import Series, load_series
+
+    # prevalence: no bound fact before the 1960s rooms
+    for decade in ("1900s", "1910s", "1920s", "1930s", "1940s", "1950s"):
+        room = next(r for r in corpus.rooms if r.slug == f"us-{decade}")
+        assert not any(
+            f.id == f"us-{decade}-smoking-prevalence" for f in room.facts
+        ), f"us-{decade}: prevalence fact exists before the survey does"
+
+    series: dict[str, Series] = load_series(DATA)
+    consumption = series["us-cigarettes-per-capita"]
+    for year in range(1995, 2000):
+        assert year not in consumption.values, "1995-1999 must stay unrendered"
+    assert max(consumption.values.items(), key=lambda kv: kv[1]) == (1963, 4345)
+    ttb = series["us-cigarettes-per-capita-ttb"]
+    assert ttb.splices_from == "us-cigarettes-per-capita"
+    prevalence = series["us-smoking-prevalence"]
+    assert min(prevalence.values) == 1965 and max(prevalence.values) == 2014
+
+    # the corridors page carries both new arcs inside wing V
+    html = (site / "corridors" / "index.html").read_text()
+    assert 'id="wing-different-country"' in html
+    assert "The past was a different country" in html
+
+
 def test_room_stories_are_local_complete_and_distinct(corpus: Corpus) -> None:
     rooms = {room.slug: room for room in corpus.rooms}
     assert len(curation.ROOM_STORIES) == len(curation.ROOM_STORY_BY_SLUG)

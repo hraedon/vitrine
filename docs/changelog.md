@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-08-29 — Plan 027 Phase A (the "different country" wing + the smoking flagship)
+
+Wing V, "The past was a different country," opens with the smoking flagship:
+two arcs backed by three new Tier A series, all transcribed from primary
+tables on disk (`samples/34-smoking/`, verification log 2a–2c). Cigarette
+consumption per adult runs 1900–1994 from MMWR SS-3 Table 1 (USDA/ERS basis;
+script-extracted then eye-verified, including the three irregular rows — 1900
+has no change column, 1993/94 carry provisional/projected footnote markers),
+with a TTB-removals continuation 2000–2023 spliced at the basis change and
+the 1995–99 gap left as the exhibit. Smoking prevalence (NHIS survey years
+1965–2014, CDC/NCHS trends table) renders pre-1965 as gaps, never zeros; the
+2015+ cells that exist only as Early Release preliminary or secondary
+analysis stay out of the series. Thirteen consumption facts join the day
+panels (mid-decade checkpoints, each label naming its year); the prevalence
+facts already existed from the 2026-07-17 curation and agreed with the new
+series at every overlapping year — the drift gate and a three-way cross-check
+(MMWR Table 2 / CDC trends / the facts) confirm it. The wing's introduction
+states the selection principle: normal, legal, ubiquitous then;
+unthinkable, illegal, or vanishingly rare now. Falling lines are not
+presented as progress.
+
 ## 2026-08-29 — Locale-configurable stage layouts (country-keyed stages)
 
 The stage curation is country-keyed: `STAGE_BY_COUNTRY` maps each country to

@@ -748,3 +748,93 @@ work-buys gaps are untouched — without a family-income figure, affordability
 still cannot be computed for these decades. The 1930s food fact states the point
 directly, because it is the one most likely to be misread: food fell 37% while
 incomes fell faster, so deflation is not affordability.
+
+---
+
+## Plan 027 WI-2: smoking series (2026-08-29)
+
+**Date:** 2026-08-29
+**Verifier:** glm-5.3 session
+**Context:** Phase A of Plan 027 — the "different country" wing and its
+smoking flagship. Three series + 13 consumption facts authored; the
+pre-1965 prevalence facts already existed (curated 2026-07-17) and were
+re-verified against the new series by the drift gate and by eye.
+
+### 2a: MMWR SS-3 Table 1 — per-capita cigarette consumption, 1900-1994
+
+**Source:** samples/34-smoking/mmwr-tobacco-surveillance-1900-1994.html
+(MMWR Surveillance Summary Vol. 43 No. SS-3, fetched by a prior session,
+re-verified on disk this session).
+**Method:** script extraction (scripts/mmwr_tobacco_extract.py) over the
+flattened table text, then direct eye comparison of the parsed rows against
+the source text. The table's three irregular rows were handled explicitly:
+1900 (no change column), 1993 (`@` = provisional), 1994 (`&` = projected).
+
+| Year | Source text | Parsed | Agrees |
+|------|-------------|--------|--------|
+| 1900 | "2.5 54" | 54 | ✓ |
+| 1920 | "44.6 665 - 8.5" | 665 | ✓ |
+| 1925 | "79.8 1,085 +10.5" | 1085 | ✓ |
+| 1940 | (prose cross-check "1,976") | 1976 | ✓ |
+| 1945 | "340.6 3,449 +13.5" | 3449 | ✓ |
+| 1955 | "396.4 3,597 + 1.4" | 3597 | ✓ |
+| 1963 | "peaked at 4,345 in 1963" (prose) | 4345 | ✓ |
+| 1964 | (prose cross-check "4,194") | 4194 | ✓ |
+| 1965 | "528.8 4,258 + 1.5" | 4258 | ✓ |
+| 1975 | "607.2 4,122 - 0.5" | 4122 | ✓ |
+| 1985 | "594.0 3,370 - 2.2" | 3370 | ✓ |
+| 1990 | "estimate of per capita consumption (2,817)" (Methods prose) | 2817 | ✓ |
+| 1994 | "&amp; 480.0 2,493" | 2493 | ✓ |
+
+The prose statements in the document's own narrative (54 in 1900, 4,345 peak
+in 1963, 2,493 in 1994, 2,817 in 1990) independently confirm the table parse
+at four cells — table and prose agree with each other and with the script.
+
+### 2b: CDC Adult Tobacco Consumption CSV — 2000-2023
+
+**Source:** samples/34-smoking/adult-tobacco-consumption-2000-present.csv.
+**Method:** filtered Cigarette Removals rows; read `Total Per Capita`.
+The `Population` column (2000: 209,786,736) confirms the denominator is the
+18+ population, not total residents — this is per-**adult**, matching the
+MMWR basis. Spot-verified by eye: 2000 = "2,076" (2,018 domestic + 59
+imports), 2005 = "1,717", 2010 = "1,278", 2015 = "1,083", 2020 = "890",
+2023 = "678". The 1999 MMWR achievements piece states 1998 = 2,261 in prose;
+1995-1999 remain unentered (no table in the archive covers them) — the gap
+renders.
+
+### 2c: NHIS smoking prevalence — series vs. pre-existing facts
+
+**Source:** samples/34-smoking/cdc-trends-cig-smoking-1965-2014.html
+(CDC/NCHS trends table, Wayback snapshot 2018-11-13; blank cells carry
+`<!-- -->` placeholders and are preserved as gaps).
+**Method:** parsed the Adults column (27 survey-year values 1965-2014), then
+compared against the six pre-existing room facts (2026-07-17 curation, ALA
+table) and against MMWR SS-3 Table 2 where years overlap:
+
+| Year | CDC trends (series) | Existing fact | MMWR Table 2 | Agrees |
+|------|--------------------|---------------|--------------|--------|
+| 1965 | 42.4 | 42.4 | 42.4 | ✓ |
+| 1970 | 37.4 | 37.4 | 37.4 | ✓ |
+| 1980 | 33.2 | 33.2 | 33.2 | ✓ |
+| 1990 | 25.5 | 25.5 | 25.5 | ✓ |
+| 2000 | (blank cell) | 23.3 (ALA) | n/a | **series omits; fact keeps ALA value with its source's disclosure** |
+| 2010 | 19.3 | 19.3 | n/a | ✓ |
+
+The drift gate (invariant 9) passes: where series and fact share a source
+and a year, they agree. The 2000 discrepancy is a coverage difference (the
+CDC trends table has a blank 2000 adults cell; the ALA table publishes
+23.3), not a value conflict; both are disclosed on their own records.
+
+Known secondary-source variance noted and NOT entered: 2006 = 20.8 (CDC
+trends, entered) vs 20.6 (ALA); 2022 = 11.6 final (ALA) vs 11.2 preliminary
+(NCHS Early Release). Early Release and ALA-analysis values stay out of the
+series until final NCHS publication is on file.
+
+### 2d: What these facts do not claim
+
+Per-capita consumption is a tax-derived population basis, not individual
+behavior: it divides removals by all adults (including non-smokers), so it
+cannot be read as "cigarettes per smoker." The TTB segment (2000+) counts
+taxable removals, not consumption. Prevalence measures current smokers among
+civilian noninstitutionalized adults; institutionalized and military
+populations are outside the frame. No fact here claims health outcomes.

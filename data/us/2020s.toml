@@ -410,6 +410,17 @@ assumptions = ["composite-family"]
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
+id = "us-2020s-cigarettes-per-capita"
+quantity = 678
+panel = "day"
+label = "Cigarettes consumed per adult, 2023"
+value = "678 per adult per year"
+unit = "manufactured cigarettes per adult (18+) per year"
+source = "cdc-tobacco-consumption-2000"
+tier = "A"
+notes = "CDC Adult Tobacco Consumption dataset: TTB taxable removals (domestic + imports) over the Census 18+ population. Removals basis, not the USDA/ERS tax basis of the 1900-1994 segment."
+
+[[fact]]
 id = "us-2020s-weekly-hours-manufacturing"
 quantity = 40.7
 panel = "day"

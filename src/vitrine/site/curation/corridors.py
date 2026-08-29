@@ -418,6 +418,42 @@ ARCS: tuple[Arc, ...] = (
             "tables). Every placard names the measured population.",
         ),
     ),
+    # ── Plan 027 WI-2: "The past was a different country" ─────────────────
+    Arc(
+        "cigarette-consumption",
+        "Cigarettes consumed per adult",
+        "cigarettes per adult (18+) per year",
+        _ids(
+            "us-{decade}-cigarettes-per-capita",
+            "190 191 192 193 194 195 196 197 198 199 200 201 202",
+        ),
+        falling=True,
+        series_id="us-cigarettes-per-capita",
+        caveats=(
+            "Consumption (tax-derived), not prevalence. 1995–1999 have no "
+            "published value in the archived record. The 2000s–2020s points "
+            "switch basis to TTB taxable removals (a methodology splice, "
+            "marked on the continuation series). 1993 provisional, 1994 "
+            "projected.",
+        ),
+    ),
+    Arc(
+        "smoking-prevalence",
+        "Adults who smoke",
+        "% of adults (18+) who currently smoke",
+        _ids(
+            "us-{decade}-smoking-prevalence",
+            "196 197 198 199 200 201",
+        ),
+        falling=True,
+        series_id="us-smoking-prevalence",
+        caveats=(
+            "NHIS survey years only; the survey begins 1965, so earlier "
+            "decades render as gaps, not zeros. Current smoker = 100+ "
+            "lifetime cigarettes and smoking now; 'some days' counted from "
+            "1992; questionnaire redesigned 1997 and again in 2019.",
+        ),
+    ),
 )
 
 ARC_BY_SLUG: dict[str, Arc] = {a.slug: a for a in ARCS}
@@ -560,6 +596,26 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
             "healthcare-cost",
             "cex-healthcare-share",
             "cpi",
+        ),
+    ),
+    # ── Plan 027: Pillar II — curated confrontations ──────────────────────
+    CorridorWing(
+        slug="different-country",
+        number="V",
+        title="The past was a different country",
+        question="What was ordinary, legal, and everywhere — and is now gone?",
+        introduction=(
+            "The other wings measure the family's material life; this one "
+            "measures its behaviour and its surroundings. An exhibit earns "
+            "its place here only if it was, in its time, normal, legal, and "
+            "ubiquitous — and is now unthinkable, illegal, or vanishingly "
+            "rare. Falling lines are not presented as progress: the point "
+            "is that the country itself changed. The cards stay flat; the "
+            "confrontation is in the arrangement."
+        ),
+        arc_slugs=(
+            "cigarette-consumption",
+            "smoking-prevalence",
         ),
     ),
 )
