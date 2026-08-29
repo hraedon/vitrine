@@ -120,6 +120,16 @@ an unbound number in tour copy fails the build. Design tokens and the
 validated palette: `docs/design-spec.md` / `src/vitrine/site/tokens.py`. See
 `docs/fact-model.md` (design spine) and `plans/` for the full series.
 
+The archive wing (Plan 024) exposes the corpus itself as a citable dataset:
+`vitrine export` writes `data/corpus.json` (schema version 1 — every
+authored fact with its structured fields, the source register, the
+assumption ledger, and the complete series with their observations, so
+derived values are reproducible from the export alone) alongside the
+spreadsheet-safe `facts.csv` and exact `facts-raw.csv`, with a `data.html`
+landing page; full builds include the same surface. The consumer contract
+for the JSON is `docs/export-schema.md`; `CITATION.cff` carries the corpus
+citation.
+
 ## Licence and reuse
 
 Dual-licensed: the software (`src/`, `tests/`, `scripts/`, `k8s/`, `.github/`)
@@ -138,6 +148,7 @@ review: `docs/publication-review.md`.
 uv venv && uv pip install -e ".[dev]"
 .venv/bin/vitrine check            # validate data/ against the fact model
 .venv/bin/vitrine build            # render the static site to _site/
+.venv/bin/vitrine export           # corpus as dataset → _site/data/ + data.html
 .venv/bin/vitrine gaps             # mechanical gap inventory (never hand-kept)
 .venv/bin/pytest -q
 ```

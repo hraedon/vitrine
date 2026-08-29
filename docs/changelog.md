@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-08-29 — Plan 024 follow-ups (CI export run, README, export schema doc)
+
+The new export surface is now discoverable and CI-exercised: CI runs
+`vitrine export --out _export` after the render-coverage gate (the
+standalone CLI path — the same "not silent in CI" lesson WI-024 taught),
+the README documents the archive wing, `vitrine export`, and `CITATION.cff`,
+and `docs/export-schema.md` is the consumer contract for `corpus.json`
+schema version 1 and the CSV pair — field semantics, the minor-units
+convention (divide by the currency registry's digits, never assume 100),
+the quantity-in-value guarantee, citation guidance, and the versioning
+promise.
+
 ## 2026-08-28 — Plan 024 (corpus exports and the data surface)
 
 The corpus is now a citable dataset. `vitrine export` runs the full

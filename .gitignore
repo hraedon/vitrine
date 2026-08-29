@@ -11,6 +11,9 @@ dist/
 # rendered site — a projection, never committed
 _site/
 
+# standalone export surface (CI + local runs of `vitrine export`)
+_export/
+
 # persistent advisory locks used to serialize local publication writers
 .*.publish.lock
 

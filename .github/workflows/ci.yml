@@ -43,5 +43,7 @@ jobs:
         run: .venv/bin/pytest tests/test_browser.py -v
       - name: Render-coverage gate
         run: .venv/bin/vitrine check --against-build _site
+      - name: Export surface (standalone CLI path)
+        run: .venv/bin/vitrine export --out _export
       - name: Cross-check (source-topic consistency)
         run: .venv/bin/python scripts/cross_check.py
