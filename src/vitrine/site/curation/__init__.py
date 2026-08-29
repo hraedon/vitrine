@@ -32,6 +32,7 @@ from vitrine.site.curation.models import (
     CorridorWing,
     Metric,
     RoomStory,
+    StageCuration,
 )
 from vitrine.site.curation.rooms import (
     COMPOSITIONS,
@@ -40,6 +41,7 @@ from vitrine.site.curation.rooms import (
     ROOM_GAP_BANNERS,
     ROOM_STORIES,
     ROOM_STORY_BY_SLUG,
+    STAGE_BY_COUNTRY,
     STAGE_DIFFUSION,
     STAGE_STATS,
     ZONE_NOTE_POS,
@@ -68,6 +70,7 @@ __all__ = [
     "ROOM_GAP_BANNERS",
     "ROOM_STORIES",
     "ROOM_STORY_BY_SLUG",
+    "STAGE_BY_COUNTRY",
     "STAGE_DIFFUSION",
     "STAGE_STATS",
     "WALKTHROUGH_FLOOR_AREA",
@@ -80,4 +83,5 @@ __all__ = [
     "CorridorWing",
     "Metric",
     "RoomStory",
+    "StageCuration",
 ]

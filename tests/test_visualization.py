@@ -16,7 +16,7 @@ import pytest
 from vitrine.check import check_mark_coverage
 from vitrine.derive import evaluate_room
 from vitrine.loader import load_corpus
-from vitrine.model import Corpus, Panel
+from vitrine.model import Corpus, Panel, Room
 from vitrine.series import load_series
 from vitrine.site import curation, symbols
 from vitrine.site.projections.facts import GAP_PREFIX
@@ -314,21 +314,79 @@ def test_absent_technology_is_not_drawn(site: Path, corpus: Corpus) -> None:
         page = site / "rooms" / f"{room.slug}.html"
         room_ids = {f.id for f in room.facts}
         html = page.read_text()
-        # The registry is decade-keyed US curation. An un-curated country gets a
-        # bare stage precisely so it cannot borrow the US room of that decade.
-        uncurated = room.country not in curation.CURATED_COUNTRIES
+        # Stages are country-keyed (STAGE_BY_COUNTRY). A country without
+        # stage curation gets a bare stage precisely so it cannot borrow
+        # the US room of that decade through the shared layout.
+        curated = curation.STAGE_BY_COUNTRY.get(room.country)
         for artifact in ("television", "internet", "air-conditioning", "cable", "computer"):
-            fid = curation.STAGE_DIFFUSION.get(artifact, {}).get(room.decade)
+            fid = None
+            if curated is not None:
+                fid = curated.diffusion.get(artifact, {}).get(room.decade)
+                if fid is None:
+                    # stat glyphs (e.g. UK licence-count televisions) draw at
+                    # full presence without a diffusion binding
+                    fid = curated.stats.get(artifact, {}).get(room.decade)
             sym = symbols.symbol(artifact, room.decade)
             assert sym is not None
             drawn = sym.svg[:60] in html
-            if uncurated:
+            if curated is None:
                 assert not drawn, f"{room.slug}: {artifact} drawn on a bare stage"
             elif fid is None:
                 assert not drawn, f"{room.slug}: {artifact} drawn without a fact"
             else:
                 assert fid in room_ids
                 assert drawn, f"{room.slug}: {artifact} has a fact but wasn't drawn"
+
+
+def test_world_room_stages_draw_their_own_facts(site: Path) -> None:
+    """Country-keyed stages: the UK and Japan draw stages from their own facts."""
+    uk = (site / "rooms" / "uk-1970s.html").read_text()
+    assert 'data-fact-id="uk-1970s-telephone"' in uk
+    assert 'data-fact-id="uk-1970s-tenure"' in uk
+    # 1950s/60s TV-licence counts draw as stat glyphs, never on the % axis.
+    uk50 = (site / "rooms" / "uk-1950s.html").read_text()
+    assert 'data-fact-id="uk-1950s-television"' in uk50
+    jp = (site / "rooms" / "jp-2000s.html").read_text()
+    assert 'data-fact-id="jp-2000s-washing-machine"' in jp
+    assert 'data-fact-id="jp-2000s-floor-area"' not in jp  # scale, not a mark
+    # The FIES food share renders as the food zone note.
+    assert 'data-fact-id="jp-2000s-food-share"' in jp
+
+
+def test_stage_for_uncurated_country_is_bare(corpus: Corpus) -> None:
+    """A country without stage curation gets a bare stage, not a borrowed one."""
+    index = _index_facts(corpus)
+    room = Room(country="fr", decade="1980s", facts=())
+    stage = _build_stage(room, index, "")
+    assert stage.artifacts == ()
+    assert stage.zone_notes == ()
+    assert stage.home_scale == 1.0
+
+
+def test_stage_borrowed_exhibit_is_rejected(corpus: Corpus) -> None:
+    """A stage binding naming a fact outside its own room is a red build."""
+    index = _index_facts(corpus)
+    room = next(r for r in corpus.rooms if r.slug == "uk-1970s")
+    emptied = Room(
+        country=room.country, decade=room.decade, facts=(), derived=room.derived
+    )
+    with pytest.raises(ValueError, match="outside the room"):
+        _build_stage(emptied, index, "")
+
+
+def test_jp_home_scale_tracks_floor_area(corpus: Corpus) -> None:
+    """Japan's stage scales to its own floor-area baseline (m², not sq ft)."""
+    import math
+
+    index = _index_facts(corpus)
+    rooms_by_slug = {room.slug: room for room in corpus.rooms}
+    base = _build_stage(rooms_by_slug["jp-1980s"], index, "")
+    latest = _build_stage(rooms_by_slug["jp-2010s"], index, "")
+    assert base.home_scale == pytest.approx(1.0)  # 89.29 m² is the baseline
+    assert latest.home_scale == pytest.approx(math.sqrt(94.42 / 89.29))
+    # The US baseline is untouched: square feet, 1970s datum.
+    us = _build_stage(rooms_by_slug["us-1970s"], index, "")
+    assert us.home_scale == pytest.approx(1.0)
 
 
 def test_era_keyed_symbols() -> None:

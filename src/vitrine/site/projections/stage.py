@@ -14,22 +14,38 @@ from vitrine.site.projections.facts import FactRef, placard_href
 
 
 def build_stage(room: Room, index: dict[str, FactRef], root: str) -> svg.Stage:
-    # The stage registries are decade-keyed US curation, so an un-curated
-    # country would silently borrow the US room of the same decade. It gets a
+    curated = curation.STAGE_BY_COUNTRY.get(room.country)
+    # A country without stage curation would silently borrow the US room of
+    # the same decade through the shared, decade-keyed registries. It gets a
     # bare stage instead; its facts still render in the ledgers below.
-    if room.country not in curation.CURATED_COUNTRIES:
+    if curated is None:
         return svg.Stage(decade=room.decade, artifacts=(), zone_notes=())
 
+    room_ids = {fact.id for fact in room.facts}
+
+    def resolve(fid: str, what: str) -> FactRef:
+        if fid not in room_ids:
+            raise ValueError(
+                f"room {room.slug}: stage {what} names fact {fid!r} outside "
+                "the room — a stage may only draw its own room's exhibits"
+            )
+        return index[fid]
+
+    # The locale's layout: shared artifact positions, overridden where the
+    # country's curation says otherwise.
+    layout: dict[str, tuple[int, int]] = dict(svg.STAGE_POS)
+    layout.update(curated.positions)
+
     artifacts: list[svg.StageArtifact] = []
-    for artifact, (x, y) in svg.STAGE_POS.items():
-        fid = curation.STAGE_DIFFUSION.get(artifact, {}).get(room.decade)
+    for artifact, (x, y) in layout.items():
+        fid = curated.diffusion.get(artifact, {}).get(room.decade)
         kind = "diffusion"
         if fid is None:
-            fid = curation.STAGE_STATS.get(artifact, {}).get(room.decade)
+            fid = curated.stats.get(artifact, {}).get(room.decade)
             kind = "stat"
         if fid is None:
             continue  # absent technology isn't drawn
-        ref = index[fid]
+        ref = resolve(fid, f"artifact {artifact!r}")
         sym = symbols.symbol(artifact, room.decade, ref.fact.value)
         if sym is None:
             continue
@@ -49,9 +65,9 @@ def build_stage(room: Room, index: dict[str, FactRef], root: str) -> svg.Stage:
         )
 
     zone_notes: list[svg.ZoneNote] = []
-    comp_id = curation.COMPOSITIONS.get(room.decade)
+    comp_id = curated.compositions.get(room.decade)
     if comp_id is not None:
-        segments = fold_shares(index[comp_id].fact, index, root)
+        segments = fold_shares(resolve(comp_id, "composition").fact, index, root)
         for seg in segments:
             pos = curation.ZONE_NOTE_POS.get(seg.slot)
             if pos is None:
@@ -66,31 +82,39 @@ def build_stage(room: Room, index: dict[str, FactRef], root: str) -> svg.Stage:
                 )
             )
     else:
-        food_arc = curation.ARC_BY_SLUG["food-share"]
-        fid = food_arc.fact_ids.get(room.decade)
-        if fid is not None and index[fid].fact.quantity is not None:
-            fact = index[fid].fact
-            x, y = curation.ZONE_NOTE_POS["food"]
-            zone_notes.append(
-                svg.ZoneNote(
-                    text=f"food {fact.quantity:g}% of spending",
-                    x=x,
-                    y=y,
-                    fact_id=fid,
-                    href=placard_href(index, fid, root),
+        fs_fid = curated.food_share.get(room.decade)
+        if fs_fid is not None:
+            fact = resolve(fs_fid, "food-share note").fact
+            if fact.quantity is not None:
+                x, y = curation.ZONE_NOTE_POS["food"]
+                zone_notes.append(
+                    svg.ZoneNote(
+                        text=f"food {fact.quantity:g}% of spending",
+                        x=x,
+                        y=y,
+                        fact_id=fs_fid,
+                        href=placard_href(index, fs_fid, root),
+                    )
                 )
-            )
 
     # home-scale: proportionally scale the house outline to the sourced
     # floor-area datum, so the visitor sees the home grow across decades.
     home_scale = 1.0
-    size_fid = curation.HOME_SIZE_FACTS.get(room.decade)
-    if size_fid is not None and size_fid in index:
-        size_fact = index[size_fid].fact
+    size_fid = curated.home_size.get(room.decade)
+    if size_fid is not None:
+        size_fact = resolve(size_fid, "home-scale").fact
         if size_fact.quantity is not None:
-            # baseline: 1,525 sq ft (1970s, the earliest datum). Scale by
-            # sqrt so the linear dimension changes proportionally.
-            home_scale = max(0.6, min(1.35, (size_fact.quantity / 1525.0) ** 0.5))
+            if curated.home_size_baseline is None or curated.home_size_baseline <= 0:
+                raise ValueError(
+                    f"room {room.slug}: home-scale datum needs a positive "
+                    "home_size_baseline in the country's stage curation"
+                )
+            # Scale by sqrt so the linear dimension changes proportionally,
+            # clamped so a locale cannot balloon or vanish the outline.
+            home_scale = max(
+                0.6,
+                min(1.35, (size_fact.quantity / curated.home_size_baseline) ** 0.5),
+            )
 
     return svg.Stage(
         decade=room.decade,

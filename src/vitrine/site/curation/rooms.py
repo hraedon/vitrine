@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from vitrine.site.curation.corridors import ARC_BY_SLUG
-from vitrine.site.curation.models import RoomStory
+from vitrine.site.curation.models import RoomStory, StageCuration
 
 # Four sourced exhibits per room form its opening route. These selections do
 # not replace the complete six-panel collection; they give a first-time
@@ -163,8 +163,10 @@ ROOM_STORY_BY_SLUG: dict[str, RoomStory] = {
 # banners -- is keyed by decade alone and holds US fact ids. A second country's
 # "1950s" is a different room, so those registries must never be consulted for
 # it: doing so let uk-2010s draw us-2010s-expenditure-shares, which is exactly
-# the borrowed-exhibit failure the museum exists to prevent. Curation is
-# single-country until each registry is country-keyed in its own right.
+# the borrowed-exhibit failure the museum exists to prevent. Stories and gap
+# banners stay US-keyed (a country joins CURATED_COUNTRIES when its editorial
+# layer is authored); the stage registries are country-keyed instead, through
+# STAGE_BY_COUNTRY at the bottom of this file.
 CURATED_COUNTRIES: frozenset[str] = frozenset(
     story.country for story in ROOM_STORIES
 )
@@ -293,4 +295,137 @@ ZONE_NOTE_POS: dict[str, tuple[int, int]] = {
     # The automobile sits at (620, 405); keep its budget annotation above the
     # mark rather than running through its ring and percentage label.
     "transport": (620, 360),
+}
+
+# ── per-country stage curation ───────────────────────────────────────────────
+#
+# The US registries above become one locale's bindings; the v2 world rooms
+# get their own through STAGE_BY_COUNTRY. A country with an entry draws a
+# stage from its own facts; a country without one keeps the bare stage.
+# The renderer enforces room membership for every named fact id, so a
+# binding can only ever draw its own room's exhibits. Positions default to
+# the shared layout (svg.STAGE_POS); a locale overrides per artifact.
+
+US_STAGE = StageCuration(
+    diffusion=STAGE_DIFFUSION,
+    stats=STAGE_STATS,
+    compositions=COMPOSITIONS,
+    food_share=ARC_BY_SLUG["food-share"].fact_ids,
+    home_size=HOME_SIZE_FACTS,
+    # baseline: 1,525 sq ft — the 1970s datum, the earliest in the series.
+    home_size_baseline=1525.0,
+)
+
+UK_STAGE = StageCuration(
+    diffusion={
+        "television": {
+            "1970s": "uk-1970s-colour-tv",
+            "1980s": "uk-1980s-colour-tv",
+            "1990s": "uk-1990s-colour-tv",
+            "2000s": "uk-2000s-colour-tv",
+            "2010s": "uk-2010s-colour-tv",
+        },
+        "telephone": {
+            "1970s": "uk-1970s-telephone",
+            "1980s": "uk-1980s-telephone",
+            "1990s": "uk-1990s-telephone",
+            "2000s": "uk-2000s-telephone",
+            "2010s": "uk-2010s-telephone",
+        },
+        "automobile": {
+            "1970s": "uk-1970s-car",
+            "1980s": "uk-1980s-car",
+            "1990s": "uk-1990s-car",
+            "2000s": "uk-2000s-car",
+            "2010s": "uk-2010s-car",
+        },
+        "computer": {
+            "1990s": "uk-1990s-computer",
+            "2000s": "uk-2000s-computer",
+            "2010s": "uk-2010s-computer",
+        },
+    },
+    stats={
+        # GHS tenure is a share, but the stage draws tenure as a fixture
+        # glyph (full presence, no percentage ring) — as the US wing does.
+        "tenure": {
+            "1950s": "uk-1950s-tenure",
+            "1960s": "uk-1960s-tenure",
+            "1970s": "uk-1970s-tenure",
+            "1980s": "uk-1980s-tenure",
+            "1990s": "uk-1990s-tenure",
+            "2000s": "uk-2000s-tenure",
+            "2010s": "uk-2010s-tenure",
+        },
+        # The 1950s/60s television facts are TV-licence counts, not a
+        # household share — drawn as a stat glyph, never on the % axis.
+        "television": {
+            "1950s": "uk-1950s-television",
+            "1960s": "uk-1960s-television",
+        },
+    },
+    # No UK expenditure-composition or food-share facts exist yet (the
+    # budget panel's shares are gaps), so no zone notes render.
+)
+
+JP_STAGE = StageCuration(
+    diffusion={
+        "computer": {
+            "1990s": "jp-1990s-pc",
+            "2010s": "jp-2010s-pc-nsfiie",
+        },
+        "television": {
+            "2000s": "jp-2000s-color-tv",
+            "2010s": "jp-2010s-flat-tv",
+        },
+        # The 2010s telephone glyph is a smartphone; bind the smartphone
+        # diffusion so the ring and the glyph show the same population.
+        "telephone": {"2010s": "jp-2010s-smartphone"},
+        "washing-machine": {
+            "2000s": "jp-2000s-washing-machine",
+            "2010s": "jp-2010s-washing-machine",
+        },
+        "refrigerator": {
+            "2000s": "jp-2000s-refrigerator",
+            "2010s": "jp-2010s-refrigerator",
+        },
+        "automobile": {"2010s": "jp-2010s-car-nsfiie"},
+    },
+    stats={
+        "tenure": {
+            "1980s": "jp-1980s-homeownership",
+            "1990s": "jp-1990s-homeownership",
+            "2000s": "jp-2000s-homeownership",
+            "2010s": "jp-2010s-homeownership",
+        },
+        "rooms": {
+            "1980s": "jp-1980s-rooms",
+            "1990s": "jp-1990s-rooms",
+            "2000s": "jp-2000s-rooms",
+            "2010s": "jp-2010s-rooms",
+        },
+    },
+    # FIES food share of expenditure renders as the food zone note.
+    food_share={
+        "1960s": "jp-1960s-fies-food-share",
+        "1970s": "jp-1970s-fies-food-share",
+        "1980s": "jp-1980s-food-share",
+        "1990s": "jp-1990s-food-share",
+        "2000s": "jp-2000s-food-share",
+        "2010s": "jp-2010s-food-share",
+    },
+    home_size={
+        "1980s": "jp-1980s-floor-area",
+        "1990s": "jp-1990s-floor-area",
+        "2000s": "jp-2000s-floor-area",
+        "2010s": "jp-2010s-floor-area",
+    },
+    # baseline: 89.29 m² — the 1988 HLS datum, the earliest in the series.
+    home_size_baseline=89.29,
+)
+
+STAGE_BY_COUNTRY: dict[str, StageCuration] = {
+    "us": US_STAGE,
+    "uk": UK_STAGE,
+    "jp": JP_STAGE,
 }

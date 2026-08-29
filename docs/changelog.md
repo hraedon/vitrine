@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-08-29 — Locale-configurable stage layouts (country-keyed stages)
+
+The stage curation is country-keyed: `STAGE_BY_COUNTRY` maps each country to
+a `StageCuration` (diffusion/stat bindings, composition and food-share zone
+notes, home-scale facts with the country's own baseline, and optional
+per-artifact layout overrides over the shared `svg.STAGE_POS`). The UK and
+Japan now draw stages from their own facts — GHS diffusion and tenure, the
+1950s/60s TV-licence counts as stat glyphs (never on the percentage axis),
+NSFIE durables, FIES food-share zone notes, and a Japan-specific floor-area
+baseline in m² (the US baseline stays square feet). A country without stage
+curation keeps the bare stage. The renderer now enforces room membership
+for every stage-bound fact id, so a binding naming another room's fact —
+the borrowed-exhibit failure the split exists to prevent — is a red build
+even when the id resolves globally. The stage-geometry audit and the
+absent-technology test now run over every room's own curation.
+
 ## 2026-08-29 — Plan 024 follow-ups (CI export run, README, export schema doc)
 
 The new export surface is now discoverable and CI-exercised: CI runs

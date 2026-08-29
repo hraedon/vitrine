@@ -106,3 +106,27 @@ class Metric:
     source_arc: str = ""  # arc slug whose decade quantities plot directly
     falling: bool = False  # falling metrics render in copper
     zero_baseline: bool = True  # False only for indices where zero has no meaning
+
+
+@dataclass(frozen=True, slots=True)
+class StageCuration:
+    """One country's stage bindings — the locale-configurable layout layer.
+
+    Every fact id must name a fact of that same (country, decade) room; the
+    stage renderer rejects anything else (a borrowed exhibit is the failure
+    this split exists to prevent). ``positions`` overrides the shared
+    artifact layout (``svg.STAGE_POS``) for this locale only, so a country
+    can re-place or add artifacts without touching another wing's stage.
+    ``home_size_baseline`` is the country's earliest floor-area datum in the
+    same unit its ``home_size`` facts carry (the US baseline is square feet,
+    Japan's square metres) and is required exactly when ``home_size`` is
+    non-empty.
+    """
+
+    diffusion: dict[str, dict[str, str]] = field(default_factory=dict)
+    stats: dict[str, dict[str, str]] = field(default_factory=dict)
+    compositions: dict[str, str] = field(default_factory=dict)
+    food_share: dict[str, str] = field(default_factory=dict)
+    home_size: dict[str, str] = field(default_factory=dict)
+    home_size_baseline: float | None = None
+    positions: dict[str, tuple[int, int]] = field(default_factory=dict)
