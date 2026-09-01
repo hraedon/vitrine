@@ -80,6 +80,21 @@ can't name a curated fact is a red build. A fact's chartable number is its
 structured `quantity` (must appear verbatim in `value` — gate-enforced);
 facts without one render as gaps.
 
+**The comparative layer is single-country.** The corridor atlas, the pairwise
+set and the affordability view are keyed by *decade alone* while holding US
+fact ids, so they are only well-defined inside one wing — a second country's
+"1950s" is a different room, and plotting it on the same axis is the
+borrowed-exhibit failure the museum exists to prevent. Two mechanisms hold
+this, so it is not a convention you have to remember:
+`validate_comparative_registries` (build-time, beside the essay registry gate)
+reddens if any decade-keyed registry entry resolves outside
+`CURATED_COUNTRIES` or to no room; and `afford_fact_ids` skips non-curated
+rooms and raises on a decade collision rather than silently overwriting. Rooms
+outside the curated set do not link to those surfaces (`RoomPage.comparative`).
+The stage layer is the exception — it is already country-keyed, through
+`STAGE_BY_COUNTRY`. Adding a country to `CURATED_COUNTRIES` means authoring
+its comparative curation, not just its rooms.
+
 ## Data authoring
 
 - One room file per (country, decade): `data/<country>/<decade>.toml`.

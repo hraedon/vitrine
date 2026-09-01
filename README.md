@@ -104,7 +104,14 @@ have been curated against their own official series (ONS, Statistics
 Bureau / MIC, MHLW) with country-specific assumptions
 (`jp-household-not-family`, `jp-kakei-1962-seam`,
 `jp-deflation-lost-decades`). The `MONTHLY` basis supports Japan's
-monthly-income-denominated surveys. The
+monthly-income-denominated surveys. Their rooms are complete galleries in
+their own right, but the **comparative surfaces remain US-only**: the corridor
+atlas, the pairwise set and the affordability view are keyed by decade and
+hold US fact ids, so a second country's "1950s" is a different room and cannot
+be plotted on the same axis. A country joins those surfaces when its own
+comparative curation is authored; until then a non-US room never links to
+them, and a registry entry that reaches outside the curated set is a red build
+(`validate_comparative_registries`). The
 presentation is the "statistical atlas" (Plan 020): a light folio where
 every fact row carries its value, tier chip, measured population, and
 source record in one scan-line, and the index leads with a corpus matrix —
