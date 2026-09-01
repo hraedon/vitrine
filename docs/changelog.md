@@ -1,5 +1,53 @@
 # Changelog
 
+## 2026-09-01 — Road deaths: a rate is not a count (Plan 027 WI-4a)
+
+The "different country" wing gains its fourth arc: motor-vehicle deaths per
+100 million vehicle-miles travelled, 1900–2023, from FHWA Table FI-200, with a
+card in every US room. The line falls from 36.00 to 1.11 — about thirtyfold —
+and the arc's first caveat exists to stop that being misread. **Absolute road
+deaths peaked at 55,600 in 1972 and were still near 41,000 in 2023.** What
+collapsed is the risk per mile, because the miles grew far faster than the
+toll. The 1940s card makes the same point from the other direction: wartime
+rationing cut travel by 38 percent and deaths by 40 percent, and the rate
+barely moved. Fewer people died because less driving happened.
+
+FI-200 publishes four rate columns side by side, and reading the wrong one
+would produce a plausible, wrong chart. The extractor therefore identifies its
+column by **arithmetic rather than position** — it recomputes the rate from the
+table's own fatality and VMT columns and refuses to write unless the published
+figure reproduces for every year. Aimed at each neighbouring column in turn,
+the guard rejects all three and accepts only the right one.
+
+The 1900–1995 rows were cross-checked against a second, separately-published
+FHWA edition (Summary to 1995, April 1997): **95 of 96 years reproduce
+exactly.** The one difference is 1995, that edition's terminal provisional
+year, since revised from 41,770 deaths to 41,817. Recorded, not smoothed.
+
+Four numerals drafted for the card prose from recall were wrong, and the
+card generator's assertions caught all four before anything was written: the
+1972 peak (55,600, not 54,589), the year the rate peaked (1909, not "around
+1910"), the first year below 2.0 (1991, not 1990), and — the instructive one —
+the wartime story, which as drafted said the rate fell when in fact it barely
+moved. That is Plan 027 D3 working as designed: the famous numbers are the
+dangerous ones.
+
+Two of the plan's own assumptions did not survive contact with the source, and
+the source won. It anticipated splicing NSC estimates to FARS at 1975; FHWA
+publishes the whole span in one table, so there is no splice — what there *is*
+is a definitional change at 1976, when the count narrowed to deaths within 30
+days of the crash, now carried as a caveat, a series note and an `expect`
+marker. And it anticipated an empty 1900s ("cars barely existed; there is no
+rate"); FI-200 does publish one, so rendering a gap would have been inventing
+an absence. The figure is carried with its thinness disclosed: it rests on 36
+recorded deaths against a back-cast travel estimate.
+
+**WI-4's second arc is not here.** Workplace fatalities per 100,000 workers is
+blocked on acquisition — bls.gov 403s non-browser clients, its flat-file host
+wants a contact address in the User-Agent, and the NSC's historical estimates
+are a commercial publication. Tracked as FWI-006 with the specific decision
+that would unblock it, rather than left as a silent half-delivery.
+
 ## 2026-09-01 — Alcohol per capita, and the gap that is the exhibit (Plan 027 WI-3)
 
 The "different country" wing gains its third arc: apparent per capita ethanol

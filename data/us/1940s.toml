@@ -286,6 +286,19 @@ tier = "A"
 notes = "Wartime. Consumption rose through the war years from this 1940 level, peaking at 2.30 in 1946."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-1940s-traffic-death-rate"
+quantity = 10.89
+panel = "day"
+label = "Road deaths per 100 million vehicle-miles, 1940"
+value = "10.89 deaths per 100 million vehicle-miles travelled"
+unit = "deaths per 100 million vehicle-miles travelled"
+price_year = 1940
+source = "fhwa-fi200-2023"
+tier = "A"
+notes = "Wartime rationing cut driving sharply — vehicle-miles fell 38 percent between 1941 and 1943 — and deaths fell almost exactly as far, by 40 percent. The rate barely moved: 11.43 in 1941, 10.92 in 1943. Fewer people died because less driving happened, not because driving got safer."
+assumptions = ["composite-family"]
+
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]

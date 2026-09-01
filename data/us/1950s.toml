@@ -299,6 +299,19 @@ notes = "Back to roughly the pre-Prohibition level for the first time since 1919
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1950s-traffic-death-rate"
+quantity = 7.24
+panel = "day"
+label = "Road deaths per 100 million vehicle-miles, 1950"
+value = "7.24 deaths per 100 million vehicle-miles travelled"
+unit = "deaths per 100 million vehicle-miles travelled"
+price_year = 1950
+source = "fhwa-fi200-2023"
+tier = "A"
+notes = "Absolute deaths were close to where they had been in 1930 — 33,186 against 31,204 — while travel had more than doubled, from 206,320 million vehicle-miles to 458,246 million. The falling rate is that denominator, not fewer funerals."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1950s-car-price"
 panel = "work-buys"
 label = "Average new car price, 1950"

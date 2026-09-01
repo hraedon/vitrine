@@ -1229,3 +1229,114 @@ Prohibition, turning the 1920s gap card into a number, and dropping the
 the load-bearing one for the citation: if NIAAA ever republished with those
 years backfilled, `scripts/link_check.py` would redden rather than the museum
 quietly citing a document that no longer says what its cards say it says.
+
+---
+
+## Plan 027 WI-4a: Road deaths per 100 million vehicle-miles (13 facts, 13 rooms + 1 series)
+
+**Date:** 2026-09-01
+**Verifier:** Claude Opus 5 session (mvmcc02)
+**Source checked:** FHWA, *Highway Statistics 2023*, Table FI-200, "Motor
+vehicle traffic fatalities, 1900–2023".
+**Archive copy:** `samples/44-road-workplace-deaths/fhwa-fi200-highway-statistics-2023.html`
+**Extraction:** `scripts/fhwa_traffic_deaths_extract.py` → `data/series/us-traffic-death-rate.toml`
+**Cards:** `scripts/fhwa_traffic_cards.py`
+
+### The column was identified by arithmetic, not by position
+
+FI-200 publishes four fatality-rate columns side by side — per 1,000 miles of
+road, per 100 million annual VMT, per 100,000 registered motor vehicles, per
+100,000 licensed drivers — any of which would look plausible read alone. The
+extractor recomputes the rate from the table's own fatality and VMT columns and
+refuses to write unless the published figure reproduces for **every** year.
+
+Pointed at each neighbouring column in turn, the guard behaves as intended:
+
+| column read | result |
+|---|---|
+| per 1,000 miles of road | **rejected** |
+| per 100 million annual VMT | accepted |
+| per 100,000 registered motor vehicles | **rejected** |
+| per 100,000 licensed drivers | **rejected** |
+
+### Cross-check: two FHWA publications, 26 years apart
+
+The 1900–1995 rows were compared against FHWA's separately-published *Highway
+Statistics Summary to 1995* (Table FI-200, April 1997), archived as
+`fhwa-fi200-summary-to-1995.pdf`:
+
+| | |
+|---|---|
+| years compared | 96 |
+| reproduce exactly | 95 |
+| differ | 1 |
+
+The single difference is **1995**, that publication's terminal — and therefore
+provisional — year: the 1997 edition reports 41,770 deaths and a rate of 1.72,
+the 2023 edition 41,817 and 1.73, on identical VMT (2,422,823 million). That is
+a source revision, recorded here rather than smoothed over. Every other year
+across nearly a century of the table reproduces to the published decimal.
+
+### Four prose numerals were wrong and the guard caught all four
+
+`scripts/fhwa_traffic_cards.py` asserts every numeral quoted in a card's notes
+against the parsed table before writing anything. Four claims drafted from
+recall failed that assertion and were corrected from the table:
+
+| claim as drafted | what FI-200 says |
+|---|---|
+| peak absolute deaths 54,589 (1972) | **55,600** (1972) |
+| the rate peaked "around 1910" | peaked **1909 at 45.33** |
+| 1940s: wartime rationing cut travel "and the rate fell with them" | travel fell 38% and deaths 40%, so the **rate barely moved** (11.43 → 10.92) |
+| 1990 was the first year below 2.0 | 1990 is **2.08**; the crossing is **1991** |
+
+This is Plan 027 D3 operating exactly as written — "the famous-headline numbers
+are the dangerous ones" — and it is the reason the assertions exist rather than
+a spot-check at the end. The wartime one is the instructive failure: the drafted
+sentence was not merely off by a digit, it told the story backwards.
+
+### Disclosed weaknesses in the source itself
+
+- **A definitional change at 1976.** FHWA footnote (3): "Beginning in 1976,
+  includes only persons injured in a highway vehicular crash that died within
+  30 days." Earlier years were counted on a wider window, so the two halves of
+  the line are not the same measurement. Carried as an arc caveat, as a series
+  note, and as an `expect` marker on the source so the link check notices if
+  FHWA ever drops the footnote.
+- **The 1900 figure rests on 36 deaths** against an estimated 100 million
+  vehicle-miles. It is published, not reconstructed, but the exposure is very
+  thin and the travel figure is a back-cast. Disclosed on the card and in the
+  arc caveats, and asserted by a test.
+- **The plan's D2 assumption was wrong.** Plan 027 anticipated "vehicle deaths
+  in the 1900s: cars barely existed; there is no rate", to be rendered as a
+  gap. FI-200 does publish a rate back to 1900, so rendering a gap there would
+  have been *inventing* an absence. The published figure is carried, with its
+  thinness disclosed.
+- **A rate is not a count.** Absolute road deaths peaked at 55,600 in 1972 and
+  were still near 41,000 in 2023; what fell by a factor of about thirty is the
+  risk per mile. A test asserts both that the caveat saying so is present and
+  that its premise holds against the series.
+
+### What WI-4 did not deliver, and why
+
+Plan 027 WI-4 specifies **two** arcs. Only the road one is landed here.
+
+The workplace arc — occupational fatalities per 100,000 workers, NSC estimates
+1913–1992 spliced to BLS CFOI 1992–present — is blocked on source acquisition,
+not on effort:
+
+- **BLS CFOI (1992→).** `www.bls.gov` returns 403 to non-browser clients (four
+  CFOI pages tried). The flat-file host `download.bls.gov` answers, but only to
+  a User-Agent carrying a contact address, which is a decision about the
+  owner's data to send to a third party and is not the agent's to take. The
+  BLS **public API** is reachable and the registered key works
+  (`REQUEST_SUCCEEDED` against a known series), so this is a matter of
+  obtaining the correct CFOI series identifiers, not of access.
+- **NSC estimates (1913–1992).** *Injury Facts* is a commercial publication.
+  The archived *Historical Statistics of the United States* Part 1 carries
+  Series D 1029–1036, but those are work-injury **frequency and severity rates
+  per million man-hours** — a different measure from fatalities per 100,000
+  workers — and the volume's OCR is poor.
+
+Recorded as FWI-006 rather than left implicit. The road arc stands on its own
+and required none of the above.

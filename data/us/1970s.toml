@@ -514,6 +514,19 @@ notes = "The population basis changes here: figures from 1970 onward are compute
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1970s-traffic-death-rate"
+quantity = 4.85
+panel = "day"
+label = "Road deaths per 100 million vehicle-miles, 1970"
+value = "4.85 deaths per 100 million vehicle-miles travelled"
+unit = "deaths per 100 million vehicle-miles travelled"
+price_year = 1970
+source = "fhwa-fi200-2023"
+tier = "A"
+notes = "Absolute deaths peaked in this decade, at 55,600 in 1972 — the highest figure in the table's 124 years."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1970s-smoking-prevalence"
 quantity = 37.4
 panel = "table"

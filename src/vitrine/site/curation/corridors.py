@@ -439,6 +439,31 @@ ARCS: tuple[Arc, ...] = (
         ),
     ),
     Arc(
+        "traffic-death-rate",
+        "Road deaths per 100 million vehicle-miles",
+        "deaths per 100 million vehicle-miles travelled",
+        _ids(
+            "us-{decade}-traffic-death-rate",
+            "190 191 192 193 194 195 196 197 198 199 200 201 202",
+        ),
+        falling=True,
+        series_id="us-traffic-death-rate",
+        caveats=(
+            "A rate, not a count. Absolute road deaths peaked at 55,600 in "
+            "1972 and were still near 41,000 in 2023; what fell by a factor "
+            "of thirty is the risk per mile travelled, because the miles grew "
+            "far faster than the toll.",
+            "FHWA's own footnote records a definitional change: from 1976 the "
+            "count includes only people who died within 30 days of the crash. "
+            "Earlier years were counted on a wider window, so the two halves "
+            "of this line are not quite the same measurement.",
+            "The 1900 figure rests on 36 recorded deaths against an estimated "
+            "100 million vehicle-miles. It is published, not reconstructed, "
+            "but the exposure behind it is very thin and the travel figure is "
+            "a back-cast.",
+        ),
+    ),
+    Arc(
         "ethanol-per-capita",
         "Alcohol consumed per person",
         "gallons of pure ethanol per person per year",
@@ -650,6 +675,7 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
             "cigarette-consumption",
             "smoking-prevalence",
             "ethanol-per-capita",
+            "traffic-death-rate",
         ),
     ),
 )

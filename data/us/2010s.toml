@@ -541,6 +541,19 @@ notes = "Beer's share kept falling while wine and spirits rose. The all-beverage
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-2010s-traffic-death-rate"
+quantity = 1.11
+panel = "day"
+label = "Road deaths per 100 million vehicle-miles, 2010"
+value = "1.11 deaths per 100 million vehicle-miles travelled"
+unit = "deaths per 100 million vehicle-miles travelled"
+price_year = 2010
+source = "fhwa-fi200-2023"
+tier = "A"
+notes = "Absolute deaths, at 32,999, were lower than in any year since 1949. The rate would fall a little further still, to its 124-year low of 1.08 in 2014."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2010s-smoking-prevalence"
 quantity = 19.3
 panel = "table"

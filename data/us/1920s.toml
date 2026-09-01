@@ -129,6 +129,19 @@ tier = "A"
 notes = "National Prohibition ran from January 1920 to December 1933, and the source table prints the single word '(Prohibition)' where fourteen years of numbers would be. The series is built from legal sales, so when legal sales ended the measurement ended with them. Drinking did not stop; the state's ability to count it did. The gap is not an archive limitation and is not interpolated: no consumption estimate for these years appears in this table, and any that were entered would be a different kind of evidence."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-1920s-traffic-death-rate"
+quantity = 25.54
+panel = "day"
+label = "Road deaths per 100 million vehicle-miles, 1920"
+value = "25.54 deaths per 100 million vehicle-miles travelled"
+unit = "deaths per 100 million vehicle-miles travelled"
+price_year = 1920
+source = "fhwa-fi200-2023"
+tier = "A"
+notes = "Twelve thousand people a year were being killed by then. The rate was already falling, because travel was growing faster than the toll."
+assumptions = ["composite-family"]
+
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]

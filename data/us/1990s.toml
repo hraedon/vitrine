@@ -595,6 +595,19 @@ notes = "The fall from the 1981 peak continued through the decade, reaching 2.15
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1990s-traffic-death-rate"
+quantity = 2.08
+panel = "day"
+label = "Road deaths per 100 million vehicle-miles, 1990"
+value = "2.08 deaths per 100 million vehicle-miles travelled"
+unit = "deaths per 100 million vehicle-miles travelled"
+price_year = 1990
+source = "fhwa-fi200-2023"
+tier = "A"
+notes = "The rate crosses below 2 deaths per 100 million vehicle-miles the following year, 1991, and never rises above it again."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1990s-smoking-prevalence"
 quantity = 25.5
 panel = "table"

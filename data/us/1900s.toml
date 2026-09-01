@@ -172,6 +172,19 @@ tier = "A"
 notes = "Table 1 publishes no single-year figure this early: the record is grouped into five-year ranges, and 1901-1905 is the only one lying wholly inside the decade. Spirits still supplied more ethanol per head than beer had a generation earlier; the range is the level national Prohibition would interrupt."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-1900s-traffic-death-rate"
+quantity = 36.00
+panel = "day"
+label = "Road deaths per 100 million vehicle-miles, 1900"
+value = "36.00 deaths per 100 million vehicle-miles travelled"
+unit = "deaths per 100 million vehicle-miles travelled"
+price_year = 1900
+source = "fhwa-fi200-2023"
+tier = "A"
+notes = "The earliest year FHWA publishes, and the thinnest: the rate rests on 36 recorded deaths against an estimated 100 million vehicle-miles. It is a real published figure, not a reconstruction, but the exposure behind it is tiny and the travel estimate is a back-cast."
+assumptions = ["composite-family"]
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]

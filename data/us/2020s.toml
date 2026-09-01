@@ -410,6 +410,19 @@ notes = "The first pandemic year. Consumption rose to 2.54 in 2021, the highest 
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-2020s-traffic-death-rate"
+quantity = 1.34
+panel = "day"
+label = "Road deaths per 100 million vehicle-miles, 2020"
+value = "1.34 deaths per 100 million vehicle-miles travelled"
+unit = "deaths per 100 million vehicle-miles travelled"
+price_year = 2020
+source = "fhwa-fi200-2023"
+tier = "A"
+notes = "The pandemic year. Travel collapsed but deaths did not fall with it, so the rate rose to 1.34 — its highest since 2007."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2020s-smoking-prevalence"
 quantity = 12.5
 panel = "table"

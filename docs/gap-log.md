@@ -63,6 +63,18 @@ here. Hence `vitrine gaps`.
   the card; the annual series begins at 1934 because a range cannot be keyed to
   a year without inventing a datum. Not fillable from this source at any tier.
 
+- **Workplace fatality rate, the whole span.** Plan 027 WI-4's second arc
+  (occupational deaths per 100,000 workers) has no committed data at all: BLS
+  returns 403 to non-browser clients and its flat-file host requires a contact
+  address in the User-Agent; the National Safety Council's 1913-1992 estimates
+  are a commercial publication. This is an *acquisition* gap, not a record gap
+  — the data exists and is public — so it is not rendered as a museum gap. See
+  FWI-006.
+- **Road deaths before 1976 are counted differently.** FHWA footnote (3): from
+  1976 the count includes only people who died within 30 days of the crash.
+  Earlier years used a wider window. Not fillable and not correctable; it is
+  disclosed on the arc instead.
+
 ## Upgrade paths for standing Tier D estimates
 
 - **1950s rooms/heating-fuel detail.** The 1950 Census of Housing collected

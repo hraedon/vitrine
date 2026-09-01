@@ -285,6 +285,19 @@ notes = "Beer and wine were near-flat across the decade; the rise that followed 
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1960s-traffic-death-rate"
+quantity = 5.06
+panel = "day"
+label = "Road deaths per 100 million vehicle-miles, 1960"
+value = "5.06 deaths per 100 million vehicle-miles travelled"
+unit = "deaths per 100 million vehicle-miles travelled"
+price_year = 1960
+source = "fhwa-fi200-2023"
+tier = "A"
+notes = "Before the National Traffic and Motor Vehicle Safety Act of 1966, the federal government set no crash standards for cars at all."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1960s-smoking-prevalence"
 quantity = 42.4
 panel = "table"

@@ -132,6 +132,19 @@ tier = "A"
 notes = "Repeal took effect in December 1933, and 1934 is the first year the table can report again. The decade opens inside Prohibition, so 1934 rather than 1930 is its first published figure. Consumption resumed at well under half the 1911-1915 level and took until the 1940s to approach the pre-Prohibition range."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-1930s-traffic-death-rate"
+quantity = 15.12
+panel = "day"
+label = "Road deaths per 100 million vehicle-miles, 1930"
+value = "15.12 deaths per 100 million vehicle-miles travelled"
+unit = "deaths per 100 million vehicle-miles travelled"
+price_year = 1930
+source = "fhwa-fi200-2023"
+tier = "A"
+notes = "Thirty-one thousand deaths, with no federal crash standards for cars, no seat belts and no national safety agency."
+assumptions = ["composite-family"]
+
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]

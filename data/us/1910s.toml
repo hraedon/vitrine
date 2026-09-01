@@ -130,6 +130,19 @@ tier = "A"
 notes = "The 1911-1915 range is the highest in the table's pre-Prohibition record. The following range, 1916-1919, falls to 1.96 as state-level prohibition spread ahead of the federal ban."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-1910s-traffic-death-rate"
+quantity = 44.66
+panel = "day"
+label = "Road deaths per 100 million vehicle-miles, 1910"
+value = "44.66 deaths per 100 million vehicle-miles travelled"
+unit = "deaths per 100 million vehicle-miles travelled"
+price_year = 1910
+source = "fhwa-fi200-2023"
+tier = "A"
+notes = "Just past the worst year in the whole table: the rate peaked in 1909 at 45.33, as cars reached ordinary streets faster than anything that later made them survivable."
+assumptions = ["composite-family"]
+
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]
