@@ -64,6 +64,7 @@ def arc_group_chart_for(
     """Render a curated group of related arcs on one honest shared scale."""
     colors = {
         "copper": tokens.COPPER,
+        "copper-deep": tokens.COPPER_DEEP,
         "brass": tokens.BRASS,
         "brass-deep": tokens.BRASS_DEEP,
     }

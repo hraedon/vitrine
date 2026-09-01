@@ -595,6 +595,58 @@ notes = "The fall from the 1981 peak continued through the decade, reaching 2.15
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1990s-availability-grapes"
+quantity = 7.91
+panel = "table"
+label = "Grapes available per person, 1990"
+value = "7.91 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1990
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh grapes. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 2.7 times the 1970 figure."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1990s-availability-avocados"
+quantity = 1.42
+panel = "table"
+label = "Avocados available per person, 1990"
+value = "1.42 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1990
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh avocados. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 3.2 times the 1970 figure."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1990s-availability-bell-peppers"
+quantity = 5.88
+panel = "table"
+label = "Bell peppers available per person, 1990"
+value = "5.88 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1990
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh bell peppers. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 2.8 times the 1960 figure."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1990s-availability-broccoli"
+quantity = 3.37
+panel = "table"
+label = "Broccoli available per person, 1990"
+value = "3.37 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1990
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 8.4 times the 1960 figure."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1990s-traffic-death-rate"
 quantity = 2.08
 panel = "day"

@@ -514,6 +514,34 @@ ARCS: tuple[Arc, ...] = (
         ),
     ),
     Arc(
+        "availability-broccoli",
+        "Broccoli available per person",
+        "pounds per person per year (farm weight)",
+        _ids("us-{decade}-availability-broccoli", "196 197 198 199 200 201 202"),
+        series_id="us-availability-broccoli",
+    ),
+    Arc(
+        "availability-bell-peppers",
+        "Bell peppers available per person",
+        "pounds per person per year (farm weight)",
+        _ids("us-{decade}-availability-bell-peppers", "196 197 198 199 200 201 202"),
+        series_id="us-availability-bell-peppers",
+    ),
+    Arc(
+        "availability-avocados",
+        "Avocados available per person",
+        "pounds per person per year (farm weight)",
+        _ids("us-{decade}-availability-avocados", "197 198 199 200 201"),
+        series_id="us-availability-avocados",
+    ),
+    Arc(
+        "availability-grapes",
+        "Grapes available per person",
+        "pounds per person per year (farm weight)",
+        _ids("us-{decade}-availability-grapes", "197 198 199 200 201 202"),
+        series_id="us-availability-grapes",
+    ),
+    Arc(
         "ethanol-per-capita",
         "Alcohol consumed per person",
         "gallons of pure ethanol per person per year",
@@ -571,6 +599,35 @@ ARC_BY_SLUG: dict[str, Arc] = {a.slug: a for a in ARCS}
 # charts made the smaller men's series look visually comparable in magnitude
 # to the women's series and hid the convergence that is the actual story.
 ARC_GROUPS: tuple[ArcGroup, ...] = (
+    ArcGroup(
+        "exotic-turned-ordinary",
+        "Exotic turned ordinary: four things that were not in the shop",
+        "pounds available per person per year (farm weight)",
+        (
+            ("availability-broccoli", "Broccoli", "copper"),
+            ("availability-bell-peppers", "Bell peppers", "brass"),
+            ("availability-avocados", "Avocados", "copper-deep"),
+            ("availability-grapes", "Grapes", "brass-deep"),
+        ),
+        caveats=(
+            "Availability, not intake. These are disappearance estimates — "
+            "production plus imports, less exports and non-food use, over "
+            "population — so they say what the food supply made available, "
+            "not what anyone ate. ERS publishes a separate loss-adjusted "
+            "series for consumption-like figures and this is not it.",
+            "Farm weight, as ERS publishes it. Each sheet also prints a "
+            "retail-weight column derived by a conversion factor; the factor "
+            "is disclosed rather than applied.",
+            "The lines start where their sheets start, not where the "
+            "commodity did: broccoli and bell peppers at 1960, avocados and "
+            "grapes at 1970. Avocados end at 2017 and the others run later, "
+            "because that is how far each published series reaches.",
+            "The shape is not a smooth rise. Avocados swing year to year "
+            "through the 1980s — 2.37 pounds in 1986, 1.08 in 1989 — and "
+            "broccoli is lower in 2022 than it was in 2000. An arc of steady "
+            "progress would be the wrong picture even here.",
+        ),
+    ),
     ArcGroup(
         "home-production-by-sex",
         "Unpaid home production, women and men",
@@ -728,6 +785,7 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
             "traffic-death-rate",
             "workplace-death-rate",
             "teen-birth-rate",
+            "exotic-turned-ordinary",
         ),
     ),
 )

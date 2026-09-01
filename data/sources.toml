@@ -1117,3 +1117,14 @@ url = "https://www.cdc.gov/nchs/data/nvsr/nvsr72/nvsr72-01.pdf"
 population = "All women aged 15-19 resident in the United States, all races and origins"
 expect = ["Births: Final Data for 2021", "Birth rates, by age of mother"]
 notes = "Table 2, 'Birth rates, by age of mother: United States, 2010-2021', All-races-and-origins block, 15-19 'Total' column. Used for the 2020 figure, which the Health, United States trend table does not reach. Two traps in this document, both guarded in the extraction script: an 'All races and origins' heading appears on more than one page for more than one table, and Table 2's columns omit the crude birth rate that the trend tables carry, so the 15-19 total sits one cell earlier than in Health, United States. Reading the neighbouring cell gives the 15-17 sub-rate, about half the value and entirely plausible alone."
+
+[[source]]
+id = "usda-ers-fads"
+title = "Food Availability (Per Capita) Data System — fresh fruit and fresh vegetable availability"
+short_cite = "USDA ERS, Food Availability (Per Capita) Data System"
+publisher = "U.S. Department of Agriculture, Economic Research Service"
+year = 2024
+url = "https://www.ers.usda.gov/data-products/food-availability-per-capita-data-system"
+population = "The whole US resident population — a supply-side average per person, not a measure of what anyone ate or of who ate it"
+expect = ["Food Availability (Per Capita) Data System"]
+notes = "Per-commodity sheets of the fresh-fruit and fresh-vegetable workbooks, farm-weight 'Per capita availability' column. Availability is a disappearance estimate: production plus imports, less exports, non-food use and (for fruit) shipments to US territories, divided by population. It measures what the food supply made available per person, not intake — ERS publishes a separate loss-adjusted series for consumption-like figures and this is not it. Each sheet also prints a retail-weight column derived by a stated conversion factor (0.92 broccoli and peppers, 0.94 avocados, 0.91 grapes); the unadjusted farm-weight column is taken and the factor is disclosed rather than applied. The two workbooks do not share a layout — the fruit sheets carry an extra 'Shipments to U.S. Territories' column and print the 'Farm' sub-header a row lower — so the extraction locates every column by its printed label and then verifies the result arithmetically: farm per-capita must equal food availability divided by population, for every year. Pointed one column right, at the retail figures, that check rejects all four commodities."

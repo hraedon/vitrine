@@ -1533,3 +1533,87 @@ never have fired. The checker now retries a 403/405 once with a plain tool
 agent, which makes these two citations genuinely verified in CI. It does not
 rescue bls.gov, and is not meant to: that host wants personal data this public
 repository does not carry.
+
+---
+
+## Plan 027 WI-6a: Food availability, four commodities (25 facts, 7 rooms + 4 series)
+
+**Date:** 2026-09-01
+**Verifier:** Claude Opus 5 session (mvmcc02)
+**Source checked:** USDA/ERS Food Availability (Per Capita) Data System — the
+fresh-fruit and fresh-vegetable workbooks, per-commodity sheets, farm-weight
+"Per capita availability" column.
+**Archive:** `samples/46-diet-variety/ers-fads-fruit-fresh.xlsx`,
+`ers-fads-vegetables-fresh.xlsx`
+**Extraction:** `scripts/ers_fads_extract.py`; cards `scripts/ers_fads_cards.py`
+
+### The column was identified by arithmetic
+
+Each sheet prints two per-capita columns side by side — farm weight, and a
+retail weight derived by a conversion factor stated in the sheet (0.92 for
+broccoli and peppers, 0.94 avocados, 0.91 grapes). The unadjusted farm-weight
+column is taken. The parser recomputes it as *food availability ÷ population*
+from the sheet's own columns and refuses to write unless it reproduces for
+every year. Pointed one column right, at the retail figures, it rejects all
+four commodities:
+
+| commodity | first row it rejects |
+|---|---|
+| broccoli | 1960, 0.3702 against 0.4024 |
+| bell peppers | 1960, 1.9129 against 2.0792 |
+| avocados | 1970, 0.4250 against 0.4521 |
+| grapes | 1970, 2.6602 against 2.9232 |
+
+The parser also refuses if fewer than half the rows could be checked at all,
+so a sheet that stopped publishing the columns the identity needs would fail
+loudly rather than pass unverified.
+
+### The two workbooks do not share a layout
+
+The fruit sheets carry an extra "Shipments to U.S. Territories" column and
+print the "Farm" sub-header one row below the header, where the vegetable
+sheets print it on the header row itself. A fixed column index is therefore
+correct for one workbook and wrong for the other — the first draft was, and
+failed on the first fruit sheet it reached. Every column is now found by its
+printed label, and the availability column specifically by the "Food
+availability" spanner above it, because the header row prints *two* columns
+beginning "Total" ("Total supply4" and "Total4") and both carry footnote
+markers.
+
+### What the numbers are
+
+| commodity | span | first | last |
+|---|---|---|---|
+| broccoli | 1960–2022 | 0.40 | 5.24 |
+| bell peppers | 1960–2022 | 2.08 | 11.06 |
+| avocados | 1970–2017 | 0.45 | 8.06 |
+| grapes | 1970–2021 | 2.92 | 8.50 |
+
+### A caveat that was wrong until the test caught it
+
+The arc group's fourth caveat originally read "avocados fall through the 1990s
+before climbing again". They do not: 1.42 in 1990 against 1.94 in 1999. The
+test that checks the caveat's premise against the series failed, and the
+caveat was rewritten from the data — the real irregularity is the 1980s swing
+(2.37 in 1986, 1.08 in 1989) and broccoli being lower in 2022 than in 2000.
+This is the fifth prose numeral this plan's guards have caught in one session.
+
+### Boundaries
+
+- **Availability, not intake.** Disappearance estimates: production plus
+  imports, less exports, non-food use and (fruit only) shipments to US
+  territories, over population. ERS publishes a separate loss-adjusted series
+  for consumption-like figures and this is not it. Stated on every card, on
+  the group, and asserted by a test.
+- **Each line starts where its sheet starts**, not where the commodity did —
+  1960 for broccoli and peppers, 1970 for avocados and grapes — and avocados
+  end at 2017 while the others run later. Asserted per commodity.
+- **Farm weight.** The retail conversion factor is disclosed rather than
+  applied.
+
+### What WI-6 still owes
+
+Plan 027 WI-6 specifies four apparatuses. Only the first is landed here. The
+derived variety-count fact, the produce-SKU confrontation number (Progressive
+Grocer / FMI via ERS, Tier B) and the 1955 Household Food Consumption Survey
+checkpoint are untouched and are tracked as FWI-007.

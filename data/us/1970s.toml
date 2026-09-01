@@ -514,6 +514,58 @@ notes = "The population basis changes here: figures from 1970 onward are compute
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1970s-availability-grapes"
+quantity = 2.92
+panel = "table"
+label = "Grapes available per person, 1970"
+value = "2.92 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1970
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh grapes. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. The first year ERS publishes for this commodity."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1970s-availability-avocados"
+quantity = 0.45
+panel = "table"
+label = "Avocados available per person, 1970"
+value = "0.45 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1970
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh avocados. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. The first year ERS publishes for this commodity."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1970s-availability-bell-peppers"
+quantity = 2.16
+panel = "table"
+label = "Bell peppers available per person, 1970"
+value = "2.16 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1970
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh bell peppers. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1970s-availability-broccoli"
+quantity = 0.53
+panel = "table"
+label = "Broccoli available per person, 1970"
+value = "0.53 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1970
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1970s-traffic-death-rate"
 quantity = 4.85
 panel = "day"

@@ -541,6 +541,58 @@ notes = "Beer's share kept falling while wine and spirits rose. The all-beverage
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-2010s-availability-grapes"
+quantity = 7.98
+panel = "table"
+label = "Grapes available per person, 2010"
+value = "7.98 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 2010
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh grapes. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 2.7 times the 1970 figure."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2010s-availability-avocados"
+quantity = 4.03
+panel = "table"
+label = "Avocados available per person, 2010"
+value = "4.03 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 2010
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh avocados. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 9.0 times the 1970 figure."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2010s-availability-bell-peppers"
+quantity = 10.33
+panel = "table"
+label = "Bell peppers available per person, 2010"
+value = "10.33 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 2010
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh bell peppers. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 5.0 times the 1960 figure."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2010s-availability-broccoli"
+quantity = 5.95
+panel = "table"
+label = "Broccoli available per person, 2010"
+value = "5.95 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 2010
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 14.9 times the 1960 figure."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2010s-traffic-death-rate"
 quantity = 1.11
 panel = "day"

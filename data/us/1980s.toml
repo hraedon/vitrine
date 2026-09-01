@@ -536,6 +536,58 @@ notes = "The modern peak: 1981 reaches 2.76, the highest figure in the table sin
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1980s-availability-grapes"
+quantity = 4.01
+panel = "table"
+label = "Grapes available per person, 1980"
+value = "4.01 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1980
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh grapes. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1980s-availability-avocados"
+quantity = 2.1
+panel = "table"
+label = "Avocados available per person, 1980"
+value = "2.1 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1980
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh avocados. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 4.7 times the 1970 figure."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1980s-availability-bell-peppers"
+quantity = 2.89
+panel = "table"
+label = "Bell peppers available per person, 1980"
+value = "2.89 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1980
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh bell peppers. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1980s-availability-broccoli"
+quantity = 1.4
+panel = "table"
+label = "Broccoli available per person, 1980"
+value = "1.4 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1980
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 3.5 times the 1960 figure."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1980s-traffic-death-rate"
 quantity = 3.35
 panel = "day"

@@ -1,5 +1,44 @@
 # Changelog
 
+## 2026-09-01 — Exotic turned ordinary (Plan 027 WI-6a)
+
+Four commodities on one shared pounds-per-person axis, from the USDA/ERS Food
+Availability data system: broccoli 0.40 → 5.24, bell peppers 2.08 → 11.06,
+avocados 0.45 → 8.06, grapes 2.92 → 8.50. Twenty-five cards across seven
+rooms, and the wing's first shared-axis arc group. The exhibit is the liftoff
+from near-nothing — things that were not in the shop becoming things nobody
+remarks on.
+
+Every card says what the number is not. This is **availability, not intake**: a
+disappearance estimate, production plus imports less exports and non-food use,
+over population. It says what the food supply made available per person, not
+what anyone ate. ERS publishes a separate loss-adjusted series for
+consumption-like figures and this is not it.
+
+The two workbooks do not share a layout — the fruit sheets carry an extra
+"Shipments to U.S. Territories" column and print the "Farm" sub-header a row
+lower — so a fixed column index is right for one and wrong for the other. The
+first draft was, and failed on the first fruit sheet. Columns are now found by
+their printed labels, the availability column by the spanner above it (the
+header row prints two columns beginning "Total"), and the result is then
+checked arithmetically: farm per-capita must equal availability ÷ population
+for every year. Pointed one column right, at the retail figures, that check
+rejects all four commodities.
+
+A caveat was wrong until a test caught it. It read "avocados fall through the
+1990s"; they rose, 1.42 in 1990 to 1.94 in 1999. Rewritten from the data — the
+real irregularity is the 1980s swing (2.37 in 1986, 1.08 in 1989) and broccoli
+sitting lower in 2022 than in 2000. That is the fifth prose numeral this plan's
+guards have caught today.
+
+The design system gained a fourth arc-group colour role: `copper-deep` was
+already a token but was not wired into the group renderer, and four
+commodities need four colours. A test asserts no two members share one.
+
+**WI-6 is not finished.** The plan specifies four apparatuses; this is the
+first. The derived variety-count, the produce-SKU confrontation number and the
+1955 Household Food Consumption Survey checkpoint are tracked as FWI-007.
+
 ## 2026-09-01 — The peak is 1960 (Plan 027 WI-5)
 
 The wing's sixth arc: births per 1,000 women aged 15–19, selected years

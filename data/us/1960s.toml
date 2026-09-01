@@ -285,6 +285,32 @@ notes = "Beer and wine were near-flat across the decade; the rise that followed 
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1960s-availability-bell-peppers"
+quantity = 2.08
+panel = "table"
+label = "Bell peppers available per person, 1960"
+value = "2.08 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1960
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh bell peppers. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. The first year ERS publishes for this commodity."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1960s-availability-broccoli"
+quantity = 0.4
+panel = "table"
+label = "Broccoli available per person, 1960"
+value = "0.4 pounds per person per year"
+unit = "pounds per person per year (farm weight)"
+price_year = 1960
+source = "usda-ers-fads"
+tier = "A"
+notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. The first year ERS publishes for this commodity."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1960s-traffic-death-rate"
 quantity = 5.06
 panel = "day"
