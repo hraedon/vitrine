@@ -855,9 +855,10 @@ title = "Trends in Current Cigarette Smoking Among High School Students and Adul
 short_cite = "CDC NCHS, Trends in Current Cigarette Smoking 1965-2014 (adults column)"
 publisher = "Centers for Disease Control and Prevention (CDC)"
 year = 2014
-url = "https://www.cdc.gov/tobacco/data_statistics/tables/trends/cig_smoking/index.htm"
+url = "https://web.archive.org/web/20181113075538id_/https://www.cdc.gov/tobacco/data_statistics/tables/trends/cig_smoking/index.htm"
 population = "U.S. civilian noninstitutionalized adults 18+ (NHIS household interview survey)"
-notes = "CDC/NCHS trends table, Adults column: % of adults who are current cigarette smokers, NHIS survey years only (sparse; blank cells are gaps). Current smoker defined as >=100 lifetime cigarettes and currently smoking. Page retired in the CDC site redesign; transcribed from the Internet Archive snapshot of 2018-11-13 (web.archive.org/web/20181113075538id_/). The 2006 adults cell reads 20.8 here; the American Lung Association compilation of the same NHIS (source cdc-nhis-smoking-prevalence) reads 20.6 — the difference is a compilation revision, disclosed rather than reconciled."
+expect = ["Trends in Current Cigarette Smoking"]
+notes = "CDC/NCHS trends table, Adults column: % of adults who are current cigarette smokers, NHIS survey years only (sparse; blank cells are gaps). Current smoker defined as >=100 lifetime cigarettes and currently smoking. Page retired in the CDC site redesign, and the original address (www.cdc.gov/tobacco/data_statistics/tables/trends/cig_smoking/index.htm) is now a 404 — the citation therefore names the Internet Archive snapshot of 2018-11-13, which is what was actually transcribed and what a reader can actually reach. The snapshot was confirmed sha256-identical to the archived copy in samples/ on 2026-09-01. This 404 had been invisible: cdc.gov 403s browser-like agents, so the checker classified the dead link as merely bot-blocked until link_check gained its plain-agent retry. The 2006 adults cell reads 20.8 here; the American Lung Association compilation of the same NHIS (source cdc-nhis-smoking-prevalence) reads 20.6 — the difference is a compilation revision, disclosed rather than reconciled."
 
 [[source]]
 id = "cdc-mmwr-tobacco-surveillance"
