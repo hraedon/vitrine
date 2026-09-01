@@ -46,6 +46,23 @@ here. Hence `vitrine gaps`.
   which would let the 1970s and 1980s rooms compute a share-of-income axis at
   the cost of citing a non-official series. Both are decisions, not absences.
 
+- **Alcohol consumption, 1920–1933.** National Prohibition. The NIAAA
+  surveillance series is built from legal beverage sales, so when legal sales
+  ended the measurement ended with them — the source table prints the word
+  "(Prohibition)" where fourteen years of numbers would be. This is not an
+  archive-access limitation and has no upgrade path within the series: it is
+  the record's actual shape, and it is the exhibit. A consumption
+  *reconstruction* for those years (Warburton and successors) exists in the
+  scholarly literature and could be entered, but only as a separate Tier C/D
+  fact carrying its estimation method on the card — never as a value on this
+  series (Plan 027 D2).
+- **Alcohol consumption before 1934.** The same table publishes the pre-
+  Prohibition record as five-year ranges (1871–1880, …, 1916–1919), not single
+  years, plus three isolated single years 1850/1860/1870. The 1900s and 1910s
+  rooms carry the two ranges that fall wholly inside them and name the range on
+  the card; the annual series begins at 1934 because a range cannot be keyed to
+  a year without inventing a datum. Not fillable from this source at any tier.
+
 ## Upgrade paths for standing Tier D estimates
 
 - **1950s rooms/heating-fuel detail.** The 1950 Census of Housing collected

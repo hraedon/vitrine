@@ -273,6 +273,19 @@ tier = "A"
 notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. WWII drove massive increases — free cigarettes were distributed to soldiers. By 1945 consumption hit 3,449 per adult. Total U.S. consumption was 181.9 billion cigarettes in 1940."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-1940s-ethanol-per-capita"
+quantity = 1.56
+panel = "table"
+label = "Alcohol consumed per person, 1940"
+value = "1.56 gallons of pure ethanol per person per year"
+unit = "gallons of pure ethanol per person per year"
+price_year = 1940
+source = "niaaa-surveillance-122"
+tier = "A"
+notes = "Wartime. Consumption rose through the war years from this 1940 level, peaking at 2.30 in 1946."
+assumptions = ["composite-family"]
+
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]

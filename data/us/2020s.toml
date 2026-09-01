@@ -397,6 +397,19 @@ notes = "From CDC Adult Tobacco Consumption dataset (data.cdc.gov). Consumption 
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-2020s-ethanol-per-capita"
+quantity = 2.44
+panel = "table"
+label = "Alcohol consumed per person, 2020"
+value = "2.44 gallons of pure ethanol per person per year"
+unit = "gallons of pure ethanol per person per year"
+price_year = 2020
+source = "niaaa-surveillance-122"
+tier = "A"
+notes = "The first pandemic year. Consumption rose to 2.54 in 2021, the highest since 1985, then eased to 2.48 by 2023."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2020s-smoking-prevalence"
 quantity = 12.5
 panel = "table"

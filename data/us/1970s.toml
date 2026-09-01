@@ -501,6 +501,19 @@ notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Consumpti
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1970s-ethanol-per-capita"
+quantity = 2.52
+panel = "table"
+label = "Alcohol consumed per person, 1970"
+value = "2.52 gallons of pure ethanol per person per year"
+unit = "gallons of pure ethanol per person per year"
+price_year = 1970
+source = "niaaa-surveillance-122"
+tier = "A"
+notes = "The population basis changes here: figures from 1970 onward are computed over ages 14 and older, before that over ages 15 and older. The change slightly raises the denominator and is not corrected for."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1970s-smoking-prevalence"
 quantity = 37.4
 panel = "table"

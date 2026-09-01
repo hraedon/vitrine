@@ -119,6 +119,19 @@ tier = "A"
 notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Consumption doubled from 665 in 1920 despite the Depression. By 1939 it reached 1,900. Total U.S. consumption was 119.3 billion cigarettes in 1930."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-1930s-ethanol-per-capita"
+quantity = 0.97
+panel = "table"
+label = "Alcohol consumed per person, 1934"
+value = "0.97 gallons of pure ethanol per person per year"
+unit = "gallons of pure ethanol per person per year"
+price_year = 1934
+source = "niaaa-surveillance-122"
+tier = "A"
+notes = "Repeal took effect in December 1933, and 1934 is the first year the table can report again. The decade opens inside Prohibition, so 1934 rather than 1930 is its first published figure. Consumption resumed at well under half the 1911-1915 level and took until the 1940s to approach the pre-Prohibition range."
+assumptions = ["composite-family"]
+
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]

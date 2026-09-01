@@ -272,6 +272,19 @@ notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. 1963 was 
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1960s-ethanol-per-capita"
+quantity = 2.07
+panel = "table"
+label = "Alcohol consumed per person, 1960"
+value = "2.07 gallons of pure ethanol per person per year"
+unit = "gallons of pure ethanol per person per year"
+price_year = 1960
+source = "niaaa-surveillance-122"
+tier = "A"
+notes = "Beer and wine were near-flat across the decade; the rise that followed came from spirits, which reached 1.11 gallons per head by 1970."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1960s-smoking-prevalence"
 quantity = 42.4
 panel = "table"

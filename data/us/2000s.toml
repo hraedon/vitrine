@@ -560,6 +560,19 @@ notes = "From CDC Adult Tobacco Consumption dataset (data.cdc.gov). Based on TTB
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-2000s-ethanol-per-capita"
+quantity = 2.19
+panel = "table"
+label = "Alcohol consumed per person, 2000"
+value = "2.19 gallons of pure ethanol per person per year"
+unit = "gallons of pure ethanol per person per year"
+price_year = 2000
+source = "niaaa-surveillance-122"
+tier = "A"
+notes = "The long decline stopped around the turn of the century and reversed slowly, driven by wine and then spirits rather than beer, which continued to fall."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2000s-smoking-prevalence"
 quantity = 23.3
 panel = "table"

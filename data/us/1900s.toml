@@ -160,6 +160,18 @@ tier = "A"
 notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. USDA estimate based on federal cigarette tax data and Census adult population. Total U.S. consumption was 2.5 billion cigarettes in 1900. Cigarettes were a minor product — chewing tobacco and cigars were dominant."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-1900s-ethanol-per-capita"
+quantity = 2.39
+panel = "table"
+label = "Alcohol consumed per person, 1901-1905"
+value = "2.39 gallons of pure ethanol per person per year (1901-1905 average)"
+unit = "gallons of pure ethanol per person per year"
+source = "niaaa-surveillance-122"
+tier = "A"
+notes = "Table 1 publishes no single-year figure this early: the record is grouped into five-year ranges, and 1901-1905 is the only one lying wholly inside the decade. Spirits still supplied more ethanol per head than beer had a generation earlier; the range is the level national Prohibition would interrupt."
+assumptions = ["composite-family"]
+
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]

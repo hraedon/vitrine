@@ -118,6 +118,17 @@ tier = "A"
 notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Cigarette smoking became mainstream in the 1920s. Consumption more than quadrupled from 151 in 1910. Total U.S. consumption was 44.6 billion cigarettes in 1920."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-1920s-ethanol-per-capita"
+panel = "table"
+label = "Alcohol consumed per person, 1920s"
+value = "no reliable record — national Prohibition, 1920-1933: legal sales ended and the series ended with them"
+unit = "gallons of pure ethanol per person per year"
+source = "niaaa-surveillance-122"
+tier = "A"
+notes = "National Prohibition ran from January 1920 to December 1933, and the source table prints the single word '(Prohibition)' where fourteen years of numbers would be. The series is built from legal sales, so when legal sales ended the measurement ended with them. Drinking did not stop; the state's ability to count it did. The gap is not an archive limitation and is not interpolated: no consumption estimate for these years appears in this table, and any that were entered would be a different kind of evidence."
+assumptions = ["composite-family"]
+
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]

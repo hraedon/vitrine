@@ -523,6 +523,19 @@ notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Consumpti
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1980s-ethanol-per-capita"
+quantity = 2.75
+panel = "table"
+label = "Alcohol consumed per person, 1980"
+value = "2.75 gallons of pure ethanol per person per year"
+unit = "gallons of pure ethanol per person per year"
+price_year = 1980
+source = "niaaa-surveillance-122"
+tier = "A"
+notes = "The modern peak: 1981 reaches 2.76, the highest figure in the table since 1915. Consumption then falls for a decade."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1980s-smoking-prevalence"
 quantity = 33.2
 panel = "table"

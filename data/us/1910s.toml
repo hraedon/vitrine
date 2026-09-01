@@ -118,6 +118,18 @@ tier = "A"
 notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Cigarette consumption was growing rapidly — up from 54 in 1900. WWI (1917-18) drove a spike: 697 per adult by 1918. Total consumption reached 45.6 billion cigarettes in 1918."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-1910s-ethanol-per-capita"
+quantity = 2.56
+panel = "table"
+label = "Alcohol consumed per person, 1911-1915"
+value = "2.56 gallons of pure ethanol per person per year (1911-1915 average)"
+unit = "gallons of pure ethanol per person per year"
+source = "niaaa-surveillance-122"
+tier = "A"
+notes = "The 1911-1915 range is the highest in the table's pre-Prohibition record. The following range, 1916-1919, falls to 1.96 as state-level prohibition spread ahead of the federal ban."
+assumptions = ["composite-family"]
+
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]

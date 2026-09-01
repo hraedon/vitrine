@@ -286,6 +286,19 @@ notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Smoking w
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1950s-ethanol-per-capita"
+quantity = 2.04
+panel = "table"
+label = "Alcohol consumed per person, 1950"
+value = "2.04 gallons of pure ethanol per person per year"
+unit = "gallons of pure ethanol per person per year"
+price_year = 1950
+source = "niaaa-surveillance-122"
+tier = "A"
+notes = "Back to roughly the pre-Prohibition level for the first time since 1919, and close to flat across the decade."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1950s-car-price"
 panel = "work-buys"
 label = "Average new car price, 1950"

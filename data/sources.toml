@@ -1061,3 +1061,14 @@ year = 1969
 url = "https://escoe-website.s3.amazonaws.com/wp-content/uploads/2019/05/19121247/British-Labour-Statistics-Year-Book-1969.pdf"
 population = "Men aged 21 and over working full-time as manual workers in the United Kingdom, all industries covered, at the April and October earnings enquiries"
 notes = "Table 10, 'Average weekly and hourly earnings of manual workers, and average weekly hours worked, by industry Group, 1965-1969', final column ('All Industries covered'). Earnings in this volume are pre-decimal (£ s. d.) and are not transcribed; the hours column is decimal and is. Read from a scanned volume and checked against the rendered page (see docs/verification-log.md)."
+
+[[source]]
+id = "niaaa-surveillance-122"
+title = "Apparent Per Capita Alcohol Consumption: National, State, and Regional Trends, 1977-2023 (Surveillance Report #122)"
+short_cite = "NIAAA Surveillance Report #122 (Slater & Alpert, 2025)"
+publisher = "National Institute on Alcohol Abuse and Alcoholism, Division of Epidemiology and Prevention Research (Alcohol Epidemiologic Data System)"
+year = 2025
+url = "https://www.niaaa.nih.gov/sites/default/files/surveillance-report122.Per-Capita-Consumption.pdf"
+population = "The whole U.S. population aged 15 and older before 1970, and aged 14 and older from 1970 onward — not drinkers only, and not adults only"
+expect = ["Apparent per capita ethanol consumption", "(Prohibition)", "Alcohol Epidemiologic Data System"]
+notes = "Table 1, 'Apparent per capita ethanol consumption, United States, 1850-2023', all-beverages column. Apparent consumption is derived from legal beverage sales and shipment data collected from States, the National Alcohol Beverage Control Association and industry sources, divided by Census population: it measures what the state could count, not what was drunk, which is why national Prohibition appears in the table as the literal word '(Prohibition)' and no numbers for 1920-1933. The report's own note records that data prior to 1977 are from Hyman et al. 1980, so the early half of this official series is republished scholarly work. Pre-1934 figures are published as multi-year ranges, not single years. The archived copy in samples/ was confirmed sha256-identical to the document served at this URL on 2026-09-01 (see docs/verification-log.md)."

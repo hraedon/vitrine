@@ -1107,3 +1107,125 @@ covered, average hours worked:**
   twice-yearly enquiry recorded hours through the 1960s. The note now says what
   is actually true: those figures exist, but the volumes in the archive reach
   back only to 1965.
+
+---
+
+## Plan 027 WI-3: Alcohol per capita, with the Prohibition gap (14 facts, 13 rooms + 1 series)
+
+**Date:** 2026-09-01
+**Verifier:** Claude Opus 5 session (mvmcc02)
+**Source checked:** NIAAA Surveillance Report #122, *Apparent Per Capita
+Alcohol Consumption: National, State, and Regional Trends, 1977–2023* (Slater
+& Alpert, April 2025), Table 1, "Apparent per capita ethanol consumption,
+United States, 1850–2023", all-beverages column.
+**Archive copy:** `samples/34-smoking/niaaa-surveillance-122.pdf`
+**Extraction:** `scripts/niaaa_alcohol_extract.py` → `data/series/us-ethanol-per-capita.toml`
+
+### Provenance: the archived PDF is the served document
+
+The archive copy was compared byte-for-byte with the document served at the
+cited URL on 2026-09-01:
+
+| | sha256 |
+|---|---|
+| served (`https://www.niaaa.nih.gov/sites/default/files/surveillance-report122.Per-Capita-Consumption.pdf`) | `71f1e8531f2de32138f99d20b239ec78215a23b50070294fbb80671507bc222a` |
+| archived (`samples/34-smoking/niaaa-surveillance-122.pdf`) | `71f1e8531f2de32138f99d20b239ec78215a23b50070294fbb80671507bc222a` |
+
+**Identical.** The transcription source and the citation target are the same
+bytes. (The `samples/MANIFEST.md` archive index has no entry for this file —
+it was archived on 2026-07-17 without being manifested. Noted, not fixed here.)
+
+### Method
+
+The values were read out of the PDF itself with PyMuPDF, not out of the
+flattened `niaaa-text.txt` dump beside it and **not** out of
+`niaaa-alcohol-extraction.md`, the markdown extraction summary in the same
+directory — a summary is a secondary source, and a prior session's summary is
+exactly what the truth-path rule exists to keep out of the data. That rule
+earned its keep here: the summary states that 1970 is the "last year using
+ages 15+ basis", while the table's own header reads "based on population ages
+15 and older prior to 1970 and on population ages 14 and older thereafter" —
+i.e. 1970 is already on the 14+ basis. The header was followed.
+
+The parser asserts the row shape (a year or year-range label, then exactly
+four numeric cells) so a layout change fails loudly rather than misparsing,
+and it refuses to write unless the literal `(Prohibition)` row is present, no
+value falls in 1920–1933, and the post-Repeal record is continuous.
+
+### Cross-check: two independent extractions of the same PDF
+
+The 90 parsed annual values were compared against an independent re-parse of
+`niaaa-text.txt` (a differently-produced text rendering of the same PDF):
+
+| | |
+|---|---|
+| series values | 90 (1934–2023) |
+| text-dump rows matched | 93 (the extra three are 1850/1860/1870) |
+| overlap compared | 90 |
+| **mismatches** | **none — every value reproduces exactly** |
+
+### Spot-verification against the rendered table
+
+Read off the PDF's own text layer (report pages 11–12):
+
+| Row | Beer | Wine | Spirits | All beverages | In the data |
+|---|---|---|---|---|---|
+| 2023 | 0.99 | 0.41 | 1.08 | 2.48 | ✓ |
+| 2020 | 1.05 | 0.44 | 0.95 | 2.44 | ✓ (2020s card) |
+| 1981 | 1.39 | 0.35 | 1.02 | 2.76 | ✓ (cited as the modern peak) |
+| 1980 | 1.37 | 0.34 | 1.04 | 2.75 | ✓ (1980s card) |
+| 1970 | 1.14 | 0.27 | 1.11 | 2.52 | ✓ (1970s card; spirits cited) |
+| 1950 | 1.04 | 0.23 | 0.77 | 2.04 | ✓ (1950s card) |
+| 1934 | 0.61 | 0.07 | 0.29 | 0.97 | ✓ (1930s card) |
+| 1911–1915 | 1.48 | 0.14 | 0.94 | 2.56 | ✓ (1910s card) |
+| 1901–1905 | 1.31 | 0.13 | 0.95 | 2.39 | ✓ (1900s card) |
+| *(Prohibition)* | — | — | — | — | ✓ rendered as a gap |
+
+Every numeral quoted in a fact's `notes` is asserted against the parsed table
+by `scripts/niaaa_alcohol_cards.py` before it writes anything (1.96 for
+1916–1919, 2.30 for 1946, 1.11 spirits for 1970, 2.76 for 1981, 2.15 for 1995,
+2.54 for 2021, 2.48 for 2023). None was typed from memory. That script is
+committed rather than left in a scratch directory for the same reason this log
+exists: an assertion whose artifact is gone is a claim, not evidence. It is
+idempotent — re-running reports "already present" rather than inserting a
+second copy — which was learned the hard way here, when a first pass did
+double-insert all thirteen cards and the provenance gate caught it
+("duplicate fact id", 13 problems).
+
+### What was deliberately left out
+
+- **1920–1933.** The table prints `(Prohibition)` and no numbers. Rendered as
+  a gap card in the 1920s room and a gap slot on the arc. Not interpolated, no
+  estimate substituted. Per Plan 027 D2, any Warburton-style reconstruction
+  would be a separate Tier C/D fact with its methodology on the card.
+- **The eight pre-1934 five-year ranges.** A range is not a year and cannot
+  enter a year-keyed series without inventing a datum. Two of them (1901–1905,
+  1911–1915) are carried as decade cards, which name the range in the value;
+  the six that straddle a decade boundary or predate the museum's floor are
+  not carried at all.
+- **1850, 1860, 1870.** Published as single years, so they *could* enter the
+  series — but they sit before the museum's 1890s floor, and including them
+  would draw one line across a 63-year void that is really two different
+  absences (a grouped-publication era, then a measurement collapse).
+
+### Disclosed weaknesses in the source itself
+
+- **The early half is republished scholarly work.** The table's own note reads
+  "Data prior to 1977 are from Hyman et al. 1980". Carried in the series notes
+  and as an arc caveat; the series is still Tier A because NIAAA publishes the
+  figures as its own table, but the caveat says whose they were.
+- **The denominator changes at 1970** (ages 15+ → 14+). Disclosed, not
+  corrected for.
+- **"Apparent" consumption is legal sales ÷ population**, so it measures what
+  the state could count. This is the reason the Prohibition gap exists at all,
+  and it is stated on the arc rather than left as an inference.
+
+### Standing gates
+
+`tests/test_alcohol_series.py` (17 tests). Each was proven to fail by
+mutation: drifting a card's quantity from the series, adding a value inside
+Prohibition, turning the 1920s gap card into a number, and dropping the
+`(Prohibition)` expect-marker each redden a named test. The expect-marker is
+the load-bearing one for the citation: if NIAAA ever republished with those
+years backfilled, `scripts/link_check.py` would redden rather than the museum
+quietly citing a document that no longer says what its cards say it says.

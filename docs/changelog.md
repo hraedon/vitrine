@@ -1,5 +1,48 @@
 # Changelog
 
+## 2026-09-01 — Alcohol per capita, and the gap that is the exhibit (Plan 027 WI-3)
+
+The "different country" wing gains its third arc: apparent per capita ethanol
+consumption, 1934–2023, plus a card in every US room. The point of the exhibit
+is not the line but the hole in it. **National Prohibition renders as a gap**,
+because the source table renders it as a gap — NIAAA's series is built from
+legal beverage sales, so when legal sales ended in January 1920 the
+measurement ended with them, and Table 1 prints the single word
+"(Prohibition)" where fourteen years of numbers would be. Drinking did not
+stop; the state's ability to count it did. Nothing is interpolated across those
+years and no reconstruction is substituted for them.
+
+Two other shapes of the record survive into the data rather than being
+smoothed away. The pre-1934 figures are published as five-year ranges, not
+single years, so the 1900s and 1910s cards carry ranges and say so on their
+face (2.39 for 1901–1905; 2.56 for 1911–1915) while the annual series begins
+at 1934 — a range cannot be keyed to a year without inventing a datum. And the
+1930s card opens at **1934, not 1930**, because its decade begins inside
+Prohibition: the first year the table can report again is the year after
+Repeal, at 0.97 gallons, well under half the 1911–1915 level.
+
+The arc is deliberately **not** marked falling. It is a discontinuity, not a
+trend: the 1911–1915 level is not reached again until the 1970s, and the modern
+peak (2.76 in 1981) sits above every year since.
+
+Provenance was established rather than assumed. The archived PDF was compared
+byte-for-byte with the document served at the cited URL — **sha256-identical**
+— so the transcription source and the citation target are the same bytes. The
+values were read out of the PDF itself, not out of the flattened text dump
+beside it and not out of the markdown extraction summary a prior session left
+in the same directory. That distinction earned its keep: the summary states
+that 1970 was the last year on the ages-15+ denominator, while the table's own
+header puts 1970 already on the 14+ basis. The header was followed. Two
+independent extractions of the PDF were then compared value by value — all 90
+reproduce exactly.
+
+The source registry entry declares `(Prohibition)` as a content marker, so if
+NIAAA ever republishes with those years backfilled the link check reddens
+rather than the museum quietly citing a document that no longer says what its
+cards say it says. `tests/test_alcohol_series.py` holds the two committed
+surfaces — the cards and the series — against each other, and each of its
+gates was proven to fail by mutation.
+
 ## 2026-09-01 — The comparative layer stops reaching outside its wing (FWI-004, FWI-005)
 
 Every room whose work-buys panel held any fact rendered "See this metric across

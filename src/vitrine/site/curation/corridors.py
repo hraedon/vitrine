@@ -439,6 +439,35 @@ ARCS: tuple[Arc, ...] = (
         ),
     ),
     Arc(
+        "ethanol-per-capita",
+        "Alcohol consumed per person",
+        "gallons of pure ethanol per person per year",
+        _ids(
+            "us-{decade}-ethanol-per-capita",
+            "190 191 192 193 194 195 196 197 198 199 200 201 202",
+        ),
+        series_id="us-ethanol-per-capita",
+        caveats=(
+            "Apparent consumption: legal beverage sales and shipments divided "
+            "by population, so it measures what the state could count. That "
+            "is why 1920-1933 is blank — national Prohibition ended legal "
+            "sales and the measurement with them, and the source table prints "
+            "the word '(Prohibition)' where the numbers would be. The gap is "
+            "not interpolated and no estimate is substituted for it.",
+            "Not falling, on purpose. The line is a discontinuity, not a "
+            "trend: the 1911-1915 level is not reached again until the 1970s, "
+            "and the modern peak (2.76 in 1981) sits above every year since.",
+            "The 1900s and 1910s cards carry five-year ranges rather than "
+            "single years, because that is how the table publishes the "
+            "pre-1934 record; the annual series therefore begins at 1934.",
+            "The denominator changes at 1970, from population aged 15 and "
+            "over to aged 14 and over. It is disclosed, not corrected for.",
+            "The table's own note records that data before 1977 are from "
+            "Hyman et al. 1980 — the early half of this official series is "
+            "republished scholarly work.",
+        ),
+    ),
+    Arc(
         "smoking-prevalence",
         "Adults who smoke",
         "% of adults (18+) who currently smoke",
@@ -620,6 +649,7 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
         arc_slugs=(
             "cigarette-consumption",
             "smoking-prevalence",
+            "ethanol-per-capita",
         ),
     ),
 )

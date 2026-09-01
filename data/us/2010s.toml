@@ -528,6 +528,19 @@ notes = "From CDC Adult Tobacco Consumption dataset (data.cdc.gov). Consumption 
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-2010s-ethanol-per-capita"
+quantity = 2.26
+panel = "table"
+label = "Alcohol consumed per person, 2010"
+value = "2.26 gallons of pure ethanol per person per year"
+unit = "gallons of pure ethanol per person per year"
+price_year = 2010
+source = "niaaa-surveillance-122"
+tier = "A"
+notes = "Beer's share kept falling while wine and spirits rose. The all-beverage total moved little across the decade."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2010s-smoking-prevalence"
 quantity = 19.3
 panel = "table"
