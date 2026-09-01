@@ -112,8 +112,16 @@ its comparative curation, not just its rooms.
 
 - `samples/` holds the organized primary-source archive (topic dirs +
   `MANIFEST.md`, cross-referenced to `sources.toml`). **Verify transcriptions
-  against these documents first** — bls.gov 403s non-browser clients from
-  this environment; Wayback `…/web/<yyyy>id_/<url>` fetches work.
+  against these documents first** — Wayback `…/web/<yyyy>id_/<url>` fetches
+  work when a host blocks.
+- **bls.gov 403s any client whose User-Agent carries no contact address** —
+  a browser UA is *not* enough; it is BLS's stated policy, not bot detection.
+  Two consequences. Sending a contact address is the owner's call, so ask.
+  And `scripts/link_check.py` sends a plain browser agent, so every bls.gov
+  source reports bot-blocked and its `expect` markers never fire in CI — a
+  check that cannot fail. Say so in the source's notes (see
+  `bls-cfoi-hours-based-rates`) rather than leaving it to look verified.
+  Never commit a contact address: this repo is public.
 - `samples/api.env` (KEY=VALUE): `BLS_API_KEY`, `CENSUS_API_KEY`,
   `IPUMS_API_KEY`. Load with `set -a; . samples/api.env; set +a`. The
   registered BLS key permits multi-decade series pulls in one request.
