@@ -1,5 +1,39 @@
 # Changelog
 
+## 2026-09-01 — Nobody counted: the workplace-death arc (Plan 027 WI-4b)
+
+The wing's fifth arc is four slots wide where the others are thirteen, and the
+shortness is the exhibit. **The United States kept no federal census of the
+people killed at work until 1992.** The Census of Fatal Occupational Injuries
+has covered all fifty states only since then, and BLS changed the rate's basis
+in 2006 from employment to hours worked, so the one continuous single-measure
+stretch the record supports runs 2006–2024. It moves between 3.3 and 4.2 with
+no trend the record can call a fall, and the arc is deliberately not marked
+falling — a flat line must not be dressed in the museum's decline colour.
+
+Plan 027 asked for this as a century-long arc, NSC estimates spliced to CFOI,
+with "~61 → ~3.5 per 100,000" named as a lead to verify. **That arc is not
+constructible from freely published primary sources.** The century-long figures
+in circulation come from the National Safety Council's *Injury Facts*, a
+commercial publication, not a government census. Rather than build a weak
+version to fill the slot, the absence is rendered: the 1990s room carries a gap
+card naming 1992 and the 2006 basis change, and the arc says plainly that for
+nine decades nobody counted.
+
+The workbooks' column layout changes three times across nineteen years, and the
+first draft read by fixed index — which silently returns *total hours worked*
+instead of the rate for 2017 (285,977) and 2018 (292,527.5). That surfaced only
+because the values were cross-checked against a second BLS document, the data
+labels on its own rate chart. The extractor now locates the column by header
+text, and all twelve overlapping years reproduce exactly.
+
+One honesty note is carried in the data itself: `www.bls.gov` returns 403 to
+any client without a contact address in its User-Agent, and this repo's link
+checker sends a plain browser agent. So this citation reports as bot-blocked in
+CI and its `expect` markers never fire there. A marker that never runs is not a
+check, so the source entry says so and a test asserts that it keeps saying so.
+The markers were verified locally against the served page.
+
 ## 2026-09-01 — Road deaths: a rate is not a count (Plan 027 WI-4a)
 
 The "different country" wing gains its fourth arc: motor-vehicle deaths per

@@ -1340,3 +1340,101 @@ not on effort:
 
 Recorded as FWI-006 rather than left implicit. The road arc stands on its own
 and required none of the above.
+
+---
+
+## Plan 027 WI-4b: Deaths at work per 100,000 workers (4 facts, 4 rooms + 1 series)
+
+**Date:** 2026-09-01
+**Verifier:** Claude Opus 5 session (mvmcc02)
+**Source checked:** BLS, Census of Fatal Occupational Injuries, hours-based
+fatal work injury rates — the nineteen per-year workbooks
+`fatal-occupational-injuries-hours-based-rates-YYYY.xlsx`, 2006–2024, Total
+row, "Fatal injury rate" column.
+**Archive copies:** `samples/44-road-workplace-deaths/hb-YYYY.xlsx` (19 files),
+`cfoi-charts-1992-2017.pdf`, `bls-cfoi-fw-survey-definition.txt`
+**Extraction:** `scripts/bls_cfoi_rates_extract.py` → `data/series/us-workplace-death-rate.toml`
+**Cards:** `scripts/bls_cfoi_cards.py`
+
+### What the plan wanted, and what the record actually holds
+
+Plan 027 WI-4 asked for occupational fatalities per 100,000 workers as a
+century-long arc, NSC estimates 1913–1992 spliced to CFOI 1992–present, with
+"~61 → ~3.5 per 100k" named as a lead to verify. **That arc is not
+constructible from freely published primary sources**, for two reasons the
+sources state themselves:
+
+- CFOI "has been active in all 50 States and the District of Columbia since
+  **1992**" (BLS's own survey definition, archived as
+  `bls-cfoi-fw-survey-definition.txt`). Before that there is no federal census
+  of people killed at work. The century-long figures in circulation come from
+  the National Safety Council's *Injury Facts*, a commercial publication.
+- BLS changed the rate's basis in **2006**, from employment to hours worked
+  ("In 2008, CFOI implemented a new methodology, using hours worked for fatal
+  work injury rate calculations rather than employment" —
+  `cfoi-charts-1992-2017.pdf`, p. 2). Pre-2006 rates measure something else.
+
+So the honest series is 2006–2024, nineteen values, moving between 3.3 and
+4.2. It is not a "different country" line. The exhibit that *is* honest is the
+absence: for nine decades the United States did not count this. The arc is
+four slots wide, the 1990s slot is a gap card explaining why, and the arc's
+first caveat says the shortness is the point.
+
+### Two column traps, one caught by the cross-check
+
+The workbooks' layout changes three times across nineteen years: 2006–2016 have
+no "Characteristic code" column; 2017–2018 add one **and** a fatality-count
+column; 2019+ drop the count again. Reading a fixed column index therefore
+returns *total hours worked* instead of the rate for two years:
+
+| year | rate, column located by header | value at the fixed 2019+ index |
+|---|---|---|
+| 2016 | 3.6 | 3.6 |
+| **2017** | **3.5** | **285,977** |
+| **2018** | **3.4807** | **292,527.5** |
+| 2019 | 3.5 | 3.5 |
+
+The first draft did read by index, and the mistake surfaced only because the
+values were cross-checked against a second BLS document. The extractor now
+locates the column by header text.
+
+### Cross-check: workbooks against BLS's own chart labels
+
+The 2006–2017 values were compared against the data labels on the "Rate of
+fatal work injuries per 100,000 full-time equivalent workers by employee
+status, 2006–17" chart in `cfoi-charts-1992-2017.pdf` (All Workers series) —
+a separately-produced BLS artifact:
+
+| | |
+|---|---|
+| years compared | 12 |
+| reproduce exactly | 12 |
+| differ | 0 |
+
+### Rounding
+
+2018's workbook publishes the unrounded figure (3.48069787484815) where every
+other year publishes one decimal place. It is rounded to 3.5, matching BLS's
+published value, and the extractor asserts that rounding is a no-op for every
+other year — so it cannot quietly alter a year that was already rounded.
+
+### A citation this repo's CI cannot verify
+
+`www.bls.gov` returns **403** to any client whose User-Agent carries no contact
+address; `scripts/link_check.py` sends a plain browser UA, so this source will
+report as *bot-blocked* in CI and its `expect` markers will never fire there.
+A marker that never runs is not a check. This is stated in the source's own
+notes and asserted by a test, so no later reader mistakes the entry for a
+CI-verified citation. The markers were verified locally on 2026-09-01 against
+the served page. Access for this session was made with the owner's explicit
+approval to send a contact address to BLS.
+
+### Standing gates
+
+`tests/test_workplace_deaths.py` (9 tests), each proven to fail by mutation:
+chaining a pre-2006 employment-based rate onto the series, turning the 1990s
+gap card into a number, marking the flat arc `falling=True` (which would render
+it in the museum's decline colour), and removing the source's admission that
+its link check is inert each redden a named test. The "no trend the record can
+call a fall" caveat is checked against the data rather than asserted: the test
+fails if the rate's span ever widens past 1.0.

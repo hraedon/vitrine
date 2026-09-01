@@ -586,6 +586,19 @@ notes = "Travel passed 2.7 trillion vehicle-miles a year while deaths stayed nea
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-2000s-workplace-death-rate"
+quantity = 4.2
+panel = "day"
+label = "Deaths at work per 100,000 workers, 2006"
+value = "4.2 fatal work injuries per 100,000 full-time-equivalent workers"
+unit = "fatal work injuries per 100,000 full-time-equivalent workers"
+price_year = 2006
+source = "bls-cfoi-hours-based-rates"
+tier = "A"
+notes = "The first year the federal government published this measure. Before 2006 the rate was computed against employment rather than hours worked, and before 1992 there was no federal census of workplace deaths at all — so 2006 is where the line can start, not where the risk began."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2000s-smoking-prevalence"
 quantity = 23.3
 panel = "table"

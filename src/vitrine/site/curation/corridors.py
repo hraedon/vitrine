@@ -464,6 +464,33 @@ ARCS: tuple[Arc, ...] = (
         ),
     ),
     Arc(
+        "workplace-death-rate",
+        "Deaths at work per 100,000 workers",
+        "fatal work injuries per 100,000 full-time-equivalent workers",
+        {
+            "1990s": "us-1990s-workplace-death-rate",
+            "2000s": "us-2000s-workplace-death-rate",
+            "2010s": "us-2010s-workplace-death-rate",
+            "2020s": "us-2020s-workplace-death-rate",
+        },
+        series_id="us-workplace-death-rate",
+        caveats=(
+            "This arc is four slots wide where the others are thirteen, and "
+            "the shortness is the exhibit. The federal census of workplace "
+            "deaths began in 1992; for the nine decades before it nobody "
+            "counted. The century-long figures usually quoted for this "
+            "measure come from a private safety council's estimates, not a "
+            "government census, and are not shown here.",
+            "Not falling. Between 2006 and 2024 the rate moves inside a band "
+            "of 3.3 to 4.2 with no trend the record can call a fall — which "
+            "is itself worth seeing beside the road line above it.",
+            "The 1992-2005 rates CFOI did publish were computed against "
+            "employment rather than hours worked. BLS replaced that basis in "
+            "2006, so those years measure something else and are not chained "
+            "on; the 1990s slot is a gap, not a zero.",
+        ),
+    ),
+    Arc(
         "ethanol-per-capita",
         "Alcohol consumed per person",
         "gallons of pure ethanol per person per year",
@@ -676,6 +703,7 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
             "smoking-prevalence",
             "ethanol-per-capita",
             "traffic-death-rate",
+            "workplace-death-rate",
         ),
     ),
 )

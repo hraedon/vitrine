@@ -608,6 +608,17 @@ notes = "The rate crosses below 2 deaths per 100 million vehicle-miles the follo
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1990s-workplace-death-rate"
+panel = "day"
+label = "Deaths at work per 100,000 workers, 1990s"
+value = "no reliable record — the federal census of workplace deaths began in 1992, and its rate basis changed in 2006"
+unit = "fatal work injuries per 100,000 full-time-equivalent workers"
+source = "bls-cfoi-hours-based-rates"
+tier = "A"
+notes = "The Census of Fatal Occupational Injuries has covered all fifty states and the District of Columbia only since 1992. For the nine decades before that the United States kept no federal count of the people killed at work; the century-long figures usually quoted come from a private safety council's estimates, not a government census. The rates CFOI itself published from 1992 to 2005 were computed against employment rather than hours worked, and BLS replaced that basis in 2006 — so they measure something else and are not shown on the same axis. This gap is not an archive limitation. It is the absence of the counting."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1990s-smoking-prevalence"
 quantity = 25.5
 panel = "table"
