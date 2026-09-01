@@ -3,7 +3,9 @@
 Assembles the four-wing atlas: arc/group charts, the economy wing's
 affordability exhibits and budget-composition bars, the pairwise epoch grid,
 and the overlay placard deck. Validates that every rendered arc is placed in
-exactly one wing (registry-consistency gate).
+exactly one wing (registry-consistency gate), and that the whole comparative
+layer only ever resolves rooms in a curated country
+(``validate_comparative_registries``).
 """
 
 from __future__ import annotations
@@ -161,6 +163,62 @@ def _build_wings(
             )
         )
     return tuple(wings)
+
+
+# ── the comparative-layer country gate (FWI-004) ─────────────────────────────
+
+# Every registry named here is keyed by decade alone and holds US fact ids.
+# A second country's "1950s" is a different room, so a decade-keyed lookup is
+# only well-defined inside one wing. The stage layer solved this by keying on
+# country (STAGE_BY_COUNTRY); the comparative surfaces below still hold their
+# side of it by discipline -- they are projected over CURATED_COUNTRIES in
+# build.py, so today every id here does resolve to a US room. Nothing reddened
+# if that stopped being true, which is what this gate is for: a second country
+# joining the story layer without its own comparative curation must be a red
+# build, not a room quietly borrowing another country's exhibit.
+def _decade_keyed_fact_ids() -> dict[str, list[str]]:
+    """Every (registry name → fact ids) pair the comparative layer resolves."""
+    registries: dict[str, list[str]] = {
+        "COMPOSITIONS": list(curation.COMPOSITIONS.values()),
+        "HOME_SIZE_FACTS": list(curation.HOME_SIZE_FACTS.values()),
+        "WALKTHROUGH_FLOOR_AREA": list(curation.WALKTHROUGH_FLOOR_AREA.values()),
+    }
+    for arc in curation.ARCS:
+        registries[f"ARCS[{arc.slug}]"] = list(arc.fact_ids.values())
+    for figure, by_decade in curation.WALKTHROUGH_PEOPLE.items():
+        registries[f"WALKTHROUGH_PEOPLE[{figure}]"] = [
+            fid for ids in by_decade.values() for fid in ids
+        ]
+    return registries
+
+
+def validate_comparative_registries(corpus: Corpus) -> None:
+    """Build-time gate: comparative registries resolve curated-country rooms.
+
+    An id naming no room at all is already a red build elsewhere (mark
+    coverage); this gate is specifically about *which country* the id belongs
+    to, so an unknown id is reported here rather than silently passing.
+    """
+    country_by_fact: dict[str, str] = {
+        fact.id: room.country for room in corpus.rooms for fact in room.facts
+    }
+    problems: list[str] = []
+    for name, fact_ids in sorted(_decade_keyed_fact_ids().items()):
+        for fact_id in fact_ids:
+            country = country_by_fact.get(fact_id)
+            if country is None:
+                problems.append(f"{name}: {fact_id!r} names no room's fact")
+            elif country not in curation.CURATED_COUNTRIES:
+                problems.append(
+                    f"{name}: {fact_id!r} belongs to the {country!r} wing, "
+                    "which has no comparative curation"
+                )
+    if problems:
+        raise ValueError(
+            "the comparative layer is decade-keyed single-country curation; "
+            "these registry entries reach outside CURATED_COUNTRIES "
+            f"({sorted(curation.CURATED_COUNTRIES)}): " + "; ".join(problems)
+        )
 
 
 def project_corridor(

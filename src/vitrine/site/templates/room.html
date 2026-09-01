@@ -47,7 +47,7 @@
 {% if not ps.facts and not ps.computed %}<p class="case-sub"><em>Not yet curated.</em></p>{% endif %}
 {% for fact in ps.facts %}{{ fact_row(fact, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
 {% for cf in ps.computed %}{{ derived_row(cf, page.assumptions, root) }}{% endfor %}
-{% if ps.panel.value == "work-buys" and ps.facts %}<p class="case-sub"><a href="{{ root }}affordability/index.html">See this metric across all decades →</a></p>{% endif %}
+{% if ps.panel.value == "work-buys" and ps.facts and page.comparative %}<p class="case-sub"><a href="{{ root }}affordability/index.html">See this metric across all decades →</a></p>{% endif %}
 </section>
 {% endfor %}
 {{ legend_block() }}

@@ -1,5 +1,41 @@
 # Changelog
 
+## 2026-09-01 — The comparative layer stops reaching outside its wing (FWI-004, FWI-005)
+
+Every room whose work-buys panel held any fact rendered "See this metric across
+all decades →", pointing at `affordability/index.html`. That page is projected
+over `CURATED_COUNTRIES`, which is US-only, so the link fired on all seven UK
+rooms and all seven JP rooms and landed the visitor on a page holding no fact
+of their country — zero `uk-` ids, zero `£`. It was pre-existing rather than
+introduced by the UK affordability work; that work only made it visible, by
+putting a real priced exhibit where three "no reliable record" cards had been.
+The link now renders only for a room whose country the comparative layer
+actually covers: **13 US rooms, zero UK, zero JP**.
+
+The underlying fault was larger than one link, and is the second half of this
+entry. Three surfaces compare rooms across decades — the corridor atlas, the
+pair matrix and the affordability arcs — and all three are keyed by decade
+alone while holding US fact ids. A second country's "1950s" is a different
+room, so the key is only well-defined inside one wing. The stage layer solved
+this in August by keying on country; the comparative registries still held
+their side of it by discipline, and nothing reddened if that stopped being
+true. Two mechanisms replace the discipline:
+
+- `validate_comparative_registries` runs at build time beside the essay
+  registry gate. It walks every decade-keyed fact-id registry — `COMPOSITIONS`,
+  `HOME_SIZE_FACTS`, `WALKTHROUGH_FLOOR_AREA`, `WALKTHROUGH_PEOPLE` and every
+  arc's `fact_ids` — and reddens the build if any entry resolves to a room
+  outside `CURATED_COUNTRIES`, or to no room at all.
+- `afford_fact_ids` skips non-curated rooms and raises on a decade collision
+  inside the curated set rather than taking the dict's last-wins overwrite,
+  which would have put one country's price on another country's hours axis.
+
+Neither mechanism changes a single rendered value today: the guard passes over
+the committed corpus unchanged, because the invariant does currently hold. They
+exist so that the next country to join the story layer without its own
+comparative curation is a red build rather than a borrowed exhibit. Each is
+covered by a test proven to fail when its fix is reverted.
+
 ## 2026-09-01 — The UK affordability axis (FWI-001)
 
 The seven UK rooms rendered facts but could not answer the museum's central

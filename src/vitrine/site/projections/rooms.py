@@ -198,6 +198,7 @@ def project_room(
         computed = evaluate_room(room, series, fact_index)
     affordability = affordability_for_room(corpus, room)
     stage = build_stage(room, index, "../")
+    comparative = room.country in curation.CURATED_COUNTRIES
     return RoomPage(
         room=room,
         rooms=tuple(rooms),
@@ -213,8 +214,7 @@ def project_room(
         assumptions=corpus.assumptions,
         affordability=affordability,
         gap_banner=(
-            curation.ROOM_GAP_BANNERS.get(room.decade, "")
-            if room.country in curation.CURATED_COUNTRIES
-            else ""
+            curation.ROOM_GAP_BANNERS.get(room.decade, "") if comparative else ""
         ),
+        comparative=comparative,
     )

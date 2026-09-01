@@ -24,17 +24,36 @@ from vitrine.site.projections.metrics import metric_markers, resolve_metric
 
 
 def afford_fact_ids(corpus: Corpus, pattern: str) -> dict[str, str]:
-    """Every decade whose room holds the priced fact — structured or not.
+    """Every curated-country decade whose room holds the priced fact.
 
     Unstructured facts can't compute an hours axis; they render as gap slots,
     which is the record's actual shape (Plan 003 structured only the rooms
     with verified anchors).
+
+    The result is keyed by decade alone, so it is only well-defined over a
+    single-country wing: two curated countries both holding a "1950s" room
+    would silently collapse onto one entry and put one country's price on the
+    other's arc — the borrowed-exhibit failure the museum exists to prevent.
+    Non-curated rooms are excluded (the comparative surfaces are projected
+    over ``CURATED_COUNTRIES``) and a genuine collision inside the curated set
+    is a red build, not a last-wins overwrite (FWI-004).
     """
-    ids = {}
+    ids: dict[str, str] = {}
+    seen: dict[str, str] = {}
     for room in corpus.rooms:
+        if room.country not in curation.CURATED_COUNTRIES:
+            continue
         fid = pattern.format(decade=room.decade)
-        if any(f.id == fid for f in room.facts):
-            ids[room.decade] = fid
+        if not any(f.id == fid for f in room.facts):
+            continue
+        if room.decade in ids:
+            raise ValueError(
+                f"affordability arc {pattern!r}: two curated rooms share decade "
+                f"{room.decade!r} ({seen[room.decade]}, {room.slug}) — the "
+                "hours axis is decade-keyed single-country curation"
+            )
+        ids[room.decade] = fid
+        seen[room.decade] = room.slug
     return ids
 
 

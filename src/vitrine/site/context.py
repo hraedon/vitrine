@@ -329,6 +329,12 @@ class RoomPage:
     assumptions: Mapping[str, Assumption]
     affordability: Mapping[str, Mapping[str, str]]
     gap_banner: str
+    # Does the comparative layer (the affordability dashboard, the corridors,
+    # the pair matrix) cover this room's country? Those surfaces are projected
+    # over CURATED_COUNTRIES, so a room outside that set must not offer to
+    # cross-reference itself against them -- it would land on a page holding
+    # no fact of its own (FWI-005).
+    comparative: bool
 
 
 @dataclass(frozen=True, slots=True)

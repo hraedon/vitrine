@@ -9,7 +9,10 @@ projection writes files; that is the build orchestrator's sole job.
 from __future__ import annotations
 
 from vitrine.site.projections.affordability import project_affordability_dashboard
-from vitrine.site.projections.corridors import project_corridor
+from vitrine.site.projections.corridors import (
+    project_corridor,
+    validate_comparative_registries,
+)
 from vitrine.site.projections.data import project_data
 from vitrine.site.projections.pairs import project_pair
 from vitrine.site.projections.references import project_bibliography, project_methodology
@@ -26,4 +29,5 @@ __all__ = [
     "project_pair",
     "project_room",
     "project_walkthrough",
+    "validate_comparative_registries",
 ]

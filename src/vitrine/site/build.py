@@ -47,6 +47,7 @@ from vitrine.site.projections import (
     project_methodology,
     project_pair,
     project_walkthrough,
+    validate_comparative_registries,
 )
 from vitrine.site.projections.affordability import (
     affordability_for_room,
@@ -251,6 +252,10 @@ def _build_site_contents(
         source_dir=data_dir,
         lock_root=publication_root if publication_root is not None else out_dir,
     )
+
+    # the comparative layer is decade-keyed US curation; it must never resolve
+    # a room outside the curated set (FWI-004)
+    validate_comparative_registries(corpus)
 
     # docent tours: chart slugs resolve or nothing renders (registry gate)
     validate_essay_registries(corpus)
