@@ -11,6 +11,7 @@
 [room]
 country = "uk"
 decade = "1970s"
+income_anchor = "uk-1970s-household-income"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -31,14 +32,20 @@ notes = "From the ONS long-run earnings series. 1970 (April sample, NES methodol
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
-id = "uk-1970s-household-income-gap"
+id = "uk-1970s-household-income"
+basis = "annual"
+amount_minor = 411600
+currency = "GBP"
+price_year = 1977
+quantity = 4116
 panel = "budget"
-label = "Median household income, 1970s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "No median household-income series is in the archive for the 1970s. The Family Expenditure Survey (FES) collected household income from 1957, and the official low-income / Households Below Average Income series begins 1979, but neither is transcribed here yet. The weekly-earnings figure above is the available wage anchor, not a household-income median."
+label = "Disposable income of a two-adult, two-child household, 1977"
+value = "£4,116"
+unit = "GBP per year, nominal (mean disposable income per household)"
+source = "ons-etb-household-type"
+tier = "A"
+notes = "From the ONS effects-of-taxes-and-benefits historical dataset, 1977 — the first year of the series, and the earliest UK household-income figure in the archive. Non-retired households of two adults with two children: original income £5,073; plus £257 of cash benefits, gross income £5,330; less £1,214 of direct tax and employees' National Insurance, disposable income £4,116. A mean across such households, not a median. It is the income anchor for this room; nothing is yet priced against it, because no official UK house-price series in the archive reaches back before 1986."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values", "uk-household-not-family"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -105,14 +112,28 @@ assumptions = ["composite-family"]
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
-id = "uk-1970s-work-hours-gap"
+id = "uk-1970s-paid-hours"
+quantity = 42.7
 panel = "day"
-label = "Weekly work hours, 1970s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "Continuous hours-worked data begins with the Labour Force Survey (LFS) from 1973; the 1970s LFS hours series is not in the archive. The UK had no statutory maximum working hours until the 1998 Working Time Regulations (implementing an EU directive); before then, hours were set by collective bargaining. Without hours, the weekly-earnings figure cannot be converted to an hourly wage, so no affordability anchor is set for this room."
+label = "Average weekly hours worked, full-time men aged 21 and over, April 1976"
+value = "42.7 hours"
+unit = "average weekly hours worked, all industries (excluding those whose pay was affected by absence)"
+source = "dep-labour-year-book-1976"
+tier = "A"
+notes = "From the New Earnings Survey results republished in the Year Book, all industries, April 1976. Manual men worked 45.3 hours and non-manual men 39.1 — the same manual basis the 1960s room reports, so the two decades can be read against each other without splicing populations. Full-time women averaged 37.3 hours. The Bank of England's independent compilation gives 41.1 hours for full-time adults of both sexes in 1976, which is what these men's and women's figures weight to."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "uk-1970s-hourly-earnings"
+quantity = 166.6
+panel = "day"
+label = "Average hourly earnings, full-time men aged 21 and over, April 1976"
+value = "166.6p an hour, excluding overtime"
+unit = "pence per hour, nominal (all industries; excluding overtime pay and overtime hours)"
+source = "dep-labour-year-book-1976"
+tier = "A"
+notes = "From the same Year Book table, all industries, April 1976: 166.6p an hour excluding overtime pay and hours, 166.8p including them. Manual men earned 141.0p and 143.7p on the same two bases — the gap between them is the overtime premium, which non-manual men barely drew. This is not set as the room's wage anchor: a tenth of a penny cannot be held in whole pence, and rounding it to £1.67 would put a number on the page that no source printed."
+assumptions = ["nominal-values"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -134,6 +155,6 @@ panel = "work-buys"
 label = "Affordability comparisons, 1970s"
 value = "no reliable record accessible online"
 unit = "n/a"
-source = "ons-earnings-1938-2025"
+source = "ons-hpi-annual-tables"
 tier = "D"
-notes = "Without an hourly wage (no hours data) or item prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 1970s. The weekly-earnings figure (£30.00 male full-time) is the available wage reference."
+notes = "Two of the three ingredients are now in hand: an hourly wage (166.6p, April 1976) and a household income (£4,116, 1977). What is missing is a price to divide. The official ONS house-price series begins in 1986; the only UK series reaching the 1970s is the Nationwide lender index, which is not an official statistic and is not transcribed here. The hours axis is also blocked on the wage itself, which cannot be held in whole pence — see the hourly-earnings fact."

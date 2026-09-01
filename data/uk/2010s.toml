@@ -1,13 +1,16 @@
 # UK, the 2010s. Three verified sources, early-decade snapshots: ONS weekly
 # earnings (2010), ONS England & Wales tenure (2011), GHS durable-goods diffusion
-# (2011 — the final GHS year before the survey was discontinued in 2012). No
-# affordability anchors (weekly, not hourly, earnings only; no household-income
-# series in the archive).
+# (2011 — the final GHS year before the survey was discontinued in 2012). The
+# affordability axis is anchored at 2010: the wage, the hours, the household
+# income and the house price are all taken from that one year so the ratios
+# divide like with like.
 # Data year anchors: 2010 (earnings), 2011 (tenure, diffusion).
 
 [room]
 country = "uk"
 decade = "2010s"
+wage_anchor = "uk-2010s-hourly-pay"
+income_anchor = "uk-2010s-household-income"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -28,14 +31,36 @@ notes = "From the ONS long-run earnings series. 2010 (April sample, ASHE): adult
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
-id = "uk-2010s-household-income-gap"
+id = "uk-2010s-household-income"
+basis = "annual"
+amount_minor = 4612900
+currency = "GBP"
+price_year = 2010
+quantity = 46129
 panel = "budget"
-label = "Median household income, 2010s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "No median household-income series is transcribed for the 2010s. The HBAI series (DWP, from 1979/80) is the relevant source but is not in the archive. The weekly-earnings figure above is the available wage anchor, not a household-income median."
+label = "Disposable income of a two-adult, two-child household, 2010/11"
+value = "£46,129"
+unit = "GBP per year, nominal (mean disposable income per household)"
+source = "ons-etb-household-type"
+tier = "A"
+notes = "From the ONS effects-of-taxes-and-benefits historical dataset, financial year 2010/11, non-retired households of two adults with two children. Original income £55,409; plus £4,863 of cash benefits, gross income £60,272; less £14,144 of direct tax and employees' National Insurance, disposable income £46,129. A mean across such households, not a median, and income after tax rather than the gross money income the US rooms anchor on. It is the income anchor for this room."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values", "uk-household-not-family"]
+
+[[fact]]
+id = "uk-2010s-hourly-pay"
+basis = "hourly"
+amount_minor = 1114
+currency = "GBP"
+price_year = 2010
+quantity = 11.14
+panel = "budget"
+label = "Median gross hourly pay, all employee jobs, April 2010"
+value = "£11.14"
+unit = "GBP per hour, nominal (median gross hourly pay, all employee jobs)"
+source = "ons-ashe-table1"
+tier = "A"
+notes = "From ASHE Table 1.5a, all-employee sheet, 2010. Median £11.14 across 24,263 thousand employee jobs; the mean was £14.60, and the full-time median £12.57. The all-jobs median is the wage anchor because it describes the hour of work actually on offer; the full-time figure sits above it. April pay, employees on adult rates whose pay was not affected by absence."
+assumptions = ["nominal-values", "uk-wage-anchor-all-employees", "affordability-normalization"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -114,14 +139,16 @@ assumptions = ["composite-family"]
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
-id = "uk-2010s-work-hours-gap"
+id = "uk-2010s-paid-hours"
+quantity = 37
 panel = "day"
-label = "Weekly work hours, 2010s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "The LFS / ASHE hours-worked series runs through the 2010s but is not in the archive. The decade saw persistent post-2008 underemployment and a rise in atypical (zero-hours, part-time, self-employed) work that complicates any single 'weekly hours' figure. Without hours, weekly earnings cannot be converted to an hourly wage, so no affordability anchor is set."
+label = "Paid hours worked in a week, all employee jobs, April 2010"
+value = "37.0 hours (median)"
+unit = "total paid hours per week, all employee jobs (median)"
+source = "ons-ashe-table1"
+tier = "A"
+notes = "From ASHE Table 1.9a, all-employee sheet, 2010. The median employee job was paid for 37.0 hours — unmoved from 1997 and 2000 — while the mean fell to 33.4, the part-time share having grown. Full-time jobs alone: median 37.5, mean 39.2. Total paid hours includes paid overtime."
+assumptions = ["composite-family"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -138,11 +165,17 @@ notes = "Defra's Family Food module (LCFS) covers the 2010s, but that data is no
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]
-id = "uk-2010s-work-buys-gap"
+id = "uk-2010s-house-price"
+basis = "total"
+amount_minor = 25117400
+currency = "GBP"
+price_year = 2010
+quantity = 251174
 panel = "work-buys"
-label = "Affordability comparisons, 2010s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "Without an hourly wage (no hours data) or item prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 2010s. The weekly-earnings figure (£657.00 male full-time, 2010) is the available wage reference."
+label = "Simple average house price, United Kingdom, 2010"
+value = "£251,174"
+unit = "GBP, nominal (simple average price of a mortgaged dwelling)"
+source = "ons-hpi-annual-tables"
+tier = "A"
+notes = "From ONS house price annual tables, Table 31 (unadjusted), 2010. The same figure appears in Table 28's all-dwellings column, where the average recorded income of the borrowers was £57,973 — more than double the borrower income of 1997 against a price more than three times as high. Cash purchases are not in this survey, so the average is of dwellings bought with a mortgage."
+assumptions = ["nominal-values", "affordability-normalization"]

@@ -1,12 +1,16 @@
-# UK, the 1990s. Three verified sources, early-decade snapshots: ONS weekly
+# UK, the 1990s. Early-decade snapshots for the descriptive panels: ONS weekly
 # earnings (1990), ONS England & Wales tenure (1991), GHS durable-goods diffusion
-# (1990). No affordability anchors (weekly, not hourly, earnings only; no
-# household-income series in the archive).
-# Data year anchors: 1990 (earnings, diffusion), 1991 (tenure).
+# (1990). The affordability axis is anchored later in the decade, at 1997, because
+# that is the first year with an hourly wage: ASHE begins in 1997, and the wage,
+# the hours, the household income and the house price are all taken from that one
+# year so the ratios divide like with like.
+# Data year anchors: 1990 (earnings, diffusion), 1991 (tenure), 1997 (affordability).
 
 [room]
 country = "uk"
 decade = "1990s"
+wage_anchor = "uk-1990s-hourly-pay"
+income_anchor = "uk-1990s-household-income"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -27,14 +31,36 @@ notes = "From the ONS long-run earnings series. 1990 (April sample, NES): adult 
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
-id = "uk-1990s-household-income-gap"
+id = "uk-1990s-household-income"
+basis = "annual"
+amount_minor = 2493400
+currency = "GBP"
+price_year = 1997
+quantity = 24934
 panel = "budget"
-label = "Median household income, 1990s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "No median household-income series is transcribed for the 1990s. The HBAI series (from 1979/80, DWP) is the relevant source but is not in the archive. The weekly-earnings figure above is the available wage anchor, not a household-income median."
+label = "Disposable income of a two-adult, two-child household, 1997/98"
+value = "£24,934"
+unit = "GBP per year, nominal (mean disposable income per household)"
+source = "ons-etb-household-type"
+tier = "A"
+notes = "From the ONS effects-of-taxes-and-benefits historical dataset, financial year 1997/98, non-retired households of two adults with two children. Original income £30,047; plus £2,018 of cash benefits, gross income £32,064; less £7,130 of direct tax and employees' National Insurance, disposable income £24,934. This is a mean across such households, not a median, and it is income after tax — the US rooms' anchor is gross money income, which is why the two are not chained. It is the income anchor for this room."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values", "uk-household-not-family"]
+
+[[fact]]
+id = "uk-1990s-hourly-pay"
+basis = "hourly"
+amount_minor = 707
+currency = "GBP"
+price_year = 1997
+quantity = 7.07
+panel = "budget"
+label = "Median gross hourly pay, all employee jobs, April 1997"
+value = "£7.07"
+unit = "GBP per hour, nominal (median gross hourly pay, all employee jobs)"
+source = "ons-ashe-table1"
+tier = "A"
+notes = "From ASHE Table 1.5a, all-employee sheet, 1997 — the first year of the survey. Median £7.07 across 20,858 thousand employee jobs; the mean was £8.90, and the full-time median £7.92. The all-jobs median is used as the wage anchor because it describes the hour of work actually on offer; the full-time figure sits about 12% above it. Great Britain-consistent back-series; the survey samples April pay for employees on adult rates whose pay was not affected by absence."
+assumptions = ["nominal-values", "uk-wage-anchor-all-employees", "affordability-normalization"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -113,14 +139,16 @@ assumptions = ["composite-family"]
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
-id = "uk-1990s-work-hours-gap"
+id = "uk-1990s-paid-hours"
+quantity = 37
 panel = "day"
-label = "Weekly work hours, 1990s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "The LFS hours-worked series runs through the 1990s but is not in the archive. Without hours, weekly earnings cannot be converted to an hourly wage, so no affordability anchor is set."
+label = "Paid hours worked in a week, all employee jobs, April 1997"
+value = "37.0 hours (median)"
+unit = "total paid hours per week, all employee jobs (median)"
+source = "ons-ashe-table1"
+tier = "A"
+notes = "From ASHE Table 1.9a, all-employee sheet, 1997. The median employee job was paid for 37.0 hours; the mean was 35.1, pulled below the median by part-time jobs. Full-time jobs alone: median 37.9, mean 40.0. Total paid hours includes paid overtime."
+assumptions = ["composite-family"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -137,11 +165,17 @@ notes = "The National Food Survey (NFS) ran continuously 1940–2000; the 1990s 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]
-id = "uk-1990s-work-buys-gap"
+id = "uk-1990s-house-price"
+basis = "total"
+amount_minor = 7610300
+currency = "GBP"
+price_year = 1997
+quantity = 76103
 panel = "work-buys"
-label = "Affordability comparisons, 1990s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "Without an hourly wage (no hours data) or item prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 1990s. The weekly-earnings figure (£295.60 male full-time, 1990) is the available wage reference."
+label = "Simple average house price, United Kingdom, 1997"
+value = "£76,103"
+unit = "GBP, nominal (simple average price of a mortgaged dwelling)"
+source = "ons-hpi-annual-tables"
+tier = "A"
+notes = "From ONS house price annual tables, Table 31 (unadjusted), 1997. The same figure appears in Table 28's all-dwellings column, where the average recorded income of the borrowers that year was £26,086 — a mortgage-market population, not the whole country, and higher than the household anchor above. Cash purchases are not in this survey, so the average is of dwellings bought with a mortgage."
+assumptions = ["nominal-values", "affordability-normalization"]

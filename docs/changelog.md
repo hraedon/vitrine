@@ -1,5 +1,45 @@
 # Changelog
 
+## 2026-09-01 — The UK affordability axis (FWI-001)
+
+The seven UK rooms rendered facts but could not answer the museum's central
+question — what a thing cost in hours of work — because no UK room carried a
+wage or income anchor. Five now do, and three compute both axes end to end:
+the average UK house took **10,764 hours of work in 1997, 12,806 in 2000 and
+22,547 in 2010**, or 305%, 337% and 545% of a two-adult-two-child household's
+annual disposable income. Every input is Tier A and every ratio is computed by
+`affordability.py` at build time from structured amounts.
+
+Thirteen rendered gaps closed (35 → 22 across the wing), all with official
+sources: ASHE median gross hourly pay and total paid hours (1997, 2000, 2010);
+ONS effects-of-taxes-and-benefits disposable income for non-retired two-adult,
+two-child households (1977, 1980, 1997/98, 2000/01, 2010/11); ONS simple
+average house prices (1997, 2000, 2010); and weekly hours from the Department
+of Employment's Year Books for the 1960s (47.5, April 1965) and 1970s (42.7,
+April 1976, with the 166.6p hourly earnings beside it).
+
+Two new `Measure` variants keep the UK denominators from being chained to the
+US ones: `disposable_household_income` (post-tax, per household) is not
+`money_income` (gross, per family), and `median_hourly_pay` is not
+`hourly_earnings` (a mean of a narrower population). The comparator refuses
+the chain mechanically rather than by convention.
+
+Three rooms are honestly still blank and say why in their own notes: the 1970s
+hourly wage is 166.6p and cannot be an anchor while GBP is held in whole pence;
+the 1980s has no hours in the record between the last Year Book (1976) and
+ASHE (1997); the 1950s has none of the three ingredients. One standing claim
+was **retracted**: the 1950s and 1960s rooms asserted that "no continuous
+hours-worked survey exists before the Labour Force Survey (1973)", which the
+Year Books disprove.
+
+Three extraction scripts land with the data — `uk_ashe_extract.py`,
+`uk_etb_extract.py`, `uk_house_price_extract.py` — each locating its column by
+composed header rather than by index, because in all three workbooks the
+column moves. The house-price cross-check caught itself reading the wrong
+column, and the ETB direct-tax rows do not reconcile to gross − disposable
+(each row is independently rounded), so every row is transcribed. Full evidence
+in `docs/verification-log.md`, section FWI-001.
+
 ## 2026-08-29 — Adversarial-review corrections (Plan 027 Phase A + Plan 024 docs)
 
 A cross-lineage adversarial review re-verified every landed number against

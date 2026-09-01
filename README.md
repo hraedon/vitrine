@@ -90,7 +90,7 @@ not cryptographic.
 
 <!-- The marked line is machine-checked by tests/test_docs_sync.py;
      regenerate with `python scripts/sync_readme_status.py` after curating. -->
-Corpus: <!-- corpus-status:begin -->27 decade rooms (1900s–2020s), 655 facts, 8 derived facts, 6 Tier D estimates, 73 rendered gaps<!-- corpus-status:end --> (the US wing is complete,
+Corpus: <!-- corpus-status:begin -->27 decade rooms (1900s–2020s), 659 facts, 8 derived facts, 6 Tier D estimates, 60 rendered gaps<!-- corpus-status:end --> (the US wing is complete,
 1900s–2020s; the v2 world rooms below extend it). The Tier D estimates are
 disclosed scholarly reconstructions kept honest by the tier rule
 `vitrine gaps` prints the mechanical inventory). The rendered gaps are of

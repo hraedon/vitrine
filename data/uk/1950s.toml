@@ -35,7 +35,7 @@ value = "no reliable record accessible online"
 unit = "n/a"
 source = "ons-earnings-1938-2025"
 tier = "D"
-notes = "No median household-income series is transcribed for the 1950s. The Family Expenditure Survey (FES) began collecting household income in 1957 but is not in the archive. The manual-earnings figure above is the available wage anchor, not a household-income median."
+notes = "No household-income series in the archive reaches the 1950s. The ONS effects-of-taxes-and-benefits series, which supplies the income anchor from the 1970s room onward, begins in 1977; the Family Expenditure Survey began collecting household income in 1957 but is not in the archive. The manual-earnings figure above is an individual wage, not a household-income median."
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -83,7 +83,7 @@ value = "no reliable record accessible online"
 unit = "n/a"
 source = "ons-earnings-1938-2025"
 tier = "D"
-notes = "No continuous hours-worked survey exists before the Labour Force Survey (1973). The 1950s saw the consolidation of the postwar settlement on shorter hours and paid holidays through collective bargaining. Without hours, weekly earnings cannot be converted to an hourly wage, so no affordability anchor is set."
+notes = "The Department of Employment's twice-yearly earnings enquiry did record hours, but the Year Book volumes in the archive reach back only to 1965, and the 1950s figures are not in them. The decade saw the consolidation of the postwar settlement on shorter hours and paid holidays through collective bargaining. Without hours, weekly earnings cannot be converted to an hourly wage, so no wage anchor is set."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -107,4 +107,4 @@ value = "no reliable record accessible online"
 unit = "n/a"
 source = "ons-earnings-1938-2025"
 tier = "D"
-notes = "Without an hourly wage (no hours data) or item prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 1950s. The weekly manual-earnings figure (£10.87 male manual, 1955) is the available wage reference."
+notes = "None of the three ingredients reaches this decade: no hours (the Year Books in the archive begin in 1965), no household income (the ONS series begins in 1977), and no official house price (the ONS series begins in 1986). The weekly manual-earnings figure (£10.87 male manual, 1955) is the available wage reference. This is the one UK room where the affordability axis is empty for want of every input rather than one."

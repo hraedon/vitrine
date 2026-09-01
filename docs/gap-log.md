@@ -30,6 +30,21 @@ here. Hence `vitrine gaps`.
   estimates (Tier D) — never by an official median.
 - **1990s Ramey home production.** Ramey excluded the 1992-94 survey; no
   benchmark exists for the decade.
+- **UK affordability before the 1990s** (FWI-001, 2026-09-01). The UK axis is
+  built from three ingredients, and each has a hard start date in the record:
+  household income begins with the ONS taxes-and-benefits series in **1977**;
+  official house prices begin in **1986** (Table 28) / **1991** (Table 31); and
+  an hourly wage in whole pence begins with **ASHE in 1997**. Hours are the
+  exception, reaching back to 1965 in the Department of Employment's Year Books.
+  So: the 1990s–2010s rooms compute both axes; the 1970s and 1980s carry an
+  income anchor with nothing yet priced against it; the 1960s has hours only;
+  and the 1950s has none of the three. These are boundaries in what the UK
+  published, not a transcription backlog — with two exceptions worth naming as
+  backlog rather than structure: (a) the 1970s hourly wage *exists* (166.6p,
+  April 1976) but cannot be an anchor while the money layer holds whole pence
+  only; (b) a pre-1986 UK house price exists in the Nationwide lender index,
+  which would let the 1970s and 1980s rooms compute a share-of-income axis at
+  the cost of citing a non-official series. Both are decisions, not absences.
 
 ## Upgrade paths for standing Tier D estimates
 

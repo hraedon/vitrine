@@ -7,6 +7,7 @@
 [room]
 country = "uk"
 decade = "1980s"
+income_anchor = "uk-1980s-household-income"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -27,14 +28,20 @@ notes = "From the ONS long-run earnings series. 1980 (April sample, NES): adult 
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
-id = "uk-1980s-household-income-gap"
+id = "uk-1980s-household-income"
+basis = "annual"
+amount_minor = 688800
+currency = "GBP"
+price_year = 1980
+quantity = 6888
 panel = "budget"
-label = "Median household income, 1980s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "No median household-income series is transcribed for the 1980s. The official Households Below Average Income (HBAI) series begins 1979 (DWP predecessor), but is not in the archive. The weekly-earnings figure above is the available wage anchor, not a household-income median."
+label = "Disposable income of a two-adult, two-child household, 1980"
+value = "£6,888"
+unit = "GBP per year, nominal (mean disposable income per household)"
+source = "ons-etb-household-type"
+tier = "A"
+notes = "From the ONS effects-of-taxes-and-benefits historical dataset, 1980. Non-retired households of two adults with two children: original income £8,218; plus £569 of cash benefits, gross income £8,787; less £1,899 of direct tax and employees' National Insurance, disposable income £6,888. A mean across such households, not a median. It is the income anchor for this room; nothing is yet priced against it, because the official UK house-price series in the archive begins in 1986."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values", "uk-household-not-family"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -108,7 +115,7 @@ value = "no reliable record accessible online"
 unit = "n/a"
 source = "ons-earnings-1938-2025"
 tier = "D"
-notes = "The LFS hours-worked series runs through the 1980s but is not in the archive. No statutory maximum hours until the 1998 Working Time Regulations; collective bargaining set hours. Without hours, weekly earnings cannot be converted to an hourly wage, so no affordability anchor is set."
+notes = "The 1980s fall in a gap between two sources that do carry UK hours. The British Labour Statistics Year Books, which republished the New Earnings Survey's hours tables, end with the 1976 volume; ASHE's hours tables begin in 1997. The LFS ran through the decade but its per-worker averages start only in 1992. Without hours, weekly earnings cannot be converted to an hourly wage, so no wage anchor is set for this room — the income anchor is."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -130,6 +137,6 @@ panel = "work-buys"
 label = "Affordability comparisons, 1980s"
 value = "no reliable record accessible online"
 unit = "n/a"
-source = "ons-earnings-1938-2025"
+source = "ons-hpi-annual-tables"
 tier = "D"
-notes = "Without an hourly wage (no hours data) or item prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 1980s. The weekly-earnings figure (£124.50 male full-time, 1980) is the available wage reference."
+notes = "A household income is now in hand (£6,888, 1980) but nothing to divide by it: the official ONS house-price series begins in 1986, and the only UK series reaching 1980 is the Nationwide lender index, which is not an official statistic and is not transcribed here. No hourly wage exists for the decade either, so the hours axis is doubly blocked."

@@ -426,3 +426,73 @@ def test_quantity_must_be_numeric(tmp_path: Path) -> None:
     )
     with pytest.raises(LoadError, match="must be a number"):
         load_corpus(data)
+
+
+def test_uk_rooms_declare_resolvable_anchors() -> None:
+    """Every UK room that declares an anchor resolves it to a usable fact.
+
+    ``check_corpus`` already fails a dangling or wrong-basis anchor. What this
+    adds is the population count: the rooms that are *supposed* to carry an
+    anchor still do. A silent regression that dropped ``income_anchor`` from a
+    room would leave the gate green — the room would simply stop computing
+    affordability, which reads exactly like a room that never had it.
+    """
+    corpus = load_corpus(DATA)
+    uk = {r.decade: r for r in corpus.rooms if r.country == "uk"}
+    assert set(uk) == {"1950s", "1960s", "1970s", "1980s", "1990s", "2000s", "2010s"}
+
+    with_income = {d for d, r in uk.items() if r.income_anchor}
+    with_wage = {d for d, r in uk.items() if r.wage_anchor}
+    assert with_income == {"1970s", "1980s", "1990s", "2000s", "2010s"}
+    assert with_wage == {"1990s", "2000s", "2010s"}
+
+
+def test_uk_affordability_axis_computes_where_anchored() -> None:
+    """The three fully anchored UK rooms produce both axes, at tier A.
+
+    This is the deliverable of the UK affordability work: a priced fact, a wage
+    anchor and an income anchor in the same room and the same year, so that the
+    house price divides into hours of work and into a share of income.
+    """
+    from vitrine.site.projections.affordability import affordability_for_room
+
+    corpus = load_corpus(DATA)
+    for decade in ("1990s", "2000s", "2010s"):
+        room = next(
+            r for r in corpus.rooms if r.country == "uk" and r.decade == decade
+        )
+        display = affordability_for_room(corpus, room)
+        priced = f"uk-{decade}-house-price"
+        assert priced in display, f"{decade}: house price computes no affordability"
+        assert "hours of work" in display[priced]["hours"]
+        assert "% of annual income" in display[priced]["pct"]
+        assert display[priced]["tier"] == "A"
+
+
+def test_uk_hours_to_afford_a_house_rose_across_the_anchored_decades() -> None:
+    """1997 → 2010: the same dwelling costs strictly more hours each decade.
+
+    A guard on the arithmetic rather than the prose. If an anchor were swapped
+    for the wrong population — the full-time median instead of the all-jobs one,
+    say — the ratios would still render, and only their direction and spacing
+    would betray it.
+    """
+    from vitrine.affordability import afford
+
+    corpus = load_corpus(DATA)
+    hours = {}
+    for decade in ("1990s", "2000s", "2010s"):
+        room = next(
+            r for r in corpus.rooms if r.country == "uk" and r.decade == decade
+        )
+        by_id = {f.id: f for f in room.facts}
+        result = afford(
+            by_id[f"uk-{decade}-house-price"],
+            wage=by_id[room.wage_anchor],
+            income=by_id[room.income_anchor],
+        )
+        assert result.hours_to_afford is not None
+        hours[decade] = result.hours_to_afford
+
+    assert hours["1990s"] < hours["2000s"] < hours["2010s"]
+    assert hours["2010s"] > 2 * hours["1990s"]

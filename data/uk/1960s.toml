@@ -1,9 +1,10 @@
 # UK, the 1960s. Pre-1970, only MANUAL-worker earnings exist in the ONS series,
 # so the wage anchor is adult male manual workers. TV diffusion is taken from
 # receiving-licence counts (near-universal by mid-decade); colour from 1968.
-# No affordability anchors (weekly manual earnings only; no household-income
-# series in archive).
-# Data year anchors: 1961 (tenure), 1965 (earnings, TV licences).
+# No affordability anchors: the household-income series begins only in 1977, and
+# the decade's hourly earnings are printed in shillings and pence, which the money
+# layer cannot hold. Hours, which the same table prints in decimals, are recorded.
+# Data year anchors: 1961 (tenure), 1965 (earnings, hours, TV licences).
 
 [room]
 country = "uk"
@@ -76,14 +77,16 @@ notes = "From BBC / TV Licensing receiving-licence counts. Television reached ne
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
-id = "uk-1960s-work-hours-gap"
+id = "uk-1960s-work-hours"
+quantity = 47.5
 panel = "day"
-label = "Weekly work hours, 1960s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "No continuous hours-worked survey exists before the Labour Force Survey (1973). Without hours, weekly earnings cannot be converted to an hourly wage, so no affordability anchor is set."
+label = "Average weekly hours worked, full-time manual men aged 21 and over, April 1965"
+value = "47.5 hours"
+unit = "average weekly hours worked, all industries covered (men aged 21 and over, manual, full-time)"
+source = "dep-labour-year-book-1969"
+tier = "A"
+notes = "From the Department of Employment's twice-yearly earnings enquiry as republished in the Year Book, all industries covered, April 1965. Hours fell steadily through the decade — 47.5 in April 1965, 46.4 in April 1966, 46.1 in 1967, 46.2 in 1968, 46.4 in 1969 — as the basic week shortened faster than overtime grew. The same table's weekly earnings for this column and month read £18 18s 2d, and the ONS long-run series reports £18.91 for the same population and month; the two agree, which is how this transcription from a scanned volume was checked."
+assumptions = ["composite-family"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -105,6 +108,6 @@ panel = "work-buys"
 label = "Affordability comparisons, 1960s"
 value = "no reliable record accessible online"
 unit = "n/a"
-source = "ons-earnings-1938-2025"
+source = "dep-labour-year-book-1969"
 tier = "D"
-notes = "Without an hourly wage (no hours data) or item prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 1960s. The weekly manual-earnings figure (£18.91 male manual, 1965) is the available wage reference."
+notes = "Hours are now recorded for this decade (47.5 a week, April 1965) but neither of the other two ingredients is. The hourly earnings printed beside them are in shillings and pence, which cannot be held in whole decimal pence without inventing precision; and no UK household-income series in the archive begins before 1977, nor any official house-price series before 1986. The weekly manual-earnings figure (£18.91, 1965) remains the available wage reference."

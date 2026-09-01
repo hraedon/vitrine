@@ -1,12 +1,15 @@
 # UK, the 2000s. Three verified sources, early-decade snapshots: ONS weekly
 # earnings (2000), ONS England & Wales tenure (2001), GHS durable-goods diffusion
-# (2002). No affordability anchors (weekly, not hourly, earnings only; no
-# household-income series in the archive).
+# (2002). The affordability axis is anchored at 2000: the wage, the hours, the
+# household income and the house price are all taken from that one year so the
+# ratios divide like with like.
 # Data year anchors: 2000 (earnings), 2001 (tenure), 2002 (diffusion).
 
 [room]
 country = "uk"
 decade = "2000s"
+wage_anchor = "uk-2000s-hourly-pay"
+income_anchor = "uk-2000s-household-income"
 
 # ── Budget panel ──────────────────────────────────────────────────────────
 
@@ -27,14 +30,36 @@ notes = "From the ONS long-run earnings series. 2000 (April sample, ASHE from 20
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
-id = "uk-2000s-household-income-gap"
+id = "uk-2000s-household-income"
+basis = "annual"
+amount_minor = 3018100
+currency = "GBP"
+price_year = 2000
+quantity = 30181
 panel = "budget"
-label = "Median household income, 2000s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "No median household-income series is transcribed for the 2000s. The HBAI series (DWP, from 1979/80) is the relevant source but is not in the archive. The weekly-earnings figure above is the available wage anchor, not a household-income median."
+label = "Disposable income of a two-adult, two-child household, 2000/01"
+value = "£30,181"
+unit = "GBP per year, nominal (mean disposable income per household)"
+source = "ons-etb-household-type"
+tier = "A"
+notes = "From the ONS effects-of-taxes-and-benefits historical dataset, financial year 2000/01, non-retired households of two adults with two children. Original income £36,241; plus £2,629 of cash benefits, gross income £38,870; less £8,690 of direct tax and employees' National Insurance, disposable income £30,181. A mean across such households, not a median, and income after tax rather than the gross money income the US rooms anchor on. It is the income anchor for this room."
+assumptions = ["composite-family", "four-person-normalization", "nominal-values", "uk-household-not-family"]
+
+[[fact]]
+id = "uk-2000s-hourly-pay"
+basis = "hourly"
+amount_minor = 793
+currency = "GBP"
+price_year = 2000
+quantity = 7.93
+panel = "budget"
+label = "Median gross hourly pay, all employee jobs, April 2000"
+value = "£7.93"
+unit = "GBP per hour, nominal (median gross hourly pay, all employee jobs)"
+source = "ons-ashe-table1"
+tier = "A"
+notes = "From ASHE Table 1.5a, all-employee sheet, 2000. Median £7.93 across 21,721 thousand employee jobs; the mean was £10.22, and the full-time median £8.91. The all-jobs median is the wage anchor because it describes the hour of work actually on offer; the full-time figure sits above it. April pay, employees on adult rates whose pay was not affected by absence."
+assumptions = ["nominal-values", "uk-wage-anchor-all-employees", "affordability-normalization"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -113,14 +138,16 @@ assumptions = ["composite-family"]
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
-id = "uk-2000s-work-hours-gap"
+id = "uk-2000s-paid-hours"
+quantity = 37
 panel = "day"
-label = "Weekly work hours, 2000s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "The LFS / ASHE hours-worked series runs through the 2000s but is not in the archive. Without hours, weekly earnings cannot be converted to an hourly wage, so no affordability anchor is set."
+label = "Paid hours worked in a week, all employee jobs, April 2000"
+value = "37.0 hours (median)"
+unit = "total paid hours per week, all employee jobs (median)"
+source = "ons-ashe-table1"
+tier = "A"
+notes = "From ASHE Table 1.9a, all-employee sheet, 2000. The median employee job was paid for 37.0 hours; the mean was 34.7. Full-time jobs alone: median 37.5, mean 39.7. Total paid hours includes paid overtime."
+assumptions = ["composite-family"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -137,11 +164,17 @@ notes = "The National Food Survey (NFS) ran to 2000 and was succeeded by Defra's
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]
-id = "uk-2000s-work-buys-gap"
+id = "uk-2000s-house-price"
+basis = "total"
+amount_minor = 10155000
+currency = "GBP"
+price_year = 2000
+quantity = 101550
 panel = "work-buys"
-label = "Affordability comparisons, 2000s"
-value = "no reliable record accessible online"
-unit = "n/a"
-source = "ons-earnings-1938-2025"
-tier = "D"
-notes = "Without an hourly wage (no hours data) or item prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 2000s. The weekly-earnings figure (£473.60 male full-time, 2000) is the available wage reference."
+label = "Simple average house price, United Kingdom, 2000"
+value = "£101,550"
+unit = "GBP, nominal (simple average price of a mortgaged dwelling)"
+source = "ons-hpi-annual-tables"
+tier = "A"
+notes = "From ONS house price annual tables, Table 31 (unadjusted), 2000 — the year the long climb steepened. The same figure appears in Table 28's all-dwellings column, where the average recorded income of the borrowers was £31,193. Cash purchases are not in this survey, so the average is of dwellings bought with a mortgage."
+assumptions = ["nominal-values", "affordability-normalization"]

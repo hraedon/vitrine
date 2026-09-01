@@ -60,8 +60,17 @@ class Measure(enum.Enum):
     WAGES_SALARIES = "wages_salaries"  # wages and salaries only — narrower than money income
     SURVEY_FAMILY_INCOME = "survey_family_income"  # family income from a period survey (pre-CPS)
     CONSUMPTION = "consumption"  # consumption expenditure as an income proxy (v2 rooms)
-    # ── wage-axis denominator (hours-to-afford; Basis.HOURLY) ──
+    # income *after* cash benefits and direct tax, per household (UK ETB tables).
+    # Deliberately distinct from MONEY_INCOME, which is gross: dividing a price by
+    # a post-tax denominator in one room and a pre-tax one in another and calling
+    # both "share of income" is the exact juxtaposition this enum exists to refuse.
+    DISPOSABLE_HOUSEHOLD_INCOME = "disposable_household_income"
+    # ── wage-axis denominators (hours-to-afford; Basis.HOURLY) ──
     HOURLY_EARNINGS = "hourly_earnings"  # avg hourly earnings, production/nonsupervisory workers
+    # the *median* hourly pay of all employee jobs (UK ASHE). A median and a mean
+    # of the same population are different statistics; keeping them apart stops an
+    # hours axis being chained across the two without the splice being visible.
+    MEDIAN_HOURLY_PAY = "median_hourly_pay"
 
 
 class DerivedOp(enum.Enum):
@@ -129,8 +138,12 @@ def measure_label(measure: Measure) -> str:
             return "family income (period cost-of-living survey)"
         case Measure.CONSUMPTION:
             return "consumption expenditure"
+        case Measure.DISPOSABLE_HOUSEHOLD_INCOME:
+            return "household disposable income (after cash benefits and direct tax)"
         case Measure.HOURLY_EARNINGS:
             return "average hourly earnings"
+        case Measure.MEDIAN_HOURLY_PAY:
+            return "median gross hourly pay"
         case _:
             assert_never(measure)
 
@@ -148,9 +161,10 @@ def measure_axis(measure: Measure) -> Basis:
             | Measure.WAGES_SALARIES
             | Measure.SURVEY_FAMILY_INCOME
             | Measure.CONSUMPTION
+            | Measure.DISPOSABLE_HOUSEHOLD_INCOME
         ):
             return Basis.ANNUAL
-        case Measure.HOURLY_EARNINGS:
+        case Measure.HOURLY_EARNINGS | Measure.MEDIAN_HOURLY_PAY:
             return Basis.HOURLY
         case _:
             assert_never(measure)

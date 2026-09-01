@@ -197,7 +197,7 @@ EXPECTED: dict[str, PageContract] = {
     ),
     "bibliography.html": _page(
         "bibliography — vitrine",
-        landmarks=(1, 1, 1, 0, 1), disclosures=(96, 0),
+        landmarks=(1, 1, 1, 0, 1), disclosures=(101, 0),
         local=(10, "15fee8e6a119"), marks=(0, "e3b0c44298fc"), overlays=0,
     ),
     "essays/index.html": _page(

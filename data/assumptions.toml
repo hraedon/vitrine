@@ -81,3 +81,13 @@ statement = "The Family Income and Expenditure Survey covered only cities before
 id = "jp-deflation-lost-decades"
 title = "Japan's lost decades: nominal stagnation amid real gains"
 statement = "From the 1990s onward Japan experienced persistent deflation: nominal wages and prices stagnated or declined while real (CPI-adjusted) values rose. This is the opposite of the US/UK inflation pattern. Cross-decade comparisons of nominal values understated real change; the affordability axis (hours-to-afford) is inflation-free and therefore the more reliable comparator for Japan's post-1990 decades."
+
+[[assumption]]
+id = "uk-household-not-family"
+title = "UK income statistics measure households by type, not a four-person family"
+statement = "The UK has no published counterpart to the US Census four-person-family income median. The closest is the ONS 'Effects of taxes and benefits' series, which reports averages by household type; the museum's UK income anchor is its non-retired 'two adults with two children' household. Three consequences ride with it and are stated on every fact that uses it: it is a mean, not a median; the two adults are not necessarily the children's parents; and it is disposable income — after cash benefits and direct tax — where the US rooms' anchor is gross money income. The two are therefore not the same measure and the comparator will not chain them (see the Measure enum in model.py). The four-person-normalization and composite-family assumptions apply as they do elsewhere."
+
+[[assumption]]
+id = "uk-wage-anchor-all-employees"
+title = "The UK wage anchor is the median over all employee jobs"
+statement = "The UK hourly-wage anchor is ASHE's median gross hourly pay across all employee jobs — full- and part-time, both sexes. It is deliberately not the full-time median, which is the figure usually quoted as 'the' UK wage and runs roughly 12% higher; the all-jobs median is the one that describes the hour of work actually available in the labour market. Every fact using it carries the full-time median beside it so the gap is visible rather than implied. Because it is a median and the US anchor is a mean of a narrower population, the two are different measures and are not chained."

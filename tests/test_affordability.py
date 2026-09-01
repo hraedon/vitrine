@@ -284,7 +284,34 @@ def test_measure_axis_pairs_with_basis() -> None:
     assert measure_axis(Measure.WAGES_SALARIES) is Basis.ANNUAL
     assert measure_axis(Measure.SURVEY_FAMILY_INCOME) is Basis.ANNUAL
     assert measure_axis(Measure.CONSUMPTION) is Basis.ANNUAL
+    assert measure_axis(Measure.DISPOSABLE_HOUSEHOLD_INCOME) is Basis.ANNUAL
     assert measure_axis(Measure.HOURLY_EARNINGS) is Basis.HOURLY
+    assert measure_axis(Measure.MEDIAN_HOURLY_PAY) is Basis.HOURLY
+
+
+def test_every_measure_has_an_axis() -> None:
+    """The axis dispatch is total: a new Measure cannot be added without one.
+
+    ``measure_axis`` closes over the enum with ``assert_never``, so a variant
+    that nobody assigned an axis to raises here rather than silently defaulting
+    to the income side and putting a wage on the share-of-income axis.
+    """
+    from vitrine.model import measure_axis
+
+    for measure in Measure:
+        assert measure_axis(measure) in (Basis.ANNUAL, Basis.HOURLY)
+
+
+def test_uk_and_us_income_anchors_are_different_measures() -> None:
+    """A post-tax household denominator is not gross family money income.
+
+    The UK rooms divide by disposable household income and the US rooms by
+    total money income. If these ever collapse to one Measure, the comparator
+    would happily chain them into a single "share of income" series across the
+    two countries, which is the juxtaposition the enum exists to refuse.
+    """
+    assert Measure.DISPOSABLE_HOUSEHOLD_INCOME is not Measure.MONEY_INCOME
+    assert Measure.MEDIAN_HOURLY_PAY is not Measure.HOURLY_EARNINGS
 
 
 def test_measure_label_assert_never_reachable() -> None:

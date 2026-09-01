@@ -1003,3 +1003,61 @@ year = 2025
 url = "https://www.stat.go.jp/english/data/nenkan/"
 population = "Varies by table — see individual source registrations for each survey."
 notes = "Annual compendium republishing data from all major surveys in consolidated form. JSY 2016 (65nenkan) covers 1988–2013; JSY 2026 (75nenkan) covers 2013–2023. Historical wage data for 1955/1965 from scanned JSY 1966 table 255 (image file ys1965_t213.jpg, ys1966_t210.jpg). Used as the retrieval vehicle for HLS housing data (tables 21-1, 21-5, 21-6, 21-8) since the English HLS pages publish only outlines."
+
+# ── United Kingdom: the affordability axis (Plan 023 / FWI-001) ────────────
+# The five sources the UK rooms' wage, income and price anchors rest on. Each
+# names the population it actually measured; the two used as anchors declare a
+# `measure`, which is what stops the comparator chaining a post-tax household
+# denominator to a pre-tax family one.
+
+[[source]]
+id = "ons-etb-household-type"
+title = "The effects of taxes and benefits on household income: historical datasets — income, tax and benefit data by household type"
+short_cite = "ONS, Effects of taxes and benefits by household type (1977 to FYE 2018)"
+publisher = "Office for National Statistics"
+year = 2019
+url = "https://www.ons.gov.uk/peoplepopulationandcommunity/personalandhouseholdfinances/incomeandwealth/datasets/theeffectsoftaxesandbenefitsonhouseholdincomehistoricaldatasets"
+population = "Non-retired private households in the United Kingdom of two adults with two children — averages (means) per household, in current (nominal) prices"
+measure = "disposable_household_income"
+notes = "One worksheet per financial year, 1977 to FYE 2017/18, from the Living Costs and Food Survey and its predecessors (Family Expenditure Survey). The cited row is 'Disposable income' — original income plus cash benefits, less direct taxes and employees' National Insurance — for the non-retired 'two adults with two children' household type, the closest published UK counterpart to the museum's four-person composite. It is a mean, not a median, and the two adults are not necessarily the children's parents; see the uk-household-not-family assumption. Values are transcribed by scripts/uk_etb_extract.py, which locates the column by its composed header because the header block shifts between the 1980s and 1990s sheets."
+
+[[source]]
+id = "ons-ashe-table1"
+title = "Employee earnings in the UK: Annual Survey of Hours and Earnings, Table 1 (all employees)"
+short_cite = "ONS, ASHE Table 1 — all employees (1997 onwards)"
+publisher = "Office for National Statistics"
+year = 2025
+url = "https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/allemployeesashetable1"
+population = "All employee jobs in the United Kingdom — full- and part-time, both sexes — on adult rates, whose pay in the April survey pay-period was not affected by absence; a 1% sample of National Insurance numbers"
+measure = "median_hourly_pay"
+notes = "Table 1.5a is gross hourly pay and Table 1.9a total paid hours worked; the rooms cite the median of the 'All' sheet for both. The median over all employee jobs includes part-time jobs and so sits below the full-time median, which is transcribed alongside it in each fact's notes. ASHE runs from 1997 (a back-series recalculated from the New Earnings Survey for 1997-2003, weighted from 2004). Transcribed by scripts/uk_ashe_extract.py."
+
+[[source]]
+id = "ons-hpi-annual-tables"
+title = "House price data: annual tables (UK House Price Index)"
+short_cite = "ONS, House price data annual tables, Table 31 (UK, from 1991)"
+publisher = "Office for National Statistics"
+year = 2026
+url = "https://www.ons.gov.uk/economy/inflationandpriceindices/datasets/housepriceindexannualtables2039"
+population = "Dwellings purchased with a mortgage in the United Kingdom, as recorded in a sub-sample of the Regulated Mortgage Survey (before 2005, the Survey of Mortgage Lenders) — cash purchases are not represented"
+notes = "Table 31, 'simple average house prices, United Kingdom', unadjusted (nominal), annual from 1991; previously DLUHC live table 571. Table 28's 'all dwellings' column reproduces Table 31 to the pound and carries the average recorded income of the borrowers beside it, which is how the transcription is checked. Data to 2002 are from a 5% sample; 2003 onwards from an enhanced sample; from September 2005 collected via the Regulated Mortgage Survey. The workbook in the archive is the .xls — the file served with an .xlsx extension is the HTML landing page."
+
+[[source]]
+id = "dep-labour-year-book-1976"
+title = "British Labour Statistics: Year Book 1976"
+short_cite = "Department of Employment, British Labour Statistics Year Book 1976 (HMSO)"
+publisher = "Department of Employment (HMSO)"
+year = 1976
+url = "https://escoe-website.s3.amazonaws.com/wp-content/uploads/2019/05/19120357/British-Labour-Statistics-Year-Book-1976.pdf"
+population = "Full-time employees aged 21 and over (men) in Great Britain, all industries, at the April New Earnings Survey pay-period, excluding those whose pay was affected by absence"
+notes = "The annual compendium republishing New Earnings Survey results. The cited table (page 58 of the scan, 'Average weekly earnings, hours, and hourly earnings of employees in manufacturing and all industries in April, 1972-1976') is the only source in the archive giving UK average hours and hourly earnings for the 1970s; hourly earnings are printed in pence. Read from a scanned volume: the transcription was checked against the rendered page and against the independent ONS long-run weekly-earnings series, which reproduces its 1976 weekly figures exactly (see docs/verification-log.md)."
+
+[[source]]
+id = "dep-labour-year-book-1969"
+title = "British Labour Statistics: Year Book 1969"
+short_cite = "Department of Employment, British Labour Statistics Year Book 1969 (HMSO)"
+publisher = "Department of Employment (HMSO)"
+year = 1969
+url = "https://escoe-website.s3.amazonaws.com/wp-content/uploads/2019/05/19121247/British-Labour-Statistics-Year-Book-1969.pdf"
+population = "Men aged 21 and over working full-time as manual workers in the United Kingdom, all industries covered, at the April and October earnings enquiries"
+notes = "Table 10, 'Average weekly and hourly earnings of manual workers, and average weekly hours worked, by industry Group, 1965-1969', final column ('All Industries covered'). Earnings in this volume are pre-decimal (£ s. d.) and are not transcribed; the hours column is decimal and is. Read from a scanned volume and checked against the rendered page (see docs/verification-log.md)."

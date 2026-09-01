@@ -911,3 +911,199 @@ consumption` table-panel facts (same sources, same series). The new
 duplicates were removed and the arc re-bound to the pre-existing facts,
 whose values match the new series at every label year (verified 13/13
 before binding; now drift-gated via price_year).
+
+---
+
+## FWI-001: The UK affordability axis (2026-09-01)
+
+**Date:** 2026-09-01
+**Verifier:** claude-opus-5 session
+**Context:** The seven UK rooms carried no wage or income anchor, so the
+museum's central mechanic — what a thing cost in hours of work — was blank for
+the whole wing. The source archive for it landed on 2026-08-29 and the
+transcription was deliberately deferred to a fresh session. Every value below
+was read from the document in `samples/`, never from that session's summary
+notes (`samples/30-uk-income/EXTRACTED-DATA.md` was not used as a source).
+
+### F1a: ASHE hourly pay and paid hours (1997, 2000, 2010)
+
+**Source checked:** ONS ASHE Table 1, `samples/43-uk-hours/ashe-table1/*.zip`,
+tables 1.5a (hourly pay — gross) and 1.9a (paid hours worked — total), `All`
+sheet, `All Employees` row.
+**Method:** `scripts/uk_ashe_extract.py`, which locates the workbook by a
+bounded table-number match and the value row by its header labels. The
+member-name format changes three times across the series (the 2000–2003 zips
+drop the word "Table"; 2010 carries a `REVISED - All Employees` prefix; 2011+
+are `.xlsx` where earlier years are `.xls`), so a fixed name or column index
+reads the wrong file or the wrong cell without failing.
+**Fact IDs:** uk-1990s-hourly-pay, uk-2000s-hourly-pay, uk-2010s-hourly-pay,
+uk-1990s-paid-hours, uk-2000s-paid-hours, uk-2010s-paid-hours
+
+| Year | Median hourly | Mean hourly | Full-time median | Median paid hours | Mean paid hours | Jobs (thousand) |
+|------|---------------|-------------|------------------|-------------------|-----------------|-----------------|
+| 1997 | £7.07 | £8.90 | £7.92 | 37.0 | 35.1 | 20,858 |
+| 2000 | £7.93 | £10.22 | £8.91 | 37.0 | 34.7 | 21,721 |
+| 2010 | £11.14 | £14.60 | £12.57 | 37.0 | 33.4 | 24,263 |
+
+**Result: verified**, transcribed as displayed. The full-time median is carried
+in each fact's notes because the all-jobs median — the anchor — sits about 12%
+below it, and a reader who assumes "the wage" means full-time would misread the
+number alone.
+
+### F1b: ETB household disposable income (1977, 1980, 1990, 1997/98, 2000/01, 2010/11)
+
+**Source checked:** ONS "Effects of taxes and benefits on household income",
+historical dataset by household type,
+`samples/30-uk-income/etb-hhldtype.xlsx`, non-retired block, `2 adults with 2
+children` column.
+**Method:** `scripts/uk_etb_extract.py`. The column is located by *composing*
+the stacked header cells and matching the composed text. This is not
+defensive over-engineering: the header block gains a `1 adult Men/Women` split
+between the 1980 and 1990 sheets, moving the target from column 6 to column 8.
+A fixed index reads "2 adults with 1 child" for half the series and nothing
+fails. The script prints every column's composed header and the neighbouring
+columns' values so a wrong pick is visible rather than merely absent.
+**Fact IDs:** uk-1970s-household-income, uk-1980s-household-income,
+uk-1990s-household-income, uk-2000s-household-income, uk-2010s-household-income
+
+| Sheet | Original | Cash benefits | Gross | Direct tax + NIC | Disposable |
+|-------|----------|---------------|-------|------------------|------------|
+| 1977 | £5,073 | £257 | £5,330 | £1,214 | **£4,116** |
+| 1980 | £8,218 | £569 | £8,787 | £1,899 | **£6,888** |
+| 1990 | £20,396 | £1,216 | £21,613 | £4,344 | £17,269 |
+| 1997-98 | £30,047 | £2,018 | £32,064 | £7,130 | **£24,934** |
+| 2000-01 | £36,241 | £2,629 | £38,870 | £8,690 | **£30,181** |
+| 2010-11 | £55,409 | £4,863 | £60,272 | £14,144 | **£46,129** |
+
+**Result: verified.** Bolded values are the ones cited; 1990 is recorded here
+because it was extracted before the anchor year moved to 1997.
+
+**Correction made in passing — twice, the second time to this log.** The
+direct-tax figures were first going to be written as gross − disposable. Each
+row of this table is independently rounded to the pound, so the arithmetic does
+not close: 2000-01 publishes £8,690 of direct tax where the subtraction gives
+£8,689, and 2010-11 publishes £14,144 where it gives £14,143. Every row above
+is therefore transcribed, not derived.
+
+The first draft of this log then did the same thing again: it recorded 1990
+cash benefits as £1,217 (gross − original) where the sheet publishes **£1,216**.
+Corrected above by re-reading the row. The lesson is not that the arithmetic is
+close enough — it is that a number reached by computing is not evidence of what
+the source says, no matter how obvious the computation, and the habit reasserts
+itself the moment attention moves to prose.
+
+### F1c: ONS house prices (1997, 2000, 2010), and a cross-check that first failed
+
+**Source checked:** ONS house price annual tables,
+`samples/32-uk-housing/ons-hpi-annual-tables.xls`, Table 31 (simple average
+house prices, United Kingdom, unadjusted), cross-checked against Table 28.
+**Method:** `scripts/uk_house_price_extract.py`.
+**Fact IDs:** uk-1990s-house-price, uk-2000s-house-price, uk-2010s-house-price
+
+| Year | Table 31 | Table 28 (all dwellings) | Table 28 borrower income | Nationwide Q4 |
+|------|----------|--------------------------|--------------------------|---------------|
+| 1997 | £76,103 | £76,103 | £26,086 | £61,830 |
+| 2000 | £101,550 | £101,550 | £31,193 | £81,628 |
+| 2010 | £251,174 | £251,174 | £57,973 | £162,971 |
+
+**Result: verified**, with the two ONS tables agreeing to the pound.
+
+**The cross-check was wrong the first time and said so loudly**, which is the
+only reason it was caught. Table 28 breaks the same survey across 25 columns —
+new dwellings, other dwellings, all dwellings, first-time buyers, former owner
+occupiers — and the first price column at a fixed index is *new dwellings*. It
+read £93,196 against Table 31's £76,103 for 1997 and, worse, flipped sign by
+2010 (£213,604 against £251,174). Had the two series merely differed by a
+plausible margin in a consistent direction, the mismatch would have been filed
+as a methodology difference and the wrong column believed. The fix locates the
+`All dwellings` block by its composed header.
+
+Nationwide runs 20–35% below ONS throughout. That is a real methodological
+difference (a lender's mix-adjusted index of its own lending, versus a simple
+average of survey transactions), not a discrepancy to resolve; it is recorded
+here and Nationwide is not cited by any fact.
+
+### F1d: British Labour Statistics Year Book hours — three independent routes
+
+**Sources checked:** `samples/43-uk-hours/bls-yearbook-1976.pdf` p.57 (all
+industries, April 1972–76) and `bls-yearbook-1969.pdf` p.40, Table 10 (all
+industries covered, April/October 1965–69). Both are 216MB scans with an OCR
+text layer of unknown provenance.
+**Fact IDs:** uk-1970s-paid-hours, uk-1970s-hourly-earnings, uk-1960s-work-hours
+
+An OCR text layer is one transcription pass, and its failure mode is a
+plausible wrong digit rather than an error. Each committed value was therefore
+established on more than one route:
+
+1. **Coordinate reconstruction** of the page's word boxes (the reading-order
+   text is unusable — the number grid arrives detached from its headers).
+2. **Reading the rendered page image** directly, independently of the text
+   layer.
+3. **An external series** that must agree if the column mapping is right.
+
+**1976 volume, p.57, all industries, April 1976:**
+
+| Row | Weekly (excl. absence) | Hours | Hourly incl. OT | Hourly excl. OT |
+|-----|------------------------|-------|-----------------|-----------------|
+| Full-time manual men 21+ | £65.10 | 45.3 | 143.7p | 141.0p |
+| All full-time men 21+ | £71.80 | 42.7 | 166.8p | **166.6p** |
+| Full-time non-manual men 21+ | £81.60 | 39.1 | — | — |
+| All full-time women 18+ | — | 37.3 | — | — |
+
+- Routes 1 and 2 agree cell for cell.
+- Route 3, weekly earnings: the ONS long-run series
+  (`ons-earnings-1938-2025.xlsx`, an independent publication) gives 1976 adult
+  male full-time **manual £65.10, "All" £71.80, non-manual £81.60** — three
+  exact matches, which fixes the column mapping (the "all industries,
+  excluding those whose pay was affected by absence" column) beyond doubt.
+- Route 3, hours: the Bank of England Millennium workbook, sheet A54 col. 50
+  ("Average weekly hours — full time adults, April, New Earnings Survey")
+  gives **41.1** for 1976. That series covers adults of both sexes; the men's
+  42.7 and women's 37.3 above weight to 41.1 at roughly a 70/30 employment
+  split. Corroborated.
+- The header itself was read from the rendered page: the paired columns are
+  *including/excluding those whose pay was affected by absence* for weekly
+  earnings and *including/excluding overtime pay and overtime hours* for
+  hourly earnings — **not** including/excluding overtime for both, which is
+  what the flattened text layer suggests and which would have swapped two
+  columns.
+
+**1969 volume, p.40, Table 10, men 21+ manual full-time, all industries
+covered, average hours worked:**
+
+| April 1965 | Oct | April 1966 | Oct | April 1967 | Oct | April 1968 | Oct | April 1969 | Oct |
+|---|---|---|---|---|---|---|---|---|---|
+| **47.5** | 47.0 | 46.4 | 46.0 | 46.1 | 46.2 | 46.2 | 46.4 | 46.4 | 46.5 |
+
+- Routes 1 and 2 agree on all ten observations.
+- Route 3: the same column's weekly earnings for April 1965 read **£18 18s 2d**
+  = £18.908, and the ONS long-run series reports **£18.91** for 1965 adult male
+  manual workers — the figure this room already cited before this session. The
+  agreement confirms that the last column is "All Industries covered" and that
+  the OCR of this page is sound.
+- The £ s. d. earnings of this volume are **not** transcribed: converting
+  shillings and pence to decimal pence is arithmetic on the truth path with no
+  registered derivation op, and the museum's money layer holds whole pence.
+
+### F1e: What was deliberately not written
+
+- **No wage anchor for the 1970s.** The decade's hourly earnings are 166.6p —
+  a tenth of a penny. `vitrine.money` holds GBP in whole pence, so the value
+  cannot be an `amount_minor` without rounding to £1.67, which would put a
+  number on the page that no source printed. The figure is published as a plain
+  fact and the hours axis stays uncomputed for that room.
+- **No wage anchor for the 1980s.** The Year Books end with the 1976 volume,
+  ASHE hours begin in 1997, and the LFS per-worker averages begin in 1992
+  (confirmed by the ONS FOI response in the archive). The decade genuinely has
+  no hours in the archive.
+- **No priced fact before 1990s.** The official ONS house-price series begins
+  in 1991 (Table 31) / 1986 (Table 28). The only series reaching the 1970s and
+  1980s is Nationwide's, which is a lender's index rather than an official
+  statistic; the rooms say so rather than citing it.
+- **No income anchor before the 1970s.** The ETB series begins in 1977.
+- The 1950s room's notes previously said "no continuous hours-worked survey
+  exists before the Labour Force Survey (1973)". This session's reading of the
+  Year Books shows that claim to be **false** — the Department of Employment's
+  twice-yearly enquiry recorded hours through the 1960s. The note now says what
+  is actually true: those figures exist, but the volumes in the archive reach
+  back only to 1965.
