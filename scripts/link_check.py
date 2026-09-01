@@ -360,6 +360,18 @@ def redirected_elsewhere(url: str, final_url: str) -> bool:
 # ── URL checking ─────────────────────────────────────────────────────────────
 
 _UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+# Some statistical agencies block the browser agent above and serve a plain
+# tool agent instead — cdc.gov is one, and it 403s _UA while answering
+# curl. A single agent therefore cannot verify every citation this museum
+# holds, and an unverifiable citation is the failure mode `expect` exists to
+# prevent. On 403/405 the check is retried once with this agent.
+#
+# It does not rescue every host: bls.gov requires a *contact address* in the
+# agent string, which is the owner's personal data and is deliberately not
+# committed here. Those sources stay bot-blocked in CI and say so in their
+# own notes.
+_UA_FALLBACK = "curl/8.5.0"
+_RETRY_CODES = {403, 405}
 _OK_CODES = {200, 301, 302, 303, 307, 308}
 
 
@@ -381,17 +393,33 @@ def _ssl_ctx() -> ssl.SSLContext:
     return ctx
 
 
-def _get(url: str, ctx: ssl.SSLContext) -> tuple[int, bytes, str]:
-    req = urllib.request.Request(url, headers={"User-Agent": _UA})
+def _get(url: str, ctx: ssl.SSLContext, ua: str = _UA) -> tuple[int, bytes, str]:
+    req = urllib.request.Request(url, headers={"User-Agent": ua})
     with urllib.request.urlopen(req, timeout=30, context=ctx) as resp:
         content_type = resp.headers.get("Content-Type", "")
         return resp.status, resp.read(), content_type
 
 
 def check_url(sid: str, url: str, markers: Sequence[str] = ()) -> Result:
-    """Check a URL, and its content when markers are declared."""
+    """Check a URL, and its content when markers are declared.
+
+    A 403/405 under the browser agent is retried once under a plain tool
+    agent, because some agencies block the former and serve the latter. Only
+    a result that still fails is returned.
+    """
+    first = _check_with_ua(sid, url, markers, _UA)
+    if first.status in _RETRY_CODES:
+        second = _check_with_ua(sid, url, markers, _UA_FALLBACK)
+        if second.status not in _RETRY_CODES:
+            return second
+    return first
+
+
+def _check_with_ua(
+    sid: str, url: str, markers: Sequence[str], ua: str
+) -> Result:
     ctx = _ssl_ctx()
-    headers = {"User-Agent": _UA}
+    headers = {"User-Agent": ua}
     try:
         req = urllib.request.Request(url, method="HEAD", headers=headers)
         with urllib.request.urlopen(req, timeout=15, context=ctx) as resp:
@@ -425,7 +453,7 @@ def check_url(sid: str, url: str, markers: Sequence[str] = ()) -> Result:
     if status not in _OK_CODES:
         return Result(sid, url, status, "unexpected status")
     try:
-        _status, body, content_type = _get(url, ctx)
+        _status, body, content_type = _get(url, ctx, ua)
     except Exception as e:
         return Result(sid, url, 0, f"content fetch failed: {str(e)[:60]}")
     text = searchable_text(url, body, content_type)

@@ -298,6 +298,19 @@ notes = "Before the National Traffic and Motor Vehicle Safety Act of 1966, the f
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1960s-teen-birth-rate"
+quantity = 89.1
+panel = "day"
+label = "Births per 1,000 women aged 15-19, 1960"
+value = "89.1 live births per 1,000 women aged 15-19"
+unit = "live births per 1,000 women aged 15-19"
+price_year = 1960
+source = "nchs-hus-2019-table1"
+tier = "A"
+notes = "The highest figure NCHS publishes in this table, and it is not in the distant past: 89.1 in 1960, against 34.2 in 2010 and 15.0 in 2020. The peak of American teenage childbearing is the decade usually remembered for its families."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1960s-smoking-prevalence"
 quantity = 42.4
 panel = "table"

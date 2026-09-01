@@ -527,6 +527,19 @@ notes = "Absolute deaths peaked in this decade, at 55,600 in 1972 — the highes
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1970s-teen-birth-rate"
+quantity = 68.3
+panel = "day"
+label = "Births per 1,000 women aged 15-19, 1970"
+value = "68.3 live births per 1,000 women aged 15-19"
+unit = "live births per 1,000 women aged 15-19"
+price_year = 1970
+source = "nchs-hus-2019-table1"
+tier = "A"
+notes = "The fall from the 1960 peak is already a quarter of the way down, and it happens before the shift in who was giving birth: the married share of these mothers falls across the following decades while the rate itself keeps dropping."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1970s-smoking-prevalence"
 quantity = 37.4
 panel = "table"

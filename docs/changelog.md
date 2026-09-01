@@ -1,5 +1,45 @@
 # Changelog
 
+## 2026-09-01 — The peak is 1960 (Plan 027 WI-5)
+
+The wing's sixth arc: births per 1,000 women aged 15–19, selected years
+1950–2020, in eight rooms. It earns its place because it refuses to be a story
+about progress. **The highest figure NCHS publishes is 1960 — 89.1 — the decade
+usually remembered for its families**, not some more distant past; and the rate
+**rose** between 1980 and 1990, from 53.0 to 59.9, before resuming its fall to
+15.0 in 2020. The arc is deliberately not marked falling, and two tests assert
+that shape so it cannot be flattened later.
+
+The card notes say what the number is, because it is routinely misread: it is a
+rate over *every* woman aged 15 to 19, not over those who were sexually active,
+and in the earlier decades most of these births were to married women. It
+measures teenage childbearing, which is not the same subject as teenage sex.
+
+Plan 027 floated "~96 per 1,000 at the 1957 peak" as a lead to verify. **It is
+not verified and appears nowhere in the data**: NCHS publishes selected years,
+not annual ones, and this table does not print 1957. The line connects
+published rows and says so.
+
+Three NCHS documents were compared. A later edition of the same trend table
+agrees on all twelve overlapping years; NVSR 72(1), compiled independently,
+agrees on all six. Both traps this table sets were hit during the work and both
+were caught. The reports repeat their whole structure once per race group — the
+first "All races" heading in NVSR belongs to a different table, and the first
+race block a naive read meets there is Hispanic, whose 2020 rate is 23.0
+against the all-races 15.0. And "15–19" is a spanner over three columns whose
+offset differs between the two document families: reading NVSR at the trend
+table's offset returns the 15–17 sub-rate, 9.9 instead of 22.3 for 2015, about
+half and entirely plausible alone.
+
+One repository fix came out of it. `cdc.gov` returns 403 to browser-like
+User-Agents and serves plain tool agents instead — the exact opposite of
+`bls.gov`, which demands a contact address. The link checker sent only a
+browser agent, so both new citations would have reported bot-blocked and their
+content markers would never have fired. It now retries a 403 once with a plain
+agent, which makes these citations genuinely verified in CI. It does not rescue
+bls.gov, and should not: that host wants personal data this public repository
+does not carry.
+
 ## 2026-09-01 — Nobody counted: the workplace-death arc (Plan 027 WI-4b)
 
 The wing's fifth arc is four slots wide where the others are thirteen, and the

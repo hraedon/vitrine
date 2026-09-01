@@ -1438,3 +1438,98 @@ it in the museum's decline colour), and removing the source's admission that
 its link check is inert each redden a named test. The "no trend the record can
 call a fall" caveat is checked against the data rather than asserted: the test
 fails if the rate's span ever widens past 1.0.
+
+---
+
+## Plan 027 WI-5: Births per 1,000 women aged 15–19 (8 facts, 8 rooms + 1 series)
+
+**Date:** 2026-09-01
+**Verifier:** Claude Opus 5 session (mvmcc02)
+**Source checked:** NCHS, *Health, United States, 2019*, Table 1, "Crude birth
+rates, fertility rates, and birth rates, by age, race, and Hispanic origin of
+mother: United States, selected years 1950–2018" — All-races block, 15–19
+"Total" column. The 2020 figure comes from NVSR 72(1), *Births: Final Data for
+2021*, Table 2.
+**Archive:** `samples/45-teen-births/` (3 documents)
+**Extraction:** `scripts/nchs_teen_births_extract.py`; cards `scripts/nchs_teen_births_cards.py`
+
+### Why the 2019 edition and not the newer one
+
+*Health, United States, 2020–2021* Table Brth is the same table one edition
+later, and it **drops 2010** from its selected years in favour of 2009 and
+2019. The museum has a 2010s room, so the 2019 edition is the source and the
+later one becomes a witness.
+
+### Cross-checks: three NCHS documents
+
+| witness | overlapping years | mismatches |
+|---|---|---|
+| *Health, United States, 2020–2021*, Table Brth (a later edition of the same table) | 12 | **0** |
+| NVSR 72(1) Table 2 (compiled independently of the trend tables) | 6 | **0** |
+
+The overlap is asserted to be at least five years before either comparison is
+believed — a cross-check with no overlap reports "no mismatches" and means
+nothing. An earlier draft of this work printed exactly that reassuring line on
+a parse that had returned zero rows.
+
+### Two traps, both hit during this work
+
+1. **The wrong race block.** These tables repeat their whole year-by-year
+   structure once per race and Hispanic-origin group. The first "All races"
+   heading in NVSR 72(1) belongs to Table 1, on a different page with different
+   columns, and the first race block a naive reader meets in that report is
+   Hispanic — whose 2020 rate is **23.0** against the all-races **15.0**. The
+   parser now reads only between an "All races" heading and the next race
+   heading, requires that boundary to exist, and takes a caller-supplied table
+   marker so it cannot latch onto the wrong table's block.
+2. **The wrong age column.** "15–19 years" is a spanner over Total, 15–17 and
+   18–19, with 10–14 immediately before it, and the two document families do
+   not agree on how many columns precede it — *Health, United States* prints a
+   crude birth rate and a fertility rate first, NVSR Table 2 prints only a
+   total fertility rate. Reading NVSR at the trend-table offset returns the
+   **15–17** sub-rate: 9.9 instead of 22.3 for 2015, about half, and entirely
+   plausible in isolation. The cross-check caught it; the column index is now
+   stated per document.
+
+### The shape, which is the exhibit
+
+| year | rate |
+|---|---|
+| 1950 | 81.6 |
+| **1960** | **89.1** ← the highest published row |
+| 1970 | 68.3 |
+| 1980 | 53.0 |
+| **1990** | **59.9** ← rose |
+| 2000 | 47.7 |
+| 2010 | 34.2 |
+| 2020 | 15.0 (NVSR) |
+
+Two facts cut against progress-as-direction, and both are asserted by tests:
+the peak of American teenage childbearing is **1960**, the decade usually
+remembered for its families, and the series **rose** between 1980 and 1990.
+The arc is therefore not marked `falling`.
+
+### Boundaries
+
+- **No card before the 1950s.** The published table starts there. Earlier
+  vital-statistics eras are a different registration regime and are not
+  reconstructed.
+- **Selected years, not annual.** NCHS prints 1950, 1960, 1970, 1980, 1990,
+  1995, 2000, 2005, 2010 and then recent years. The line connects published
+  rows; the true annual peak between them is not shown. Plan 027 D3 floated
+  "~96 per 1,000 at the 1957 peak" as a lead — **it is not verified here** and
+  is not asserted anywhere in the data, because this table does not print 1957.
+- **The denominator is every woman aged 15–19**, not those who were sexually
+  active, and in the earlier decades most of these births were to married
+  women. Stated on the arc and asserted by a test.
+
+### A repository fix this work forced
+
+`cdc.gov` returns **403 to browser-like User-Agents** and serves plain tool
+agents instead — the exact opposite of `bls.gov`, which requires a contact
+address. `scripts/link_check.py` sent only a browser agent, so both NCHS
+citations would have reported bot-blocked and their `expect` markers would
+never have fired. The checker now retries a 403/405 once with a plain tool
+agent, which makes these two citations genuinely verified in CI. It does not
+rescue bls.gov, and is not meant to: that host wants personal data this public
+repository does not carry.

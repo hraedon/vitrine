@@ -78,6 +78,13 @@ here. Hence `vitrine gaps`.
   Earlier years used a wider window. Not fillable and not correctable; it is
   disclosed on the arc instead.
 
+- **Teen birth rates before 1950, and between NCHS's printed rows.** The
+  published trend table starts at 1950 and prints selected years, not annual
+  ones, so the museum carries no card before the 1950s and the arc connects
+  published rows. The commonly-quoted 1957 peak (~96 per 1,000) is not in this
+  table and is not carried anywhere; filling it would need the annual natality
+  volumes, which are not in the archive.
+
 ## Upgrade paths for standing Tier D estimates
 
 - **1950s rooms/heating-fuel detail.** The 1950 Census of Housing collected

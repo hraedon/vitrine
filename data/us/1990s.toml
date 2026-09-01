@@ -608,6 +608,19 @@ notes = "The rate crosses below 2 deaths per 100 million vehicle-miles the follo
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1990s-teen-birth-rate"
+quantity = 59.9
+panel = "day"
+label = "Births per 1,000 women aged 15-19, 1990"
+value = "59.9 live births per 1,000 women aged 15-19"
+unit = "live births per 1,000 women aged 15-19"
+price_year = 1990
+source = "nchs-hus-2019-table1"
+tier = "A"
+notes = "The rate rose. 59.9 in 1990 against 53.0 in 1980 is the one reversal in the published series, and it is the reason this arc is not marked as a falling line."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1990s-workplace-death-rate"
 panel = "day"
 label = "Deaths at work per 100,000 workers, 1990s"

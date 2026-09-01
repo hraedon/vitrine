@@ -491,6 +491,29 @@ ARCS: tuple[Arc, ...] = (
         ),
     ),
     Arc(
+        "teen-birth-rate",
+        "Births per 1,000 women aged 15-19",
+        "live births per 1,000 women aged 15-19",
+        _ids("us-{decade}-teen-birth-rate", "195 196 197 198 199 200 201 202"),
+        series_id="us-teen-birth-rate",
+        caveats=(
+            "Not marked falling, because it does not only fall. The highest "
+            "figure NCHS publishes is 1960, not some more distant past, and "
+            "the rate rose again between 1980 and 1990 before resuming its "
+            "decline. A line drawn as steady progress would be the wrong "
+            "shape.",
+            "A rate over every woman aged 15 to 19, not over those who were "
+            "sexually active — and in the earlier decades most of these "
+            "births were to married women. It measures teenage childbearing, "
+            "which is not the same subject as teenage sex.",
+            "The series is what NCHS prints: selected years, not annual, so "
+            "the line connects published rows and the true peak between them "
+            "is not shown. It begins in 1950 because the published table "
+            "does; the museum's earlier rooms carry no card rather than an "
+            "invented one.",
+        ),
+    ),
+    Arc(
         "ethanol-per-capita",
         "Alcohol consumed per person",
         "gallons of pure ethanol per person per year",
@@ -704,6 +727,7 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
             "ethanol-per-capita",
             "traffic-death-rate",
             "workplace-death-rate",
+            "teen-birth-rate",
         ),
     ),
 )

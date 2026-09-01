@@ -549,6 +549,19 @@ notes = "Seat-belt laws spread across the states through this decade, and the ra
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1980s-teen-birth-rate"
+quantity = 53.0
+panel = "day"
+label = "Births per 1,000 women aged 15-19, 1980"
+value = "53.0 live births per 1,000 women aged 15-19"
+unit = "live births per 1,000 women aged 15-19"
+price_year = 1980
+source = "nchs-hus-2019-table1"
+tier = "A"
+notes = "The low point of the century's second half so far — and not the end of the story: the rate rises again by 1990."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1980s-smoking-prevalence"
 quantity = 33.2
 panel = "table"

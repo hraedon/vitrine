@@ -1094,3 +1094,25 @@ url = "https://www.bls.gov/iif/fatal-injuries-tables.htm"
 population = "All US workers, employed and self-employed, measured against total hours worked as estimated by the Current Population Survey — not employed persons, which was the pre-2006 denominator"
 expect = ["Fatal injury rates (hours-based)", "Census of Fatal Occupational Injuries"]
 notes = "Transcribed from the nineteen per-year workbooks this page links (fatal-occupational-injuries-hours-based-rates-YYYY.xlsx, 2006-2024), Total row, 'Fatal injury rate' column. The workbooks' column layout changes three times across the span, so the extraction locates that column by header text; a fixed index silently reads total hours as the rate for 2017 and 2018. Values cross-checked against the data labels on the rate chart in the archived CFOI charts package (1992-2017): all twelve overlapping years reproduce exactly. Rate = (fatal work injuries / total hours worked) x 200,000,000, the base for 100,000 full-time equivalents. Two limits are structural, not archival: CFOI has covered all 50 states and DC only since 1992, so no federal census of workplace deaths exists before then; and BLS moved the rate from an employment basis to an hours basis in 2006, so earlier rates measure something else and are not chained here. NOTE ON THE LINK CHECK: bls.gov returns 403 to clients whose User-Agent carries no contact address, so CI reports this source as bot-blocked and its expect-markers are NOT verified there — they were verified locally on 2026-09-01 against the served page."
+
+[[source]]
+id = "nchs-hus-2019-table1"
+title = "Health, United States, 2019 — Table 1: Crude birth rates, fertility rates, and birth rates, by age, race, and Hispanic origin of mother, selected years 1950-2018"
+short_cite = "NCHS, Health, United States 2019, Table 1"
+publisher = "National Center for Health Statistics, Centers for Disease Control and Prevention"
+year = 2021
+url = "https://www.cdc.gov/nchs/data/hus/2019/001-508.pdf"
+population = "All women aged 15-19 resident in the United States, all races and origins — the denominator is every woman in the age band, not those who were sexually active or married"
+expect = ["Crude birth rates, fertility rates, and birth rates", "Health, United States, 2019"]
+notes = "The All-races block, 15-19 'Total' column. The table repeats its whole structure once per race and origin group and prints 15-17 and 18-19 sub-columns beside the total, so both the block and the column are located explicitly by the extraction script rather than by position. Selected years, not annual: NCHS publishes 1950, 1960, 1970, 1980, 1990, 1995, 2000, 2005, 2010 and then most recent years, and the gaps between printed rows are not interpolated. This 2019 edition is cited rather than the newer 2020-2021 one because the later edition drops 2010 from its selected years. Cross-checked against that later edition (12 overlapping years, all identical) and against NVSR 72-1 Table 2, compiled independently of the trend tables (6 overlapping years, all identical). Note that cdc.gov returns 403 to browser-like User-Agents and serves plain tool agents instead — the opposite of bls.gov; scripts/link_check.py retries 403s with a plain agent for this reason."
+
+[[source]]
+id = "nchs-nvsr-72-1"
+title = "Births: Final Data for 2021 (National Vital Statistics Reports, Vol. 72, No. 1)"
+short_cite = "NCHS, NVSR 72(1), Births: Final Data for 2021"
+publisher = "National Center for Health Statistics, Centers for Disease Control and Prevention"
+year = 2023
+url = "https://www.cdc.gov/nchs/data/nvsr/nvsr72/nvsr72-01.pdf"
+population = "All women aged 15-19 resident in the United States, all races and origins"
+expect = ["Births: Final Data for 2021", "Birth rates, by age of mother"]
+notes = "Table 2, 'Birth rates, by age of mother: United States, 2010-2021', All-races-and-origins block, 15-19 'Total' column. Used for the 2020 figure, which the Health, United States trend table does not reach. Two traps in this document, both guarded in the extraction script: an 'All races and origins' heading appears on more than one page for more than one table, and Table 2's columns omit the crude birth rate that the trend tables carry, so the 15-19 total sits one cell earlier than in Health, United States. Reading the neighbouring cell gives the 15-17 sub-rate, about half the value and entirely plausible alone."

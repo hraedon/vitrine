@@ -423,6 +423,19 @@ notes = "The pandemic year. Travel collapsed but deaths did not fall with it, so
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-2020s-teen-birth-rate"
+quantity = 15.0
+panel = "day"
+label = "Births per 1,000 women aged 15-19, 2020"
+value = "15.0 live births per 1,000 women aged 15-19"
+unit = "live births per 1,000 women aged 15-19"
+price_year = 2020
+source = "nchs-nvsr-72-1"
+tier = "A"
+notes = "15.0 — a sixth of the 1960 rate, and lower than any figure NCHS has published for this measure. From Table 2 of Births: Final Data for 2021, because the Health, United States trend table does not reach 2020."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2020s-workplace-death-rate"
 quantity = 3.4
 panel = "day"

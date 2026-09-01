@@ -554,6 +554,19 @@ notes = "Absolute deaths, at 32,999, were lower than in any year since 1949. The
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-2010s-teen-birth-rate"
+quantity = 34.2
+panel = "day"
+label = "Births per 1,000 women aged 15-19, 2010"
+value = "34.2 live births per 1,000 women aged 15-19"
+unit = "live births per 1,000 women aged 15-19"
+price_year = 2010
+source = "nchs-hus-2019-table1"
+tier = "A"
+notes = "34.2, or roughly a third of the 1960 figure. The steepest decade of decline in the table."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2010s-workplace-death-rate"
 quantity = 3.6
 panel = "day"

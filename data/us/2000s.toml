@@ -586,6 +586,19 @@ notes = "Travel passed 2.7 trillion vehicle-miles a year while deaths stayed nea
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-2000s-teen-birth-rate"
+quantity = 47.7
+panel = "day"
+label = "Births per 1,000 women aged 15-19, 2000"
+value = "47.7 live births per 1,000 women aged 15-19"
+unit = "live births per 1,000 women aged 15-19"
+price_year = 2000
+source = "nchs-hus-2019-table1"
+tier = "A"
+notes = "Below the 1980 low for the first time, and falling faster than in any earlier stretch of the published table."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-2000s-workplace-death-rate"
 quantity = 4.2
 panel = "day"

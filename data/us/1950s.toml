@@ -312,6 +312,19 @@ notes = "Absolute deaths were close to where they had been in 1930 — 33,186 ag
 assumptions = ["composite-family"]
 
 [[fact]]
+id = "us-1950s-teen-birth-rate"
+quantity = 81.6
+panel = "day"
+label = "Births per 1,000 women aged 15-19, 1950"
+value = "81.6 live births per 1,000 women aged 15-19"
+unit = "live births per 1,000 women aged 15-19"
+price_year = 1950
+source = "nchs-hus-2019-table1"
+tier = "A"
+notes = "The rate is not a measure of teenage sex; it is births per thousand women aged 15 to 19, and in 1950 most of those births were to married women. Nearly one in twelve women in the age band gave birth that year."
+assumptions = ["composite-family"]
+
+[[fact]]
 id = "us-1950s-car-price"
 panel = "work-buys"
 label = "Average new car price, 1950"
