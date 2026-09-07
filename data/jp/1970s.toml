@@ -30,6 +30,7 @@ assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-1970s-mls-wage"
+audit = { file = "36-jp-income/mls-long-term-actual.csv", extractor = "csv-cell", encoding = "cp932", locator = "R854:C7", guards = [{ locator = "R854:C1", value = "実数" }, { locator = "R854:C2", value = "1975" }, { locator = "R854:C3", value = "CY" }, { locator = "R854:C4", value = "TL" }, { locator = "R854:C5", value = "0" }, { locator = "R854:C6", value = "0" }, { locator = "R1:C7", value = "現金給与総額" }], target = "amount_minor" }
 panel = "budget"
 label = "Average monthly wage, establishments with 30+ workers, 1975"
 value = "¥177,213"
@@ -74,6 +75,7 @@ assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-1970s-mls-hours"
+audit = { file = "36-jp-income/mls-long-term-actual.csv", extractor = "csv-cell", encoding = "cp932", locator = "R854:C12", guards = [{ locator = "R854:C1", value = "実数" }, { locator = "R854:C2", value = "1975" }, { locator = "R854:C3", value = "CY" }, { locator = "R854:C4", value = "TL" }, { locator = "R854:C5", value = "0" }, { locator = "R854:C6", value = "0" }, { locator = "R1:C12", value = "総実労働時間" }], target = "quantity" }
 panel = "day"
 label = "Average monthly working hours, establishments with 30+ workers, 1975"
 value = "172.0 hours"

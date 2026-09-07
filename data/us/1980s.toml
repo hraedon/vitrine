@@ -13,6 +13,7 @@ income_anchor = "us-1980s-median-income-four-person"
 
 [[fact]]
 id = "us-1980s-median-family-income"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C56", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A56", value = "1980" }, { locator = "f08ar!C8", value = "Median income" }, { locator = "f08ar!C9", value = "Current\ndollars" }] }
 panel = "budget"
 label = "Median family income, all families, 1980"
 quantity = 21020
@@ -25,6 +26,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1980s-median-income-four-person"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C305", scale = "1", guards = [{ locator = "f08ar!A256", value = "Families with Four People" }, { locator = "f08ar!A305", value = "1980" }, { locator = "f08ar!C257", value = "Median income" }, { locator = "f08ar!C258", value = "Current\ndollars" }] }
 basis = "annual"
 amount_minor = 2433000
 currency = "USD"
@@ -41,6 +43,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-1980s-number-of-families"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!B56", scale = "1000", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A56", value = "1980" }, { locator = "f08ar!B8", value = "Number (thousands)" }] }
 panel = "budget"
 label = "Number of families in the United States, 1980"
 quantity = 60310000
@@ -52,6 +55,7 @@ notes = "From Census F-8."
 
 [[fact]]
 id = "us-1980s-average-family-size"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!G56", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A56", value = "1980" }, { locator = "f08ar!G8", value = "Average size of family" }] }
 panel = "budget"
 label = "Average family size, 1980"
 quantity = 3.27
@@ -86,6 +90,7 @@ notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty
 
 [[fact]]
 id = "us-1980s-cex-total-expenditures"
+audit = { file = "02-cex/cusize-1985.txt", extractor = "text-regex", locator = "^Average annual expenditures:\\s+(\\$[\\d,]+)", guards = [{ locator = "^(Consumer Expenditure Survey, 1985)$", value = "Consumer Expenditure Survey, 1985" }] }
 panel = "budget"
 label = "Average annual household expenditures, 1985"
 quantity = 23490
@@ -160,6 +165,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1980s-median-home-value"
+audit = { file = "05-census-housing/values-unadj.txt", extractor = "text-regex", locator = "^United States\\s+(?:\\$[\\d,]+\\s+)(?:\\$[\\d,]+\\s+)(\\$[\\d,]+)", target = "amount_minor", scale = "100", guards = [{ locator = "^\\s+(2000\\s+1990\\s+1980\\s+1970\\s+1960\\s+1950\\s+1940)\\s*$", value = "2000      1990      1980      1970     1960     1950    1940" }] }
 basis = "total"
 amount_minor = 4720000
 currency = "USD"

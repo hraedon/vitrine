@@ -37,6 +37,7 @@ assumptions = ["composite-family", "nominal-values", "jp-household-not-family", 
 
 [[fact]]
 id = "jp-2010s-mls-wages"
+audit = { file = "36-jp-income/mls-long-term-actual.csv", extractor = "csv-cell", encoding = "cp932", locator = "R10409:C7", guards = [{ locator = "R10409:C1", value = "実数" }, { locator = "R10409:C2", value = "2015" }, { locator = "R10409:C3", value = "CY" }, { locator = "R10409:C4", value = "TL" }, { locator = "R10409:C5", value = "0" }, { locator = "R10409:C6", value = "0" }, { locator = "R1:C7", value = "現金給与総額" }], target = "amount_minor" }
 basis = "monthly"
 amount_minor = 361684
 currency = "JPY"
@@ -234,6 +235,7 @@ notes = "The 2014 NSFIIE and the 2019 survey (renamed to National Survey of Fami
 
 [[fact]]
 id = "jp-2010s-work-hours"
+audit = { file = "36-jp-income/mls-long-term-actual.csv", extractor = "csv-cell", encoding = "cp932", locator = "R10409:C12", guards = [{ locator = "R10409:C1", value = "実数" }, { locator = "R10409:C2", value = "2015" }, { locator = "R10409:C3", value = "CY" }, { locator = "R10409:C4", value = "TL" }, { locator = "R10409:C5", value = "0" }, { locator = "R10409:C6", value = "0" }, { locator = "R1:C12", value = "総実労働時間" }], target = "quantity" }
 quantity = 148.7
 panel = "day"
 label = "Average monthly working hours, 2015"

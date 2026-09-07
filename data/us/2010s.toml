@@ -13,6 +13,7 @@ income_anchor = "us-2010s-median-income-four-person"
 
 [[fact]]
 id = "us-2010s-median-family-income"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C26", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A26", value = "2010 (37)" }, { locator = "f08ar!C8", value = "Median income" }, { locator = "f08ar!C9", value = "Current\ndollars" }] }
 quantity = 60240
 panel = "budget"
 label = "Median family income, all families, 2010"
@@ -25,6 +26,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-2010s-median-income-four-person"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C275", scale = "1", guards = [{ locator = "f08ar!A256", value = "Families with Four People" }, { locator = "f08ar!A275", value = "2010 (37)" }, { locator = "f08ar!C257", value = "Median income" }, { locator = "f08ar!C258", value = "Current\ndollars" }] }
 quantity = 74750
 basis = "annual"
 amount_minor = 7475000
@@ -41,6 +43,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-2010s-number-of-families"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!B26", scale = "1000", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A26", value = "2010 (37)" }, { locator = "f08ar!B8", value = "Number (thousands)" }] }
 quantity = 79560000
 panel = "budget"
 label = "Number of families in the United States, 2010"
@@ -52,6 +55,7 @@ notes = "From Census F-8. Up from 73,780,000 in 2000."
 
 [[fact]]
 id = "us-2010s-average-family-size"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!G26", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A26", value = "2010 (37)" }, { locator = "f08ar!G8", value = "Average size of family" }] }
 quantity = 3.14
 panel = "budget"
 label = "Average family size, 2010"
@@ -86,6 +90,7 @@ notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty
 
 [[fact]]
 id = "us-2010s-cex-total-expenditures"
+audit = { file = "19-cpi-tables/cu-all-multi-year-2006-2012.xlsx", extractor = "xlsx-cell", locator = "Table!H48", guards = [{ locator = "Table!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Survey, 2006-2012" }, { locator = "Table!A48", value = "Average annual expenditures" }, { locator = "Table!H3", value = "2012" }] }
 panel = "budget"
 label = "Average annual household expenditures, 2012"
 quantity = 51442

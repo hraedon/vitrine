@@ -56,6 +56,7 @@ assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-2020s-median-income-all-families"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C10", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A10", value = "2024" }, { locator = "f08ar!C8", value = "Median income" }, { locator = "f08ar!C9", value = "Current\ndollars" }] }
 panel = "budget"
 label = "Median family income, all families, 2024"
 quantity = 105800
@@ -72,6 +73,7 @@ assumptions = ["composite-family", "nominal-values", "affordability-normalizatio
 
 [[fact]]
 id = "us-2020s-median-income-four-person"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C259", scale = "1", guards = [{ locator = "f08ar!A256", value = "Families with Four People" }, { locator = "f08ar!A259", value = "2024" }, { locator = "f08ar!C257", value = "Median income" }, { locator = "f08ar!C258", value = "Current\ndollars" }] }
 panel = "budget"
 label = "Median family income, four-person families, 2024"
 quantity = 139900
@@ -88,6 +90,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-2020s-number-of-families"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!B10", scale = "1000", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A10", value = "2024" }, { locator = "f08ar!B8", value = "Number (thousands)" }] }
 panel = "budget"
 label = "Number of families in the United States, 2024"
 quantity = 85980000
@@ -100,6 +103,7 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-2020s-average-family-size"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!G10", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A10", value = "2024" }, { locator = "f08ar!G8", value = "Average size of family" }] }
 panel = "budget"
 label = "Average family size, 2024"
 quantity = 3.15
@@ -112,6 +116,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-cex-total-expenditures"
+audit = { file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx", extractor = "xlsx-cell", locator = "Table!E48", guards = [{ locator = "Table!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Surveys, 2021-2024" }, { locator = "Table!A48", value = "Average annual expenditures" }, { locator = "Table!E3", value = "2024.0" }] }
 panel = "budget"
 label = "Average annual household expenditures, 2024"
 quantity = 78535

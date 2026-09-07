@@ -13,6 +13,7 @@ income_anchor = "us-1990s-median-income-four-person"
 
 [[fact]]
 id = "us-1990s-median-family-income"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C46", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A46", value = "1990" }, { locator = "f08ar!C8", value = "Median income" }, { locator = "f08ar!C9", value = "Current\ndollars" }] }
 quantity = 35350
 panel = "budget"
 label = "Median family income, all families, 1990"
@@ -25,6 +26,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1990s-median-income-four-person"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C295", scale = "1", guards = [{ locator = "f08ar!A256", value = "Families with Four People" }, { locator = "f08ar!A295", value = "1990" }, { locator = "f08ar!C257", value = "Median income" }, { locator = "f08ar!C258", value = "Current\ndollars" }] }
 quantity = 41450
 basis = "annual"
 amount_minor = 4145000
@@ -41,6 +43,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "us-1990s-number-of-families"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!B46", scale = "1000", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A46", value = "1990" }, { locator = "f08ar!B8", value = "Number (thousands)" }] }
 quantity = 66320000
 panel = "budget"
 label = "Number of families in the United States, 1990"
@@ -52,6 +55,7 @@ notes = "From Census F-8."
 
 [[fact]]
 id = "us-1990s-average-family-size"
+audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!G46", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A46", value = "1990" }, { locator = "f08ar!G8", value = "Average size of family" }] }
 quantity = 3.18
 panel = "budget"
 label = "Average family size, 1990"
@@ -148,6 +152,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1990s-median-home-value"
+audit = { file = "05-census-housing/values-unadj.txt", extractor = "text-regex", locator = "^United States\\s+(?:\\$[\\d,]+\\s+)(\\$[\\d,]+)", target = "amount_minor", scale = "100", guards = [{ locator = "^\\s+(2000\\s+1990\\s+1980\\s+1970\\s+1960\\s+1950\\s+1940)\\s*$", value = "2000      1990      1980      1970     1960     1950    1940" }] }
 basis = "total"
 amount_minor = 7910000
 currency = "USD"

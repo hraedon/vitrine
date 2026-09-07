@@ -234,6 +234,46 @@ class Assumption:
 
 
 @dataclass(frozen=True, slots=True)
+class AuditGuard:
+    """A source heading or year that must still occupy its declared address."""
+
+    locator: str
+    value: str
+
+
+class Extractor(enum.Enum):
+    CSV_CELL = "csv-cell"
+    XLSX_CELL = "xlsx-cell"
+    TEXT_REGEX = "text-regex"
+
+
+class AuditTarget(enum.Enum):
+    QUANTITY = "quantity"
+    AMOUNT_MINOR = "amount_minor"
+
+
+@dataclass(frozen=True, slots=True)
+class AuditRef:
+    file: str
+    extractor: Extractor
+    locator: str
+    scale: str = "1"  # decimal spelling, never binary floating-point arithmetic
+    target: AuditTarget = AuditTarget.QUANTITY
+    guards: tuple[AuditGuard, ...] = ()
+    encoding: str = "utf-8-sig"
+
+
+@dataclass(frozen=True, slots=True)
+class AuditEntry:
+    fact_id: str
+    fingerprint: str
+    sample_sha256: str
+    file: str
+    extracted: str
+    audited: str
+
+
+@dataclass(frozen=True, slots=True)
 class Fact:
     """One claim, one source, one tier — the atomic exhibit unit."""
 
@@ -253,6 +293,7 @@ class Fact:
     quantity: float | None = None  # headline numeric for chart projection; must
     # appear verbatim in ``value`` (gate-enforced) — a transcription of the
     # displayed datum, never a new number. Unit semantics stay in ``unit``.
+    audit: AuditRef | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -353,3 +394,4 @@ class Corpus:
     assumptions: dict[str, Assumption]
     rooms: tuple[Room, ...]
     essays: tuple[Essay, ...] = field(default=())
+    audit_ledger: tuple[AuditEntry, ...] = ()

@@ -34,6 +34,7 @@ assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-1980s-mls-wages"
+audit = { file = "36-jp-income/mls-long-term-actual.csv", extractor = "csv-cell", encoding = "cp932", locator = "R1574:C7", guards = [{ locator = "R1574:C1", value = "実数" }, { locator = "R1574:C2", value = "1985" }, { locator = "R1574:C3", value = "CY" }, { locator = "R1574:C4", value = "TL" }, { locator = "R1574:C5", value = "0" }, { locator = "R1574:C6", value = "0" }, { locator = "R1:C7", value = "現金給与総額" }], target = "amount_minor" }
 basis = "monthly"
 amount_minor = 317091
 currency = "JPY"
@@ -111,6 +112,7 @@ notes = "The NSFIIE is quinquennial (survey years 1978, 1983, 1988, 1989). The 1
 
 [[fact]]
 id = "jp-1980s-work-hours"
+audit = { file = "36-jp-income/mls-long-term-actual.csv", extractor = "csv-cell", encoding = "cp932", locator = "R1574:C12", guards = [{ locator = "R1574:C1", value = "実数" }, { locator = "R1574:C2", value = "1985" }, { locator = "R1574:C3", value = "CY" }, { locator = "R1574:C4", value = "TL" }, { locator = "R1574:C5", value = "0" }, { locator = "R1574:C6", value = "0" }, { locator = "R1:C12", value = "総実労働時間" }], target = "quantity" }
 quantity = 175.8
 panel = "day"
 label = "Average monthly working hours, 1985"

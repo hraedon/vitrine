@@ -12,6 +12,7 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
+from vitrine.audit import load_ledger, parse_ref
 from vitrine.model import (
     Assumption,
     Basis,
@@ -167,6 +168,10 @@ def _load_room(path: Path) -> Room:
         ctx = f"{path} [[fact]]"
         fact_id = _get_str(table, "id", ctx)
         ctx = f"{path} fact {fact_id!r}"
+        try:
+            audit = parse_ref(table["audit"]) if "audit" in table else None
+        except ValueError as exc:
+            raise LoadError(f"{ctx}: {exc}") from exc
         panel: Panel = _parse_enum(
             _get_str(table, "panel", ctx), {p.value: p for p in Panel}, "panel", ctx
         )
@@ -189,6 +194,7 @@ def _load_room(path: Path) -> Room:
                 price_year=_get_int_opt(table, "price_year", ctx),
                 basis=_parse_basis(table, ctx),
                 quantity=_get_float_opt(table, "quantity", ctx),
+                audit=audit,
             )
         )
     derived: list[DerivedFact] = []
@@ -291,9 +297,14 @@ def load_corpus(data_dir: Path) -> Corpus:
     essays = tuple(
         _load_essay(path) for path in sorted(essays_dir.glob("*.toml"))
     )
+    try:
+        ledger = load_ledger(data_dir / "audit-ledger.toml")
+    except (ValueError, OSError) as exc:
+        raise LoadError(f"{data_dir}/audit-ledger.toml: {exc}") from exc
     return Corpus(
         sources=_load_sources(sources_path),
         assumptions=_load_assumptions(assumptions_path),
         rooms=rooms,
         essays=essays,
+        audit_ledger=ledger,
     )

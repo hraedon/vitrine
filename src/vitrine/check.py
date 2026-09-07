@@ -14,6 +14,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 from vitrine import money
+from vitrine.audit import check_audits
 from vitrine.model import (
     INTERPOLATION_RE,
     Basis,
@@ -43,7 +44,7 @@ def _quantity_renderings(quantity: float) -> set[str]:
 
 def check_corpus(corpus: Corpus, series: dict[str, Series] | None = None) -> list[str]:
     """Return all problems found; an empty list means the gate is green."""
-    problems: list[str] = []
+    problems: list[str] = check_audits(corpus)
 
     for source in corpus.sources.values():
         if not source.url.strip():

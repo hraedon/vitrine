@@ -1866,3 +1866,26 @@ all sources including home gardens; one spring week when greens were coming
 into season; housekeeping households of 1+ persons. The card points forward
 to the 1960s availability card, where the ERS series begins at 0.40 lb per
 person — the liftoff this checkpoint grounds.
+
+
+## 2026-09-07 — First repeatable source-file audit (Plan 015)
+
+Re-extracted 57 declared fields from existing archive files: 36 Census F-8
+income/family-size records, seven Census historical home values, four CEX
+all-consumer-unit expenditure totals, and ten Japan MLS wages/hours records.
+Year, household-size, current/constant-dollar and survey-dimension guards are
+recorded with the locators. Every selected field matched; no values changed.
+
+The MLS file is CP932; its original bytes, not a UTF-8 rewrite, are hashed.
+CEX workbook columns were checked against measurement years (including 2012
+within the 2010s room). F-8 uses C for current-dollar medians and D for the
+constant-dollar figure; the old plan's example B335 was a family count, not income.
+The ledger is generated, and the operator recheck uses the archive on the host.
+
+This does not close the CES annual-mean, CEX calculated-share or food-price
+families. Their source and transformation work remains explicit in Plan 015.
+
+The F-8 source registration year was corrected from 2024 (the latest income
+year) to the 2025 workbook vintage. Its header names the 1948–2025 CPS ASEC
+supplements; workbook creation/modification metadata are in 2025. This changes
+source metadata, not any observation. The affected audits were regenerated.

@@ -4,8 +4,10 @@ from __future__ import annotations
 
 import argparse
 import sys
+from dataclasses import replace
 from pathlib import Path
 
+from vitrine.audit import coverage_report, run_audit, write_ledger
 from vitrine.check import (
     check_corpus,
     check_essays,
@@ -86,6 +88,33 @@ def _cmd_gaps(data_dir: Path) -> int:
         print(f"LOAD ERROR: {exc}", file=sys.stderr)
         return 1
     print(format_report(room_gaps(corpus)))
+    print(coverage_report(corpus))
+    return 0
+
+
+def _cmd_audit(data_dir: Path, samples: Path, coverage: bool, pin: bool) -> int:
+    try:
+        corpus = load_corpus(data_dir)
+        if coverage:
+            print(coverage_report(corpus))
+            return 0
+        entries, problems = run_audit(corpus, samples, accept_changed_samples=pin)
+        if not problems:
+            audited_corpus = replace(corpus, audit_ledger=entries)
+            problems.extend(check_corpus(audited_corpus, load_series(data_dir)))
+        for problem in problems:
+            print(f"FAIL: {problem}", file=sys.stderr)
+        if problems:
+            print("Ledger unchanged.", file=sys.stderr)
+            return 1
+        if not entries:
+            print("No audit locators; ledger unchanged.")
+            return 0
+        write_ledger(data_dir / "audit-ledger.toml", entries)
+    except (LoadError, SeriesError, ValueError, OSError) as exc:
+        print(f"AUDIT ERROR: {exc}", file=sys.stderr)
+        return 1
+    print(f"ok: {len(entries)} transcriptions checked against pinned sample bytes")
     return 0
 
 
@@ -152,6 +181,13 @@ def main(argv: list[str] | None = None) -> int:
         "--out", type=Path, default=Path("_site"), help="output directory (default: ./_site)"
     )
     sub.add_parser("gaps", help="print the mechanical gap inventory (generated, never hand-kept)")
+    audit = sub.add_parser("audit", help="recheck transcriptions against local source files")
+    audit.add_argument("--samples", type=Path, default=Path("samples"))
+    audit_mode = audit.add_mutually_exclusive_group()
+    audit_mode.add_argument("--coverage", action="store_true",
+                            help="report without reading samples")
+    audit_mode.add_argument("--pin", action="store_true",
+                            help="accept inspected sample changes after all extractions pass")
 
     args = parser.parse_args(argv)
     if args.command == "check":
@@ -162,6 +198,8 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_export(args.data, args.out)
     if args.command == "gaps":
         return _cmd_gaps(args.data)
+    if args.command == "audit":
+        return _cmd_audit(args.data, args.samples, args.coverage, args.pin)
     raise AssertionError(f"unhandled command {args.command!r}")
 
 

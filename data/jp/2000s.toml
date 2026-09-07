@@ -35,6 +35,7 @@ assumptions = ["composite-family", "nominal-values", "jp-household-not-family", 
 
 [[fact]]
 id = "jp-2000s-mls-wages"
+audit = { file = "36-jp-income/mls-long-term-actual.csv", extractor = "csv-cell", encoding = "cp932", locator = "R5770:C7", guards = [{ locator = "R5770:C1", value = "実数" }, { locator = "R5770:C2", value = "2005" }, { locator = "R5770:C3", value = "CY" }, { locator = "R5770:C4", value = "TL" }, { locator = "R5770:C5", value = "0" }, { locator = "R5770:C6", value = "0" }, { locator = "R1:C7", value = "現金給与総額" }], target = "amount_minor" }
 basis = "monthly"
 amount_minor = 381807
 currency = "JPY"
@@ -210,6 +211,7 @@ assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-2000s-work-hours"
+audit = { file = "36-jp-income/mls-long-term-actual.csv", extractor = "csv-cell", encoding = "cp932", locator = "R5770:C12", guards = [{ locator = "R5770:C1", value = "実数" }, { locator = "R5770:C2", value = "2005" }, { locator = "R5770:C3", value = "CY" }, { locator = "R5770:C4", value = "TL" }, { locator = "R5770:C5", value = "0" }, { locator = "R5770:C6", value = "0" }, { locator = "R1:C12", value = "総実労働時間" }], target = "quantity" }
 quantity = 152.5
 panel = "day"
 label = "Average monthly working hours, 2005"
