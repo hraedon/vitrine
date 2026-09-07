@@ -23,6 +23,8 @@ NAMESPACE="vitrine"
 DEPLOYMENT="vitrine"
 URL="https://vitrine.hraedon.com"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+VITRINE="$REPO_ROOT/.venv/bin/vitrine"
+PYTHON="$REPO_ROOT/.venv/bin/python"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -35,10 +37,15 @@ done
 
 cd "$REPO_ROOT"
 
+if [[ ! -x "$VITRINE" || ! -x "$PYTHON" ]]; then
+    echo "Vitrine's project environment is missing; run: uv venv && uv pip install -e '.[dev]'" >&2
+    exit 2
+fi
+
 echo "==> Building the current corpus to compare against"
 BUILD_DIR="$(mktemp -d)"
 trap 'rm -rf "$BUILD_DIR"' EXIT
-uv run vitrine build --out "$BUILD_DIR/site" >/dev/null
+"$VITRINE" build --out "$BUILD_DIR/site" >/dev/null
 echo "    built $(wc -l < "$BUILD_DIR/site/facts-manifest.txt") fact(s)"
 
 echo "==> Restarting deployment/$DEPLOYMENT in namespace $NAMESPACE"
@@ -50,7 +57,7 @@ echo "==> Waiting for the live site to settle"
 sleep 10
 
 echo "==> Verifying the live site serves the current corpus"
-if uv run python scripts/check_deploy_freshness.py \
+if "$PYTHON" scripts/check_deploy_freshness.py \
     "$BUILD_DIR/site" --url "$URL"; then
     echo
     echo "Deployed. $URL now serves the current corpus."
