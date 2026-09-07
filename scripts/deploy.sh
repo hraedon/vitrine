@@ -12,8 +12,8 @@
 # The verification step is the point. `kubectl rollout status` reports that new
 # pods are running, which is not the same claim as "visitors see the current
 # corpus" — the pods could have pulled a stale layer, or the build could have
-# failed upstream leaving the old image at :main. Only diffing the served
-# facts-manifest against a local build settles it.
+# failed upstream leaving the old image at :main. Comparing the served pages, assets, and exports
+# against a local build detects content and UI changes even when IDs stay the same.
 #
 # Usage: scripts/deploy.sh [--namespace vitrine] [--url https://vitrine.hraedon.com]
 
@@ -51,7 +51,7 @@ sleep 10
 
 echo "==> Verifying the live site serves the current corpus"
 if uv run python scripts/check_deploy_freshness.py \
-    "$BUILD_DIR/site/facts-manifest.txt" --url "$URL"; then
+    "$BUILD_DIR/site" --url "$URL"; then
     echo
     echo "Deployed. $URL now serves the current corpus."
 else

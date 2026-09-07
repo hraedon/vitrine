@@ -153,7 +153,10 @@ def project_lobby(
                 curated=country in curated_countries,
                 facts=sum(len(room.facts) for room in wing_rooms),
             )
-            for country in sorted({room.country for room in all_rooms})
+            for country in sorted(
+                {room.country for room in all_rooms},
+                key=lambda country: (country not in curated_countries, country),
+            )
             for wing_rooms in (
                 tuple(room for room in all_rooms if room.country == country),
             )
@@ -177,6 +180,10 @@ def project_lobby(
         panel_totals=panel_totals,
         totals=totals,
         sources=len(corpus.sources),
+        corpus_totals=_matrix_cell(
+            [fact for room in corpus.rooms for fact in room.facts],
+            [c for room in corpus.rooms for c in computed_by_room.get(room.slug, ())],
+        ),
         essays=essays,
         wings=wings,
     )

@@ -91,6 +91,27 @@ def nojs_page(browser: Browser) -> Iterator[Page]:
 # ── Helpers ──────────────────────────────────────────────────────────────────
 
 
+@pytest.mark.parametrize("width,height", VIEWPORTS)
+def test_country_directory_without_javascript(
+    nojs_page: Page, server_url: str, width: int, height: int,
+) -> None:
+    """Every country's decades remain reachable on small screens without JS."""
+    nojs_page.set_viewport_size({"width": width, "height": height})
+    nojs_page.goto(f"{server_url}{LOBBY}")
+    nojs_page.get_by_role("link", name="Choose a room", exact=True).click()
+    assert nojs_page.url.endswith("#choose-room")
+    links = nojs_page.locator(".wing-decades a")
+    assert links.count() == 27
+    for link in links.all():
+        box = link.bounding_box()
+        assert box is not None
+        assert box["x"] >= 0 and box["x"] + box["width"] <= width
+        assert box["height"] >= 44
+    nojs_page.get_by_role("link", name="Japan, 1980s", exact=True).click()
+    assert nojs_page.url.endswith("rooms/jp-1980s.html")
+    expect(nojs_page.locator(".room-disclaimer")).to_be_visible()
+
+
 def _open(page: Page, modal_id: str = MODAL_TV) -> None:
     """Open a placard by setting the location hash (triggers hashchange)."""
     page.evaluate(f"location.hash = '#{modal_id}'")

@@ -1,73 +1,71 @@
 {% extends "base.html" %}
-{% from "macros/navigation.html" import room_map %}
 {% from "macros/legends.html" import legend_block %}
 {% block title %}vitrine — the median family's century{% endblock %}
 {% block body %}
-<p class="eyebrow">vitrine · a statistical atlas of ordinary life</p>
-<h1>The <em>median family's</em> century, on the record</h1>
-<p class="sub">A decade-by-decade museum of the median-income four-person family's lifestyle. Every fact carries its source card and confidence tier; where the record is silent, the museum shows the gap.</p>
-<div class="plaque"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
-
-<h2 class="case-title">The record at a glance</h2>
-<p class="case-sub">Every room × every case, counted. The sliver under each count is the tier mix (green A to grey D — see the legend); an ember line marks documented silences the museum renders instead of guessing.</p>
-<div class="matrix-wrap">
-<table class="record-matrix">
-  <caption class="sr-only">Exhibit counts per decade room and display case</caption>
-  <thead><tr><th scope="col">Room</th>{% for panel in panels %}<th scope="col">{{ panel_title(panel) }}</th>{% endfor %}<th scope="col">Room total</th></tr></thead>
-  <tbody>
-  {% for row in page.matrix %}
-  <tr>
-    <th scope="row"><a href="rooms/{{ row.slug }}.html">{{ row.decade }}</a></th>
-    {% for cell in row.cells %}
-    <td>{% if cell.exhibits %}<a class="mx" href="rooms/{{ row.slug }}.html#panel-{{ panels[loop.index0].value }}" aria-label="{{ row.decade }}, {{ panel_title(panels[loop.index0]) }}: {{ cell.exhibits }} exhibits{% if cell.gaps %}, {{ cell.gaps }} documented gap{{ 's' if cell.gaps != 1 }}{% endif %}"><span class="cnt">{{ cell.facts }}{% if cell.computed %}<span class="comp">+{{ cell.computed }}</span>{% endif %}</span><span class="mix" aria-hidden="true">{% for tier, n in cell.tier_counts %}<i style="width:{{ (100 * n / cell.facts)|round(2) }}%;background:{{ T.TIER_COLORS[tier] }}"></i>{% endfor %}</span>{% if cell.gaps %}<span class="mx-gap">{{ cell.gaps }} gap{{ 's' if cell.gaps != 1 }}</span>{% endif %}</a>{% else %}<span class="mx empty"><span class="cnt">—</span></span>{% endif %}</td>
-    {% endfor %}
-    <td><a class="mx" href="rooms/{{ row.slug }}.html"><span class="cnt">{{ row.totals.facts }}{% if row.totals.computed %}<span class="comp">+{{ row.totals.computed }}</span>{% endif %}</span><span class="mix" aria-hidden="true">{% for tier, n in row.totals.tier_counts %}<i style="width:{{ (100 * n / row.totals.facts)|round(2) }}%;background:{{ T.TIER_COLORS[tier] }}"></i>{% endfor %}</span>{% if row.totals.gaps %}<span class="mx-gap">{{ row.totals.gaps }} gap{{ 's' if row.totals.gaps != 1 }}</span>{% endif %}</a></td>
-  </tr>
-  {% endfor %}
-  </tbody>
-  <tfoot><tr>
-    <td>Corpus · {{ page.totals.facts }} facts</td>
-    {% for cell in page.panel_totals %}
-    <td>{{ cell.exhibits }}{% if cell.gaps %} · {{ cell.gaps }} gap{{ 's' if cell.gaps != 1 }}{% endif %}</td>
-    {% endfor %}
-    <td>{% if page.totals.computed %}+{{ page.totals.computed }} computed · {% endif %}{{ page.totals.gaps }} gaps documented</td>
-  </tr></tfoot>
-</table>
+<div class="lobby-intro">
+  <div>
+    <p class="eyebrow">A statistical atlas of ordinary life</p>
+    <h1>A century of <em>ordinary life.</em><br>On the record.</h1>
+    <p class="sub">Step inside the home, budget, table, and working day of the median-income family. Move between decades; open any exhibit to see who was measured and where the evidence came from.</p>
+    <div class="lobby-actions">
+      <a class="entry-button" href="#choose-room">Choose a room <span aria-hidden="true">↓</span></a>
+      {% if page.essays %}<a href="essays/index.html">Follow a guided tour →</a>{% endif %}
+    </div>
+  </div>
+  <aside class="lobby-guide" aria-labelledby="guide-title">
+    <p class="eyebrow">Before you step inside</p>
+    <h2 id="guide-title">The source is part<br>of the exhibit.</h2>
+    <p>Every fact has a source card, a confidence tier, and the population actually measured. A gap means the record is silent.</p>
+    <dl class="corpus-strip" aria-label="Museum collection">
+      <div><dt>Country wings</dt><dd>{{ page.wings|length }}</dd></div>
+      <div><dt>Curated records</dt><dd>{{ page.corpus_totals.facts }}</dd></div>
+      <div><dt>Documented gaps</dt><dd>{{ page.corpus_totals.gaps }}</dd></div>
+      <div><dt>Sources</dt><dd>{{ page.sources }}</dd></div>
+    </dl>
+    <p class="collection-note">Gaps are included in the record count. Computed exhibits are counted separately in the tables.</p>
+    <a href="methodology.html">How to read the museum →</a>
+  </aside>
 </div>
-<p class="matrix-note">Counting rule: <b>N</b> sourced facts, <b>+M</b> exhibits computed at build from sourced inputs. A "gap" is a curated, documented silence — never a value. {{ page.sources }} sources stand behind every cell.</p>
+<div class="plaque lobby-disclaimer"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
 
-<h2 class="case-title">Ways in</h2>
+<section class="wing-directory" id="choose-room" aria-labelledby="choose-room-title">
+  <div class="directory-heading">
+    <div><p class="eyebrow">Start with a place and a decade</p><h2 id="choose-room-title">Choose your room</h2></div>
+    <p>Each country keeps its own sources, populations, and gaps. Comparisons across decades currently cover the US wing.</p>
+  </div>
+  {% for wing in page.wings %}
+  <section class="wing-entry" aria-labelledby="wing-{{ wing.country }}-title">
+    <div class="wing-entry-heading">
+      <span class="wing-code" aria-hidden="true">{{ wing.country|upper }}</span>
+      <div><h3 id="wing-{{ wing.country }}-title">{{ wing.name }}</h3>
+      <p>{{ wing.rooms|length }} rooms · {{ wing.facts }} curated records · {% if wing.curated %}rooms and guided routes{% else %}rooms; guided routes in progress{% endif %}</p></div>
+    </div>
+    <nav aria-label="{{ wing.name }} decade rooms" class="wing-decades">
+      {% for room in wing.rooms %}<a href="rooms/{{ room.slug }}.html" aria-label="{{ wing.name }}, {{ room.decade }}">{{ room.decade }} <span aria-hidden="true">↗</span></a>{% endfor %}
+    </nav>
+  </section>
+  {% endfor %}
+</section>
+
+<h2 class="case-title">Follow a question</h2>
 <div class="route-grid">
-  <a class="route-card" href="rooms/{{ page.rooms[0].slug }}.html">
-    <span class="route-no">01 · Browse</span><h2>Enter the rooms</h2>
-    <p>Move decade by decade through the house cutaway, six ledgers of exhibits, and every specimen record.</p>
-    <span class="route-enter">Begin in {{ page.rooms[0].decade }} →</span>
-  </a>
   <a class="route-card" href="corridors/index.html">
-    <span class="route-no">02 · Compare</span><h2>Follow the trends</h2>
-    <p>Trace diffusion, work, budgets, health, and family life across the century without flattening the gaps.</p>
-    <span class="route-enter">Enter the corridors →</span>
+    <span class="route-no">01 · Change over time</span><h2>What became ordinary?</h2>
+    <p>Follow technology, work, food, and family life through the US century, with the gaps still showing.</p>
+    <span class="route-enter">Explore the trends →</span>
+  </a>
+  <a class="route-card" href="affordability/index.html">
+    <span class="route-no">02 · The household budget</span><h2>What did work buy?</h2>
+    <p>Read US prices in hours of work and shares of income, with each comparison's limits on display.</p>
+    <span class="route-enter">Explore affordability →</span>
   </a>
   <a class="route-card" href="walkthrough.html">
-    <span class="route-no">03 · Tour</span><h2>Take the transect</h2>
-    <p>A guided three-stop view of paid work, unpaid work, childhood, and the changing home.</p>
-    <span class="route-enter">Start the transect →</span>
+    <span class="route-no">03 · A guided walk</span><h2>How did home life change?</h2>
+    <p>A three-stop walk through paid work, unpaid work, childhood, and the changing US home.</p>
+    <span class="route-enter">Take the transect →</span>
   </a>
 </div>
-{{ room_map(page.rooms, none, "rooms/", none, none, none, true) }}
-{% if page.wings|length > 1 %}
-<h2 class="case-title">The wings</h2>
-<p class="case-sub">Each country is its own wing: its rooms interlink, and its exhibits never borrow another country's record. A wing without curator's routes shows bare stages over complete, sourced ledgers.</p>
-<div class="route-grid wing-grid">
-{% for wing in page.wings %}
-  <a class="route-card" href="rooms/{{ wing.rooms[0].slug }}.html">
-    <span class="route-no">Wing · {{ wing.country | upper }}</span><h2>The {{ wing.country | upper }} rooms</h2>
-    <p>{{ wing.rooms|length }} room{{ 's' if wing.rooms|length != 1 }} · {{ wing.facts }} sourced fact{{ 's' if wing.facts != 1 }} · {% if wing.curated %}curated routes{% else %}routes not yet written{% endif %}.</p>
-    <span class="route-enter">Begin in {{ wing.rooms[0].decade }} →</span>
-  </a>
-{% endfor %}
-</div>
-{% endif %}
+
 {% if page.essays %}
 <h2 class="case-title">Docent tours</h2>
 <p class="case-sub">Short curated walks through the evidence — every figure bound to its exhibit.</p>
@@ -81,5 +79,35 @@
 {% endfor %}
 </div>
 {% endif %}
+
+<h2 class="case-title">The US record at a glance</h2>
+<p class="case-sub">Every US room × every case, counted. UK and Japan rooms are listed above; these totals cover the US wing only. The sliver under each count is the tier mix (green A to grey D — see the legend); an ember line marks documented silences the museum renders instead of guessing.</p>
+<p class="matrix-hint" id="matrix-help">On a narrow screen, scroll the table sideways to explore every case.</p>
+<div class="matrix-wrap" role="region" aria-label="US exhibit counts" aria-describedby="matrix-help" tabindex="0">
+<table class="record-matrix">
+  <caption class="sr-only">US exhibit counts per decade room and display case</caption>
+  <thead><tr><th scope="col">Room</th>{% for panel in panels %}<th scope="col">{{ panel_title(panel) }}</th>{% endfor %}<th scope="col">Room total</th></tr></thead>
+  <tbody>
+  {% for row in page.matrix %}
+  <tr>
+    <th scope="row"><a href="rooms/{{ row.slug }}.html">{{ row.decade }}</a></th>
+    {% for cell in row.cells %}
+    <td>{% if cell.exhibits %}<a class="mx" href="rooms/{{ row.slug }}.html#panel-{{ panels[loop.index0].value }}" aria-label="{{ row.decade }}, {{ panel_title(panels[loop.index0]) }}: {{ cell.exhibits }} exhibits{% if cell.gaps %}, {{ cell.gaps }} documented gap{{ 's' if cell.gaps != 1 }}{% endif %}"><span class="cnt">{{ cell.facts }}{% if cell.computed %}<span class="comp">+{{ cell.computed }}</span>{% endif %}</span><span class="mix" aria-hidden="true">{% for tier, n in cell.tier_counts %}<i style="width:{{ (100 * n / cell.facts)|round(2) }}%;background:{{ T.TIER_COLORS[tier] }}"></i>{% endfor %}</span>{% if cell.gaps %}<span class="mx-gap">{{ cell.gaps }} gap{{ 's' if cell.gaps != 1 }}</span>{% endif %}</a>{% else %}<span class="mx empty"><span class="cnt">—</span></span>{% endif %}</td>
+    {% endfor %}
+    <td><a class="mx" href="rooms/{{ row.slug }}.html"><span class="cnt">{{ row.totals.facts }}{% if row.totals.computed %}<span class="comp">+{{ row.totals.computed }}</span>{% endif %}</span><span class="mix" aria-hidden="true">{% for tier, n in row.totals.tier_counts %}<i style="width:{{ (100 * n / row.totals.facts)|round(2) }}%;background:{{ T.TIER_COLORS[tier] }}"></i>{% endfor %}</span>{% if row.totals.gaps %}<span class="mx-gap">{{ row.totals.gaps }} gap{{ 's' if row.totals.gaps != 1 }}</span>{% endif %}</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+  <tfoot><tr>
+    <td>US wing · {{ page.totals.facts }} facts</td>
+    {% for cell in page.panel_totals %}
+    <td>{{ cell.exhibits }}{% if cell.gaps %} · {{ cell.gaps }} gap{{ 's' if cell.gaps != 1 }}{% endif %}</td>
+    {% endfor %}
+    <td>{% if page.totals.computed %}+{{ page.totals.computed }} computed · {% endif %}{{ page.totals.gaps }} gaps documented</td>
+  </tr></tfoot>
+</table>
+</div>
+<p class="matrix-note">Counting rule: <b>N</b> sourced facts, <b>+M</b> exhibits computed at build from sourced inputs. A "gap" is a curated, documented silence — never a value. The source register covers all country wings.</p>
+
 {{ legend_block() }}
 {% endblock %}

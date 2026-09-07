@@ -151,7 +151,31 @@ def test_index_matrix_counts_match_the_corpus(site: Path, corpus: Corpus) -> Non
     html = (site / "index.html").read_text()
     for row in rows:
         assert f'href="rooms/{row.slug}.html"' in html
-    assert f"Corpus · {totals.facts} facts" in html
+    assert f"US wing · {totals.facts} facts" in html
+
+
+def test_lobby_distinguishes_full_collection_from_comparative_wing(
+    site: Path, corpus: Corpus,
+) -> None:
+    """UK/JP stay discoverable without being counted as US comparative records."""
+    rooms = tuple(_curated(corpus))
+    page = project_lobby(corpus, rooms, {}, all_rooms=corpus.rooms)
+    assert page.corpus_totals.facts == sum(len(r.facts) for r in corpus.rooms)
+    assert page.corpus_totals.facts > page.totals.facts
+    assert page.corpus_totals.gaps == sum(
+        f.value.strip().lower().startswith(GAP_PREFIX)
+        for r in corpus.rooms for f in r.facts
+    )
+    html = (site / "index.html").read_text()
+    directory = html.split('id="choose-room"', 1)[1].split(
+        '<h2 class="case-title">Follow a question</h2>', 1
+    )[0]
+    for room in corpus.rooms:
+        assert f'href="rooms/{room.slug}.html"' in directory
+    for name in ("United States", "United Kingdom", "Japan"):
+        assert f'aria-label="{name} decade rooms"' in directory
+    assert 'aria-label="US exhibit counts"' in html
+    assert html.index('id="choose-room"') < html.index('class="record-matrix"')
 
 
 def test_museum_map_is_semantic_and_surface_aware(site: Path) -> None:

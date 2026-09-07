@@ -294,6 +294,12 @@ class WingView:
     curated: bool  # the wing has curator's routes (vs bare stages)
     facts: int
 
+    @property
+    def name(self) -> str:
+        return {"us": "United States", "uk": "United Kingdom", "jp": "Japan"}.get(
+            self.country, self.country.upper()
+        )
+
 
 # ── page contexts (one per template) ──────────────────────────────────────────
 
@@ -307,6 +313,7 @@ class LobbyPage:
     panel_totals: tuple[MatrixCell, ...]  # column totals, in ``Panel`` order
     totals: MatrixCell
     sources: int
+    corpus_totals: MatrixCell
     essays: tuple[EssayEntryView, ...] = ()
     wings: tuple[WingView, ...] = ()
 

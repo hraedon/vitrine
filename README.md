@@ -172,7 +172,7 @@ scripts/deploy.sh                  # roll the Deployment, then verify the live
                                    # site serves the current corpus
 ```
 
-`scripts/check_deploy_freshness.py` is the verification on its own: it diffs the
-live `facts-manifest.txt` against a local build, so "deployed" means the served
-facts match the curated ones rather than merely that pods restarted. The weekly
-`Deploy Freshness` workflow runs the same check against the public site.
+`scripts/check_deploy_freshness.py` is the verification on its own: it compares
+every built page, asset, and export with the bytes served by the public site, so
+"deployed" covers corrected values, citations, and presentation as well as the
+set of exhibits. The weekly `Deploy Freshness` workflow runs the same check.

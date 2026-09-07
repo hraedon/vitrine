@@ -157,8 +157,8 @@ def _page(
 EXPECTED: dict[str, PageContract] = {
     "index.html": _page(
         "vitrine — the median family's century",
-        landmarks=(1, 2, 1, 0, 1), disclosures=(0, 0),
-        local=(105, "c9c5208fb138"), marks=(0, "e3b0c44298fc"), overlays=0,
+        landmarks=(1, 4, 1, 4, 1), disclosures=(0, 0),
+        local=(118, "7c126843b36e"), marks=(0, "e3b0c44298fc"), overlays=0,
     ),
     "rooms/us-1950s.html": _page(
         "US · 1950s — vitrine",

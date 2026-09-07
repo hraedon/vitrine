@@ -44,6 +44,40 @@ h2.case-title{font-family:{{ T.MONO }};font-size:12px;letter-spacing:.2em;text-t
 .caveat{border-left:3px solid {{ T.COPPER }};background:#f5ece2;padding:9px 12px;margin:8px 0;font-size:13px;color:#5d4026;max-width:76ch}
 
 /* ── folio routes (index) ── */
+.lobby-intro{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:clamp(24px,5vw,64px);align-items:start}
+.lobby-intro h1{font-size:clamp(38px,5.3vw,62px);line-height:1.04;margin:16px 0 20px}
+.lobby-intro .sub{font-size:16px;max-width:51ch;line-height:1.7}
+.lobby-actions{display:flex;align-items:center;flex-wrap:wrap;gap:18px;margin-top:26px}
+.lobby-actions a{font-size:14px;text-underline-offset:4px}
+.entry-button{display:inline-flex;align-items:center;justify-content:space-between;gap:24px;padding:12px 18px;background:{{ T.BRASS }};color:{{ T.IVORY }};text-decoration:none;border:1px solid {{ T.BRASS }};border-radius:2px}
+.entry-button:hover{background:{{ T.BRASS_DEEP }};color:{{ T.IVORY }}}
+.lobby-guide{padding:24px;background:{{ T.CASE }};border:1px solid {{ T.EDGE }};border-top:3px solid {{ T.BRASS }}}
+.lobby-guide .eyebrow{font-size:10px;letter-spacing:.12em}
+.lobby-guide h2{font:600 27px/1.15 {{ T.SERIF }};margin:14px 0}
+.lobby-guide p{font-size:14px;color:{{ T.INK_SOFT }}}
+.lobby-guide>a{font-size:13px;text-underline-offset:4px}
+.corpus-strip{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0 12px;padding-top:18px;border-top:1px solid {{ T.EDGE }}}
+.corpus-strip div{display:flex;flex-direction:column-reverse;gap:2px}
+.corpus-strip dt{font:10px {{ T.MONO }};color:{{ T.INK_SOFT }}}
+.corpus-strip dd{font:600 29px {{ T.SERIF }};font-variant-numeric:tabular-nums;margin:0}
+.lobby-guide .collection-note{font-size:12px;margin:12px 0}
+.lobby-disclaimer{max-width:none;margin:30px 0 42px}
+.wing-directory{scroll-margin-top:24px}
+.directory-heading{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:end;margin-bottom:20px}
+.directory-heading h2{font:600 32px/1.1 {{ T.SERIF }};margin:0}
+.directory-heading .eyebrow{font-size:10px;letter-spacing:.14em}
+.directory-heading>p{font-size:14px;color:{{ T.INK_SOFT }};margin:0;max-width:48ch}
+.wing-entry{padding:22px 24px;border:1px solid {{ T.EDGE }};background:{{ T.CASE }};margin-top:12px}
+.wing-entry-heading{display:flex;align-items:center;gap:18px;margin-bottom:16px}
+.wing-code{display:grid;place-items:center;width:48px;height:48px;border:1px solid {{ T.EDGE }};font:15px {{ T.MONO }};color:{{ T.BRASS }};flex:none}
+.wing-entry h3{font:600 24px {{ T.SERIF }};margin:0}
+.wing-entry p{font-size:12px;color:{{ T.INK_SOFT }};margin:3px 0 0}
+.wing-decades{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px}
+.wing-decades a{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:44px;padding:9px 11px;border:1px solid {{ T.EDGE }};font:15px {{ T.SERIF }};color:{{ T.INK }};text-decoration:none}
+.wing-decades a span{color:{{ T.BRASS }};font-family:{{ T.SANS }}}
+.wing-decades a:hover{border-color:{{ T.BRASS }};background:{{ T.CASE_2 }};color:{{ T.BRASS }}}
+.matrix-hint{font-size:12px;color:{{ T.INK_SOFT }}}
+.matrix-wrap:focus-visible{outline:2px solid {{ T.BRASS_LIT }};outline-offset:3px}
 .route-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:18px 0 10px;border:1px solid {{ T.EDGE }};border-radius:3px;overflow:hidden;background:{{ T.CASE }}}
 .route-card{display:flex;flex-direction:column;min-height:150px;padding:17px 18px;border-right:1px solid {{ T.EDGE }};text-decoration:none;color:inherit;background:{{ T.CASE }}}
 .route-card:last-child{border-right:0}
@@ -364,6 +398,9 @@ footer.colophon b{color:{{ T.INK }}}
 
 /* ── responsive ── */
 @media(max-width:860px){
+  .lobby-intro{grid-template-columns:1fr}
+  .lobby-guide h2 br{display:none}
+  .corpus-strip{grid-template-columns:repeat(4,1fr)}
   .museum-header{grid-template-columns:1fr;align-items:start;margin-bottom:34px}
   .museum-map{justify-content:flex-start;flex-wrap:wrap;gap:10px 20px}
   .museum-map a.here::after{bottom:-4px}
@@ -383,6 +420,9 @@ footer.colophon b{color:{{ T.INK }}}
   .exhibit-map{grid-template-columns:repeat(3,1fr)}
 }
 @media(max-width:560px){
+  .directory-heading{grid-template-columns:1fr;gap:12px}
+  .corpus-strip{grid-template-columns:1fr 1fr}
+  .lobby-guide,.wing-entry{padding:18px}
   .wrap{padding-left:16px;padding-right:16px}
   .museum-brand span,.nav-group-label{display:none}
   .museum-map{display:grid;grid-template-columns:1fr;gap:5px}
