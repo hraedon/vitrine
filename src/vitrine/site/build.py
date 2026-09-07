@@ -9,11 +9,12 @@ by a ``projections.project_*`` function that hands back a typed ``context.*Page`
 
 from __future__ import annotations
 
+import re
 import tomllib
 from importlib.resources import files
 from pathlib import Path
 
-from jinja2 import Environment
+from jinja2 import Environment, StrictUndefined
 
 from vitrine.derive import evaluate_room
 from vitrine.export import export_corpus
@@ -37,6 +38,7 @@ from vitrine.site.context import (
     MethodologyPage,
     PairPage,
     RoomPage,
+    SourceCollectionPage,
     WalkthroughPage,
 )
 from vitrine.site.environment import build_environment
@@ -61,6 +63,7 @@ from vitrine.site.projections.essays import (
     validate_essay_registries,
 )
 from vitrine.site.projections.facts import index_facts
+from vitrine.site.projections.references import project_source
 from vitrine.site.projections.rooms import project_lobby, project_room
 
 
@@ -82,6 +85,7 @@ def _render_page(
         | MethodologyPage
         | PairPage
         | RoomPage
+        | SourceCollectionPage
         | WalkthroughPage
     ),
     standalone: bool = False,
@@ -125,7 +129,9 @@ def _write_assets(out_dir: Path) -> None:
     # The stylesheet renders in its own non-autoescaping env on purpose: the
     # CSS uses {{ T.COPPER }} etc. and would be mangled by HTML autoescape.
     # build_environment() is for HTML templates only.
-    museum_css = Environment(autoescape=False).from_string(css_source).render(T=tokens)
+    museum_css = Environment(autoescape=False, undefined=StrictUndefined).from_string(
+        css_source
+    ).render(T=tokens)
     (assets_dir / "museum.css").write_text(museum_css)
 
 
@@ -377,6 +383,16 @@ def _build_site_contents(
                     "../",
                 ),
             )
+
+    source_dir = out_dir / "archive" / "sources"
+    source_dir.mkdir(mode=0o755, parents=True, exist_ok=True)
+    for source in corpus.sources.values():
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", source.id):
+            raise ValueError(f"source id is not a portable source-page slug: {source.id!r}")
+        _render_page(
+            env, "source.html", source_dir / f"{source.id}.html",
+            root="../../", surface="bibliography", page=project_source(corpus, source),
+        )
 
     (out_dir / "facts-manifest.txt").write_text("\n".join(rendered_ids) + "\n")
 

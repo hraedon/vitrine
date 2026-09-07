@@ -152,6 +152,8 @@ def project_lobby(
                 rooms=wing_rooms,
                 curated=country in curated_countries,
                 facts=sum(len(room.facts) for room in wing_rooms),
+                gaps=sum(f.value.strip().lower().startswith(GAP_PREFIX)
+                         for r in wing_rooms for f in r.facts),
             )
             for country in sorted(
                 {room.country for room in all_rooms},
@@ -206,6 +208,11 @@ def project_room(
     affordability = affordability_for_room(corpus, room)
     stage = build_stage(room, index, "../")
     comparative = room.country in curation.CURATED_COUNTRIES
+    observed = tuple(f for f in room.facts if not f.value.strip().lower().startswith(GAP_PREFIX))
+    compact = len(observed) < 8 or len({f.panel for f in observed}) < 3
+    sections = panels_for(room, computed)
+    if compact:
+        sections = tuple(sorted(sections, key=lambda ps: not (ps.observed_count or ps.computed)))
     return RoomPage(
         room=room,
         rooms=tuple(rooms),
@@ -214,7 +221,7 @@ def project_room(
         next_room=rooms[room_position] if room_position < len(rooms) else None,
         room_position=room_position,
         stage_svg=Markup(svg.stage_svg(stage, overlay_links=True)),
-        panels=panels_for(room, computed),
+        panels=sections,
         essay_links=essay_links,
         computed_count=len(computed),
         sources=corpus.sources,
@@ -224,4 +231,9 @@ def project_room(
             curation.ROOM_GAP_BANNERS.get(room.decade, "") if comparative else ""
         ),
         comparative=comparative,
+        observed_count=len(observed),
+        gap_count=len(room.facts) - len(observed),
+        compact=compact,
+        artifacts=stage.artifacts,
+        artifact_notes=stage.zone_notes,
     )

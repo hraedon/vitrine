@@ -457,3 +457,36 @@ footer.colophon b{color:{{ T.INK }}}
   .chart-panel svg.arc,.chart-panel svg.comp,.chart-panel svg.meter{width:700px;max-width:none}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto !important}}
+
+/* Labelled objects keep source meaning visible at every viewport width. */
+.collection-intro{padding:28px 32px;margin:26px 0;background:{{ T.CASE }};border-left:3px solid {{ T.BRASS }}}
+.collection-intro h2{font-family:{{ T.SERIF }};font-weight:400;margin:8px 0 14px;font-size:clamp(26px,3vw,38px)}
+.collection-intro p{max-width:76ch;line-height:1.7}
+.artifact-collection{margin:34px 0}
+.artifact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.artifact-card{display:flex;gap:16px;align-items:center;padding:20px 16px;background:{{ T.CASE }};border:1px solid {{ T.EDGE }};border-radius:4px;text-decoration:none;color:inherit;min-width:0;transition:background .15s,border-color .15s}
+.artifact-card:hover,.artifact-card:focus-visible{border-color:{{ T.BRASS }};background:{{ T.GROUND }}}
+.artifact-image{display:grid;place-items:center;flex:0 0 72px;height:84px;background:linear-gradient(145deg,#dce9df,#eee6cd);border-radius:40px 40px 8px 8px}
+.artifact-card:nth-child(3n+2) .artifact-image{background:linear-gradient(145deg,#e9dccd,#f1e9d5)}
+.artifact-card:nth-child(3n) .artifact-image{background:linear-gradient(145deg,#dce5e8,#ece6d5)}
+.artifact-icon{width:58px;height:58px;overflow:visible}
+.artifact-icon .glyph{stroke:{{ T.BRASS }};fill:none;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round}
+.artifact-icon .glyph.shade,.hs .glyph.shade{fill:{{ T.BRASS }};fill-opacity:.09}
+.artifact-icon .glyph.fill{fill:{{ T.BRASS }};stroke:none}
+.artifact-icon .glyph.detail,.hs .glyph.detail{stroke-width:.9;opacity:.7}
+.artifact-caption{min-width:0;display:grid;gap:7px}
+.artifact-caption b{font-size:14px;line-height:1.45;font-weight:500}
+.artifact-caption>span{font-family:{{ T.SERIF }};font-size:20px;line-height:1.3;overflow-wrap:anywhere}
+.artifact-caption small{font-size:10px;color:{{ T.BRASS }}}
+.artifact-notes{display:flex;flex-wrap:wrap;gap:12px;margin-top:15px;font-size:13px}
+.room-schematic{margin:22px 0;border-block:1px solid {{ T.EDGE }};padding:16px 0}
+.room-schematic>summary{cursor:pointer;color:{{ T.BRASS }}}
+@media(max-width:1000px){.artifact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.artifact-grid{grid-template-columns:1fr}.artifact-card{padding:14px 16px}.collection-intro{padding:20px}.artifact-image{height:72px}.artifact-caption>span{font-size:20px}}
+
+.source-records{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.source-record{background:{{ T.CASE }};border:1px solid {{ T.EDGE }};padding:20px;min-width:0}
+.source-record p{line-height:1.65;overflow-wrap:anywhere}
+.source-record small,.audit-summary{color:{{ T.INK_SOFT }};line-height:1.7}
+.source-room{margin:30px 0}
+@media(max-width:640px){.source-records{grid-template-columns:1fr}}

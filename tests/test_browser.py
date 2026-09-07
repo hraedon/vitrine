@@ -515,3 +515,19 @@ class TestResponsive:
                 assert box["right"] <= width + 1, (
                     f"focused element right={box['right']} > {width}"
                 )
+
+
+@pytest.mark.parametrize("width", [375, 1280])
+@pytest.mark.parametrize("relative", ["rooms/jp-1950s.html", "rooms/jp-2010s.html",
+                                     "archive/sources/census-f08-allraces.html"])
+def test_research_collections_fit_viewport(page: Page, server_url: str,
+                                          width: int, relative: str) -> None:
+    page.set_viewport_size({"width": width, "height": 812})
+    page.goto(server_url + relative)
+    assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
+
+
+def test_artifact_card_opens_source_without_javascript(nojs_page: Page, server_url: str) -> None:
+    nojs_page.goto(server_url + ROOM_1950S)
+    nojs_page.locator(f'.artifact-card[href="#{MODAL_TV}"]').click()
+    expect(nojs_page.locator(f'#{MODAL_TV}')).to_be_visible()

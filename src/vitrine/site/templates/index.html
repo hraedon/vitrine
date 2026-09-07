@@ -38,7 +38,7 @@
     <div class="wing-entry-heading">
       <span class="wing-code" aria-hidden="true">{{ wing.country|upper }}</span>
       <div><h3 id="wing-{{ wing.country }}-title">{{ wing.name }}</h3>
-      <p>{{ wing.rooms|length }} rooms · {{ wing.facts }} curated records · {% if wing.curated %}rooms and guided routes{% else %}rooms; guided routes in progress{% endif %}</p></div>
+      <p>{{ wing.rooms|length }} decades · {{ wing.facts - wing.gaps }} observations · {{ wing.gaps }} documented gaps · {% if wing.curated %}guided rooms{% else %}research collection{% endif %}</p></div>
     </div>
     <nav aria-label="{{ wing.name }} decade rooms" class="wing-decades">
       {% for room in wing.rooms %}<a href="rooms/{{ room.slug }}.html" aria-label="{{ wing.name }}, {{ room.decade }}">{{ room.decade }} <span aria-hidden="true">↗</span></a>{% endfor %}

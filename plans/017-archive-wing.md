@@ -1,6 +1,12 @@
 # Plan 017 — The archive wing: the collection about the collection
 
-**Status:** draft
+**Status:** delivered across Plans 020, 024 and this pass (2026-09-07).
+WI-1 is the existing US record matrix on the lobby, with country-level observation
+and gap counts in the directory. WI-2 now renders `archive/sources/<id>.html`
+for all 109 sources, with all 725 authored records assigned exactly once and
+current transcription-audit dates where available. WI-3 is the existing
+schema-versioned export surface from Plan 024. The original design below is
+retained as historical context; no duplicate map or export surface was added.
 **Triggered by:** 2026-07-11 deep-dive over the evidence base. Provenance
 under glass is the museum's distinguishing mechanic, but the provenance
 itself has thin surfaces: one flat bibliography page for 80 sources, a gap

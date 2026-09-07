@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-09-07 — Evidence-shaped collections and repeatable audits
+
+Sparse collections lead with observations and identify their gaps separately.
+Japan's 1950s page now presents two observations and five gaps without an empty
+house. Larger labelled object illustrations carry the actual measurement
+caption and open its source card. The US cutaway is an optional secondary view.
+
+Plan 015 adds source-file locators, context guards and a committed audit ledger.
+The first pass checks 57 declared numeric fields against archived evidence;
+CI rejects stale bindings. Annual means, calculated expenditure shares and
+unqualified food-price sources remain outside that coverage. No fact values
+were changed in this pass.
+
+The bibliography links to 109 source collection pages that enumerate all 725
+authored records once each, including gaps, with current audit dates where
+available. Plans 015, 017 and 028 record the implementation and next priorities.
+
 ## 2026-09-01 — One household in twenty: broccoli, spring 1955 (Plan 027 WI-6 complete)
 
 The 1955 USDA Household Food Consumption Survey asked what food came into

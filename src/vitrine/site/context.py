@@ -22,7 +22,7 @@ from markupsafe import Markup
 
 from vitrine.model import Assumption, BlockKind, Fact, Panel, Room, Source
 from vitrine.site.curation import Metric
-from vitrine.site.svg import ShareSegment
+from vitrine.site.svg import ShareSegment, StageArtifact, ZoneNote
 
 if TYPE_CHECKING:
     from vitrine.derive import ComputedFact
@@ -58,6 +58,14 @@ class PanelSection:
     panel: Panel
     facts: tuple[Fact, ...]
     computed: tuple[ComputedFact, ...]
+
+    @property
+    def gap_count(self) -> int:
+        return sum(f.value.strip().lower().startswith("no reliable record") for f in self.facts)
+
+    @property
+    def observed_count(self) -> int:
+        return len(self.facts) - self.gap_count
 
 
 # ── corridor atlas ────────────────────────────────────────────────────────────
@@ -293,12 +301,33 @@ class WingView:
     rooms: tuple[Room, ...]
     curated: bool  # the wing has curator's routes (vs bare stages)
     facts: int
+    gaps: int
 
     @property
     def name(self) -> str:
         return {"us": "United States", "uk": "United Kingdom", "jp": "Japan"}.get(
             self.country, self.country.upper()
-        )
+          )
+
+
+@dataclass(frozen=True, slots=True)
+class SourceFactView:
+    fact: Fact
+    audited: str  # empty unless the current ledger fingerprint matches
+
+
+@dataclass(frozen=True, slots=True)
+class SourceRoomView:
+    room: Room
+    facts: tuple[SourceFactView, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class SourceCollectionPage:
+    source: Source
+    rooms: tuple[SourceRoomView, ...]
+    count: int
+    audited_count: int
 
 
 # ── page contexts (one per template) ──────────────────────────────────────────
@@ -342,6 +371,11 @@ class RoomPage:
     # cross-reference itself against them -- it would land on a page holding
     # no fact of its own (FWI-005).
     comparative: bool
+    observed_count: int
+    gap_count: int
+    compact: bool
+    artifacts: tuple[StageArtifact, ...]
+    artifact_notes: tuple[ZoneNote, ...]
 
 
 @dataclass(frozen=True, slots=True)

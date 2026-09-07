@@ -358,9 +358,9 @@ def test_every_room_opens_with_a_sourced_route_and_case_map(
         html = (site / "rooms" / f"{room.slug}.html").read_text()
         story = curation.ROOM_STORY_BY_SLUG.get(room.slug)
         if story is None:
-            # An un-curated room still opens honestly: it says the route is
-            # unwritten rather than silently rendering an empty overture.
-            assert 'class="room-overture room-overture--uncurated"' in html
+            assert ("Research collection" in html)
+            assert ('class="room-overture room-overture--uncurated"' in html
+                    or 'class="collection-intro"' in html)
             assert 'class="story-stop"' not in html
         else:
             assert '<section class="room-overture"' in html
@@ -492,7 +492,9 @@ def test_era_keyed_symbols() -> None:
     assert symbols.symbol("telephone", "1900s").variant == "candlestick"  # type: ignore[union-attr]
     assert symbols.symbol("telephone", "1970s").variant == "push-button"  # type: ignore[union-attr]
     assert symbols.symbol("telephone", "1980s").variant == "handset"  # type: ignore[union-attr]
-    assert symbols.symbol("telephone", "2020s").variant == "smartphone"  # type: ignore[union-attr]
+    assert symbols.symbol("telephone", "2020s").variant == "handset"  # type: ignore[union-attr]
+    smartphone = symbols.symbol("telephone", "2020s", label="Households with a smartphone")
+    assert smartphone is not None and smartphone.variant == "smartphone"
     assert symbols.symbol("television", "1900s").variant == "rabbit-ear-set"  # type: ignore[union-attr]
     assert symbols.symbol("television", "1990s").variant == "crt-color"  # type: ignore[union-attr]
     assert symbols.symbol("television", "2000s").variant == "flat-panel"  # type: ignore[union-attr]
@@ -512,8 +514,8 @@ def test_era_keyed_symbols() -> None:
 
     # Dynamic food still-life
     bowl_sym = symbols.symbol("food", "1900s")
-    assert bowl_sym.variant == "bowl"  # type: ignore[union-attr]
-    assert "ellipse" in bowl_sym.svg  # type: ignore[union-attr]
+    assert bowl_sym.variant == "place-setting"  # type: ignore[union-attr]
+    assert "circle" in bowl_sym.svg  # type: ignore[union-attr]
 
     still_life_sym = symbols.symbol("food", "1900s", "We had beef, eggs, and milk")
     assert still_life_sym.variant == "still-life"  # type: ignore[union-attr]
@@ -790,3 +792,35 @@ def test_transport_note_is_right_anchored_inside_stage(site: Path) -> None:
         r'data-fact-id="us-2020s-expenditure-breakdown-4p"',
         html,
     )
+
+
+def test_sparse_japan_leads_with_observations_not_an_empty_house(site: Path) -> None:
+    html = (site / "rooms/jp-1950s.html").read_text()
+    assert "2 observations · 5 documented gaps" in html
+    assert 'class="house"' not in html
+    assert "The complete room" not in html
+    assert html.index('id="jp-1950s-fies-workers-income"') < html.index(
+        "What the collection cannot yet show"
+    )
+    assert "not the absence of something from people's lives" in html
+    # Later Japan rooms still offer their local illustrated subjects.
+    later = (site / "rooms/jp-2010s.html").read_text()
+    assert 'class="artifact-grid"' in later
+    assert 'class="house"' not in later
+    assert 'data-fact-id="jp-2010s-smartphone"' in later
+
+
+def test_source_collections_cover_every_fact_exactly_once(site: Path, corpus: Corpus) -> None:
+    pages = list((site / "archive/sources").glob("*.html"))
+    assert len(pages) == len(corpus.sources)
+    seen = []
+    for page in pages:
+        html = page.read_text()
+        ids = re.findall(r'data-source-fact-id="([^"]+)"', html)
+        expected = [f.id for r in corpus.rooms for f in r.facts if f.source == page.stem]
+        assert sorted(ids) == sorted(expected)
+        seen.extend(ids)
+    assert len(seen) == len(set(seen)) == sum(len(r.facts) for r in corpus.rooms)
+    income = (site / "archive/sources/census-f08-allraces.html").read_text()
+    assert "36 of 36 records have a current transcription audit" in income
+    assert "does not independently validate the source" in income

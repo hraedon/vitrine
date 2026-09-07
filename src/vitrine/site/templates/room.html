@@ -5,12 +5,19 @@
 {% block title %}{{ page.room.country | upper }} · {{ page.room.decade }} — vitrine{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · {{ page.room.country | upper }} · room {{ page.room_position }} of {{ page.rooms|length }}</p>
-<h1>The <em>{{ page.room.decade }}</em> room</h1>
+<h1>The <em>{{ page.room.decade }}</em> {{ 'collection' if page.compact else 'room' }}</h1>
 {% if page.room.data_as_of %}<p class="case-sub">Data as of {{ page.room.data_as_of }} (decade ongoing — each fact states its own data year).</p>{% endif %}
 <div class="plaque room-disclaimer"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
 {{ room_map(page.rooms, page.room, "", page.previous_room, page.next_room, page.room_position) }}
 {% if page.gap_banner %}<div class="gap-banner"><b>Structural gap</b>{{ page.gap_banner }}</div>{% endif %}
-{% if page.story %}
+{% if page.compact %}
+<section class="collection-intro" aria-labelledby="collection-intro-title">
+  <p class="story-kicker">Research collection · {{ page.observed_count }} observations · {{ page.gap_count }} documented gaps</p>
+  <h2 id="collection-intro-title">A few records, an unfinished picture</h2>
+  <p>The evidence here is too narrow for a portrait of everyday life. Start with the available observations below; each names the year and population it measures. Missing records describe the limits of this collection, not the absence of something from people's lives.</p>
+  {% if page.room.country == 'jp' %}<p>Japan's household and workplace surveys describe different populations. A workers' household income and an employee's wage are separate measures; neither is the median income of a four-person family.</p>{% endif %}
+</section>
+{% elif page.story %}
 <section class="room-overture" aria-labelledby="room-story-title">
   <div class="story-label">
     <div><p class="story-kicker">Curator's route · {{ page.story.facts|length }} sourced exhibit{{ 's' if page.story.facts|length != 1 }}</p><h2 id="room-story-title">{{ page.story.title }}</h2><p class="story-question">{{ page.story.question }}</p></div>
@@ -29,21 +36,45 @@
 {% else %}
 <section class="room-overture room-overture--uncurated">
   <div class="story-label">
-    <div><p class="story-kicker">No curator's route yet</p><h2 id="room-story-title">The room is open; the route is not written</h2></div>
-    <p class="story-note">The records in this room are sourced; documented gaps remain visible. The editorial route through them has not been authored yet — the ledgers below are the exhibit.</p>
+    <div><p class="story-kicker">Research collection</p><h2 id="room-story-title">Read the records on their own terms</h2></div>
+    <p class="story-note">{{ page.observed_count }} observations and {{ page.gap_count }} documented gaps. Check the year and measured population on each record: these surveys do not describe one household at one moment.</p>
   </div>
 </section>
 {% endif %}
+{% if page.artifacts %}
+<section class="artifact-collection" aria-labelledby="artifact-title">
+  <div class="collection-head"><div><p class="story-kicker">Objects &amp; everyday life</p><h2 id="artifact-title">A closer look</h2><p>Illustrated subjects from this collection. The labels state what was measured; the drawings identify the subject, not an exact model or a reconstructed household.</p></div></div>
+  <div class="artifact-grid">
+  {% for artifact in page.artifacts %}
+    <a class="artifact-card" href="#{{ artifact.fact_id }}--modal" data-fact-id="{{ artifact.fact_id }}">
+      <span class="artifact-image"><svg viewBox="-19 -19 38 38" aria-hidden="true" class="artifact-icon">{{ artifact.glyph_svg|safe }}</svg></span>
+      <span class="artifact-caption"><b>{{ artifact.label }}</b><span>{{ artifact.value|truncate(110, true, '…') }}</span><small>Open source record ↗</small></span>
+    </a>
+  {% endfor %}
+  </div>
+  {% if page.artifact_notes %}<div class="artifact-notes">{% for note in page.artifact_notes %}<a href="{{ note.href }}" data-fact-id="{{ note.fact_id }}">{{ note.text }}</a>{% endfor %}</div>{% endif %}
+</section>
+{% if not page.compact and page.room.country == 'us' %}
+<details class="room-schematic"><summary>Explore the schematic house</summary>
+<p class="case-sub">An illustration for finding records, not a reconstruction. An omitted icon means no exhibit was selected here; it does not establish historical absence.</p>
 <div class="stage" role="region" aria-label="Room illustration; scroll horizontally on a small screen" tabindex="0">{{ page.stage_svg }}</div>
-<div class="stagehint">era-graded wash · absent technology isn't drawn · every glyph opens its record</div>
+</details>
+{% endif %}
+{% endif %}
 {% if page.essay_links %}<p class="case-sub docent-crosslink">Docent tours stopping in this room: {% for link in page.essay_links %}<a href="../essays/{{ link.slug }}.html">{{ link.title }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
-<div class="collection-head"><div><h2>The complete room</h2><p>All six ledgers, including the curator's route above and the records around it. Value, tier, measured population, and source on every line.</p></div><span>{{ page.room.facts|length }} sourced facts{% if page.computed_count %} · {{ page.computed_count }} computed{% endif %}</span></div>
+<div class="collection-head"><div><h2>{{ 'Available observations' if page.compact else 'The collection records' }}</h2><p>Value, tier, measured population, and source on every record. Documented gaps are identified separately.</p></div><span>{{ page.observed_count }} observations · {{ page.gap_count }} gaps{% if page.computed_count %} · {{ page.computed_count }} computed{% endif %}</span></div>
 <nav class="exhibit-map" aria-label="Room display cases">
-{% for ps in page.panels %}{% set exhibit_count = ps.facts|length + ps.computed|length %}<a href="#panel-{{ ps.panel.value }}"><b>{{ panel_title(ps.panel) }}</b><span>{{ exhibit_count }} exhibit{{ 's' if exhibit_count != 1 }}</span></a>{% endfor %}
+{% for ps in page.panels %}{% set exhibit_count = ps.facts|length + ps.computed|length %}<a href="#panel-{{ ps.panel.value }}"><b>{{ panel_title(ps.panel) }}</b><span>{{ ps.observed_count }} observations · {{ ps.gap_count }} gaps</span></a>{% endfor %}
 </nav>
+{% set gap_heading = namespace(shown=false) %}
 {% for ps in page.panels %}
+{% if page.compact and not ps.observed_count and not ps.computed and not gap_heading.shown %}
+<h2 class="case-title">What the collection cannot yet show</h2>
+<p class="case-sub">These are documented research gaps. Open a source card for the specific limitation.</p>
+{% set gap_heading.shown = true %}
+{% endif %}
 <section class="panel-group" id="panel-{{ ps.panel.value }}" aria-labelledby="panel-{{ ps.panel.value }}-title">
-{% set exhibit_count = ps.facts|length + ps.computed|length %}<div class="panel-head"><h3 id="panel-{{ ps.panel.value }}-title">{{ panel_title(ps.panel) }}</h3><span>{{ exhibit_count }} exhibit{{ 's' if exhibit_count != 1 }}</span></div>
+{% set exhibit_count = ps.facts|length + ps.computed|length %}<div class="panel-head"><h3 id="panel-{{ ps.panel.value }}-title">{{ panel_title(ps.panel) }}</h3><span>{{ ps.observed_count }} observations · {{ ps.gap_count }} gaps{% if ps.computed %} · {{ ps.computed|length }} computed{% endif %}</span></div>
 {% if not ps.facts and not ps.computed %}<p class="case-sub"><em>Not yet curated.</em></p>{% endif %}
 {% for fact in ps.facts %}{{ fact_row(fact, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
 {% for cf in ps.computed %}{{ derived_row(cf, page.assumptions, root) }}{% endfor %}

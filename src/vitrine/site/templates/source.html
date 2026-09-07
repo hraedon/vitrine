@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ page.source.id }} · source collection — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow"><a href="../../bibliography.html">All sources</a> · source collection</p>
+<h1>{{ page.source.title }}</h1>
+<p class="sub">{{ page.source.publisher }} · {{ page.source.year }}</p>
+<div class="collection-intro">
+  <p class="story-kicker">Population measured</p>
+  <p>{{ page.source.population }}</p>
+  <p><a href="{{ page.source.url }}">Read the original source ↗</a></p>
+</div>
+{% if page.source.notes %}<details class="room-schematic"><summary>Source notes &amp; limitations</summary><p>{{ page.source.notes }}</p></details>{% endif %}
+<div class="collection-head"><div><h2>Where this source appears</h2><p>{{ page.count }} records across {{ page.rooms|length }} decades and countries. Documented gaps are included; a source cited for a gap does not establish a value.</p></div></div>
+<p class="audit-summary">{{ page.audited_count }} of {{ page.count }} records have a current transcription audit. This checks a declared numeric field against a pinned local source file. It does not independently validate the source or every claim in a record. The date is the last successful local audit; the build checks that its bindings still match.</p>
+{% for group in page.rooms %}
+<section class="source-room" aria-labelledby="source-{{ group.room.slug }}">
+  <h3 id="source-{{ group.room.slug }}"><a href="../../rooms/{{ group.room.slug }}.html">{{ group.room.country|upper }} · {{ group.room.decade }}</a></h3>
+  <div class="source-records">
+  {% for item in group.facts %}
+  <article class="source-record" data-source-fact-id="{{ item.fact.id }}">
+    <div><span class="tchip" style="background:{{ T.TIER_COLORS[item.fact.tier.value] }}">{{ item.fact.tier.value }}</span> <a href="../../rooms/{{ group.room.slug }}.html#{{ item.fact.id }}">{{ item.fact.label }}</a></div>
+    <p>{{ item.fact.value }}</p><p class="case-sub">{{ item.fact.unit }}</p>
+    <small>{% if item.audited %}Transcription checked · {{ item.audited }}{% else %}No current transcription audit{% endif %}</small>
+  </article>
+  {% endfor %}
+  </div>
+</section>
+{% else %}<p>Registered, not yet cited by a room record.</p>{% endfor %}
+{% endblock %}

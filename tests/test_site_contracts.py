@@ -162,12 +162,12 @@ EXPECTED: dict[str, PageContract] = {
     ),
     "rooms/us-1950s.html": _page(
         "US · 1950s — vitrine",
-        landmarks=(1, 3, 1, 7, 1), disclosures=(93, 0),
+        landmarks=(1, 3, 1, 8, 1), disclosures=(94, 0),
         local=(87, "e5ebfb10835c"), marks=(10, "1ef9c695b820"), overlays=45,
     ),
     "rooms/us-1910s.html": _page(
         "US · 1910s — vitrine",
-        landmarks=(1, 3, 1, 7, 1), disclosures=(40, 0),
+        landmarks=(1, 3, 1, 8, 1), disclosures=(41, 0),
         local=(54, "1f3a7ac6bf66"), marks=(6, "f83300610bb2"), overlays=20,
     ),
     "corridors/index.html": _page(
@@ -198,7 +198,7 @@ EXPECTED: dict[str, PageContract] = {
     "bibliography.html": _page(
         "bibliography — vitrine",
         landmarks=(1, 1, 1, 0, 1), disclosures=(109, 0),
-        local=(10, "15fee8e6a119"), marks=(0, "e3b0c44298fc"), overlays=0,
+        local=(119, "cf503d984a03"), marks=(0, "e3b0c44298fc"), overlays=0,
     ),
     "essays/index.html": _page(
         "docent tours — vitrine",

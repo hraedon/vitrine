@@ -13,6 +13,7 @@
   <p class="l-body"><b>Population measured:</b> {{ src.population }}
   {% if src.url %}<br><a href="{{ src.url }}">{{ src.url }}</a>{% endif %}</p>
   {% if src.notes %}<details><summary>Source notes</summary><div class="drawer">{{ src.notes }}</div></details>{% endif %}
+  <p><a href="archive/sources/{{ src.id }}.html">Explore the records that cite this source →</a></p>
   </div>
 </div>
 {% endfor %}

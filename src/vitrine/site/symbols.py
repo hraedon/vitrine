@@ -411,6 +411,86 @@ _VARIANTS: dict[str, tuple[tuple[int, str, str], ...]] = {
 
 ARTIFACTS = frozenset(_VARIANTS)
 
+# Larger labelled cards allow an inset face, controls and a little material
+# shading. These remain subject illustrations, never claims about a specific
+# appliance model. Secondary details use a lighter ink than the silhouette.
+_DETAILS: dict[tuple[str, str], str] = {
+    ("tenure", "deed"):
+        '<path class="glyph shade" d="M-13 -2 0 -13 13 -2 V12 H-13 Z"/>'
+        '<path class="glyph" d="M-16 -1 0 -15 16 -1 M-4 12 V2 H4 V12"/>'
+        '<path class="glyph detail" d="M-10 -1 H-6 V3 H-10 Z M6 -1 H10 V3 H6 Z"/>'
+        '<circle class="glyph" cx="8" cy="10" r="3"/>'
+        '<path class="glyph" d="M10 12 15 17 M13 15 15 13"/>',
+    ("rooms", "floor-plan"):
+        '<path class="glyph shade" d="M-14 -13 H14 V13 H-14 Z"/>'
+        '<path class="glyph" d="M0 -13 V-3 M0 4 V13 M0 -1 H14 M-14 3 H-7"/>'
+        '<path class="glyph detail" d="M0 -3 A7 7 0 0 1 7 4 H0 M-7 3 V10 A7 7 0 0 0 0 3"/>'
+        '<path class="glyph detail" d="M-11 -9 H-4 V-2 H-11 Z M5 4 H11 V9 H5 Z"/>',
+    ("electricity", "bulb"):
+        '<path class="glyph shade" d="M-5 6 C-5 1 -10 1 -10 -6 A10 10 0 0 1 10 -6 C10 1 5 1 5 6 Z"/>'
+        '<path class="glyph" d="M-5 9 H5 M-4 12 H4 M-2 15 H2"/>'
+        '<path class="glyph detail" d="M-2 6 -4 -3 0 0 4 -3 2 6 M-6 -10 Q-4 -13 -1 -13"/>',
+    ("radio", "tabletop-set"):
+        '<rect class="glyph shade" x="-15" y="-10" width="30" height="21" rx="3"/>'
+        '<rect class="glyph" x="-11" y="-6" width="15" height="9" rx="1"/>'
+        '<path class="glyph detail" d="M-8 -6 V3 M-5 -6 V3 M-2 -6 V3 M1 -6 V3"/>'
+        '<circle class="glyph" cx="10" cy="-3" r="2.5"/>'
+        '<circle class="glyph" cx="10" cy="6" r="2.5"/>'
+        '<path class="glyph detail" d="M-11 7 H3 M-9 11 V13 M9 11 V13"/>',
+    ("television", "rabbit-ear-set"):
+        '<rect class="glyph shade" x="-15" y="-8" width="30" height="22" rx="3"/>'
+        '<rect class="glyph" x="-11" y="-4" width="18" height="13" rx="4"/>'
+        '<path class="glyph" d="M-3 -8 -10 -16 M0 -8 8 -17 M-10 14 V17 M10 14 V17"/>'
+        '<circle class="glyph" cx="11" cy="-1" r="1.5"/>'
+        '<circle class="glyph" cx="11" cy="5" r="1.5"/>'
+        '<path class="glyph detail" d="M-7 -1 Q-5 -3 -2 -2 M9 10 H13"/>',
+    ("telephone", "rotary-desk"):
+        '<path class="glyph shade" d="M-14 12 -10 -1 H10 L14 12 Z"/>'
+        '<path class="glyph" d="M-13 -3 V-7 Q0 -14 13 -7 V-3 H7 V-6 Q0 -9 -7 -6 V-3 Z"/>'
+        '<circle class="glyph" cx="0" cy="5" r="5"/>'
+        '<circle class="glyph detail" cx="0" cy="5" r="2"/>'
+        '<path class="glyph detail" d="M0 0 V1 M-5 5 H-4 M0 9 V10 M4 5 H5 M-12 0 Q-18 4 -14 8"/>',
+    ("telephone", "handset"):
+        '<path class="glyph shade" d="M-11 -14 -5 -16 -1 -8 -5 -4 Q-2 2 4 5 L8 1 16 5 14 11 Q12 15 7 12 C-4 8 -11 1 -14 -8 Q-16 -12 -11 -14 Z"/>'
+        '<path class="glyph detail" d="M-8 -12 -5 -7 M7 7 12 8"/>',
+    ("telephone", "smartphone"):
+        '<rect class="glyph shade" x="-9" y="-16" width="18" height="32" rx="4"/>'
+        '<rect class="glyph" x="-6" y="-11" width="12" height="20" rx="1"/>'
+        '<path class="glyph detail" d="M-2 -13 H2 M-2 13 H2 M-3 -6 2 -9 M-3 -1 3 -7"/>',
+    ("refrigerator", "round-top"):
+        '<path class="glyph shade" d="M-11 15 V-8 Q-11 -16 0 -16 Q11 -16 11 -8 V15 Z"/>'
+        '<path class="glyph" d="M-8 11 V-7 Q-8 -12 0 -12 Q8 -12 8 -7 V11 Z M5 -4 V3"/>'
+        '<path class="glyph detail" d="M-6 13 H6 M-7 15 V17 M7 15 V17"/>',
+    ("refrigerator", "two-door"):
+        '<rect class="glyph shade" x="-10" y="-16" width="20" height="32" rx="2"/>'
+        '<path class="glyph" d="M-10 -4 H10 M6 -12 V-7 M6 0 V8"/>'
+        '<path class="glyph detail" d="M-6 -12 H1 M-6 12 H6 M-7 16 V18 M7 16 V18"/>',
+    ("plumbing", "tap"):
+        '<path class="glyph shade" d="M-14 4 H14 Q12 14 0 14 Q-12 14 -14 4 Z"/>'
+        '<path class="glyph" d="M-2 4 V-7 Q-2 -12 4 -12 Q10 -12 10 -7 V-4 M-6 -6 H2"/>'
+        '<path class="glyph detail" d="M10 -1 V1 M-8 8 Q-3 11 2 10 M0 14 V18"/>',
+    ("plumbing", "hand-pump"):
+        '<path class="glyph shade" d="M-14 4 H14 Q12 14 0 14 Q-12 14 -14 4 Z"/>'
+        '<path class="glyph" d="M-2 4 V-7 Q-2 -12 4 -12 Q10 -12 10 -7 V-4 M-6 -6 H2"/>'
+        '<path class="glyph detail" d="M10 -1 V1 M-8 8 Q-3 11 2 10 M0 14 V18"/>',
+    ("internet", "router"):
+        '<circle class="glyph shade" cx="0" cy="0" r="14"/>'
+        '<ellipse class="glyph" cx="0" cy="0" rx="6" ry="14"/>'
+        '<path class="glyph" d="M-14 0 H14 M-12 -7 H12 M-12 7 H12"/>',
+    ("automobile", "sedan"):
+        '<path class="glyph shade" d="M-17 6 V0 L-11 -2 -6 -10 H6 L12 -2 17 0 V6 Z"/>'
+        '<path class="glyph" d="M-9 -2 H10 M0 -10 V-2"/>'
+        '<circle class="glyph" cx="-10" cy="6" r="4"/>'
+        '<circle class="glyph" cx="10" cy="6" r="4"/>'
+        '<path class="glyph detail" d="M-3 1 H0 M-17 2 H-14 M14 2 H17"/>',
+}
+
+_PLATE = (
+    '<circle class="glyph shade" cx="0" cy="0" r="10"/>'
+    '<circle class="glyph detail" cx="0" cy="0" r="6"/>'
+    '<path class="glyph" d="M-15 -12 V-3 Q-12 0 -9 -3 V-12 M-12 -12 V14 M14 -12 Q10 -8 11 0 H14 V14 Z"/>'
+)
+
 
 def _food_still_life(value: str | None) -> str:
     if not value:
@@ -445,7 +525,8 @@ def _food_still_life(value: str | None) -> str:
     return "".join(parts)
 
 
-def symbol(artifact: str, decade: str, value: str | None = None) -> Symbol | None:
+def symbol(artifact: str, decade: str, value: str | None = None,
+           label: str = "") -> Symbol | None:
     """The era-resolved glyph for *artifact* in *decade*; None if unknown."""
     if artifact == "food":
         svg_content = _food_still_life(value)
@@ -460,7 +541,7 @@ def symbol(artifact: str, decade: str, value: str | None = None) -> Symbol | Non
             )
             if has_any:
                 return Symbol(artifact="food", variant="still-life", svg=svg_content)
-        return Symbol(artifact="food", variant="bowl", svg=svg_content)
+        return Symbol(artifact="food", variant="place-setting", svg=_PLATE)
 
     variants = _VARIANTS.get(artifact)
     if variants is None:
@@ -472,4 +553,9 @@ def symbol(artifact: str, decade: str, value: str | None = None) -> Symbol | Non
             chosen = (variant, svg)
     if chosen is None:
         return None
-    return Symbol(artifact=artifact, variant=chosen[0], svg=chosen[1])
+    # A decade does not tell us whether a telephone statistic means smartphone.
+    if artifact == "telephone" and year >= 1980:
+        variant = "smartphone" if "smartphone" in label.lower() else "handset"
+        chosen = (variant, _DETAILS[(artifact, variant)])
+    return Symbol(artifact=artifact, variant=chosen[0],
+                  svg=_DETAILS.get((artifact, chosen[0]), chosen[1]))

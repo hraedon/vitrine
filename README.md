@@ -176,3 +176,18 @@ scripts/deploy.sh --context default  # choose the cluster, deploy the commit
 every built page, asset, and export with the bytes served by the public site, so
 "deployed" covers corrected values, citations, and presentation as well as the
 set of exhibits. The weekly `Deploy Freshness` workflow runs the same check.
+
+
+### Rechecking transcriptions
+
+`vitrine audit --samples samples` compares declared fields with archived
+source files and updates the committed ledger only when all checks pass.
+`vitrine audit --coverage` works without the archive. CI checks the ledger's
+bindings through the normal provenance gate. Install `.[audit]` to read XLSX;
+`.[dev]` includes it. See [Plan 015](plans/015-transcription-audit.md) for scope
+and [the coverage snapshot](docs/transcription-audit-coverage.md) for omissions.
+
+Every bibliography entry now links to its source collection: all records that
+cite it, their measured populations, and available transcription-audit dates.
+Sparse rooms use a compact research-collection layout; labelled object cards
+keep the subject, measurement year and source link next to each illustration.

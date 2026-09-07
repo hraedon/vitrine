@@ -292,3 +292,21 @@ CI runs `vitrine check` alongside ruff/mypy/pytest; a red gate blocks merge.
 - No cryptographic provenance — source cards are editorial provenance;
   regista integration would be scope creep for a static museum.
 - No live data feeds. Sources are published documents; updates are commits.
+
+
+### Transcription audit bindings (Plan 015)
+
+A fact may declare an `audit` table naming a samples-relative file, extractor,
+locator, target (`quantity` or `amount_minor`), decimal scale, optional source
+context guards, and text encoding. It then requires a current entry in
+`data/audit-ledger.toml`. The gate compares a versioned fingerprint of the
+whole fact, source registration and referenced assumptions. The operator
+command re-extracts the declared field and guards from the pinned file bytes.
+A checked field does not validate every other numeral in a compound record.
+See Plan 015 for the command, schema decisions and coverage limits.
+
+Room presentation is allowed to adapt to the available evidence. The six
+panels and stable record links remain the data organization; sparse rooms
+lead with observations and identify gap-only panels separately. A documented
+gap is not an observation, and an omitted illustration is not evidence that
+an object was historically absent.

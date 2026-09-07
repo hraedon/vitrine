@@ -46,7 +46,9 @@ def build_stage(room: Room, index: dict[str, FactRef], root: str) -> svg.Stage:
         if fid is None:
             continue  # absent technology isn't drawn
         ref = resolve(fid, f"artifact {artifact!r}")
-        sym = symbols.symbol(artifact, room.decade, ref.fact.value)
+        if ref.fact.value.strip().lower().startswith("no reliable record"):
+            continue
+        sym = symbols.symbol(artifact, room.decade, ref.fact.value, ref.fact.label)
         if sym is None:
             continue
         artifacts.append(
