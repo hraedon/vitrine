@@ -42,10 +42,11 @@ id = "census-p60-series"
 title = "Current Population Reports, Consumer Income, Series P-60 (publication series)"
 publisher = "U.S. Census Bureau"
 year = 2024
-url = "https://www.census.gov/library/publications/time-series/p60.1989.List_1930924763.html"
+url = "https://www.census.gov/library/publications/time-series/p60.html"
 population = "All US families and persons, CPS money income"
-notes = "Kept for reference even though individual P-60 reports are cited directly — this is the series landing page listing all P-60 reports from 1947 to present. Individual reports are also at www2.census.gov/library/publications/<year>/demographics/p60-<no>.pdf. Example: P-60 No. 69 (1970) at https://www2.census.gov/library/publications/1970/demographics/p60-69.pdf."
+notes = "Kept for reference even though individual P-60 reports are cited directly — this is the Census publication-series landing page. Re-verified 2026-09-07 after Census retired its generated listing URL. Individual reports are also at www2.census.gov/library/publications/<year>/demographics/p60-<no>.pdf. Example: P-60 No. 69 (1970) at https://www2.census.gov/library/publications/1970/demographics/p60-69.pdf."
 measure = "money_income"
+expect = ["Consumer Income (P60) Publication Series", "Information concerning families"]
 
 # ── FRED (data republished from Census/BLS) ───────────────────────────────
 
