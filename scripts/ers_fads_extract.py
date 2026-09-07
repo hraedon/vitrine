@@ -3,9 +3,11 @@
 
 Emits one series per commodity into ``data/series/us-availability-*.toml``
 from the ERS Food Availability (Per Capita) Data System workbooks archived in
-``samples/46-diet-variety/``. Four commodities the plan picked for the
-"exotic-turned-ordinary" arc group: broccoli, bell peppers, avocados and
-grapes.
+``samples/46-diet-variety/``. Every fresh fruit and vegetable commodity sheet
+in the two workbooks is extracted — the four the plan picked for the
+"exotic-turned-ordinary" arc group (broccoli, bell peppers, avocados, grapes)
+plus every other commodity, whose combined per-decade counts feed the derived
+produce-variety fact (FWI-007 item 1).
 
 **What this measures, and does not.** Food *availability* is a disappearance
 estimate — production plus imports, less exports and non-food use, divided by
@@ -40,12 +42,66 @@ OUT_DIR = REPO / "data" / "series"
 VEG = ARCHIVE / "ers-fads-vegetables-fresh.xlsx"
 FRUIT = ARCHIVE / "ers-fads-fruit-fresh.xlsx"
 
-# slug -> (workbook, sheet, display label)
+# slug -> (workbook, sheet, display label). The four WI-6a arc-group
+# commodities keep their original slugs and labels so regeneration is
+# byte-identical; the rest follow the same pattern.
 COMMODITIES: dict[str, tuple[Path, str, str]] = {
+    # ── vegetables, fresh ──
+    "artichokes": (VEG, "Artichokes", "Fresh artichokes"),
+    "asparagus": (VEG, "Asparagus", "Fresh asparagus"),
+    "lima-beans": (VEG, "LimaBeans", "Fresh lima beans"),
+    "snap-beans": (VEG, "SnapBeans", "Fresh snap beans"),
     "broccoli": (VEG, "Broccoli", "Fresh broccoli"),
+    "brussels-sprouts": (VEG, "BrusselsSprouts", "Fresh Brussels sprouts"),
+    "cabbage": (VEG, "Cabbage", "Fresh cabbage"),
+    "carrots": (VEG, "Carrots", "Fresh carrots"),
+    "cauliflower": (VEG, "Cauliflower", "Fresh cauliflower"),
+    "celery": (VEG, "Celery", "Fresh celery"),
+    "collards": (VEG, "Collards", "Fresh collards"),
+    "sweet-corn": (VEG, "SweetCorn", "Fresh sweet corn"),
+    "cucumbers": (VEG, "Cucumbers", "Fresh cucumbers"),
+    "eggplant": (VEG, "Eggplant", "Fresh eggplant"),
+    "escarole": (VEG, "Escarole", "Fresh escarole"),
+    "garlic": (VEG, "Garlic", "Fresh garlic"),
+    "head-lettuce": (VEG, "HeadLettuce", "Fresh head lettuce"),
+    "kale": (VEG, "Kale", "Fresh kale"),
+    "mushrooms": (VEG, "Mushrooms", "Fresh mushrooms"),
+    "mustard-greens": (VEG, "MustardGreens", "Fresh mustard greens"),
+    "okra": (VEG, "Okra", "Fresh okra"),
+    "onions": (VEG, "Onions", "Fresh onions"),
     "bell-peppers": (VEG, "Peppers", "Fresh bell peppers"),
+    "potatoes": (VEG, "Potatoes", "Fresh potatoes"),
+    "pumpkin": (VEG, "Pumpkin", "Fresh pumpkin"),
+    "radishes": (VEG, "Radishes", "Fresh radishes"),
+    "romaine": (VEG, "Romaine", "Fresh romaine"),
+    "spinach": (VEG, "Spinach", "Fresh spinach"),
+    "squash": (VEG, "Squash", "Fresh squash"),
+    "sweet-potatoes": (VEG, "SweetPotatoes", "Fresh sweet potatoes"),
+    "tomatoes": (VEG, "Tomatoes", "Fresh tomatoes"),
+    "turnip-greens": (VEG, "TurnipGreens", "Fresh turnip greens"),
+    # ── fruit, fresh ──
+    "grapefruit": (FRUIT, "Grapefruit", "Fresh grapefruit"),
+    "lemons": (FRUIT, "Lemons", "Fresh lemons"),
+    "limes": (FRUIT, "Limes", "Fresh limes"),
+    "oranges": (FRUIT, "Oranges", "Fresh oranges"),
+    "tangerines": (FRUIT, "Tangerines, etc.", "Fresh tangerines"),
+    "apples": (FRUIT, "Apples", "Fresh apples"),
+    "apricots": (FRUIT, "Apricots", "Fresh apricots"),
     "avocados": (FRUIT, "Avocados", "Fresh avocados"),
+    "bananas": (FRUIT, "Bananas", "Fresh bananas"),
+    "blueberries": (FRUIT, "Blueberries", "Fresh blueberries"),
+    "cantaloupe": (FRUIT, "Cantaloupe", "Fresh cantaloupe"),
     "grapes": (FRUIT, "Grapes", "Fresh grapes"),
+    "honeydew": (FRUIT, "Honeydew", "Fresh honeydew"),
+    "kiwifruit": (FRUIT, "Kiwifruit", "Fresh kiwifruit"),
+    "mangoes": (FRUIT, "Mangoes", "Fresh mangoes"),
+    "papayas": (FRUIT, "Papayas", "Fresh papayas"),
+    "peaches": (FRUIT, "Peaches", "Fresh peaches"),
+    "pears": (FRUIT, "Pears", "Fresh pears"),
+    "pineapples": (FRUIT, "Pineapples", "Fresh pineapples"),
+    "raspberries": (FRUIT, "Raspberries", "Fresh raspberries"),
+    "strawberries": (FRUIT, "Strawberries", "Fresh strawberries"),
+    "watermelon": (FRUIT, "Watermelon", "Fresh watermelon"),
 }
 
 HEADER_ROW_FIRST_CELL = "Year"
@@ -96,9 +152,18 @@ def _locate(rows: list[tuple]) -> tuple[int, dict[str, int], str]:
     below = cells(header + 1) if header + 1 < len(rows) else []
 
     cols: dict[str, int] = {"year": 0}
-    for j, text in enumerate(head):
-        if text.startswith("U.S. population"):
-            cols["population"] = j
+    # The population column label varies across the workbooks — the citrus
+    # sheets print "U.S. total population, July 1<footnote>" while the others
+    # print "U.S. population, July 1" — so the column is matched by the word
+    # "population" and must match exactly one column, else the layout is not
+    # what this parser assumes.
+    pop_cols = [j for j, text in enumerate(head) if "population" in text.casefold()]
+    if len(pop_cols) != 1:
+        raise SystemExit(
+            f"expected exactly one 'population' column, found {len(pop_cols)} "
+            f"— the layout is not what this parser assumes"
+        )
+    cols["population"] = pop_cols[0]
     # The header row prints two columns starting with "Total" ("Total supply"
     # and the availability total), both carrying footnote markers, so the
     # availability column is found by the "Food availability" spanner printed

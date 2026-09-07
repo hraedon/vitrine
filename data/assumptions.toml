@@ -91,3 +91,8 @@ statement = "The UK has no published counterpart to the US Census four-person-fa
 id = "uk-wage-anchor-all-employees"
 title = "The UK wage anchor is the median over all employee jobs"
 statement = "The UK hourly-wage anchor is ASHE's median gross hourly pay across all employee jobs — full- and part-time, both sexes. It is deliberately not the full-time median, which is the figure usually quoted as 'the' UK wage and runs roughly 12% higher; the all-jobs median is the one that describes the hour of work actually available in the labour market. Every fact using it carries the full-time median beside it so the gap is visible rather than implied. Because it is a median and the US anchor is a mean of a narrower population, the two are different measures and are not chained."
+
+[[assumption]]
+id = "produce-variety-rule"
+title = "The produce-variety count and its one-pound rule"
+statement = "The derived produce-variety fact counts, for one stated year per decade, how many fresh fruit and vegetable commodities the US food supply provided at least a full pound of per person — farm-weight availability, as ERS publishes it. The candidate set is every commodity sheet in the two ERS fresh workbooks, enumerated by id in the derivation, never a filename convention. The count is computed by the build from those committed series, never authored. Commodities whose ERS series had not begun or had ended by the stated year are outside both the count and the displayed total, so a widening record cannot masquerade as rising variety: the value always shows count of tracked. Availability is a disappearance estimate — what the supply made available, not what anyone ate."

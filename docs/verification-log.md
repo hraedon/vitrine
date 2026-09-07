@@ -1617,3 +1617,252 @@ Plan 027 WI-6 specifies four apparatuses. Only the first is landed here. The
 derived variety-count fact, the produce-SKU confrontation number (Progressive
 Grocer / FMI via ERS, Tier B) and the 1955 Household Food Consumption Survey
 checkpoint are untouched and are tracked as FWI-007.
+
+## Plan 027 WI-6 (variety count): The produce-variety derived fact (7 derived facts + 50 series)
+
+**Date:** 2026-09-01
+**Verifier:** GLM 5.3 session (opencode)
+**Source checked:** USDA/ERS Food Availability (Per Capita) Data System — the
+same two fresh workbooks as WI-6a, extended from four commodity sheets to
+every commodity sheet (32 vegetables, 22 fruit).
+**Archive:** `samples/46-diet-variety/` (unchanged from WI-6a)
+**Extraction:** `scripts/ers_fads_extract.py` (extended); derived entries
+authored by `scripts/ers_fads_variety.py`
+
+### The citrus sheets exposed a parser assumption
+
+The five citrus sheets (grapefruit, lemons, limes, oranges, "Tangerines,
+etc.") print their population column as "U.S. total population, July 1" with
+a footnote marker — rendered "July 13" — where every other sheet prints
+"U.S. population, July 1". The WI-6a column matcher matched the label prefix
+and missed all five. The matcher now requires exactly one header cell
+containing the word "population" and refuses on zero or on ambiguity. The
+four original series regenerate byte-identically under the widened rule
+(git-clean after regeneration), and the arithmetic identity guard — farm
+per-capita must equal food availability ÷ population — still runs for every
+year of every commodity, citrus included.
+
+### What the count is, and what it refuses to be
+
+The plan asked for "count of commodities above a stated lb-per-capita
+threshold, per decade". The record dictates two amendments, both visible in
+the rendered value:
+
+1. **"N of M tracked", not a bare N.** The tracked set widens from 18
+   commodities (1960) to 54 (2000s/2010s) as ERS began tracking more things —
+   partly because there were more things. A bare count would launder the
+   widening record into rising variety. The value displays both numbers; a
+   series with no published value for the count year (not yet begun, or
+   ended — avocados 2017, papayas 2018) is outside both.
+2. **1960s onward only.** The per-commodity sheets begin at the earliest in
+   1960; the plan's "continuous from 1909" holds only for the aggregate
+   sheets. No 1900s–1950s room carries the fact — the boundary is this
+   gap-log entry, not invented zeros.
+
+| decade (count year) | count | tracked |
+|---|---|---|
+| 1960s (1960) | 11 | 18 |
+| 1970s (1970) | 25 | 43 |
+| 1980s (1980) | 31 | 45 |
+| 1990s (1990) | 34 | 49 |
+| 2000s (2000) | 38 | 54 |
+| 2010s (2010) | 42 | 54 |
+| 2020s (2020) | 41 | 52 |
+
+The count year is the decade's first year, the same convention as the
+availability cards. The threshold is an inclusive one pound per person per
+year, farm weight — a commodity the food supply provided a full pound of —
+stated in the assumption ledger (`produce-variety-rule`) and rendered in the
+drawer's rule line.
+
+### The derivation is machinery, not arithmetic in a data file
+
+A new closed-set op, `COUNT_ABOVE`, joins the plan-006 derivation engine:
+the data file authors structure only — the explicit series-id list, the
+threshold, the year — and the value, the tracked total, and the tier
+(weakest tracked input) are computed at build. The gate enforces: every
+listed id resolves; the list has no duplicates; every series is
+quantity-valued and shares one unit (the WI-022 lesson generalized —
+thresholding pounds against index points is refused); at least one series
+publishes the count year; and no stray fact operands sit beside the series
+operands. The export payload carries `count_series[]`, `threshold`,
+`at_year` so the arithmetic is reproducible from the export alone.
+
+The candidate set is enumerated explicitly — 54 ids, no prefix convention —
+so a future commodity enters the count only through a visible diff;
+`tests/test_produce_variety.py` reddens if the committed
+`us-availability-*` series and the derived entries' candidate set drift
+apart, and recomputes every count from the committed series (the WI-12
+"agrees with its inputs" acceptance). Four gate checks and the inclusive
+threshold were each mutation-proven to redden a named test.
+
+### Boundaries
+
+- Availability, not intake — carried over from WI-6a, stated on every card,
+  in the derived note, and in the assumption.
+- The tracked total is the record's breadth, not the shop's: the 1960 count
+  covers 18 commodities because that is what ERS tracked, not because only
+  18 existed. The value's "of M" phrasing keeps that in the visitor's eye.
+- FWI-007's inventory said 24 vegetable sheets; the workbook carries 32.
+  Counted from the document, as D3 requires.
+
+## Plan 027 WI-6 (SKU count): The produce-department confrontation number, corrected by the record (2 facts)
+
+**Date:** 2026-09-01
+**Verifier:** GLM 5.3 session (opencode)
+**Source checked:** ERS Agriculture Information Bulletin 758, "Understanding
+the Dynamics of Produce Markets: Consumption and Consolidation Grow"
+(Kaufman, Handy, McLaughlin, Park, Green; August 2000), page 3.
+**Archive:** `samples/47-produce-sku/` (AIB-758 full PDF; AER-825 contents +
+one section PDF, checked and found to carry no SKU figures)
+**Cards:** hand-authored from the archived PDF's text layer
+
+### The remembered pair was wrong on both ends and both years
+
+The triggering figure — "~100 items in a 1980 produce aisle rising to ~400 by
+1997" — appears nowhere in the document. What page 3 actually publishes:
+
+| measure | 1987 | 1997 |
+|---|---|---|
+| produce-department stockkeeping units | 173 | 335 |
+| department floor area (sq ft) | 4,817 | 5,140 |
+
+ERS's own arithmetic: a 94-percent increase in items against a 6.7-percent
+increase in floor space — the assortment densified into nearly the same
+room. That contrast, not the famous round numbers, is the exhibit, and the
+source's `expect` markers ("173", "335", "Litwak") keep the live URL honest.
+
+### Provenance chain, and why Tier B
+
+The figures are not a government statistic: AIB-758 relays Litwak's surveys
+of supermarket produce departments, published in *Supermarket Business*
+(1988 and 1998 volumes, reporting 1987 and 1997) — trade-press survey data
+relayed by a federal bulletin. Tier B, with the basis and population on the
+card and in the registry entry. A stockkeeping unit is a distinct shelf item
+(one commodity in one form, package or brand), not a commodity — the cards
+say so explicitly, because the FADS commodity-variety count landed earlier
+today measures a different thing and the two must not be read against each
+other.
+
+### Boundaries
+
+- Two points only (1987, 1997). No 1980 figure exists in this record; the
+  1980s card carries the 1987 survey year, the same first-published-year
+  convention the availability cards use.
+- "Average supermarket" is the surveyed store type — the trade's average
+  chain store, not all foodstores (the bulletin separately tabulates
+  specialized produce stores, warehouse clubs and supercenters).
+- AER-825 (Sept 2003) was fetched and checked for a longer series; it is a
+  trade-practices synthesis and carries no SKU counts. Its two section PDFs
+  stay in the archive as the negative-result record.
+
+## Plan 027 WI-6 (scouting): the 1955 household-use checkpoint — located, archived, mapped, deliberately not yet transcribed
+
+**Date:** 2026-09-01
+**Verifier:** GLM 5.3 session (opencode)
+**No values were transcribed in this pass.** The archive.org scans' text
+layers are machine OCR of 1955 typewriting and garble both digits and column
+labels (Broccoli renders as "i^roccon", UNITED STATES as "TOUTED STATES");
+the exact cells this apparatus will cite are OCR-grade work against page
+images (the /ocr skill), which is the next session's focused task — the same
+discipline FWI-001 applied to UK transcription.
+
+### What was found
+
+The survey publishes exactly the planned table class, and at item level,
+which is better than the plan dared:
+
+- **The national primary is Report No. 1, "Food Consumption of Households in
+  the United States"** (ARS/AMS Household Food Consumption Survey, 1955;
+  archived as `samples/47-produce-sku/hfcs-1955-report1-united-states.pdf`).
+  Its **Table 14 — FRESH VEGETABLES** (printed pages ~46–62, UNITED STATES /
+  ALL URBANIZATIONS, with per-urbanization continuations ~112–123) carries
+  per-item columns — **Broccoli (6), Carrots (7), Peppers, green (8)**,
+  asparagus, snap/wax beans, cabbage, lettuce, peas, corn, celery, cucumbers,
+  onions — each in all-sources and purchased-only variants, under
+  "PERCENTAGE OF HOUSEHOLDS USING" rows ("All households" first).
+- The earlier fetch, Report No. 7 (Dietary Levels, Northeast —
+  `hfcs-1955-report.pdf`), publishes only vegetable *groups*; it stays in the
+  archive as the structure/glossary reference. It supplied the definitions
+  the card must carry.
+
+### Disclosures the future card must carry (from the survey's own glossary)
+
+- "Food used at home" is food *used*, "in an economic sense (rather than
+  food ingested) — includes food eaten, thrown away as waste, or fed to
+  pets."
+- The week is **one spring week, April–June 1955**; a produce item's spring
+  seasonality is in the number. Population: housekeeping households of 1+
+  persons (21-meal framing), by income and urbanization.
+- Home-canned/frozen vegetables brought in fresh were tabulated as fresh;
+  the broccoli column is "all sources" unless the purchased variant is
+  chosen deliberately.
+- Tier A: the survey is official (USDA ARS/AMS), 1955's own government
+  record — the plan's tier table already says so.
+
+## Plan 027 WI-6 (1955 checkpoint): households using broccoli — closed by the survey's own arithmetic (1 fact, WI-6 complete)
+
+**Date:** 2026-09-01
+**Verifier:** GLM 5.3 session (opencode)
+**Source:** USDA Household Food Consumption Survey, 1955, Report No. 1, *Food
+Consumption of Households in the United States* (ARS/AMS, 1956), Table 14
+(FRESH VEGETABLES), United States / All-urbanizations section, printed p. 111
+of the scan (PDF page 115).
+**Archive:** `samples/47-produce-sku/hfcs-1955-report1-united-states.pdf`
+**Card:** `us-1950s-households-using-broccoli` (day panel, Tier A)
+
+### What was curated
+
+One spring week, April–June 1955: **4.6%** of US housekeeping households used
+fresh broccoli at home (purchased variant: 4.4%; one-person households 2.8%,
+2+-person 4.8%; under-$2,000 income classes ~1.0%, $8,000–9,999 ~10.7% — the
+steepest income gradient of any vegetable in the table). Companions quoted on
+the card from the same row: carrots 51.5%, green peppers 21.0%, the
+dark-green-and-deep-yellow group total 69.4%.
+
+### The negative microfilm, and the instruments that failed
+
+The scan is a **negative** (light text on black; median pixel 24). The
+OCR-endpoint ensemble could not read it: chandra-ocr-2-mlx and
+infinity-parser2-flash timed out or echoed the prompt on the dense landscape
+page; glm-ocr hallucinated captions on every preparation (strips, bands,
+rotations, the positive-inverted rendering); the session's own model cannot
+view images. Blind band-detection found no reliable line structure. These
+attempts are recorded because "we could not OCR it" is a method, not a
+verdict: the page was still verified, below, without a single fresh OCR read.
+
+### The instrument that worked: the document's own arithmetic
+
+The per-page text layer (pypdf, ordered cleanly) supplies the numbers; the
+section header supplies the column identity in so many words — "Dark green
+and deep yellow … Total 2/ … Dark green leafy … **Broccoli (6), Carrots (7),
+Peppers, green (8)**" — and the survey's own design closes the digits: the
+All-households row is the household-count-weighted mean of its 1-person and
+2+-person rows, and its Table 1 publishes the weights (1-person households:
+**369 of 4,556** weighted, 8.1%). At that weight, thirteen of the fourteen
+columns reconcile to |residual| ≤ 0.06 — broccoli +0.04, carrots +0.05,
+green peppers +0.01, group total +0.06. The one exception, column (3A)
+(purchased dark-leafy), is precisely the token the layer garbles; it is not
+curated. A misread digit anywhere in a curated triplet breaks its column;
+none breaks. The quantity block corroborates: broccoli 0.10 lb per household
+per week ÷ 4.6% using = 2.2 lb per using household, against carrots 1.26 lb —
+human-scale, as 1955 shopping should be. The closure is re-run as a test
+(`tests/test_hfcs_1955.py`), so a typo in the fact reddens the build.
+
+### The trap the sections set
+
+Table 14 repeats per urbanization section with a **different column plan**:
+the All-urbanizations pages number (2)–(8A) with all-sources/purchased
+pairs; the Nonfarm/Urban sections renumber from (1) without the purchased
+variants. Numbers must never be carried across sections, and the urban
+section's column 5 is not the all-urbanizations section's column 5. The
+scout's strata rows (urban broccoli ≈ 6, farm ≈ 1) were checked for
+plausibility only, not curated.
+
+### Disclosures carried on the card
+
+"Used" is the survey's economic sense — eaten, discarded, or fed to pets;
+all sources including home gardens; one spring week when greens were coming
+into season; housekeeping households of 1+ persons. The card points forward
+to the 1960s availability card, where the ERS series begins at 0.40 lb per
+person — the liftoff this checkpoint grounds.

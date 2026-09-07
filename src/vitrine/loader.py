@@ -212,14 +212,22 @@ def _load_room(path: Path) -> Room:
                 label=_get_str(table, "label", ctx),
                 unit=_get_str(table, "unit", ctx),
                 op=op,
-                numerator=_get_str(table, "numerator", ctx),
-                denominator=_get_str(table, "denominator", ctx),
+                # operand keys are optional at parse time: ops that need them
+                # (ratio/pct_of/product/quantity_ratio/inflate) leave them
+                # empty and the gate reddens "does not resolve"; COUNT_ABOVE
+                # takes series operands and must leave them empty (the gate
+                # refuses them if set).
+                numerator=_get_str_opt(table, "numerator", ctx),
+                denominator=_get_str_opt(table, "denominator", ctx),
                 precision=precision if precision is not None else 1,
                 notes=_get_str_opt(table, "notes", ctx),
                 assumptions=_get_str_list(table, "assumptions", ctx),
                 inflate_series=_get_str_opt(table, "inflate_series", ctx),
                 inflate_from_year=_get_int_opt(table, "inflate_from_year", ctx) or 0,
                 inflate_to_year=_get_int_opt(table, "inflate_to_year", ctx) or 0,
+                count_series=_get_str_list(table, "count_series", ctx),
+                threshold=_get_float_opt(table, "threshold", ctx) or 0.0,
+                at_year=_get_int_opt(table, "at_year", ctx) or 0,
             )
         )
     return Room(

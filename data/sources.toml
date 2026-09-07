@@ -1128,3 +1128,25 @@ url = "https://www.ers.usda.gov/data-products/food-availability-per-capita-data-
 population = "The whole US resident population — a supply-side average per person, not a measure of what anyone ate or of who ate it"
 expect = ["Food Availability (Per Capita) Data System"]
 notes = "Per-commodity sheets of the fresh-fruit and fresh-vegetable workbooks, farm-weight 'Per capita availability' column. Availability is a disappearance estimate: production plus imports, less exports, non-food use and (for fruit) shipments to US territories, divided by population. It measures what the food supply made available per person, not intake — ERS publishes a separate loss-adjusted series for consumption-like figures and this is not it. Each sheet also prints a retail-weight column derived by a stated conversion factor (0.92 broccoli and peppers, 0.94 avocados, 0.91 grapes); the unadjusted farm-weight column is taken and the factor is disclosed rather than applied. The two workbooks do not share a layout — the fruit sheets carry an extra 'Shipments to U.S. Territories' column and print the 'Farm' sub-header a row lower — so the extraction locates every column by its printed label and then verifies the result arithmetically: farm per-capita must equal food availability divided by population, for every year. Pointed one column right, at the retail figures, that check rejects all four commodities."
+
+[[source]]
+id = "usda-ers-aib758"
+title = "Understanding the Dynamics of Produce Markets: Consumption and Consolidation Grow (Agriculture Information Bulletin No. 758)"
+short_cite = "USDA ERS, AIB-758 (2000)"
+publisher = "U.S. Department of Agriculture, Economic Research Service"
+year = 2000
+url = "https://www.ers.usda.gov/sites/default/files/_laserfiche/publications/42294/32086_aib758_002.pdf"
+population = "The average U.S. supermarket produce department — figures ERS relays from Litwak's trade surveys of supermarket firms (Supermarket Business, 1988 and 1998 volumes, reporting 1987 and 1997), not a government census of stores"
+expect = ["173", "335", "Litwak"]
+notes = "Page 3 carries the assortment pair: stockkeeping units in the produce department were 173 in 1987 and 335 in 1997, a 94-percent increase, per Litwak 1988 and 1998 — a trade-press survey relayed by a federal bulletin, which is why facts from this document are Tier B. The same sentence pair carries the floor-area contrast (4,817 to 5,140 square feet, under seven percent) that shows the assortment densifying into nearly the same space. A stockkeeping unit is a distinct shelf item — one commodity in one form, package or brand — not a commodity; do not read these counts against the FADS commodity variety, which measures a different thing. The remembered '~100 items in 1980 rising to ~400 by 1997' pair that circulates is wrong on both ends and both years and appears nowhere in this document."
+
+[[source]]
+id = "usda-hfcs-1955-report1"
+title = "Food Consumption of Households in the United States (Household Food Consumption Survey, 1955, Report No. 1)"
+short_cite = "USDA, Household Food Consumption Survey 1955, Report No. 1 (1956)"
+publisher = "U.S. Department of Agriculture, Agricultural Research Service and Agricultural Marketing Service"
+year = 1956
+url = "https://archive.org/download/CAT10849964/CAT10849964.pdf"
+population = "All US housekeeping households of 1 or more persons — one spring week, April-June 1955; percentages based on the survey's weighted household distribution (its Table 1, weighted to include one-quarter farm). 'Food used' is the survey's economic sense: eaten, discarded, or fed to pets, from all sources including home-produced"
+expect = ["FRESH VEGETABLES", "Broccoli", "PERCENTAGE OF HOUSEHOLDS USING"]
+notes = "The survey's national report, 202 pp. Household-use percentages for fresh vegetables are Table 14 (FRESH VEGETABLES), United States / All urbanizations section, printed p. 111 of the archive scan (PDF page 115): the dark-green-and-deep-yellow group total, its dark-green-leafy total, spinach, other leafy, broccoli, carrots and green peppers columns (2)-(8), each in all-sources and purchased-only variants, over 'percentage of households using' rows. The same table repeats per urbanization section (nonfarm, urban, rural nonfarm, rural farm) with a DIFFERENT column plan per section — columns must not be mixed across sections. The scan is a negative microfilm whose text layer garbles some digits; every curated value was closed against the survey's own arithmetic instead (All-households row = Table-1-weighted mean of its 1-person and 2+-person rows) — see the verification log, 'Plan 027 WI-6 (1955 checkpoint)'."

@@ -1,5 +1,87 @@
 # Changelog
 
+## 2026-09-01 — One household in twenty: broccoli, spring 1955 (Plan 027 WI-6 complete)
+
+The 1955 USDA Household Food Consumption Survey asked what food came into
+American kitchens in one spring week — and in April–June 1955, **4.6% of
+housekeeping households brought fresh broccoli home**. About one in a
+hundred in the under-$2,000 income classes did, roughly one in nine at
+$8,000–9,999: a class marker sharper than any other vegetable in the table.
+The same row: carrots 51.5%, green peppers 21.0%. One Tier A card in the
+1950s day panel, confronting the availability liftoff that begins in the
+1960s room.
+
+The scan is a negative microfilm whose OCR layer garbles digits, and the
+OCR ensemble could not read it at all. The values were closed instead by the
+survey's own arithmetic: its All-households row is the size-weighted mean of
+its household-size rows at weights the report itself publishes (369 of
+4,556 households are one-person) — thirteen of fourteen columns reconcile to
+better than a rounding step, including every cell quoted on the card, and a
+test re-runs the closure on every build. The survey's definitions ride on
+the card: "used" includes food discarded or fed to pets, from all sources
+including gardens, in one spring week.
+
+With it, **Plan 027 WI-6 is complete** — all four apparatuses landed: the
+availability arc group, the derived variety count, the produce-SKU pair
+(corrected by its record), and now the household checkpoint. The two
+acquisition scouts this session also banked WI-7 (the NHANES II blood-lead
+baseline, in NCHS Series 11 No. 233, archived) and WI-8 (the child-labour
+census tables, archived with the 1943 compilation's Table XV as the series
+primary) — see `.pending-work-items.md` for the maps.
+
+## 2026-09-01 — 173, not ~100: the produce-aisle count meets its record (Plan 027 WI-6, part 3)
+
+The plan's headline confrontation number for diet variety was the remembered
+"~100 items in a 1980 produce aisle rising to ~400 by 1997." The record —
+ERS's AIB-758, page 3, relaying Litwak's *Supermarket Business* surveys —
+publishes **173 stockkeeping units in 1987 and 335 in 1997**: wrong on both
+ends and both years, as D3 warned. Two Tier B cards now carry the real pair
+(1980s and 1990s rooms, "What had arrived"), with the survey basis on the
+card face: a trade-press count relayed by a federal bulletin, an average over
+supermarket firms, not a census of stores.
+
+The correction earns its keep twice over. The source's own arithmetic — a
+94-percent increase in items against under seven percent more floor space —
+is a better exhibit than the round numbers were: the assortment nearly
+doubled into nearly the same room. And a stockkeeping unit is a shelf item,
+not a commodity, so the card says plainly that this count and the FADS
+commodity-variety count measure different things; reading one against the
+other would be a borrowed exhibit in miniature. AER-825 was fetched and
+checked for a longer series and carries none — its section PDFs stay in the
+archive as the negative result.
+
+**WI-6 owes one apparatus** (FWI-007): the 1955 Household Food Consumption
+Survey checkpoint, the acquisition risk of the three.
+
+## 2026-09-01 — A pound or more: the produce-variety count (Plan 027 WI-6, part 2)
+
+How many fresh-produce commodities did the food supply provide a full pound
+of, per person, in a given year? Eleven of the eighteen ERS tracked in 1960;
+forty-two of fifty-four by 2010. One derived fact per room from the 1960s
+on, each rendered as count **of tracked** — because the tracked set itself
+widens eighteen to fifty-four across the decades, and a bare count would
+launder the widening record into rising variety. The value carries both
+numbers so it can't.
+
+The fifty fresh commodity series behind it join the four from WI-6a (the
+citrus sheets needed a parser fix first — their population column prints
+"U.S. total population" where every other sheet prints "U.S. population",
+and the WI-6a label match missed all five). Every count year, threshold and
+series list is authored structure; the count, the tracked total and the tier
+are computed at build by a new derivation op, `COUNT_ABOVE`, with gate
+invariants to match: series must resolve, share one unit, be
+quantity-valued, and at least one must publish the count year. The
+extraction keeps its per-year arithmetic identity check, and a test reddens
+if the committed series and the count's candidate set ever drift apart.
+
+The count begins in the 1960s because the per-commodity record does — the
+"continuous from 1909" FADS claim holds only for the aggregate sheets — and
+the boundary is written into the gap log rather than papered over with
+invented zeros.
+
+**WI-6 still owes two apparatuses** (FWI-007): the produce-SKU confrontation
+number and the 1955 Household Food Consumption Survey checkpoint.
+
 ## 2026-09-01 — Exotic turned ordinary (Plan 027 WI-6a)
 
 Four commodities on one shared pounds-per-person axis, from the USDA/ERS Food

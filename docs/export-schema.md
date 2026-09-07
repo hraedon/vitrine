@@ -63,7 +63,8 @@ Two conventions matter to consumers:
 
 The authored derivation structure (`op`, `numerator`, `denominator`,
 `precision`, `notes`, `assumptions`, and for `INFLATE`: `inflate_series`,
-`inflate_from_year`, `inflate_to_year`) is kept **next to** the computed
+`inflate_from_year`, `inflate_to_year`, and for `COUNT_ABOVE`:
+`count_series[]`, `threshold`, `at_year`) is kept **next to** the computed
 result: `value` (display string), `computed_value` (float, in the displayed
 unit), `computed_amount_minor` / `computed_currency` (for money results),
 and `tier` — computed as the weakest operand tier, never authored. For
@@ -71,7 +72,10 @@ and `tier` — computed as the weakest operand tier, never authored. For
 (base and target year, value as stored by the series — the gate only
 permits `INFLATE` over a dimensionless index series, so these are index
 points) used by the computation, so the arithmetic is reproducible from
-this file alone.
+this file alone. For `COUNT_ABOVE`, `numerator`/`denominator` are empty and
+`computed_value` is the count; the series observations it counts over are
+in `series[]` under the ids in `count_series[]`, so that arithmetic is
+reproducible from this file alone too.
 
 ### `sources[]`, `assumptions[]`, `series[]`
 

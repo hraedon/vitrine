@@ -86,6 +86,13 @@ class DerivedOp(enum.Enum):
     INFLATE = "inflate"  # numerator x series[to_year] / series[from_year] (Plan 012)
     PRODUCT = "product"  # numerator.amount_minor * denominator.quantity -> minor units (WI-5)
     QUANTITY_RATIO = "quantity_ratio"  # numerator.quantity / denominator.quantity (WI-5)
+    # Count of series at or above a threshold in a stated year (Plan 027
+    # WI-6). Operands are *series*, not facts: the count is taken over the
+    # listed series' values at ``at_year``, and the displayed value carries
+    # both the count and how many listed series were tracked that year
+    # ("12 of 18") so a changing record breadth cannot masquerade as a
+    # changing count. numerator/denominator are unused for this op.
+    COUNT_ABOVE = "count_above"
 
 
 def weakest_tier(*tiers: Tier) -> Tier:
@@ -261,8 +268,10 @@ class DerivedFact:
     label: str
     unit: str
     op: DerivedOp
-    numerator: str  # Fact.id in this room or another room (cross-room, WI-5)
-    denominator: str  # Fact.id in this room or another room (cross-room, WI-5)
+    numerator: str = ""  # Fact.id in this room or another room (cross-room, WI-5);
+    # empty for COUNT_ABOVE, whose operands are series
+    denominator: str = ""  # Fact.id in this room or another room (cross-room, WI-5);
+    # empty for INFLATE (unused) and COUNT_ABOVE (series operands)
     precision: int = 1  # decimal places in the rendered value
     notes: str = ""
     assumptions: tuple[str, ...] = field(default=())
@@ -271,6 +280,15 @@ class DerivedFact:
     inflate_series: str = ""  # series id whose values carry the CPI ratio
     inflate_from_year: int = 0  # base year in the series
     inflate_to_year: int = 0  # target year in the series
+    # COUNT_ABOVE op (Plan 027 WI-6): count of listed series whose value at
+    # ``at_year`` is >= ``threshold``. The candidate set is enumerated
+    # explicitly — never a prefix convention — so a later series can only
+    # enter the count through a visible diff. Series without a published
+    # value at ``at_year`` are outside the count (and outside the tracked
+    # total the value displays).
+    count_series: tuple[str, ...] = ()  # candidate series ids, resolved by the gate
+    threshold: float = 0.0  # inclusive lower bound, in the series' shared unit
+    at_year: int = 0  # the year the count is taken at
 
 
 @dataclass(frozen=True, slots=True)

@@ -367,6 +367,19 @@ tier = "A"
 notes = "From FCC 4th Annual Video Competition Report (FCC 97-423, data as of June 1997). 73.6 million MVPD households total; cable's share was 87%. DBS was still niche at ~5 million subscribers (6.85% of MVPD). Average monthly cable rate: $28.83 (July 1997), up 8.5% from $26.57 in July 1996 — cable rates rose >4x CPI."
 assumptions = ["composite-family"]
 
+[[fact]]
+id = "us-1990s-produce-department-skus"
+quantity = 335
+panel = "diffusion"
+label = "Items stocked in the average supermarket produce department, 1997"
+value = "335 items (stockkeeping units)"
+unit = "stockkeeping units in the average supermarket produce department"
+price_year = 1997
+source = "usda-ers-aib758"
+tier = "B"
+notes = "The assortment nearly doubled in one decade — ERS's own arithmetic is a ninety-four percent increase — by the trade survey it relays (Litwak's counts of supermarket produce departments, Supermarket Business 1988 and 1998 volumes). A stockkeeping unit is a distinct shelf item, not a commodity: package, brand and fresh-cut forms each count, which is the difference between this figure and the commodity variety the FADS record measures. The same survey put the department's floor area at under seven percent more than a decade earlier — the variety densified into nearly the same space. Packaged salads alone reached about a tenth of department sales by 1997, and nationally branded produce reached about a fifth, against about a fifteenth in 1987."
+assumptions = ["composite-family"]
+
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
@@ -645,6 +658,73 @@ source = "usda-ers-fads"
 tier = "A"
 notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 8.4 times the 1960 figure."
 assumptions = ["composite-family"]
+
+[[derived]]
+id = "us-1990s-produce-variety-count"
+panel = "table"
+label = "Fresh-produce commodities at a pound or more per person, 1990"
+op = "count_above"
+unit = "of the fresh-produce commodities ERS tracked that year"
+count_series = [
+  "us-availability-apples",
+  "us-availability-apricots",
+  "us-availability-artichokes",
+  "us-availability-asparagus",
+  "us-availability-avocados",
+  "us-availability-bananas",
+  "us-availability-bell-peppers",
+  "us-availability-blueberries",
+  "us-availability-broccoli",
+  "us-availability-brussels-sprouts",
+  "us-availability-cabbage",
+  "us-availability-cantaloupe",
+  "us-availability-carrots",
+  "us-availability-cauliflower",
+  "us-availability-celery",
+  "us-availability-collards",
+  "us-availability-cucumbers",
+  "us-availability-eggplant",
+  "us-availability-escarole",
+  "us-availability-garlic",
+  "us-availability-grapefruit",
+  "us-availability-grapes",
+  "us-availability-head-lettuce",
+  "us-availability-honeydew",
+  "us-availability-kale",
+  "us-availability-kiwifruit",
+  "us-availability-lemons",
+  "us-availability-lima-beans",
+  "us-availability-limes",
+  "us-availability-mangoes",
+  "us-availability-mushrooms",
+  "us-availability-mustard-greens",
+  "us-availability-okra",
+  "us-availability-onions",
+  "us-availability-oranges",
+  "us-availability-papayas",
+  "us-availability-peaches",
+  "us-availability-pears",
+  "us-availability-pineapples",
+  "us-availability-potatoes",
+  "us-availability-pumpkin",
+  "us-availability-radishes",
+  "us-availability-raspberries",
+  "us-availability-romaine",
+  "us-availability-snap-beans",
+  "us-availability-spinach",
+  "us-availability-squash",
+  "us-availability-strawberries",
+  "us-availability-sweet-corn",
+  "us-availability-sweet-potatoes",
+  "us-availability-tangerines",
+  "us-availability-tomatoes",
+  "us-availability-turnip-greens",
+  "us-availability-watermelon",
+]
+threshold = 1.0
+at_year = 1990
+notes = "Every fresh fruit and vegetable commodity sheet in the two ERS fresh workbooks, counted when the food supply provided at least a full pound per person that year, farm weight. The total is the commodities ERS tracked that year: series that had not yet begun or had already ended are outside the count, so a widening record cannot masquerade as rising variety. Availability is a disappearance estimate — what the supply made available, not what anyone ate; the rule and its rationale are in the assumption ledger (produce-variety-rule)."
+assumptions = ["produce-variety-rule", "composite-family"]
 
 [[fact]]
 id = "us-1990s-traffic-death-rate"

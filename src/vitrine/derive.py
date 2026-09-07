@@ -37,14 +37,18 @@ class ComputedFact:
     value: str  # computed display string, e.g. "≈ 2.6"
     numeric_value: float  # machine-readable result in the displayed unit
     tier: Tier  # weakest operand tier — computed, never authored
-    numerator: Fact
-    denominator: Fact
+    numerator: Fact | None  # None for COUNT_ABOVE (series are the operands)
+    denominator: Fact | None  # None for INFLATE/COUNT_ABOVE
     op: DerivedOp
     notes: str
     assumptions: tuple[str, ...]
     inflate_series: str = ""  # series id (INFLATE op only)
     inflate_from_year: int = 0  # base year (INFLATE op only)
     inflate_to_year: int = 0  # target year (INFLATE op only)
+    count_series: tuple[str, ...] = ()  # candidate series ids (COUNT_ABOVE only)
+    threshold: float = 0.0  # inclusive lower bound (COUNT_ABOVE only)
+    at_year: int = 0  # the year the count is taken at (COUNT_ABOVE only)
+    input_unit: str = ""  # the shared unit of the input series (COUNT_ABOVE only)
     amount_minor: float | None = None  # exact monetary result where applicable
     currency: str = ""  # result currency for monetary operations
 
@@ -70,10 +74,18 @@ def _resolve_structured(
     raise DeriveError(f"{ctx}: operand {fact_id!r} not found in room {room.slug}")
 
 
-def _op_value(op: DerivedOp, ratio: float, precision: int, currency: str) -> str:
+def _op_value(
+    op: DerivedOp,
+    ratio: float,
+    precision: int,
+    currency: str,
+    count_total: int = 0,
+) -> str:
     """Render a derived value. Monetary ops (INFLATE, PRODUCT) carry the
     operand's ``currency`` and format through the money registry; the
-    dimensionless ops (RATIO, PCT_OF, QUANTITY_RATIO) ignore it."""
+    dimensionless ops (RATIO, PCT_OF, QUANTITY_RATIO) ignore it. COUNT_ABOVE
+    displays the count beside the tracked total — a bare count would let a
+    widening record masquerade as rising variety."""
     match op:
         case DerivedOp.RATIO:
             return f"≈ {ratio:,.{precision}f}"
@@ -85,6 +97,8 @@ def _op_value(op: DerivedOp, ratio: float, precision: int, currency: str) -> str
             return f"≈ {money.format_amount(ratio, currency, precision)}"
         case DerivedOp.QUANTITY_RATIO:
             return f"≈ {ratio:,.{precision}f}"
+        case DerivedOp.COUNT_ABOVE:
+            return f"{int(ratio)} of {count_total}"
         case _:
             assert_never(op)
 
@@ -108,6 +122,54 @@ def evaluate(
     not in ``room``, it is looked up in the index (which spans the corpus).
     """
     ctx = f"derived {derived.id!r}"
+
+    if derived.op is DerivedOp.COUNT_ABOVE:
+        # Operands are series, not facts — no fact resolution at all. The
+        # checker guarantees the structure; evaluation here can be strict.
+        if not derived.count_series:
+            raise DeriveError(f"{ctx}: COUNT_ABOVE requires a non-empty count_series")
+        if series is None:
+            raise DeriveError(f"{ctx}: COUNT_ABOVE requires the series registry")
+        missing = [sid for sid in derived.count_series if sid not in series]
+        if missing:
+            raise DeriveError(f"{ctx}: count_series {missing[0]!r} not found")
+        if not derived.threshold > 0:
+            raise DeriveError(f"{ctx}: COUNT_ABOVE requires threshold > 0")
+        if not derived.at_year:
+            raise DeriveError(f"{ctx}: COUNT_ABOVE requires at_year")
+        # Only series with a published value at at_year are inside the count;
+        # the rest are outside both the count and the displayed total.
+        tracked = [
+            series[sid]
+            for sid in derived.count_series
+            if derived.at_year in series[sid].values
+        ]
+        if not tracked:
+            raise DeriveError(
+                f"{ctx}: no listed series has a value at {derived.at_year}"
+            )
+        count = sum(1 for s in tracked if s.values[derived.at_year] >= derived.threshold)
+        return ComputedFact(
+            id=derived.id,
+            panel=derived.panel,
+            label=derived.label,
+            unit=derived.unit,
+            value=_op_value(
+                derived.op, float(count), derived.precision, "", count_total=len(tracked)
+            ),
+            numeric_value=float(count),
+            tier=weakest_tier(*(s.tier for s in tracked)),
+            numerator=None,
+            denominator=None,
+            op=derived.op,
+            notes=derived.notes,
+            assumptions=derived.assumptions,
+            count_series=derived.count_series,
+            threshold=derived.threshold,
+            at_year=derived.at_year,
+            input_unit=tracked[0].unit,
+        )
+
     numerator = _resolve_structured(room, derived.numerator, ctx, fact_index)
 
     if derived.op is DerivedOp.INFLATE:

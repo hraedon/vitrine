@@ -592,6 +592,73 @@ tier = "A"
 notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 14.9 times the 1960 figure."
 assumptions = ["composite-family"]
 
+[[derived]]
+id = "us-2010s-produce-variety-count"
+panel = "table"
+label = "Fresh-produce commodities at a pound or more per person, 2010"
+op = "count_above"
+unit = "of the fresh-produce commodities ERS tracked that year"
+count_series = [
+  "us-availability-apples",
+  "us-availability-apricots",
+  "us-availability-artichokes",
+  "us-availability-asparagus",
+  "us-availability-avocados",
+  "us-availability-bananas",
+  "us-availability-bell-peppers",
+  "us-availability-blueberries",
+  "us-availability-broccoli",
+  "us-availability-brussels-sprouts",
+  "us-availability-cabbage",
+  "us-availability-cantaloupe",
+  "us-availability-carrots",
+  "us-availability-cauliflower",
+  "us-availability-celery",
+  "us-availability-collards",
+  "us-availability-cucumbers",
+  "us-availability-eggplant",
+  "us-availability-escarole",
+  "us-availability-garlic",
+  "us-availability-grapefruit",
+  "us-availability-grapes",
+  "us-availability-head-lettuce",
+  "us-availability-honeydew",
+  "us-availability-kale",
+  "us-availability-kiwifruit",
+  "us-availability-lemons",
+  "us-availability-lima-beans",
+  "us-availability-limes",
+  "us-availability-mangoes",
+  "us-availability-mushrooms",
+  "us-availability-mustard-greens",
+  "us-availability-okra",
+  "us-availability-onions",
+  "us-availability-oranges",
+  "us-availability-papayas",
+  "us-availability-peaches",
+  "us-availability-pears",
+  "us-availability-pineapples",
+  "us-availability-potatoes",
+  "us-availability-pumpkin",
+  "us-availability-radishes",
+  "us-availability-raspberries",
+  "us-availability-romaine",
+  "us-availability-snap-beans",
+  "us-availability-spinach",
+  "us-availability-squash",
+  "us-availability-strawberries",
+  "us-availability-sweet-corn",
+  "us-availability-sweet-potatoes",
+  "us-availability-tangerines",
+  "us-availability-tomatoes",
+  "us-availability-turnip-greens",
+  "us-availability-watermelon",
+]
+threshold = 1.0
+at_year = 2010
+notes = "Every fresh fruit and vegetable commodity sheet in the two ERS fresh workbooks, counted when the food supply provided at least a full pound per person that year, farm weight. The total is the commodities ERS tracked that year: series that had not yet begun or had already ended are outside the count, so a widening record cannot masquerade as rising variety. Availability is a disappearance estimate — what the supply made available, not what anyone ate; the rule and its rationale are in the assumption ledger (produce-variety-rule)."
+assumptions = ["produce-variety-rule", "composite-family"]
+
 [[fact]]
 id = "us-2010s-traffic-death-rate"
 quantity = 1.11

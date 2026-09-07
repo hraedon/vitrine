@@ -16,6 +16,14 @@ here. Hence `vitrine gaps`.
 
 ## Structural gaps (likely permanent)
 
+- **Pre-1960 produce variety** (Plan 027 WI-6, 2026-09-01). The ERS
+  per-commodity fresh sheets begin at the earliest in 1960 (broccoli and
+  most vegetables) and mostly 1970 (fruit); FADS's "continuous from 1909"
+  claim holds only for its aggregate sheets, which carry no commodity
+  detail. The derived produce-variety count therefore renders nothing in the
+  1900s–1950s rooms, and no per-commodity availability card exists there
+  either. Permanent unless ERS (or a Tier C period source) publishes
+  commodity detail before 1960 — not a backlog item.
 - **1910s–1930s income, housing, food basket, work-buys.** No consumer
   expenditure survey or Census of Housing before 1940. These are permanent
   rendered gaps — the museum shows them.

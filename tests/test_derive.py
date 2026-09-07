@@ -660,3 +660,199 @@ def test_gate_rejects_inflate_on_monetary_series(tmp_path: Path) -> None:
     assert any(
         "is monetary" in p and "us-2020s-d" in p for p in problems
     ), problems
+
+
+# ── COUNT_ABOVE (Plan 027 WI-6): the produce-variety count ─────────────────
+
+
+def _count_series_obj(sid: str, unit: str, values: dict[int, float], tier: Tier = Tier.A):
+    from vitrine.series import Series
+
+    return Series(
+        id=sid, label="L", source="src-1", tier=tier, unit=unit,
+        population="p", values=values,
+    )
+
+
+def _count_derived(**overrides: object) -> DerivedFact:
+    fields: dict[str, object] = {
+        "id": "us-1960s-produce-variety-count",
+        "panel": Panel.TABLE,
+        "label": "Fresh-produce commodities at a pound or more per person, 1960",
+        "unit": "of the tracked commodities",
+        "op": DerivedOp.COUNT_ABOVE,
+        "count_series": ("s-a", "s-b", "s-c", "s-d"),
+        "threshold": 1.0,
+        "at_year": 1960,
+    }
+    fields.update(overrides)
+    return DerivedFact(**fields)  # type: ignore[arg-type]
+
+
+def test_count_above_computes_count_of_tracked() -> None:
+    """Two at/above threshold, one below, one not tracked that year -> 2 of 3."""
+    series = {
+        "s-a": _count_series_obj("s-a", "lb", {1960: 5.2}),
+        "s-b": _count_series_obj("s-b", "lb", {1960: 1.0}),
+        "s-c": _count_series_obj("s-c", "lb", {1960: 0.4}),
+        "s-d": _count_series_obj("s-d", "lb", {1970: 9.9}),  # no 1960 value
+    }
+    computed = evaluate(_room(()), _count_derived(), series=series)
+    assert computed.value == "2 of 3"
+    assert computed.numeric_value == 2.0
+    assert computed.tier is Tier.A
+    assert computed.numerator is None and computed.denominator is None
+
+
+def test_count_above_threshold_is_inclusive() -> None:
+    series = {
+        "s-a": _count_series_obj("s-a", "lb", {1960: 1.0}),
+        "s-b": _count_series_obj("s-b", "lb", {1960: 0.99}),
+    }
+    computed = evaluate(_room(()), _count_derived(count_series=("s-a", "s-b")), series=series)
+    assert computed.value == "1 of 2"
+
+
+def test_count_above_tier_is_weakest_tracked_input() -> None:
+    series = {
+        "s-a": _count_series_obj("s-a", "lb", {1960: 5.0}),
+        "s-b": _count_series_obj("s-b", "lb", {1960: 5.0}, tier=Tier.B),
+        "s-c": _count_series_obj("s-c", "lb", {1990: 5.0}, tier=Tier.C),  # untracked
+        "s-d": _count_series_obj("s-d", "lb", {1990: 5.0}, tier=Tier.D),  # untracked
+    }
+    computed = evaluate(_room(()), _count_derived(), series=series)
+    assert computed.value == "2 of 2"
+    assert computed.tier is Tier.B  # the C/D-tier inputs are outside the count
+
+
+def test_count_above_requires_the_series_registry() -> None:
+    with pytest.raises(DeriveError, match="series registry"):
+        evaluate(_room(()), _count_derived())
+
+
+def test_count_above_unresolved_series_raises() -> None:
+    with pytest.raises(DeriveError, match="not found"):
+        evaluate(_room(()), _count_derived(), series={})
+
+
+def test_count_above_empty_count_series_raises() -> None:
+    with pytest.raises(DeriveError, match="non-empty"):
+        evaluate(_room(()), _count_derived(count_series=()), series={})
+
+
+def test_count_above_zero_threshold_raises() -> None:
+    series = {"s-a": _count_series_obj("s-a", "lb", {1960: 5.0})}
+    with pytest.raises(DeriveError, match="threshold"):
+        evaluate(_room(()), _count_derived(count_series=("s-a",), threshold=0.0), series=series)
+
+
+def test_count_above_year_absent_everywhere_raises() -> None:
+    series = {"s-a": _count_series_obj("s-a", "lb", {1970: 5.0})}
+    with pytest.raises(DeriveError, match="no listed series"):
+        evaluate(_room(()), _count_derived(count_series=("s-a",)), series=series)
+
+
+def _write_count_corpus(tmp_path: Path, derived_toml: str) -> None:
+    (tmp_path / "sources.toml").write_text(
+        '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1960\n'
+        'url = "https://example.org"\npopulation = "all families"\n'
+    )
+    (tmp_path / "assumptions.toml").write_text(
+        '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
+    )
+    room_dir = tmp_path / "us"
+    room_dir.mkdir()
+    (room_dir / "1960s.toml").write_text(
+        '[room]\ncountry = "us"\ndecade = "1960s"\n\n'
+        "[[derived]]\n"
+        'id = "us-1960s-produce-variety-count"\npanel = "table"\n'
+        'label = "Variety"\nunit = "of the tracked"\nop = "count_above"\n'
+        + derived_toml
+    )
+
+
+def _count_gate_problems(tmp_path: Path, series: dict) -> list[str]:
+    from vitrine.check import check_corpus
+
+    return check_corpus(load_corpus(tmp_path), series)
+
+
+def test_gate_flags_count_above_unit_mismatch(tmp_path: Path) -> None:
+    _write_count_corpus(
+        tmp_path,
+        'count_series = ["s-a", "s-b"]\nthreshold = 1.0\nat_year = 1960\n',
+    )
+    series = {
+        "s-a": _count_series_obj("s-a", "pounds per person per year", {1960: 5.0}),
+        "s-b": _count_series_obj("s-b", "index points", {1960: 5.0}),
+    }
+    problems = _count_gate_problems(tmp_path, series)
+    assert any("units differ" in p for p in problems), problems
+
+
+def test_gate_rejects_count_above_on_monetary_series(tmp_path: Path) -> None:
+    from vitrine.series import Series
+
+    _write_count_corpus(
+        tmp_path,
+        'count_series = ["s-a", "s-b"]\nthreshold = 1.0\nat_year = 1960\n',
+    )
+    series = {
+        "s-a": _count_series_obj("s-a", "USD", {1960: 5.0}),
+        "s-b": Series(
+            id="s-b", label="L", source="src-1", tier=Tier.A, unit="USD",
+            population="p", currency="USD", values_minor={1960: 500},
+        ),
+    }
+    problems = _count_gate_problems(tmp_path, series)
+    assert any("is monetary" in p for p in problems), problems
+
+
+def test_gate_flags_count_above_unknown_series(tmp_path: Path) -> None:
+    _write_count_corpus(
+        tmp_path,
+        'count_series = ["s-a", "s-missing"]\nthreshold = 1.0\nat_year = 1960\n',
+    )
+    series = {"s-a": _count_series_obj("s-a", "lb", {1960: 5.0})}
+    problems = _count_gate_problems(tmp_path, series)
+    assert any("not found in the series registry" in p for p in problems), problems
+
+
+def test_gate_flags_count_above_duplicate_series(tmp_path: Path) -> None:
+    _write_count_corpus(
+        tmp_path,
+        'count_series = ["s-a", "s-a"]\nthreshold = 1.0\nat_year = 1960\n',
+    )
+    series = {"s-a": _count_series_obj("s-a", "lb", {1960: 5.0})}
+    problems = _count_gate_problems(tmp_path, series)
+    assert any("lists a series twice" in p for p in problems), problems
+
+
+def test_gate_flags_count_above_no_year_anywhere(tmp_path: Path) -> None:
+    _write_count_corpus(
+        tmp_path,
+        'count_series = ["s-a"]\nthreshold = 1.0\nat_year = 1960\n',
+    )
+    series = {"s-a": _count_series_obj("s-a", "lb", {1970: 5.0})}
+    problems = _count_gate_problems(tmp_path, series)
+    assert any("empty record" in p for p in problems), problems
+
+
+def test_gate_flags_count_above_stray_fact_operands(tmp_path: Path) -> None:
+    _write_count_corpus(
+        tmp_path,
+        'numerator = "some-fact"\ncount_series = ["s-a"]\nthreshold = 1.0\nat_year = 1960\n',
+    )
+    series = {"s-a": _count_series_obj("s-a", "lb", {1960: 5.0})}
+    problems = _count_gate_problems(tmp_path, series)
+    assert any("not fact" in p and "COUNT_ABOVE" in p for p in problems), problems
+
+
+def test_gate_flags_count_above_bad_threshold_or_year(tmp_path: Path) -> None:
+    _write_count_corpus(
+        tmp_path,
+        'count_series = ["s-a"]\nthreshold = 0.0\nat_year = 1960\n',
+    )
+    series = {"s-a": _count_series_obj("s-a", "lb", {1960: 5.0})}
+    problems = _count_gate_problems(tmp_path, series)
+    assert any("threshold > 0" in p for p in problems), problems

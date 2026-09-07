@@ -40,10 +40,10 @@ def test_json_round_trip_preserves_corpus_shape(tmp_path: Path) -> None:
         "panel", "price_year", "quantity", "source", "tier", "unit", "value",
     }
     derived_fields = {
-        "computed_amount_minor", "computed_currency", "computed_value", "denominator",
-        "id", "inflate_from_year", "inflate_series", "inflate_to_year", "inflation",
-        "label", "notes", "op", "panel", "precision", "assumptions", "tier", "unit",
-        "value", "numerator",
+        "at_year", "computed_amount_minor", "computed_currency", "computed_value",
+        "count_series", "denominator", "id", "inflate_from_year", "inflate_series",
+        "inflate_to_year", "inflation", "label", "notes", "op", "panel", "precision",
+        "assumptions", "threshold", "tier", "unit", "value", "numerator",
     }
     source_fields = {
         "expect", "id", "measure", "notes", "population", "publisher", "short_cite",

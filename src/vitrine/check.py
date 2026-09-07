@@ -264,6 +264,58 @@ def _check_derived(
                             )
             continue
 
+        # COUNT_ABOVE (Plan 027 WI-6): operands are series, not facts. The
+        # candidate set must resolve entirely, be float-valued (a monetary
+        # series is an amount, not a quantity to threshold), share one unit
+        # (the WI-022 lesson generalized: thresholding pounds against index
+        # points is dimensionally meaningless), and at least one series must
+        # publish the count year. Unused fact-operand fields are refused so a
+        # cargo-culted numerator cannot sit silently beside the real inputs.
+        if derived.op is DerivedOp.COUNT_ABOVE:
+            if not derived.count_series:
+                problems.append(f"{where}: COUNT_ABOVE requires a non-empty count_series")
+                continue
+            if len(set(derived.count_series)) != len(derived.count_series):
+                problems.append(
+                    f"{where}: count_series lists a series twice — each entry counts"
+                )
+                continue
+            if derived.numerator or derived.denominator:
+                problems.append(
+                    f"{where}: COUNT_ABOVE takes series operands, not fact "
+                    f"operands — numerator/denominator must be omitted"
+                )
+            if not derived.threshold > 0:
+                problems.append(f"{where}: COUNT_ABOVE requires threshold > 0")
+            if not derived.at_year:
+                problems.append(f"{where}: COUNT_ABOVE requires at_year")
+            if series is None:
+                continue
+            resolved = [series[sid] for sid in derived.count_series if sid in series]
+            for sid in derived.count_series:
+                if sid not in series:
+                    problems.append(
+                        f"{where}: count_series {sid!r} not found in the series registry"
+                    )
+            units = {normalized_unit(s.unit) for s in resolved}
+            if len(units) > 1:
+                problems.append(
+                    f"{where}: count_series units differ ({sorted(units)}) — "
+                    f"a count is only meaningful over one dimension"
+                )
+            for s in resolved:
+                if s.values_minor:
+                    problems.append(
+                        f"{where}: count_series {s.id!r} is monetary "
+                        f"(values_minor) — COUNT_ABOVE thresholds quantities"
+                    )
+            if resolved and not any(derived.at_year in s.values for s in resolved):
+                problems.append(
+                    f"{where}: no listed series has a value at at_year "
+                    f"{derived.at_year} — the count would be over an empty record"
+                )
+            continue
+
         # PRODUCT (WI-5): numerator.amount_minor * denominator.quantity
         if derived.op is DerivedOp.PRODUCT:
             num = by_id.get(derived.numerator) or all_facts.get(derived.numerator)

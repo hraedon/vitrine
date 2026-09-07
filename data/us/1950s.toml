@@ -391,6 +391,19 @@ tier = "A"
 notes = "Computed: weekly earnings ($53.46, derived from hourly x hours) × 50 weeks. Assumes 2 weeks unpaid time off, which is a convention — the actual weeks worked varied. This is a rough annualization, not an official series. Compare to median family income of $3,319 (all families) — manufacturing wages alone do not cover the median family income, implying a second earner or non-manufacturing employment."
 assumptions = ["nominal-values", "composite-family"]
 
+[[fact]]
+id = "us-1950s-households-using-broccoli"
+quantity = 4.6
+panel = "day"
+label = "Households using fresh broccoli in a week, spring 1955"
+value = "4.6% of households (2.8% of one-person households)"
+unit = "% of housekeeping households using the item at home in one week"
+price_year = 1955
+source = "usda-hfcs-1955-report1"
+tier = "A"
+notes = "The USDA's 1955 Household Food Consumption Survey recorded what food came into the kitchen in one spring week, April-June. Fewer than one housekeeping household in twenty brought fresh broccoli home; in the under-$2,000 income classes about one in a hundred did, against roughly one in nine at $8,000-9,999 — a sharper income gradient than any other vegetable in the table. Same table, same week: 51.5% of households used carrots and 21.0% used green peppers, and 69.4% used something from the dark-green-and-deep-yellow group as a whole. 'Using' is the survey's economic sense — food eaten, discarded, or fed to pets, from all sources including home gardens — and it is a spring week, when greens were coming into season. Verification: the row is the survey's own size-weighted mean (its Table 1 weights, one-person households 369 of 4,556) and reconciles to the printed decimal; see the verification log. The liftoff this card confronts begins five years later, in the 1960s room's availability card, where the ERS series starts at 0.40 pounds per person."
+assumptions = ["composite-family"]
+
 # ── Diffusion panel (upgraded to Tier A via tesseract OCR of Census HC-5-02) ─
 
 [[fact]]
