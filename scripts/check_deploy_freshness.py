@@ -1,9 +1,8 @@
 """Compare the deployed museum against the corpus it should be serving.
 
-The site is built into a container image on every push to main, but a running
-Deployment does not re-pull a mutable tag on its own: ``imagePullPolicy:
-Always`` governs the pull when a pod is *created*, not for pods already
-running. Between 2026-07-13 and 2026-07-28 that left the public site serving a
+The site is built into a commit-tagged container image after CI passes, but CI
+cannot reach the cluster to deploy it. Between 2026-07-13 and 2026-07-28 that
+left the public site serving a
 build that was fifteen days and twenty facts behind main, with every CI signal
 green — the image was built and pushed correctly, and nothing ever rolled it
 out.
@@ -163,8 +162,7 @@ def main() -> int:
 
     print(
         "\nThe deployed site disagrees with the corpus. If main has moved, "
-        "deploy it (scripts/deploy.sh). A running Deployment does not re-pull "
-        "a mutable tag by itself."
+        "deploy it with scripts/deploy.sh and an explicit kubectl context."
     )
     return 1
 

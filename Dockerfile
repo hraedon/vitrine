@@ -16,15 +16,16 @@ FROM python:3.13-slim AS builder
 
 WORKDIR /build
 
-COPY pyproject.toml ./
+COPY pyproject.toml uv.lock ./
 COPY src/ src/
 COPY data/ data/
 
-RUN pip install --no-cache-dir ".[site]"
+RUN pip install --no-cache-dir uv==0.12.5 \
+    && uv sync --locked --no-dev --extra site
 
 # The gate runs first (vitrine build runs check internally); a red gate
 # fails the image build — no unverifiable site ships.
-RUN vitrine build --out /out
+RUN .venv/bin/vitrine build --out /out
 
 # nginx:alpine pinned 2026-08-09 — sha256 is the OCI image-index digest
 # (covers amd64/arm64/arm/386/ppc64le/riscv64/s390x). See header note to bump.

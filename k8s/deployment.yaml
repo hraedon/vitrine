@@ -13,10 +13,18 @@ spec:
       labels:
         app: vitrine
     spec:
+      automountServiceAccountToken: false
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: vitrine
           image: ghcr.io/hraedon/vitrine:main
           imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
           ports:
             - containerPort: 8080
           livenessProbe:

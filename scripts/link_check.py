@@ -33,7 +33,6 @@ from __future__ import annotations
 
 import io
 import re
-import ssl
 import sys
 import tomllib
 import urllib.error
@@ -386,16 +385,9 @@ class Result:
     final_url: str = ""
 
 
-def _ssl_ctx() -> ssl.SSLContext:
-    ctx = ssl.create_default_context()
-    ctx.check_hostname = False
-    ctx.verify_mode = ssl.CERT_NONE
-    return ctx
-
-
-def _get(url: str, ctx: ssl.SSLContext, ua: str = _UA) -> tuple[int, bytes, str]:
+def _get(url: str, ua: str = _UA) -> tuple[int, bytes, str]:
     req = urllib.request.Request(url, headers={"User-Agent": ua})
-    with urllib.request.urlopen(req, timeout=30, context=ctx) as resp:
+    with urllib.request.urlopen(req, timeout=30) as resp:
         content_type = resp.headers.get("Content-Type", "")
         return resp.status, resp.read(), content_type
 
@@ -418,11 +410,10 @@ def check_url(sid: str, url: str, markers: Sequence[str] = ()) -> Result:
 def _check_with_ua(
     sid: str, url: str, markers: Sequence[str], ua: str
 ) -> Result:
-    ctx = _ssl_ctx()
     headers = {"User-Agent": ua}
     try:
         req = urllib.request.Request(url, method="HEAD", headers=headers)
-        with urllib.request.urlopen(req, timeout=15, context=ctx) as resp:
+        with urllib.request.urlopen(req, timeout=15) as resp:
             status = resp.status
             head_type = resp.headers.get("Content-Type", "")
             final_url = resp.url
@@ -436,7 +427,7 @@ def _check_with_ua(
     except Exception:
         try:
             req = urllib.request.Request(url, method="GET", headers=headers)
-            with urllib.request.urlopen(req, timeout=15, context=ctx) as resp:
+            with urllib.request.urlopen(req, timeout=15) as resp:
                 status = resp.status
                 head_type = resp.headers.get("Content-Type", "")
                 final_url = resp.url
@@ -453,7 +444,7 @@ def _check_with_ua(
     if status not in _OK_CODES:
         return Result(sid, url, status, "unexpected status")
     try:
-        _status, body, content_type = _get(url, ctx, ua)
+        _status, body, content_type = _get(url, ua)
     except Exception as e:
         return Result(sid, url, 0, f"content fetch failed: {str(e)[:60]}")
     text = searchable_text(url, body, content_type)
