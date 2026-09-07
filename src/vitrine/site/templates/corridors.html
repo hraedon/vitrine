@@ -4,9 +4,9 @@
 {% from "macros/legends.html" import legend_block %}
 {% block title %}corridors — vitrine{% endblock %}
 {% block body %}
-<p class="eyebrow">vitrine · the corridors · an atlas in four plates</p>
+<p class="eyebrow">vitrine · United States record · {{ page.wings|length }} atlas plates</p>
 <h1>An atlas of <em>ordinary life</em></h1>
-<p class="sub">The rooms hold snapshots; the plates follow change. Its exhibits are arranged around four questions rather than one long register of charts. Every mark still opens the sourced record behind it, and every silence in the record remains visible.</p>
+<p class="sub">The rooms hold snapshots; the plates follow change. These exhibits are arranged around {{ page.wings|length }} questions rather than one long register of charts. Every mark still opens the sourced record behind it, and every silence in the record remains visible. <a href="../index.html#choose-room">Choose another country wing.</a></p>
 
 <nav class="atlas-directory" aria-label="Atlas wings">
 {% for wing in page.wings %}
@@ -50,7 +50,7 @@
       </summary>
       <div class="exhibit-body">
         {% for caveat in item.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-        <div class="chart-panel">{{ item.chart }}</div>
+        <div class="chart-panel" role="region" aria-label="Affordability chart; scroll horizontally on a small screen" tabindex="0">{{ item.chart }}</div>
         <p class="case-sub">Tier letters carry the weakest input. The ratio is computed, never authored as a fact.</p>
       </div>
     </details>
@@ -62,7 +62,7 @@
       </summary>
       <div class="exhibit-body">
         {% for caveat in page.comp_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-        <div class="chart-panel">{% for row in page.comp_rows %}{{ row.bar }}{% endfor %}</div>
+        <div class="chart-panel" role="region" aria-label="Budget composition chart; scroll horizontally on a small screen" tabindex="0">{% for row in page.comp_rows %}{{ row.bar }}{% endfor %}</div>
         {{ composition_details(page.comp_rows) }}
       </div>
     </details>
@@ -76,7 +76,7 @@
       </summary>
       <div class="exhibit-body">
         {% for caveat in arc.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-        <div class="chart-panel">{{ arc.chart }}</div>
+        <div class="chart-panel" role="region" aria-label="Trend chart; scroll horizontally on a small screen" tabindex="0">{{ arc.chart }}</div>
       </div>
     </details>
   {% endfor %}
@@ -93,10 +93,10 @@
   </div>
   <details class="pair-archive">
     <summary>Open all {{ page.pair_count }} decade pairs</summary>
-    <table class="pairtable" aria-label="All pairwise decade comparisons"><tr><th></th>{% for d in page.decades %}<th scope="col">{{ d[2:4] }}s</th>{% endfor %}</tr>
+    <div class="pairtable-wrap" role="region" aria-label="Comparison table; scroll horizontally on a small screen" tabindex="0"><table class="pairtable" aria-label="All pairwise decade comparisons"><tr><th></th>{% for d in page.decades %}<th scope="col">{{ d[2:4] }}s</th>{% endfor %}</tr>
     {% for a in page.decades %}<tr><th scope="row">{{ a[2:4] }}s</th>
     {% for b in page.decades %}<td>{% if a < b %}<a href="{{ a }}--{{ b }}.html" aria-label="Compare {{ a }} and {{ b }}">↔</a>{% else %}·{% endif %}</td>{% endfor %}</tr>
-    {% endfor %}</table>
+    {% endfor %}</table></div>
   </details>
 </section>
 {{ legend_block() }}

@@ -1,6 +1,6 @@
 # Plan 027 — The past was a different country
 
-**Status:** proposed 2026-07-17 (owner discussion, this session)
+**Status:** WI-1 through WI-6 implemented and verified; WI-7 through WI-12 remain open (reconciled 2026-09-07)
 **Triggered by:** owner request for a more evocative retrospective wing — the
 class of fact where ordinary, legal, ubiquitous behaviour of the recent past is
 now unthinkable (you could smoke on a domestic flight in 1985; a child's blood

@@ -47,8 +47,11 @@ a range) simply has no `quantity`, and charts render it as the gap it is.
 A fact whose honest value is "the record is silent" is written with
 `value = "no reliable record"` (or the longer form `"no reliable record
 accessible online"` used by v2 world rooms where the gap is an archive-
-access limitation rather than a missing survey) and tiered `D` with a note
-explaining why. The gap detector matches any `value` that starts with
+access limitation rather than a missing survey) and normally tiered `D` with a
+note explaining why. When an authoritative source explicitly prints an absent
+period or documents an incompatible series boundary, the gap may carry that
+source's stronger tier: the tier then measures the evidence for the absence,
+not a value that was estimated. The gap detector matches any `value` that starts with
 `"no reliable record"`. Rendering the gap is a feature; inventing a number
 is a charter violation.
 

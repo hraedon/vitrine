@@ -280,8 +280,8 @@ svg.arc text,svg.comp text,svg.meter text{font-family:{{ T.MONO }}}
 .wing-head h2{margin:0;font:600 clamp(26px,3.8vw,37px)/1.05 {{ T.SERIF }};color:{{ T.INK }}}
 .wing-question{margin:5px 0 8px;font:italic 17.5px {{ T.SERIF }};color:{{ T.BRASS_DEEP }}}
 .wing-intro{max-width:68ch;margin:0;color:{{ T.INK_SOFT }};font-size:14px}
-.exhibit-stack{display:grid;gap:7px;margin-left:84px}
-details.atlas-exhibit{border:1px solid {{ T.EDGE }};border-radius:3px;background:{{ T.CASE }};overflow:clip}
+.exhibit-stack{display:grid;min-width:0;gap:7px;margin-left:84px}
+details.atlas-exhibit{min-width:0;max-width:100%;border:1px solid {{ T.EDGE }};border-radius:3px;background:{{ T.CASE }};overflow:clip}
 details.atlas-exhibit[open]{background:{{ T.CASE }};border-color:#c4b48e;box-shadow:0 8px 22px -20px #7a6b4d}
 .exhibit-summary{display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:11px;align-items:center;padding:13px 15px;cursor:pointer;list-style:none}
 .exhibit-summary::-webkit-details-marker{display:none}
@@ -290,7 +290,7 @@ details[open]>.exhibit-summary::before{content:"–";background:{{ T.BRASS }};co
 .exhibit-title b{display:block;font:600 16.5px {{ T.SERIF }};color:{{ T.INK }}}
 .exhibit-title span{display:block;margin-top:1px;font:10px {{ T.MONO }};letter-spacing:.05em;color:{{ T.INK_SOFT }}}
 .coverage{font:9px {{ T.MONO }};letter-spacing:.1em;text-transform:uppercase;color:{{ T.BRASS }};text-align:right;white-space:nowrap}
-.exhibit-body{padding:0 15px 15px 52px;border-top:1px solid #e2d8bf}
+.exhibit-body{min-width:0;padding:0 15px 15px 52px;border-top:1px solid #e2d8bf}
 .exhibit-body .chart-panel{margin-bottom:10px}
 .atlas-portal{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;margin:0 0 10px;padding:17px 20px;border:1px solid #a8c0cb;border-left:4px solid {{ T.BRASS }};border-radius:3px;background:#eef4f6;text-decoration:none;color:inherit}
 .atlas-portal b{display:block;font:600 19px {{ T.SERIF }};color:{{ T.INK }}}
@@ -303,7 +303,8 @@ details[open]>.exhibit-summary::before{content:"–";background:{{ T.BRASS }};co
 .epoch-card{padding:12px;border:1px solid {{ T.EDGE }};border-radius:2px;text-align:center;text-decoration:none;font:600 16px {{ T.SERIF }};color:{{ T.INK }};background:{{ T.CASE_2 }}}
 .epoch-card:hover{border-color:{{ T.BRASS }};color:{{ T.BRASS }}}
 .pair-archive summary{cursor:pointer;font:10px {{ T.MONO }};letter-spacing:.12em;text-transform:uppercase;color:{{ T.BRASS }};width:max-content}
-.pairtable{font-size:13px;border-collapse:collapse;margin-top:10px}
+.pairtable-wrap{box-sizing:border-box;width:100%;max-width:100%;overflow-x:auto;margin-top:10px}
+.pairtable{font-size:13px;border-collapse:collapse;min-width:560px}
 .pairtable td,.pairtable th{border:1px solid #e2d8bf;padding:4px 8px;text-align:center}
 .pairtable a{text-decoration:none;font-family:{{ T.MONO }};font-size:11px}
 
@@ -418,6 +419,7 @@ footer.colophon b{color:{{ T.INK }}}
   .room-overture{grid-template-columns:1fr}
   .story-label{min-height:0;border-right:0;border-bottom:1px solid {{ T.EDGE }}}
   .exhibit-map{grid-template-columns:repeat(3,1fr)}
+  .panel-group,.fact-row{scroll-margin-top:104px}
 }
 @media(max-width:560px){
   .directory-heading{grid-template-columns:1fr;gap:12px}
@@ -450,5 +452,8 @@ footer.colophon b{color:{{ T.INK }}}
   .placard-overlay{padding:3vh 4vw}
   .ledger-row{grid-template-columns:1fr}
   .ledger-row .l-num{text-align:left}
+  .stage,.chart-panel{box-sizing:border-box;width:100%;max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain}
+  .stage svg.house{width:720px;max-width:none}
+  .chart-panel svg.arc,.chart-panel svg.comp,.chart-panel svg.meter{width:700px;max-width:none}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none !important;scroll-behavior:auto !important}}

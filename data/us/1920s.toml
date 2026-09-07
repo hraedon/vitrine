@@ -147,12 +147,12 @@ assumptions = ["composite-family"]
 [[fact]]
 id = "us-1920s-work-buys-gap"
 panel = "work-buys"
-label = "Affordability comparisons, 1920s"
+label = "Share-of-family-income comparison, 1920s"
 value = "no reliable record accessible online"
 unit = "n/a"
 source = "hist-stats-colonial-1970"
 tier = "D"
-notes = "Without a median family income figure, affordability comparisons cannot be computed. Manufacturing wages (~$1,353/yr in 1920) provide a partial anchor."
+notes = "No national median family income figure exists for this decade, so a share-of-income comparison cannot be computed. The hourly manufacturing-wage anchor does support hours-to-afford calculations for the priced records that follow."
 
 [[fact]]
 id = "us-1920s-car-price"

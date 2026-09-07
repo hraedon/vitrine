@@ -445,6 +445,21 @@ class TestResponsive:
             "document.documentElement.scrollWidth <= "
             "document.documentElement.clientWidth + 1"
         )
+        page.locator("details.pair-archive").evaluate("el => el.open = true")
+        assert page.evaluate(
+            "document.documentElement.scrollWidth <= "
+            "document.documentElement.clientWidth + 1"
+        )
+        page.locator("details.pair-archive").evaluate("el => el.open = true")
+        assert page.evaluate(
+            "document.documentElement.scrollWidth <= "
+            "document.documentElement.clientWidth + 1"
+        )
+        page.locator("details.pair-archive").evaluate("el => el.open = true")
+        assert page.evaluate(
+            "document.documentElement.scrollWidth <= "
+            "document.documentElement.clientWidth + 1"
+        )
 
     @pytest.mark.parametrize("width,height", VIEWPORTS)
     def test_no_horizontal_overflow_room(

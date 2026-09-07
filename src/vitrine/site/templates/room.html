@@ -30,11 +30,11 @@
 <section class="room-overture room-overture--uncurated">
   <div class="story-label">
     <div><p class="story-kicker">No curator's route yet</p><h2 id="room-story-title">The room is open; the route is not written</h2></div>
-    <p class="story-note">This room's facts are sourced and complete. The editorial route through them has not been authored yet — the ledgers below are the exhibit.</p>
+    <p class="story-note">The records in this room are sourced; documented gaps remain visible. The editorial route through them has not been authored yet — the ledgers below are the exhibit.</p>
   </div>
 </section>
 {% endif %}
-<div class="stage">{{ page.stage_svg }}</div>
+<div class="stage" role="region" aria-label="Room illustration; scroll horizontally on a small screen" tabindex="0">{{ page.stage_svg }}</div>
 <div class="stagehint">era-graded wash · absent technology isn't drawn · every glyph opens its record</div>
 {% if page.essay_links %}<p class="case-sub docent-crosslink">Docent tours stopping in this room: {% for link in page.essay_links %}<a href="../essays/{{ link.slug }}.html">{{ link.title }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
 <div class="collection-head"><div><h2>The complete room</h2><p>All six ledgers, including the curator's route above and the records around it. Value, tier, measured population, and source on every line.</p></div><span>{{ page.room.facts|length }} sourced facts{% if page.computed_count %} · {{ page.computed_count }} computed{% endif %}</span></div>

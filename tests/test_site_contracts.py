@@ -173,7 +173,7 @@ EXPECTED: dict[str, PageContract] = {
     "corridors/index.html": _page(
         "corridors — vitrine",
         landmarks=(6, 2, 1, 6, 1), disclosures=(367, 5),
-        local=(429, "c5185a0acf35"), marks=(328, "f30349891412"), overlays=328,
+        local=(430, "17abbf744094"), marks=(328, "f30349891412"), overlays=328,
     ),
     "corridors/1900s--2020s.html": _page(
         "1900s ↔ 2020s — vitrine corridors",
@@ -183,7 +183,7 @@ EXPECTED: dict[str, PageContract] = {
     "affordability/index.html": _page(
         "affordability — vitrine",
         landmarks=(1, 1, 1, 0, 2), disclosures=(0, 0),
-        local=(19, "50f0f0203c0e"), marks=(9, "cc00d43721f7"), overlays=0,
+        local=(20, "f1db22719e66"), marks=(9, "cc00d43721f7"), overlays=0,
     ),
     "walkthrough.html": _page(
         "the walkthrough — vitrine",
