@@ -25,6 +25,11 @@ from vitrine.site.context import (
     RoomStoryView,
     WingView,
 )
+from vitrine.site.curation.collections import (
+    PRIMARY_OBJECT_EXCLUSIONS,
+    EditorialStatus,
+    editorial_choice,
+)
 from vitrine.site.projections.affordability import affordability_for_room
 from vitrine.site.projections.facts import GAP_PREFIX, FactRef
 from vitrine.site.projections.stage import build_stage
@@ -154,6 +159,7 @@ def project_lobby(
                 facts=sum(len(room.facts) for room in wing_rooms),
                 gaps=sum(f.value.strip().lower().startswith(GAP_PREFIX)
                          for r in wing_rooms for f in r.facts),
+                editorial={room.slug: editorial_choice(room.slug) for room in wing_rooms},
             )
             for country in sorted(
                 {room.country for room in all_rooms},
@@ -209,14 +215,27 @@ def project_room(
     stage = build_stage(room, index, "../")
     comparative = room.country in curation.CURATED_COUNTRIES
     observed = tuple(f for f in room.facts if not f.value.strip().lower().startswith(GAP_PREFIX))
-    compact = len(observed) < 8 or len({f.panel for f in observed}) < 3
+    editorial = editorial_choice(room.slug)
+    story = room_story(room)
+    if not editorial.rationale.strip():
+        raise ValueError(f"room {room.slug}: editorial choice needs a rationale")
+    if editorial.status is EditorialStatus.GUIDED and story is None:
+        raise ValueError(f"room {room.slug}: guided status requires a curated route")
+    compact = editorial.status is EditorialStatus.RESEARCH
     sections = panels_for(room, computed)
     if compact:
         sections = tuple(sorted(sections, key=lambda ps: not (ps.observed_count or ps.computed)))
+    exclusions = PRIMARY_OBJECT_EXCLUSIONS.get(room.slug, {})
+    if set(exclusions) - {fact.id for fact in room.facts} or any(
+        not rationale.strip() for rationale in exclusions.values()
+    ):
+        raise ValueError(
+            f"room {room.slug}: object exclusion needs an existing record and rationale"
+        )
     return RoomPage(
         room=room,
         rooms=tuple(rooms),
-        story=room_story(room),
+        story=story,
         previous_room=rooms[room_position - 2] if room_position > 1 else None,
         next_room=rooms[room_position] if room_position < len(rooms) else None,
         room_position=room_position,
@@ -234,6 +253,10 @@ def project_room(
         observed_count=len(observed),
         gap_count=len(room.facts) - len(observed),
         compact=compact,
-        artifacts=stage.artifacts,
+        editorial=editorial,
+        artifacts=tuple(sorted(
+            (artifact for artifact in stage.artifacts if artifact.fact_id not in exclusions),
+            key=lambda a: a.fact_id != "us-1950s-tv-diffusion",
+        )),
         artifact_notes=stage.zone_notes,
     )

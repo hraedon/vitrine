@@ -267,11 +267,11 @@ assumptions = ["composite-family", "urban-rural-split"]
 id = "us-1900s-weekly-earnings-context"
 panel = "work-buys"
 label = "What a week of work bought, 1900"
-value = "$12.74/week (manufacturing) = 1.66% of $768.54 annual expenditure → 60 weeks of one earner's wages; the family budget depended on income beyond this one manufacturing wage"
+value = "$12.74/week (manufacturing) = 1.66% of $768.54 annual expenditure → about 60 weeks of one worker's wages"
 unit = "ratio of weekly wages to annual expenditure"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "Computed from primary sources: hourly earnings $0.216 × 59.0 hrs = $12.74/week (Historical Statistics Series D 765-766). Annual expenditure $768.54 from the 18th Annual Report (Bulletin No. 49, p.1138). $12.74 covers 1.66% of annual expenditure — implying ~60 weeks of work to cover expenses, consistent with year-round work by multiple family earners. Previous Tier D used $11.00/week from the Missouri guide."
+notes = "Hourly earnings $0.216 × 59.0 hours gives $12.74 weekly manufacturing earnings (Historical Statistics Series D 765-766). Annual expenditure $768.54 is from the 18th Annual Report (Bulletin No. 49, p.1138), a separate survey population. Their ratio is an illustration, not a reconstruction of how a particular family financed its budget; it does not establish the number of earners."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
@@ -356,7 +356,7 @@ value = "~5.6%"
 unit = "% of married women (husband present) in the civilian labor force"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series D 49-62 (Marital Status of Women in the Civilian Labor Force, 1890-1970). In 1900, only about 1 in 18 married women worked outside the home — the composite family is unambiguously a single-earner household. Total female LFPR was 20.6%. By 1950: 21.0% married women; by 1970: 40.0%. The figures for 1890-1940 are census-year estimates from the decennial series."
+notes = "Population-level labor-force participation of married women, not the number of earners in an individual family. Historical gainful-worker measures and modern labor-force participation are not identical; neither this percentage nor marital status alone establishes household income sources."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────

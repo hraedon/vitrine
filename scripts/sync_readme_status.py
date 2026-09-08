@@ -18,7 +18,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 def main() -> int:
     readme_path = REPO_ROOT / "README.md"
-    text = readme_path.read_text()
+    text = readme_path.read_text(encoding="utf-8")
     begin = text.find(README_BEGIN)
     end = text.find(README_END)
     if begin == -1 or end == -1 or end < begin:
@@ -30,7 +30,7 @@ def main() -> int:
     if updated == text:
         print("README status block already current")
         return 0
-    readme_path.write_text(updated)
+    readme_path.write_text(updated, encoding="utf-8")
     print(f"README status block updated: {line}")
     return 0
 

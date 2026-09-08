@@ -41,18 +41,22 @@ AFFORDABILITY_METRICS: tuple[Metric, ...] = (
         "single-earner-wage-coverage",
         "One manufacturing wage, as share of family income",
         "% of median (all) family income",
-        "Weekly manufacturing earnings x 52 / median family income. The fall "
-        "from near-parity in the 1950s traces the death of the single-earner "
-        "family norm — one production wage stopped covering the median.",
+        "Average weekly manufacturing earnings x 52 / median all-family money "
+        "income. This compares worker earnings with family income; it does not "
+        "measure living costs or count single-earner families.",
         numerator=("weekly-earnings-manufacturing",),
         denominator=("median-family-income-all",),
         numerator_scale=52.0,
         percent=True,
         falling=True,
         caveats=(
-            "Manufacturing wages skew urban, industrial, male — they stand in "
-            "for 'the worker' where no broader wage series exists (see the "
-            "manufacturing-wage-proxy assumption).",
+            "Manufacturing production and nonsupervisory employees are a "
+            "particular worker population, not the median worker. The "
+            "denominator includes all families, with different numbers of "
+            "earners and sources of money income.",
+            "Multiplication by 52 assumes a full year at the average weekly "
+            "earnings. It is not measured annual earnings or evidence that "
+            "one wage paid a household's bills.",
         ),
     ),
     Metric(

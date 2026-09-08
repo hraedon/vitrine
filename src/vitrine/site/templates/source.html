@@ -11,7 +11,7 @@
 </div>
 {% if page.source.notes %}<details class="room-schematic"><summary>Source notes &amp; limitations</summary><p>{{ page.source.notes }}</p></details>{% endif %}
 <div class="collection-head"><div><h2>Where this source appears</h2><p>{{ page.count }} records across {{ page.rooms|length }} decades and countries. Documented gaps are included; a source cited for a gap does not establish a value.</p></div></div>
-<p class="audit-summary">{{ page.audited_count }} of {{ page.count }} records have a current transcription audit. This checks a declared numeric field against a pinned local source file. It does not independently validate the source or every claim in a record. The date is the last successful local audit; the build checks that its bindings still match.</p>
+<p class="audit-summary">{{ page.audited_count }} of {{ page.count }} records have a current source audit. A transcription check reads a declared numeric field from a pinned local source file; a calculation replay reads its operands and applies the declared method and rounding rule. A source audit does not independently validate the source or every claim in a record. The date is the last successful local audit; the build checks that its bindings still match.</p>
 {% for group in page.rooms %}
 <section class="source-room" aria-labelledby="source-{{ group.room.slug }}">
   <h3 id="source-{{ group.room.slug }}"><a href="../../rooms/{{ group.room.slug }}.html">{{ group.room.country|upper }} · {{ group.room.decade }}</a></h3>
@@ -20,7 +20,10 @@
   <article class="source-record" data-source-fact-id="{{ item.fact.id }}">
     <div><span class="tchip" style="background:{{ T.TIER_COLORS[item.fact.tier.value] }}">{{ item.fact.tier.value }}</span> <a href="../../rooms/{{ group.room.slug }}.html#{{ item.fact.id }}">{{ item.fact.label }}</a></div>
     <p>{{ item.fact.value }}</p><p class="case-sub">{{ item.fact.unit }}</p>
-    <small>{% if item.audited %}Transcription checked · {{ item.audited }}{% else %}No current transcription audit{% endif %}</small>
+    <small>{% if item.audited %}{% if item.fact.audit and item.fact.audit.calculation %}Calculation replayed{% else %}Transcription checked{% endif %} · {{ item.audited }}{% else %}No current source audit{% endif %}</small>
+    {% if item.fact.audit and item.fact.audit.calculation %}{% set calculation = item.fact.audit.calculation %}
+    <details class="audit-method"><summary>Calculation method &amp; rounding</summary><p>{{ calculation.method }}</p><p>{% if calculation.op.value == 'mean' %}Arithmetic mean{% else %}Percentage of the denominator{% endif %}, rounded to {{ calculation.precision }} decimal places before unit scaling. Exact halfway cases round {% if calculation.rounding.value == 'half_even' %}to the nearest even digit{% else %}away from zero{% endif %}.</p><p>{{ calculation.operands|length + 1 }} source operands; the source audit records their pinned file and addresses.</p></details>
+    {% endif %}
   </article>
   {% endfor %}
   </div>

@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% from "macros/legends.html" import legend_block %}
-{% block title %}vitrine — the median family's century{% endblock %}
+{% block title %}vitrine — everyday life across time{% endblock %}
 {% block body %}
 <div class="lobby-intro">
   <div>
     <p class="eyebrow">A statistical atlas of ordinary life</p>
     <h1>A century of <em>ordinary life.</em><br>On the record.</h1>
-    <p class="sub">Step inside the home, budget, table, and working day of the median-income family. Move between decades; open any exhibit to see who was measured and where the evidence came from.</p>
+    <p class="sub">Explore homes, budgets, food, and working lives through the records people left. Move between decades and collections; open any exhibit to see who was measured and where the evidence came from.</p>
     <div class="lobby-actions">
       <a class="entry-button" href="#choose-room">Choose a room <span aria-hidden="true">↓</span></a>
       {% if page.essays %}<a href="essays/index.html">Follow a guided tour →</a>{% endif %}
@@ -15,7 +15,7 @@
   <aside class="lobby-guide" aria-labelledby="guide-title">
     <p class="eyebrow">Before you step inside</p>
     <h2 id="guide-title">The source is part<br>of the exhibit.</h2>
-    <p>Every fact has a source card, a confidence tier, and the population actually measured. A gap means the record is silent.</p>
+    <p>Every fact has a source card, a confidence tier, and the population actually measured. A gap identifies evidence this collection cannot yet supply.</p>
     <dl class="corpus-strip" aria-label="Museum collection">
       <div><dt>Country wings</dt><dd>{{ page.wings|length }}</dd></div>
       <div><dt>Curated records</dt><dd>{{ page.corpus_totals.facts }}</dd></div>
@@ -38,10 +38,11 @@
     <div class="wing-entry-heading">
       <span class="wing-code" aria-hidden="true">{{ wing.country|upper }}</span>
       <div><h3 id="wing-{{ wing.country }}-title">{{ wing.name }}</h3>
-      <p>{{ wing.rooms|length }} decades · {{ wing.facts - wing.gaps }} observations · {{ wing.gaps }} documented gaps · {% if wing.curated %}guided rooms{% else %}research collection{% endif %}</p></div>
+      <p>{{ wing.rooms|length }} decades · {{ wing.facts - wing.gaps }} observations · {{ wing.gaps }} documented gaps</p></div>
     </div>
+    {% if wing.country == 'jp' %}<a class="wing-feature" href="collections/japan.html"><b>Japan, through its surveys</b><span>Explore household budgets, work, and equipment · focused exhibit →</span></a>{% endif %}
     <nav aria-label="{{ wing.name }} decade rooms" class="wing-decades">
-      {% for room in wing.rooms %}<a href="rooms/{{ room.slug }}.html" aria-label="{{ wing.name }}, {{ room.decade }}">{{ room.decade }} <span aria-hidden="true">↗</span></a>{% endfor %}
+      {% for room in wing.rooms %}<a href="rooms/{{ room.slug }}.html" aria-label="{{ wing.name }}, {{ room.decade }}">{{ room.decade }} <span aria-hidden="true">↗</span><small>{{ wing.editorial[room.slug].status.value }}</small></a>{% endfor %}
     </nav>
   </section>
   {% endfor %}

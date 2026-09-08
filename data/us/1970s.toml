@@ -80,7 +80,7 @@ assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 [[fact]]
 id = "us-1970s-cex-apparel-share"
 panel = "budget"
-label = "Apparel share of household budget, 1972-73"
+label = "Apparel share of expenditure, four-person families, 1972-73"
 quantity = 6.4
 value = "6.4% of total expenditures"
 unit = "% of total annual expenditures"

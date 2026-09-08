@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-09-07 — Calculations, Japan's thematic entrance, and editorial review
+
+Japan now has a focused collection organised around household budgets,
+workplace measures and household equipment. Dated observations stay separated
+by source population. Room presentation uses explicit editorial choices and
+rationales. The US 1950s gallery foregrounds the television record and keeps
+unqualified compound records in the archive rather than the primary gallery.
+
+The source audit now replays means and percentage ratios from saved operands
+with exact arithmetic and explicit rounding. All 97 checks passed, including
+39 calculations. Compound earnings records were split; the 2024 weekly-pay
+product now uses matching worker populations. Four unsupported four-person
+CEX comparisons are verification gaps pending the correct annual-means table.
+Two trade-survey records were down-tiered from B to C.
+
+Existing essays and corridor captions no longer infer household behaviour,
+causation, prevalence or historical absence from statistics that cannot
+establish them. Plan 029 records the implementation and remaining work.
+Qualification passed 581 tests, all 753 exhibit checks and standalone export.
+
 ## 2026-09-07 — Evidence-shaped collections and repeatable audits
 
 Sparse collections lead with observations and identify their gaps separately.

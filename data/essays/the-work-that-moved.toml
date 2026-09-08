@@ -5,12 +5,12 @@
 [essay]
 slug = "the-work-that-moved"
 title = "The work that moved"
-standfirst = "For most of the century the week's biggest job paid nothing at all. Then the hours fell — and the pay envelope, the appliances, and the second job moved to fill the space."
+standfirst = "A reconstruction of unpaid work shows changing hours for women and men. Whose time is counted matters as much as the direction of the lines."
 
 [[block]]
 kind = "prose"
 text = '''
-In 1900 the prime-age woman of the median household worked {fact:us-1900s-home-production-women} a week in the home, unpaid. Here is the first surprise of the record: it barely moved for two-thirds of a century. The 1950 room still has her at {fact:us-1950s-home-production-women} — a decline so slow it looks like a law of nature.
+The reconstruction estimates average weekly home-production time for prime-age women at {fact:us-1900s-home-production-women} hours in 1900 and {fact:us-1950s-home-production-women} in 1950. It combines historical studies with later time-use surveys. These are population averages across employed and nonemployed women, not the diary of a woman in a median-income household.
 '''
 
 [[block]]
@@ -20,17 +20,17 @@ group = "home-production-by-sex"
 [[block]]
 kind = "prose"
 text = '''
-The machines had arrived long before the hours moved. By 1950, {fact:us-1950s-electricity-diffusion} of households had electric light and {fact:us-1950s-refrigerator-diffusion} had mechanical refrigeration. The equipped home and the working week coexisted for a full generation — the appliances were already ordinary while the routine around them was not yet different.
+The equipment exhibits offer a separate view: in 1950, {fact:us-1950s-electricity-diffusion} of households had electric light and {fact:us-1950s-refrigerator-diffusion} had mechanical refrigeration. These household adoption figures are not linked to the people in the time-use reconstruction. Putting them alongside the hours does not measure how much work an appliance saved.
 '''
 
 [[block]]
 kind = "prose"
 text = '''
-Then the cliff. By 1975 the figure was {fact:us-1970s-home-production-women} — the steepest decade on this chart. The {fact:us-1950s-home-production-men:label} line rises gently across the same decades, but nowhere near enough to absorb what moved. Where did the hours go? Partly into the paid second earner, partly into standards: the freezer kept, the laundry shrank, and the dividend was spent on a bigger, better-served house rather than on leisure.
+By 1975 the women's estimate was {fact:us-1970s-home-production-women} hours per week. Read it beside the men's series, including the {fact:us-1950s-home-production-men:label} exhibit, on the same scale. The reconstruction describes a changing division of unpaid work. These averages do not show hours being transferred between the same spouses, or establish whether time went into paid work, leisure, or other activities.
 '''
 
 [[block]]
 kind = "prose"
 text = '''
-One honesty note at the end of the line. After the two-thousands the museum stops the series on purpose: the survey concept changes there (see the room's {fact:us-2020s-home-production-splice:label} exhibit), and plotting the new narrower measure would fake a further fall. The gap drawn at the end of the chart is not missing data. It is the museum declining to publish a spliced number.
+After the two-thousands this chart stops. The later room exhibits use a narrower activity category and a different age population (see the {fact:us-2020s-home-production-splice:label} exhibit). Those observations remain available in the rooms, but they cannot continue this line unchanged. Its ending records a measurement boundary, not the disappearance of unpaid work.
 '''

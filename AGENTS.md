@@ -4,11 +4,12 @@ Conventions and quick reference for agents (and humans) working on vitrine.
 
 ## What this is
 
-A decade-by-decade virtual museum of the median-income four-person family's
-lifestyle, built as a deterministic static-site generator over hand-curated,
-fully-cited data files. The exhibit mechanic is provenance: every rendered
-fact carries a source card and a confidence tier, enforced by a mechanical
-build gate. See `README.md` for the full charter.
+A museum of material life across time, built as a deterministic static-site
+generator over hand-curated, fully-cited data files. Decade rooms and thematic
+collections must respect each source's measured population; the four-person
+median-income family is an optional lens, not a universal survey population.
+Every rendered fact carries a source card and a confidence tier, enforced by
+a mechanical build gate. See `README.md` for the full charter.
 
 ## Orient
 

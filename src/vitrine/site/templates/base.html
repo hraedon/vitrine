@@ -11,8 +11,8 @@
 <a class="skip-link" href="#content">Skip to exhibit</a>
 <div class="wrap">
 <header class="museum-header">
-  {% if standalone %}<div class="museum-brand"><b>vitrine</b><span>the median family's century</span></div>
-  {% else %}<a class="museum-brand" href="{{ root }}index.html"><b>vitrine</b><span>the median family's century</span></a>
+  {% if standalone %}<div class="museum-brand"><b>vitrine</b><span>everyday life across time</span></div>
+  {% else %}<a class="museum-brand" href="{{ root }}index.html"><b>vitrine</b><span>everyday life across time</span></a>
   <nav class="museum-map" aria-label="Museum map">
     <div class="nav-group"><span class="nav-group-label">Visit</span>
       <a{% if surface == "rooms" %} class="here" aria-current="page"{% endif %} href="{{ root }}index.html">Rooms</a>
@@ -30,7 +30,7 @@
   {% endif %}
 </header>
 <main id="content" tabindex="-1">{% block body %}{% endblock %}</main>
-<footer class="colophon">Every exhibit is transcribed from a cited source; the
+<footer class="colophon">Every observation or calculation links to its cited evidence; the
 build fails mechanically when one goes missing. Where the record is silent, the
 site renders the gap.{% if not standalone %} <a href="{{ root }}methodology.html">Method</a> ·
 <a href="{{ root }}bibliography.html">Sources</a>{% endif %}</footer>

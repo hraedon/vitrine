@@ -348,6 +348,7 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1950s-weekly-hours-manufacturing"
+audit = { file = "50-calculation-inputs/bls-ces-earnings-hours-1950-response.json", extractor = "json-pointer", locator = "/Results/series/0/data/0/value", target = "quantity", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/0/seriesID", value = "CES3000000007" }, { locator = "/Results/series/0/data/0/year", value = "1950" }, { locator = "/Results/series/0/data/0/period", value = "M12" }, { locator = "/Results/series/0/data/1/year", value = "1950" }, { locator = "/Results/series/0/data/1/period", value = "M11" }, { locator = "/Results/series/0/data/2/year", value = "1950" }, { locator = "/Results/series/0/data/2/period", value = "M10" }, { locator = "/Results/series/0/data/3/year", value = "1950" }, { locator = "/Results/series/0/data/3/period", value = "M09" }, { locator = "/Results/series/0/data/4/year", value = "1950" }, { locator = "/Results/series/0/data/4/period", value = "M08" }, { locator = "/Results/series/0/data/5/year", value = "1950" }, { locator = "/Results/series/0/data/5/period", value = "M07" }, { locator = "/Results/series/0/data/6/year", value = "1950" }, { locator = "/Results/series/0/data/6/period", value = "M06" }, { locator = "/Results/series/0/data/7/year", value = "1950" }, { locator = "/Results/series/0/data/7/period", value = "M05" }, { locator = "/Results/series/0/data/8/year", value = "1950" }, { locator = "/Results/series/0/data/8/period", value = "M04" }, { locator = "/Results/series/0/data/9/year", value = "1950" }, { locator = "/Results/series/0/data/9/period", value = "M03" }, { locator = "/Results/series/0/data/10/year", value = "1950" }, { locator = "/Results/series/0/data/10/period", value = "M02" }, { locator = "/Results/series/0/data/11/year", value = "1950" }, { locator = "/Results/series/0/data/11/period", value = "M01" }], calculation = { op = "mean", operands = ["/Results/series/0/data/1/value", "/Results/series/0/data/2/value", "/Results/series/0/data/3/value", "/Results/series/0/data/4/value", "/Results/series/0/data/5/value", "/Results/series/0/data/6/value", "/Results/series/0/data/7/value", "/Results/series/0/data/8/value", "/Results/series/0/data/9/value", "/Results/series/0/data/10/value", "/Results/series/0/data/11/value"], precision = 1, rounding = "half_up", method = "Arithmetic mean of the twelve seasonally adjusted monthly CES3000000007 observations for 1950; each month weighted equally, rounded once to 1 decimal places." } }
 quantity = 40.5
 panel = "day"
 label = "Average weekly hours, manufacturing production workers, 1950"
@@ -355,11 +356,12 @@ value = "40.5"
 unit = "hours per week"
 source = "fred-awhman"
 tier = "A"
-notes = "Annual average computed from FRED AWHMAN monthly data (12 observations for 1950, averaged). BLS Current Employment Statistics. Population: production and nonsupervisory employees in manufacturing."
+notes = "Arithmetic mean of twelve monthly seasonally adjusted BLS observations for 1950, retrieved 2026-09-07. Rounded once to the displayed precision; each month/year and the series identifier are guarded by the audit."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-hourly-earnings-manufacturing"
+audit = { file = "50-calculation-inputs/bls-ces-earnings-hours-1950-response.json", extractor = "json-pointer", locator = "/Results/series/2/data/0/value", target = "amount_minor", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/2/seriesID", value = "CES3000000008" }, { locator = "/Results/series/2/data/0/year", value = "1950" }, { locator = "/Results/series/2/data/0/period", value = "M12" }, { locator = "/Results/series/2/data/1/year", value = "1950" }, { locator = "/Results/series/2/data/1/period", value = "M11" }, { locator = "/Results/series/2/data/2/year", value = "1950" }, { locator = "/Results/series/2/data/2/period", value = "M10" }, { locator = "/Results/series/2/data/3/year", value = "1950" }, { locator = "/Results/series/2/data/3/period", value = "M09" }, { locator = "/Results/series/2/data/4/year", value = "1950" }, { locator = "/Results/series/2/data/4/period", value = "M08" }, { locator = "/Results/series/2/data/5/year", value = "1950" }, { locator = "/Results/series/2/data/5/period", value = "M07" }, { locator = "/Results/series/2/data/6/year", value = "1950" }, { locator = "/Results/series/2/data/6/period", value = "M06" }, { locator = "/Results/series/2/data/7/year", value = "1950" }, { locator = "/Results/series/2/data/7/period", value = "M05" }, { locator = "/Results/series/2/data/8/year", value = "1950" }, { locator = "/Results/series/2/data/8/period", value = "M04" }, { locator = "/Results/series/2/data/9/year", value = "1950" }, { locator = "/Results/series/2/data/9/period", value = "M03" }, { locator = "/Results/series/2/data/10/year", value = "1950" }, { locator = "/Results/series/2/data/10/period", value = "M02" }, { locator = "/Results/series/2/data/11/year", value = "1950" }, { locator = "/Results/series/2/data/11/period", value = "M01" }], calculation = { op = "mean", operands = ["/Results/series/2/data/1/value", "/Results/series/2/data/2/value", "/Results/series/2/data/3/value", "/Results/series/2/data/4/value", "/Results/series/2/data/5/value", "/Results/series/2/data/6/value", "/Results/series/2/data/7/value", "/Results/series/2/data/8/value", "/Results/series/2/data/9/value", "/Results/series/2/data/10/value", "/Results/series/2/data/11/value"], precision = 2, rounding = "half_up", method = "Arithmetic mean of the twelve seasonally adjusted monthly CES3000000008 observations for 1950; each month weighted equally, rounded once to 2 decimal places." }, scale = "100" }
 panel = "day"
 label = "Average hourly earnings, manufacturing production workers, 1950"
 value = "$1.32"
@@ -370,7 +372,7 @@ amount_minor = 132
 currency = "USD"
 price_year = 1950
 basis = "hourly"
-notes = "Annual average computed from FRED CES3000000008 monthly data (12 observations for 1950, averaged). BLS Current Employment Statistics."
+notes = "Arithmetic mean of twelve monthly seasonally adjusted BLS observations for 1950, retrieved 2026-09-07. Rounded once to the displayed precision; each month/year and the series identifier are guarded by the audit."
 assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency"]
 
 [[derived]]
@@ -393,7 +395,7 @@ value = "$2,673"
 unit = "USD per year, nominal (computed: $53.46 × 50 weeks)"
 source = "fred-ces-manuf-earnings"
 tier = "A"
-notes = "Computed: weekly earnings ($53.46, derived from hourly x hours) × 50 weeks. Assumes 2 weeks unpaid time off, which is a convention — the actual weeks worked varied. This is a rough annualization, not an official series. Compare to median family income of $3,319 (all families) — manufacturing wages alone do not cover the median family income, implying a second earner or non-manufacturing employment."
+notes = "The rounded hourly-rate and weekly-hours inputs imply $53.46 weekly earnings; multiplying by an assumed 50 paid weeks gives $2,673. The 50-week convention is not observed annual employment and this is not an official annual earnings series. Comparing this worker illustration with a separate family-income distribution does not identify family earners or financing."
 assumptions = ["nominal-values", "composite-family"]
 
 [[fact]]
@@ -547,7 +549,7 @@ value = "$53.46/week — a full year of it (×52) ≈ 84% of median family incom
 unit = "weekly manufacturing earnings vs annual median family income"
 source = "fred-ces-manuf-earnings"
 tier = "A"
-notes = "Computed: weekly earnings ($53.46, derived from hourly rate x weekly hours) x 52 = $2,780, which is 83.8% of the all-family median income ($3,319). A lone manufacturing wage fell about 16% short of the median family's income — the gap implies second earners or higher-paying work. (Reframed 2026-07-07 from the original framing.)"
+notes = "The product of the rounded hourly wage and weekly-hours observations for manufacturing production workers is $53.46. Assuming 52 paid weeks gives $2,779.92, or 83.8% of the all-family median income of $3,319 (Census F-8). Worker and family survey populations differ. This illustrative ratio does not establish household needs, income sufficiency, or the number of earners in a family."
 assumptions = ["composite-family", "nominal-values"]
 
 
@@ -593,7 +595,7 @@ value = "23.8%"
 unit = "% of married women (husband present) in the civilian labor force"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series D 63-74 (Married Women, Husband Present, in Labor Force, 1948-1970). Annual data: 1948: 22.0%, 1950: 23.8%, 1955: 27.7%. With children under 6: 11.9% (1950). With children 6-17 only: 11.2%. No children under 18: 12.6%. The 1950s 'Ozzie and Harriet' image obscures that nearly a quarter of married women were already working — the dual-earner transition was underway. By 1960: 30.5%."
+notes = "Population-level participation of married women. Labor-force participation includes employment and unemployment; it does not classify families by the number of earners or establish a household transition."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────

@@ -12,46 +12,41 @@ data_as_of = "2024"
 # ── Budget panel ──────────────────────────────────────────────────────────
 # National-median facts from Census F-8 (Tier A) + CEX expenditure shares (Tier A)
 
-# CEX expenditure breakdown for 4-person consumer units, 2024.
-# Computed from CEX Table 1400 (Size of CU): aggregate expenditure shares.
-# Method: (category share × category aggregate) / (total exp share × total exp aggregate).
-# 4-person CUs: 16,718 thousand (12.3% of all CUs). Average expenditure: $109,622.
-# Source file: cu-size-2024.xlsx (from https://www.bls.gov/cex/tables.htm)
+# The saved four-person table is the aggregate-share variant. Precise budget
+# shares and dollar means previously asserted from it could not be verified.
+# Retain the record IDs as explicit gaps pending the actual means table.
 
 [[fact]]
 id = "us-2020s-expenditure-breakdown-4p"
-quantity = 31.3
 panel = "budget"
-label = "Expenditure breakdown, 4-person families, 2024"
-value = "Housing 31.3%, transportation 17.9%, food 13.5%, insurance/pensions 14.8%, healthcare 7.0%, entertainment 4.6%, apparel 2.5%, education 2.4%, cash contributions 2.0%"
+label = "Expenditure breakdown, four-person consumer units, 2024"
+value = "no reliable record verified for this comparison"
 unit = "% of total annual expenditure"
-source = "bls-cex"
-tier = "A"
-notes = "Computed from CEX Table 1400 (Size of CU, 2024). 4-person CUs: 16,718 thousand. Average annual expenditure: $109,622. Average income before taxes: $161,632. Expenditure = 68% of gross income. Compared to 1901: food dropped from 42.54% to 13.5%, apparel from 14.04% to 2.5%, while housing rose from 12.95% to 31.3% and transportation emerged as a major category (17.9%). Source: bls.gov/cex/tables.htm, file cu-size-2024.xlsx."
+source = "bls-cex-four-person-2024-aggregate"
+tier = "D"
+notes = "The archived 2024 Table 1400 contains rounded shares of national aggregate spending by consumer-unit size, not published within-budget mean expenditure shares. Its income mean also differs from the previous transcription. Exact four-person expenditure amounts and budget shares previously shown here cannot be reproduced from this file and have been withdrawn pending the correct annual-means table. The direct official means-table download returned HTTP 403 on 2026-09-07. Historical comparisons also mix survey populations; 1901 rent is narrower than modern housing expenditure. All-consumer-unit 2024 figures remain separately available and audited."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-2020s-food-share-comparison"
-quantity = 13.5
 panel = "budget"
-label = "Food share of expenditure: 1901 vs 2024"
-value = "42.54% (1901) -> 13.5% (2024) — food's share dropped by two-thirds"
+label = "Food-share comparison with 1901: verification gap"
+value = "no reliable record verified for this comparison"
 unit = "% of total family expenditure"
-source = "bls-bulletin-49-1903"
-tier = "A"
-notes = "1901 figure from BLS Bulletin No. 49 (18th Annual Report). 2024 figure computed from CEX Table 1400. This is Engels' Law in action: as income rises, the share spent on food decreases. The absolute food budget increased ($326.90 in 1901 vs ~$14,797 in 2024 for a 4-person family) but its share of total expenditure fell dramatically."
+source = "bls-cex-four-person-2024-aggregate"
+tier = "D"
+notes = "The archived 2024 Table 1400 contains rounded shares of national aggregate spending by consumer-unit size, not published within-budget mean expenditure shares. Its income mean also differs from the previous transcription. Exact four-person expenditure amounts and budget shares previously shown here cannot be reproduced from this file and have been withdrawn pending the correct annual-means table. The direct official means-table download returned HTTP 403 on 2026-09-07. Historical comparisons also mix survey populations; 1901 rent is narrower than modern housing expenditure. All-consumer-unit 2024 figures remain separately available and audited."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-2020s-housing-share-comparison"
-quantity = 31.3
 panel = "budget"
-label = "Housing share of expenditure: 1901 vs 2024"
-value = "12.95% (1901) -> 31.3% (2024) — housing's share nearly tripled"
+label = "Housing-share comparison with 1901: incompatible categories"
+value = "no reliable record verified for this comparison"
 unit = "% of total family expenditure"
-source = "bls-bulletin-49-1903"
-tier = "A"
-notes = "1901 rent from BLS Bulletin No. 49. 2024 from CEX Table 1400 (includes shelter, utilities, furnishings, household operations). Housing became the largest expenditure category, driven by rising real estate costs and larger homes. In 1901 food was the largest category; by 2024 it was housing."
+source = "bls-cex-four-person-2024-aggregate"
+tier = "D"
+notes = "The archived 2024 Table 1400 contains rounded shares of national aggregate spending by consumer-unit size, not published within-budget mean expenditure shares. Its income mean also differs from the previous transcription. Exact four-person expenditure amounts and budget shares previously shown here cannot be reproduced from this file and have been withdrawn pending the correct annual-means table. The direct official means-table download returned HTTP 403 on 2026-09-07. Historical comparisons also mix survey populations; 1901 rent is narrower than modern housing expenditure. All-consumer-unit 2024 figures remain separately available and audited."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
@@ -129,6 +124,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-2020s-cex-expenditure-income-ratio"
+audit = { file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx", extractor = "xlsx-cell", locator = "Table!E48", guards = [{ locator = "Table!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Surveys, 2021-2024" }, { locator = "Table!E3", value = "2024.0" }, { locator = "Table!A48", value = "Average annual expenditures" }, { locator = "Table!A8", value = "Income before taxes" }], calculation = { op = "pct_of", operands = ["Table!E8"], precision = 1, rounding = "half_up", method = "All consumer units, 2024: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
 label = "Expenditure-to-income ratio, 2024"
 quantity = 75.4
@@ -136,11 +132,12 @@ value = "75.4% — expenditures $78,535 vs income $104,207"
 unit = "% (total expenditures ÷ income before taxes)"
 source = "bls-cex"
 tier = "A"
-notes = "From BLS CEX multi-year table (cu-all-multi-year-2021-2024.xlsx). All consumer units. Total expenditures: $78,535. Income before taxes: $104,207. Ratio: 75.4%. The lowest ratio in the series — high-income households pulling the aggregate ratio down. The bottom quintile spends over 200% of income (see us-2010s-cex-quintile-q1-ratio for the 2012 benchmark)."
+notes = "Ratio of average annual expenditures to average income before taxes for all consumer units in 2024. It is not the average household expenditure-to-income ratio and does not identify how any particular family financed spending. The audit reproduces the percentage from both source means."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-2020s-cex-healthcare-share"
+audit = { file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx", extractor = "xlsx-cell", locator = "Table!E137", guards = [{ locator = "Table!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Surveys, 2021-2024" }, { locator = "Table!E3", value = "2024.0" }, { locator = "Table!A137", value = "Healthcare" }, { locator = "Table!A48", value = "Average annual expenditures" }], calculation = { op = "pct_of", operands = ["Table!E48"], precision = 1, rounding = "half_up", method = "All consumer units, 2024: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
 label = "Healthcare share of household budget, 2024"
 quantity = 7.9
@@ -153,6 +150,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-2020s-cex-apparel-share"
+audit = { file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx", extractor = "xlsx-cell", locator = "Table!E113", guards = [{ locator = "Table!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Surveys, 2021-2024" }, { locator = "Table!E3", value = "2024.0" }, { locator = "Table!A113", value = "Apparel and services" }, { locator = "Table!A48", value = "Average annual expenditures" }], calculation = { op = "pct_of", operands = ["Table!E48"], precision = 1, rounding = "half_up", method = "All consumer units, 2024: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
 label = "Apparel share of household budget, 2024"
 quantity = 2.5
@@ -160,7 +158,7 @@ value = "2.5% of total expenditures"
 unit = "% of total annual expenditures"
 source = "bls-cex"
 tier = "A"
-notes = "From BLS CEX multi-year table (cu-all-multi-year-2021-2024.xlsx). All consumer units. Apparel and services: $2,001 of $78,535. Apparel share fell from 6.0% (1985) to 2.5% (2024) — the steepest decline of any category, driven by fast fashion, imports, and rising incomes."
+notes = "Apparel and services divided by total annual expenditures, all consumer units, 2024. Earlier apparel records for the 1970s-1990s describe four-person units and are not the same population."
 assumptions = ["composite-family", "nominal-values"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
@@ -378,14 +376,13 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-2020s-food-expenditure-share"
-quantity = 13.5
 panel = "table"
-label = "Food expenditure share, 2024 (CEX Table 1400)"
-value = "Food 13.5% of expenditure for 4-person families (~$14,800 of $109,622/yr). Down from 42.54% in 1901."
+label = "Food expenditure share, four-person consumer units, 2024"
+value = "no reliable record verified for this comparison"
 unit = "% share of total annual expenditure"
-source = "bls-cex"
-tier = "A"
-notes = "From CEX Table 1400 (Size of CU, 2024), cu-size-2024.xlsx — same computation as us-2020s-expenditure-breakdown-4p: food's within-budget share for 4-person CUs is 13.5% of $109,622 average annual expenditure. CORRECTION 2026-07-07: this fact previously displayed 17.8%, a misread of Table 1400's aggregate-share column (the share of NATIONAL food spending attributable to 4-person CUs — they are 12.3% of CUs and outspend the average, so their aggregate shares cluster at 15-18% in every category); that column is not a budget share. Compared to 1901: food dropped from 42.54% to 13.5% — Engel's Law in action."
+source = "bls-cex-four-person-2024-aggregate"
+tier = "D"
+notes = "The archived 2024 Table 1400 contains rounded shares of national aggregate spending by consumer-unit size, not published within-budget mean expenditure shares. Its income mean also differs from the previous transcription. Exact four-person expenditure amounts and budget shares previously shown here cannot be reproduced from this file and have been withdrawn pending the correct annual-means table. The direct official means-table download returned HTTP 403 on 2026-09-07. Historical comparisons also mix survey populations; 1901 rent is narrower than modern housing expenditure. All-consumer-unit 2024 figures remain separately available and audited."
 assumptions = ["income-vs-consumption"]
 
 [[fact]]
@@ -575,6 +572,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-weekly-hours-manufacturing"
+audit = { file = "50-calculation-inputs/bls-ces-earnings-hours-2024-response.json", extractor = "json-pointer", locator = "/Results/series/0/data/0/value", target = "quantity", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/0/seriesID", value = "CES3000000007" }, { locator = "/Results/series/0/data/0/year", value = "2024" }, { locator = "/Results/series/0/data/0/period", value = "M12" }, { locator = "/Results/series/0/data/1/year", value = "2024" }, { locator = "/Results/series/0/data/1/period", value = "M11" }, { locator = "/Results/series/0/data/2/year", value = "2024" }, { locator = "/Results/series/0/data/2/period", value = "M10" }, { locator = "/Results/series/0/data/3/year", value = "2024" }, { locator = "/Results/series/0/data/3/period", value = "M09" }, { locator = "/Results/series/0/data/4/year", value = "2024" }, { locator = "/Results/series/0/data/4/period", value = "M08" }, { locator = "/Results/series/0/data/5/year", value = "2024" }, { locator = "/Results/series/0/data/5/period", value = "M07" }, { locator = "/Results/series/0/data/6/year", value = "2024" }, { locator = "/Results/series/0/data/6/period", value = "M06" }, { locator = "/Results/series/0/data/7/year", value = "2024" }, { locator = "/Results/series/0/data/7/period", value = "M05" }, { locator = "/Results/series/0/data/8/year", value = "2024" }, { locator = "/Results/series/0/data/8/period", value = "M04" }, { locator = "/Results/series/0/data/9/year", value = "2024" }, { locator = "/Results/series/0/data/9/period", value = "M03" }, { locator = "/Results/series/0/data/10/year", value = "2024" }, { locator = "/Results/series/0/data/10/period", value = "M02" }, { locator = "/Results/series/0/data/11/year", value = "2024" }, { locator = "/Results/series/0/data/11/period", value = "M01" }], calculation = { op = "mean", operands = ["/Results/series/0/data/1/value", "/Results/series/0/data/2/value", "/Results/series/0/data/3/value", "/Results/series/0/data/4/value", "/Results/series/0/data/5/value", "/Results/series/0/data/6/value", "/Results/series/0/data/7/value", "/Results/series/0/data/8/value", "/Results/series/0/data/9/value", "/Results/series/0/data/10/value", "/Results/series/0/data/11/value"], precision = 1, rounding = "half_up", method = "Arithmetic mean of the twelve seasonally adjusted monthly CES3000000007 observations for 2024; each month weighted equally, rounded once to 1 decimal places." } }
 quantity = 40.7
 panel = "day"
 label = "Average weekly hours, manufacturing production workers, 2024"
@@ -582,11 +580,12 @@ value = "40.7"
 unit = "hours per week"
 source = "fred-awhman"
 tier = "A"
-notes = "Annual average computed from FRED AWHMAN monthly data (12 observations for 2024, averaged). Remarkably similar to 1950 (40.5 hours). Note: this measures manufacturing only; the service-sector average is lower."
+notes = "Arithmetic mean of twelve monthly seasonally adjusted BLS observations for 2024, retrieved 2026-09-07. Rounded once to the displayed precision; each month/year and the series identifier are guarded by the audit."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-hourly-earnings"
+audit = { file = "50-calculation-inputs/bls-ces-earnings-hours-2024-response.json", extractor = "json-pointer", locator = "/Results/series/3/data/0/value", target = "amount_minor", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/3/seriesID", value = "CES0500000008" }, { locator = "/Results/series/3/data/0/year", value = "2024" }, { locator = "/Results/series/3/data/0/period", value = "M12" }, { locator = "/Results/series/3/data/1/year", value = "2024" }, { locator = "/Results/series/3/data/1/period", value = "M11" }, { locator = "/Results/series/3/data/2/year", value = "2024" }, { locator = "/Results/series/3/data/2/period", value = "M10" }, { locator = "/Results/series/3/data/3/year", value = "2024" }, { locator = "/Results/series/3/data/3/period", value = "M09" }, { locator = "/Results/series/3/data/4/year", value = "2024" }, { locator = "/Results/series/3/data/4/period", value = "M08" }, { locator = "/Results/series/3/data/5/year", value = "2024" }, { locator = "/Results/series/3/data/5/period", value = "M07" }, { locator = "/Results/series/3/data/6/year", value = "2024" }, { locator = "/Results/series/3/data/6/period", value = "M06" }, { locator = "/Results/series/3/data/7/year", value = "2024" }, { locator = "/Results/series/3/data/7/period", value = "M05" }, { locator = "/Results/series/3/data/8/year", value = "2024" }, { locator = "/Results/series/3/data/8/period", value = "M04" }, { locator = "/Results/series/3/data/9/year", value = "2024" }, { locator = "/Results/series/3/data/9/period", value = "M03" }, { locator = "/Results/series/3/data/10/year", value = "2024" }, { locator = "/Results/series/3/data/10/period", value = "M02" }, { locator = "/Results/series/3/data/11/year", value = "2024" }, { locator = "/Results/series/3/data/11/period", value = "M01" }], calculation = { op = "mean", operands = ["/Results/series/3/data/1/value", "/Results/series/3/data/2/value", "/Results/series/3/data/3/value", "/Results/series/3/data/4/value", "/Results/series/3/data/5/value", "/Results/series/3/data/6/value", "/Results/series/3/data/7/value", "/Results/series/3/data/8/value", "/Results/series/3/data/9/value", "/Results/series/3/data/10/value", "/Results/series/3/data/11/value"], precision = 2, rounding = "half_up", method = "Arithmetic mean of the twelve seasonally adjusted monthly CES0500000008 observations for 2024; each month weighted equally, rounded once to 2 decimal places." }, scale = "100" }
 panel = "day"
 label = "Average hourly earnings, all private-sector production workers, 2024"
 value = "$30.12"
@@ -597,19 +596,19 @@ amount_minor = 3012
 currency = "USD"
 price_year = 2024
 basis = "hourly"
-notes = "Annual average computed from FRED AHETPI monthly data (12 observations for 2024, averaged). BLS Current Employment Statistics. Note: AHETPI covers all private-sector production/nonsupervisory employees, not just manufacturing (unlike the 1950 CES3000000008 series). The 1964 AHETPI value was $2.50."
+notes = "Arithmetic mean of twelve monthly seasonally adjusted BLS observations for 2024, retrieved 2026-09-07. Rounded once to the displayed precision; each month/year and the series identifier are guarded by the audit."
 assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency"]
 
 [[derived]]
 id = "us-2020s-weekly-earnings"
 panel = "day"
-label = "Implied average weekly earnings, 2024"
+label = "Implied average weekly earnings, total private production and nonsupervisory employees, 2024"
 op = "product"
 numerator = "us-2020s-hourly-earnings"
-denominator = "us-2020s-weekly-hours-manufacturing"
+denominator = "us-2020s-weekly-hours-total-private"
 unit = "USD per week, nominal (computed: hourly rate x weekly hours)"
 precision = 2
-notes = "Computed: average hourly earnings ($30.12) x average weekly hours for manufacturing (40.7) = $1,225.88. Note: this mixes all-private-sector wages with manufacturing hours — a slight inconsistency. The actual all-private-sector weekly hours series (AWHAETP) would be more consistent but starts in 2006."
+notes = "Product of the rounded annual-average hourly rate and weekly hours for the same total-private production and nonsupervisory worker population. This illustration is not the official weekly earnings series, which is calculated from monthly observations."
 assumptions = ["nominal-values"]
 
 [[fact]]
@@ -716,11 +715,11 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-2020s-week-of-work-buys"
 panel = "work-buys"
 label = "What a week of work bought, 2024"
-value = "$1,225.88/week — a full year of it (×52) ≈ 60% of median family income"
+value = "$1,015.04/week — a full year of it (×52) ≈ 50% of median family income"
 unit = "weekly earnings vs annual median family income"
 source = "fred-ahetpi"
 tier = "A"
-notes = "Computed: hourly earnings ($30.12) × weekly hours (40.7) = $1,225.88/week (all-private production/nonsupervisory wages × manufacturing hours, FRED AHETPI + AWHMAN). × 52 = $63,746, which is 60.2% of the all-family median income ($105,800, Census F-8). A partial recovery from the 2000s trough, driven by wage growth in the post-pandemic labor market. But still far below the single-earner era (1940s: 92%, 1960s: 95%). Compare 2010: 55%. Note: mixes all-private wages with manufacturing hours — see us-2020s-weekly-earnings note."
+notes = "Computed: $30.12 per hour × 33.7 weekly hours = $1,015.04, using total-private production and nonsupervisory employees for both operands. Assuming 52 paid weeks gives $52,782.08, or 49.9% of the all-family median income of $105,800. These describe separate worker and family populations; the ratio does not measure household needs, sufficiency, or the number of family earners. The former value mixed total-private wages with manufacturing hours and has been withdrawn."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
@@ -880,7 +879,7 @@ value = "56.9%"
 unit = "% of married women (spouse present) in the civilian labor force"
 source = "bls-womens-databook"
 tier = "A"
-notes = "From BLS Women in the Labor Force: A Databook (2022 edition, Report 1080), covering 2021 annual averages. CPS annual averages. Down from 57.9% (2016) and 61.1% (2000 peak). The long-term decline from the 2000 peak reflects demographic aging (more married women past retirement age) and structural shifts. From 5.6% (1900) to 61.1% (2000 peak) to 56.9% (2021) — the arc of married women's labor force participation across 120 years."
+notes = "Population-level labor-force participation of married women. The rate includes employment and unemployment, and does not identify the number of earners in a particular family. These figures alone do not separate demographic composition changes from changes within groups."
 
 # ── Education ─────────────────────────────────────────────────────────────
 
@@ -907,3 +906,16 @@ unit = "median net worth, all families (SCF)"
 source = "fed-scf"
 tier = "A"
 notes = "From SCF 2022 Bulletin (scf23.pdf, October 2023, Table 2). 2022 survey, in 2022 dollars. Up 37% from 2019 ($141,100 in 2022 dollars) — the largest 3-year increase in SCF history. Driven by surging home values and stock market gains. This is the highest median family net worth in the SCF series. Note: 2022 dollars, not directly comparable to 2016-dollar SCF Chartbook figures for earlier years."
+
+[[fact]]
+id = "us-2020s-weekly-hours-total-private"
+panel = "day"
+label = "Average weekly hours, total private production and nonsupervisory employees, 2024"
+value = "33.7"
+quantity = 33.7
+unit = "hours per week"
+source = "fred-awhnonag"
+tier = "A"
+notes = "Arithmetic mean of twelve monthly seasonally adjusted CES0500000007 observations in 2024, retrieved 2026-09-07. This population matches the hourly earnings anchor."
+assumptions = ["composite-family"]
+audit = { file = "50-calculation-inputs/bls-ces-earnings-hours-2024-response.json", extractor = "json-pointer", locator = "/Results/series/1/data/0/value", target = "quantity", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/1/seriesID", value = "CES0500000007" }, { locator = "/Results/series/1/data/0/year", value = "2024" }, { locator = "/Results/series/1/data/0/period", value = "M12" }, { locator = "/Results/series/1/data/1/year", value = "2024" }, { locator = "/Results/series/1/data/1/period", value = "M11" }, { locator = "/Results/series/1/data/2/year", value = "2024" }, { locator = "/Results/series/1/data/2/period", value = "M10" }, { locator = "/Results/series/1/data/3/year", value = "2024" }, { locator = "/Results/series/1/data/3/period", value = "M09" }, { locator = "/Results/series/1/data/4/year", value = "2024" }, { locator = "/Results/series/1/data/4/period", value = "M08" }, { locator = "/Results/series/1/data/5/year", value = "2024" }, { locator = "/Results/series/1/data/5/period", value = "M07" }, { locator = "/Results/series/1/data/6/year", value = "2024" }, { locator = "/Results/series/1/data/6/period", value = "M06" }, { locator = "/Results/series/1/data/7/year", value = "2024" }, { locator = "/Results/series/1/data/7/period", value = "M05" }, { locator = "/Results/series/1/data/8/year", value = "2024" }, { locator = "/Results/series/1/data/8/period", value = "M04" }, { locator = "/Results/series/1/data/9/year", value = "2024" }, { locator = "/Results/series/1/data/9/period", value = "M03" }, { locator = "/Results/series/1/data/10/year", value = "2024" }, { locator = "/Results/series/1/data/10/period", value = "M02" }, { locator = "/Results/series/1/data/11/year", value = "2024" }, { locator = "/Results/series/1/data/11/period", value = "M01" }], calculation = { op = "mean", operands = ["/Results/series/1/data/1/value", "/Results/series/1/data/2/value", "/Results/series/1/data/3/value", "/Results/series/1/data/4/value", "/Results/series/1/data/5/value", "/Results/series/1/data/6/value", "/Results/series/1/data/7/value", "/Results/series/1/data/8/value", "/Results/series/1/data/9/value", "/Results/series/1/data/10/value", "/Results/series/1/data/11/value"], precision = 1, rounding = "half_up", method = "Arithmetic mean of the twelve seasonally adjusted monthly CES0500000007 observations for 2024; each month weighted equally, rounded once to 1 decimal places." } }

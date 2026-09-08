@@ -5,14 +5,14 @@
 [essay]
 slug = "one-paycheck"
 title = "One paycheck"
-standfirst = "How a single production wage stopped covering the median family — and what moved in to cover the gap instead."
+standfirst = "Put an average production wage beside median family income. The comparison is revealing, but it does not tell us how many earners a family needed."
 
 [[block]]
 kind = "prose"
 text = '''
-In 1950 the median four-person family reported {fact:us-1950s-median-income-four-person} a year; the median for families of every size was {fact:us-1950s-median-income-all-families}. A production worker in manufacturing earned {fact:us-1950s-hourly-earnings-manufacturing} an hour across a {fact:us-1950s-weekly-hours-manufacturing}-hour week — {fact:us-1950s-weekly-earnings} a week, computed by the museum from those two exhibits.
+In 1950 median money income for four-person families was {fact:us-1950s-median-income-four-person} a year; the median for families of every size was {fact:us-1950s-median-income-all-families}. Manufacturing production workers had average hourly earnings of {fact:us-1950s-hourly-earnings-manufacturing} and an average working week of {fact:us-1950s-weekly-hours-manufacturing} hours. Multiplying those rounded averages gives {fact:us-1950s-weekly-earnings} a week.
 
-Fifty-two such weeks covered most of the four-person median, and nearly the all-family one. A single paycheck almost carried the median household.
+These are different statistical populations. The wage is an average across workers; the family median includes money income from the family's earners and other sources. Neither describes a particular household's paycheck or expenses.
 '''
 
 [[block]]
@@ -22,21 +22,21 @@ metric = "single-earner-wage-coverage"
 [[block]]
 kind = "prose"
 text = '''
-Follow the line forward. The peak it reached after the war never returns; the odd crisis rebound interrupts, but the share ends the chart a third below its postwar level.
+The chart uses the published manufacturing weekly-earnings series, multiplied by fifty-two and divided by median all-family money income. That is a benchmark assuming a full year at the average weekly earnings, not observed annual earnings. Changes in the ratio can come from either the wage or the family-income denominator.
 
-By 2024 the implied weekly wage was {fact:us-2020s-weekly-earnings} (the museum's own computation: all-private wages against manufacturing hours) against an all-family median of {fact:us-2020s-median-income-all-families}. The paycheck that once reached most of the median now covers barely more than half of it.
+The 2024 room also contains {fact:us-2020s-weekly-earnings}, a separate calculation using total-private production and nonsupervisory workers' hourly earnings and weekly hours, beside median all-family income of {fact:us-2020s-median-income-all-families}. That broader-sector calculation is not the manufacturing series plotted above and should not be read as its endpoint.
 '''
 
 [[block]]
 kind = "prose"
 text = '''
-One honesty note before the moral. The "one wage" on this line is a manufacturing production wage — urban, industrial, historically male. It stands in for "the worker" only because no broader hourly wage series reaches back across the century; the rooms declare that proxy on the exhibit, rather than hiding it. Conclusions about the median worker should hold that shape in mind.
+Manufacturing production workers are not all workers, and average earnings are not median earnings. Median family income is not a measure of the cost of an ordinary life. This chart cannot establish whether one earner could support a family, or how common single-earner families were.
 '''
 
 [[block]]
 kind = "prose"
 text = '''
-If one paycheck stopped covering the median, the household's arithmetic had to close another way — and the rooms show where it closed. In 1950 {fact:us-1950s-married-women-lfpr} of married women were already in the labor force; by the twenty-twenties it was {fact:us-2020s-married-women-lfpr}.
+Another exhibit records married women's labor force participation: {fact:us-1950s-married-women-lfpr} in 1950 and {fact:us-2020s-married-women-lfpr} in 2021. The source cards specify their populations. Participation includes both people working and people seeking work; it does not count dual-earner families.
 
-The story the line tells is not that work left the family. It is that covering an ordinary life moved — from one wage to two, and from the paid week to the unpaid home. The sister tour, on the work that moved, picks up that thread.
+These exhibits place changes in earnings and participation alongside each other. They do not establish that a shortfall in one caused the other. The companion tour considers unpaid work, with its own population and measurement limits.
 '''

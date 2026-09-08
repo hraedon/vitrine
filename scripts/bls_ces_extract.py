@@ -15,8 +15,10 @@ ourselves as the arithmetic mean of the 12 monthly values for each complete year
 
 The existing fact ``us-1950s-hourly-earnings-manufacturing`` (amount_minor 132 =
 $1.32) was itself computed by averaging the 12 monthly 1950 values, so this
-series reproduces it exactly. Its drift branch keys on ``quantity`` (None), so
-no drift failure can arise; we still verify 1950 ~= $1.32 by eye.
+series reproduces it exactly. Room audits independently bind their calculation
+to the archived monthly response, series identity, and each year/month label.
+Successful responses are retained byte-for-byte under ``samples/`` with
+content-addressed names. Request bodies (which may include a key) are not saved.
 
 FRED fredgraph.csv is network-blocked from this environment, so the BLS API
 (which feeds FRED) is the source of record. Chunked at 10 years/request.
@@ -24,16 +26,20 @@ FRED fredgraph.csv is network-blocked from this environment, so the BLS API
 
 from __future__ import annotations
 
+import hashlib
 import os
+import re
 import sys
 import time
 from collections import defaultdict
+from decimal import ROUND_HALF_EVEN, Decimal
 from pathlib import Path
 
 import requests
 
 REPO = Path(__file__).resolve().parent.parent
 OUT_DIR = REPO / "data" / "series"
+ARCHIVE_DIR = REPO / "samples" / "50-calculation-inputs"
 API_URL = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 START_YEAR, END_YEAR = 1939, 2024
 CHUNK = 10
@@ -67,9 +73,9 @@ SERIES = [
 ]
 
 
-def _pull_months(seriesid: str, key: str | None) -> dict[int, list[float]]:
-    """Return year->list-of-monthly-values for the whole window."""
-    months: dict[int, list[float]] = defaultdict(list)
+def _pull_months(seriesid: str, key: str | None) -> dict[int, dict[str, Decimal]]:
+    """Return explicit month operands and retain each exact successful API response."""
+    months: dict[int, dict[str, Decimal]] = defaultdict(dict)
     for start in range(START_YEAR, END_YEAR + 1, CHUNK):
         end = min(start + CHUNK - 1, END_YEAR)
         body = {
@@ -92,18 +98,40 @@ def _pull_months(seriesid: str, key: str | None) -> dict[int, list[float]]:
                 if r.status_code == 429:
                     time.sleep(15)
                     continue
+                r.raise_for_status()
                 data = r.json()
                 if data.get("status") != "REQUEST_SUCCEEDED":
                     last_err = str(data.get("message", data))
                     time.sleep(3)
                     continue
-                for s in data["Results"]["series"]:
-                    for obs in s["data"]:
-                        period = obs.get("period", "")
-                        # Keep monthly M01-M12; skip M13 (annual) and anything else.
-                        if not (period.startswith("M") and period != "M13"):
-                            continue
-                        months[int(obs["year"])].append(float(obs["value"]))
+                series = data["Results"]["series"]
+                if len(series) != 1 or series[0]["seriesID"] != seriesid:
+                    raise ValueError("response does not identify the requested series")
+                chunk: dict[int, dict[str, Decimal]] = defaultdict(dict)
+                for obs in series[0]["data"]:
+                    period = obs.get("period", "")
+                    if period == "M13":
+                        continue  # This extractor deliberately uses monthly operands.
+                    if not re.fullmatch(r"M(?:0[1-9]|1[0-2])", period):
+                        raise ValueError("unexpected monthly period")
+                    year = int(obs["year"])
+                    if not start <= year <= end or period in chunk[year]:
+                        raise ValueError("out-of-window year or duplicate month")
+                    value = Decimal(obs["value"])
+                    if not value.is_finite():
+                        raise ValueError("nonfinite monthly value")
+                    chunk[year][period] = value
+                # Keep response bytes only: the request body may contain an API key.
+                # Content-addressed filenames retain previous source vintages.
+                digest = hashlib.sha256(r.content).hexdigest()
+                ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
+                archived = ARCHIVE_DIR / f"bls-{seriesid}-{start}-{end}-{digest}.json"
+                if not archived.exists():
+                    archived.write_bytes(r.content)
+                for year, observations in chunk.items():
+                    if year in months:
+                        raise ValueError("overlapping response years")
+                    months[year] = observations
                 break
             except (requests.RequestException, ValueError, KeyError) as exc:
                 last_err = repr(exc)
@@ -115,15 +143,18 @@ def _pull_months(seriesid: str, key: str | None) -> dict[int, list[float]]:
     return months
 
 
-def _annualize(months: dict[int, list[float]]) -> dict[int, float]:
-    out: dict[int, float] = {}
+def _annualize(months: dict[int, dict[str, Decimal]]) -> dict[int, Decimal]:
+    out: dict[int, Decimal] = {}
+    expected = {f"M{month:02}" for month in range(1, 13)}
     for y, obs in months.items():
-        if len(obs) == 12:  # complete year only
-            out[y] = round(sum(obs) / 12.0, 4)
+        if set(obs) == expected:
+            out[y] = (sum(obs.values()) / 12).quantize(
+                Decimal(".0001"), rounding=ROUND_HALF_EVEN
+            )
     return out
 
 
-def _emit(spec: dict, values: dict[int, float]) -> Path:
+def _emit(spec: dict, values: dict[int, Decimal]) -> Path:
     yrs = sorted(values)
     lines = [
         "# Auto-generated by scripts/bls_ces_extract.py from the BLS Public Data API",

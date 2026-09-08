@@ -85,7 +85,7 @@ def test_the_arc_says_what_the_denominator_is() -> None:
     """A rate over all women 15-19, not over the sexually active."""
     joined = " ".join(curation.ARC_BY_SLUG["teen-birth-rate"].caveats).lower()
     assert "not over those who were" in joined
-    assert "married" in joined
+    assert "selected-year" in joined  # selected points do not establish an annual peak
 
 
 @pytest.mark.parametrize("decade", sorted(_ARC_DECADES))

@@ -22,6 +22,7 @@ from markupsafe import Markup
 
 from vitrine.model import Assumption, BlockKind, Fact, Panel, Room, Source
 from vitrine.site.curation import Metric
+from vitrine.site.curation.collections import EditorialChoice
 from vitrine.site.svg import ShareSegment, StageArtifact, ZoneNote
 
 if TYPE_CHECKING:
@@ -302,6 +303,7 @@ class WingView:
     curated: bool  # the wing has curator's routes (vs bare stages)
     facts: int
     gaps: int
+    editorial: Mapping[str, EditorialChoice]
 
     @property
     def name(self) -> str:
@@ -328,6 +330,44 @@ class SourceCollectionPage:
     rooms: tuple[SourceRoomView, ...]
     count: int
     audited_count: int
+
+
+@dataclass(frozen=True, slots=True)
+class CollectionObservationView:
+    ref: FactRef
+    year: int
+    glyph: Markup
+
+    @property
+    def outside_decade(self) -> bool:
+        return self.year // 10 != int(self.ref.room.decade[:4]) // 10
+
+
+@dataclass(frozen=True, slots=True)
+class CollectionLensView:
+    slug: str
+    title: str
+    source: Source
+    note: str
+    observations: tuple[CollectionObservationView, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class CollectionThemeView:
+    slug: str
+    title: str
+    question: str
+    lenses: tuple[CollectionLensView, ...]
+
+
+@dataclass(frozen=True, slots=True)
+class JapanCollectionPage:
+    themes: tuple[CollectionThemeView, ...]
+    rooms: tuple[Room, ...]
+    editorial: EditorialChoice
+    sources: Mapping[str, Source]
+    assumptions: Mapping[str, Assumption]
+    overlay_facts: tuple[FactRef, ...]
 
 
 # ── page contexts (one per template) ──────────────────────────────────────────
@@ -374,6 +414,7 @@ class RoomPage:
     observed_count: int
     gap_count: int
     compact: bool
+    editorial: EditorialChoice
     artifacts: tuple[StageArtifact, ...]
     artifact_notes: tuple[ZoneNote, ...]
 

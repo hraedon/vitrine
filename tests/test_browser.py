@@ -519,6 +519,7 @@ class TestResponsive:
 
 @pytest.mark.parametrize("width", [375, 1280])
 @pytest.mark.parametrize("relative", ["rooms/jp-1950s.html", "rooms/jp-2010s.html",
+                                     "collections/japan.html",
                                      "archive/sources/census-f08-allraces.html"])
 def test_research_collections_fit_viewport(page: Page, server_url: str,
                                           width: int, relative: str) -> None:
@@ -531,3 +532,19 @@ def test_artifact_card_opens_source_without_javascript(nojs_page: Page, server_u
     nojs_page.goto(server_url + ROOM_1950S)
     nojs_page.locator(f'.artifact-card[href="#{MODAL_TV}"]').click()
     expect(nojs_page.locator(f'#{MODAL_TV}')).to_be_visible()
+
+
+def test_japan_collection_observations_work_without_javascript(
+    nojs_page: Page, server_url: str,
+) -> None:
+    nojs_page.set_viewport_size({"width": 375, "height": 812})
+    nojs_page.goto(server_url + "collections/japan.html")
+    lens = nojs_page.locator("#televisions")
+    lens.locator("summary").click()
+    fact_id = "jp-2010s-flat-tv"
+    record = nojs_page.locator(f"#selection-{fact_id}")
+    expect(record).to_contain_text("Observed 2009")
+    expect(record).to_contain_text("Filed in the 2010s archive")
+    record.locator(".observation-link").click()
+    expect(nojs_page.locator(f"#{fact_id}--modal")).to_be_visible()
+    assert nojs_page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")

@@ -1,14 +1,15 @@
 # vitrine
 
-A decade-by-decade virtual museum of the median-income four-person family's
-lifestyle — every fact behind glass, with its source card showing.
+A virtual museum of material life across time — every observation behind
+glass, with its source and measured population showing.
 
 ## What this is
 
-vitrine renders "decade rooms": for each (country, decade), a composite
-portrait of how the family at the median income lived — the home, the budget,
-the table, the working day, what technologies had reached them, and what a
-day's work bought. The distinguishing mechanic is **provenance under glass**:
+vitrine assembles evidence about homes, budgets, food, working time and
+household equipment. Decade rooms and thematic collections provide routes
+through observations from different surveys. A four-person median-income
+family is one lens where the sources support it, not the population of every
+exhibit. The distinguishing mechanic is **provenance under glass**:
 every rendered fact carries a source citation and a confidence tier, and the
 build fails mechanically if any fact lacks one.
 
@@ -18,18 +19,16 @@ build fails mechanically if any fact lacks one.
   (Census P-60); the 1940s room leans on census microdata; the early rooms are
   reconstructed from period cost-of-living surveys; the museum stops where the
   record does, and says so.
-- **v2 (world):** United Kingdom, Poland, Russia, China, India, Japan — each
-  with its own honest data floor and country-specific caveats (consumption vs
-  income in India, shortage economies in the PRL/USSR, urban/rural splits in
-  China and India).
+- **World collections:** United Kingdom and Japan currently have decade
+  records. Japan also has a thematic entrance separating household budgets,
+  workplace measures and household equipment. Further countries remain
+  research possibilities, not a commitment to fill an identical room grid.
 
 ## Why it exists
 
-Nothing occupies this niche: popular "life in the 1950s" content is
-uncitable nostalgia, and the underlying economic data is published but never
-assembled into a lifestyle portrait with the methodology on display. vitrine
-is an experiment in whether rigorous sourcing and an approachable museum
-format can coexist — the exhibit *is* the data model, rendered.
+vitrine is an experiment in whether rigorous sourcing and an approachable
+museum format can coexist. Visitors should be able to enjoy the collection
+and inspect how each exhibit was selected, measured and calculated.
 
 ## The central honesty rule
 
@@ -39,12 +38,10 @@ median diet all at once. Every room displays this disclaimer, and every fact
 declares the population actually measured. Where the record is silent, the
 room shows the gap instead of inventing a number.
 
-The homeownership rate is a national figure for all occupied housing units,
-not the rate for the median four-person family — which is higher, because
-single-person and low-income households (disproportionately renters) pull the
-overall rate down. The museum shows the broader measure because it is the
-only century-long series available; the gap between it and the family's
-likely tenure is itself part of the portrait.
+A national homeownership rate describes occupied housing units. It does not
+establish tenure for a median-income four-person family. Likewise, average
+workplace earnings do not identify a household's income or number of earners.
+Putting those observations together does not make them a matched household.
 
 ## Confidence tiers
 
@@ -90,8 +87,8 @@ not cryptographic.
 
 <!-- The marked line is machine-checked by tests/test_docs_sync.py;
      regenerate with `python scripts/sync_readme_status.py` after curating. -->
-Corpus: <!-- corpus-status:begin -->27 decade rooms (1900s–2020s), 725 facts, 15 derived facts, 6 Tier D estimates, 62 rendered gaps<!-- corpus-status:end --> (the US wing is complete,
-1900s–2020s; the v2 world rooms below extend it). The Tier D estimates are
+Corpus: <!-- corpus-status:begin -->27 decade rooms (1900s–2020s), 738 facts, 15 derived facts, 6 Tier D estimates, 66 rendered gaps<!-- corpus-status:end --> (US decade coverage runs
+1900s–2020s; the world collections below extend it). The Tier D estimates are
 disclosed scholarly reconstructions kept honest by the tier rule
 `vitrine gaps` prints the mechanical inventory). The rendered gaps are of
 two kinds: structural silences in the US record (pre-WWII

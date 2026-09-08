@@ -74,28 +74,22 @@ def test_card_value_matches_the_series(decade: str, year: int) -> None:
 
 
 def test_the_arc_does_not_claim_a_fall() -> None:
-    """A flat line must not be dressed as progress.
+    """The presentation choice must not masquerade as a statistical test.
 
-    ``falling=True`` renders in copper, the museum's decline colour. This
-    series does not decline, and the premise is checked against the data
-    rather than asserted: if the rate ever does trend down, this test is the
-    thing that should be revisited.
+    A narrow range cannot establish the absence of a trend. Keep the arc
+    neutral and explain the limits of that editorial choice.
     """
     arc = curation.ARC_BY_SLUG["workplace-death-rate"]
     assert arc.falling is False
-    values = load_series(DATA)[SERIES_ID].values
-    span = max(values.values()) - min(values.values())
-    assert span < 1.0, (
-        f"the rate now spans {span:.1f}; 'no trend the record can call a fall' "
-        "may no longer be an honest caveat"
-    )
+    assert "no statistical trend test" in " ".join(arc.caveats)
 
 
 def test_the_shortness_is_explained_on_the_arc() -> None:
     joined = " ".join(curation.ARC_BY_SLUG["workplace-death-rate"].caveats)
     assert str(CFOI_BEGINS) in joined
     assert str(HOURS_BASIS_BEGINS) in joined
-    assert "nobody counted" in joined
+    assert "Earlier estimates and other records exist" in joined
+    assert "nobody counted" not in joined
 
 
 def test_the_source_admits_its_link_check_is_inert() -> None:

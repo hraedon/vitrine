@@ -45,12 +45,12 @@ statement = "\"Hours to afford\" = item price ÷ that decade's representative ho
 [[assumption]]
 id = "hours-vs-income-denominator"
 title = "Why hours, not budget share"
-statement = "The primary affordability axis is hours of median work — it is inflation-free, needing no CPI splice to compare 1900 to 2024, and it reads intuitively (\"a 1950 refrigerator ≈ 230 hours; a 2024 one ≈ 40\"). The secondary axis is share of annual income, not true expenditure share: real expenditure share (a good as a fraction of what the family actually spent) needs CEX weights, continuous only from 1980. True \"% of budget\" is offered only where CEX expenditure weights exist, clearly labelled as such — never mislabelled as \"budget\" where only an income denominator is available."
+statement = "The affordability axis divides a period price by the room's stated wage anchor. It measures hours at that average or proxy wage, not hours for a known median worker. Using nominal prices and wages from the same period avoids an inflation conversion but does not remove differences in populations, products or years. The income axis is a share of annual income, not a budget share. A budget share requires a compatible expenditure denominator; where one is unavailable the museum does not substitute income and call it a budget."
 
 [[assumption]]
 id = "wage-anchor-consistency"
 title = "The wage anchor changes across the span"
-statement = "The hourly-wage anchor's measured population changes across the span: production/unskilled wage reconstructions before 1909 (Tier C); manufacturing production-worker earnings 1909–1963 (Tier A, BLS CES); total-private production/nonsupervisory earnings 1964→ (Tier A, BLS AHETPI). Cross-decade comparisons therefore carry the weaker tier and flag the splice rather than pretending one continuous series. A comparison is never more confident than its shakiest input."
+statement = "Wage anchors are averages or historical wage proxies, not a continuous median-worker series. Early rooms use historical reconstructions; the 1947, 1960 and 1970 anchors use the published total-private production/nonsupervisory predecessor series, while the 1950 anchor is manufacturing-only. From 1980 the room anchors use total-private production/nonsupervisory earnings. Read each room source and year: manufacturing and total-private observations cannot be treated as one population, and a change in source or tier is not a measured change in worker composition."
 
 [[assumption]]
 id = "dwelling-size-metric"

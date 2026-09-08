@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% from "macros/placards.html" import placard_overlay %}
+{% macro observation(item) %}
+{% set fact = item.ref.fact %}
+<article class="observation-card" id="selection-{{ fact.id }}">
+  <p class="observation-date">Observed {{ item.year }}{% if item.outside_decade %}<span class="archive-date-note">Filed in the {{ item.ref.room.decade }} archive</span>{% endif %}</p>
+  <a class="observation-link" href="#{{ fact.id }}--modal" data-fact-id="{{ fact.id }}">
+    {% if item.glyph %}<span class="artifact-image"><svg viewBox="-19 -19 38 38" aria-hidden="true" class="artifact-icon">{{ item.glyph }}</svg></span>{% endif %}
+    <span><span class="observation-value">{{ fact.value }}</span><b>{{ fact.label }}</b></span>
+    <span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}">{{ fact.tier.value }}</span>
+  </a>
+  <p class="case-sub">{{ fact.unit }}</p>
+  <p class="observation-population"><b>Source population:</b> {{ page.sources[fact.source].population }}</p>
+  <a class="record-permalink" href="../rooms/{{ item.ref.room.slug }}.html#{{ fact.id }}">Record in the decade archive ↗</a>
+</article>
+{% endmacro %}
+{% block title %}Japan · households, work and equipment — vitrine{% endblock %}
+{% block body %}
+<p class="eyebrow"><a href="../index.html#wing-jp-title">Japan</a> · {{ page.editorial.status.value }}</p>
+<div class="theme-intro">
+  <div><h1>Japan, through<br><em>its surveys.</em></h1>
+  <p class="sub">Follow household accounts, workplace records, and the objects people owned. Each offers a different view of ordinary life.</p></div>
+  <aside class="collection-intro"><p class="story-kicker">How this collection is arranged</p><p>{{ page.editorial.rationale }}</p><p>Dates below identify the observations. Gaps in the archive do not establish that something was absent from people's lives.</p></aside>
+</div>
+<div class="plaque room-disclaimer"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
+<nav class="theme-map" aria-label="Japan collection themes">
+{% for theme in page.themes %}<a href="#{{ theme.slug }}"><span class="story-kicker">{{ loop.index }} · Explore a question</span><b>{{ theme.title }}</b><span>{{ theme.question }}</span></a>{% endfor %}
+</nav>
+<p class="case-sub">Drawings identify the subjects of records, not exact appliance models or reconstructed interiors. Open a value to inspect its full source card.</p>
+{% for theme in page.themes %}
+<section class="collection-theme" id="{{ theme.slug }}" aria-labelledby="{{ theme.slug }}-title">
+  <div class="theme-heading"><span class="theme-number" aria-hidden="true">0{{ loop.index }}</span><div><p class="story-kicker">{{ theme.title }}</p><h2 id="{{ theme.slug }}-title">{{ theme.question }}</h2></div></div>
+  {% for lens in theme.lenses %}
+  <section class="collection-lens" id="{{ lens.slug }}" aria-labelledby="{{ lens.slug }}-title">
+    <div class="lens-heading"><h3 id="{{ lens.slug }}-title">{{ lens.title }}</h3><p>{{ lens.note }}</p><a href="../archive/sources/{{ lens.source.id }}.html">{{ lens.source.publisher }} · source collection ↗</a></div>
+    {{ observation(lens.observations[0]) }}
+    {% if lens.observations|length > 1 %}
+    <details class="observation-more"><summary>Read {{ lens.observations|length - 1 }} more dated observation{{ 's' if lens.observations|length > 2 else '' }}</summary>
+      <div class="observation-grid">{% for item in lens.observations[1:] %}{{ observation(item) }}{% endfor %}</div>
+    </details>
+    {% endif %}
+  </section>
+  {% endfor %}
+</section>
+{% endfor %}
+<section class="collection-intro" aria-labelledby="japan-archive-title">
+  <p class="story-kicker">Continue researching</p><h2 id="japan-archive-title">The decade archive</h2>
+  <p>Every authored observation and documented gap remains in its original decade folder. These folders are research holdings; the selected views above do not exhaust their records.</p>
+  <nav class="wing-decades" aria-label="Japan decade archives">{% for room in page.rooms %}<a href="../rooms/{{ room.slug }}.html">{{ room.decade }} ↗</a>{% endfor %}</nav>
+</section>
+{% endblock %}
+{% block overlays %}
+{% for ref in page.overlay_facts %}{{ placard_overlay(ref.fact, ref.room, page.sources, page.assumptions, {}, root) }}{% endfor %}
+{% endblock %}

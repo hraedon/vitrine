@@ -1889,3 +1889,27 @@ The F-8 source registration year was corrected from 2024 (the latest income
 year) to the 2025 workbook vintage. Its header names the 1948–2025 CPS ASEC
 supplements; workbook creation/modification metadata are in 2025. This changes
 source metadata, not any observation. The affected audits were regenerated.
+
+
+## 2026-09-07 — Calculation and curation tranche (Plan 029)
+
+The exact staged source passed 581 tests on Python 3.14 with the archive
+available. Lint, strict typing, build, all 753 exhibit coverage checks, and
+standalone export passed. The integrated archive run checked 97 fields
+(58 literal extractions, 39 calculations) successfully. Phone/desktop browser
+tests and no-JavaScript source cards passed; desktop visual inspection covered
+the Japan collection and US 1950s object gallery.
+
+The audit review caught JSON float conversion before exact arithmetic; decimal
+JSON parsing and a rounding-boundary regression now preserve original numeric
+tokens. Coverage reporting also replays calculation operands. Qualification
+caught the README updater's Windows default encoding; it now explicitly reads
+and writes UTF-8. The final test run used staged Git bytes.
+
+The source-topic check has zero hard errors and 75 advisory findings. Its
+legacy 'Zero Tier D' warning even flags explicit gaps, so this is a research
+backlog rather than evidence of whole-corpus verification. The operator's
+shared-denylist staged identifier check passed.
+
+See the calculation evidence, editorial review and Japan curation documents
+for corrections, population boundaries and outstanding source retrieval.

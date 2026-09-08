@@ -8,13 +8,15 @@
 <h1>The <em>{{ page.room.decade }}</em> {{ 'collection' if page.compact else 'room' }}</h1>
 {% if page.room.data_as_of %}<p class="case-sub">Data as of {{ page.room.data_as_of }} (decade ongoing — each fact states its own data year).</p>{% endif %}
 <div class="plaque room-disclaimer"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
+<div class="editorial-status"><p class="story-kicker">{{ page.editorial.status.value }}</p><p>{{ page.editorial.rationale }}</p></div>
+{% if page.room.country == 'jp' %}<p class="collection-crosslink"><a href="../collections/japan.html">Explore Japan by theme: household budgets, work, and equipment →</a></p>{% endif %}
 {{ room_map(page.rooms, page.room, "", page.previous_room, page.next_room, page.room_position) }}
 {% if page.gap_banner %}<div class="gap-banner"><b>Structural gap</b>{{ page.gap_banner }}</div>{% endif %}
 {% if page.compact %}
 <section class="collection-intro" aria-labelledby="collection-intro-title">
-  <p class="story-kicker">Research collection · {{ page.observed_count }} observations · {{ page.gap_count }} documented gaps</p>
-  <h2 id="collection-intro-title">A few records, an unfinished picture</h2>
-  <p>The evidence here is too narrow for a portrait of everyday life. Start with the available observations below; each names the year and population it measures. Missing records describe the limits of this collection, not the absence of something from people's lives.</p>
+  <p class="story-kicker">{{ page.observed_count }} observations · {{ page.gap_count }} documented gaps</p>
+  <h2 id="collection-intro-title">Read the records on their own terms</h2>
+  <p>Start with the available observations below; each names the year and population it measures. Missing records describe the limits of this collection, not the absence of something from people's lives. This presentation is an editorial choice, not a score based on the number of records.</p>
   {% if page.room.country == 'jp' %}<p>Japan's household and workplace surveys describe different populations. A workers' household income and an employee's wage are separate measures; neither is the median income of a four-person family.</p>{% endif %}
 </section>
 {% elif page.story %}
@@ -44,7 +46,7 @@
 {% if page.artifacts %}
 <section class="artifact-collection" aria-labelledby="artifact-title">
   <div class="collection-head"><div><p class="story-kicker">Objects &amp; everyday life</p><h2 id="artifact-title">A closer look</h2><p>Illustrated subjects from this collection. The labels state what was measured; the drawings identify the subject, not an exact model or a reconstructed household.</p></div></div>
-  <div class="artifact-grid">
+  <div class="artifact-grid{% if page.room.slug == 'us-1950s' %} artifact-grid--featured{% endif %}">
   {% for artifact in page.artifacts %}
     <a class="artifact-card" href="#{{ artifact.fact_id }}--modal" data-fact-id="{{ artifact.fact_id }}">
       <span class="artifact-image"><svg viewBox="-19 -19 38 38" aria-hidden="true" class="artifact-icon">{{ artifact.glyph_svg|safe }}</svg></span>
@@ -52,6 +54,7 @@
     </a>
   {% endfor %}
   </div>
+  {% if page.room.slug == 'us-1950s' %}<p class="artifact-reading-note">Start with the television record. Then inspect the other subjects: their years and measured populations vary. An ownership percentage is not evidence that every family owned an object, or that ownership removed household work.</p>{% endif %}
   {% if page.artifact_notes %}<div class="artifact-notes">{% for note in page.artifact_notes %}<a href="{{ note.href }}" data-fact-id="{{ note.fact_id }}">{{ note.text }}</a>{% endfor %}</div>{% endif %}
 </section>
 {% if not page.compact and page.room.country == 'us' %}

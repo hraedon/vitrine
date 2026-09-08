@@ -60,3 +60,12 @@ exhibits passed coverage gates, and 57 audit extractions matched. The standalone
 export passed. Browser checks include phone/desktop layouts and no-JavaScript
 record-card access. Source-topic cross-checks reported zero hard errors; their
 existing advisory findings remain a separate research backlog.
+
+## Superseded by Plan 029
+
+The first implementation's automatic record/panel-density rule has been
+replaced by explicit editorial status and rationale. Japan now has a thematic
+entrance that does not require each decade to sustain an identical household
+portrait. Plan 029 also implements calculation replay, selected atomic-record
+corrections and a review of the strongest interpretive claims. The mortality
+essay and further countries remain deferred.

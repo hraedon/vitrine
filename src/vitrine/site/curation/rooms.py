@@ -67,8 +67,8 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
     ),
     RoomStory(
         "1950s",
-        "The equipped home arrives",
-        "Which conveniences became ordinary, and which work remained?",
+        "Inside the equipment record",
+        "Which household conveniences were measured, and who did those surveys include?",
         (
             "us-1950s-electricity-diffusion",
             "us-1950s-refrigerator-diffusion",

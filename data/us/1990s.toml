@@ -90,6 +90,7 @@ notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty
 
 [[fact]]
 id = "us-1990s-cex-total-expenditures"
+audit = { file = "02-cex/cusize-1996.txt", extractor = "text-regex", locator = "^Average annual expenditures[ .]+(\\$[\\d,]+)", guards = [{ locator = "^(Table 4\\. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996)$", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996" }] }
 panel = "budget"
 label = "Average annual household expenditures, 1996"
 quantity = 33797
@@ -102,6 +103,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1990s-cex-expenditure-income-ratio"
+audit = { file = "02-cex/cusize-1996.txt", extractor = "text-regex", locator = "^Average annual expenditures[ .]+(\\$[\\d,]+)", guards = [{ locator = "^(Table 4\\. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996)$", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996" }], calculation = { op = "pct_of", operands = ["^ ?Income before taxes 1/[ .]+(\\$[\\d,]+)"], precision = 1, rounding = "half_up", method = "All consumer units, 1996: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
 label = "Expenditure-to-income ratio, 1996"
 quantity = 88.9
@@ -109,11 +111,12 @@ value = "88.9% — expenditures $33,797 vs income $38,014"
 unit = "% (total expenditures ÷ income before taxes)"
 source = "bls-cex"
 tier = "A"
-notes = "From BLS CEX Table 4 (cusize-1996.pdf). All consumer units. Total expenditures: $33,797. Income before taxes: $38,014. Ratio: 88.9%. The ratio fell below 90% for the first time in the series."
+notes = "Ratio of mean annual expenditures to mean before-tax income for all consumer units in 1996. This ratio of survey means is not an individual household budget and does not establish how spending was financed."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1990s-cex-healthcare-share"
+audit = { file = "02-cex/cusize-1996.txt", extractor = "text-regex", locator = "^ Health care[ .]+([\\d,]+)", guards = [{ locator = "^(Table 4\\. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996)$", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996" }], calculation = { op = "pct_of", operands = ["^Average annual expenditures[ .]+(\\$[\\d,]+)"], precision = 1, rounding = "half_up", method = "All consumer units, 1996: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
 label = "Healthcare share of household budget, 1996"
 quantity = 5.2
@@ -126,14 +129,15 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1990s-cex-apparel-share"
+audit = { file = "02-cex/cusize-1996.txt", extractor = "text-regex", locator = "^ Apparel and services[ .]+(?:\\$?[\\d,]+\\s+){5}(\\$?[\\d,]+)", guards = [{ locator = "^(Table 4\\. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996)$", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996" }], calculation = { op = "pct_of", operands = ["^Average annual expenditures[ .]+(?:\\$?[\\d,]+\\s+){5}(\\$?[\\d,]+)"], precision = 1, rounding = "half_up", method = "Four-person consumer units, 1996: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
-label = "Apparel share of household budget, 1996"
+label = "Apparel share of expenditure, four-person consumer units, 1996"
 quantity = 5.7
 value = "5.7% of total expenditures"
 unit = "% of total annual expenditures"
-source = "bls-cex"
+source = "bls-cex-four-person-1996"
 tier = "A"
-notes = "From the 1996 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 4-person CUs. Apparel and services: $2,489 of $43,670 total. Population differs from 2000s+ facts (all consumer units from multi-year tables)."
+notes = "Four-person consumer units: apparel and services of $2,492 divided by total annual expenditures of $43,670, rounded to one decimal place. The previous note transcribed the apparel operand incorrectly; the corrected percentage is unchanged. These are not all-consumer-unit estimates."
 assumptions = ["composite-family", "nominal-values"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
@@ -248,17 +252,18 @@ notes = "From NCHS National Vital Statistics System. Up from 70.0/77.5 in 1980. 
 
 [[fact]]
 id = "us-1990s-wages"
+audit = { file = "50-calculation-inputs/bls-ces-earnings-hours-1990-response.json", extractor = "json-pointer", locator = "/Results/series/3/data/0/value", target = "amount_minor", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/3/seriesID", value = "CES0500000008" }, { locator = "/Results/series/3/data/0/year", value = "1990" }, { locator = "/Results/series/3/data/0/period", value = "M12" }, { locator = "/Results/series/3/data/1/year", value = "1990" }, { locator = "/Results/series/3/data/1/period", value = "M11" }, { locator = "/Results/series/3/data/2/year", value = "1990" }, { locator = "/Results/series/3/data/2/period", value = "M10" }, { locator = "/Results/series/3/data/3/year", value = "1990" }, { locator = "/Results/series/3/data/3/period", value = "M09" }, { locator = "/Results/series/3/data/4/year", value = "1990" }, { locator = "/Results/series/3/data/4/period", value = "M08" }, { locator = "/Results/series/3/data/5/year", value = "1990" }, { locator = "/Results/series/3/data/5/period", value = "M07" }, { locator = "/Results/series/3/data/6/year", value = "1990" }, { locator = "/Results/series/3/data/6/period", value = "M06" }, { locator = "/Results/series/3/data/7/year", value = "1990" }, { locator = "/Results/series/3/data/7/period", value = "M05" }, { locator = "/Results/series/3/data/8/year", value = "1990" }, { locator = "/Results/series/3/data/8/period", value = "M04" }, { locator = "/Results/series/3/data/9/year", value = "1990" }, { locator = "/Results/series/3/data/9/period", value = "M03" }, { locator = "/Results/series/3/data/10/year", value = "1990" }, { locator = "/Results/series/3/data/10/period", value = "M02" }, { locator = "/Results/series/3/data/11/year", value = "1990" }, { locator = "/Results/series/3/data/11/period", value = "M01" }], calculation = { op = "mean", operands = ["/Results/series/3/data/1/value", "/Results/series/3/data/2/value", "/Results/series/3/data/3/value", "/Results/series/3/data/4/value", "/Results/series/3/data/5/value", "/Results/series/3/data/6/value", "/Results/series/3/data/7/value", "/Results/series/3/data/8/value", "/Results/series/3/data/9/value", "/Results/series/3/data/10/value", "/Results/series/3/data/11/value"], precision = 2, rounding = "half_up", method = "Arithmetic mean of the twelve seasonally adjusted monthly CES0500000008 observations for 1990; each month weighted equally, rounded once to 2 decimal places." }, scale = "100" }
 basis = "hourly"
 amount_minor = 1020
 currency = "USD"
 price_year = 1990
 panel = "day"
-label = "Average hourly earnings and weekly hours, 1990"
-value = "$10.20/hr, 34.3 hrs/week (total private). Manufacturing: $10.77/hr, 40.5 hrs/week."
-unit = "USD/hour and hours/week, nominal"
+label = "Average hourly earnings, total private production and nonsupervisory employees, 1990"
+value = "$10.20"
+unit = "USD per hour, nominal"
 source = "fred-ahetpi"
 tier = "A"
-notes = "Production and nonsupervisory employees, seasonally adjusted: FRED AHETPI + AWHNONAG (total private), CES3000000008 + AWHMAN (manufacturing). Annual average of 12 monthly observations, re-verified against FRED 2026-07-08. CAUTION: current CES vintage — the SIC-era published 1990 manufacturing average was $10.83; do not 'correct' back to it."
+notes = "Arithmetic mean of twelve monthly seasonally adjusted BLS CES0500000008 observations for 1990. Audited against the saved BLS API response retrieved 2026-09-07; rounded once to cents. This is an average worker wage, not median family income."
 assumptions = ["nominal-values"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
@@ -381,7 +386,7 @@ value = "335 items (stockkeeping units)"
 unit = "stockkeeping units in the average supermarket produce department"
 price_year = 1997
 source = "usda-ers-aib758"
-tier = "B"
+tier = "C"
 notes = "The assortment nearly doubled in one decade — ERS's own arithmetic is a ninety-four percent increase — by the trade survey it relays (Litwak's counts of supermarket produce departments, Supermarket Business 1988 and 1998 volumes). A stockkeeping unit is a distinct shelf item, not a commodity: package, brand and fresh-cut forms each count, which is the difference between this figure and the commodity variety the FADS record measures. The same survey put the department's floor area at under seven percent more than a decade earlier — the variety densified into nearly the same space. Packaged salads alone reached about a tenth of department sales by 1997, and nationally branded produce reached about a fifth, against about a fifteenth in 1987."
 assumptions = ["composite-family"]
 
@@ -535,7 +540,7 @@ value = "$349.86/week — a full year of it (×52) ≈ 51% of median family inco
 unit = "weekly earnings vs annual median family income"
 source = "fred-ahetpi"
 tier = "A"
-notes = "Computed: hourly earnings ($10.20) × weekly hours (34.3) = $349.86/week (total private production/nonsupervisory, FRED AHETPI + AWHNONAG). × 52 = $18,193, which is 51.5% of the all-family median income ($35,350, Census F-8). Below half — a single wage-earner now covers barely half the median family income. Compare 1980: 60%, 2000: 49%."
+notes = "The product of the rounded hourly wage and weekly-hours observations for total-private production and nonsupervisory employees is $349.86. Assuming 52 paid weeks gives $18,192.72, or 51.5% of the all-family median income of $35,350 (Census F-8). Worker and family survey populations differ. This illustrative ratio does not establish household needs, income sufficiency, or the number of earners in a family."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
@@ -844,3 +849,45 @@ unit = "median net worth, all families (SCF)"
 source = "fed-scf"
 tier = "A"
 notes = "From SCF Chartbook (bulletincharts.pdf, Table: Median value of net worth for families with holdings, all families). 1989 survey, in 2016 dollars. The SCF Chartbook provides a consistent real-dollar series from 1989-2016. By 1998: $105,800; by 2001: $117,300 — median wealth rose sharply in the late 1990s boom."
+
+[[fact]]
+id = "us-1990s-weekly-hours-total-private"
+panel = "day"
+label = "Average weekly hours, total private production and nonsupervisory employees, 1990"
+value = "34.3"
+unit = "hours per week"
+source = "fred-awhnonag"
+tier = "A"
+notes = "Arithmetic mean of twelve monthly seasonally adjusted observations for 1990, retrieved from the BLS Public Data API on 2026-09-07. The saved response and all month/year labels are audit inputs."
+assumptions = ["composite-family"]
+audit = { file = "50-calculation-inputs/bls-ces-earnings-hours-1990-response.json", extractor = "json-pointer", locator = "/Results/series/1/data/0/value", target = "quantity", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/1/seriesID", value = "CES0500000007" }, { locator = "/Results/series/1/data/0/year", value = "1990" }, { locator = "/Results/series/1/data/0/period", value = "M12" }, { locator = "/Results/series/1/data/1/year", value = "1990" }, { locator = "/Results/series/1/data/1/period", value = "M11" }, { locator = "/Results/series/1/data/2/year", value = "1990" }, { locator = "/Results/series/1/data/2/period", value = "M10" }, { locator = "/Results/series/1/data/3/year", value = "1990" }, { locator = "/Results/series/1/data/3/period", value = "M09" }, { locator = "/Results/series/1/data/4/year", value = "1990" }, { locator = "/Results/series/1/data/4/period", value = "M08" }, { locator = "/Results/series/1/data/5/year", value = "1990" }, { locator = "/Results/series/1/data/5/period", value = "M07" }, { locator = "/Results/series/1/data/6/year", value = "1990" }, { locator = "/Results/series/1/data/6/period", value = "M06" }, { locator = "/Results/series/1/data/7/year", value = "1990" }, { locator = "/Results/series/1/data/7/period", value = "M05" }, { locator = "/Results/series/1/data/8/year", value = "1990" }, { locator = "/Results/series/1/data/8/period", value = "M04" }, { locator = "/Results/series/1/data/9/year", value = "1990" }, { locator = "/Results/series/1/data/9/period", value = "M03" }, { locator = "/Results/series/1/data/10/year", value = "1990" }, { locator = "/Results/series/1/data/10/period", value = "M02" }, { locator = "/Results/series/1/data/11/year", value = "1990" }, { locator = "/Results/series/1/data/11/period", value = "M01" }], calculation = { op = "mean", operands = ["/Results/series/1/data/1/value", "/Results/series/1/data/2/value", "/Results/series/1/data/3/value", "/Results/series/1/data/4/value", "/Results/series/1/data/5/value", "/Results/series/1/data/6/value", "/Results/series/1/data/7/value", "/Results/series/1/data/8/value", "/Results/series/1/data/9/value", "/Results/series/1/data/10/value", "/Results/series/1/data/11/value"], precision = 1, rounding = "half_up", method = "Arithmetic mean of the twelve seasonally adjusted monthly CES0500000007 observations for 1990; each month weighted equally, rounded once to 1 decimal places." } }
+quantity = 34.3
+
+[[fact]]
+id = "us-1990s-hourly-earnings-manufacturing"
+panel = "day"
+label = "Average hourly earnings, manufacturing production workers, 1990"
+value = "$10.77"
+unit = "USD per hour, nominal"
+source = "fred-ces-manuf-earnings"
+tier = "A"
+notes = "Arithmetic mean of twelve monthly seasonally adjusted observations for 1990, retrieved from the BLS Public Data API on 2026-09-07. The saved response and all month/year labels are audit inputs."
+assumptions = ["nominal-values"]
+audit = { file = "50-calculation-inputs/bls-ces-earnings-hours-1990-response.json", extractor = "json-pointer", locator = "/Results/series/2/data/0/value", target = "amount_minor", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/2/seriesID", value = "CES3000000008" }, { locator = "/Results/series/2/data/0/year", value = "1990" }, { locator = "/Results/series/2/data/0/period", value = "M12" }, { locator = "/Results/series/2/data/1/year", value = "1990" }, { locator = "/Results/series/2/data/1/period", value = "M11" }, { locator = "/Results/series/2/data/2/year", value = "1990" }, { locator = "/Results/series/2/data/2/period", value = "M10" }, { locator = "/Results/series/2/data/3/year", value = "1990" }, { locator = "/Results/series/2/data/3/period", value = "M09" }, { locator = "/Results/series/2/data/4/year", value = "1990" }, { locator = "/Results/series/2/data/4/period", value = "M08" }, { locator = "/Results/series/2/data/5/year", value = "1990" }, { locator = "/Results/series/2/data/5/period", value = "M07" }, { locator = "/Results/series/2/data/6/year", value = "1990" }, { locator = "/Results/series/2/data/6/period", value = "M06" }, { locator = "/Results/series/2/data/7/year", value = "1990" }, { locator = "/Results/series/2/data/7/period", value = "M05" }, { locator = "/Results/series/2/data/8/year", value = "1990" }, { locator = "/Results/series/2/data/8/period", value = "M04" }, { locator = "/Results/series/2/data/9/year", value = "1990" }, { locator = "/Results/series/2/data/9/period", value = "M03" }, { locator = "/Results/series/2/data/10/year", value = "1990" }, { locator = "/Results/series/2/data/10/period", value = "M02" }, { locator = "/Results/series/2/data/11/year", value = "1990" }, { locator = "/Results/series/2/data/11/period", value = "M01" }], calculation = { op = "mean", operands = ["/Results/series/2/data/1/value", "/Results/series/2/data/2/value", "/Results/series/2/data/3/value", "/Results/series/2/data/4/value", "/Results/series/2/data/5/value", "/Results/series/2/data/6/value", "/Results/series/2/data/7/value", "/Results/series/2/data/8/value", "/Results/series/2/data/9/value", "/Results/series/2/data/10/value", "/Results/series/2/data/11/value"], precision = 2, rounding = "half_up", method = "Arithmetic mean of the twelve seasonally adjusted monthly CES3000000008 observations for 1990; each month weighted equally, rounded once to 2 decimal places." }, scale = "100" }
+amount_minor = 1077
+currency = "USD"
+price_year = 1990
+basis = "hourly"
+
+[[fact]]
+id = "us-1990s-weekly-hours-manufacturing"
+panel = "day"
+label = "Average weekly hours, manufacturing production workers, 1990"
+value = "40.5"
+unit = "hours per week"
+source = "fred-awhman"
+tier = "A"
+notes = "Arithmetic mean of twelve monthly seasonally adjusted observations for 1990, retrieved from the BLS Public Data API on 2026-09-07. The saved response and all month/year labels are audit inputs."
+assumptions = ["composite-family"]
+audit = { file = "50-calculation-inputs/bls-ces-earnings-hours-1990-response.json", extractor = "json-pointer", locator = "/Results/series/0/data/0/value", target = "quantity", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/0/seriesID", value = "CES3000000007" }, { locator = "/Results/series/0/data/0/year", value = "1990" }, { locator = "/Results/series/0/data/0/period", value = "M12" }, { locator = "/Results/series/0/data/1/year", value = "1990" }, { locator = "/Results/series/0/data/1/period", value = "M11" }, { locator = "/Results/series/0/data/2/year", value = "1990" }, { locator = "/Results/series/0/data/2/period", value = "M10" }, { locator = "/Results/series/0/data/3/year", value = "1990" }, { locator = "/Results/series/0/data/3/period", value = "M09" }, { locator = "/Results/series/0/data/4/year", value = "1990" }, { locator = "/Results/series/0/data/4/period", value = "M08" }, { locator = "/Results/series/0/data/5/year", value = "1990" }, { locator = "/Results/series/0/data/5/period", value = "M07" }, { locator = "/Results/series/0/data/6/year", value = "1990" }, { locator = "/Results/series/0/data/6/period", value = "M06" }, { locator = "/Results/series/0/data/7/year", value = "1990" }, { locator = "/Results/series/0/data/7/period", value = "M05" }, { locator = "/Results/series/0/data/8/year", value = "1990" }, { locator = "/Results/series/0/data/8/period", value = "M04" }, { locator = "/Results/series/0/data/9/year", value = "1990" }, { locator = "/Results/series/0/data/9/period", value = "M03" }, { locator = "/Results/series/0/data/10/year", value = "1990" }, { locator = "/Results/series/0/data/10/period", value = "M02" }, { locator = "/Results/series/0/data/11/year", value = "1990" }, { locator = "/Results/series/0/data/11/period", value = "M01" }], calculation = { op = "mean", operands = ["/Results/series/0/data/1/value", "/Results/series/0/data/2/value", "/Results/series/0/data/3/value", "/Results/series/0/data/4/value", "/Results/series/0/data/5/value", "/Results/series/0/data/6/value", "/Results/series/0/data/7/value", "/Results/series/0/data/8/value", "/Results/series/0/data/9/value", "/Results/series/0/data/10/value", "/Results/series/0/data/11/value"], precision = 1, rounding = "half_up", method = "Arithmetic mean of the twelve seasonally adjusted monthly CES3000000007 observations for 1990; each month weighted equally, rounded once to 1 decimal places." } }
+quantity = 40.5

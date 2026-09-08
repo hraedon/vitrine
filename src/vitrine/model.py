@@ -245,6 +245,26 @@ class Extractor(enum.Enum):
     CSV_CELL = "csv-cell"
     XLSX_CELL = "xlsx-cell"
     TEXT_REGEX = "text-regex"
+    JSON_POINTER = "json-pointer"
+
+
+class AuditOperation(enum.Enum):
+    MEAN = "mean"
+    PCT_OF = "pct_of"
+
+
+class AuditRounding(enum.Enum):
+    HALF_EVEN = "half_even"
+    HALF_UP = "half_up"
+
+
+@dataclass(frozen=True, slots=True)
+class AuditCalculation:
+    op: AuditOperation
+    operands: tuple[str, ...]  # addresses after AuditRef.locator, in the same source file
+    precision: int
+    rounding: AuditRounding
+    method: str  # curator-reviewed population, aggregation and rounding rationale
 
 
 class AuditTarget(enum.Enum):
@@ -261,6 +281,7 @@ class AuditRef:
     target: AuditTarget = AuditTarget.QUANTITY
     guards: tuple[AuditGuard, ...] = ()
     encoding: str = "utf-8-sig"
+    calculation: AuditCalculation | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -271,6 +292,7 @@ class AuditEntry:
     file: str
     extracted: str
     audited: str
+    operands: tuple[str, ...] = ()  # all raw numerals, including the first, for replay
 
 
 @dataclass(frozen=True, slots=True)

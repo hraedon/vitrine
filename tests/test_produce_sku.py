@@ -47,7 +47,7 @@ def test_sku_cards_exist_with_trade_survey_tier() -> None:
     for decade, spec in EXPECTED.items():
         fact = facts[decade]
         assert fact.id == spec["id"]
-        assert fact.tier.value == "B"  # trade survey relayed by a federal bulletin
+        assert fact.tier.value == "C"  # commercial period-survey proxy; not official microdata
         assert fact.panel.value == "diffusion"
         assert fact.quantity == spec["quantity"]
         assert str(spec["quantity"]) in fact.value

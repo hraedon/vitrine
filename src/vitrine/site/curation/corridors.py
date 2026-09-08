@@ -80,10 +80,10 @@ ARCS: tuple[Arc, ...] = (
         caveats=(
             "The 1900s datum (5.31) is from the 1901 BLS wage-earner survey — "
             "0.7 persons above the Census 1900 national average of 4.61; the "
-            "survey over-sampled larger families, not by design.",
+            "survey and census describe different populations.",
             "The 1940s point is 1947 (first postwar CPS tabulation), not 1940. "
-            "The 1960s uptick (3.7 vs 3.54 in 1950) reflects the baby boom's "
-            "peak family-composition effect.",
+            "These averages describe family size, not the composition of a "
+            "particular household or the cause of changes over time.",
         ),
     ),
     Arc(
@@ -315,8 +315,9 @@ ARCS: tuple[Arc, ...] = (
             "194 195 197 199 201 202",
         ),
         caveats=(
-            "Six points across nine decades — 1960s, 1980s, and 2000s are "
-            "missing from the NCHS series and render as gaps.",
+            "Six curated points across nine decades — 1960s, 1980s, and "
+            "2000s are absent from this selection and render as gaps. A gap "
+            "here does not establish that NCHS has no observation.",
         ),
     ),
     Arc(
@@ -451,8 +452,8 @@ ARCS: tuple[Arc, ...] = (
         caveats=(
             "A rate, not a count. Absolute road deaths peaked at 55,600 in "
             "1972 and were still near 41,000 in 2023; what fell by a factor "
-            "of thirty is the risk per mile travelled, because the miles grew "
-            "far faster than the toll.",
+            "of thirty is the aggregate death rate per mile travelled. It "
+            "does not measure an individual traveller's risk.",
             "FHWA's own footnote records a definitional change: from 1976 the "
             "count includes only people who died within 30 days of the crash. "
             "Earlier years were counted on a wider window, so the two halves "
@@ -475,15 +476,12 @@ ARCS: tuple[Arc, ...] = (
         },
         series_id="us-workplace-death-rate",
         caveats=(
-            "This arc is four slots wide where the others are thirteen, and "
-            "the shortness is the exhibit. The federal census of workplace "
-            "deaths began in 1992; for the nine decades before it nobody "
-            "counted. The century-long figures usually quoted for this "
-            "measure come from a private safety council's estimates, not a "
-            "government census, and are not shown here.",
-            "Not falling. Between 2006 and 2024 the rate moves inside a band "
-            "of 3.3 to 4.2 with no trend the record can call a fall — which "
-            "is itself worth seeing beside the road line above it.",
+            "The federal Census of Fatal Occupational Injuries began in "
+            "1992. Earlier estimates and other records exist, but this "
+            "collection does not join them to the CFOI series.",
+            "Between 2006 and 2024 the displayed rate ranges from 3.3 to "
+            "4.2. It is not marked as a steadily falling arc; no statistical "
+            "trend test is implied by that presentation choice.",
             "The 1992-2005 rates CFOI did publish were computed against "
             "employment rather than hours worked. BLS replaced that basis in "
             "2006, so those years measure something else and are not chained "
@@ -498,14 +496,12 @@ ARCS: tuple[Arc, ...] = (
         series_id="us-teen-birth-rate",
         caveats=(
             "Not marked falling, because it does not only fall. The highest "
-            "figure NCHS publishes is 1960, not some more distant past, and "
-            "the rate rose again between 1980 and 1990 before resuming its "
-            "decline. A line drawn as steady progress would be the wrong "
-            "shape.",
+            "point in this selected-year table is 1960; that is not a claim "
+            "about the annual historical peak. The selected points rise "
+            "again between 1980 and 1990 before declining.",
             "A rate over every woman aged 15 to 19, not over those who were "
-            "sexually active — and in the earlier decades most of these "
-            "births were to married women. It measures teenage childbearing, "
-            "which is not the same subject as teenage sex.",
+            "sexually active. This age-specific rate does not establish "
+            "marital status, sexual activity, or social approval.",
             "The series is what NCHS prints: selected years, not annual, so "
             "the line connects published rows and the true peak between them "
             "is not shown. It begins in 1950 because the published table "
@@ -552,11 +548,10 @@ ARCS: tuple[Arc, ...] = (
         series_id="us-ethanol-per-capita",
         caveats=(
             "Apparent consumption: legal beverage sales and shipments divided "
-            "by population, so it measures what the state could count. That "
-            "is why 1920-1933 is blank — national Prohibition ended legal "
-            "sales and the measurement with them, and the source table prints "
-            "the word '(Prohibition)' where the numbers would be. The gap is "
-            "not interpolated and no estimate is substituted for it.",
+            "by population. The source table prints '(Prohibition)' instead "
+            "of values for 1920-1933. That gap is not zero consumption or "
+            "proof that no alcohol was sold; it is not interpolated and no "
+            "estimate is substituted for it.",
             "Not falling, on purpose. The line is a discontinuity, not a "
             "trend: the 1911-1915 level is not reached again until the 1970s, "
             "and the modern peak (2.76 in 1981) sits above every year since.",
@@ -601,7 +596,7 @@ ARC_BY_SLUG: dict[str, Arc] = {a.slug: a for a in ARCS}
 ARC_GROUPS: tuple[ArcGroup, ...] = (
     ArcGroup(
         "exotic-turned-ordinary",
-        "Exotic turned ordinary: four things that were not in the shop",
+        "Four foods in the national supply",
         "pounds available per person per year (farm weight)",
         (
             ("availability-broccoli", "Broccoli", "copper"),
@@ -768,15 +763,15 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
         slug="different-country",
         number="V",
         title="The past was a different country",
-        question="What was ordinary, legal, and everywhere — and is now gone?",
+        question="What changed in consumption, risk, and the food supply?",
         introduction=(
-            "The other wings measure the family's material life; this one "
-            "measures its behaviour and its surroundings. An exhibit earns "
-            "its place here only if it was, in its time, normal, legal, and "
-            "ubiquitous — and is now unthinkable, illegal, or vanishingly "
-            "rare. Falling lines are not presented as progress: the point "
-            "is that the country itself changed. The cards stay flat; the "
-            "confrontation is in the arrangement."
+            "These US records describe different populations: adults, "
+            "workers, road users, and the national food supply. They show "
+            "changes in particular measures, not the biography of one "
+            "family. A consumption rate does not establish what everyone "
+            "did; a legal restriction does not measure how common a "
+            "practice was. Where a line starts or stops, the source card "
+            "explains the boundary of the record."
         ),
         arc_slugs=(
             "cigarette-consumption",

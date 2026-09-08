@@ -19,6 +19,7 @@ from vitrine.loader import load_corpus
 from vitrine.model import Corpus, Panel, Room
 from vitrine.series import load_series
 from vitrine.site import curation, symbols
+from vitrine.site.curation.collections import EditorialStatus, editorial_choice
 from vitrine.site.projections.facts import GAP_PREFIX
 from vitrine.site.projections.rooms import atlas_matrix, project_lobby
 from vitrine.site.render import _build_stage, _index_facts, render_site
@@ -357,8 +358,8 @@ def test_every_room_opens_with_a_sourced_route_and_case_map(
     for room in corpus.rooms:
         html = (site / "rooms" / f"{room.slug}.html").read_text()
         story = curation.ROOM_STORY_BY_SLUG.get(room.slug)
-        if story is None:
-            assert ("Research collection" in html)
+        if story is None or editorial_choice(room.slug).status is EditorialStatus.RESEARCH:
+            assert ("Research holding" in html)
             assert ('class="room-overture room-overture--uncurated"' in html
                     or 'class="collection-intro"' in html)
             assert 'class="story-stop"' not in html
@@ -625,7 +626,7 @@ def test_structural_room_gaps_are_visible_before_the_stage(site: Path) -> None:
     for decade in ("1910s", "1920s", "1930s", "1940s"):
         html = (site / "rooms" / f"us-{decade}.html").read_text()
         assert 'class="gap-banner"' in html
-        assert html.index('class="gap-banner"') < html.index('class="stage"')
+        assert html.index('class="gap-banner"') < html.index('class="artifact-collection"')
     assert 'class="gap-banner"' not in (site / "rooms" / "us-1950s.html").read_text()
 
 
@@ -710,10 +711,20 @@ def test_budget_composition_exposes_folded_categories(site: Path) -> None:
     assert "other: 30.47% — 1900s (fuel &amp; light 5.25%" in corridor
 
 
-def test_impossible_work_week_explains_multiple_earners(site: Path) -> None:
-    html = (site / "rooms" / "us-1900s.html").read_text()
-    assert "60 weeks of one earner&#39;s wages" in html
-    assert "the family budget depended on income beyond this one manufacturing wage" in html
+def test_wage_budget_illustration_keeps_separate_populations(
+    site: Path, corpus: Corpus,
+) -> None:
+    html = unescape((site / "rooms" / "us-1900s.html").read_text())
+    room = next(room for room in corpus.rooms if room.slug == "us-1900s")
+    facts = {fact.id: fact for fact in room.facts}
+    wage_population = corpus.sources[facts[room.wage_anchor].source].population
+    budget_population = corpus.sources[facts["us-1900s-average-expenditure"].source].population
+    assert wage_population != budget_population
+    assert wage_population in html
+    assert budget_population in html
+    assert "a separate survey population" in html
+    assert "does not establish the number of earners" in html
+    assert "the family budget depended on income beyond this one manufacturing wage" not in html
 
 
 def test_large_affordability_ratios_are_prominent_and_caveated(site: Path) -> None:
@@ -786,11 +797,21 @@ def test_automobile_glyph_absent_before_1960s(site: Path) -> None:
 
 def test_transport_note_is_right_anchored_inside_stage(site: Path) -> None:
     """A boundary-positioned transport label must grow into the house, not clip."""
-    html = (site / "rooms" / "us-2020s.html").read_text()
+    html = (site / "rooms" / "us-2010s.html").read_text()
     assert re.search(
         r'<text class="znote"[^>]*style="text-anchor:end"[^>]*'
-        r'data-fact-id="us-2020s-expenditure-breakdown-4p"',
+        r'data-fact-id="us-2010s-expenditure-shares"',
         html,
+    )
+
+    # The newer four-person composition is a documented gap. It retains its
+    # record and source card, but must no longer supply a geometric stage mark.
+    latest = (site / "rooms" / "us-2020s.html").read_text()
+    gap_id = "us-2020s-expenditure-breakdown-4p"
+    assert f'id="{gap_id}"' in latest
+    assert f'id="{gap_id}--modal"' in latest
+    assert not re.search(
+        rf'<text class="znote"[^>]*data-fact-id="{gap_id}"', latest,
     )
 
 
@@ -822,5 +843,5 @@ def test_source_collections_cover_every_fact_exactly_once(site: Path, corpus: Co
         seen.extend(ids)
     assert len(seen) == len(set(seen)) == sum(len(r.facts) for r in corpus.rooms)
     income = (site / "archive/sources/census-f08-allraces.html").read_text()
-    assert "36 of 36 records have a current transcription audit" in income
+    assert "36 of 36 records have a current source audit" in income
     assert "does not independently validate the source" in income

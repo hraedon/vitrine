@@ -114,7 +114,11 @@ def _cmd_audit(data_dir: Path, samples: Path, coverage: bool, pin: bool) -> int:
     except (LoadError, SeriesError, ValueError, OSError) as exc:
         print(f"AUDIT ERROR: {exc}", file=sys.stderr)
         return 1
-    print(f"ok: {len(entries)} transcriptions checked against pinned sample bytes")
+    calculations = sum(bool(entry.operands) for entry in entries)
+    print(
+        f"ok: {len(entries)} source checks against pinned sample bytes "
+        f"({len(entries) - calculations} literals, {calculations} calculations)"
+    )
     return 0
 
 

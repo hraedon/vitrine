@@ -310,3 +310,34 @@ panels and stable record links remain the data organization; sparse rooms
 lead with observations and identify gap-only panels separately. A documented
 gap is not an observation, and an omitted illustration is not evidence that
 an object was historically absent.
+
+### Calculation audits (Plan 029)
+
+An audit may add `calculation = { op, operands, precision, rounding, method }`.
+The main `locator` is the first operand; `operands` lists subsequent addresses
+in the same pinned source file. `mean` computes their arithmetic mean;
+`pct_of` computes the first divided by the second, multiplied by one hundred.
+Only a positive percentage denominator is accepted. `precision` is the number
+of decimal places (zero through eight), and `rounding` is explicitly
+`half_even` or `half_up`. `method` records the population, aggregation and
+rounding rationale. The rounded result is scaled into the target unit last.
+
+Calculation uses exact rational arithmetic over decimal source numerals.
+The `json-pointer` extractor selects scalar values in original publisher
+responses; numeric JSON tokens retain decimal precision. Guards can bind a
+series identifier, each observation year and each monthly period. Counting
+twelve rows alone is insufficient to demonstrate a complete calendar year.
+
+Ledger version two records every raw calculation operand as well as its
+result, source-byte hash and semantic fingerprint. The offline gate replays
+the operands and compares the declared target. A version-one ledger can be
+read for migration, but its bindings must be regenerated against the real
+archive. Changes in methods, source meaning or record interpretation also
+require re-audit. Source republication and statistical revision remain
+editorial questions; a newly retrieved vintage is not an old download.
+
+Editorial status belongs to the presentation registry, with a rationale.
+Research holdings, focused exhibits and guided rooms express a curation
+choice. A record count does not grant confidence or imply a matched household.
+The Japan thematic collection selects dated observations while keeping their
+source populations separate and all decade records accessible.

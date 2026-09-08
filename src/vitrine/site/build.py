@@ -34,6 +34,7 @@ from vitrine.site.context import (
     DataPage,
     EssayPage,
     EssaysIndexPage,
+    JapanCollectionPage,
     LobbyPage,
     MethodologyPage,
     PairPage,
@@ -55,6 +56,7 @@ from vitrine.site.projections.affordability import (
     affordability_for_room,
     project_affordability_dashboard,
 )
+from vitrine.site.projections.collections import project_japan_collection
 from vitrine.site.projections.essays import (
     essay_entry_views,
     essays_by_room,
@@ -82,6 +84,7 @@ def _render_page(
         | EssayPage
         | EssaysIndexPage
         | LobbyPage
+        | JapanCollectionPage
         | MethodologyPage
         | PairPage
         | RoomPage
@@ -212,6 +215,7 @@ def _build_site_contents(
         out_dir / "corridors",
         out_dir / "affordability",
         out_dir / "data",
+        out_dir / "collections",
     ):
         directory.mkdir(mode=0o755, exist_ok=True)
         ensure_publishable_directory(directory)
@@ -320,6 +324,12 @@ def _build_site_contents(
                     else (),
                 ),
             )
+
+    if any(room.country == "jp" for room in rooms):
+        _render_page(
+            env, "japan.html", out_dir / "collections" / "japan.html",
+            root="../", surface="rooms", page=project_japan_collection(corpus),
+        )
 
     # corridors index (wing validation happens inside project_corridor)
     _render_page(

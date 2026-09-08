@@ -1,7 +1,9 @@
 # Plan 015 — Repeatable transcription audits
 
-**Status:** WI-1 and WI-2 implemented; WI-3 partially implemented; initial WI-4
-sweep delivered, with 57 audited records. Reconciled 2026-09-07.
+**Status:** WI-1 and WI-2 implemented; selected WI-3 earnings/share calculations
+and WI-4 source sweep delivered. Current ledger: 97 fields (58 literal,
+39 calculated). Food-price and wider corpus qualification remain open.
+Reconciled with Plan 029 on 2026-09-07.
 
 ## Outcome
 
@@ -69,7 +71,7 @@ All 57 checks passed against the archive on the operator host. No numeric
 corrections were needed in this selected set. This is **57 of 725 authored
 records**, including gaps in the denominator; it is not whole-corpus verification.
 
-### Why WI-3 remains open
+### First-pass WI-3 limits (selected calculations resolved by Plan 029)
 
 The CES extraction script calculates annual means from monthly API results;
 those facts need a replayable aggregation audit and the saved input vintage,
@@ -98,3 +100,18 @@ drift; it does not re-download sources or attest that the archive remains online
 Source collection pages (Plan 017) make the audit date and these limits visible.
 See `docs/transcription-audit-coverage.md` for the generated closing snapshot
 and Plan 028 for the next priorities.
+
+## Plan 029 extension
+
+Calculation replay now supports same-file means and percentage ratios, with
+explicit source operands, context guards, decimal precision and rounding.
+`json-pointer` reads original publisher responses. Version-two ledger entries
+preserve raw operands; the offline gate recomputes the result. Literal audits
+retain their original behaviour. See Plan 029 for newly qualified records,
+source-vintage limits and the unsupported records turned into explicit gaps.
+
+This closes the selected annual-earnings and spending-share calculations,
+not all arithmetic in the corpus. Food-price qualification and audit coverage
+outside the selected families remain open. Compound earnings records have
+been separated into single-measure observations; other compound records still
+need review.

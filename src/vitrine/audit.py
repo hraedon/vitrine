@@ -19,16 +19,20 @@ import tomllib
 from contextlib import suppress
 from dataclasses import asdict
 from datetime import date
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal, InvalidOperation, localcontext
+from fractions import Fraction
 from pathlib import Path, PurePosixPath
 from typing import assert_never
 from xml.etree.ElementTree import ParseError
 from zipfile import BadZipFile
 
 from vitrine.model import (
+    AuditCalculation,
     AuditEntry,
     AuditGuard,
+    AuditOperation,
     AuditRef,
+    AuditRounding,
     AuditTarget,
     Corpus,
     Extractor,
@@ -36,7 +40,7 @@ from vitrine.model import (
     Tier,
 )
 
-LEDGER_VERSION = 1
+LEDGER_VERSION = 2
 
 
 def decimal_value(value: object) -> Decimal:
@@ -70,6 +74,8 @@ def _validate_locator(extractor: Extractor, locator: str) -> None:
                 valid = re.compile(locator).groups == 1
             except re.error as exc:
                 raise ValueError(f"invalid audit regex: {exc}") from exc
+        case Extractor.JSON_POINTER:
+            valid = locator.startswith("/") and re.search(r"~(?![01])", locator) is None
         case _:
             assert_never(extractor)
     if not valid:
@@ -96,12 +102,50 @@ def validate_ref(ref: AuditRef) -> None:
         _validate_locator(ref.extractor, guard.locator)
         if not guard.value:
             raise ValueError("audit guard needs an expected source heading or year")
+    calc = ref.calculation
+    if calc is not None:
+        if type(calc.precision) is not int or not 0 <= calc.precision <= 8:
+            raise ValueError("audit calculation precision must be an integer from 0 to 8")
+        if not calc.method.strip():
+            raise ValueError("audit calculation needs a documented method")
+        locators = (ref.locator, *calc.operands)
+        if len(set(locators)) != len(locators):
+            raise ValueError("audit calculation operands must have distinct addresses")
+        match calc.op:
+            case AuditOperation.MEAN:
+                if len(locators) < 2:
+                    raise ValueError("mean needs at least two source operands")
+            case AuditOperation.PCT_OF:
+                if len(locators) != 2:
+                    raise ValueError("pct_of needs a numerator and denominator")
+            case _:
+                assert_never(calc.op)
+        for locator in calc.operands:
+            _validate_locator(ref.extractor, locator)
+
+
+def _parse_calculation(raw: object) -> AuditCalculation:
+    fields = {"op", "operands", "precision", "rounding", "method"}
+    if not isinstance(raw, dict) or set(raw) != fields:
+        raise ValueError("audit calculation requires op, operands, precision, rounding and method")
+    if not isinstance(raw["operands"], list) or not all(
+        isinstance(item, str) for item in raw["operands"]
+    ):
+        raise ValueError("audit calculation operands must be source addresses")
+    if not isinstance(raw["method"], str) or type(raw["precision"]) is not int:
+        raise ValueError("audit calculation needs a string method and integer precision")
+    return AuditCalculation(
+        AuditOperation(raw["op"]), tuple(raw["operands"]), raw["precision"],
+        AuditRounding(raw["rounding"]), raw["method"],
+    )
 
 
 def parse_ref(table: object) -> AuditRef:
     if not isinstance(table, dict):
         raise ValueError("audit must be a table")
-    if set(table) - {"file", "extractor", "locator", "scale", "target", "guards", "encoding"}:
+    if set(table) - {
+        "file", "extractor", "locator", "scale", "target", "guards", "encoding", "calculation",
+    }:
         raise ValueError("unknown audit field")
     for key in ("file", "extractor", "locator"):
         if not isinstance(table.get(key), str):
@@ -127,6 +171,7 @@ def parse_ref(table: object) -> AuditRef:
         target=AuditTarget(table.get("target", "quantity")),
         guards=tuple(AuditGuard(**guard) for guard in guards),
         encoding=str(table.get("encoding", "utf-8-sig")),
+        calculation=_parse_calculation(table["calculation"]) if "calculation" in table else None,
     )
     validate_ref(ref)
     return ref
@@ -137,7 +182,7 @@ def load_ledger(path: Path) -> tuple[AuditEntry, ...]:
         return ()
     with path.open("rb") as stream:
         raw = tomllib.load(stream)
-    if type(raw.get("version")) is not int or raw["version"] != LEDGER_VERSION:
+    if type(raw.get("version")) is not int or raw["version"] not in {1, LEDGER_VERSION}:
         raise ValueError("unsupported audit ledger version")
     entries = raw.get("entry", [])
     if not isinstance(entries, list) or set(raw) - {"version", "entry"}:
@@ -147,8 +192,9 @@ def load_ledger(path: Path) -> tuple[AuditEntry, ...]:
     for entry in entries:
         if (
             not isinstance(entry, dict)
-            or set(entry) != fields
-            or not all(isinstance(v, str) and v for v in entry.values())
+            or set(entry) - fields - {"operands"}
+            or not fields <= set(entry)
+            or not all(isinstance(entry[k], str) and entry[k] for k in fields)
         ):
             raise ValueError("invalid audit ledger entry")
         for key in ("fingerprint", "sample_sha256"):
@@ -156,7 +202,12 @@ def load_ledger(path: Path) -> tuple[AuditEntry, ...]:
                 raise ValueError(f"invalid audit ledger {key}")
         date.fromisoformat(entry["audited"])
         decimal_value(entry["extracted"])
-        result.append(AuditEntry(**entry))
+        operands = entry.get("operands", [])
+        if not isinstance(operands, list) or not all(isinstance(v, str) for v in operands):
+            raise ValueError("invalid audit ledger operands")
+        for value in operands:
+            decimal_value(value)
+        result.append(AuditEntry(**{k: entry[k] for k in fields}, operands=tuple(operands)))
     if len({e.fact_id for e in result}) != len(result):
         raise ValueError("duplicate audit ledger fact_id")
     return tuple(result)
@@ -201,6 +252,64 @@ def target_value(fact: Fact) -> Decimal:
     return decimal_value(value)
 
 
+def calculate(ref: AuditRef, values: tuple[Decimal, ...]) -> Decimal:
+    """Replay raw operands with exact rational arithmetic; round once, before unit scaling."""
+    calc = ref.calculation
+    if calc is None:
+        if len(values) != 1:
+            raise ValueError("literal audit needs exactly one source value")
+        return values[0]
+    if len(values) != 1 + len(calc.operands):
+        raise ValueError("audit calculation operand count changed")
+    operands = tuple(Fraction(value) for value in values)
+    match calc.op:
+        case AuditOperation.MEAN:
+            result = sum(operands, Fraction()) / len(operands)
+        case AuditOperation.PCT_OF:
+            if operands[1] <= 0:
+                raise ValueError("pct_of denominator must be positive")
+            result = operands[0] * 100 / operands[1]
+        case _:
+            assert_never(calc.op)
+    scaled = result * 10 ** calc.precision
+    whole, remainder = divmod(abs(scaled.numerator), scaled.denominator)
+    match calc.rounding:
+        case AuditRounding.HALF_EVEN:
+            round_tie = whole % 2 == 1
+        case AuditRounding.HALF_UP:
+            round_tie = True
+        case _:
+            assert_never(calc.rounding)
+    if remainder * 2 > scaled.denominator or (
+        remainder * 2 == scaled.denominator and round_tie
+    ):
+        whole += 1
+    with localcontext() as context:
+        context.prec = max(28, len(str(whole)) + calc.precision + 1)
+        return Decimal(-whole if result < 0 else whole).scaleb(-calc.precision)
+
+
+def _check_binding(corpus: Corpus, fact: Fact, entry: AuditEntry) -> None:
+    ref = fact.audit
+    if ref is None:
+        raise ValueError("audit locator no longer exists")
+    if fingerprint(corpus, fact) != entry.fingerprint:
+        raise ValueError("stale fingerprint; re-audit")
+    validate_ref(ref)
+    extracted = decimal_value(entry.extracted)
+    if ref.calculation is not None:
+        replayed = calculate(ref, tuple(decimal_value(v) for v in entry.operands))
+        if replayed != extracted:
+            raise ValueError("ledger calculation does not reproduce extracted result")
+    elif entry.operands:
+        raise ValueError("literal audit cannot carry calculation operands")
+    if (
+        ref.file != entry.file
+        or extracted * _scale(ref.scale) != target_value(fact)
+    ):
+        raise ValueError("stale fingerprint or extraction; re-audit")
+
+
 def check_audits(corpus: Corpus) -> list[str]:
     """No archive or optional dependency needed: detect edits since a successful audit."""
     problems: list[str] = []
@@ -222,13 +331,7 @@ def check_audits(corpus: Corpus) -> list[str]:
             problems.append(f"audit {entry.fact_id}: fact or audit locator no longer exists")
             continue
         try:
-            current = fingerprint(corpus, fact)
-            if (
-                current != entry.fingerprint
-                or fact.audit.file != entry.file
-                or decimal_value(entry.extracted) * _scale(fact.audit.scale) != target_value(fact)
-            ):
-                problems.append(f"audit {entry.fact_id}: stale fingerprint or extraction; re-audit")
+            _check_binding(corpus, fact, entry)
         except (KeyError, ValueError) as exc:
             problems.append(f"audit {entry.fact_id}: invalid binding: {exc}")
         if entry.file in pins and pins[entry.file] != entry.sample_sha256:
@@ -237,8 +340,9 @@ def check_audits(corpus: Corpus) -> list[str]:
     return problems
 
 
-def _extract(blob: bytes, ref: AuditRef) -> tuple[object, tuple[object, ...]]:
-    locators = (ref.locator, *(g.locator for g in ref.guards))
+def _extract(blob: bytes, ref: AuditRef) -> tuple[tuple[object, ...], tuple[object, ...]]:
+    operands = ref.calculation.operands if ref.calculation else ()
+    locators = (ref.locator, *operands, *(g.locator for g in ref.guards))
     values: list[object] = []
     match ref.extractor:
         case Extractor.CSV_CELL:
@@ -269,9 +373,27 @@ def _extract(blob: bytes, ref: AuditRef) -> tuple[object, tuple[object, ...]]:
                 if len(matches) != 1:
                     raise ValueError(f"regex must match exactly once; found {len(matches)}")
                 values.append(matches[0].group(1))
+        case Extractor.JSON_POINTER:
+            document = json.loads(blob.decode(ref.encoding), parse_float=Decimal)
+            for locator in locators:
+                node = document
+                for encoded in locator[1:].split("/"):
+                    key = encoded.replace("~1", "/").replace("~0", "~")
+                    if isinstance(node, list):
+                        if re.fullmatch(r"0|[1-9]\d*", key) is None:
+                            raise ValueError("JSON array address needs a canonical index")
+                        node = node[int(key)]
+                    elif isinstance(node, dict):
+                        node = node[key]
+                    else:
+                        raise ValueError("JSON address traverses a scalar")
+                if isinstance(node, dict | list) or node is None or isinstance(node, bool):
+                    raise ValueError("JSON address must select a scalar source value")
+                values.append(node)
         case _:
             assert_never(ref.extractor)
-    return values[0], tuple(values[1:])
+    count = 1 + len(operands)
+    return tuple(values[:count]), tuple(values[count:])
 
 
 def _sample(root: Path, relative: str) -> bytes:
@@ -304,11 +426,12 @@ def run_audit(
             digest = hashlib.sha256(blob).hexdigest()
             if ref.file in pins and digest != pins[ref.file] and not accept_changed_samples:
                 raise ValueError("sample hash changed; inspect the archive before using --pin")
-            value, guard_values = _extract(blob, ref)
+            values, guard_values = _extract(blob, ref)
             for guard, actual in zip(ref.guards, guard_values, strict=True):
                 if str(actual).strip() != guard.value:
                     raise ValueError(f"source context changed at {guard.locator}: {actual!r}")
-            extracted = decimal_value(value)
+            numerals = tuple(decimal_value(value) for value in values)
+            extracted = calculate(ref, numerals)
             if extracted * _scale(ref.scale) != target_value(fact):
                 raise ValueError(
                     f"MISMATCH source {extracted} x {ref.scale} != {target_value(fact)}"
@@ -321,6 +444,7 @@ def run_audit(
                     file=ref.file,
                     extracted=format(extracted, "f"),
                     audited=audited or date.today().isoformat(),
+                    operands=tuple(format(v, "f") for v in numerals) if ref.calculation else (),
                 )
             )
         except FileNotFoundError:
@@ -382,7 +506,8 @@ def coverage_report(corpus: Corpus) -> str:
                 entry = ledger.get(fact.id)
                 if entry and fact.audit:
                     with suppress(KeyError, ValueError):
-                        current += entry.fingerprint == fingerprint(corpus, fact)
+                        _check_binding(corpus, fact, entry)
+                        current += 1
             lines.append(
                 f"{room.slug} / {tier.value}: {len(facts)} | {locators} | "
                 f"{current} | {len(facts) - current}"
