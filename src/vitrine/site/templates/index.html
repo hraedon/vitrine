@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% from "macros/legends.html" import legend_block %}
+{% macro inventory_count(cell) %}
+<span class="inventory-count"><b>{{ cell.facts - cell.gaps }}</b> observation{{ 's' if cell.facts - cell.gaps != 1 }}</span>
+{% if cell.computed %}<span class="inventory-count inventory-calculation">{{ cell.computed }} calculation{{ 's' if cell.computed != 1 }}</span>{% endif %}
+{% if cell.gaps %}<span class="inventory-count inventory-gap">{{ cell.gaps }} documented gap{{ 's' if cell.gaps != 1 }}</span>{% endif %}
+{% endmacro %}
 {% block title %}vitrine — everyday life across time{% endblock %}
 {% block body %}
 <div class="lobby-intro">
@@ -18,11 +23,11 @@
     <p>Every fact has a source card, a confidence tier, and the population actually measured. A gap identifies evidence this collection cannot yet supply.</p>
     <dl class="corpus-strip" aria-label="Museum collection">
       <div><dt>Country wings</dt><dd>{{ page.wings|length }}</dd></div>
-      <div><dt>Curated records</dt><dd>{{ page.corpus_totals.facts }}</dd></div>
+      <div><dt>Sourced observations</dt><dd>{{ page.corpus_totals.facts - page.corpus_totals.gaps }}</dd></div>
       <div><dt>Documented gaps</dt><dd>{{ page.corpus_totals.gaps }}</dd></div>
       <div><dt>Sources</dt><dd>{{ page.sources }}</dd></div>
     </dl>
-    <p class="collection-note">Gaps are included in the record count. Computed exhibits are counted separately in the tables.</p>
+    <p class="collection-note">An observation reports a value from a cited source. A documented gap explains a value we cannot yet supply or verify. The museum also includes {{ page.corpus_totals.computed }} calculations made from sourced inputs. These three counts are separate.</p>
     <a href="methodology.html">How to read the museum →</a>
   </aside>
 </div>
@@ -31,7 +36,7 @@
 <section class="wing-directory" id="choose-room" aria-labelledby="choose-room-title">
   <div class="directory-heading">
     <div><p class="eyebrow">Start with a place and a decade</p><h2 id="choose-room-title">Choose your room</h2></div>
-    <p>Each country keeps its own sources, populations, and gaps. Comparisons across decades currently cover the US wing.</p>
+    <p>Enter a room to explore its objects and records, or follow a collection across years. Each country keeps its own sources and measured populations.</p>
   </div>
   {% for wing in page.wings %}
   <section class="wing-entry" aria-labelledby="wing-{{ wing.country }}-title">
@@ -40,9 +45,15 @@
       <div><h3 id="wing-{{ wing.country }}-title">{{ wing.name }}</h3>
       <p>{{ wing.rooms|length }} decades · {{ wing.facts - wing.gaps }} observations · {{ wing.gaps }} documented gaps</p></div>
     </div>
-    {% if wing.country == 'jp' %}<a class="wing-feature" href="collections/japan.html"><b>Japan, through its surveys</b><span>Explore household budgets, work, and equipment · focused exhibit →</span></a>{% endif %}
+    {% if wing.country == 'us' %}
+    <a class="wing-feature" href="rooms/us-1950s.html"><b>Step into the American home</b><span>Start with the 1950s: explore the house, then open an object to meet its evidence →</span></a>
+    {% elif wing.country == 'jp' %}
+    <a class="wing-feature" href="collections/japan.html"><b>Japan, through its surveys</b><span>Begin with household budgets, working lives, and equipment across the years →</span></a>
+    {% else %}
+    <p class="wing-reading-note">A developing collection of period records. Choose a decade to see the evidence available and the questions still open.</p>
+    {% endif %}
     <nav aria-label="{{ wing.name }} decade rooms" class="wing-decades">
-      {% for room in wing.rooms %}<a href="rooms/{{ room.slug }}.html" aria-label="{{ wing.name }}, {{ room.decade }}">{{ room.decade }} <span aria-hidden="true">↗</span><small>{{ wing.editorial[room.slug].status.value }}</small></a>{% endfor %}
+      {% for room in wing.rooms %}<a href="rooms/{{ room.slug }}.html" aria-label="{{ wing.name }}, {{ room.decade }}"><span class="decade-name">{{ room.decade }} <span aria-hidden="true">↗</span></span><small>{{ wing.editorial[room.slug].status.value }}</small></a>{% endfor %}
     </nav>
   </section>
   {% endfor %}
@@ -81,34 +92,45 @@
 </div>
 {% endif %}
 
-<h2 class="case-title">The US record at a glance</h2>
-<p class="case-sub">Every US room × every case, counted. UK and Japan rooms are listed above; these totals cover the US wing only. The sliver under each count is the tier mix (green A to grey D — see the legend); an ember line marks documented silences the museum renders instead of guessing.</p>
+<section class="research-inventory" aria-labelledby="inventory-title">
+<h2 class="case-title" id="inventory-title">Inside the US collection</h2>
+<p class="case-sub">A research inventory of the US wing. Counts describe the collection's coverage, not how common something was or how certain the evidence is.</p>
+<dl class="inventory-totals" aria-label="US collection totals">
+  <div><dt>Sourced observations</dt><dd>{{ page.totals.facts - page.totals.gaps }}</dd></div>
+  <div><dt>Calculations from sourced inputs</dt><dd>{{ page.totals.computed }}</dd></div>
+  <div><dt>Documented gaps</dt><dd>{{ page.totals.gaps }}</dd></div>
+</dl>
+<p class="inventory-explanation">Observations report a value. Calculations combine sourced values using a stated method. Gaps explain a value that is unavailable or not yet verified; they are counted separately and never mean zero.</p>
+<details class="inventory-disclosure">
+<summary>Browse coverage by decade and subject</summary>
 <p class="matrix-hint" id="matrix-help">On a narrow screen, scroll the table sideways to explore every case.</p>
 <div class="matrix-wrap" role="region" aria-label="US exhibit counts" aria-describedby="matrix-help" tabindex="0">
 <table class="record-matrix">
-  <caption class="sr-only">US exhibit counts per decade room and display case</caption>
+  <caption>US collection only. Observation counts exclude documented gaps; calculations are counted separately.</caption>
   <thead><tr><th scope="col">Room</th>{% for panel in panels %}<th scope="col">{{ panel_title(panel) }}</th>{% endfor %}<th scope="col">Room total</th></tr></thead>
   <tbody>
   {% for row in page.matrix %}
   <tr>
     <th scope="row"><a href="rooms/{{ row.slug }}.html">{{ row.decade }}</a></th>
     {% for cell in row.cells %}
-    <td>{% if cell.exhibits %}<a class="mx" href="rooms/{{ row.slug }}.html#panel-{{ panels[loop.index0].value }}" aria-label="{{ row.decade }}, {{ panel_title(panels[loop.index0]) }}: {{ cell.exhibits }} exhibits{% if cell.gaps %}, {{ cell.gaps }} documented gap{{ 's' if cell.gaps != 1 }}{% endif %}"><span class="cnt">{{ cell.facts }}{% if cell.computed %}<span class="comp">+{{ cell.computed }}</span>{% endif %}</span><span class="mix" aria-hidden="true">{% for tier, n in cell.tier_counts %}<i style="width:{{ (100 * n / cell.facts)|round(2) }}%;background:{{ T.TIER_COLORS[tier] }}"></i>{% endfor %}</span>{% if cell.gaps %}<span class="mx-gap">{{ cell.gaps }} gap{{ 's' if cell.gaps != 1 }}</span>{% endif %}</a>{% else %}<span class="mx empty"><span class="cnt">—</span></span>{% endif %}</td>
+    <td>{% if cell.exhibits %}<a class="mx" href="rooms/{{ row.slug }}.html#panel-{{ panels[loop.index0].value }}">{{ inventory_count(cell) }}</a>{% else %}<span class="mx empty">No records</span>{% endif %}</td>
     {% endfor %}
-    <td><a class="mx" href="rooms/{{ row.slug }}.html"><span class="cnt">{{ row.totals.facts }}{% if row.totals.computed %}<span class="comp">+{{ row.totals.computed }}</span>{% endif %}</span><span class="mix" aria-hidden="true">{% for tier, n in row.totals.tier_counts %}<i style="width:{{ (100 * n / row.totals.facts)|round(2) }}%;background:{{ T.TIER_COLORS[tier] }}"></i>{% endfor %}</span>{% if row.totals.gaps %}<span class="mx-gap">{{ row.totals.gaps }} gap{{ 's' if row.totals.gaps != 1 }}</span>{% endif %}</a></td>
+    <td><a class="mx" href="rooms/{{ row.slug }}.html">{{ inventory_count(row.totals) }}</a></td>
   </tr>
   {% endfor %}
   </tbody>
   <tfoot><tr>
-    <td>US wing · {{ page.totals.facts }} facts</td>
+    <th scope="row">US collection</th>
     {% for cell in page.panel_totals %}
-    <td>{{ cell.exhibits }}{% if cell.gaps %} · {{ cell.gaps }} gap{{ 's' if cell.gaps != 1 }}{% endif %}</td>
+    <td>{{ inventory_count(cell) }}</td>
     {% endfor %}
-    <td>{% if page.totals.computed %}+{{ page.totals.computed }} computed · {% endif %}{{ page.totals.gaps }} gaps documented</td>
+    <td>{{ inventory_count(page.totals) }}</td>
   </tr></tfoot>
 </table>
 </div>
-<p class="matrix-note">Counting rule: <b>N</b> sourced facts, <b>+M</b> exhibits computed at build from sourced inputs. A "gap" is a curated, documented silence — never a value. The source register covers all country wings.</p>
+</details>
+<p class="inventory-source-link"><a href="bibliography.html">Explore the sources behind all country collections →</a></p>
+</section>
 
 {{ legend_block() }}
 {% endblock %}

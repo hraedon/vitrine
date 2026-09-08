@@ -8,6 +8,8 @@ renders and writes.
 
 from __future__ import annotations
 
+from dataclasses import replace
+
 from markupsafe import Markup
 
 from vitrine.derive import ComputedFact, evaluate_room
@@ -26,6 +28,7 @@ from vitrine.site.context import (
     WingView,
 )
 from vitrine.site.curation.collections import (
+    HOUSE_ROOMS,
     PRIMARY_OBJECT_EXCLUSIONS,
     EditorialStatus,
     editorial_choice,
@@ -232,6 +235,13 @@ def project_room(
         raise ValueError(
             f"room {room.slug}: object exclusion needs an existing record and rationale"
         )
+    # The room's house is an illustrated index. Keep navigation geometry fixed
+    # and apply the same editorial exclusions as the primary object gallery.
+    stage = replace(
+        stage, home_scale=1.0,
+        artifacts=tuple(a for a in stage.artifacts if a.fact_id not in exclusions),
+        zone_notes=tuple(n for n in stage.zone_notes if n.fact_id not in exclusions),
+    )
     return RoomPage(
         room=room,
         rooms=tuple(rooms),
@@ -259,4 +269,5 @@ def project_room(
             key=lambda a: a.fact_id != "us-1950s-tv-diffusion",
         )),
         artifact_notes=stage.zone_notes,
+        house_supported=room.slug in HOUSE_ROOMS and bool(stage.artifacts),
     )

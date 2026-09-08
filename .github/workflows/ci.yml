@@ -36,13 +36,13 @@ jobs:
       - name: Types
         run: .venv/bin/mypy
       - name: Tests
-        run: .venv/bin/pytest -q --ignore=tests/test_browser.py --ignore=tests/test_browser.py
+        run: .venv/bin/pytest -q --ignore=tests/test_browser.py --ignore=tests/test_display_layout.py
       - name: Provenance gate
         run: .venv/bin/vitrine check
       - name: Build renders
         run: .venv/bin/vitrine build --out _site
       - name: Browser tests
-        run: .venv/bin/pytest tests/test_browser.py -v
+        run: .venv/bin/pytest tests/test_browser.py tests/test_display_layout.py -v
       - name: Render-coverage gate
         run: .venv/bin/vitrine check --against-build _site
       - name: Export surface (standalone CLI path)

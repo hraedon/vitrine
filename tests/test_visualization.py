@@ -19,7 +19,7 @@ from vitrine.loader import load_corpus
 from vitrine.model import Corpus, Panel, Room
 from vitrine.series import load_series
 from vitrine.site import curation, symbols
-from vitrine.site.curation.collections import EditorialStatus, editorial_choice
+from vitrine.site.curation.collections import HOUSE_ROOMS, EditorialStatus, editorial_choice
 from vitrine.site.projections.facts import GAP_PREFIX
 from vitrine.site.projections.rooms import atlas_matrix, project_lobby
 from vitrine.site.render import _build_stage, _index_facts, render_site
@@ -152,7 +152,9 @@ def test_index_matrix_counts_match_the_corpus(site: Path, corpus: Corpus) -> Non
     html = (site / "index.html").read_text()
     for row in rows:
         assert f'href="rooms/{row.slug}.html"' in html
-    assert f"US wing · {totals.facts} facts" in html
+    assert f'<b>{totals.facts - totals.gaps}</b> observations' in html
+    assert f'<dd>{totals.computed}</dd>' in html
+    assert "Observation counts exclude documented gaps" in html
 
 
 def test_lobby_distinguishes_full_collection_from_comparative_wing(
@@ -364,7 +366,8 @@ def test_every_room_opens_with_a_sourced_route_and_case_map(
                     or 'class="collection-intro"' in html)
             assert 'class="story-stop"' not in html
         else:
-            assert '<section class="room-overture"' in html
+            entrance = "house-experience" if room.slug in HOUSE_ROOMS else "room-overture"
+            assert f'<section class="{entrance}"' in html
             assert html.count('class="story-stop"') == 4
             for fact_id in story.fact_ids:
                 assert f'href="#{fact_id}--modal" data-fact-id="{fact_id}"' in html
@@ -434,8 +437,8 @@ def test_absent_technology_is_not_drawn(site: Path, corpus: Corpus) -> None:
                 assert drawn, f"{room.slug}: {artifact} has a fact but wasn't drawn"
 
 
-def test_world_room_stages_draw_their_own_facts(site: Path) -> None:
-    """Country-keyed stages: the UK and Japan draw stages from their own facts."""
+def test_world_room_illustrations_draw_their_own_facts(site: Path) -> None:
+    """Country-keyed galleries illustrate their own records and retain the rest."""
     uk = (site / "rooms" / "uk-1970s.html").read_text()
     assert 'data-fact-id="uk-1970s-telephone"' in uk
     assert 'data-fact-id="uk-1970s-tenure"' in uk
@@ -444,9 +447,11 @@ def test_world_room_stages_draw_their_own_facts(site: Path) -> None:
     assert 'data-fact-id="uk-1950s-television"' in uk50
     jp = (site / "rooms" / "jp-2000s.html").read_text()
     assert 'data-fact-id="jp-2000s-washing-machine"' in jp
-    assert 'data-fact-id="jp-2000s-floor-area"' not in jp  # scale, not a mark
-    # The FIES food share renders as the food zone note.
-    assert 'data-fact-id="jp-2000s-food-share"' in jp
+    assert 'data-fact-id="jp-2000s-floor-area"' not in jp  # not an object mark
+    # Food share remains a full record without implying a reconstructed kitchen.
+    assert 'id="jp-2000s-food-share"' in jp
+    assert 'id="jp-2000s-food-share--modal"' in jp
+    assert 'class="house"' not in jp
 
 
 def test_stage_for_uncurated_country_is_bare(corpus: Corpus) -> None:
@@ -817,13 +822,15 @@ def test_transport_note_is_right_anchored_inside_stage(site: Path) -> None:
 
 def test_sparse_japan_leads_with_observations_not_an_empty_house(site: Path) -> None:
     html = (site / "rooms/jp-1950s.html").read_text()
-    assert "2 observations · 5 documented gaps" in html
+    assert '<dt>Recorded observations</dt><dd>2</dd>' in html
+    assert '<dt>Calculated exhibits</dt><dd>0</dd>' in html
+    assert '<dt>Documented gaps</dt><dd>5</dd>' in html
     assert 'class="house"' not in html
     assert "The complete room" not in html
     assert html.index('id="jp-1950s-fies-workers-income"') < html.index(
         "What the collection cannot yet show"
     )
-    assert "not the absence of something from people's lives" in html
+    assert "A gap is an unanswered or unverified item, not a zero value" in html
     # Later Japan rooms still offer their local illustrated subjects.
     later = (site / "rooms/jp-2010s.html").read_text()
     assert 'class="artifact-grid"' in later

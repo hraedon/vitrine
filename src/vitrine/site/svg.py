@@ -68,7 +68,7 @@ class StageArtifact:
     href: str
     label: str
     value: str
-    quantity: float | None  # diffusion pct → opacity; None → dashed gap ring
+    quantity: float | None  # diffusion pct → opacity; None → nonnumeric record
     kind: str = "diffusion"  # "diffusion" (pct drives opacity) or "stat" (present, no pct)
 
 
@@ -869,8 +869,8 @@ def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
     """The paper house cutaway with the era-graded wash.
 
     The faint tint per decade is the mood channel (design-spec); glyph
-    opacity is the diffusion datum; a fact with no quantity keeps the dashed
-    gap ring. Every glyph links to its placard. When ``overlay_links`` is true
+    opacity is the diffusion datum; a selected fact with no quantity remains
+    a nonnumeric record. Every glyph links to its placard. When ``overlay_links`` is true
     the click target is the CSS-only popup layer (``#fact-id--modal``) rather
     than the room placard.
 
@@ -892,7 +892,7 @@ def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
 
     out = [
         '<svg class="house" viewBox="0 0 800 560" role="img" '
-        f"aria-label={quoteattr(f'Schematic cutaway of the composite home, {stage.decade}')}>"
+        f"aria-label={quoteattr(f'Illustrated index to home and equipment records, {stage.decade}')}>"
         "<defs>"
         f'<radialGradient id="stagelight" cx="50%" cy="16%" r="{max(rx, ry)}%">'
         f'<stop offset="0%" stop-color="{glow}"/>'
@@ -927,8 +927,8 @@ def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
             opacity, ring = 0.95, '<circle class="ring" r="17"/>'
             pct = ""
         elif a.quantity is None:
-            opacity, ring = 0.5, '<circle class="ring gapring" r="17"/>'
-            pct = '<text class="pct gap">gap</text>'
+            opacity, ring = 0.95, '<circle class="ring" r="17"/>'
+            pct = '<text class="pct">record</text>'
         else:
             opacity = tokens.glyph_opacity(a.quantity)
             ring = '<circle class="ring" r="17"/>'

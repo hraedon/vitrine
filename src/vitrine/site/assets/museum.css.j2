@@ -72,9 +72,11 @@ h2.case-title{font-family:{{ T.MONO }};font-size:12px;letter-spacing:.2em;text-t
 .wing-code{display:grid;place-items:center;width:48px;height:48px;border:1px solid {{ T.EDGE }};font:15px {{ T.MONO }};color:{{ T.BRASS }};flex:none}
 .wing-entry h3{font:600 24px {{ T.SERIF }};margin:0}
 .wing-entry p{font-size:12px;color:{{ T.INK_SOFT }};margin:3px 0 0}
-.wing-decades{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px}
-.wing-decades a{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:44px;padding:9px 11px;border:1px solid {{ T.EDGE }};font:15px {{ T.SERIF }};color:{{ T.INK }};text-decoration:none}
-.wing-decades a span{color:{{ T.BRASS }};font-family:{{ T.SANS }}}
+.wing-decades{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(118px,100%),1fr));gap:8px}
+.wing-decades a{display:grid;grid-template-rows:auto 1fr;align-content:start;gap:5px;min-width:0;min-height:62px;padding:10px 11px;border:1px solid {{ T.EDGE }};font:16px {{ T.SERIF }};color:{{ T.INK }};text-decoration:none}
+.wing-decades .decade-name{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.wing-decades .decade-name>span{color:{{ T.BRASS }};font-family:{{ T.SANS }}}
+.wing-entry .wing-reading-note{margin:0 0 18px;max-width:70ch;font-size:13px}
 .wing-decades a:hover{border-color:{{ T.BRASS }};background:{{ T.CASE_2 }};color:{{ T.BRASS }}}
 .matrix-hint{font-size:12px;color:{{ T.INK_SOFT }}}
 .matrix-wrap:focus-visible{outline:2px solid {{ T.BRASS_LIT }};outline-offset:3px}
@@ -92,21 +94,30 @@ h2.case-title{font-family:{{ T.MONO }};font-size:12px;letter-spacing:.2em;text-t
 /* ── the record at a glance (corpus matrix) ── */
 .matrix-wrap{overflow-x:auto;border:1px solid {{ T.EDGE }};border-radius:3px;background:{{ T.CASE }};margin:10px 0 26px}
 table.record-matrix{border-collapse:collapse;width:100%;min-width:760px}
+.record-matrix caption{text-align:left;padding:14px;font-size:12px;line-height:1.6;color:{{ T.INK_SOFT }}}
 .record-matrix th,.record-matrix td{border-bottom:1px solid {{ T.EDGE }};padding:9px 10px;text-align:left;vertical-align:middle}
 .record-matrix thead th{font:600 10px {{ T.MONO }};letter-spacing:.12em;text-transform:uppercase;color:{{ T.BRASS }};border-bottom:2px solid {{ T.INK }};background:{{ T.CASE_2 }}}
 .record-matrix th[scope="row"]{font:600 14px {{ T.SERIF }};white-space:nowrap}
 .record-matrix th[scope="row"] a{color:{{ T.INK }};text-decoration:none}
 .record-matrix th[scope="row"] a:hover{color:{{ T.BRASS }}}
 .record-matrix tbody tr:hover td{background:{{ T.CASE_2 }}}
-.record-matrix tfoot td{font:600 11px {{ T.MONO }};letter-spacing:.05em;border-bottom:0;border-top:2px solid {{ T.INK }};background:{{ T.CASE_2 }}}
+.record-matrix tfoot td,.record-matrix tfoot th{font:600 11px {{ T.SANS }};border-bottom:0;border-top:2px solid {{ T.INK }};background:{{ T.CASE_2 }}}
 .mx{display:block;text-decoration:none;color:inherit}
-.mx .cnt{font:600 14px {{ T.SANS }};font-variant-numeric:tabular-nums;color:{{ T.INK }}}
-.mx .comp{font:11px {{ T.MONO }};color:{{ T.INK_SOFT }}}
-.mx.empty .cnt{color:{{ T.GAP }};font-weight:400}
-.mix{display:flex;height:4px;margin:4px 0 3px;background:#e7decb;border-radius:2px;overflow:hidden}
-.mix i{display:block;height:100%}
-.mx-gap{font:10.5px {{ T.MONO }};color:{{ T.COPPER_DEEP }}}
-.matrix-note{font-size:12.5px;color:{{ T.INK_SOFT }};margin:-16px 0 30px;max-width:78ch}
+.research-inventory{margin-top:44px;padding-top:4px;border-top:3px double {{ T.EDGE }}}
+.inventory-totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:18px;margin:22px 0 16px;padding:22px;background:{{ T.CASE }};border:1px solid {{ T.EDGE }}}
+.inventory-totals div{display:flex;flex-direction:column-reverse;gap:6px}
+.inventory-totals dt{font-size:12px;color:{{ T.INK_SOFT }}}
+.inventory-totals dd{margin:0;font:600 32px {{ T.SERIF }};font-variant-numeric:tabular-nums}
+.inventory-explanation{max-width:86ch;font-size:13px;line-height:1.75;color:{{ T.INK_SOFT }}}
+.inventory-disclosure{border-top:1px solid {{ T.EDGE }};border-bottom:1px solid {{ T.EDGE }};margin:22px 0 16px}
+.inventory-disclosure>summary{padding:15px 0;cursor:pointer;font-size:14px;color:{{ T.BRASS }}}
+.inventory-count{display:block;font-size:11px;line-height:1.7;white-space:nowrap}
+.inventory-count b{font-size:14px;font-variant-numeric:tabular-nums}
+.inventory-calculation{color:{{ T.INK_SOFT }}}
+.inventory-gap{color:{{ T.COPPER_DEEP }}}
+.inventory-source-link{font-size:13px}
+.record-matrix .mx{padding:3px 0}
+.record-matrix .mx.empty{font-size:11px;color:{{ T.INK_SOFT }}}
 
 /* ── the shelf ruler (decade navigation) ── */
 .room-map{margin:26px 0 18px;padding:12px 14px 9px;border:1px solid {{ T.EDGE }};border-radius:3px;background:{{ T.CASE }};overflow:hidden}
@@ -114,9 +125,9 @@ table.record-matrix{border-collapse:collapse;width:100%;min-width:760px}
 .room-map-context span{color:{{ T.INK_SOFT }};text-align:center}
 .room-map-context a{text-decoration:none;color:{{ T.BRASS }};white-space:nowrap}
 .room-map-context a:last-child{text-align:right}
-.room-track{position:relative;display:grid;grid-template-columns:repeat(var(--room-count),minmax(52px,1fr));gap:0;list-style:none;margin:0;padding:0;overflow-x:auto;scrollbar-color:{{ T.BRASS_DIM }} {{ T.CASE }};scroll-snap-type:x proximity}
+.room-track{position:relative;display:flex;gap:0;list-style:none;margin:0;padding:0;overflow-x:auto;scrollbar-color:{{ T.BRASS_DIM }} {{ T.CASE }};scroll-snap-type:x proximity}
 .room-track::before{content:"";position:absolute;top:8px;left:4%;right:4%;height:1px;background:{{ T.EDGE }}}
-.room-track li{position:relative;z-index:1;text-align:center;scroll-snap-align:center}
+.room-track li{flex:1 0 62px;min-width:62px;position:relative;z-index:1;text-align:center;scroll-snap-align:center}
 .room-track a{display:flex;flex-direction:column;align-items:center;gap:5px;padding:2px 5px 4px;color:{{ T.INK_SOFT }};font:10px {{ T.MONO }};text-decoration:none}
 .room-track i{width:13px;height:13px;border:3px solid {{ T.CASE }};border-radius:50%;background:{{ T.EDGE }};box-shadow:0 0 0 1px #c4b797}
 .room-track a:hover{color:{{ T.INK }}}
@@ -494,7 +505,7 @@ footer.colophon b{color:{{ T.INK }}}
 /* Editorial status describes a reviewed route, independently of source tiers. */
 .editorial-status{margin:24px 0;border-left:2px solid {{ T.EDGE }};padding:0 20px;max-width:88ch}
 .editorial-status p{line-height:1.7}
-.wing-decades a small{display:block;font-size:10px;font-weight:400;margin-top:5px;color:{{ T.INK_SOFT }}}
+.wing-decades a small{display:block;min-width:0;font:10px/1.4 {{ T.SANS }};overflow-wrap:anywhere;color:{{ T.INK_SOFT }}}
 .wing-feature{display:grid;gap:8px;padding:20px;margin:20px 0;background:{{ T.CASE }};border-left:3px solid {{ T.BRASS }};text-decoration:none}
 .wing-feature b{font-family:{{ T.SERIF }};font-size:26px;font-weight:400}
 .wing-feature span{font-size:13px;line-height:1.5}
@@ -555,3 +566,47 @@ footer.colophon b{color:{{ T.INK }}}
   .observation-card{padding:18px}.observation-link{gap:12px}
   .observation-value{font-size:26px}.observation-link .artifact-image{flex-basis:58px;height:70px}
 }
+
+/* Plan 030: the exhibit leads; curation mechanics and record inventories follow. */
+.room-heading{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-top:22px}
+.room-heading h1{margin:0;font-size:clamp(36px,5vw,60px)}
+.room-heading .eyebrow{margin:0 0 8px}
+.evidence-jump{font:13px {{ T.SANS }};padding:12px 0;white-space:nowrap}
+.room-map{margin:18px 0 24px;padding:10px 14px 6px}
+.room-track a{min-height:38px;justify-content:center}
+.house-experience{margin:24px 0}
+.house-heading{display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:28px;margin-bottom:12px}
+.house-heading h2{font:600 34px {{ T.SERIF }};margin:4px 0}
+.house-heading p{margin:0;font-size:13px;line-height:1.6;color:{{ T.INK_SOFT }}}
+.house-layout{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(260px,1fr);gap:22px;align-items:start}
+.house-figure{margin:0;min-width:0}
+.house-figure .stage{padding:0;overflow:hidden}
+.house-figure .house{display:block;width:100%;height:auto;max-width:100%}
+.house-object-links{display:none}
+.house-figure figcaption{font:12px/1.6 {{ T.SANS }};color:{{ T.INK_SOFT }};padding:10px 4px}
+.house-highlights{background:{{ T.CASE }};border-top:3px solid {{ T.BRASS }};min-width:0;padding:20px 0 0}
+.house-highlights>p,.house-highlights>h3{margin-left:18px;margin-right:18px}
+.house-highlights h3{font:600 25px {{ T.SERIF }};margin-top:6px;margin-bottom:8px}
+.house-highlights .story-question{font:13px/1.6 {{ T.SANS }};color:{{ T.INK_SOFT }}}
+.house-highlights .story-stop{grid-template-columns:minmax(0,1fr) auto;padding:12px 18px;gap:5px 10px;border-left:0}
+.house-highlights .stop-meta{grid-column:1/-1;font-size:9px}
+.house-highlights .stop-main{min-width:0}
+.house-highlights .stop-value{font-size:23px;overflow-wrap:anywhere}
+.house-highlights .stop-label{font-size:12px;line-height:1.5}
+.curation-note{font:12px/1.6 {{ T.SANS }};color:{{ T.INK_SOFT }};margin:12px 0 24px}
+.curation-note summary{cursor:pointer;padding:10px 0}
+.curation-note p{max-width:85ch}
+.object-catalogue{border:1px solid {{ T.EDGE }};background:{{ T.CASE }};padding:0 20px;margin:20px 0}
+.object-catalogue>summary{cursor:pointer;padding:18px 0;font:600 20px {{ T.SERIF }}}
+.object-catalogue>summary span{display:block;font:12px {{ T.SANS }};color:{{ T.INK_SOFT }};margin:6px 0 0 18px}
+.object-catalogue .artifact-collection{margin:0 0 20px}
+.object-catalogue .collection-head{margin-top:14px}
+.evidence-counts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:{{ T.EDGE }};border:1px solid {{ T.EDGE }};margin:18px 0 10px}
+.evidence-counts>div{display:flex;flex-direction:column-reverse;gap:5px;background:{{ T.CASE }};padding:14px 18px;min-width:0}
+.evidence-counts dt{font:12px/1.4 {{ T.SANS }};color:{{ T.INK_SOFT }}}
+.evidence-counts dd{font:600 28px {{ T.SERIF }};margin:0;color:{{ T.INK }}}
+.count-explanation{font:12px/1.6 {{ T.SANS }};color:{{ T.INK_SOFT }};max-width:90ch;margin:8px 0 20px}
+#collection-records,.panel-group{scroll-margin-top:85px}
+@media(max-width:900px){.house-layout{grid-template-columns:1fr}.house-highlights .story-trail{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:1fr}.house-highlights .story-stop{border:1px solid {{ T.EDGE }}}}
+@media(max-width:560px){.room-heading{display:block}.evidence-jump{display:inline-block}.house-heading{grid-template-columns:1fr;gap:8px}.house-heading h2{font-size:29px}.house-figure .stage svg.house{width:100%;max-width:100%}.house-highlights .story-trail{grid-template-columns:1fr}.house-figure .house .zlabel,.house-figure .house .znote,.house-figure .house .pct{display:none}.evidence-counts>div{padding:12px 8px}.object-catalogue{padding:0 12px}}
+@media(max-width:560px){.house-object-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:8px}.house-object-links a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:8px 10px;border:1px solid {{ T.EDGE }};background:{{ T.CASE }};font:12px/1.4 {{ T.SANS }};overflow-wrap:anywhere;text-decoration:none}}

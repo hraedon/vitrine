@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026-09-07 — House-led rooms and clearer collection inventories
+
+Selected US rooms now open with the illustrated house and source-linked
+highlights. Sparse collections retain focused entrances, with Japan organised
+by theme. The complete records follow the exhibit; observation, calculation
+and gap counts are explicitly separated. Lobby decade labels fit their tiles,
+and the room selector stays in a compact horizontal row on every screen.
+
+Production's response policy had blocked inline layout and visual attributes
+that local tests allowed. Browser tests now enforce the deployed policy and
+inspect actual component geometry. Plan 030 records the redesign and checks.
+Source data and the 97-field audit coverage are unchanged.
+Qualification passed 603 tests, including 70 browser checks under the production
+response policy, plus typing, lint and all 753 rendered-exhibit checks.
+
 ## 2026-09-07 — Calculations, Japan's thematic entrance, and editorial review
 
 Japan now has a focused collection organised around household budgets,

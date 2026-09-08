@@ -417,6 +417,7 @@ class RoomPage:
     editorial: EditorialChoice
     artifacts: tuple[StageArtifact, ...]
     artifact_notes: tuple[ZoneNote, ...]
+    house_supported: bool
 
 
 @dataclass(frozen=True, slots=True)

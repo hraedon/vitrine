@@ -19,10 +19,12 @@ from __future__ import annotations
 
 import functools
 import http.server
+import re
 import socketserver
 import threading
 from collections.abc import Iterator
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -30,6 +32,20 @@ playwright = pytest.importorskip("playwright")
 from playwright.sync_api import Browser, Page, expect  # noqa: E402
 
 DATA = Path(__file__).parent.parent / "data"
+DEPLOY_CONFIG = DATA.parent / "deploy" / "nginx.conf"
+
+
+def _production_headers() -> dict[str, str]:
+    """Use the deployed literal headers, so local rendering exercises its CSP."""
+    declarations = re.findall(
+        r'^\s*add_header\s+([\w-]+)\s+"([^"\n]*)"\s+always;',
+        DEPLOY_CONFIG.read_text(),
+        re.MULTILINE,
+    )
+    headers = dict(declarations)
+    assert "Content-Security-Policy" in headers
+    assert len(headers) == len(declarations), "duplicate server headers need explicit handling"
+    return headers
 
 # Fact IDs verified present in the built site.
 FACT_TV = "us-1950s-tv-diffusion"
@@ -54,6 +70,12 @@ VIEWPORTS = [
 # ── Fixtures ─────────────────────────────────────────────────────────────────
 
 
+@pytest.fixture(scope="session")
+def browser_context_args(browser_context_args: dict[str, Any]) -> dict[str, Any]:
+    """The browser must enforce the same policy visitors receive."""
+    return {**browser_context_args, "bypass_csp": False}
+
+
 @pytest.fixture(scope="module")
 def site_dir(tmp_path_factory: pytest.TempPathFactory) -> Path:
     from vitrine.loader import load_corpus
@@ -67,9 +89,17 @@ def site_dir(tmp_path_factory: pytest.TempPathFactory) -> Path:
 
 @pytest.fixture(scope="module")
 def server_url(site_dir: Path) -> Iterator[str]:
-    """Serve the built site over local HTTP (plan requirement: not file://)."""
+    """Serve the built site with the exact production response headers."""
+    production_headers = _production_headers()
+
+    class ProductionHandler(http.server.SimpleHTTPRequestHandler):
+        def end_headers(self) -> None:
+            for name, value in production_headers.items():
+                self.send_header(name, value)
+            super().end_headers()
+
     handler = functools.partial(
-        http.server.SimpleHTTPRequestHandler, directory=str(site_dir)
+        ProductionHandler, directory=str(site_dir)
     )
     with socketserver.TCPServer(("127.0.0.1", 0), handler) as httpd:
         port = httpd.server_address[1]
@@ -82,13 +112,60 @@ def server_url(site_dir: Path) -> Iterator[str]:
 @pytest.fixture
 def nojs_page(browser: Browser) -> Iterator[Page]:
     """A fresh page with JavaScript disabled (CSS-only :target fallback)."""
-    context = browser.new_context(java_script_enabled=False)
+    context = browser.new_context(java_script_enabled=False, bypass_csp=False)
     page = context.new_page()
     yield page
     context.close()
 
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
+
+
+def test_deployed_policy_keeps_generated_styles_legible(page: Page, server_url: str) -> None:
+    """Tier colors and SVG alignment must work under the served policy."""
+    response = page.goto(server_url + "rooms/us-1980s.html")
+    assert response is not None
+    assert response.headers["content-security-policy"] == _production_headers()[
+        "Content-Security-Policy"
+    ]
+    chip = page.locator('.tchip[style]').first
+    assert chip.count() == 1
+    assert chip.evaluate("el => getComputedStyle(el).backgroundColor") == chip.evaluate(
+        "el => el.style.backgroundColor"
+    )
+    assert chip.evaluate("el => getComputedStyle(el).backgroundColor") != "rgba(0, 0, 0, 0)"
+    right_aligned_note = page.locator('svg .znote[style*="text-anchor:end"]').first
+    assert right_aligned_note.count() == 1
+    assert right_aligned_note.evaluate("el => getComputedStyle(el).textAnchor") == "end"
+
+
+def test_deployed_policy_allows_attributes_without_inline_elements(
+    page: Page, server_url: str,
+) -> None:
+    """The style-attribute exception must not become an inline-code exception."""
+    page.goto(server_url + LOBBY)
+    result = page.evaluate("""() => {
+        const probe = document.createElement('span');
+        probe.id = 'policy-probe';
+        probe.textContent = 'Policy rendering check';
+        probe.setAttribute('style', 'color: rgb(1, 2, 3)');
+        document.body.append(probe);
+        const sheet = document.createElement('style');
+        sheet.textContent = '#policy-probe { color: rgb(4, 5, 6) !important; }';
+        document.head.append(sheet);
+        const script = document.createElement('script');
+        script.textContent = "document.documentElement.dataset.policyProbe = 'ran'";
+        document.head.append(script);
+        const result = {
+            color: getComputedStyle(probe).color,
+            scriptRan: document.documentElement.dataset.policyProbe === 'ran'
+        };
+        probe.remove();
+        sheet.remove();
+        script.remove();
+        return result;
+    }""")
+    assert result == {"color": "rgb(1, 2, 3)", "scriptRan": False}
 
 
 @pytest.mark.parametrize("width,height", VIEWPORTS)
@@ -530,6 +607,7 @@ def test_research_collections_fit_viewport(page: Page, server_url: str,
 
 def test_artifact_card_opens_source_without_javascript(nojs_page: Page, server_url: str) -> None:
     nojs_page.goto(server_url + ROOM_1950S)
+    nojs_page.locator(".object-catalogue > summary").click()
     nojs_page.locator(f'.artifact-card[href="#{MODAL_TV}"]').click()
     expect(nojs_page.locator(f'#{MODAL_TV}')).to_be_visible()
 

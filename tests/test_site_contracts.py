@@ -157,18 +157,18 @@ def _page(
 EXPECTED: dict[str, PageContract] = {
     "index.html": _page(
         'vitrine — everyday life across time',
-        landmarks=(1, 4, 1, 4, 1), disclosures=(0, 0),
+        landmarks=(1, 4, 1, 5, 1), disclosures=(1, 0),
         local=(119, '86f41899ac4f'), marks=(0, 'e3b0c44298fc'), overlays=0,
     ),
     "rooms/us-1950s.html": _page(
         'US · 1950s — vitrine',
-        landmarks=(1, 3, 1, 8, 1), disclosures=(94, 0),
-        local=(87, 'e5ebfb10835c'), marks=(10, '1ef9c695b820'), overlays=45,
+        landmarks=(1, 3, 1, 8, 1), disclosures=(95, 0),
+        local=(88, 'ae3d6d38f3ff'), marks=(8, '039d00bafc61'), overlays=45,
     ),
     "rooms/us-1910s.html": _page(
         'US · 1910s — vitrine',
-        landmarks=(1, 3, 1, 8, 1), disclosures=(40, 0),
-        local=(54, '1f3a7ac6bf66'), marks=(3, 'c7ef52c43fee'), overlays=20,
+        landmarks=(1, 3, 1, 8, 1), disclosures=(41, 0),
+        local=(56, '44f3b3edf0fb'), marks=(3, 'c7ef52c43fee'), overlays=20,
     ),
     "corridors/index.html": _page(
         'corridors — vitrine',

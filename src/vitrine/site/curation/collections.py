@@ -76,8 +76,16 @@ def editorial_choice(slug: str) -> EditorialChoice:
     return ROOM_EDITORIAL.get(slug, RESEARCH_DEFAULT)
 
 
-# Only the primary object gallery is filtered. Full records, their source
-# cards, the optional schematic and separately declared comparisons survive.
+# An illustrated index requires a reviewed selection of home/equipment records.
+# This is an explicit presentation choice, never a count-based quality score.
+HOUSE_ROOMS = frozenset({
+    "us-1900s", "us-1950s", "us-1960s", "us-1970s", "us-1980s",
+    "us-1990s", "us-2000s", "us-2010s", "us-2020s",
+})
+
+
+# Primary object galleries and room houses are filtered. Full records, their
+# source cards and separately declared comparisons survive.
 # Reconsider each exclusion after the compound record is split and qualified.
 PRIMARY_OBJECT_EXCLUSIONS: dict[str, dict[str, str]] = {
     "us-1950s": {

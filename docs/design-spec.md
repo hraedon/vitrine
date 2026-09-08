@@ -139,15 +139,31 @@ structure in quiet `#61798a`, gaps dashed in `#6e6a5e`.
 
 ## Page dramaturgy
 
-Every decade room still opens with the curator's route — an editorial question
-and four sourced exhibits, mechanically provenance-bound (exactly four
-distinct in-room facts; the renderer fails on borrowing). The route renders as
-a ruled marginalia list above the cutaway. Below it the room is a ledger: six
-panel sections of fact rows, each row leading with the observed value and
-carrying the evidence hierarchy — tier, measured population, source record —
-in the same scan, with the full drawer one disclosure away and the overlay
-record card one click away. Derived exhibits wear their computed mantle and
-their weakest-input tier before their inputs.
+Plan 030 makes the exhibit the entrance and the inventory a second layer.
+The US rooms explicitly selected in `HOUSE_ROOMS` open with a source-linked
+house and four sourced highlights beside it. The house is an illustrated
+index with fixed geometry, not a measured floor plan or reconstructed family.
+Primary object exclusions apply to both the house and its labelled object
+list; excluded records remain in the complete inventory and source cards.
+Sparse collections use selected observations or a compact research entrance.
+Japan's thematic collection remains its principal entrance.
+
+The decade selector is one horizontal row, with contained scrolling on small
+screens. Editorial status explains the selection in a disclosure; the full
+composite-family disclaimer remains visible. Source-linked highlights still
+resolve to exactly four distinct in-room facts where a route is curated.
+
+Below the exhibit, three counters separate recorded observations, calculated
+exhibits, and documented gaps. Counts describe collection entries, not people
+or households, and gaps are never zero values. Six topic links lead to the
+complete record panels, each row showing its value, evidence tier, measured
+population, and source. The full drawer is one disclosure away and the source
+card one click away. Calculations identify their inputs and weakest-input tier.
+The lobby's detailed US inventory is likewise a second layer, with explicit
+count labels in every cell and footer. Country collections stay separate.
+
+Browser qualification uses production response headers and checks component
+geometry at phone and desktop widths; see `production-layout-policy.md`.
 
 Docent tours (Plan 016) render as narrow reading columns: prose blocks with an
 accent rule, every interpolated figure an inline chip (petrol value, tier
