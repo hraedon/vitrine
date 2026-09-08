@@ -4,6 +4,8 @@ import pytest
 import test_browser as browser_tests
 from playwright.sync_api import Page, expect
 
+from vitrine.site.curation.collections import HOUSE_ROOMS
+
 browser_context_args = browser_tests.browser_context_args
 nojs_page = browser_tests.nojs_page
 server_url = browser_tests.server_url
@@ -108,3 +110,61 @@ def test_tablet_highlights_have_no_empty_grid_rows(page: Page, server_url: str) 
     trail = page.locator(".house-highlights .story-trail").bounding_box()
     last = page.locator(".house-highlights .story-stop").last.bounding_box()
     assert abs(trail["y"] + trail["height"] - last["y"] - last["height"]) < 2
+
+
+@pytest.mark.parametrize("width", [375, 768, 1280])
+def test_house_objects_and_captions_clear_each_other_and_the_structure(
+    page: Page, server_url: str, width: int,
+) -> None:
+    page.set_viewport_size({"width": width, "height": 900})
+    for path in [*(f"rooms/{slug}.html" for slug in sorted(HOUSE_ROOMS)), "walkthrough.html"]:
+        page.goto(server_url + path)
+        problems = page.locator("svg.house").evaluate_all("""houses => houses.flatMap(svg => {
+          const issues = [], scale = svg.getBoundingClientRect().width / 800;
+          const point = (x,y) => new DOMPoint(x,y).matrixTransform(svg.getScreenCTM());
+          const segments = [];
+          for (const el of svg.querySelectorAll('.structure > *, .groundline')) {
+            let points;
+            if (el.tagName === 'polygon') points = Array.from(el.points, p => point(p.x,p.y));
+            else if (el.tagName === 'rect') {
+              const b = el.getBBox();
+              points = [[b.x,b.y],[b.x+b.width,b.y],[b.x+b.width,b.y+b.height],
+                [b.x,b.y+b.height]].map(([x,y]) => point(x,y));
+            } else {
+              segments.push([point(el.x1.baseVal.value,el.y1.baseVal.value),
+                point(el.x2.baseVal.value,el.y2.baseVal.value)]); continue;
+            }
+            points.forEach((p,i) => segments.push([p,points[(i+1)%points.length]]));
+          }
+          const distance = (p,a,b) => {
+            const dx=b.x-a.x, dy=b.y-a.y;
+            const t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/(dx*dx+dy*dy)));
+            return Math.hypot(p.x-a.x-t*dx,p.y-a.y-t*dy);
+          };
+          const overlaps = (a,b) => a.left < b.right && a.right > b.left &&
+            a.top < b.bottom && a.bottom > b.top;
+          const objects = [...svg.querySelectorAll('.hs')];
+          const notes = [...svg.querySelectorAll('.znote,.zlabel')]
+            .map(n=>n.getBoundingClientRect());
+          objects.forEach((el,i) => {
+            const id=el.dataset.factId, box=el.getBoundingClientRect();
+            const ring=el.querySelector('.ring').getBoundingClientRect();
+            const center={x:ring.x+ring.width/2,y:ring.y+ring.height/2};
+            for (const [a,b] of segments) {
+              if (distance(center,a,b)-ring.width/2 < 8*scale-0.2)
+                issues.push(id+' circle near wall');
+              const label=el.querySelector('.pct');
+              if (label && getComputedStyle(label).display !== 'none') {
+                const r=label.getBoundingClientRect();
+                const corners=[[r.left,r.top],[r.right,r.top],[r.left,r.bottom],[r.right,r.bottom]];
+                if (corners.some(([x,y]) => distance({x,y},a,b) < 8*scale-0.2))
+                  issues.push(id+' caption near wall');
+              }
+            }
+            for (const other of objects.slice(i+1))
+              if (overlaps(box,other.getBoundingClientRect())) issues.push(id+' overlaps object');
+            if (notes.some(note => overlaps(box,note))) issues.push(id+' overlaps annotation');
+          });
+          return issues;
+        })""")
+        assert not problems, (path, width, problems)

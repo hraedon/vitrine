@@ -819,28 +819,24 @@ def hours_meter(
 # semantic zone, spaced on a loose grid to avoid overlap.
 STAGE_POS: dict[str, tuple[int, int]] = {
     "tenure": (400, 140),
-    "rooms": (490, 250),
-    "electricity": (240, 215),
-    "radio": (200, 275),
-    "television": (300, 275),
-    "telephone": (350, 240),
-    # Keep the ring below the food-share annotation instead of touching its
-    # baseline; the percentage still clears the ground line.
-    "refrigerator": (200, 380),
-    "food": (300, 395),
-    "plumbing": (460, 365),
-    "heating": (560, 395),
-    "air-conditioning": (600, 210),
-    # Cable belongs with communications in the rooms zone. Its old y=330
-    # position put it below the floor line, directly on the health annotation.
-    "cable": (490, 250),
-    "computer": (530, 275),
-    # Leave enough room for the percentage/gap label below the ring; y=290
-    # made that label straddle the horizontal room divider.
-    "internet": (600, 260),
-    "automobile": (620, 405),
-    "washing-machine": (350, 365),
-    "stove": (350, 395),
+    "rooms": (436, 255),
+    # Reserve space above each row for room names and budget annotations.
+    # Both the enlarged circles and their captions must clear the floor.
+    "electricity": (190, 255),
+    "radio": (248, 255),
+    "television": (306, 255),
+    "telephone": (364, 255),
+    "refrigerator": (190, 395),
+    "food": (248, 395),
+    "plumbing": (450, 395),
+    "heating": (526, 395),
+    "air-conditioning": (610, 255),
+    "cable": (436, 255),
+    "computer": (494, 255),
+    "internet": (552, 255),
+    "automobile": (602, 395),
+    "washing-machine": (306, 395),
+    "stove": (364, 395),
 }
 
 
@@ -902,12 +898,12 @@ def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
         '<rect x="0" y="0" width="800" height="560" fill="url(#stagelight)"/>'
         '<g class="structure">'
         f'<polygon points="{sx(120):.0f},{sy(182):.0f} {sx(400):.0f},{sy(90):.0f} {sx(680):.0f},{sy(182):.0f}"/>'
-        f'<rect x="{sx(150):.0f}" y="{sy(182):.0f}" width="{500*s:.0f}" height="{248*s:.0f}"/>'
-        f'<line x1="{sx(400):.0f}" y1="{sy(182):.0f}" x2="{sx(400):.0f}" y2="{sy(430):.0f}"/>'
+        f'<rect x="{sx(150):.0f}" y="{sy(182):.0f}" width="{500*s:.0f}" height="{274*s:.0f}"/>'
+        f'<line x1="{sx(400):.0f}" y1="{sy(182):.0f}" x2="{sx(400):.0f}" y2="{sy(456):.0f}"/>'
         f'<line x1="{sx(150):.0f}" y1="{sy(306):.0f}" x2="{sx(650):.0f}" y2="{sy(306):.0f}"/>'
         f'<rect x="{sx(452):.0f}" y="{sy(122):.0f}" width="{34*s:.0f}" height="{60*s:.0f}"/>'
         "</g>"
-        f'<line class="groundline" x1="{sx(80):.0f}" y1="{sy(430):.0f}" x2="{sx(720):.0f}" y2="{sy(430):.0f}"/>'
+        f'<line class="groundline" x1="{sx(80):.0f}" y1="{sy(456):.0f}" x2="{sx(720):.0f}" y2="{sy(456):.0f}"/>'
         f'<text class="zlabel" x="{sx(172):.0f}" y="{sy(202):.0f}">parlor</text>'
         f'<text class="zlabel" x="{sx(470):.0f}" y="{sy(202):.0f}">rooms</text>'
         f'<text class="zlabel" x="{sx(172):.0f}" y="{sy(326):.0f}">kitchen</text>'
@@ -924,19 +920,19 @@ def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
     for a in stage.artifacts:
         ax, ay = sx(a.x), sy(a.y)
         if a.kind == "stat":
-            opacity, ring = 0.95, '<circle class="ring" r="17"/>'
+            opacity, ring = 0.95, '<circle class="ring" r="26"/>'
             pct = ""
         elif a.quantity is None:
-            opacity, ring = 0.95, '<circle class="ring" r="17"/>'
+            opacity, ring = 0.95, '<circle class="ring" r="26"/>'
             pct = '<text class="pct">record</text>'
         else:
             opacity = tokens.glyph_opacity(a.quantity)
-            ring = '<circle class="ring" r="17"/>'
+            ring = '<circle class="ring" r="26"/>'
             pct = f'<text class="pct">{_fmt(a.quantity)}%</text>'
         # invisible hitbox covers the ring and the glyph bounding box so the
         # whole artifact area is clickable, not just the drawn strokes
         hitbox = (
-            '<rect x="-18" y="-18" width="36" height="36" fill="transparent" '
+            '<rect x="-28" y="-28" width="56" height="56" fill="transparent" '
             'stroke="none"/>'
         )
         href = f"#{a.fact_id}--modal" if overlay_links else a.href
@@ -947,7 +943,7 @@ def stage_svg(stage: Stage, overlay_links: bool = False) -> str:
             f"<title>{escape(a.label)}: {escape(a.value)}</title>"
             f"{hitbox}{ring}"
             f'<g class="glyphwrap" style="opacity:{opacity:.2f}">{a.glyph_svg}</g>'
-            f'<g transform="translate(0,30)">{pct}</g>'
+            f'<g transform="translate(0,39)">{pct}</g>'
             "</g></a>"
         )
     out.append("</svg>")

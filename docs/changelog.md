@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-09-07 — More room around house glyphs
+
+House circles are larger, with padding around their illustrations and larger
+click targets. Re-spaced object rows and a deeper lower floor keep circles and
+percentage labels clear of walls, room boundaries, budget notes and each other.
+Geometry checks cover every supported house and the walkthrough at phone,
+tablet and desktop widths.
+
 ## 2026-09-07 — House-led rooms and clearer collection inventories
 
 Selected US rooms now open with the illustrated house and source-linked

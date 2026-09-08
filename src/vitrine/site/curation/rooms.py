@@ -287,13 +287,11 @@ ROOM_GAP_BANNERS: dict[str, str] = {
 # zone-note anchor positions on the cutaway, per palette slot
 ZONE_NOTE_POS: dict[str, tuple[int, int]] = {
     "housing": (172, 218),
-    # End before the air-conditioning ring at x=600.
+    # Keep annotations above the enlarged object circles.
     "apparel": (440, 218),
     "food": (172, 342),
-    # Start to the right of the plumbing ring at x=460.
+    # Health and transport occupy separate lines above the lower object row.
     "health": (520, 342),
-    # The automobile sits at (620, 405); keep its budget annotation above the
-    # mark rather than running through its ring and percentage label.
     "transport": (620, 360),
 }
 

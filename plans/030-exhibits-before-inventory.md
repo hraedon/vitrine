@@ -59,3 +59,14 @@ tablet grid rows. Desktop house and inventory views were inspected visually.
 Ruff, strict typing, provenance, all 753 rendered-exhibit checks, and standalone
 export passed. The source data and existing 97-field archive audit remain
 unchanged. The staged identifier gate passed with the operator's shared list.
+
+## Follow-up — circle and boundary spacing
+
+Enlarged the house circles from radius 17 to 26, retaining the existing glyph
+size to add internal padding. Click targets grow with the circles. Object rows,
+caption offsets and the lower floor now reserve space for the complete mark,
+including its label, rather than just its centre. Geometry regression checks
+cover all nine house rooms and the walkthrough at 375, 768 and 1280px widths:
+circles and captions clear structural lines, and objects do not overlap each
+other or their annotations. The 1950s and denser 1980s layouts were visually
+reviewed; data and source bindings are unchanged.
