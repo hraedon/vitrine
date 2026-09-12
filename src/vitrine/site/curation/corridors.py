@@ -765,7 +765,7 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
         title="The past was a different country",
         question="What changed in consumption, risk, and the food supply?",
         introduction=(
-            "These US records describe different populations: adults, "
+            "These US records describe different populations: children, adults, "
             "workers, road users, and the national food supply. They show "
             "changes in particular measures, not the biography of one "
             "family. A consumption rate does not establish what everyone "
@@ -780,6 +780,7 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
             "traffic-death-rate",
             "workplace-death-rate",
             "teen-birth-rate",
+            "blood-lead-median",
             "exotic-turned-ordinary",
         ),
     ),

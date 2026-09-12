@@ -626,3 +626,66 @@ def test_japan_collection_observations_work_without_javascript(
     record.locator(".observation-link").click()
     expect(nojs_page.locator(f"#{fact_id}--modal")).to_be_visible()
     assert nojs_page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
+
+
+@pytest.mark.parametrize("width,height", VIEWPORTS)
+def test_lead_checkpoint_periods_fit_and_open_their_sources(
+    page: Page, server_url: str, width: int, height: int,
+) -> None:
+    """Full sampling periods survive the chart's scrolling mobile presentation."""
+    page.set_viewport_size({"width": width, "height": height})
+    page.goto(server_url + CORRIDORS)
+    exhibit = page.locator("#blood-lead-median")
+    exhibit.locator("summary").click()
+    chart = exhibit.locator("svg.checkpoint-chart")
+    expect(chart).to_be_visible()
+    assert chart.locator(".unit").evaluate(
+        "label => getComputedStyle(label).textTransform"
+    ) == "none"  # Uppercasing the micro sign visually changes the axis unit.
+    assert page.evaluate(
+        "document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1"
+    )
+    assert chart.locator(".xlab").all_text_contents() == [
+        "1976–1980", "1988–1994", "1999–2002", "2003–2006", "2007–2010",
+        "2013–2016", "2017–March 2020",
+    ]
+    # Check real font geometry, not just the presence of the period strings.
+    assert chart.evaluate("""svg => {
+        const label = svg.querySelector('.xlab');
+        const scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+        return parseFloat(getComputedStyle(label).fontSize) * scale >= 12;
+    }""")
+    assert chart.evaluate("""svg => {
+        const width = svg.viewBox.baseVal.width;
+        const height = svg.viewBox.baseVal.height;
+        return Array.from(svg.querySelectorAll('text')).every(text => {
+            const box = text.getBBox();
+            return box.x >= 0 && box.y >= 0 &&
+                box.x + box.width <= width && box.y + box.height <= height;
+        });
+    }""")
+    assert chart.evaluate("""svg => {
+        const labels = Array.from(svg.querySelectorAll('.xlab'), el => el.getBBox());
+        return labels.slice(1).every((box, i) =>
+            labels[i].x + labels[i].width + 4 <= box.x);
+    }""")
+    for fact_id in (
+        "us-1970s-blood-lead-median-1976-1980",
+        "us-2010s-blood-lead-median-2017-2020",
+    ):
+        chart.locator(f'a[href="#{fact_id}--modal"]').click()
+        expect(page.locator(f"#{fact_id}--modal")).to_be_visible()
+        expect(page.locator(f"#{fact_id}--modal")).to_contain_text("children ages 1–5")
+        page.keyboard.press("Escape")
+
+
+def test_lead_checkpoint_sources_work_without_javascript(
+    nojs_page: Page, server_url: str,
+) -> None:
+    nojs_page.goto(server_url + CORRIDORS)
+    exhibit = nojs_page.locator("#blood-lead-median")
+    exhibit.locator("summary").click()
+    fact_id = "us-2010s-blood-lead-median-2017-2020"
+    exhibit.locator(f'a[href="#{fact_id}--modal"]').click()
+    expect(nojs_page.locator(f"#{fact_id}--modal")).to_be_visible()
+    expect(nojs_page.locator(f"#{fact_id}--modal")).to_contain_text("2017–March 2020")

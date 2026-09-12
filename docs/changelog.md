@@ -11,6 +11,19 @@ card's 1940 comparison is not carried over; the 1940 sample reports wage
 income only (INCWAGE), a different measure from the 1950 INCTOT medians, and
 the note now says so. Qualification: 612 tests, strict typing, lint, the
 provenance gate, and all 753 rendered-exhibit checks with mark coverage.
+## 2026-09-12 — Childhood blood-lead sampling periods
+
+Plan 027 WI-7 adds seven published median measurements for US children ages
+1–5. The corridor preserves complete sampling windows, including the final
+pre-pandemic period, with discrete marks and source placards. It explains the
+survey population and changing measurement methods without inventing annual
+observations or claiming a regulation caused the change.
+
+Each new value has a repeatable transcription audit bound to its original
+table column and meaning. Checkpoint guards reject incompatible populations,
+units, statistics and period labels. Source links work with and without
+JavaScript, and phone layouts retain full period labels in a scrolling chart.
+See [the evidence dossier](lead-exposure-evidence.md) for source and test records.
 
 ## 2026-09-07 — More room around house glyphs
 

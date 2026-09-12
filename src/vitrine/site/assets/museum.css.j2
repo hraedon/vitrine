@@ -257,6 +257,11 @@ svg.arc text,svg.comp text,svg.meter text{font-family:{{ T.MONO }}}
 .unit{font-size:10px;fill:{{ T.INK_SOFT }};letter-spacing:.08em;text-transform:uppercase}
 .vlab{font-size:10px;fill:{{ T.INK }};text-anchor:middle}
 .tlet{font-size:9px;text-anchor:middle;font-weight:700}
+.checkpoint-chart .xlab,.checkpoint-chart .ylab,.checkpoint-chart .vlab{font-size:12px}
+.checkpoint-chart .tlet{font-size:10.5px}
+.checkpoint-chart .unit{text-transform:none}
+.chart-panel:has(> .checkpoint-chart){overflow-x:auto;overscroll-behavior-inline:contain}
+.chart-panel svg.checkpoint-chart{min-width:880px}
 .join{stroke-width:1.8;fill:none;opacity:.8}
 .dot:hover{r:6}
 .gapdot{fill:{{ T.CASE }};stroke:{{ T.GAP }};stroke-dasharray:3 3}

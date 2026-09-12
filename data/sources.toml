@@ -1196,3 +1196,14 @@ year = 2024
 url = "https://www.bls.gov/cex/tables.htm"
 population = "Four-person consumer units, represented as shares of national aggregate spending, 2024"
 notes = "Archived cu-size-2024.xlsx is the aggregate-share variant. Its rounded shares cannot verify precise within-budget shares or dollar means. The annual-means variant was not accessible to the automated retrieval on 2026-09-07. Retained to document the verification gap, not to certify the withdrawn figures."
+
+[[source]]
+id = "childstats-phy4a-blood-lead"
+title = "America's Children 2025, table PHY4.A: Lead in the blood of children"
+short_cite = "Childstats, PHY4.A (NHANES; 2025 edition)"
+publisher = "Federal Interagency Forum on Child and Family Statistics; data from the National Center for Health Statistics"
+url = "https://www.childstats.gov/americaschildren/tables/phy4a.asp"
+population = "US civilian noninstitutionalized children ages 1–5, National Health and Nutrition Examination Survey (NHANES); each period is a separate survey sample."
+notes = "Official published national percentile estimates, not Vitrine calculations from microdata. The seven median facts transcribe the 50th percentile row in µg/dL. The page belongs to the 2025 report collection but supplies no separate table publication date. Archived HTML verified against the live table on 2026-09-12; bytes unchanged. Sampling windows differ in length; the final window ends in March 2020 and uses the combined pre-pandemic file. No threshold row is used, no annual interpolation is made, and no causal effect of a regulation is estimated. The matching column header and child-age heading are guards on every repeatable numeric extraction. Laboratory sensitivity changed across surveys; published values are transcribed without adjustment. Survey weights account for sampling and nonresponse; missing measurements are distinct from results below detection. EPA methods: https://www.epa.gov/system/files/documents/2023-07/Biomonitoring-Methods-Lead.1976-2020.pdf . The recent youth microdata require Research Data Center access; these audits verify the published table, not independent microdata estimates."
+year = 2025
+expect = ["PHY4.A", "50th percentile", "2017&ndash;March 2020", "children ages 1&ndash;5"]

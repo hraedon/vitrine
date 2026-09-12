@@ -22,6 +22,7 @@ from vitrine.site.context import (
     CorridorPage,
     CorridorWingView,
 )
+from vitrine.site.curation.checkpoints import CHECKPOINT_ARCS
 from vitrine.site.projections.affordability import afford_arc_chart, afford_fact_ids
 from vitrine.site.projections.arcs import (
     arc_chart_for,
@@ -30,6 +31,7 @@ from vitrine.site.projections.arcs import (
     arc_group_coverage,
     fold_shares,
 )
+from vitrine.site.projections.checkpoints import checkpoint_sections
 from vitrine.site.projections.facts import FactRef, overlay_facts
 
 _AFFORD = curation.AFFORD_ITEMS
@@ -132,6 +134,8 @@ def _build_wings(
 ) -> tuple[CorridorWingView, ...]:
     """Gather arc sections into the four editorial wings; validate placement."""
     by_slug = {section.slug: section for section in arc_sections}
+    if len(by_slug) != len(arc_sections):
+        raise ValueError("corridor exhibit slugs must be unique across chart registries")
     wing_arc_slug_list = [
         slug for wing in curation.CORRIDOR_WINGS for slug in wing.arc_slugs
     ]
@@ -185,6 +189,10 @@ def _decade_keyed_fact_ids() -> dict[str, list[str]]:
     }
     for arc in curation.ARCS:
         registries[f"ARCS[{arc.slug}]"] = list(arc.fact_ids.values())
+    for checkpoint_arc in CHECKPOINT_ARCS:
+        registries[f"CHECKPOINT_ARCS[{checkpoint_arc.slug}]"] = [
+            point.fact_id for point in checkpoint_arc.checkpoints
+        ]
     for figure, by_decade in curation.WALKTHROUGH_PEOPLE.items():
         registries[f"WALKTHROUGH_PEOPLE[{figure}]"] = [
             fid for ids in by_decade.values() for fid in ids
@@ -233,7 +241,10 @@ def project_corridor(
     room_count = len(rooms)
     decades = tuple(room.decade for room in rooms)
 
-    arc_sections = _build_arc_sections(index, series, room_count, root)
+    arc_sections = (
+        _build_arc_sections(index, series, room_count, root)
+        + checkpoint_sections(corpus, index)
+    )
     afford_sections = _build_afford_sections(corpus, index, room_count, root)
     comp_rows = _build_comp_rows(index, root)
     wings = _build_wings(arc_sections, len(afford_sections))
@@ -241,6 +252,8 @@ def project_corridor(
     overlay_ids: list[str] = []
     for arc in curation.ARCS:
         overlay_ids.extend(arc.fact_ids.values())
+    for checkpoint_arc in CHECKPOINT_ARCS:
+        overlay_ids.extend(point.fact_id for point in checkpoint_arc.checkpoints)
     for _slug, _label, pattern in _AFFORD:
         overlay_ids.extend(afford_fact_ids(corpus, pattern).values())
     overlay_ids.extend(curation.COMPOSITIONS.values())

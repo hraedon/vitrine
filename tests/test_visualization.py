@@ -19,6 +19,7 @@ from vitrine.loader import load_corpus
 from vitrine.model import Corpus, Panel, Room
 from vitrine.series import load_series
 from vitrine.site import curation, symbols
+from vitrine.site.curation.checkpoints import CHECKPOINT_ARCS
 from vitrine.site.curation.collections import HOUSE_ROOMS, EditorialStatus, editorial_choice
 from vitrine.site.projections.facts import GAP_PREFIX
 from vitrine.site.projections.rooms import atlas_matrix, project_lobby
@@ -238,6 +239,7 @@ def test_corridor_wings_partition_every_rendered_arc_once() -> None:
         elif group.slug not in seen_groups:
             seen_groups.add(group.slug)
             rendered_slugs.append(group.slug)
+    rendered_slugs.extend(arc.slug for arc in CHECKPOINT_ARCS)
 
     wing_slugs = [
         slug for wing in curation.CORRIDOR_WINGS for slug in wing.arc_slugs
