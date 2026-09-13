@@ -583,11 +583,11 @@ site = [
 [package.metadata]
 requires-dist = [
     { name = "jinja2", marker = "extra == 'site'", specifier = ">=3.1" },
-    { name = "mypy", marker = "extra == 'dev'" },
+    { name = "mypy", marker = "extra == 'dev'", specifier = ">=2.2,<3" },
     { name = "openpyxl", marker = "extra == 'audit'", specifier = ">=3.1" },
     { name = "pytest", marker = "extra == 'dev'" },
     { name = "pytest-playwright", marker = "extra == 'dev'", specifier = ">=0.5" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.16" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.16,<0.17" },
     { name = "vitrine", extras = ["audit"], marker = "extra == 'dev'" },
     { name = "vitrine", extras = ["site"], marker = "extra == 'dev'" },
 ]
