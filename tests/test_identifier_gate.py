@@ -301,14 +301,23 @@ def test_scan_files_multiple_files(tmp_path: Path) -> None:
     assert paths == {f1, f3}
 
 
-def test_scan_files_skips_unreadable_file_gracefully(tmp_path: Path) -> None:
-    # Use a directory (which can't be opened with open()) to simulate an
-    # unreadable path — OSError is caught and the file is skipped.
+def test_scan_files_fails_closed_on_an_unreadable_file(tmp_path: Path) -> None:
+    """An unreadable path is no longer skipped silently.
+
+    Skipping it is the fails-open case: the file the gate could not read may be
+    the one carrying an identifier, and "scanned nothing" then looks exactly
+    like "found nothing". With no collector supplied the function owns one and
+    raises; a caller supplying its own (the CLI, for reporting) still gets the
+    paths back without an exception. This test asserted the skip before.
+    """
     d = tmp_path / "not_a_file"
     d.mkdir()
-    violations = scan_files(frozenset({"alice-host"}), [d])
-    assert violations == []
+    with pytest.raises(_mod.GateError):
+        scan_files(frozenset({"alice-host"}), [d])
 
+    collected: list[Path] = []
+    assert scan_files(frozenset({"alice-host"}), [d], unreadable=collected) == []
+    assert collected == [d]
 
 def test_scan_files_empty_path_list() -> None:
     assert scan_files(frozenset({"alice-host"}), []) == []
@@ -379,10 +388,15 @@ def test_main_leaked_samples_dir_returns_1(
 def test_main_no_secret_no_leaks_returns_0(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
-    """Without the forbidden-identifier secret, clean repo passes (exit 0)."""
+    """vitrine is PUBLIC: an unconfigured denylist is a failure, not a skip.
+
+    Exit 0 here is indistinguishable from a clean tree -- CI green having scanned
+    nothing, on a repo where a leak is irreversible. This asserted 0 before,
+    which encoded the old fail-open contract.
+    """
     monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
     monkeypatch.setattr(_mod, "collect_tracked_paths", lambda: [Path("src/main.py")])
-    assert main([]) == 0
+    assert main([]) == 1
 
 
 def test_main_with_identifiers_finds_violation(
@@ -410,20 +424,20 @@ def test_main_with_identifiers_clean_file_returns_0(
 def test_main_empty_secret_skips_scan(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
-    """Empty secret string skips the scan (exit 0) — no-op for fresh clones."""
+    """A whitespace-only secret is unconfigured by another name -> exit 1 here."""
     f = tmp_path / "doc.md"
     f.write_text("alice-host here\n")
     monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "   ")
     monkeypatch.setattr(_mod, "collect_tracked_paths", lambda: [f])
-    assert main([]) == 0
+    assert main([]) == 1
 
 
 def test_main_short_identifiers_skipped(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
-    """If all identifiers are below MIN_IDENTIFIER_LENGTH, the scan is skipped."""
+    """A secret that parses to nothing is unconfigured too -> exit 1 here."""
     f = tmp_path / "doc.md"
     f.write_text("abc abc abc\n")
     monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "abc")
     monkeypatch.setattr(_mod, "collect_tracked_paths", lambda: [f])
-    assert main([]) == 0
+    assert main([]) == 1
