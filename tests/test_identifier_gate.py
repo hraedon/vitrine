@@ -1,429 +1,905 @@
-"""Tests for the identifier gate: parser, BOM detection, binary sniffing, scan.
+"""Tests for the publication identifier gate (``scripts/check_committed_identifiers.py``).
 
-These exercise the pure logic of ``scripts.check_committed_identifiers`` without
-going through ``git`` — the functions are importable directly and take/return
-plain data. The git-backed path collectors (``collect_tracked_paths`` etc.) are
-not tested here because they shell out to git.
+The gate is the mechanical guard that stops work-domain identifiers reaching a
+published remote. It had no tests at all: ~550 lines whose *only* failure mode in
+production is silence. A gate that stops matching still exits 0, and exit 0 is
+indistinguishable from a clean tree -- so every rule below is asserted in both
+directions (a tree that must fail, and a tree that must pass), never just "no
+violations found".
+
+The script is not importable as a package module (``scripts/`` is not a package),
+so it is loaded from its path. That is deliberate: the tests exercise the same
+file CI runs, not a copy.
 """
 
 from __future__ import annotations
 
 import importlib.util
+import os
+import subprocess
 import sys
 from pathlib import Path
+from types import ModuleType
 
 import pytest
 
-# ``scripts/`` is not a Python package, so import the module from its file path.
-# Register in sys.modules so the module isn't garbage-collected and Violation
-# instances can be pickled (they reference __module__).
-_script_path = Path(__file__).parent.parent / "scripts" / "check_committed_identifiers.py"
-_spec = importlib.util.spec_from_file_location("check_committed_identifiers", _script_path)
-assert _spec is not None and _spec.loader is not None
-_mod = importlib.util.module_from_spec(_spec)
-sys.modules["check_committed_identifiers"] = _mod
-_spec.loader.exec_module(_mod)
-
-Violation = _mod.Violation
-_is_binary = _mod._is_binary
-_sniff_encoding = _mod._sniff_encoding
-leaked_tracked_files = _mod.leaked_tracked_files
-parse_identifier_set = _mod.parse_identifier_set
-scan_files = _mod.scan_files
-scan_text = _mod.scan_text
-main = _mod.main
-
-# ── parse_identifier_set ────────────────────────────────────────────────────
-
-
-def test_parse_whitespace_separated() -> None:
-    result = parse_identifier_set("alice-host bob-service")
-    assert result == frozenset({"alice-host", "bob-service"})
-
-
-def test_parse_one_per_line() -> None:
-    result = parse_identifier_set("alice-host\nbob-service\n")
-    assert result == frozenset({"alice-host", "bob-service"})
-
-
-def test_parse_strips_full_line_comments() -> None:
-    result = parse_identifier_set("# a comment\nalice-host\n# another\nbob-service")
-    assert result == frozenset({"alice-host", "bob-service"})
-
-
-def test_parse_strips_trailing_comments() -> None:
-    result = parse_identifier_set("alice-host # the admin\nbob-service")
-    assert result == frozenset({"alice-host", "bob-service"})
-
-
-def test_parse_strips_whitespace() -> None:
-    result = parse_identifier_set("  alice-host  \n\t bob-service\t")
-    assert result == frozenset({"alice-host", "bob-service"})
-
-
-def test_parse_deduplicates() -> None:
-    result = parse_identifier_set("alice-host alice-host alice-host")
-    assert result == frozenset({"alice-host"})
-
-
-def test_parse_empty_returns_empty() -> None:
-    assert parse_identifier_set("") == frozenset()
-
-
-def test_parse_only_comments_returns_empty() -> None:
-    assert parse_identifier_set("# nothing here\n# or here") == frozenset()
-
-
-def test_parse_only_whitespace_returns_empty() -> None:
-    assert parse_identifier_set("   \n\t\n  ") == frozenset()
-
-
-def test_parse_lowercases() -> None:
-    result = parse_identifier_set("Alice-Host BOB-Service")
-    assert result == frozenset({"alice-host", "bob-service"})
-
-
-def test_parse_drops_short_identifiers() -> None:
-    # MIN_IDENTIFIER_LENGTH is 4, so "abc" (3 chars) is dropped.
-    result = parse_identifier_set("abc alice-host")
-    assert result == frozenset({"alice-host"})
-
-
-def test_parse_keeps_min_length_identifier() -> None:
-    # MIN_IDENTIFIER_LENGTH is 4: exactly 4 chars is the boundary — must pass.
-    # An off-by-one (>= → >) would silently drop all 4-char hostnames.
-    assert parse_identifier_set("abcd") == frozenset({"abcd"})
-
-
-# ── scan_text ────────────────────────────────────────────────────────────────
-
-
-def test_scan_text_finds_substring() -> None:
-    violations = list(scan_text("the admin at alice-host logged in", frozenset({"alice-host"})))
-    assert len(violations) == 1
-    assert violations[0].identifier == "alice-host"
-    assert violations[0].line_number == 1
-    assert "alice-host" in violations[0].line
-
-
-def test_scan_text_case_insensitive() -> None:
-    violations = list(scan_text("ALICE-HOST alice-host Alice-Host", frozenset({"alice-host"})))
-    assert len(violations) == 3
-
-
-def test_scan_text_multiple_identifiers() -> None:
-    text = "alice-host and bob-service both appear"
-    violations = list(scan_text(text, frozenset({"alice-host", "bob-service"})))
-    assert len(violations) == 2
-    ids = {v.identifier for v in violations}
-    assert ids == {"alice-host", "bob-service"}
-
-
-def test_scan_text_no_identifiers_no_violations() -> None:
-    assert list(scan_text("some text", frozenset())) == []
-
-
-def test_scan_text_multiple_occurrences_on_same_line() -> None:
-    violations = list(scan_text("alice-host alice-host alice-host", frozenset({"alice-host"})))
-    assert len(violations) == 3
-
-
-def test_scan_text_tracks_line_numbers() -> None:
-    text = "line one\nalice-host here\nline three\nbob-service here"
-    violations = list(scan_text(text, frozenset({"alice-host", "bob-service"})))
-    assert len(violations) == 2
-    assert violations[0].line_number == 2
-    assert violations[1].line_number == 4
-
-
-def test_scan_text_matches_inside_longer_tokens() -> None:
-    # The docstring says identifiers can appear inside longer tokens.
-    violations = list(scan_text("xalice-hosty", frozenset({"alice-host"})))
-    assert len(violations) == 1
-
-
-def test_scan_text_empty_text() -> None:
-    assert list(scan_text("", frozenset({"alice-host"}))) == []
-
-
-def test_scan_text_short_identifiers_filtered() -> None:
-    # scan_text also applies _filter_identifiers, so short tokens are dropped.
-    assert list(scan_text("abc abc", frozenset({"abc"}))) == []
-
-
-def test_scan_text_overlapping_identifiers_both_match() -> None:
-    # A denylist containing both a prefix and a longer variant (e.g. "svc-da"
-    # and "svc-da-prod") yields two violations for the same position — both
-    # identifiers are present. This pins the current behavior.
-    violations = list(scan_text("alice-host", frozenset({"alice", "alice-host"})))
-    assert len(violations) == 2
-    assert {v.identifier for v in violations} == {"alice", "alice-host"}
-
-
-# ── _sniff_encoding ──────────────────────────────────────────────────────────
-
-
-def test_sniff_utf16_le_bom() -> None:
-    assert _sniff_encoding(b"\xff\xfehello") == "utf-16-le"
-
-
-def test_sniff_utf16_be_bom() -> None:
-    assert _sniff_encoding(b"\xfe\xffhello") == "utf-16-be"
-
-
-def test_sniff_utf8_bom() -> None:
-    assert _sniff_encoding(b"\xef\xbb\xbfhello") == "utf-8-sig"
-
-
-def test_sniff_no_bom_returns_none() -> None:
-    assert _sniff_encoding(b"hello world") is None
-
-
-def test_sniff_empty_chunk_returns_none() -> None:
-    assert _sniff_encoding(b"") is None
-
-
-def test_sniff_partial_bom_returns_none() -> None:
-    # Only 2 of the 3 UTF-8 BOM bytes — not a valid BOM.
-    assert _sniff_encoding(b"\xef\xbb") is None
-
-
-# ── _is_binary ───────────────────────────────────────────────────────────────
-
-
-def test_is_binary_null_byte_is_binary() -> None:
-    assert _is_binary(b"hello\x00world") is True
-
-
-def test_is_binary_plain_text_is_not_binary() -> None:
-    assert _is_binary(b"hello world") is False
-
-
-def test_is_binary_utf16_le_bom_not_binary() -> None:
-    # UTF-16-LE text contains null bytes for ASCII chars, but the BOM
-    # overrides the null-byte heuristic.
-    assert _is_binary(b"\xff\xfeh\x00e\x00l\x00l\x00o\x00") is False
-
-
-def test_is_binary_utf16_be_bom_not_binary() -> None:
-    assert _is_binary(b"\xfe\xff\x00h\x00e\x00l\x00l\x00o") is False
-
-
-def test_is_binary_utf8_bom_not_binary() -> None:
-    assert _is_binary(b"\xef\xbb\xbfhello") is False
-
-
-def test_is_binary_empty_chunk_not_binary() -> None:
-    assert _is_binary(b"") is False
-
-
-# ── scan_files ───────────────────────────────────────────────────────────────
-
-
-def test_scan_files_finds_identifier_in_text_file(tmp_path: Path) -> None:
-    f = tmp_path / "doc.md"
-    f.write_text("the admin at alice-host logged in\n")
-    violations = scan_files(frozenset({"alice-host"}), [f])
-    assert len(violations) == 1
-    assert violations[0].identifier == "alice-host"
-    assert violations[0].path == f
-    assert violations[0].line_number == 1
-
-
-def test_scan_files_skips_binary_files(tmp_path: Path) -> None:
-    f = tmp_path / "binary.bin"
-    f.write_bytes(b"alice-host\x00\x01\x02\x03")
-    violations = scan_files(frozenset({"alice-host"}), [f])
-    assert violations == []
-
-
-def test_scan_files_reads_utf8_bom_file(tmp_path: Path) -> None:
-    f = tmp_path / "bom.txt"
-    f.write_bytes(b"\xef\xbb\xbfthe admin at alice-host logged in\n")
-    violations = scan_files(frozenset({"alice-host"}), [f])
-    assert len(violations) == 1
-
-
-def test_scan_files_reads_utf16_le_file(tmp_path: Path) -> None:
-    f = tmp_path / "utf16.txt"
-    content = "the admin at alice-host logged in\n"
-    f.write_bytes(b"\xff\xfe" + content.encode("utf-16-le"))
-    violations = scan_files(frozenset({"alice-host"}), [f])
-    assert len(violations) == 1
-    assert not violations[0].line.startswith("\ufeff"), "BOM must not leak into line"
-
-
-def test_scan_files_reads_utf16_be_file(tmp_path: Path) -> None:
-    f = tmp_path / "utf16be.txt"
-    content = "the admin at alice-host logged in\n"
-    f.write_bytes(b"\xfe\xff" + content.encode("utf-16-be"))
-    violations = scan_files(frozenset({"alice-host"}), [f])
-    assert len(violations) == 1
-    assert not violations[0].line.startswith("\ufeff"), "BOM must not leak into line"
-
-
-def test_scan_files_utf8_bom_stripped(tmp_path: Path) -> None:
-    f = tmp_path / "bom_utf8.txt"
-    content = "alice-host here\n"
-    f.write_bytes(b"\xef\xbb\xbf" + content.encode("utf-8"))
-    violations = scan_files(frozenset({"alice-host"}), [f])
-    assert len(violations) == 1
-    assert not violations[0].line.startswith("\ufeff"), "BOM must not leak into line"
-
-
-def test_scan_files_identifier_at_start_of_utf16_file(tmp_path: Path) -> None:
-    # Identifier at position 0 after BOM — the most sensitive case for BOM
-    # leakage into the reported line.
-    f = tmp_path / "utf16_start.txt"
-    content = "alice-host is here\n"
-    f.write_bytes(b"\xff\xfe" + content.encode("utf-16-le"))
-    violations = scan_files(frozenset({"alice-host"}), [f])
-    assert len(violations) == 1
-    assert violations[0].line.startswith("alice-host"), "line should start with identifier, not BOM"
-
-
-def test_scan_files_no_identifier_no_violations(tmp_path: Path) -> None:
-    f = tmp_path / "doc.md"
-    f.write_text("nothing relevant here\n")
-    assert scan_files(frozenset({"alice-host"}), [f]) == []
-
-
-def test_scan_files_multiple_files(tmp_path: Path) -> None:
-    f1 = tmp_path / "a.md"
-    f1.write_text("alice-host appears here\n")
-    f2 = tmp_path / "b.md"
-    f2.write_text("nothing here\n")
-    f3 = tmp_path / "c.md"
-    f3.write_text("bob-service appears here\n")
-    violations = scan_files(frozenset({"alice-host", "bob-service"}), [f1, f2, f3])
-    assert len(violations) == 2
-    paths = {v.path for v in violations}
-    assert paths == {f1, f3}
-
-
-def test_scan_files_skips_unreadable_file_gracefully(tmp_path: Path) -> None:
-    # Use a directory (which can't be opened with open()) to simulate an
-    # unreadable path — OSError is caught and the file is skipped.
-    d = tmp_path / "not_a_file"
-    d.mkdir()
-    violations = scan_files(frozenset({"alice-host"}), [d])
-    assert violations == []
-
-
-def test_scan_files_empty_path_list() -> None:
-    assert scan_files(frozenset({"alice-host"}), []) == []
-
-
-def test_scan_files_sets_path_on_violation(tmp_path: Path) -> None:
-    f = tmp_path / "doc.md"
-    f.write_text("alice-host here\n")
-    violations = scan_files(frozenset({"alice-host"}), [f])
-    assert violations[0].path == f
-
-
-# ── leaked_tracked_files ─────────────────────────────────────────────────────
-
-
-def test_leaked_tracked_files_detects_samples_root() -> None:
-    paths = [Path("samples/secret.env"), Path("src/main.py")]
-    leaked = leaked_tracked_files(paths, frozenset({"samples"}))
-    assert leaked == [Path("samples/secret.env")]
-
-
-def test_leaked_tracked_files_ignores_nested_samples() -> None:
-    # tests/samples/ is a legitimate code dir, not the guarded root samples/.
-    paths = [Path("tests/samples/data.txt"), Path("src/main.py")]
-    leaked = leaked_tracked_files(paths, frozenset({"samples"}))
-    assert leaked == []
-
-
-def test_leaked_tracked_files_empty_input() -> None:
-    assert leaked_tracked_files([], frozenset({"samples"})) == []
-
-
-def test_leaked_tracked_files_multiple_guarded() -> None:
-    paths = [
-        Path("samples/a.txt"),
-        Path("other/b.txt"),
-        Path("samples/c.txt"),
-    ]
-    leaked = leaked_tracked_files(paths, frozenset({"samples"}))
-    assert leaked == [Path("samples/a.txt"), Path("samples/c.txt")]
-
-
-# ── Violation dataclass ──────────────────────────────────────────────────────
-
-
-def test_violation_is_frozen() -> None:
-    v = Violation(identifier="x", path=Path("a"), line_number=1, line="text")
-    with pytest.raises(AttributeError):
-        v.identifier = "y"  # type: ignore[misc]
-
-
-# ── main() integration ──────────────────────────────────────────────────────
-
-
-def test_main_leaked_samples_dir_returns_1(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
-) -> None:
-    """The always-on samples/ guard must fail even when the forbidden-identifier
-    secret is unset. This is the security-critical path: a ``git add -f
-    samples/secrets.env`` must fail CI regardless of configuration."""
-    monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
-    monkeypatch.setattr(
-        _mod, "collect_tracked_paths", lambda: [Path("samples/leaked.env")]
+_SCRIPT = Path(__file__).resolve().parent.parent / "scripts" / "check_committed_identifiers.py"
+
+
+def _load_gate() -> ModuleType:
+    spec = importlib.util.spec_from_file_location("_ad_steward_identifier_gate", _SCRIPT)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    # Register before executing: ``@dataclass`` resolves its own module out of
+    # ``sys.modules`` to evaluate annotations, and an unregistered module makes
+    # that lookup return None mid-decoration.
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+gate = _load_gate()
+
+# The guarded-dir set is deliberately repo-specific: it names THIS repo's
+# gitignored data directories, and a repo whose charter differs (guarding
+# evidence/staging/local rather than samples/) is a supported configuration, not
+# a deviation. The CLI-level tests below therefore ask the module what it guards
+# instead of hardcoding "samples" -- otherwise this file tests one repo's
+# spelling of the rule rather than the rule, and silently passes vacuously
+# wherever the spelling differs.
+GUARDED = sorted(gate._GUARDED_DIRS)[0]
+
+
+# --------------------------------------------------------------------------
+# Fixtures
+# --------------------------------------------------------------------------
+
+
+@pytest.fixture
+def repo(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    """A throwaway git repo, with the CWD moved into it.
+
+    The gate resolves its tree via ``git ls-files`` and its publication
+    declaration via ``git rev-parse --show-toplevel``. Without a real repo the
+    tests would silently read *ad-steward's own* tree and publication.toml --
+    which is exactly the "aimed at the wrong target" failure the gate is meant to
+    prevent, reproduced in the test suite.
+    """
+    root = tmp_path / "repo"
+    root.mkdir()
+    subprocess.run(["git", "init", "-q", "-b", "main"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.email", "t@example.invalid"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.name", "Test"], cwd=root, check=True)
+    subprocess.run(["git", "config", "commit.gpgsign", "false"], cwd=root, check=True)
+    monkeypatch.chdir(root)
+    return root
+
+
+def _track(root: Path, relpath: str, content: str | bytes) -> Path:
+    path = root / relpath
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if isinstance(content, bytes):
+        path.write_bytes(content)
+    else:
+        path.write_text(content, encoding="utf-8")
+    subprocess.run(["git", "add", "-f", "--", relpath], cwd=root, check=True)
+    return path
+
+
+def _commit(root: Path, message: str) -> str:
+    subprocess.run(["git", "commit", "-q", "--no-verify", "-m", message], cwd=root, check=True)
+    return subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=root, check=True, capture_output=True, text=True
+    ).stdout.strip()
+
+
+def _staged_blob(root: Path, relpath: str) -> str:
+    """The stage-0 index content for *relpath* -- the bytes a commit would record."""
+    return subprocess.run(
+        ["git", "show", f":0:{relpath}"], cwd=root, check=True,
+        capture_output=True, text=True,
+    ).stdout
+
+
+def _declare(root: Path, visibility: str) -> None:
+    (root / "publication.toml").write_text(
+        f'[publication]\nremote_owner = "someone"\nvisibility = "{visibility}"\n',
+        encoding="utf-8",
     )
-    assert main([]) == 1
 
 
-def test_main_no_secret_no_leaks_returns_0(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+# --------------------------------------------------------------------------
+# parse_identifier_set
+# --------------------------------------------------------------------------
+
+
+def test_parses_whitespace_separated_secret_form() -> None:
+    assert gate.parse_identifier_set("alpha beta gamma") == frozenset(
+        {"alpha", "beta", "gamma"}
+    )
+
+
+def test_parses_one_entry_per_line() -> None:
+    assert gate.parse_identifier_set("alpha\nbeta\n") == frozenset({"alpha", "beta"})
+
+
+def test_strips_full_line_and_trailing_comments() -> None:
+    raw = "# a full-line comment about servers\nalpha  # trailing note\nbeta\n"
+    parsed = gate.parse_identifier_set(raw)
+    assert parsed == frozenset({"alpha", "beta"})
+    # The comment words must not become forbidden tokens -- otherwise documenting
+    # the denylist would start failing the gate on innocent prose.
+    assert "comment" not in parsed
+    assert "servers" not in parsed
+
+
+def test_keeps_quoted_multi_word_entry_whole() -> None:
+    """The blind spot that hid a two-word name in sixteen repos.
+
+    Unquoted, the halves are separate short tokens and the length filter drops
+    them; quoted, the phrase survives as one entry.
+    """
+    assert gate.parse_identifier_set('"two words"') == frozenset({"two words"})
+    # Unquoted, the same text is two independent tokens: the phrase cannot be
+    # expressed at all, and any half below the length floor vanishes silently.
+    unquoted = gate.parse_identifier_set("two words")
+    assert "two words" not in unquoted
+    assert unquoted == frozenset({"words"})
+    # Both halves short: the entry disappears completely, matching nothing.
+    assert gate.parse_identifier_set("ab cd") == frozenset()
+    assert gate.parse_identifier_set('"ab cd"') == frozenset({"ab cd"})
+
+
+def test_normalizes_case_and_internal_whitespace() -> None:
+    assert gate.parse_identifier_set('"Two   Words"') == frozenset({"two words"})
+
+
+def test_drops_tokens_below_the_minimum_length() -> None:
+    short = "x" * (gate.MIN_IDENTIFIER_LENGTH - 1)
+    long = "y" * gate.MIN_IDENTIFIER_LENGTH
+    assert gate.parse_identifier_set(f"{short} {long}") == frozenset({long})
+
+
+def test_unbalanced_quote_raises_rather_than_degrading() -> None:
+    """A denylist we cannot parse must fail loudly, not silently shrink.
+
+    Degrading to a partial token set is the dangerous outcome: the gate would run,
+    report nothing, and exit 0 while scanning for fewer identifiers than declared.
+    """
+    with pytest.raises(ValueError):
+        gate.parse_identifier_set('"unterminated')
+
+
+def test_unbalanced_quote_makes_the_cli_exit_one(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """Without the forbidden-identifier secret, clean repo passes (exit 0)."""
+    _track(repo, "README.md", "hello\n")
+    _commit(repo, "init")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", '"unterminated')
+    assert gate.main([]) == 1
+
+
+# --------------------------------------------------------------------------
+# scan_text
+# --------------------------------------------------------------------------
+
+
+def test_match_is_case_insensitive() -> None:
+    found = list(gate.scan_text("The WIDGETCORP server", frozenset({"widgetcorp"})))
+    assert [v.identifier for v in found] == ["widgetcorp"]
+
+
+def test_match_counts_substring_occurrences_inside_longer_tokens() -> None:
+    """Real identifiers legitimately appear inside longer tokens."""
+    found = list(gate.scan_text("host-widgetcorp-01.example", frozenset({"widgetcorp"})))
+    assert len(found) == 1
+
+
+def test_reports_every_occurrence_on_a_line() -> None:
+    found = list(gate.scan_text("widgetcorp and widgetcorp", frozenset({"widgetcorp"})))
+    assert len(found) == 2
+
+
+def test_reports_the_correct_line_number() -> None:
+    text = "clean\nclean\nwidgetcorp here\n"
+    (violation,) = list(gate.scan_text(text, frozenset({"widgetcorp"})))
+    assert violation.line_number == 3
+    assert violation.line == "widgetcorp here"
+
+
+def test_clean_text_yields_nothing() -> None:
+    assert list(gate.scan_text("nothing to see\n", frozenset({"widgetcorp"}))) == []
+
+
+def test_empty_identifier_set_yields_nothing() -> None:
+    assert list(gate.scan_text("widgetcorp", frozenset())) == []
+
+
+@pytest.mark.parametrize(
+    "spelling",
+    ["two words", "two-words", "two_words", "two.words", "two   words"],
+)
+def test_phrase_matches_every_separator_spelling(spelling: str) -> None:
+    """One denylist entry must cover every way prose spells the phrase."""
+    found = list(gate.scan_text(f"the {spelling} estate", frozenset({"two words"})))
+    assert len(found) == 1, f"{spelling!r} escaped the phrase pattern"
+
+
+def test_phrase_matches_across_a_line_break() -> None:
+    """Wrapped prose is the case a line-by-line scanner cannot see."""
+    text = "a sentence mentioning two\nwords in passing\n"
+    (violation,) = list(gate.scan_text(text, frozenset({"two words"})))
+    assert violation.line_number == 1
+
+
+def test_phrase_does_not_match_across_an_unrelated_word() -> None:
+    assert list(gate.scan_text("two other words", frozenset({"two words"}))) == []
+
+
+def test_phrase_matching_is_case_insensitive() -> None:
+    """Prose capitalises. A phrase entry must survive title case.
+
+    Single-word matching lowercases the line; phrase matching goes through a
+    separate compiled pattern, so the two can drift apart in exactly this way.
+    """
+    assert len(list(gate.scan_text("The Two Words estate", frozenset({"two words"})))) == 1
+
+
+def test_phrase_metacharacters_are_escaped_literally() -> None:
+    """A denylist entry is data, not a regex.
+
+    ``acme (uk)`` unescaped compiles to ``acme[sep]+(uk)`` -- a capturing group
+    that matches the *unrelated* string "acme uk" while missing the literal name
+    it was written to catch. Both directions are asserted, because getting this
+    wrong swaps which strings the gate sees rather than merely losing matches.
+
+    Note this exercises the phrase path specifically: a single-word entry is
+    matched with ``str.find`` and never reaches the regex at all.
+    """
+    entry = frozenset({"acme (uk)"})
+    assert len(list(gate.scan_text("the acme (uk) estate", entry))) == 1
+    assert list(gate.scan_text("the acme uk estate", entry)) == []
+
+
+# --------------------------------------------------------------------------
+# scan_files
+# --------------------------------------------------------------------------
+
+
+def test_scans_a_plain_utf8_file_and_records_the_path(tmp_path: Path) -> None:
+    target = tmp_path / "notes.md"
+    target.write_text("widgetcorp\n", encoding="utf-8")
+    (violation,) = gate.scan_files(frozenset({"widgetcorp"}), [target])
+    assert violation.path == target
+
+
+@pytest.mark.parametrize(
+    ("encoding", "bom", "has_nulls"),
+    [
+        ("utf-16-le", b"\xff\xfe", True),
+        ("utf-16-be", b"\xfe\xff", True),
+        ("utf-8-sig", b"", False),  # the codec emits its own BOM
+    ],
+)
+def test_bom_marked_text_is_decoded_not_dismissed_as_binary(
+    tmp_path: Path, encoding: str, bom: bytes, has_nulls: bool
+) -> None:
+    """UTF-16 is common in Windows tooling output and is full of null bytes.
+
+    The null-byte heuristic alone would classify it as binary and skip it --
+    a whole file class silently exempt from the gate. The explicit-endian codecs
+    emit no BOM of their own, so the marker is written deliberately, which is how
+    the Windows tools producing these files write them.
+    """
+    target = tmp_path / "export.txt"
+    target.write_bytes(bom + "widgetcorp\n".encode(encoding))
+    raw = target.read_bytes()
+    assert gate._sniff_encoding(raw) == encoding
+    assert (b"\x00" in raw) is has_nulls
+    assert gate._is_binary(raw) is False, "a BOM must override the null-byte heuristic"
+    assert len(gate.scan_files(frozenset({"widgetcorp"}), [target])) == 1
+
+
+def test_utf16_bom_does_not_leak_into_the_reported_line(tmp_path: Path) -> None:
+    """An explicit-endian UTF-16 decode leaves U+FEFF at the start of line 1.
+
+    It hides nothing -- matching is substring-based, so the identifier is found
+    either way -- but a report that prints an invisible character before the
+    offending text is one people mistrust, and the two scan modes must agree.
+    """
+    target = tmp_path / "export.txt"
+    target.write_bytes(b"\xff\xfe" + "widgetcorp is here\n".encode("utf-16-le"))
+    (violation,) = gate.scan_files(frozenset({"widgetcorp"}), [target])
+    assert violation.line == "widgetcorp is here"
+    assert not violation.line.startswith("\ufeff")
+
+
+def test_staged_utf16_bom_is_stripped_too(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The staged path must strip it as well, or the modes disagree."""
+    _track(repo, "export.txt", b"\xff\xfe" + "widgetcorp is here\n".encode("utf-16-le"))
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+    violations = gate.scan_staged_blobs(
+        frozenset({"widgetcorp"}), [Path("export.txt")]
+    )
+    assert violations and violations[0].line == "widgetcorp is here"
+
+
+def test_genuine_binary_is_skipped(tmp_path: Path) -> None:
+    target = tmp_path / "blob.bin"
+    target.write_bytes(b"\x00\x01\x02widgetcorp")
+    assert gate.scan_files(frozenset({"widgetcorp"}), [target]) == []
+
+
+def test_symlink_target_string_is_scanned_without_following_the_link(
+    tmp_path: Path,
+) -> None:
+    """A tracked symlink's blob content IS its target path.
+
+    Following it either leaves the repo or fails on a broken link; the target
+    string itself can carry the identifier, so it is scanned in place.
+    """
+    link = tmp_path / "link"
+    link.symlink_to("/srv/widgetcorp/data")
+    (violation,) = gate.scan_files(frozenset({"widgetcorp"}), [link])
+    assert violation.path == link
+    assert violation.line == "/srv/widgetcorp/data"
+
+
+def test_broken_symlink_does_not_count_as_unreadable(tmp_path: Path) -> None:
+    link = tmp_path / "dangling"
+    link.symlink_to(tmp_path / "does-not-exist")
+    unreadable: list[Path] = []
+    assert gate.scan_files(frozenset({"widgetcorp"}), [link], unreadable=unreadable) == []
+    assert unreadable == []
+
+
+def test_unreadable_file_is_collected_rather_than_silently_skipped(
+    tmp_path: Path,
+) -> None:
+    """Skipping an unreadable file is the fails-open case the gate exists to stop."""
+    target = tmp_path / "secret.md"
+    target.write_text("widgetcorp\n", encoding="utf-8")
+    target.chmod(0o000)
+    try:
+        if os.access(target, os.R_OK):  # root ignores the mode bits
+            pytest.skip("cannot make a file unreadable as this user")
+        unreadable: list[Path] = []
+        violations = gate.scan_files(frozenset({"widgetcorp"}), [target], unreadable=unreadable)
+        assert violations == []
+        assert unreadable == [target]
+    finally:
+        target.chmod(0o644)
+
+
+def test_scan_files_returns_a_list_not_a_tuple(tmp_path: Path) -> None:
+    """Fleet-wide contract: this script is copied into every repo in the estate
+    and several of them assert on ``scan_files``' return type directly. Returning
+    a tuple once broke seven test suites at the same time.
+    """
+    assert isinstance(gate.scan_files(frozenset({"widgetcorp"}), []), list)
+
+
+# --------------------------------------------------------------------------
+# leaked_tracked_files (the always-on guard)
+# --------------------------------------------------------------------------
+
+
+def test_root_level_samples_file_is_flagged() -> None:
+    leaked = gate.leaked_tracked_files([Path("samples/capture.json")], frozenset({"samples"}))
+    assert leaked == [Path("samples/capture.json")]
+
+
+def test_nested_samples_directory_is_not_a_false_positive() -> None:
+    """``tests/samples/`` is a legitimate code directory, not the data dir."""
+    nested = [Path("tests/samples/fixture.json")]
+    assert gate.leaked_tracked_files(nested, frozenset({"samples"})) == []
+
+
+@pytest.mark.parametrize(
+    "name", ["notes.swp", "notes.swo", ".notes.md.swp", ".notes.md.swn"]
+)
+def test_editor_swap_files_are_never_tracked(name: str) -> None:
+    """A swap file holds the BUFFER of the file being edited.
+
+    A secret typed and not yet saved lives in there, so it is guarded regardless
+    of denylist configuration. Vim's collision sequence (.swo, .swn, ... once
+    .swp is taken) is why suffix matching alone is not enough.
+    """
+    assert gate.leaked_tracked_files([Path(name)], frozenset()) == [Path(name)]
+
+
+def test_a_swap_file_deep_in_the_tree_is_still_caught() -> None:
+    p = Path("src/deep/.thing.py.swp")
+    assert gate.leaked_tracked_files([p], frozenset()) == [p]
+
+
+@pytest.mark.parametrize("name", [".env", ".env.local", ".env.production"])
+def test_root_level_env_files_are_never_tracked(name: str) -> None:
+    assert gate.leaked_tracked_files([Path(name)], frozenset()) == [Path(name)]
+
+
+def test_env_example_is_the_deliberately_tracked_template() -> None:
+    assert gate.leaked_tracked_files([Path(".env.example")], frozenset()) == []
+
+
+def test_a_nested_env_file_is_not_guarded() -> None:
+    """Scoped to the ROOT, so a fixture like tests/fixtures/.env.broken stays possible."""
+    assert gate.leaked_tracked_files([Path("tests/fixtures/.env.broken")], frozenset()) == []
+
+
+def test_ordinary_dotfiles_are_not_guarded() -> None:
+    """The rules must not swallow normal repo furniture."""
+    ordinary = [Path(".gitignore"), Path(".editorconfig"), Path("env.py"), Path("a.swap")]
+    assert gate.leaked_tracked_files(ordinary, frozenset()) == []
+
+
+def test_guard_fires_through_the_cli_on_a_force_added_sample(repo: Path) -> None:
+    """``.gitignore`` is advisory -- ``git add -f`` bypasses it. This is the catch."""
+    _track(repo, f"{GUARDED}/capture.json", "{}\n")
+    _commit(repo, "force-add a capture")
+    assert gate.main([]) == 1
+
+
+def test_cli_passes_a_tree_with_no_guarded_files(repo: Path) -> None:
+    _track(repo, f"tests/{GUARDED}/fixture.json", "{}\n")
+    _commit(repo, "add a legitimate nested fixture")
+    assert gate.main([]) == 0
+
+
+# --------------------------------------------------------------------------
+# Unconfigured-denylist semantics: the silent-pass asymmetry
+# --------------------------------------------------------------------------
+
+
+def test_unset_secret_is_a_no_op_without_a_declaration(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A repo that never opted into the publication system is not blocked."""
+    _track(repo, "README.md", "hello\n")
+    _commit(repo, "init")
     monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
-    monkeypatch.setattr(_mod, "collect_tracked_paths", lambda: [Path("src/main.py")])
-    assert main([]) == 0
+    assert not (repo / "publication.toml").exists()
+    assert gate.main([]) == 0
 
 
-def test_main_with_identifiers_finds_violation(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+def test_unset_secret_is_a_no_op_for_a_private_repo(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """With identifiers set, a file containing one is flagged (exit 1)."""
-    f = tmp_path / "doc.md"
-    f.write_text("the admin at alice-host logged in\n")
-    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "alice-host")
-    monkeypatch.setattr(_mod, "collect_tracked_paths", lambda: [f])
-    assert main([]) == 1
+    _declare(repo, "private-until-review")
+    _track(repo, "publication.toml", (repo / "publication.toml").read_text())
+    _commit(repo, "declare private")
+    monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
+    assert gate.main([]) == 0
 
 
-def test_main_with_identifiers_clean_file_returns_0(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+def test_unset_secret_fails_closed_for_a_public_repo(
+    repo: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    """With identifiers set, a clean file passes (exit 0)."""
-    f = tmp_path / "doc.md"
-    f.write_text("nothing relevant here\n")
-    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "alice-host")
-    monkeypatch.setattr(_mod, "collect_tracked_paths", lambda: [f])
-    assert main([]) == 0
+    """The whole point. On a public repo "skipping" and "clean" look identical,
+    and a leak there is irreversible -- so an unconfigured gate must fail.
+    """
+    _declare(repo, "public")
+    _track(repo, "publication.toml", (repo / "publication.toml").read_text())
+    _commit(repo, "declare public")
+    monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
+    assert gate.main([]) == 1
+    assert "silent pass" in capsys.readouterr().err
 
 
-def test_main_empty_secret_skips_scan(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+def test_public_repo_with_a_configured_gate_and_clean_tree_passes(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """Empty secret string skips the scan (exit 0) — no-op for fresh clones."""
-    f = tmp_path / "doc.md"
-    f.write_text("alice-host here\n")
-    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "   ")
-    monkeypatch.setattr(_mod, "collect_tracked_paths", lambda: [f])
-    assert main([]) == 0
+    _declare(repo, "public")
+    _track(repo, "publication.toml", (repo / "publication.toml").read_text())
+    _track(repo, "README.md", "nothing sensitive here\n")
+    _commit(repo, "declare public")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+    assert gate.main([]) == 0
 
 
-def test_main_short_identifiers_skipped(
-    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+def test_all_short_denylist_entries_fail_closed_for_a_public_repo(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    """If all identifiers are below MIN_IDENTIFIER_LENGTH, the scan is skipped."""
-    f = tmp_path / "doc.md"
-    f.write_text("abc abc abc\n")
-    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "abc")
-    monkeypatch.setattr(_mod, "collect_tracked_paths", lambda: [f])
-    assert main([]) == 0
+    """A secret that parses to nothing is unconfigured by another name."""
+    _declare(repo, "public")
+    _track(repo, "publication.toml", (repo / "publication.toml").read_text())
+    _commit(repo, "declare public")
+    too_short = "x" * (gate.MIN_IDENTIFIER_LENGTH - 1)
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", too_short)
+    assert gate.main([]) == 1
+
+
+def test_unparseable_declaration_fails_rather_than_guessing(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Present-but-broken is not the same as absent.
+
+    That repo *did* opt in, and guessing its visibility is exactly the coin-flip
+    the declaration exists to remove.
+    """
+    (repo / "publication.toml").write_text("[publication\nnot = toml", encoding="utf-8")
+    _track(repo, "README.md", "hello\n")
+    _commit(repo, "init")
+    monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
+    assert gate.main([]) == 1
+
+
+def test_declaration_without_a_publication_table_fails(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (repo / "publication.toml").write_text('[other]\nkey = "value"\n', encoding="utf-8")
+    _track(repo, "README.md", "hello\n")
+    _commit(repo, "init")
+    monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
+    assert gate.main([]) == 1
+
+
+# --- Visibility normalisation -------------------------------------------------
+#
+# These pin the declaration surface in BOTH directions. Before them, three
+# mutations survived the suite: dropping .strip(), treating a missing key as
+# public, and accepting uppercase. All three change whether a public repo's gate
+# arms at all, and none of them made a test go red -- so the fail-open behaviour
+# they describe was not just wrong, nothing would have noticed it being fixed or
+# worsened. A declaration shape that is not exactly the lowercase word is the
+# realistic case: the publication-review commit that flips visibility to public
+# is precisely where a case typo or a dropped line lands.
+
+
+@pytest.mark.parametrize("spelling", ["Public", "PUBLIC", "  public  ", "PuBlIc"])
+def test_public_is_recognised_whatever_its_case_or_padding(
+    repo: Path, monkeypatch: pytest.MonkeyPatch, spelling: str
+) -> None:
+    """Any casing of "public" must still arm the gate.
+
+    Recognising only the exact lowercase string sent every other spelling to the
+    fail-OPEN branch, which silently disarmed the gate on a public repo.
+    """
+    (repo / "publication.toml").write_text(
+        f'[publication]\nremote_owner = "someone"\nvisibility = "{spelling}"\n',
+        encoding="utf-8",
+    )
+    _track(repo, "README.md", "hello\n")
+    _commit(repo, "declare public")
+    monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
+    assert gate.main([]) == 1
+
+
+@pytest.mark.parametrize(
+    "body",
+    [
+        '[publication]\nremote_owner = "someone"\n',  # visibility key absent
+        '[publication]\nvisibility = ""\n',  # empty string
+        "[publication]\nvisibility = true\n",  # not a string
+        "[publication]\nvisibility = 1\n",  # not a string
+        '[publication]\nvisibility = "publik"\n',  # typo
+        '[publication]\nvisibility = "internal"\n',  # not in the closed set
+    ],
+)
+def test_unrecognised_visibility_fails_rather_than_guessing(
+    repo: Path, monkeypatch: pytest.MonkeyPatch, body: str
+) -> None:
+    """A declaration that opted in but names an unknown visibility is an error.
+
+    Quietly reading it as "not public" is the coin-flip the declaration exists to
+    remove, and it resolves in the unsafe direction: the gate no-ops and CI is
+    green having scanned nothing.
+    """
+    (repo / "publication.toml").write_text(body, encoding="utf-8")
+    _track(repo, "README.md", "hello\n")
+    _commit(repo, "declare")
+    monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
+    assert gate.main([]) == 1
+
+
+@pytest.mark.parametrize(
+    "spelling", ["PRIVATE-UNTIL-REVIEW", "Private-Until-Review", "  private-until-review  "]
+)
+def test_private_until_review_is_recognised_whatever_its_case_or_padding(
+    repo: Path, monkeypatch: pytest.MonkeyPatch, spelling: str
+) -> None:
+    """The normalisation must work on the private side too, not only the public one.
+
+    Without this, dropping .casefold() or .strip() looks harmless: every public
+    spelling still exits 1, just as a GateError instead of a recognised public.
+    The mutation only shows up here, where over-strictness turns a repo that must
+    stay clonable into a hard block.
+    """
+    (repo / "publication.toml").write_text(
+        f'[publication]\nremote_owner = "someone"\nvisibility = "{spelling}"\n',
+        encoding="utf-8",
+    )
+    _track(repo, "README.md", "hello\n")
+    _commit(repo, "declare private")
+    monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
+    assert gate.main([]) == 0
+
+
+def test_oddly_cased_public_is_scanned_rather_than_merely_erroring(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A recognised public repo with a working denylist scans and passes clean.
+
+    This separates "recognised as public, scanned, nothing found" from "could not
+    read the declaration at all". Both exit 1 when the denylist is missing, so the
+    public-side tests alone cannot tell a working normalisation from a broken one.
+    """
+    (repo / "publication.toml").write_text(
+        '[publication]\nremote_owner = "someone"\nvisibility = "Public"\n',
+        encoding="utf-8",
+    )
+    _track(repo, "README.md", "nothing forbidden here\n")
+    _commit(repo, "declare public")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "zzzsynthetictoken")
+    assert gate.main([]) == 0
+
+
+def test_private_until_review_still_no_ops_without_a_denylist(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The other direction: tightening public must not block a private repo.
+
+    Without this, a fix that made everything fail closed would look correct.
+    """
+    _declare(repo, "private-until-review")
+    _track(repo, "publication.toml", (repo / "publication.toml").read_text())
+    _commit(repo, "declare private")
+    monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
+    assert gate.main([]) == 0
+
+
+def test_configured_gate_catches_an_identifier_in_a_tracked_file(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _track(repo, "docs/notes.md", "the widgetcorp estate\n")
+    _commit(repo, "add notes")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+    assert gate.main([]) == 1
+
+
+def test_configured_gate_catches_a_quoted_phrase_in_a_tracked_file(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _track(repo, "docs/notes.md", "the two-words estate\n")
+    _commit(repo, "add notes")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", '"two words"')
+    assert gate.main([]) == 1
+
+
+def test_unreadable_tracked_file_blocks_the_cli(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    target = _track(repo, "docs/locked.md", "clean content\n")
+    _commit(repo, "add a file")
+    target.chmod(0o000)
+    try:
+        if os.access(target, os.R_OK):
+            pytest.skip("cannot make a file unreadable as this user")
+        monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+        assert gate.main([]) == 1
+    finally:
+        target.chmod(0o644)
+
+
+# --------------------------------------------------------------------------
+# Commit-message modes (the channel the content scan cannot see)
+# --------------------------------------------------------------------------
+
+
+def test_commit_message_file_with_an_identifier_is_rejected(
+    repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    msg = tmp_path / "COMMIT_EDITMSG"
+    msg.write_text("redact widgetcorp from the docs\n", encoding="utf-8")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+    assert gate.main(["--message-file", str(msg)]) == 1
+
+
+def test_clean_commit_message_file_passes(
+    repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    msg = tmp_path / "COMMIT_EDITMSG"
+    msg.write_text("redact the customer name from the docs\n", encoding="utf-8")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+    assert gate.main(["--message-file", str(msg)]) == 0
+
+
+def test_commit_message_comment_lines_are_ignored(
+    repo: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """git strips ``#`` lines, so they are never published and must not block."""
+    msg = tmp_path / "COMMIT_EDITMSG"
+    msg.write_text("a clean subject\n#\n# On branch widgetcorp-fix\n", encoding="utf-8")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+    assert gate.main(["--message-file", str(msg)]) == 0
+
+
+def test_rev_range_scans_published_commit_messages(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The documented leak: the very commits that redacted an identifier from the
+    files named it in their messages, and the tracked-tree scan cannot see that.
+    """
+    _track(repo, "README.md", "clean\n")
+    base = _commit(repo, "a clean base commit")
+    _track(repo, "README.md", "still clean\n")
+    _commit(repo, "remove widgetcorp from the docs")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+    assert gate.main(["--rev-range", f"{base}..HEAD"]) == 1
+
+
+def test_rev_range_passes_when_every_message_is_clean(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _track(repo, "README.md", "clean\n")
+    base = _commit(repo, "a clean base commit")
+    _track(repo, "README.md", "still clean\n")
+    _commit(repo, "tidy the documentation")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+    assert gate.main(["--rev-range", f"{base}..HEAD"]) == 0
+
+
+def test_rev_range_accepts_the_multi_argument_new_branch_form(
+    repo: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """pre-push passes ``"<sha> --not --remotes=<name>"`` as one string for a
+    branch with no upstream; it must be split, not treated as one opaque ref.
+
+    Asserting only "exit 1" would be vacuous here: passing the whole string as a
+    single ref makes *git itself* fail, which also exits 1. So the clean case must
+    exit 0 (git ran and found nothing), and the dirty case must name a forbidden
+    identifier rather than report that the gate could not complete.
+    """
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+
+    _track(repo, "README.md", "clean\n")
+    _commit(repo, "a perfectly clean subject")
+    assert gate.main(["--rev-range", "HEAD --not --remotes=origin"]) == 0
+    assert "could not complete" not in capsys.readouterr().err
+
+    _track(repo, "README.md", "still clean\n")
+    _commit(repo, "mentions widgetcorp in the message")
+    assert gate.main(["--rev-range", "HEAD --not --remotes=origin"]) == 1
+    err = capsys.readouterr().err
+    assert "Forbidden identifier in commit message" in err
+    assert "could not complete" not in err
+
+
+# --------------------------------------------------------------------------
+# Staged mode (pre-commit hook)
+# --------------------------------------------------------------------------
+
+
+def test_staged_mode_scans_only_what_is_about_to_be_committed(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _track(repo, "docs/old.md", "the widgetcorp estate\n")
+    _commit(repo, "a pre-existing file")
+    _track(repo, "docs/new.md", "perfectly clean\n")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+    # The committed file is dirty, but it is not staged: --staged must not fail.
+    assert gate.main(["--staged"]) == 0
+    # The whole-tree scan, which CI runs, still sees it.
+    assert gate.main([]) == 1
+
+
+def test_staged_mode_catches_a_rename_into_a_guarded_directory(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """``--no-renames`` decomposes a rename into add+delete so the NEW path is
+    visible to the always-on guard. Without it a file moved into ``samples/``
+    would be reported only as a rename and slip past.
+    """
+    _track(repo, "capture.json", '{"host": "x"}\n')
+    _commit(repo, "add a capture at the root")
+    subprocess.run(["git", "mv", "capture.json", "moved.json"], cwd=repo, check=True)
+    (repo / GUARDED).mkdir()
+    dest = f"{GUARDED}/capture.json"
+    subprocess.run(["git", "mv", "moved.json", dest], cwd=repo, check=True)
+    subprocess.run(["git", "add", "-f", "--", dest], cwd=repo, check=True)
+    monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
+    assert gate.main(["--staged"]) == 1
+
+
+def test_staged_mode_judges_the_index_not_the_worktree(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The bypass this scanner exists to close.
+
+    A commit records the INDEX. Staging a forbidden identifier and then
+    overwriting the working copy with clean bytes leaves an index blob that
+    still carries it -- and a gate that reads the worktree sees only the clean
+    bytes, passes, and lets the forbidden blob into history. The worktree
+    content here is deliberately innocent: if this test ever passes by reading
+    the file, it is reading the wrong thing.
+    """
+    _track(repo, "notes.md", "the widgetcorp estate\n")
+    (repo / "notes.md").write_text("perfectly innocent text\n", encoding="utf-8")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+
+    assert (repo / "notes.md").read_text() == "perfectly innocent text\n"
+    assert "widgetcorp" in _staged_blob(repo, "notes.md")
+    assert gate.main(["--staged"]) == 1
+
+
+def test_staged_mode_ignores_unstaged_worktree_content(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The inverse, which matters just as much.
+
+    A clean index under a dirty worktree was blocked for content no commit was
+    going to record. A gate that cries wolf on work in progress trains people to
+    reach for --no-verify, which disables it entirely.
+    """
+    _track(repo, "notes.md", "perfectly innocent text\n")
+    (repo / "notes.md").write_text("the widgetcorp estate\n", encoding="utf-8")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+
+    assert gate.main(["--staged"]) == 0
+
+    # The two modes read different things, and that is the whole point. The
+    # default scan reads the CHECKED-OUT bytes, so it still sees the dirty
+    # worktree and refuses. In CI the distinction is invisible because the
+    # checkout is pristine and index, worktree and HEAD all agree -- which is
+    # exactly why this divergence has to be pinned by a test rather than noticed.
+    _commit(repo, "commit the clean index")
+    assert gate.main([]) == 1
+
+
+def test_staged_binary_blob_is_skipped(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Binary handling must match scan_files, or the two modes disagree."""
+    _track(repo, "blob.bin", b"\x00\x01\x02widgetcorp")
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+    assert gate.main(["--staged"]) == 0
+
+
+def test_staged_utf16_blob_is_decoded(
+    repo: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    _track(repo, "export.txt", b"\xff\xfe" + "widgetcorp\n".encode("utf-16-le"))
+    monkeypatch.setenv("VITRINE_FORBIDDEN_IDENTIFIERS", "widgetcorp")
+    assert gate.main(["--staged"]) == 1
+
+
+def test_scan_staged_blobs_returns_a_list(repo: Path) -> None:
+    """Same fleet-wide return-type contract as scan_files."""
+    assert isinstance(gate.scan_staged_blobs(frozenset({"widgetcorp"}), []), list)
+
+
+# --------------------------------------------------------------------------
+# Failing clean: a gate that cannot judge must not look like a pass
+# --------------------------------------------------------------------------
+
+
+def test_git_failure_becomes_a_clean_exit_one_not_a_traceback(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    """Outside a repo, ``git ls-files`` fails. A publication gate must report that
+    as a blocked publication, not a CalledProcessError stack trace that reads as
+    broken infrastructure.
+    """
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("VITRINE_FORBIDDEN_IDENTIFIERS", raising=False)
+    assert gate.main([]) == 1
+    assert "identifier gate could not complete" in capsys.readouterr().err
+
+
+def test_run_git_raises_gate_error_when_git_is_missing(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def _boom(*_args: object, **_kwargs: object) -> None:
+        raise OSError("no git here")
+
+    monkeypatch.setattr(gate.subprocess, "run", _boom)
+    with pytest.raises(gate.GateError):
+        gate._run_git(["git", "status"])
+
+
+def test_gate_error_message_names_the_failing_command() -> None:
+    with pytest.raises(gate.GateError) as excinfo:
+        gate._run_git([sys.executable, "-c", "import sys; sys.exit(3)"])
+    assert "exit 3" in str(excinfo.value)
