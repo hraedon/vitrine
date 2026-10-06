@@ -662,3 +662,24 @@ unit = "aggregate net worth, households + nonprofit organizations, current dolla
 source = "fed-z1"
 tier = "A"
 notes = "From FRED TNWBSHNO (Fed Z.1 Table B.101.h, Q4 1960). Total assets: $2,316B. Total liabilities: $225B. Net worth: $2,091B. Up from $1,171B in 1950 — household wealth nearly doubled in a decade. Liabilities were only 10% of assets — the postwar debt-aversion era. Aggregate — NOT median."
+
+[[fact]]
+id = "us-1960s-daily-newspaper-circulation"
+quantity = 58.9
+panel = "table"
+label = "Daily newspapers sold per weekday, 1960"
+value = "58.9 million copies of daily newspapers were sold per weekday"
+unit = "daily newspapers, net paid circulation, millions of copies"
+price_year = 1960
+source = "statistical-abstract-newspapers"
+tier = "C"
+notes = "The 1985 edition prints 58.9 million for 1960 — a revision: the 1970 edition had printed 60,882 thousand for the same year. The series carries the revised print and records the superseded one; nothing is smoothed. The count of dailies fell only slightly across the decade (1,763 in 1960, 1,762 in 1969, per the 1970 edition), with the decline concentrated in evening papers' share."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "52-newspapers/daily-newspaper-circulation-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1960 (58\.9) sa1985-no938'
+guards = [
+    { locator = '^# source zip sa1985 sha256: ([0-9a-f]{64})$', value = "f969329cee6043ae40f583bd9d01833d37caeb05e02c64901be1c379c1582cfa" },
+]

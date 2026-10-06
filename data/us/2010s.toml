@@ -873,3 +873,14 @@ guards = [
     { locator = "<td scope=\"row\" colspan=\"8\">SOURCE:\\s+(National Center for Health Statistics),", value = "National Center for Health Statistics" },
     { locator = "<th scope=\"col\" class=\"mainheadl\">Characteristic</th>\\s*(?:<th scope=\"col\">[^<]+</th>\\s*){6}<th scope=\"col\">(?:<nobr/>)?([^<]+)(?:<sup><a href=\"#a\">a</a></sup>)?</th>", value = "2017&ndash;March 2020" },
 ]
+
+[[fact]]
+id = "us-2010s-daily-newspaper-circulation"
+panel = "table"
+label = "Daily newspapers sold per weekday, 2010s"
+value = "no reliable record — the federal compilation's newspapers series ends with its 2009 value; the last Statistical Abstract (2012 edition) prints no later data, and no archived edition carries the 2010s on the net-paid print basis this record uses"
+unit = "daily newspapers, net paid circulation, millions of copies"
+source = "statistical-abstract-newspapers"
+tier = "C"
+notes = "The gap is the record's end, not evidence that nobody read newspapers. The Census Bureau discontinued the Statistical Abstract after the 2012 edition; the trade's own later reporting changed what it counts, and no figure from it was fetched, so no 2010s value is chained onto the series."
+assumptions = ["composite-family"]

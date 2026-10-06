@@ -858,3 +858,24 @@ source = "us-public-law-100-202-sec-328"
 tier = "A"
 notes = "§ 328 of the Department of Transportation and Related Agencies Appropriations Act, 1988 (carried in Pub. L. 100-202, approved Dec. 22, 1987), amending Federal Aviation Act § 404 with 49 U.S.C. App. 1374(d): effective on the expiration of the 4-month period following enactment, and repealed effective on the expiration of the 28-month period. The first flight ban was self-expiring; flights longer than two hours were unaffected, and the permanence question was left to later law. The same subsection set a civil penalty of up to $2,000 for tampering with lavatory smoke alarms."
 assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1980s-daily-newspaper-circulation"
+quantity = 62.2
+panel = "table"
+label = "Daily newspapers sold per weekday, 1980"
+value = "62.2 million copies of daily newspapers were sold per weekday"
+unit = "daily newspapers, net paid circulation, millions of copies"
+price_year = 1980
+source = "statistical-abstract-newspapers"
+tier = "C"
+notes = "The 1985 edition (No. 938) and the 1990 edition (No. 928) agree to 0.1 million on every year they both print, including 1980. Total circulation held near its peak through the 1980s while per capita circulation fell (0.27 in 1980, 0.25 in 1990, per the 2012 edition, Table 1135) — the population grew and the copies did not follow it."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "52-newspapers/daily-newspaper-circulation-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1980 (62\.2) sa1985-no938'
+guards = [
+    { locator = '^# source zip sa1985 sha256: ([0-9a-f]{64})$', value = "f969329cee6043ae40f583bd9d01833d37caeb05e02c64901be1c379c1582cfa" },
+]

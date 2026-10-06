@@ -191,6 +191,15 @@ audited = "2026-10-06"
 operands = []
 
 [[entry]]
+fact_id = "us-1950s-daily-newspaper-circulation"
+fingerprint = "e0332c78e5ce0dfa34d13de3614f4bed28b07696c76c6b490baca8930ac4d4fb"
+sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
+file = "52-newspapers/daily-newspaper-circulation-dump.txt"
+extracted = "53.8"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
 fact_id = "us-1950s-hourly-earnings-manufacturing"
 fingerprint = "555899743182599f1a4b9b529fd5d36ce63da8c25ed9b4e76a86b879873ee6dc"
 sample_sha256 = "e595ee79c19301fbb484096efa8e72514e028759f2e05fa6756fc816b14aa24c"
@@ -254,6 +263,15 @@ audited = "2026-10-06"
 operands = []
 
 [[entry]]
+fact_id = "us-1960s-daily-newspaper-circulation"
+fingerprint = "878d27f64948eecee09d731d7a0a98494dcd1e5a48afc7099f50ef6eebebfa87"
+sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
+file = "52-newspapers/daily-newspaper-circulation-dump.txt"
+extracted = "58.9"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
 fact_id = "us-1960s-median-family-income"
 fingerprint = "e95e9552f7a9f08f85fab8b02760b493f605143751d675f1f44906c661d26e3a"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
@@ -295,6 +313,15 @@ fingerprint = "5cb38f26e2c13fe5aaddf9b81ea092cc41fd20dadec67f5223cb83768c78f1b1"
 sample_sha256 = "ba0e2353890de464464255873a38e84f833be091bed6e558da6469670d2bf4af"
 file = "48-blood-lead/childstats-phy4a-lead-table.html"
 extracted = "15.0"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
+fact_id = "us-1970s-daily-newspaper-circulation"
+fingerprint = "01df4aaf175ad947d913836200639f93362abd89fec86a521a9f7bd2d7a74e95"
+sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
+file = "52-newspapers/daily-newspaper-circulation-dump.txt"
+extracted = "62.1"
 audited = "2026-10-06"
 operands = []
 
@@ -394,6 +421,15 @@ fingerprint = "a031c7ef9be44912f44e9c02bc094b40fd6d481d5d941b4569848dd7845cb235"
 sample_sha256 = "f8a24f81c612bf62eb449a279887328d3ab0b8d4cffbfeefe1f5b42c0efef9e9"
 file = "02-cex/cusize-1985.txt"
 extracted = "23490"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
+fact_id = "us-1980s-daily-newspaper-circulation"
+fingerprint = "f59faf1a78dbcd6b532747a9db0c18dc3e7ba2230c4f5979d8059895095ec11c"
+sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
+file = "52-newspapers/daily-newspaper-circulation-dump.txt"
+extracted = "62.2"
 audited = "2026-10-06"
 operands = []
 
@@ -520,6 +556,15 @@ fingerprint = "8740c955e6d707bd10b78bd38fba4c20facac6c81af3344d2bfd9c0718389583"
 sample_sha256 = "b96c928e38e99eeca848b2dbee9d8429f041a0e29507de4f6502cd48045493c2"
 file = "02-cex/cusize-1996.txt"
 extracted = "33797"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
+fact_id = "us-1990s-daily-newspaper-circulation"
+fingerprint = "72f23d6723621167680cd9f0b6ade095d76587a69342aba5cb02cde4a2eedd24"
+sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
+file = "52-newspapers/daily-newspaper-circulation-dump.txt"
+extracted = "62.3"
 audited = "2026-10-06"
 operands = []
 
@@ -664,6 +709,15 @@ fingerprint = "61d195cabe2ef712353de824bb4adeff7421b3dea0c190199ab60c3626ce4033"
 sample_sha256 = "eb49e4dab599cb00a371c12cfa7cf9d106128ea9fda99f3a701ce978313aee82"
 file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx"
 extracted = "38045"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
+fact_id = "us-2000s-daily-newspaper-circulation"
+fingerprint = "891e1aecc2abcdf6a81385d7fd2214c590bb0d4a723d36b044856e4e11d68246"
+sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
+file = "52-newspapers/daily-newspaper-circulation-dump.txt"
+extracted = "55.8"
 audited = "2026-10-06"
 operands = []
 

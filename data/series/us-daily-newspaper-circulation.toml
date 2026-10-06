@@ -1,0 +1,56 @@
+# Plan 027 WI-10: daily newspapers — net paid circulation, transcribed from
+# the newspapers tables of the Statistical Abstract of the United States
+# (1953-1994 editions archived at samples/01-statistical-abstracts/; the 2001
+# and 2012 edition sections archived at samples/52-newspapers/). The
+# transcription dump with the per-edition prints and archive pins is
+# samples/52-newspapers/daily-newspaper-circulation-dump.txt — see the source
+# registry entry and the verification log, Plan 027 WI-10, before editing.
+
+[[series]]
+id = "us-daily-newspaper-circulation"
+label = "Daily newspapers sold per weekday, 1950-2009"
+source = "statistical-abstract-newspapers"
+tier = "C"
+unit = "daily newspapers, net paid circulation, millions of copies"
+population = "English-language daily newspapers published in the United States; net paid circulation as of September 30 of the year shown (October 1 in the earliest editions); all-day papers counted once in the total"
+notes = "A trade-publisher series: Editor & Publisher yearbook data as republished by the Census Bureau's Statistical Abstract — Tier C, per the source/tier review that governs republished commercial surveys; a federal compiler does not make it Tier A. The 1960 and 1965 figures were revised between editions (the 1970 edition prints 60,882 and 63,030 thousand; the 1985 edition prints 58.9 and 60.4 million); the revised prints are carried and the superseded ones recorded, not smoothed. Values the editions print in thousands keep their full precision; values printed in millions keep the source's 0.1 precision. Years an archived edition does not reprint are absent, not zero: 1951-1954, 1956-1959, 1961-1964, 1966-1971, 1989, 1991-1993 and 2001 among them. The series ends at 2009: the last Statistical Abstract (2012 edition) prints no later data and the Bureau discontinued the compilation; later trade figures use different definitions and were not fetched."
+
+[series.values]
+1950 = 53.8
+1955 = 55.147
+1960 = 58.9
+1965 = 60.4
+1970 = 62.1
+1972 = 62.51
+1973 = 63.147
+1974 = 61.977
+1975 = 60.7
+1976 = 60.977
+1977 = 61.5
+1978 = 62.0
+1979 = 62.2
+1980 = 62.2
+1981 = 61.4
+1982 = 62.5
+1983 = 62.6
+1984 = 63.1
+1985 = 62.8
+1986 = 62.5
+1987 = 62.8
+1988 = 62.7
+1990 = 62.3
+1994 = 59.3
+1995 = 58.2
+1996 = 57.0
+1997 = 56.7
+1998 = 56.2
+1999 = 56.0
+2000 = 55.8
+2002 = 55.2
+2003 = 55.2
+2004 = 54.6
+2005 = 53.3
+2006 = 52.3
+2007 = 50.7
+2008 = 48.6
+2009 = 46.3
