@@ -1,12 +1,16 @@
 # Plan 027 — The past was a different country
 
-**Status:** WI-1 through WI-9 implemented. WI-10 is complete: all three of
-its measures landed 2026-10-06 — the daily-newspaper-circulation arc (38
+**Status:** Complete. WI-1 through WI-9 implemented (WI-7 added
+2026-09-12; WI-8 and WI-9 added 2026-10-05). WI-10 is complete: all three
+of its measures landed 2026-10-06 — the daily-newspaper-circulation arc (38
 values, 1950-2009), the IMLS reference-transaction arc (26 printed years,
 FY1992-FY2019, with fiscal 2013 and 2016 documented as absent), and the
-mail-pieces arc (53 values, FY1900-FY2019). WI-11 and WI-12 remain research
-and editorial work. WI-7 added 2026-09-12; WI-8 and WI-9 added 2026-10-05.
-Scope revised after the 2026-09-07 claims review.
+mail-pieces arc (53 values, FY1900-FY2019). WI-11's source assessment is
+complete (2026-10-06, see its section and
+[docs/appliances-repair-assessment.md](../docs/appliances-repair-assessment.md));
+no measure entered. WI-12's route — the docent tour "Where the questions
+went" — authored 2026-10-06. Scope revised after the 2026-09-07 claims
+review.
 
 ## Purpose and editorial correction
 
@@ -130,21 +134,49 @@ business counts do not directly measure household repair behaviour, product
 durability, or a culture's disappearance. Relative price movements alone do
 not identify why people repair or replace goods.
 
+**Acquisition state (2026-10-06 assessment; see
+[docs/appliances-repair-assessment.md](../docs/appliances-repair-assessment.md)):
+the candidate series are identified with their real coverage.** Appliance
+prices: PPI commodity Household appliances (WPU124, 1982=100) runs 1947→
+and fetches through the existing BLS pipeline; the retail CPI Major
+appliances index (CUUR0000SEHK01) exists only from its December 1997 base.
+Repair prices: the CPI Repair of household items index (CUUR0000SEHP04)
+runs December 1997 → October 2025 and its catalog entry ends there; the
+long repair price record is motor-vehicle (CUUR0000SETD, annual averages
+from 1935), a different object that must not be spliced in. Establishment
+counts: the SIC 76 → NAICS 8114 classification break at 1997/98 falls in
+the middle of the period any repair story would be about, so counts do not
+compare across it; the SIC-era counts live in the Statistical Abstract's
+service-industries tables and would need a scan-table pass of their own.
+A narrow price exhibit is supportable (WPU124 spine, 1997-based CPI
+companions as clearly-dated short arcs); the hours-per-appliance,
+crossover, and repair-culture stories are not. No measure entered.
+
 **Acceptance:** no promised collapse, crossover, or causal story. Present only
 what the acquired evidence supports. Treat quality dispersion as an unanswered
 research question, not as proven bimodality or a claim that no source exists.
 Energy-use and regulatory material may be added with compatible product and
 test-standard definitions; do not recall headline figures from familiar charts.
 
-### WI-12: A source-led visitor route
+### WI-12: A source-led visitor route (delivered 2026-10-06)
 
-Author a short route only after choosing mutually intelligible exhibits.
-State the populations and meaning of each transition. A satisfying route need
-not connect every topic or end with a progress/decline judgment.
+The route is the docent tour **"Where the questions went"**
+(data/essays/where-the-questions-went.toml): it chooses the three
+mutually intelligible exhibits the plan itself delivered — daily
+newspapers sold per weekday, reference questions answered at public
+libraries, and pieces of mail handled — walks each with its arc chart,
+states what every record counts (copies sold, not readers; information
+contacts, not questions about directions; pieces handled, not letters),
+names the gaps and absent years in prose, and sets the signals wing's
+internet and smartphone adoption beside them as juxtaposition only. No
+causal, substitution, or typical-family claim is made; the prose's
+numerals are all bound to exhibits through the docent numeral gate, and
+the closing paragraph states that timing is all the corpus asserts.
 
-**Acceptance:** existing provenance, registry, numeral, rendered-mark,
-accessibility, and layout gates pass. Separately review the prose for causal
-and typical-family claims; a green numeral gate cannot validate them.
+**Acceptance (met):** existing provenance, registry, numeral, rendered-mark,
+accessibility, and layout gates pass; the prose was reviewed separately for
+causal and typical-family claims — the transitions state populations, and
+the only cross-record statement is the juxtaposition sentence above.
 
 ## Scope limits
 

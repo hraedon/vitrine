@@ -1,0 +1,56 @@
+# Docent tour 3 — "Where the questions went" (plan 027, WI-12)
+# Every figure below is bound to a curated exhibit by {fact:<id>}; the
+# numeral gate fails the build on any bare number in this prose.
+
+[essay]
+slug = "where-the-questions-went"
+title = "Where the questions went"
+standfirst = "Three records in the fifth wing follow how a household reached news, answers, and one another: copies of daily newspapers sold, questions answered at public libraries, and pieces of mail handled. They count different things, on different clocks, and none of them says why any line moves."
+
+[[block]]
+kind = "prose"
+text = '''
+The wing's finding-information exhibits are three federal counting efforts. The Statistical Abstract tallied copies of English-language daily newspapers sold per weekday — net paid circulation, as of the first of October in the years its editions cover. The Public Libraries Survey counted reference transactions: information contacts in which library staff used, recommended, or interpreted information sources for someone, with directional questions excluded. The Post Office Department and, later, the Postal Service counted pieces of mail handled — every class together, from personal letters to parcels and advertising.
+
+A copy sold is not a reader, a contact is not a question worth asking twice, and a piece of mail is not a letter. Each record counts its own object; the route moves between them because together they shadow how printed and posted communication ran through the household, not because they measure one activity.
+'''
+
+[[block]]
+kind = "chart"
+arc = "daily-newspaper-circulation"
+
+[[block]]
+kind = "prose"
+text = '''
+The newspaper arc begins in a decade when the 1950s room records that {fact:us-1950s-daily-newspaper-circulation}, and the count climbs to {fact:us-1970s-daily-newspaper-circulation} two decades later. The morning paper and the evening paper were separate everyday objects, and the total barely moves across the whole postwar quarter-century. The decline the arc does show belongs to its last printed decades: by 2000 the room records {fact:us-2000s-daily-newspaper-circulation}, and the series ends with the compilation itself — the 2010s room carries a gap card, because the Bureau discontinued the Statistical Abstract and no later trade figure counts the same thing.
+'''
+
+[[block]]
+kind = "chart"
+arc = "public-library-reference-transactions"
+
+[[block]]
+kind = "prose"
+text = '''
+The library record starts where the modern survey starts: the 1990s room records that {fact:us-1990s-public-library-reference-transactions}. Read the shape of that arc against the newspaper arc with care — the reference count rises through the internet's first commercial decade and peaks in {fact:us-2000s-public-library-reference-transactions}. Every printed year after fiscal 2010 is lower than the one before, and two fiscal years in the middle are simply absent: no retrieved document prints a national total for them, and the arc leaves them out rather than drawing through them. The record ends at fiscal 2019; the pandemic disrupted the next collection, and the room's gap card says so rather than chaining on a value.
+'''
+
+[[block]]
+kind = "chart"
+arc = "mail-pieces-handled"
+
+[[block]]
+kind = "prose"
+text = '''
+Mail is the longest of the three records: the 1900s room records that {fact:us-1900s-mail-pieces-handled}, when the Post Office Department was the country's communication network. The arc climbs for a century — the earliest figures are the source's own estimates, the editions print nothing at all for a couple of years in the 1910s, and the fiscal year itself changes length in the 1970s — to {fact:us-2000s-mail-pieces-handled}, the series peak. After it, {fact:us-2010s-mail-pieces-handled} and every print below that is lower. The 2020s room carries a gap card with a boundary rather than a silence: past the record's end the total is increasingly parcels, so the continuing count is not the same measure of mailed correspondence the arc tracks.
+'''
+
+[[block]]
+kind = "chart"
+arc = "internet"
+
+[[block]]
+kind = "prose"
+text = '''
+The signals wing keeps the adoption records these exhibits are usually read against: {fact:us-1990s-internet} during the 1990s, {fact:us-2010s-smartphone} by its end. Set the charts side by side and the timing is real — newspapers and reference questions fall after the web was ordinary, and mail peaks only once broadband and smartphones are both common. That is juxtaposition, and the corpus claims none of the mechanisms: the three records count copies, contacts, and pieces, the people in them are different populations, and none of the sources measures substitution. The mail record itself grew through the internet's first decade; whichever direction a line runs, the run is the record's own.
+'''
