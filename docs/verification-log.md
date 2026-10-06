@@ -2338,3 +2338,68 @@ last measure of the finding-information work item.
   the transition-quarter rule, cross-edition reconciliation, the tier
   rationale, the arc wiring, and the archive pins (dump-reading checks skip
   when samples/ is absent).
+
+## FWI-003(c): the UK/Japan presentation pass — the cutaway stages render nowhere; the surfaces visitors see pass review (2026-10-06)
+
+FWI-003(c) (written 2026-09-01) asked for a visual-design pass over "the
+new UK/JP stages" by a session that could see the render, because the
+session that landed the stage machinery could not. Executed 2026-10-06 by
+a vision-capable session against the built site (main 3746bdc).
+
+### Finding first: the UK/JP cutaway stages render nowhere — the pass was re-scoped to what visitors actually see
+
+- `HOUSE_ROOMS` (site/curation/collections.py) admits exactly nine rooms,
+  all US (1900s, 1950s–2020s); `room.html` draws `stage_svg` only inside
+  the `house_supported` branch. The walkthrough is US-only by construction
+  (`curated_rooms` filters to `CURATED_COUNTRIES`; a second country sharing
+  a decade reddens the build). A grep of the built site finds
+  `class="stage"` on the nine `rooms/us-*.html` pages and
+  `walkthrough.html` — nowhere else.
+- `UK_STAGE`/`JP_STAGE` therefore still validate on every build
+  (`build_stage` runs per room; every bound fact id must resolve inside its
+  own room; home-scale datums must be positive) but their SVG never reaches
+  a page. Plans 028–030 (2026-09-07) replaced the UK/JP room openings with
+  labelled object cards, research-collection entrances (UK) and the
+  thematic Japan entrance (`collections/japan.html`).
+- Consequence for FWI-003(b): the unused stage `positions` overrides have
+  no trigger — a locale cannot need a different layout for a stage it does
+  not draw.
+
+### What was reviewed, and how
+
+- Surfaces: all twelve UK/JP room pages (1950s–2010s × {uk, jp}) plus
+  `collections/japan.html`, at 375, 768 and 1280 px.
+- Mechanical sweep of the rendered DOM (15 pages × 3 widths): zero
+  horizontal overflow (`scrollingElement.scrollWidth` vs `clientWidth`),
+  zero clipped leaf text (`scrollWidth` vs `clientWidth` per text element),
+  zero zero-sized media.
+- Vision review of ten viewport-sized captures — openings (UK 1950s, UK
+  2010s, Japan entrance), object galleries (UK 1970s, UK 2010s, JP 1950s,
+  JP 1980s, JP 2010s), panel groups (UK 2010s), phone-width openings (UK
+  1970s, JP 1980s, Japan entrance): no defects. Galleries are consistent;
+  the all-gap JP 1950s gallery reads as deliberately empty (distinct
+  gap-state cards, not broken ones); decade strips show one marker per
+  decade with `aria-current="page"` on the open room; the Japan theme
+  columns stack on phone width; the "Room N of 7" context and crosslinks
+  render cleanly.
+- Method note, kept for future passes: two early vision reports claimed
+  the page content was duplicated side-by-side. Both were transmission
+  artifacts of large screenshots (tiled by the image pipeline), disproven
+  against the DOM (one `h1`, one masthead, no spill) and not reproducible
+  with viewport-sized captures. Every alarming claim from the vision pass
+  was re-checked against the DOM before being believed; none survived.
+
+### Standing owner questions this pass surfaces (recorded, not acted on)
+
+- Enrolling UK or Japan into `CURATED_COUNTRIES` (the cross-decade
+  comparative layer, still US-only) remains an authored-editorial-layer
+  decision; the 2026-09-07 presentations gave both countries deliberate
+  openings without joining that set.
+- Whether the never-rendering `UK_STAGE`/`JP_STAGE` registries stay as
+  dormant-but-validated machinery or are removed. They cost nothing at
+  runtime and their per-build room-membership validation is a live gate;
+  removal would discard authored curation that a future presentation
+  change could re-activate. Not this session's call.
+
+No page, template, curation or data change resulted from this pass; the
+build under review is main 3746bdc unchanged.
