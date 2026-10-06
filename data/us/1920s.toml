@@ -277,3 +277,27 @@ source = "bls-api"
 tier = "A"
 notes = "BLS series CUUR0000SEHA. Rent kept rising for five years after other prices crashed, peaking at 34.6 in 1925 — the wartime housing shortage worked its way through leases and construction with a long lag — before easing to 32.1 by 1929. Across the decade rent rose 17% while food fell 21%: shelter took a visibly larger share of the household budget in 1929 than in 1920, without any change in what the family occupied."
 assumptions = ["composite-family"]
+
+# ── Plan 027 WI-8: children and work ──────────────────────────────────────
+
+[[fact]]
+id = "us-1920s-child-labor-share"
+quantity = 11.3
+panel = "day"
+label = "Children 10-15 gainfully occupied, 1920"
+value = "11.3% of children 10-15 were gainfully occupied"
+unit = "percent of children 10-15 years old gainfully occupied"
+price_year = 1920
+source = "census-1943-comparative-occupations"
+tier = "A"
+notes = "Census Table XVIII, Total block, 1920 row. The monograph adds 343,825 males and 12,001 females to the census counts for undercount, and its 1920 agricultural figure is an estimate (1,000,000 children, assumed as 800,000 boys and 200,000 girls); the monograph's own text warns that the percentages for every year except 1930 rest partly on estimates. The share still falls steadily from 1910."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "49-child-labor/census-1943-ch2-p97.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1920 12502582 1416684 (11\.3) \S+ \S+ \S+ \S+$'
+guards = [
+    { locator = '^# source pdf sha256: ([0-9a-f]{64})$', value = "41d578b768f6b2a72c0697aa2af85b110653e719885141c8ef8fe40b2a59efb2" },
+    { locator = '^(# page: printed 97 \(chapter XI\), block Total)$', value = "# page: printed 97 (chapter XI), block Total" },
+]

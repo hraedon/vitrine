@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-10-05 — Children at work, 1870-1930: the census's own adjusted series
+
+Plan 027 WI-8 adds the decennial child-labor share: the percent of children
+10-15 reported as gainful workers at each census from 1870 to 1930, from
+Table XVIII of the Bureau's Comparative Occupation Statistics monograph —
+the Census Bureau's own comparability-adjusted reconstruction, not the raw
+decade counts. Day cards join the 1900s-1930s rooms, a gap card fills the
+1940s (the 1940 census counted the labor force, not gainful workers, and
+the monograph declares the two not exactly comparable), and a corridor arc
+carries the full span with the adjustments stated on its face. The
+archived scan's OCR layer is defective for the cited cells, so the table
+was transcribed from page renders and is held by the table's own
+arithmetic (all 63 percent closures, sex and pursuit sums), by exact
+reconciliation against the 1900 and 1910 decade primaries, and by audit
+locators pinned to the archived bytes. The verification log records the
+transcription, the footnotes, and the one cell two renders misread.
+
+
 ## 2026-10-05 — The gate computes the 1950s metro/non-metro gap
 
 A new `diff` derived op subtracts two structured monetary facts in the same

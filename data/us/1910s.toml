@@ -269,3 +269,27 @@ source = "bls-api"
 tier = "A"
 notes = "BLS series CUUR0000SAA. Clothing was the most violently inflated thing the family bought during the war: 14.9 in 1913 to 36.2 in 1919, +143%, and still climbing to 43.1 in 1920 before collapsing. Wartime demand for wool and cotton, and the diversion of textile capacity to uniforms, fell directly on a household expense that could be deferred but not avoided."
 assumptions = ["composite-family"]
+
+# ── Plan 027 WI-8: children and work ──────────────────────────────────────
+
+[[fact]]
+id = "us-1910s-child-labor-share"
+quantity = 15.0
+panel = "day"
+label = "Children 10-15 gainfully occupied, 1910"
+value = "15.0% of children 10-15 were gainfully occupied"
+unit = "percent of children 10-15 years old gainfully occupied"
+price_year = 1910
+source = "census-1943-comparative-occupations"
+tier = "A"
+notes = "Census Table XVIII, Total block, 1910 row — the adjusted count. The raw 1910 enumeration printed 1,990,225 child workers (Vol IV, Table 28, printed p. 70); the monograph deducts 368,499 (165,557 males, 202,942 females) for an overcount that the 1910 volume itself flagged, its footnote citing a possible excess among children reported in agricultural pursuits. The adjusted cells reconcile exactly against the raw counts, by sex as well as in total."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "49-child-labor/census-1943-ch2-p97.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1910 10828365 1621726 (15\.0) \S+ \S+ \S+ \S+$'
+guards = [
+    { locator = '^# source pdf sha256: ([0-9a-f]{64})$', value = "41d578b768f6b2a72c0697aa2af85b110653e719885141c8ef8fe40b2a59efb2" },
+    { locator = '^(# page: printed 97 \(chapter XI\), block Total)$', value = "# page: printed 97 (chapter XI), block Total" },
+]

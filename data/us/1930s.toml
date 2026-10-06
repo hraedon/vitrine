@@ -269,3 +269,27 @@ source = "bls-api"
 tier = "A"
 notes = "BLS series CUUR0000SEHA. Rent fell from 31.2 in 1930 to 21.4 in 1934-35, back to its 1913 level, and had recovered only to 23.7 by 1939. Shelter, the price that refused to fall in the 1920s, finally did — by 31%. Landlords cut rather than hold empty units, and the sticky line in the budget turned out to be sticky in both directions, just slower downward."
 assumptions = ["composite-family"]
+
+# ── Plan 027 WI-8: children and work ──────────────────────────────────────
+
+[[fact]]
+id = "us-1930s-child-labor-share"
+quantity = 4.7
+panel = "day"
+label = "Children 10-15 gainfully occupied, 1930"
+value = "4.7% of children 10-15 were gainfully occupied"
+unit = "percent of children 10-15 years old gainfully occupied"
+price_year = 1930
+source = "census-1943-comparative-occupations"
+tier = "A"
+notes = "Census Table XVIII, Total block, 1930 row — the only census year the monograph publishes without estimated adjustments. The share is roughly a quarter of its 1900 level. This is the end of the counted series, not of child work: the next census replaced the gainful-worker concept with the labor-force concept, which the monograph's own chapter III declares not exactly comparable."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "49-child-labor/census-1943-ch2-p97.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1930 14300576 667118 (4\.7) \S+ \S+ \S+ \S+$'
+guards = [
+    { locator = '^# source pdf sha256: ([0-9a-f]{64})$', value = "41d578b768f6b2a72c0697aa2af85b110653e719885141c8ef8fe40b2a59efb2" },
+    { locator = '^(# page: printed 97 \(chapter XI\), block Total)$', value = "# page: printed 97 (chapter XI), block Total" },
+]
