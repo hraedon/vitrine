@@ -36,6 +36,18 @@ class ArcPoint:
 
 
 @dataclass(frozen=True, slots=True)
+class CheckpointPoint:
+    """One source-labeled sampling period, with no inferred calendar coordinate."""
+
+    fact_id: str
+    period: str
+    label: str
+    value: str
+    quantity: float | None
+    tier: str
+
+
+@dataclass(frozen=True, slots=True)
 class ArcSeries:
     """One named line in a shared-axis cross-decade chart."""
 
@@ -299,6 +311,86 @@ def arc_chart(
             )
             + f'<text class="tlet" x="{cx:.1f}" y="{height - 12}" '
             f'fill="{tier_color}">{p.tier}</text></g></a>'
+        )
+    out.append("</svg>")
+    return "".join(out)
+
+
+def checkpoint_chart(
+    points: tuple[CheckpointPoint, ...],
+    unit: str,
+    label: str,
+    falling: bool = False,
+    width: int = 880,
+    height: int = 260,
+) -> str:
+    """Discrete sample-period dots on a zero-based concentration axis.
+
+    Equal horizontal slots are categories, never dates. No line interpolates
+    between observations, and an explicitly documented gap receives text, not
+    a dot at zero. The full period remains visible beside its fact-bound mark.
+    """
+    if not points:
+        return ""
+    stroke = tokens.COPPER if falling else tokens.BRASS
+    pad_l, pad_r, pad_t, pad_b = 70, 70, 28, 62
+    plot_w, plot_h = width - pad_l - pad_r, height - pad_t - pad_b
+    quantities = [point.quantity for point in points if point.quantity is not None]
+    q_top = _nice_axis_top(max(quantities)) if quantities else 1.0
+    description = f"{label}, {unit}; equally spaced sampling periods, not a calendar scale"
+    out = [
+        f'<svg class="arc checkpoint-chart" viewBox="0 0 {width} {height}" '
+        f'role="img" aria-label={quoteattr(description)}>',
+        f"<title>{escape(description)}</title>",
+    ]
+    for frac in (0.0, 0.5, 1.0):
+        y = pad_t + plot_h * (1 - frac)
+        out.append(
+            f'<line class="grid" x1="{pad_l}" y1="{y:.1f}" '
+            f'x2="{width - pad_r}" y2="{y:.1f}"/>'
+            f'<text class="ylab" x="{pad_l - 8}" y="{y + 3:.1f}">'
+            f'{_fmt(q_top * frac)}</text>'
+        )
+    out.append(f'<text class="unit" x="{pad_l}" y="14">{escape(unit)}</text>')
+    slot_width = plot_w / max(len(points) - 1, 1)
+    for i, point in enumerate(points):
+        x = pad_l + (slot_width * i if len(points) > 1 else plot_w / 2)
+        # An SVG link otherwise hits only painted glyphs and dots: its bounding
+        # centre lies in empty space. Equal, disjoint transparent columns make
+        # the whole observation clickable without drawing numeric geometry.
+        hit_left = max(0.0, x - slot_width / 2 + 2)
+        hit_right = min(float(width), x + slot_width / 2 - 2)
+        hit_top = pad_t - 20
+        title = f"{point.label}: {point.value} — Tier {point.tier}"
+        out.append(
+            f'<a href={quoteattr(f"#{point.fact_id}--modal")} '
+            f'aria-label={quoteattr(title)}>'
+            f'<rect class="checkpoint-hit" x="{hit_left:.1f}" y="{hit_top}" '
+            f'width="{hit_right - hit_left:.1f}" height="{height - 8 - hit_top}" '
+            f'fill="transparent" pointer-events="all" aria-hidden="true"/>'
+            f'<g data-fact-id={quoteattr(point.fact_id)} '
+            f'data-sampling-period={quoteattr(point.period)}>'
+            f"<title>{escape(title)}</title>"
+            f'<text class="xlab" x="{x:.1f}" y="{height - 34}">'
+            f'{escape(point.period)}</text>'
+        )
+        if point.quantity is None:
+            out.append(
+                f'<text class="gaplab" x="{x:.1f}" y="{pad_t + plot_h - 10}">'
+                "no reliable record</text>"
+            )
+        else:
+            y = pad_t + plot_h * (1 - point.quantity / q_top)
+            out.append(
+                f'<circle class="dot" cx="{x:.1f}" cy="{y:.1f}" r="4.5" '
+                f'fill="{stroke}"/>'
+                f'<text class="vlab" x="{x:.1f}" y="{y - 10:.1f}">'
+                f'{escape(point.value)}</text>'
+            )
+        tier_color = tokens.TIER_COLORS.get(point.tier, tokens.GAP)
+        out.append(
+            f'<text class="tlet" x="{x:.1f}" y="{height - 17}" '
+            f'fill="{tier_color}">{escape(point.tier)}</text></g></a>'
         )
     out.append("</svg>")
     return "".join(out)

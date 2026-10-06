@@ -859,3 +859,50 @@ notes = "Arithmetic mean of twelve monthly seasonally adjusted observations for 
 assumptions = ["composite-family"]
 audit = { file = "50-calculation-inputs/bls-ces-earnings-hours-2000-response.json", extractor = "json-pointer", locator = "/Results/series/0/data/0/value", target = "quantity", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/0/seriesID", value = "CES3000000007" }, { locator = "/Results/series/0/data/0/year", value = "2000" }, { locator = "/Results/series/0/data/0/period", value = "M12" }, { locator = "/Results/series/0/data/1/year", value = "2000" }, { locator = "/Results/series/0/data/1/period", value = "M11" }, { locator = "/Results/series/0/data/2/year", value = "2000" }, { locator = "/Results/series/0/data/2/period", value = "M10" }, { locator = "/Results/series/0/data/3/year", value = "2000" }, { locator = "/Results/series/0/data/3/period", value = "M09" }, { locator = "/Results/series/0/data/4/year", value = "2000" }, { locator = "/Results/series/0/data/4/period", value = "M08" }, { locator = "/Results/series/0/data/5/year", value = "2000" }, { locator = "/Results/series/0/data/5/period", value = "M07" }, { locator = "/Results/series/0/data/6/year", value = "2000" }, { locator = "/Results/series/0/data/6/period", value = "M06" }, { locator = "/Results/series/0/data/7/year", value = "2000" }, { locator = "/Results/series/0/data/7/period", value = "M05" }, { locator = "/Results/series/0/data/8/year", value = "2000" }, { locator = "/Results/series/0/data/8/period", value = "M04" }, { locator = "/Results/series/0/data/9/year", value = "2000" }, { locator = "/Results/series/0/data/9/period", value = "M03" }, { locator = "/Results/series/0/data/10/year", value = "2000" }, { locator = "/Results/series/0/data/10/period", value = "M02" }, { locator = "/Results/series/0/data/11/year", value = "2000" }, { locator = "/Results/series/0/data/11/period", value = "M01" }], calculation = { op = "mean", operands = ["/Results/series/0/data/1/value", "/Results/series/0/data/2/value", "/Results/series/0/data/3/value", "/Results/series/0/data/4/value", "/Results/series/0/data/5/value", "/Results/series/0/data/6/value", "/Results/series/0/data/7/value", "/Results/series/0/data/8/value", "/Results/series/0/data/9/value", "/Results/series/0/data/10/value", "/Results/series/0/data/11/value"], precision = 1, rounding = "half_up", method = "Arithmetic mean of the twelve seasonally adjusted monthly CES3000000007 observations for 2000; each month weighted equally, rounded once to 1 decimal places." } }
 quantity = 41.2
+
+# Lead exposure: the source's sampling period, filed by its starting decade.
+[[fact]]
+id = "us-2000s-blood-lead-median-2003-2006"
+panel = "day"
+label = "Median blood lead, children ages 1–5, 2003–2006"
+value = "1.6 µg/dL"
+unit = "µg/dL (median; children ages 1–5)"
+source = "childstats-phy4a-blood-lead"
+tier = "A"
+notes = "Childstats table PHY4.A, 50th percentile row, 2003–2006 column. Published median, not a geometric mean or a percentage above a threshold. Each period describes a separately sampled national population of children ages 1–5; these are not repeated measurements of the same children. The archive decade is the start decade of the sampling period, not an annual observation. This selected table does not describe every intervening survey period. Laboratory detection limits changed across surveys. Published values are copied without adjustment; see the source notes for methods and nonresponse."
+quantity = 1.6
+assumptions = ["composite-family"]
+[fact.audit]
+file = "48-blood-lead/childstats-phy4a-lead-table.html"
+extractor = "text-regex"
+target = "quantity"
+locator = "<td scope=\"row\">50th percentile \\(&micro;g/dL\\)</td>\\s*(?:<td>[^<]+</td>\\s*){3}<td>([0-9]+(?:\\.[0-9]+)?)</td>"
+guards = [
+    { locator = "<h1>([^<]+)</h1>", value = "PHY4.A  Lead in the blood of children: Selected blood lead levels of children ages 1&ndash;5, selected years 1976&ndash;1980 through 2017&ndash;March 2020" },
+    { locator = "<td scope=\"row\">(50th percentile \\(&micro;g/dL\\))</td>", value = "50th percentile (&micro;g/dL)" },
+    { locator = "<td scope=\"row\" colspan=\"8\">SOURCE:\\s+(National Center for Health Statistics),", value = "National Center for Health Statistics" },
+    { locator = "<th scope=\"col\" class=\"mainheadl\">Characteristic</th>\\s*(?:<th scope=\"col\">[^<]+</th>\\s*){3}<th scope=\"col\">(?:<nobr/>)?([^<]+)(?:<sup><a href=\"#a\">a</a></sup>)?</th>", value = "2003&ndash;2006" },
+]
+
+[[fact]]
+id = "us-2000s-blood-lead-median-2007-2010"
+panel = "day"
+label = "Median blood lead, children ages 1–5, 2007–2010"
+value = "1.3 µg/dL"
+unit = "µg/dL (median; children ages 1–5)"
+source = "childstats-phy4a-blood-lead"
+tier = "A"
+notes = "Childstats table PHY4.A, 50th percentile row, 2007–2010 column. Published median, not a geometric mean or a percentage above a threshold. Each period describes a separately sampled national population of children ages 1–5; these are not repeated measurements of the same children. The archive decade is the start decade of the sampling period, not an annual observation. This selected table does not describe every intervening survey period. Laboratory detection limits changed across surveys. Published values are copied without adjustment; see the source notes for methods and nonresponse."
+quantity = 1.3
+assumptions = ["composite-family"]
+[fact.audit]
+file = "48-blood-lead/childstats-phy4a-lead-table.html"
+extractor = "text-regex"
+target = "quantity"
+locator = "<td scope=\"row\">50th percentile \\(&micro;g/dL\\)</td>\\s*(?:<td>[^<]+</td>\\s*){4}<td>([0-9]+(?:\\.[0-9]+)?)</td>"
+guards = [
+    { locator = "<h1>([^<]+)</h1>", value = "PHY4.A  Lead in the blood of children: Selected blood lead levels of children ages 1&ndash;5, selected years 1976&ndash;1980 through 2017&ndash;March 2020" },
+    { locator = "<td scope=\"row\">(50th percentile \\(&micro;g/dL\\))</td>", value = "50th percentile (&micro;g/dL)" },
+    { locator = "<td scope=\"row\" colspan=\"8\">SOURCE:\\s+(National Center for Health Statistics),", value = "National Center for Health Statistics" },
+    { locator = "<th scope=\"col\" class=\"mainheadl\">Characteristic</th>\\s*(?:<th scope=\"col\">[^<]+</th>\\s*){4}<th scope=\"col\">(?:<nobr/>)?([^<]+)(?:<sup><a href=\"#a\">a</a></sup>)?</th>", value = "2007&ndash;2010" },
+]

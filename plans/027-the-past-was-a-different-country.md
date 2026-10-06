@@ -1,7 +1,8 @@
 # Plan 027 — The past was a different country
 
-**Status:** WI-1 through WI-6 delivered; WI-7 through WI-12 remain research
-and editorial work. Scope revised after the 2026-09-07 claims review.
+**Status:** WI-1 through WI-7 implemented; WI-8 through WI-12 remain research
+and editorial work. WI-7 added 2026-09-12; deployment is separate.
+Scope revised after the 2026-09-07 claims review.
 
 ## Purpose and editorial correction
 
@@ -38,8 +39,8 @@ source checks and the limits of this review.
   worker rate is not the risk experienced by a particular family breadwinner.
 - Tier by the fact-model definitions. A federal publisher does not turn a
   republished trade survey into official microdata computed by this project.
-  The existing SKU cards' Tier B classification needs a separate source/tier
-  review; this editorial pass does not silently retier the facts.
+  The produce-SKU cards are Tier C commercial period-survey proxies after
+  their source/tier review; a federal host does not make them Tier B.
 - Keep comparative curation US-only until another country's compatible
   curation is authored and the comparative registry gate is satisfied. A
   nation-prefixed identifier alone does not provide comparability.
@@ -54,24 +55,19 @@ source checks and the limits of this review.
 | WI-4: injury deaths | FHWA road rate and BLS CFOI hours-based work-injury rate | FHWA fatality window changes in 1976; CFOI starts in 1992, hours-based rates in 2006; earlier records are not claimed nonexistent |
 | WI-5: teenage births | NCHS selected-year age-specific rates | Highest selected point is not the annual historical peak; rate does not establish marital status or sexual behaviour |
 | WI-6: food supply | Four FADS arcs, commodity-count derivations, supermarket SKU cards, 1955 broccoli-use checkpoint | Availability, assortment, and household use are three different measures; a series start does not date an item's arrival |
+| WI-7: lead exposure | Seven Childstats/NHANES median checkpoints for children ages 1–5, repeatable source audits and a discrete-period corridor | Separate national survey samples; full sampling windows, changing laboratory sensitivity and final pre-pandemic weighting remain explicit; no annual interpolation or causal claim |
 
 The verification log records source extraction and cross-checks for these
 deliveries. It is not blanket qualification of all their interpretive notes.
 Plan 015's audit ledger separately records which numeric fields have a current
 repeatable transcription check.
 
+WI-7's source choice, comparability boundaries, archived-file fingerprint and
+qualification record are in [the evidence dossier](../docs/lead-exposure-evidence.md).
+Contemporary interventions and reference thresholds remain separate facts
+requiring their own dated primary sources; none are inferred from this chart.
+
 ## Remaining work
-
-### WI-7: Lead exposure
-
-Research age-specific NHANES blood-lead checkpoints. Preserve the actual
-statistic (median or geometric mean), ages, sampling years, and measurement
-limits. A contemporary intervention or reference threshold is a different
-kind of fact and must have its own dated primary source. Do not infer a causal
-contribution from a regulation's timing alone.
-
-**Acceptance:** source-verified checkpoint facts and explicit population and
-statistic labels. Add a corridor only if comparable observations justify it.
 
 ### WI-8: Children and work
 

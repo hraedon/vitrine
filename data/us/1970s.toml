@@ -740,3 +740,27 @@ unit = "aggregate net worth, households + nonprofit organizations, current dolla
 source = "fed-z1"
 tier = "A"
 notes = "From FRED TNWBSHNO (Fed Z.1 Table B.101.h, Q4 1970). Total assets: $4,354B. Total liabilities: $479B. Net worth: $3,876B. Up from $2,091B in 1960. Liabilities grew to 11% of assets — mortgage debt expanding as homeownership rose. Aggregate — NOT median. From 1945 ($592B Goldsmith / $807B Z.1) to 1970 ($3,876B), household wealth grew 5x in 25 years."
+
+# Lead exposure: the source's sampling period, filed by its starting decade.
+[[fact]]
+id = "us-1970s-blood-lead-median-1976-1980"
+panel = "day"
+label = "Median blood lead, children ages 1–5, 1976–1980"
+value = "15.0 µg/dL"
+unit = "µg/dL (median; children ages 1–5)"
+source = "childstats-phy4a-blood-lead"
+tier = "A"
+notes = "Childstats table PHY4.A, 50th percentile row, 1976–1980 column. Published median, not a geometric mean or a percentage above a threshold. Each period describes a separately sampled national population of children ages 1–5; these are not repeated measurements of the same children. The archive decade is the start decade of the sampling period, not an annual observation. This selected table does not describe every intervening survey period. Laboratory detection limits changed across surveys. Published values are copied without adjustment; see the source notes for methods and nonresponse."
+quantity = 15.0
+assumptions = ["composite-family"]
+[fact.audit]
+file = "48-blood-lead/childstats-phy4a-lead-table.html"
+extractor = "text-regex"
+target = "quantity"
+locator = "<td scope=\"row\">50th percentile \\(&micro;g/dL\\)</td>\\s*(?:<td>[^<]+</td>\\s*){0}<td>([0-9]+(?:\\.[0-9]+)?)</td>"
+guards = [
+    { locator = "<h1>([^<]+)</h1>", value = "PHY4.A  Lead in the blood of children: Selected blood lead levels of children ages 1&ndash;5, selected years 1976&ndash;1980 through 2017&ndash;March 2020" },
+    { locator = "<td scope=\"row\">(50th percentile \\(&micro;g/dL\\))</td>", value = "50th percentile (&micro;g/dL)" },
+    { locator = "<td scope=\"row\" colspan=\"8\">SOURCE:\\s+(National Center for Health Statistics),", value = "National Center for Health Statistics" },
+    { locator = "<th scope=\"col\" class=\"mainheadl\">Characteristic</th>\\s*(?:<th scope=\"col\">[^<]+</th>\\s*){0}<th scope=\"col\">(?:<nobr/>)?([^<]+)(?:<sup><a href=\"#a\">a</a></sup>)?</th>", value = "1976&ndash;1980" },
+]
