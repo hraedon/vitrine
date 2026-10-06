@@ -83,22 +83,26 @@ def test_the_series_spans_1950_to_2009_and_stops() -> None:
 
 
 def test_the_1960_and_1965_revision_is_recorded_not_smoothed() -> None:
+    series = load_series(DATA)[SERIES_ID]
+    assert series.values[1960] == 58.9
+    assert series.values[1965] == 60.4
+    assert SUPERSEDED_PRINTS[1960] not in series.values
+    assert SUPERSEDED_PRINTS[1965] not in series.values
+    if not DUMP.exists():
+        pytest.skip("gitignored archive not present on this machine")
     dump = DUMP.read_text(encoding="utf-8")
     for year, superseded in SUPERSEDED_PRINTS.items():
         # The dump line carries both prints: the revised value first, the
         # superseded thousands-precision print tagged to the 1970 edition.
         line = next(ln for ln in dump.splitlines() if ln.startswith(f"{year} "))
         assert f"sa1970-no765:{round(superseded * 1000)}" in line
-    series = load_series(DATA)[SERIES_ID]
-    assert series.values[1960] == 58.9
-    assert series.values[1965] == 60.4
-    assert SUPERSEDED_PRINTS[1960] not in series.values
-    assert SUPERSEDED_PRINTS[1965] not in series.values
 
 
 def test_overlapping_editions_reconcile() -> None:
     """Every year printed by more than one edition agrees to the later
     edition's precision — the dump's reconciliation claim, checked."""
+    if not DUMP.exists():
+        pytest.skip("gitignored archive not present on this machine")
     prints: dict[int, list[float]] = {}
     for line in DUMP.read_text(encoding="utf-8").splitlines():
         if not line or line.startswith("#"):
