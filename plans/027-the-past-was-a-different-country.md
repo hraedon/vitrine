@@ -1,8 +1,8 @@
 # Plan 027 — The past was a different country
 
-**Status:** WI-1 through WI-8 implemented; WI-9 through WI-12 remain
-research and editorial work. WI-7 added 2026-09-12; WI-8 added 2026-10-05.
-Scope revised after the 2026-09-07 claims review.
+**Status:** WI-1 through WI-9 implemented; WI-10 through WI-12 remain
+research and editorial work. WI-7 added 2026-09-12; WI-8 and WI-9 added
+2026-10-05. Scope revised after the 2026-09-07 claims review.
 
 ## Purpose and editorial correction
 
@@ -56,6 +56,8 @@ source checks and the limits of this review.
 | WI-5: teenage births | NCHS selected-year age-specific rates | Highest selected point is not the annual historical peak; rate does not establish marital status or sexual behaviour |
 | WI-6: food supply | Four FADS arcs, commodity-count derivations, supermarket SKU cards, 1955 broccoli-use checkpoint | Availability, assortment, and household use are three different measures; a series start does not date an item's arrival |
 | WI-7: lead exposure | Seven Childstats/NHANES median checkpoints for children ages 1–5, repeatable source audits and a discrete-period corridor | Separate national survey samples; full sampling windows, changing laboratory sensitivity and final pre-pandemic weighting remain explicit; no annual interpolation or causal claim |
+| WI-8: children and work | The census's comparability-adjusted gainful-occupation share for children 10-15, 1870-1930, from Table XVIII of the 1943 Comparative Occupation Statistics monograph; day cards in the 1900s-1930s rooms and a 1940s gap card | The decennial gainful-worker concept is stated on the cards, not modernised; the series ends at 1930 by the source's own account of the 1940 labor-force break; the 1930s job collapse is recorded as the Bureau records it, with no statute's effect inferred from timing; no post-series zeros |
+| WI-9: smoking restrictions | Five legal-record day cards — the 1973 CAB separation rule, the temporary 1987 two-hour flight ban, the permanent 1989 all-domestic ban, the 2000 statute covering foreign transportation, and California's 1994 workplace statute | Each card is one restriction with its scope, jurisdiction, effective date, and exceptions, verified against a fetched primary record; a permission or restriction does not measure how many people smoked; hospital policy is not represented — the accreditation standard is a private rule with no retrievable primary text and does not meet the statute-or-rule bar |
 
 The verification log records source extraction and cross-checks for these
 deliveries. It is not blanket qualification of all their interpretive notes.
@@ -67,35 +69,19 @@ qualification record are in [the evidence dossier](../docs/lead-exposure-evidenc
 Contemporary interventions and reference thresholds remain separate facts
 requiring their own dated primary sources; none are inferred from this chart.
 
+WI-9's records were re-read from the Statutes at Large and the Federal
+Register rather than from secondary summaries, which conflate the three
+aviation laws of December 1987: the first ban was § 328 of the 1988 DOT
+appropriations act (in Pub. L. 100-202) and was temporary by its own terms —
+effective after four months, repealed after twenty-eight; the all-domestic
+ban is § 335 of Pub. L. 101-164 with its own 96th-day effective date, and
+over-six-hour segments to and from Alaska and Hawaii stayed outside it until
+2000. The 1973 card is sourced to the 2000 rule's recitation because ER-800
+itself was not separately retrieved. The archived records are pinned in the
+samples archive (51-smoking-legal/); the verification log records the
+corrections.
+
 ## Remaining work
-
-### WI-8: Children and work
-
-Research the historical census definitions behind any proposed child-work
-series: ages, employment/gainful-occupation concept, reference period, and
-agricultural coverage. Historical definitions cannot be assumed equivalent to
-modern labour-force measures. Research the FLSA separately as a legal event.
-
-The [Department of Labor's agricultural employment guidance](https://www.dol.gov/general/topic/youthlabor/agriculturalemployment)
-documents age-dependent rules and statutory exemptions. It rules out the
-original plan's blanket assertion of abolition, but is not a source for
-historical prevalence.
-
-**Acceptance:** documented comparability boundaries and no post-series zeros.
-The source must establish why each series ends. No claim that the FLSA ended
-all child employment or that observed work was universally accepted.
-
-### WI-9: Smoking restrictions
-
-Choose a small number of primary legal records. Each fact should describe one
-restriction, its effective date, scope, jurisdiction, and exceptions. Re-read
-the original flight-ban and hospital leads before entering them; the draft's
-broad chronology is not evidence.
-
-**Acceptance:** statute or rule verifies each claim. A permission or
-restriction does not establish how many people smoked in that location.
-Hospital policy, federal law, and state law must not be collapsed into one
-national event.
 
 ### WI-10: Finding information and communicating
 

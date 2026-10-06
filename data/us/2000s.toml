@@ -906,3 +906,16 @@ guards = [
     { locator = "<td scope=\"row\" colspan=\"8\">SOURCE:\\s+(National Center for Health Statistics),", value = "National Center for Health Statistics" },
     { locator = "<th scope=\"col\" class=\"mainheadl\">Characteristic</th>\\s*(?:<th scope=\"col\">[^<]+</th>\\s*){4}<th scope=\"col\">(?:<nobr/>)?([^<]+)(?:<sup><a href=\"#a\">a</a></sup>)?</th>", value = "2007&ndash;2010" },
 ]
+
+# ── Plan 027 WI-9: smoking restrictions — the ban reaches every schedule ─
+
+[[fact]]
+id = "us-2000s-flight-smoking-ban"
+panel = "day"
+label = "Smoking on scheduled passenger flights, 2000"
+value = "From June 4, 2000 smoking was prohibited on all scheduled passenger flights of U.S. and foreign air carriers — including foreign air transportation and the over-six-hour segments the 1989 statute had left out — subject to a waiver of the foreign-carrier rule where a foreign government objects and an alternative prohibition is negotiated"
+unit = "legal status of smoking aboard scheduled passenger flights (federal statute)"
+source = "dot-ost-2000-smoking-aboard-aircraft"
+tier = "A"
+notes = "§ 708 of Pub. L. 106-181 (approved Apr. 5, 2000) recodified the prohibition at 49 U.S.C. 41706: subsection (a) covers scheduled passenger interstate and intrastate air transportation with no duration limit, subsection (b) extends the prohibition to scheduled passenger foreign air transportation, and subsection (c) provides the foreign-objection waiver mechanism — effective 60 days after enactment. The companion FAA rule states that the former Department provisions allowing smoking on flights over 6 hours in duration are superseded by the new legislation. The implementing rule recites that at publication 97.7 percent of scheduled passenger segments to and from the United States were already smoke-free; the statute closed the remaining schedule. A legal prohibition records what the rule now requires, not what any flight's passengers had done."
+assumptions = ["composite-family"]

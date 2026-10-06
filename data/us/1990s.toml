@@ -915,3 +915,28 @@ guards = [
     { locator = "<td scope=\"row\" colspan=\"8\">SOURCE:\\s+(National Center for Health Statistics),", value = "National Center for Health Statistics" },
     { locator = "<th scope=\"col\" class=\"mainheadl\">Characteristic</th>\\s*(?:<th scope=\"col\">[^<]+</th>\\s*){2}<th scope=\"col\">(?:<nobr/>)?([^<]+)(?:<sup><a href=\"#a\">a</a></sup>)?</th>", value = "1999&ndash;2002" },
 ]
+
+# ── Plan 027 WI-9: smoking restrictions — the permanent statutory ban and ─
+# ── one state's workplace standard ────────────────────────────────────────
+
+[[fact]]
+id = "us-1990s-flight-smoking-ban"
+panel = "day"
+label = "Smoking on domestic flights, 1990"
+value = "From February 25, 1990 smoking was unlawful on scheduled flight segments between or within the forty-eight contiguous states, the District of Columbia, Puerto Rico, and the Virgin Islands, within Alaska, and within Hawaii, and on segments of six hours or less between those states and Alaska or Hawaii — while longer nonstop segments to or from the two noncontiguous states remained outside the ban"
+unit = "legal status of smoking aboard scheduled domestic flight segments (federal statute)"
+source = "us-public-law-101-164-sec-335"
+tier = "A"
+notes = "Pub. L. 101-164 § 335 (approved Nov. 21, 1989; 103 Stat. 1098-1099) rewrote 49 U.S.C. App. 1374(d)(1)(A) to cover the segments named in its clauses (i)-(iii) and struck the 1987 ban's 28-month sunset; by its terms it takes effect 'upon the commencement of the 96th day following the date of enactment' — February 25, 1990. The statute reaches scheduled flights only: nonscheduled and charter operations were outside it, and the single-entity-charter blanket waiver DOT had applied since 1982 was codified in the implementing rule (55 FR 4991, Feb. 13, 1990). The scope is the statute's own — the over-six-hour segments to or from Alaska and Hawaii were closed only by the 2000 law."
+assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1990s-california-workplace-smoking"
+panel = "day"
+label = "Smoking in California workplaces, 1995"
+value = "Under a California statute, no employer shall knowingly or intentionally permit, and no person shall engage in, the smoking of tobacco products in an enclosed space at a place of employment — with bars, taverns, and gaming clubs temporarily exempt until January 1, 1997"
+unit = "legal status of smoking in enclosed places of employment (California statute)"
+source = "california-labor-code-6404-5"
+tier = "A"
+notes = "AB 13 (T. Friedman), Chapter 310, Statutes of 1994, approved July 21, 1994, adding Labor Code § 6404.5; the chaptered text defers the operative date to the act's constitutional effective date — January 1, 1995 under the state Constitution's January 1 rule. Subdivision (d) also excepts 65 percent of hotel and motel guest rooms and designated lobby areas, tobacco shops and private smokers' lounges, truck cabs without nonsmoking employees, large warehouses with twenty or fewer employees, theatrical smoking, medical research or treatment sites, and employer breakrooms exhausted directly to the outside. This is one state's statute — a record of what one jurisdiction did, not a national event, and a restriction on workplace conduct, not a measure of how many people smoked at work."
+assumptions = ["composite-family"]

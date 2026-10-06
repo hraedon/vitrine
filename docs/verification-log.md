@@ -2026,3 +2026,88 @@ abolition claim.
   volume; no `expect` markers are set against it (the FRASER record page is
   script-rendered, so raw-HTML markers cannot be verified honestly). The
   archived bytes are the identity anchor.
+
+## Plan 027 WI-9: smoking restrictions — five legal-record cards re-read from the statutes (5 facts, 4 sources)
+
+The wing's draft chronology of smoking restrictions ("1988 short-haul, 1990
+all-domestic, hospitals in the early 1990s, restaurants a decade after") was
+re-read before entry, as the work item required, and the legal record differs
+from the draft in load-bearing ways.
+
+### What the primary records say
+
+- The first federal flight ban is § 328 of the Department of Transportation
+  and Related Agencies Appropriations Act, 1988, carried in Pub. L. 100-202
+  (approved Dec. 22, 1987), printed at 101 Stat. 1329-382/383. It amends
+  Federal Aviation Act § 404 (49 U.S.C. App. 1374) with subsection (d):
+  unlawful to smoke in the passenger cabin or lavatory on any scheduled
+  airline flight scheduled for two hours or less, effective on the
+  expiration of the four-month period following enactment (April 1988) — and
+  repealed effective on the expiration of the twenty-eight-month period. The
+  first ban was temporary by its own terms. Transcribed from the volume 101
+  USLM XML on govinfo.
+- The permanent ban is § 335 of Pub. L. 101-164 (approved Nov. 21, 1989;
+  103 Stat. 1098-1099), "Permanent Prohibition Against Smoking on Scheduled
+  Airline Flights": it rewrites 49 U.S.C. App. 1374(d)(1)(A) to cover the
+  segments named in clauses (i)-(iii) — between or within the contiguous
+  states, the District of Columbia, Puerto Rico and the Virgin Islands;
+  within Alaska; within Hawaii; and segments of six hours or less between
+  those states and Alaska or Hawaii — takes effect on the commencement of
+  the 96th day following enactment (February 25, 1990), and strikes the
+  sunset subparagraph. Over-six-hour segments to or from Alaska and Hawaii
+  remain outside the statute; the companion FAA rule (65 FR 36776) confirms
+  the former provisions "allowing smoking on flights over 6 hours in
+  duration" are superseded only by the 2000 legislation. Transcribed from
+  the volume 103 USLM XML on govinfo.
+- The 2000 statute is § 708 of Pub. L. 106-181 (approved Apr. 5, 2000),
+  recodified at 49 U.S.C. 41706 with the foreign-objection waiver of
+  subsection (c), effective 60 days after enactment (June 4, 2000). Held in
+  the DOT final rule that implements it (65 FR 36772), whose background
+  recites the earlier chain: CAB ER-800, 38 FR 12207 (May 10, 1973), the
+  separation rule, and the Feb. 13, 1990 interim final rule (55 FR 4991)
+  with the single-entity-charter blanket waiver applied since 1982.
+- California's workplace statute is Labor Code § 6404.5, added by AB 13
+  (Chapter 310, Statutes of 1994, approved July 21, 1994): the prohibition,
+  the exception list, and the bar/tavern/gaming exemption until January 1,
+  1997 are on the face of the chaptered text; SEC. 2 defers the operative
+  date to the act's constitutional effective date. Held in the
+  Wayback-archived official chaptered text.
+
+### Corrections to the draft and to secondary summaries
+
+Web summaries of the December 1987 laws conflate three different acts: the
+two-hour ban is § 328 of the DOT appropriations act inside Pub. L. 100-202 —
+not "PL 100-224" (the Aviation Safety and Capacity Expansion Act) and not
+"§ 407 of PL 100-223" (the FAA authorization act), the mis-citations search
+results attach to it. The draft's "1988/1990" phase-out compresses the
+temporary 1987 ban and the 1989 permanent statute with its own 96th-day
+mechanic into a single shift.
+
+### What was not entered
+
+The hospital lead was re-read and not entered. The smoke-free accreditation
+requirement (announced 1991, effective end of 1993) is a private
+accreditor's standard: its primary text lives in the accreditor's print
+manual, the federalregister.gov and stacks.cdc.gov hosts 403 this
+environment, and the retrievable records (PMC/AJPH scholarship) are
+secondary. WI-9's acceptance requires a statute or rule to verify each
+claim; a private standard meets neither description, and no hospital card
+was written.
+
+### Provenance mechanics
+
+- Four new source-registry entries. Two carry `expect` markers against
+  directly retrievable texts: the 2000 DOT rule on govinfo (the "55 FR
+  4991", "unlawful to smoke in the passenger cabin", and "single-entity
+  charters" markers) and the archived chaptered AB 13 text. The two
+  Statutes at Large entries link govinfo's SPA details pages, where
+  raw-HTML markers cannot be verified honestly, and their notes say so —
+  the volume USLM XML files are the identity anchor.
+- All seven archived files are pinned with sha256 in
+  `samples/51-smoking-legal/` and cross-referenced in
+  `samples/MANIFEST.md`.
+- The cards carry no numeric quantities, so no audit-ledger entries are
+  created; the legal texts are the verification, and each card's notes state
+  the effective-date mechanic on the face of the record it cites.
+- `tests/test_site_contracts.py` bibliography contract updated for the four
+  new source pages (120 disclosures, 130 local links).
