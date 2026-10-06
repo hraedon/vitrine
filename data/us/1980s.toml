@@ -845,3 +845,16 @@ guards = [
     { locator = "<td scope=\"row\" colspan=\"8\">SOURCE:\\s+(National Center for Health Statistics),", value = "National Center for Health Statistics" },
     { locator = "<th scope=\"col\" class=\"mainheadl\">Characteristic</th>\\s*(?:<th scope=\"col\">[^<]+</th>\\s*){1}<th scope=\"col\">(?:<nobr/>)?([^<]+)(?:<sup><a href=\"#a\">a</a></sup>)?</th>", value = "1988&ndash;1994" },
 ]
+
+# ── Plan 027 WI-9: smoking restrictions — the temporary short-haul ban ───
+
+[[fact]]
+id = "us-1980s-flight-smoking-ban"
+panel = "day"
+label = "Smoking on short flights, 1988"
+value = "From April 1988 it was unlawful to smoke in the passenger cabin or lavatory on any scheduled airline flight of two hours or less — a temporary ban, written to repeal itself after 28 months"
+unit = "legal status of smoking aboard scheduled flights of two hours or less (federal statute)"
+source = "us-public-law-100-202-sec-328"
+tier = "A"
+notes = "§ 328 of the Department of Transportation and Related Agencies Appropriations Act, 1988 (carried in Pub. L. 100-202, approved Dec. 22, 1987), amending Federal Aviation Act § 404 with 49 U.S.C. App. 1374(d): effective on the expiration of the 4-month period following enactment, and repealed effective on the expiration of the 28-month period. The first flight ban was self-expiring; flights longer than two hours were unaffected, and the permanence question was left to later law. The same subsection set a civil penalty of up to $2,000 for tampering with lavatory smoke alarms."
+assumptions = ["composite-family"]

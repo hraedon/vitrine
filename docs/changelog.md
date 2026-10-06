@@ -1,5 +1,28 @@
 # Changelog
 
+## 2026-10-05 — Smoking restrictions as legal records: five cards, four sources
+
+Plan 027 WI-9 re-reads the wing's smoking-permission story as discrete legal
+records instead of a broad chronology. Five day cards join the rooms: the
+CAB's 1973 separation rule (the first federal restriction — held in the 2000
+rule's recitation, since ER-800 was not separately retrieved); § 328 of the
+1988 DOT appropriations act, which banned smoking on scheduled flights of two
+hours or less from April 1988 and repealed itself after 28 months; § 335 of
+Pub. L. 101-164, which made the ban permanent and all-domestic from February
+25, 1990 while leaving over-six-hour segments to and from Alaska and Hawaii
+outside it; California's Labor Code § 6404.5 (AB 13, 1994), the workplace
+statute whose bar and tavern exemption runs to January 1, 1997; and § 708 of
+Pub. L. 106-181 (June 4, 2000), which extended the prohibition to all
+scheduled passenger flights, foreign transportation included, subject to the
+foreign-objection waiver. The draft's hospital lead was re-read and not
+entered: the accreditation standard is a private rule whose primary text is
+not retrievable, and the acceptance bar is a statute or rule. Secondary
+accounts conflate the three December 1987 aviation laws; the cards cite the
+Statutes at Large and Federal Register texts pinned in the samples archive
+(51-smoking-legal/). Qualification: 759 tests, strict typing, lint, the
+provenance gate, build render/mark coverage, and a regenerated README status
+block.
+
 ## 2026-10-05 — Children at work, 1870-1930: the census's own adjusted series
 
 Plan 027 WI-8 adds the decennial child-labor share: the percent of children

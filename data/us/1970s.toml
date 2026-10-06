@@ -764,3 +764,16 @@ guards = [
     { locator = "<td scope=\"row\" colspan=\"8\">SOURCE:\\s+(National Center for Health Statistics),", value = "National Center for Health Statistics" },
     { locator = "<th scope=\"col\" class=\"mainheadl\">Characteristic</th>\\s*(?:<th scope=\"col\">[^<]+</th>\\s*){0}<th scope=\"col\">(?:<nobr/>)?([^<]+)(?:<sup><a href=\"#a\">a</a></sup>)?</th>", value = "1976&ndash;1980" },
 ]
+
+# ── Plan 027 WI-9: smoking restrictions — the first federal rule ─────────
+
+[[fact]]
+id = "us-1970s-airline-smoking-separation"
+panel = "day"
+label = "Smoking sections aboard, 1973"
+value = "Smoking stayed lawful aboard, but the Civil Aeronautics Board's first smoking rule (ER-800, May 10, 1973) required scheduled air carriers to separate smokers from nonsmokers"
+unit = "legal status of smoking aboard scheduled air carrier flights (federal regulation)"
+source = "dot-ost-2000-smoking-aboard-aircraft"
+tier = "A"
+notes = "ER-800, 38 FR 12207 (May 10, 1973), as recited by the DOT Office of the Secretary in the 2000 final rule that implements the 2000 statute: 'In its initial form, the rule required the separation of smoking passengers from no-smoking passengers.' A separation rule is a restriction, not a ban — this card records where the on-board permission began to erode. The 38 FR 12207 document itself was not separately retrieved; the 2000 rule's recitation is the record held here."
+assumptions = ["composite-family"]
