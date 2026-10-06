@@ -99,6 +99,9 @@ def _op_value(
             return f"≈ {ratio:,.{precision}f}"
         case DerivedOp.COUNT_ABOVE:
             return f"{int(ratio)} of {count_total}"
+        case DerivedOp.DIFF:
+            # exact: a difference of two stored amounts introduces no rounding
+            return money.format_amount(ratio, currency, precision)
         case _:
             assert_never(op)
 
@@ -262,6 +265,35 @@ def evaluate(
             op=derived.op,
             notes=derived.notes,
             assumptions=derived.assumptions,
+        )
+
+    if derived.op is DerivedOp.DIFF:
+        if numerator.amount_minor is None:
+            raise DeriveError(f"{ctx}: numerator {numerator.id!r} has no amount_minor")
+        if denominator.amount_minor is None:
+            raise DeriveError(f"{ctx}: denominator {denominator.id!r} has no amount_minor")
+        if numerator.currency != denominator.currency:
+            raise DeriveError(
+                f"{ctx}: currency mismatch "
+                f"({numerator.currency!r} vs {denominator.currency!r})"
+            )
+        diff = numerator.amount_minor - denominator.amount_minor
+        diff_major = _major_amount(diff, numerator.currency)
+        return ComputedFact(
+            id=derived.id,
+            panel=derived.panel,
+            label=derived.label,
+            unit=derived.unit,
+            value=_op_value(derived.op, diff_major, derived.precision, numerator.currency),
+            numeric_value=diff_major,
+            tier=weakest_tier(numerator.tier, denominator.tier),
+            numerator=numerator,
+            denominator=denominator,
+            op=derived.op,
+            notes=derived.notes,
+            assumptions=derived.assumptions,
+            amount_minor=diff,
+            currency=numerator.currency,
         )
 
     # RATIO and PCT_OF: both operands must be structured monetary facts

@@ -118,9 +118,9 @@ room with the same currency.
 | `panel` | Panel | Which room panel it renders in |
 | `label` | str | Visitor-facing caption |
 | `unit` | str | Carries the semantics ("years of four-person median family income") |
-| `op` | DerivedOp | `ratio`, `pct_of`, `inflate`, `product`, or `quantity_ratio` (closed set) |
-| `numerator` | str | Fact id in this room or another room (cross-room, WI-5); must have `amount_minor` (for ratio/pct_of/product/inflate) or `quantity` (for quantity_ratio) |
-| `denominator` | str | Fact id in this room or another room (cross-room, WI-5); must have `amount_minor` (for ratio/pct_of), `quantity` (for product/quantity_ratio), or empty (for inflate) |
+| `op` | DerivedOp | `ratio`, `pct_of`, `inflate`, `product`, `quantity_ratio`, `diff`, or `count_above` (closed set) |
+| `numerator` | str | Fact id in this room or another room (cross-room, WI-5); must have `amount_minor` (for ratio/pct_of/product/inflate/diff) or `quantity` (for quantity_ratio) |
+| `denominator` | str | Fact id in this room or another room (cross-room, WI-5); must have `amount_minor` (for ratio/pct_of; for diff it is the amount subtracted, same currency, may be zero), `quantity` (for product/quantity_ratio), or empty (for inflate) |
 | `precision` | int | Decimal places in the rendered value (0–4, default 1) |
 | `notes` | str | Curator note — **must not hand-quote numbers**; the drawer shows operands |
 | `assumptions` | list[str] | Ids resolving into the ledger |

@@ -856,3 +856,76 @@ def test_gate_flags_count_above_bad_threshold_or_year(tmp_path: Path) -> None:
     series = {"s-a": _count_series_obj("s-a", "lb", {1960: 5.0})}
     problems = _count_gate_problems(tmp_path, series)
     assert any("threshold > 0" in p for p in problems), problems
+
+
+# ── DIFF op: monetary - monetary → monetary, same currency ─────────────────
+
+
+def test_diff_computes_exact_difference_and_weakest_tier() -> None:
+    room = _room((_fact("us-1950s-a", 325000, Tier.B), _fact("us-1950s-b", 235000, Tier.A)))
+    computed = evaluate(room, _derived(op=DerivedOp.DIFF, precision=0))
+    assert computed.value == "$900"  # exact: no "≈" on a difference of stored amounts
+    assert computed.numeric_value == pytest.approx(900.0)
+    assert computed.amount_minor == 90000
+    assert computed.currency == "USD"
+    assert computed.tier is Tier.B
+
+
+def test_diff_allows_zero_subtrahend() -> None:
+    room = _room((_fact("us-1950s-a", 100), _fact("us-1950s-b", 0)))
+    computed = evaluate(room, _derived(op=DerivedOp.DIFF, precision=2))
+    assert computed.amount_minor == 100
+
+
+def test_diff_currency_mismatch_raises() -> None:
+    room = _room(
+        (_fact("us-1950s-a", 100), _fact("us-1950s-b", 100, currency="GBP")),
+        (_derived(op=DerivedOp.DIFF),),
+    )
+    with pytest.raises(DeriveError, match="currency mismatch"):
+        evaluate_room(room)
+
+
+def test_diff_unstructured_operand_raises() -> None:
+    room = _room(
+        (_fact("us-1950s-a", 100), _fact("us-1950s-b", None)), (_derived(op=DerivedOp.DIFF),)
+    )
+    with pytest.raises(DeriveError, match="no amount_minor"):
+        evaluate_room(room)
+
+
+def _write_diff_corpus(tmp_path: Path, b_amount: int, b_currency: str = "USD") -> Path:
+    (tmp_path / "sources.toml").write_text(
+        '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
+        'url = "https://example.org"\npopulation = "all families"\n'
+    )
+    (tmp_path / "assumptions.toml").write_text(
+        '[[assumption]]\nid = "composite-family"\ntitle = "A"\nstatement = "S"\n'
+    )
+    room_dir = tmp_path / "us"
+    room_dir.mkdir()
+    fact = (
+        '[[fact]]\nid = "{id}"\npanel = "budget"\nlabel = "L"\nvalue = "V"\n'
+        'unit = "U"\nsource = "src-1"\ntier = "A"\namount_minor = {amt}\n'
+        'currency = "{cur}"\nprice_year = 1950\nbasis = "annual"\n\n'
+    )
+    (room_dir / "1950s.toml").write_text(
+        '[room]\ncountry = "us"\ndecade = "1950s"\n\n'
+        + fact.format(id="us-1950s-a", amt=100, cur="USD")
+        + fact.format(id="us-1950s-b", amt=b_amount, cur=b_currency)
+        + '[[derived]]\nid = "us-1950s-d"\npanel = "budget"\nlabel = "D"\n'
+        'unit = "gap"\nop = "diff"\nnumerator = "us-1950s-a"\n'
+        'denominator = "us-1950s-b"\n'
+    )
+    return tmp_path
+
+
+def test_gate_green_on_diff_with_zero_subtrahend(tmp_path: Path) -> None:
+    corpus = load_corpus(_write_diff_corpus(tmp_path, 0))
+    assert check_corpus(corpus) == []
+
+
+def test_gate_flags_diff_currency_mismatch(tmp_path: Path) -> None:
+    corpus = load_corpus(_write_diff_corpus(tmp_path, 50, "GBP"))
+    problems = check_corpus(corpus)
+    assert any("us-1950s-d" in p and "currency mismatch" in p for p in problems), problems

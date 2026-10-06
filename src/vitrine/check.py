@@ -389,7 +389,8 @@ def _check_derived(
                 )
             continue
 
-        # RATIO and PCT_OF: both operands must be structured monetary facts
+        # RATIO, PCT_OF and DIFF: both operands must be structured monetary
+        # facts in one currency
         operands: list[Fact] = []
         for role, operand_id in (
             ("numerator", derived.numerator),
@@ -412,7 +413,8 @@ def _check_derived(
 
         if len(operands) == 2:
             numerator, denominator = operands
-            if denominator.amount_minor == 0:
+            # a zero subtrahend is a valid DIFF; only the division ops refuse it
+            if denominator.amount_minor == 0 and derived.op is not DerivedOp.DIFF:
                 problems.append(
                     f"{where}: denominator {denominator.id!r} has amount_minor = 0"
                 )
