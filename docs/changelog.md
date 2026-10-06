@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-10-05 — The gate computes the 1950s metro/non-metro gap
+
+A new `diff` derived op subtracts two structured monetary facts in the same
+currency and renders the exact result — no "≈", because a difference of two
+stored amounts introduces no rounding. The 1950s metro/non-metro income gap
+is now that computation instead of a hand-typed value: the card's operands
+are the two medians beside it, and the drawer names the subtrahend. The old
+card's 1940 comparison is not carried over; the 1940 sample reports wage
+income only (INCWAGE), a different measure from the 1950 INCTOT medians, and
+the note now says so. Qualification: 612 tests, strict typing, lint, the
+provenance gate, and all 753 rendered-exhibit checks with mark coverage.
+
 ## 2026-09-07 — More room around house glyphs
 
 House circles are larger, with padding around their illustrations and larger

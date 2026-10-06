@@ -86,6 +86,10 @@ class DerivedOp(enum.Enum):
     INFLATE = "inflate"  # numerator x series[to_year] / series[from_year] (Plan 012)
     PRODUCT = "product"  # numerator.amount_minor * denominator.quantity -> minor units (WI-5)
     QUANTITY_RATIO = "quantity_ratio"  # numerator.quantity / denominator.quantity (WI-5)
+    # numerator.amount_minor - denominator.amount_minor -> minor units. Both
+    # operands must be structured monetary facts in the same currency; a gap
+    # between two medians is arithmetic the gate owns, never a typed number.
+    DIFF = "diff"
     # Count of series at or above a threshold in a stated year (Plan 027
     # WI-6). Operands are *series*, not facts: the count is taken over the
     # listed series' values at ``at_year``, and the displayed value carries
