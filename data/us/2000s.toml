@@ -961,3 +961,24 @@ locator = '^2009 (309\.839) pls2009-t8$'
 guards = [
     { locator = '^# source pdf PLS2009 sha256: ([0-9a-f]{64})$', value = "6a8142ab4ed09a5a38b3dcd16caeff68307d2b5e7360f99d6fc342e5f0f99925" },
 ]
+
+[[fact]]
+id = "us-2000s-mail-pieces-handled"
+quantity = 211743
+panel = "table"
+label = "Pieces of mail handled, 2005"
+value = "211,743 million pieces of mail were handled in fiscal 2005 — the series peak"
+unit = "pieces of mail handled, millions per fiscal year"
+price_year = 2005
+source = "us-postal-mail-volume"
+tier = "A"
+notes = "The arc's peak falls five years into the smartphone's future: 2000 printed 207,882 and 2005 printed 211,743, both exact rows of the 2012 edition's Table 1127. After the peak every print is lower — 202,703 (2008), 176,744 (2009) — and the table's own class rows show the fall concentrated in first-class while packages grew."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "54-mail/mail-pieces-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^2005 (211743) sa2012-t1127'
+guards = [
+    { locator = '^# source pdf sa2012-trans sha256: ([0-9a-f]{64})$', value = "8f849322f1504c0c1bbdb53a31fdf4b1516373ee694ffeb75ba30f1d2f007bd1" },
+]

@@ -1,11 +1,11 @@
 # Plan 027 — The past was a different country
 
-**Status:** WI-1 through WI-9 implemented. WI-10 is in progress: its
-newspaper-circulation measure was added 2026-10-06, and its IMLS
-reference-transaction measure was added 2026-10-06 (24 printed years,
-FY1992-FY2019, with fiscal 2013 and 2016 documented as absent); the mail
-measure is researched but not entered. WI-11 and WI-12 remain research and
-editorial work. WI-7 added 2026-09-12; WI-8 and WI-9 added 2026-10-05.
+**Status:** WI-1 through WI-9 implemented. WI-10 is complete: all three of
+its measures landed 2026-10-06 — the daily-newspaper-circulation arc (38
+values, 1950-2009), the IMLS reference-transaction arc (26 printed years,
+FY1992-FY2019, with fiscal 2013 and 2016 documented as absent), and the
+mail-pieces arc (53 values, FY1900-FY2019). WI-11 and WI-12 remain research
+and editorial work. WI-7 added 2026-09-12; WI-8 and WI-9 added 2026-10-05.
 Scope revised after the 2026-09-07 claims review.
 
 ## Purpose and editorial correction
@@ -62,7 +62,7 @@ source checks and the limits of this review.
 | WI-7: lead exposure | Seven Childstats/NHANES median checkpoints for children ages 1–5, repeatable source audits and a discrete-period corridor | Separate national survey samples; full sampling windows, changing laboratory sensitivity and final pre-pandemic weighting remain explicit; no annual interpolation or causal claim |
 | WI-8: children and work | The census's comparability-adjusted gainful-occupation share for children 10-15, 1870-1930, from Table XVIII of the 1943 Comparative Occupation Statistics monograph; day cards in the 1900s-1930s rooms and a 1940s gap card | The decennial gainful-worker concept is stated on the cards, not modernised; the series ends at 1930 by the source's own account of the 1940 labor-force break; the 1930s job collapse is recorded as the Bureau records it, with no statute's effect inferred from timing; no post-series zeros |
 | WI-9: smoking restrictions | Five legal-record day cards — the 1973 CAB separation rule, the temporary 1987 two-hour flight ban, the permanent 1989 all-domestic ban, the 2000 statute covering foreign transportation, and California's 1994 workplace statute | Each card is one restriction with its scope, jurisdiction, effective date, and exceptions, verified against a fetched primary record; a permission or restriction does not measure how many people smoked; hospital policy is not represented — the accreditation standard is a private rule with no retrievable primary text and does not meet the statute-or-rule bar |
-| WI-10 (in progress): finding information and communicating | The daily-newspaper-circulation arc: 38 values, 1950-2009, from the newspapers tables of seven Statistical Abstract editions (Editor & Publisher data, Tier C); decade markers in the 1950s-2000s rooms and a 2010s gap card. The public-library reference-transaction arc: 26 values, FY1992-FY2019, from the Public Libraries Survey's own national tables and summaries (Tier A); decade markers in the 1990s-2010s rooms and a 2020s gap card | Newspapers: a trade-publisher series republished by a federal compiler is Tier C, not a federal statistic; the 1960/1965 E&P revision is recorded, not smoothed; years an archived edition does not reprint are absent, not zero; the series ends with the compilation's last (2009) value, and no 2010s trade figure was fetched (print-plus-digital is a different measure). Reference transactions: an official statistical series (a census via the state library agencies), but the printed national total changes precision and print basis after FY2011 and vanishes from the supplementary tables — each year keeps its source's print, fiscal 2013 and 2016 are absent because no retrieved document prints a total, the FY2012 report's revision signal is recorded rather than smoothed, and the series ends at FY2019 with the FY2020 disruption documented and nothing chained on; the juxtaposition with internet adoption claims neither substitution nor causation in either direction. The mail measure is not entered |
+| WI-10: Finding information and communicating | The daily-newspaper-circulation arc: 38 values, 1950-2009, from the newspapers tables of seven Statistical Abstract editions (Editor & Publisher data, Tier C); decade markers in the 1950s-2000s rooms and a 2010s gap card. The public-library reference-transaction arc: 26 values, FY1992-FY2019, from the Public Libraries Survey's own national tables and summaries (Tier A); decade markers in the 1990s-2010s rooms and a 2020s gap card. The mail-pieces arc: 53 values, FY1900-FY2019, from the Statistical Abstract's postal tables and the USPS Form 10-Ks (Tier A); decade markers in all thirteen rooms and a 2020s gap card | Newspapers: a trade-publisher series republished by a federal compiler is Tier C, not a federal statistic; the 1960/1965 E&P revision is recorded, not smoothed; years an archived edition does not reprint are absent, not zero; the series ends with the compilation's last (2009) value, and no 2010s trade figure was fetched (print-plus-digital is a different measure). Reference transactions: an official statistical series (a census via the state library agencies), but the printed national total changes precision and print basis after FY2011 and vanishes from the supplementary tables — each year keeps its source's print, fiscal 2013 and 2016 are absent because no retrieved document prints a total, the FY2012 report's revision signal is recorded rather than smoothed, and the series ends at FY2019 with the FY2020 disruption documented and nothing chained on. Mail: the Post Office Department's and Postal Service's own annual counts — pre-1930 figures are estimates by the 1960 edition's own note, 1915 and 1920 are absent, the 1970s revision between editions and the 10-K reclassifications are recorded, the 2010 splice carries both bases, the 1976 transition quarter is not summed into any year, and the series ends at FY2019 because past it the total is increasingly packages rather than correspondence. All three arcs are juxtaposed with internet adoption without claiming substitution or causation |
 
 The verification log records source extraction and cross-checks for these
 deliveries. It is not blanket qualification of all their interpretive notes.
@@ -88,26 +88,15 @@ corrections.
 
 ## Remaining work
 
-### WI-10: Finding information and communicating (in progress)
+### WI-10: Finding information and communicating (complete)
 
-Two of the three measures are delivered (see the delivered-work table). The
-mail measure is investigated but not entered; its acquisition state, so the
-next pass starts from evidence rather than recollection:
-
-- Mail. Total pieces handled, 1789-1970, is Historical Statistics series
-  R 163-171 (the archived 1975 volume; the 1960 Statistical Abstract's
-  No. 654 prints 1900-1959 from the Post Office Department's annual
-  reports). First-Class Mail as a class dates from the 1963 rate
-  reorganization, and class-level annual pieces would come from the
-  departmental and USPS annual reports year by year. A mail class is not a
-  measure of personal correspondence. Not entered.
-
-**Acceptance (unchanged):** record definitions and breaks before building
-arcs. Compare with internet adoption only as juxtaposition, without
-claiming substitution or causation. Preserve whichever direction the data
-actually show.
-
-The reference-transaction measure's acquisition record, since the 2026-10-06
+All three measures are delivered (see the delivered-work table). The
+acceptance held across all three: definitions and breaks were recorded
+before the arcs were built, and each arc is juxtaposed with internet
+adoption without claiming substitution or causation, preserving whichever
+direction the data actually show — newspapers and reference questions fall
+after the web was ordinary; mail peaked in 2005 and then fell. The
+reference-transaction measure's acquisition record, since the 2026-10-06
 pass landed it: the IMLS site stopped serving its PLS publications, so all
 32 documents were retrieved from Wayback captures of imls.gov (the FY2019
 results report from librarydataarchive.com after the captures were
@@ -120,7 +109,12 @@ and the verification log); the FY2020 collection was disrupted by pandemic
 closures and the survey's publication format changed after FY2019, so the
 arc ends there. If a FY2016 printed total surfaces (the report's own Wayback
 capture was not retrievable at acquisition time), it enters as a revision
-with the same evidence bar.
+with the same evidence bar. The mail measure's acquisition record is in the
+verification log: four archived scan editions eye-transcribed, the 2012
+section's clean text, and six Form 10-Ks for the tail; the 1970s edition
+revision and the 10-K reclassifications recorded, the 2010 splice carrying
+both bases, and the arc ending at FY2019 because past it the total is
+increasingly packages rather than correspondence.
 
 ### WI-11: Appliances, prices, and repair
 

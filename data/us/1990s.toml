@@ -984,3 +984,24 @@ locator = '^1992 (227\.997) pls1992-t15$'
 guards = [
     { locator = '^# source pdf PLS1992 sha256: ([0-9a-f]{64})$', value = "2377f134afcb379eba2aa77daf2ae6498712e3f096d2fd96269dcc75ccfe22eb" },
 ]
+
+[[fact]]
+id = "us-1990s-mail-pieces-handled"
+quantity = 166301
+panel = "table"
+label = "Pieces of mail handled, 1990"
+value = "166,301 million pieces of mail were handled in fiscal 1990"
+unit = "pieces of mail handled, millions per fiscal year"
+price_year = 1990
+source = "us-postal-mail-volume"
+tier = "A"
+notes = "The volume grew about a quarter across the internet's first commercial decade, reaching 207,882 million by fiscal 2000 — the growth is advertising mail's: the compilation's own class rows show first-class volume already falling while Standard Mail rose. The records are juxtaposed here, and neither claims the other's cause."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "54-mail/mail-pieces-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1990 (166301) sa2012-t1127'
+guards = [
+    { locator = '^# source pdf sa2012-trans sha256: ([0-9a-f]{64})$', value = "8f849322f1504c0c1bbdb53a31fdf4b1516373ee694ffeb75ba30f1d2f007bd1" },
+]

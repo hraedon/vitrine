@@ -879,3 +879,24 @@ locator = '^1980 (62\.2) sa1985-no938'
 guards = [
     { locator = '^# source zip sa1985 sha256: ([0-9a-f]{64})$', value = "f969329cee6043ae40f583bd9d01833d37caeb05e02c64901be1c379c1582cfa" },
 ]
+
+[[fact]]
+id = "us-1980s-mail-pieces-handled"
+quantity = 106311
+panel = "table"
+label = "Pieces of mail handled, 1980"
+value = "106,311 million pieces of mail were handled in fiscal 1980"
+unit = "pieces of mail handled, millions per fiscal year"
+price_year = 1980
+source = "us-postal-mail-volume"
+tier = "A"
+notes = "The 1985 edition prints 106.3 billion and the 1990 edition 106,311 — the two bases meet. The decade's prints run to 160,491 by fiscal 1988; 1984, 1986, and 1989 are absent because the 1994 edition dropped the postal volume table and no archived edition prints them."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "54-mail/mail-pieces-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1980 (106311) sa1990-no911'
+guards = [
+    { locator = '^# source zip sa1990 sha256: ([0-9a-f]{64})$', value = "171da2a415ec2b68292ab5ba3bd47798c053bd962db10ee413826965255a1720" },
+]

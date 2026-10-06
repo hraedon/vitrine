@@ -931,3 +931,15 @@ source = "imls-public-libraries-survey"
 tier = "A"
 notes = "The gap is the record's end, not evidence that nobody asks librarians anything. The FY2020 research brief records libraries expanding virtual reference while their buildings were shut, and the survey's own documentation treats FY2020 as disrupted; no FY2020-or-later national total was fetched, so nothing is chained onto the series."
 assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2020s-mail-pieces-handled"
+panel = "table"
+label = "Pieces of mail handled, 2020s"
+value = "no chained value — the series ends with its fiscal 2019 value; the total's composition shifts toward packages while first-class mail keeps falling, so the continuing 10-K record is not the same measure of mailed communication this arc tracks"
+unit = "pieces of mail handled, millions per fiscal year"
+price_year = 2020
+source = "us-postal-mail-volume"
+tier = "A"
+notes = "The gap is a boundary, not a silence: the Form 10-K record continues past fiscal 2019, but the volume it counts is increasingly Shipping and Packages rather than the letters and flats this wing's communication story is about. Nothing is chained onto the series; a class-level arc would be a different exhibit with its own acceptance review."
+assumptions = ["composite-family"]

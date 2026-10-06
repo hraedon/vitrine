@@ -798,3 +798,24 @@ locator = '^1970 (62\.1) sa1985-no938'
 guards = [
     { locator = '^# source zip sa1985 sha256: ([0-9a-f]{64})$', value = "f969329cee6043ae40f583bd9d01833d37caeb05e02c64901be1c379c1582cfa" },
 ]
+
+[[fact]]
+id = "us-1970s-mail-pieces-handled"
+quantity = 84882
+panel = "table"
+label = "Pieces of mail handled, 1970"
+value = "84,882 million pieces of mail were handled in fiscal 1970"
+unit = "pieces of mail handled, millions per fiscal year"
+price_year = 1970
+source = "us-postal-mail-volume"
+tier = "A"
+notes = "The most revised year in the arc, and the revision is the record: the 1976 edition printed 82,005; the 1985 edition revised the whole decade onto the basis its successors carry (84.9 billion here), and the 1990 edition prints 84,882 exactly — equal to its own domestic-plus-international rows. Fiscal 1976 is the June-30 year; the Postal Service's 1976 transition quarter (July-September, 21.5 billion pieces) is printed separately by the 1985 edition and is not summed into any year; from fiscal 1977 the year ends September 30."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "54-mail/mail-pieces-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1970 (84882) sa1990-no911'
+guards = [
+    { locator = '^# source zip sa1990 sha256: ([0-9a-f]{64})$', value = "171da2a415ec2b68292ab5ba3bd47798c053bd962db10ee413826965255a1720" },
+]
