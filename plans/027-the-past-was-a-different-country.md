@@ -1,7 +1,7 @@
 # Plan 027 — The past was a different country
 
-**Status:** WI-1 through WI-7 implemented; WI-8 through WI-12 remain research
-and editorial work. WI-7 added 2026-09-12; deployment is separate.
+**Status:** WI-1 through WI-8 implemented; WI-9 through WI-12 remain
+research and editorial work. WI-7 added 2026-09-12; WI-8 added 2026-10-05.
 Scope revised after the 2026-09-07 claims review.
 
 ## Purpose and editorial correction

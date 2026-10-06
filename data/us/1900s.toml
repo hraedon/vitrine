@@ -407,3 +407,27 @@ unit = "% of total nonfarm household assets by type"
 source = "goldsmith-balance-sheet"
 tier = "D"
 notes = "From Goldsmith (1963), Table 1. In 1900, households held roughly equal tangible and financial assets. Tangible = real estate + consumer durables. Financial = deposits + securities + life insurance + pension reserves. By contrast, in 1958 tangible fell to 39% as financial assets grew."
+
+# ── Plan 027 WI-8: children and work ──────────────────────────────────────
+
+[[fact]]
+id = "us-1900s-child-labor-share"
+quantity = 18.2
+panel = "day"
+label = "Children 10-15 gainfully occupied, 1900"
+value = "18.2% of children 10-15 were gainfully occupied"
+unit = "percent of children 10-15 years old gainfully occupied"
+price_year = 1900
+source = "census-1943-comparative-occupations"
+tier = "A"
+notes = "Census Table XVIII, Total block, 1900 row: 1,750,178 of 9,613,252 children. The census counted children reported as gainful workers — the decennial concept, not school attendance or a modern labor-force week. The row matches the Twelfth Census occupation report (printed p. cxlvii) cell for cell, and the monograph's 1900 transfers move farm laborers between agricultural and nonagricultural pursuits without touching this total."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "49-child-labor/census-1943-ch2-p97.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1900 9613252 1750178 (18\.2) \S+ \S+ \S+ \S+$'
+guards = [
+    { locator = '^# source pdf sha256: ([0-9a-f]{64})$', value = "41d578b768f6b2a72c0697aa2af85b110653e719885141c8ef8fe40b2a59efb2" },
+    { locator = '^(# page: printed 97 \(chapter XI\), block Total)$', value = "# page: printed 97 (chapter XI), block Total" },
+]

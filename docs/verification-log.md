@@ -1913,3 +1913,116 @@ shared-denylist staged identifier check passed.
 
 See the calculation evidence, editorial review and Japan curation documents
 for corrections, population boundaries and outstanding source retrieval.
+
+## Plan 027 WI-8: children and work — the census child-labor series, transcribed from the monograph's own adjusted table (5 facts)
+
+**Date:** 2026-10-05
+**Verifier:** GLM 5.3 session (ZCode), against page renders of the archived scans
+
+### The source, and why the monograph rather than the decade volumes
+
+Plan 027 WI-8 wants the share of children 10-15 gainfully occupied. The
+transcription primary is **Table XVIII of *Comparative Occupation Statistics
+for the United States, 1870 to 1940*** (Sixteenth Census, 1943; archived as
+`samples/49-child-labor/census-1940-comparative-occupation-statistics-ch2.pdf`,
+table on printed p. 97): the Census Bureau's own comparability-adjusted
+reconstruction, published with its adjustment footnotes, carrying every census
+year 1870-1930 on one page by sex and by agricultural/nonagricultural pursuits.
+Using the monograph's adjusted series is a choice the data files state: the
+raw decade counts are not comparable across years, and the monograph is the
+Bureau's own statement of what comparable means.
+
+### The transcription, and the trap
+
+The archived scan's OCR text layer is defective for exactly the cells this
+exhibit cites (the 1900 population extracts as "ll,613,2li2"; kerning spaces
+split "667,  118"; the 1880 worker total renders as garbage in one pass). The
+table was therefore transcribed from 400-1200 dpi page renders — eye
+transcription, not text-layer parsing — and held by four closures:
+
+- **Percent closure.** Every printed percent equals 100 x number / total at
+  the table's one-decimal rounding, for all 21 rows x 3 pursuit columns of
+  the Total, Male and Female blocks. All 63 close.
+- **Sum closure.** Agricultural + nonagricultural = all occupations, every
+  row; male + female = total, every column of every block. All close.
+- **Decade-primary reconciliation (1910).** Census Vol IV, Table 28 (printed
+  p. 70, archived `census-1910-vol4/volume-4-p2.pdf`) publishes the raw 1910
+  counts: 1,990,225 child workers (1,353,139 male, 637,086 female). The
+  monograph's footnote-2 deduction of 368,499 (165,557 males, 202,942
+  females) reconciles exactly: 1,990,225 - 368,499 = 1,621,726, and the same
+  closure holds by sex. The 1910 volume itself flagged the possible excess
+  (footnote to the Table 28/29 summary, printed p. 70).
+- **Decade-primary reconciliation (1900).** The Twelfth Census occupation
+  report (archived FULL volume, section "Number and Proportion of Children
+  at Work", printed p. cxlvii) publishes, and the page image carries, the
+  same 1900 cells the monograph carries: 1,750,178 of 9,613,252, 18.2 per
+  cent; males 1,264,411 (26.1); females 485,767 (10.2). The same page
+  verifies the monograph's 1880 row (1,118,356; 825,187; 293,169; 16.8).
+  The 1900 report deliberately does not compare against 1890 ("partly on
+  account of the uncertainty of the returns for children at work in 1890"),
+  so no 1890 witness exists in that report.
+
+One cell resisted two readings: the 1890 Total-block population read as
+8,322,378 at 900 dpi, while the sex rows summed to 8,322,373 and the OCR
+layer agreed with the sum. A 1200 dpi render settles it: the printed digit
+is 3 — 8,322,373, and the table closes.
+
+### What the footnotes say (transcribed from p. 97)
+
+1. (1920) "To census figures were added 343,825 males and 12,001 females,
+   because of undercount (2a)." The 1920 agricultural figure is the
+   estimate referenced by (2a): 1,000,000 children, assumed as 800,000 boys
+   and 200,000 girls (Appendix A, estimate 2a; the chapter text states the
+   assumption directly).
+2. (1910) "From census figures were deducted 165,557 males and 202,942
+   females, because of overcount (1)."
+3. (1900, 1890, 1880) Transfers from nonagricultural to agricultural
+   pursuits account for farm laborers classified as "Laborers (not
+   specified)" — 28,462 males and 4,338 females in 1900; 42,186 and 4,210
+   in 1890; 45,578 and 5,715 in 1880. Transfers move children between
+   pursuits without touching the all-occupations totals, which is why the
+   1900 and 1880 rows match the decade report exactly.
+4. (1890) Figures exclude Indian Territory and Indian reservations
+   (specially enumerated, no occupation statistics); remaining areas carry
+   the corrected figures per the 1900 Occupation Report, pp. lxvi-lxxii.
+5. (1870) In the census figures 17,331 males and 1,911 females were
+   transferred from nonagricultural to agricultural pursuits, and — for
+   undercount in 13 Southern States — 87,402 males and 90,215 females were
+   added to the population, 13,499 males and 3,234 females to agricultural
+   workers, and 3,856 males and 5,212 females to nonagricultural workers.
+
+The chapter text warns that the percentages for every year except 1930 rest
+partly on estimates. The 1930 row is as enumerated.
+
+### Why the series ends at 1930
+
+The monograph's chapter III is titled "The 'Gainful Worker' Concept of 1930
+and the 'Labor Force' Concept of 1940" and states the 1930 gainful-worker
+statistics are not exactly comparable with the 1940 labor-force statistics
+(it details the exclusions: seasonal workers idle in the off season, for
+example, count as gainful workers in 1930 but not in the 1940 labor force
+unless actively seeking work). The same chapter records that the decline in
+employment opportunities across 1930-40 affected young workers
+particularly. The 1940s room therefore carries a gap card, not a zero and
+not a post-series continuation, and no statute's effect is inferred from
+timing. This is the acceptance WI-8 demanded: documented comparability
+boundaries, the source establishing why the series ends, and no blanket
+abolition claim.
+
+### Provenance mechanics
+
+- `scripts/census_child_labor_extract.py` re-derives the series file from
+  the transcribed table, re-runs all closures, asserts the clean text-layer
+  anchors ("TABLE XVIII", "14,300,576", "764,965", "Nonagricultural") that
+  pin the archived bytes, and writes the audit dump
+  (`census-1943-ch2-p97.txt`) whose header carries the source PDF's sha256.
+- The four plotted room facts carry `[fact.audit]` blocks whose locators
+  bind to that dump (exact-once matches), with guards pinning the PDF hash
+  and the table identity — a replaced archive fails loudly.
+- `tests/test_child_labor.py` re-runs the closures and reconciliations from
+  committed constants and asserts the series ends honestly (no card in any
+  room after the 1940s gap).
+- The source registry entry carries the FRASER record URL for the digitized
+  volume; no `expect` markers are set against it (the FRASER record page is
+  script-rendered, so raw-HTML markers cannot be verified honestly). The
+  archived bytes are the identity anchor.

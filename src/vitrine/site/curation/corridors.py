@@ -510,6 +510,29 @@ ARCS: tuple[Arc, ...] = (
         ),
     ),
     Arc(
+        "child-labor-share",
+        "Children 10-15 gainfully occupied",
+        "percent of children 10-15 years old gainfully occupied",
+        _ids("us-{decade}-child-labor-share", "190 191 192 193 194"),
+        series_id="us-child-labor-share",
+        caveats=(
+            "A census-count series, not annual: each point is one "
+            "decennial census's count of children reported as gainful "
+            "workers, and the line between points crosses ten-year gaps.",
+            "The Bureau's own comparability adjustments are part of the "
+            "record: 1910 deducts an overcount its own volume flagged, "
+            "1920 adds an undercount and carries an estimated agricultural "
+            "component, and 1890 excludes Indian Territory and Indian "
+            "reservations. The 1930 row is the one census year published "
+            "without estimated adjustments.",
+            "The series ends at 1930 because the measurement changed: the "
+            "1940 census counted the labor force, not gainful workers, and "
+            "the monograph declares the two not exactly comparable. The "
+            "1940s slot is a gap, not a zero, and no statute's effect is "
+            "inferred from timing.",
+        ),
+    ),
+    Arc(
         "availability-broccoli",
         "Broccoli available per person",
         "pounds per person per year (farm weight)",
@@ -780,6 +803,7 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
             "traffic-death-rate",
             "workplace-death-rate",
             "teen-birth-rate",
+            "child-labor-share",
             "blood-lead-median",
             "exotic-turned-ordinary",
         ),

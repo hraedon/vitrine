@@ -427,3 +427,16 @@ unit = "aggregate net worth of nonfarm household sector, current dollars"
 source = "goldsmith-balance-sheet"
 tier = "D"
 notes = "From Goldsmith, Lipsey & Mendelson (1963), Table 1, Sector I.1 (Nonfarm households). Total assets: $623B. Tangible assets: $200B (real estate $142B, consumer durables $41B). Financial assets: $423B. Debt: $31B. Net worth: $592B. WWII transformed the household balance sheet: financial assets surged to 68% of total as war bonds and savings deposits accumulated. Debt was minimal ($31B) — wartime controls suppressed consumer credit. Aggregate — NOT median. The Fed Z.1 series begins here (Q4 1945)."
+
+# ── Plan 027 WI-8: children and work — the measurement changed ────────────
+
+[[fact]]
+id = "us-1940s-child-labor-share"
+panel = "day"
+label = "Children 10-15 gainfully occupied, 1940"
+value = "no comparable record — the 1940 census counted the labor force, not gainful workers, and the Census Bureau's own comparative volume declares the two not exactly comparable"
+unit = "percent of children 10-15 years old gainfully occupied"
+source = "census-1943-comparative-occupations"
+tier = "A"
+notes = "The 1940 census asked about the labor force — recent work or active seeking — instead of any gainful occupation, and changed the occupation and industry classifications alongside. Chapter III of the comparative volume is titled 'The Gainful Worker Concept of 1930 and the Labor Force Concept of 1940' and states the two are not exactly comparable, even occupation by occupation. The share of children counted at work did not become zero — the measurement changed. The Bureau also records that the decline in employment opportunities across the 1930s affected young workers particularly, so no part of the fall can be attributed to any single statute by timing alone."
+assumptions = ["composite-family"]
