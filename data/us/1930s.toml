@@ -293,3 +293,24 @@ guards = [
     { locator = '^# source pdf sha256: ([0-9a-f]{64})$', value = "41d578b768f6b2a72c0697aa2af85b110653e719885141c8ef8fe40b2a59efb2" },
     { locator = '^(# page: printed 97 \(chapter XI\), block Total)$', value = "# page: printed 97 (chapter XI), block Total" },
 ]
+
+[[fact]]
+id = "us-1930s-mail-pieces-handled"
+quantity = 27888
+panel = "table"
+label = "Pieces of mail handled, 1930"
+value = "27,888 million pieces of mail were handled in fiscal 1930"
+unit = "pieces of mail handled, millions per fiscal year"
+price_year = 1930
+source = "us-postal-mail-volume"
+tier = "A"
+notes = "Three editions agree on this year (27,888 in 1960 and 1976, 27.9 billion in 1985). The Depression decade's prints fall away from here — 22,332 by 1935 — and the record shows the fall without attributing it."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "54-mail/mail-pieces-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1930 (27888) sa1960-no654'
+guards = [
+    { locator = '^# source zip sa1960 sha256: ([0-9a-f]{64})$', value = "deee4a1189272ea442247024c6517647f26eef664c7ccb454e4542b37bec5109" },
+]

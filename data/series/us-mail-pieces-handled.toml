@@ -1,0 +1,72 @@
+# Plan 027 WI-10: pieces of mail handled by the Post Office Department and
+# the U.S. Postal Service, fiscal years 1900-2019, transcribed from the
+# postal-service summary tables of four archived Statistical Abstract editions
+# (1960, 1976, 1985, 1990), the 2012 edition's Transportation section, and the
+# USPS Form 10-K volume tables (2011-2019). The transcription dump with the
+# per-year prints and archive pins is samples/54-mail/mail-pieces-dump.txt —
+# see the source registry entry and the verification log, Plan 027 WI-10,
+# before editing.
+
+[[series]]
+id = "us-mail-pieces-handled"
+label = "Pieces of mail handled, 1900-2019"
+source = "us-postal-mail-volume"
+tier = "A"
+unit = "pieces of mail handled, millions per fiscal year"
+population = "All mail handled by the United States Post Office Department and, from July 1971, the U.S. Postal Service — every mail class plus free and penalty mail; fiscal years ended June 30 through 1976 (the Postal Service's 1976 transition quarter of July-September 1976 is printed separately and not summed), September 30 from fiscal 1977; the 1960 edition includes Alaska, Hawaii, and the outlying areas, later editions Puerto Rico and the outlying areas"
+notes = "Tier A: the underlying counts are the Post Office Department's and the Postal Service's own annual-report statistics — official federal data wherever the Census Bureau's Statistical Abstract reprinted it. Values the editions print in billions at 0.1 precision are converted to millions without rounding; every later print is carried and superseded prints recorded, not smoothed — the whole 1970s were revised between the 1976 and 1985 editions (1970's print moves 82,005 to 84.9 billion, confirmed at 84,882 by the 1990 edition), and the 10-Ks reclassify their categories between editions (2015, 2016, 2017 each carry superseded prints). Fiscal 1915 and 1920 are absent: the editions print dashes and (NA). 1984, 1986, 1989, 1991-1994, 1996-1999 and 2001-2004, 2006-2007 are absent because no archived edition or table prints them. The splice at 2010 is recorded: the 2012 edition prints 170,574 and the FY2012 10-K prints 170,859 for the same year (a reclassification basis difference); the arc carries the compilation's print through 2010 and the 10-K's from 2011. The series ends at FY2019 — the 10-K record continues, but the total's composition shifts toward packages while First-Class Mail falls, so the 2020s marker is a gap rather than a chained-on value."
+
+[series.values]
+1900 = 7130
+1905 = 10188
+1910 = 14850
+1925 = 25835
+1930 = 27888
+1935 = 22332
+1940 = 27749
+1945 = 37912
+1950 = 45064
+1951 = 46908
+1952 = 49906
+1953 = 50948
+1954 = 52213
+1955 = 55234
+1956 = 56441
+1957 = 59078
+1958 = 60130
+1959 = 61247
+1960 = 63675
+1965 = 71873
+1970 = 84882
+1971 = 87000
+1972 = 87200
+1973 = 89700
+1974 = 90100
+1975 = 89300
+1976 = 89800
+1977 = 92200
+1978 = 98900
+1979 = 99800
+1980 = 106311
+1981 = 110100
+1982 = 114000
+1983 = 119400
+1985 = 140098
+1987 = 153931
+1988 = 160491
+1990 = 166301
+1995 = 180734
+2000 = 207882
+2005 = 211743
+2008 = 202703
+2009 = 176744
+2010 = 170574
+2011 = 168297
+2012 = 159859
+2013 = 158222
+2014 = 155539
+2015 = 154321
+2016 = 154342
+2017 = 149590
+2018 = 146402
+2019 = 142570

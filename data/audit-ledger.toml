@@ -101,11 +101,29 @@ audited = "2026-10-06"
 operands = []
 
 [[entry]]
+fact_id = "us-1900s-mail-pieces-handled"
+fingerprint = "125c15ecc08fd4251317d32c67f123e519fb62f0ed783b5aa9e5ff5ccc4ef019"
+sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
+file = "54-mail/mail-pieces-dump.txt"
+extracted = "7130"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
 fact_id = "us-1910s-child-labor-share"
 fingerprint = "1b0e69513ef715129ed8f21667a0e9861e494ebe0a88e1e2e5955871f13af158"
 sample_sha256 = "8428fcd38eae6f61bcbbf6a74669ed0d7f15795380be978b91dfc4f331a16adc"
 file = "49-child-labor/census-1943-ch2-p97.txt"
 extracted = "15.0"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
+fact_id = "us-1910s-mail-pieces-handled"
+fingerprint = "29f3592d89316cf230693cab68c1279bf9ba035c0acf3d202d053bfd978102c4"
+sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
+file = "54-mail/mail-pieces-dump.txt"
+extracted = "14850"
 audited = "2026-10-06"
 operands = []
 
@@ -119,6 +137,15 @@ audited = "2026-10-06"
 operands = []
 
 [[entry]]
+fact_id = "us-1920s-mail-pieces-handled"
+fingerprint = "8aacd0a10037171fc401d6ffa82884cff3966b7d21b34eae85aa2f19151a78ca"
+sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
+file = "54-mail/mail-pieces-dump.txt"
+extracted = "25835"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
 fact_id = "us-1930s-child-labor-share"
 fingerprint = "8bb3d81f89ff3bb9d0733a679550677eb24cec434eaa5aca422c1bdf77691534"
 sample_sha256 = "8428fcd38eae6f61bcbbf6a74669ed0d7f15795380be978b91dfc4f331a16adc"
@@ -128,11 +155,29 @@ audited = "2026-10-06"
 operands = []
 
 [[entry]]
+fact_id = "us-1930s-mail-pieces-handled"
+fingerprint = "3db8c6de1ef4d841c120ea98ed1a4dd94ffc3ea054f9345347e3c580c2a85d7b"
+sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
+file = "54-mail/mail-pieces-dump.txt"
+extracted = "27888"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
 fact_id = "us-1940s-average-family-size"
 fingerprint = "b6ecc5ea6ac638ab235d82a83697557a4837c87d80d504fbcedd5c8d0973bb7f"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3.64"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
+fact_id = "us-1940s-mail-pieces-handled"
+fingerprint = "d72154195d9d7fa19c5cb070eee7b83bee702638981642aa3d6c8a0c7964862a"
+sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
+file = "54-mail/mail-pieces-dump.txt"
+extracted = "27749"
 audited = "2026-10-06"
 operands = []
 
@@ -209,6 +254,15 @@ audited = "2026-10-06"
 operands = ["1.39", "1.37", "1.36", "1.33", "1.33", "1.31", "1.30", "1.30", "1.29", "1.28", "1.26", "1.27"]
 
 [[entry]]
+fact_id = "us-1950s-mail-pieces-handled"
+fingerprint = "7bc656866b8707d1504fb49089293d5e2b7ae8aa869b9289f062c961e2d3f24a"
+sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
+file = "54-mail/mail-pieces-dump.txt"
+extracted = "45064"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
 fact_id = "us-1950s-median-home-value"
 fingerprint = "42bd140f362d300656d5bda8a0f77325db99be6a8a5df522463d7b206820093e"
 sample_sha256 = "5fbabee6743983f4f39b61c6e42cc9a5727c2266173344ec3fc0381b06a221b6"
@@ -272,6 +326,15 @@ audited = "2026-10-06"
 operands = []
 
 [[entry]]
+fact_id = "us-1960s-mail-pieces-handled"
+fingerprint = "d9a5b6f7ba859d6536a4e430b39dc4c346152325b16390f833828465f1d5733f"
+sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
+file = "54-mail/mail-pieces-dump.txt"
+extracted = "63675"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
 fact_id = "us-1960s-median-family-income"
 fingerprint = "e95e9552f7a9f08f85fab8b02760b493f605143751d675f1f44906c661d26e3a"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
@@ -322,6 +385,15 @@ fingerprint = "01df4aaf175ad947d913836200639f93362abd89fec86a521a9f7bd2d7a74e95"
 sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "62.1"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
+fact_id = "us-1970s-mail-pieces-handled"
+fingerprint = "58bdb671e6a89e91dfc89a98803631dde463bd124380065480bb835c8453f736"
+sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
+file = "54-mail/mail-pieces-dump.txt"
+extracted = "84882"
 audited = "2026-10-06"
 operands = []
 
@@ -441,6 +513,15 @@ file = "50-calculation-inputs/bls-ces-earnings-hours-1980-response.json"
 extracted = "7.15"
 audited = "2026-10-06"
 operands = ["7.52", "7.47", "7.38", "7.30", "7.24", "7.16", "7.10", "7.02", "6.97", "6.95", "6.88", "6.82"]
+
+[[entry]]
+fact_id = "us-1980s-mail-pieces-handled"
+fingerprint = "b89da67f90e96cfdff1026e47cf905d07d0af902fe6112b4272a5a21470ea7ba"
+sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
+file = "54-mail/mail-pieces-dump.txt"
+extracted = "106311"
+audited = "2026-10-06"
+operands = []
 
 [[entry]]
 fact_id = "us-1980s-median-family-income"
@@ -576,6 +657,15 @@ file = "50-calculation-inputs/bls-ces-earnings-hours-1990-response.json"
 extracted = "10.77"
 audited = "2026-10-06"
 operands = ["10.93", "10.89", "10.92", "10.86", "10.80", "10.81", "10.78", "10.74", "10.68", "10.70", "10.64", "10.52"]
+
+[[entry]]
+fact_id = "us-1990s-mail-pieces-handled"
+fingerprint = "757be891eb92608ab7197b729befb62dae1252ae881085059a934de6b774bffd"
+sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
+file = "54-mail/mail-pieces-dump.txt"
+extracted = "166301"
+audited = "2026-10-06"
+operands = []
 
 [[entry]]
 fact_id = "us-1990s-median-family-income"
@@ -740,6 +830,15 @@ audited = "2026-10-06"
 operands = ["14.50", "14.52", "14.48", "14.40", "14.36", "14.33", "14.30", "14.22", "14.23", "14.17", "14.14", "14.12"]
 
 [[entry]]
+fact_id = "us-2000s-mail-pieces-handled"
+fingerprint = "e462dea2450697d250880e0866fb66ca17632b85a17bc9f70ef6a7faf1819730"
+sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
+file = "54-mail/mail-pieces-dump.txt"
+extracted = "211743"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
 fact_id = "us-2000s-median-family-income"
 fingerprint = "48fbd1f954db37f0219cb437b0dddcde285bce11906e27c07ce2588ec93f7242"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
@@ -891,6 +990,15 @@ file = "50-calculation-inputs/bls-ces-earnings-hours-2010-response.json"
 extracted = "18.61"
 audited = "2026-10-06"
 operands = ["18.79", "18.76", "18.72", "18.71", "18.64", "18.64", "18.57", "18.58", "18.50", "18.46", "18.47", "18.43"]
+
+[[entry]]
+fact_id = "us-2010s-mail-pieces-handled"
+fingerprint = "121153943717d6354af77cc6e3b40b44eb323585ea6e30d41b3399e90cf826dc"
+sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
+file = "54-mail/mail-pieces-dump.txt"
+extracted = "170574"
+audited = "2026-10-06"
+operands = []
 
 [[entry]]
 fact_id = "us-2010s-median-family-income"

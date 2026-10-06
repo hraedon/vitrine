@@ -2256,3 +2256,85 @@ card. Nothing is chained onto the series.
   monotone post-2010 fall, the absent years, the recorded revision signal,
   the per-year print precision, the tier rationale, the arc wiring, and the
   archive-pin checks (all dump-reading checks skip when samples/ is absent).
+
+## Plan 027 WI-10 (mail): pieces of mail handled, FY1900-FY2019, from the Statistical Abstract's postal tables and the USPS Form 10-Ks (53 values across 11 documents, 3 recorded revisions, 1 recorded splice)
+
+The measure is the Post Office Department's and (from July 1971) the U.S.
+Postal Service's own count of pieces of mail handled — every class plus free
+and penalty mail — an official federal statistic (Tier A) wherever the
+Census Bureau's Statistical Abstract reprinted it. This is the third and
+last measure of the finding-information work item.
+
+### Acquisition and transcription
+
+- Statistical Abstract editions: the 1960 edition's No. 654 (printed
+  p. 507; 1900-1959, exact in millions, quinquennial to 1920 then annual
+  1925-1959) and the 1976 edition's No. 868 (printed p. 529; adds 1960,
+  1965, 1970-1976) are eye-transcribed from 500-700 dpi page renders of the
+  archived scan editions (the WI-8 discipline); the 1985 edition's No. 918
+  (printed p. 538; adds 1977-1983, in billions at 0.1 precision — the
+  edition that revised the whole 1970s and documents the 1976 transition
+  quarter) from 600-800 dpi renders; the 1990 edition's No. 911 (printed
+  p. 549; 1970, 1980, 1985, 1987, 1988, exact) from 500 dpi renders; the
+  2012 edition's Table 1127 (printed p. 706; 1990-2010 selected years) from
+  the Transportation section PDF's clean text layer, fetched from a Wayback
+  capture of census.gov. The 1994 edition dropped the postal volume table,
+  so 1984, 1986, and 1989 are absent.
+- USPS tail: the Form 10-K "Total volume" tables for FY2012 (2010-2012),
+  FY2015 (2013-2015), FY2016 (2014-2016), FY2017 (2015-2017), FY2018
+  (2016-2018), and FY2019 (2017-2019), fetched from Wayback captures of
+  about.usps.com (the live site no longer serves the older reports).
+
+### Reconciliation and the recorded revisions
+
+- Every year printed by more than one edition agrees to the later edition's
+  precision — 1900, 1910, 1930, 1940, 1950, 1955 across three and four
+  editions; 1960 and 1965 across two — with one recorded exception: the
+  1985 edition revised the whole 1970s onto the basis its successors carry.
+  The 1976 edition's prints for 1970-1976 (82,005; 84,882; 86,983; 87,156;
+  89,683; 90,098; 89,266) are superseded by the 1985 edition's (84.9; 87.0;
+  87.2; 89.7; 90.1; 89.3; 89.8 billion), and the 1990 edition confirms the
+  revision at 1970 with an exact 84,882 equal to its own
+  domestic-plus-international rows. The arc carries the revised prints; the
+  superseded ones stay in the dump and the tests.
+- The 10-Ks reclassify categories between editions; the superseded prints
+  for 2015 (154,157 then 154,035 before 154,321), 2016 (153,941 before
+  154,342), and 2017 (149,491 before 149,590) are recorded, and one
+  reclassified print wobbles the other way (2016 above 2015) — kept as
+  printed.
+- The splice at 2010 is recorded: the 2012 edition prints 170,574 and the
+  FY2012 10-K prints 170,859 for the same fiscal year (a reclassification
+  basis difference). The arc carries the compilation's print through 2010
+  and the 10-K's from 2011; both prints stay in the dump.
+
+### Boundaries
+
+- Fiscal years ended June 30 through 1976; the Postal Service's 1976
+  transition quarter (July-September 1976, printed as 21.5 billion pieces)
+  is NOT summed into any year; from fiscal 1977 the year ends September 30.
+- The 1960 edition's own note flags every pieces figure before 1930 as an
+  estimate; the card carries the flag. Fiscal 1915 and 1920 are absent —
+  the editions print dashes and (NA), not zeros.
+- The series ends at FY2019: the 10-K record continues, but the total's
+  composition shifts toward packages while first-class mail keeps falling,
+  so the continuing total is not the same measure of mailed communication
+  the arc tracks. The 2020s room carries a gap card saying exactly that.
+  First-Class Mail as a named class dates from the 1963 rate reorganization;
+  the class-level series is a different measure and is not entered.
+
+### Provenance mechanics
+
+- One source-registry entry (us-postal-mail-volume) whose notes name every
+  document, table number, print basis, and revision; the URL is the
+  archived 2012 Transportation section PDF, with `expect` markers verified
+  in its text ("Pieces of mail handled", "170,574").
+- Twelve decade-marker facts (1900s-2010s) and the 2020s gap card join the
+  rooms; five cards carry [fact.audit] blocks binding their quantities to
+  the transcription dump with sha256 guards on the archive zips and section
+  PDFs; the audit ledger was regenerated (129 source checks against pinned
+  bytes).
+- tests/test_mail_pieces.py holds the markers, the 2005 peak, the absent
+  years, the 1970s revision, the 10-K reclassifications, the 2010 splice,
+  the transition-quarter rule, cross-edition reconciliation, the tier
+  rationale, the arc wiring, and the archive pins (dump-reading checks skip
+  when samples/ is absent).

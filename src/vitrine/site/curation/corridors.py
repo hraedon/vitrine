@@ -581,6 +581,38 @@ ARCS: tuple[Arc, ...] = (
         ),
     ),
     Arc(
+        "mail-pieces-handled",
+        "Pieces of mail handled",
+        "millions of pieces per fiscal year",
+        _ids(
+            "us-{decade}-mail-pieces-handled",
+            "190 191 192 193 194 195 196 197 198 199 200 201 202",
+        ),
+        series_id="us-mail-pieces-handled",
+        falling=True,
+        caveats=(
+            "Official federal statistics (Tier A): the Post Office "
+            "Department's and the Postal Service's own annual-report counts, "
+            "read through the Statistical Abstract's postal tables (1900-2010) "
+            "and the USPS Form 10-K volume tables (2011-2019).",
+            "The 1970s prints were revised between editions — 1970 moved "
+            "82,005 to 84,882 million — and the 10-Ks reclassify categories "
+            "between editions; the arc carries the latest print and the dump "
+            "records the superseded ones. Pre-1930 figures are estimates by "
+            "the 1960 edition's own note; 1915 and 1920 are absent (the "
+            "editions print dashes); fiscal 1976 is the June-30 year, the "
+            "1976 transition quarter is not summed, and fiscal years end "
+            "September 30 from 1977.",
+            "The 2010 splice is recorded: the 2012 edition prints 170,574 "
+            "and the FY2012 10-K prints 170,859 for the same year — the arc "
+            "carries the compilation's print through 2010 and the 10-K's "
+            "from 2011.",
+            "The series ends at FY2019: past it the total is increasingly "
+            "packages rather than correspondence, so the 2020s marker is a "
+            "gap, not a chained-on value.",
+        ),
+    ),
+    Arc(
         "availability-broccoli",
         "Broccoli available per person",
         "pounds per person per year (farm weight)",
@@ -855,6 +887,7 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
             "blood-lead-median",
             "daily-newspaper-circulation",
             "public-library-reference-transactions",
+            "mail-pieces-handled",
             "exotic-turned-ordinary",
         ),
     ),

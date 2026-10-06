@@ -683,3 +683,24 @@ locator = '^1960 (58\.9) sa1985-no938'
 guards = [
     { locator = '^# source zip sa1985 sha256: ([0-9a-f]{64})$', value = "f969329cee6043ae40f583bd9d01833d37caeb05e02c64901be1c379c1582cfa" },
 ]
+
+[[fact]]
+id = "us-1960s-mail-pieces-handled"
+quantity = 63675
+panel = "table"
+label = "Pieces of mail handled, 1960"
+value = "63,675 million pieces of mail were handled in fiscal 1960"
+unit = "pieces of mail handled, millions per fiscal year"
+price_year = 1960
+source = "us-postal-mail-volume"
+tier = "A"
+notes = "The 1976 and 1985 editions agree (63,675; 63.7 billion). First-Class Mail as a named class dates from the 1963 rate reorganization; the class-level series is a different measure and is not entered here — a mail class is not a measure of personal correspondence."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "54-mail/mail-pieces-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1960 (63675) sa1976-no868'
+guards = [
+    { locator = '^# source zip sa1976 sha256: ([0-9a-f]{64})$', value = "66e7eb49764a232d9747a5c1e4f8b47d84e8e10603c91ea135a1a91cad3a278e" },
+]

@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026-10-06 — Pieces of mail handled, 1900-2019
+
+Plan 027 WI-10, third and last of its measures: the Post Office Department's
+and the U.S. Postal Service's own count of pieces of mail handled — official
+federal statistics (Tier A) read through the Statistical Abstract's postal
+tables (the 1960, 1976, 1985, and 1990 archived scan editions
+eye-transcribed from page renders, plus the 2012 edition's clean-text
+Transportation section) and the USPS Form 10-K volume tables for 2011-2019.
+Fifty-three values across eleven documents, held by cross-edition
+reconciliation: the 1985 edition's revision of the whole 1970s (1970 moved
+82,005 to 84.9 billion, confirmed at exactly 84,882 by the 1990 edition)
+and the 10-Ks' between-edition reclassifications are recorded rather than
+smoothed, as is the 2010 splice (the compilation prints 170,574; the FY2012
+10-K prints 170,859 for the same year — the arc carries the compilation's
+print through 2010 and the 10-K's from 2011). Pre-1930 figures are
+estimates by the 1960 edition's own note; 1915 and 1920 are absent; the
+1976 transition quarter is printed by the source and not summed into any
+year; the fiscal year moves from June 30 to September 30 in 1977. The
+shape: a communication network that grew with the country to a fiscal 2005
+peak of 211.7 billion pieces — after the web was ordinary — then fell every
+year to 142.6 billion by fiscal 2019. The series ends there: past 2019 the
+total is increasingly packages rather than correspondence, so the 2020s
+room carries a gap card instead of a chained-on value. Qualification:
+tests, strict typing, lint, the provenance gate with five new pinned
+audits, build render/mark coverage, and a regenerated README status block.
+
 ## 2026-10-06 — Reference questions answered at public libraries, 1992-2019
 
 Plan 027 WI-10, second of its three measures: the IMLS/NCES Public

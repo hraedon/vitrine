@@ -679,3 +679,24 @@ locator = '^1950 (53\.8) sa1985-no938'
 guards = [
     { locator = '^# source zip sa1985 sha256: ([0-9a-f]{64})$', value = "f969329cee6043ae40f583bd9d01833d37caeb05e02c64901be1c379c1582cfa" },
 ]
+
+[[fact]]
+id = "us-1950s-mail-pieces-handled"
+quantity = 45064
+panel = "table"
+label = "Pieces of mail handled, 1950"
+value = "45,064 million pieces of mail were handled in fiscal 1950"
+unit = "pieces of mail handled, millions per fiscal year"
+price_year = 1950
+source = "us-postal-mail-volume"
+tier = "A"
+notes = "Three editions agree (45,064 exact in 1960 and 1976; 45.1 billion in 1985). The decade's prints climb to 61,247 by 1959 — the years 1951-1954 and 1956-1959 are exact prints from the 1960 edition's table, the only retrieved document that prints them."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "54-mail/mail-pieces-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1950 (45064) sa1960-no654'
+guards = [
+    { locator = '^# source zip sa1960 sha256: ([0-9a-f]{64})$', value = "deee4a1189272ea442247024c6517647f26eef664c7ccb454e4542b37bec5109" },
+]

@@ -301,3 +301,24 @@ guards = [
     { locator = '^# source pdf sha256: ([0-9a-f]{64})$', value = "41d578b768f6b2a72c0697aa2af85b110653e719885141c8ef8fe40b2a59efb2" },
     { locator = '^(# page: printed 97 \(chapter XI\), block Total)$', value = "# page: printed 97 (chapter XI), block Total" },
 ]
+
+[[fact]]
+id = "us-1920s-mail-pieces-handled"
+quantity = 25835
+panel = "table"
+label = "Pieces of mail handled, 1925"
+value = "25,835 million pieces of mail were handled in fiscal 1925"
+unit = "pieces of mail handled, millions per fiscal year"
+price_year = 1925
+source = "us-postal-mail-volume"
+tier = "A"
+notes = "The 1920s marker is 1925 because the archived editions print no pieces value for 1915-1920; the first exact print after the gap is this one. The 1960 edition's estimate flag ends with 1930."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "54-mail/mail-pieces-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1925 (25835) sa1960-no654'
+guards = [
+    { locator = '^# source zip sa1960 sha256: ([0-9a-f]{64})$', value = "deee4a1189272ea442247024c6517647f26eef664c7ccb454e4542b37bec5109" },
+]

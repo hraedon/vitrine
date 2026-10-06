@@ -905,3 +905,25 @@ locator = '^2010 (308\.629) pls2010-st8$'
 guards = [
     { locator = '^# source pdf fy2010_pls_tables_8-16a sha256: ([0-9a-f]{64})$', value = "1789883d0d1b5adba510792ad7c77266ce1dc6c166d7e089fb07bf6e79ffe702" },
 ]
+
+[[fact]]
+id = "us-2010s-mail-pieces-handled"
+quantity = 170574
+panel = "table"
+label = "Pieces of mail handled, 2010"
+value = "170,574 million pieces of mail were handled in fiscal 2010"
+unit = "pieces of mail handled, millions per fiscal year"
+price_year = 2010
+source = "us-postal-mail-volume"
+tier = "A"
+notes = "The splice year is recorded rather than hidden: the 2012 edition prints 170,574 and the FY2012 Form 10-K prints 170,859 for the same fiscal year — a reclassification basis difference — and the arc carries the compilation's print through 2010 and the 10-K's from 2011. From there the prints run down to 142,570 by fiscal 2019, a third below the 2005 peak; one print wobbles the other way (the reclassified 2016 figure sits 21 million above 2015), and the record keeps it. The 10-Ks reclassify categories between editions, so the superseded prints (2015, 2016, 2017) are recorded in the dump, not smoothed. This card claims no cause; the 10-K itself points to electronic alternatives and package growth, each with its own measure."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "54-mail/mail-pieces-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^2010 (170574) sa2012-t1127'
+guards = [
+    { locator = '^# source pdf sa2012-trans sha256: ([0-9a-f]{64})$', value = "8f849322f1504c0c1bbdb53a31fdf4b1516373ee694ffeb75ba30f1d2f007bd1" },
+    { locator = '^# source pdf usps-10k-fy2012 sha256: ([0-9a-f]{64})$', value = "394525cc1b545bd7602b729f697de8b80b6ec1624d97ac820f6858ddf5796f16" },
+]

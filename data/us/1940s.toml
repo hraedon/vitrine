@@ -440,3 +440,24 @@ source = "census-1943-comparative-occupations"
 tier = "A"
 notes = "The 1940 census asked about the labor force — recent work or active seeking — instead of any gainful occupation, and changed the occupation and industry classifications alongside. Chapter III of the comparative volume is titled 'The Gainful Worker Concept of 1930 and the Labor Force Concept of 1940' and states the two are not exactly comparable, even occupation by occupation. The share of children counted at work did not become zero — the measurement changed. The Bureau also records that the decline in employment opportunities across the 1930s affected young workers particularly, so no part of the fall can be attributed to any single statute by timing alone."
 assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1940s-mail-pieces-handled"
+quantity = 27749
+panel = "table"
+label = "Pieces of mail handled, 1940"
+value = "27,749 million pieces of mail were handled in fiscal 1940"
+unit = "pieces of mail handled, millions per fiscal year"
+price_year = 1940
+source = "us-postal-mail-volume"
+tier = "A"
+notes = "The 1940 print sits at the 1930 level; by fiscal 1945 the table prints 37,912 million. The jump is printed by the source, which does not explain it, and this card does not either."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "54-mail/mail-pieces-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1940 (27749) sa1960-no654'
+guards = [
+    { locator = '^# source zip sa1960 sha256: ([0-9a-f]{64})$', value = "deee4a1189272ea442247024c6517647f26eef664c7ccb454e4542b37bec5109" },
+]
