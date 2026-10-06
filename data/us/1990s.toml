@@ -940,3 +940,24 @@ source = "california-labor-code-6404-5"
 tier = "A"
 notes = "AB 13 (T. Friedman), Chapter 310, Statutes of 1994, approved July 21, 1994, adding Labor Code § 6404.5; the chaptered text defers the operative date to the act's constitutional effective date — January 1, 1995 under the state Constitution's January 1 rule. Subdivision (d) also excepts 65 percent of hotel and motel guest rooms and designated lobby areas, tobacco shops and private smokers' lounges, truck cabs without nonsmoking employees, large warehouses with twenty or fewer employees, theatrical smoking, medical research or treatment sites, and employer breakrooms exhausted directly to the outside. This is one state's statute — a record of what one jurisdiction did, not a national event, and a restriction on workplace conduct, not a measure of how many people smoked at work."
 assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-1990s-daily-newspaper-circulation"
+quantity = 62.3
+panel = "table"
+label = "Daily newspapers sold per weekday, 1990"
+value = "62.3 million copies of daily newspapers were sold per weekday"
+unit = "daily newspapers, net paid circulation, millions of copies"
+price_year = 1990
+source = "statistical-abstract-newspapers"
+tier = "C"
+notes = "The 2001 edition (No. 1126) and the 2012 edition (Table 1135) agree on 62.3 for 1990, and the 2001 edition carries the first sustained fall: 59.3 (1994), 58.2 (1995), 57.0 (1996), 56.7 (1997), 56.2 (1998), 56.0 (1999). Internet adoption is recorded elsewhere in this corpus; this card claims no substitution and the source itself claims none."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "52-newspapers/daily-newspaper-circulation-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1990 (62\.3) sa2001-t1126'
+guards = [
+    { locator = '^# source pdf sa2001 sha256: ([0-9a-f]{64})$', value = "17ab266e6559ed8efcc75e019e9f4ba67bdc109fd2efe68a874da0def2447c19" },
+]

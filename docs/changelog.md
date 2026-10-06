@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-10-06 — Daily newspapers sold per weekday, 1950-2009
+
+Plan 027 WI-10, first of its three measures: the daily-newspaper-
+circulation arc. Thirty-eight values from the newspapers tables of seven
+Statistical Abstract editions — Editor & Publisher yearbook data that the
+Census Bureau republishes, Tier C by the produce-SKU source/tier rule, not
+a federal statistic. The archive's editions are scans, so the tables were
+eye-transcribed from page renders and held by cross-edition reconciliation:
+every overlapping year agrees to the later edition's precision, and the two
+years E&P revised between editions (1960: 60,882 thousand to 58.9 million;
+1965: 63,030 to 60.4 million — the all-day-paper counting) are recorded
+rather than smoothed. Decade markers join the 1950s-2000s rooms; the 2010s
+carries a gap card, because the Bureau discontinued the compilation after
+the 2012 edition and no 2010s value was fetched from the trade successor
+(print-plus-digital is a different measure). The IMLS reference-transaction
+and mail measures are investigated — the PLS data-element definition is
+captured — but not entered; the plan records their acquisition state.
+Qualification: 769 tests, strict typing, lint, the provenance gate with six
+new pinned audits, build render/mark coverage, and a regenerated README
+status block.
+
 ## 2026-10-05 — Smoking restrictions as legal records: five cards, four sources
 
 Plan 027 WI-9 re-reads the wing's smoking-permission story as discrete legal

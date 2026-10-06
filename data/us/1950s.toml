@@ -656,3 +656,26 @@ unit = "aggregate net worth, households + nonprofit organizations, current dolla
 source = "fed-z1"
 tier = "A"
 notes = "From FRED TNWBSHNO (Fed Z.1 Table B.101.h, Q4 1950). Total assets: $1,248B. Total liabilities: $77B. Net worth: $1,171B. Up from $807B in 1945 (Z.1) / $592B (Goldsmith nonfarm). Liabilities were only 6% of assets — the lowest debt-to-asset ratio in the series. Aggregate — NOT median."
+
+# ── Plan 027 WI-10: daily newspapers — net paid circulation ──────────────
+
+[[fact]]
+id = "us-1950s-daily-newspaper-circulation"
+quantity = 53.8
+panel = "table"
+label = "Daily newspapers sold per weekday, 1950"
+value = "53.8 million copies of daily newspapers were sold per weekday"
+unit = "daily newspapers, net paid circulation, millions of copies"
+price_year = 1950
+source = "statistical-abstract-newspapers"
+tier = "C"
+notes = "The 1985 edition's table (No. 938) prints 53.8 million; the 1960 edition (No. 652) and the 1970 edition (No. 765) print the same year at thousands precision (53,829), agreeing to the older editions' precision. Net paid, English-language papers, as of September 30 (October 1 in the earliest editions). The count of dailies (1,772 in 1950) barely moves across the decade; the morning and evening paper were separate everyday objects."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "52-newspapers/daily-newspaper-circulation-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1950 (53\.8) sa1985-no938'
+guards = [
+    { locator = '^# source zip sa1985 sha256: ([0-9a-f]{64})$', value = "f969329cee6043ae40f583bd9d01833d37caeb05e02c64901be1c379c1582cfa" },
+]

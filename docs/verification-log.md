@@ -2111,3 +2111,69 @@ was written.
   the effective-date mechanic on the face of the record it cites.
 - `tests/test_site_contracts.py` bibliography contract updated for the four
   new source pages (120 disclosures, 130 local links).
+
+## Plan 027 WI-10 (newspapers): daily circulation 1950-2009, transcribed across seven editions (7 facts, 1 source, 38-value series)
+
+The measure is the Daily: Total net paid circulation of English-language
+daily newspapers, from the newspapers tables of the Statistical Abstract of
+the United States — Editor & Publisher International Year Book data the
+Census Bureau republishes. Tier C, per the produce-SKU source/tier rule: a
+federal compiler does not turn a trade survey into an official federal
+statistic.
+
+### Acquisition and transcription
+
+- Seven editions: 1960 (No. 652), 1970 (No. 765), 1980 (No. 1006), 1985
+  (No. 938), 1990 (No. 928), 2001 (No. 1126 + No. 1132), 2012 (Table 1135).
+  The 1953-1994 editions are archived scans (samples/01-statistical-abstracts/,
+  image-only PDFs); the 2001 and 2012 section PDFs were fetched from the
+  Wayback Machine into samples/52-newspapers/ with sha256 pins.
+- Each scan table was located through the edition's Contents page and
+  eye-transcribed from 200-300 dpi page renders (the WI-8 discipline: no
+  OCR for cited cells). The 2001/2012 sections have clean text layers and
+  were transcribed from them.
+- The transcription dump (samples/52-newspapers/daily-newspaper-
+  circulation-dump.txt) records one line per year: the value, every edition
+  that prints it, and the superseded prints. Values printed in thousands
+  keep their full precision; values printed in millions keep the source's
+  0.1 precision.
+
+### Reconciliation and the recorded revision
+
+- Every year printed by more than one edition agrees to the later edition's
+  precision: 1950 (three editions), 1970 (five), 1975, 1977, 1978, 1979
+  (three), 1980 (four), 1985, 1990, 2000 (two). tests/
+  test_newspaper_circulation.py checks the dump's own reconciliation.
+- Two years disagree between editions, and the disagreement is the record:
+  E&P revised 1960 (the 1970 edition prints 60,882 thousand; the 1985
+  edition prints 58.9 million) and 1965 (63,030 to 60.4 million). The
+  series carries the revised prints; the superseded ones stay in the dump
+  and the notes. The all-day-paper counting ("counted in both morning and
+  evening columns but only once in total") is stated on the tables' faces.
+- Years no archived edition reprints are absent, not zero: 1951-1954,
+  1956-1959, 1961-1964, 1966-1971, 1989, 1991-1993, 2001. The 1953
+  edition's No. 578 is the quinquennial Census of Publications (1929-1947),
+  a different measure, and is not used.
+
+### Series end and the 2010s gap
+
+The last Statistical Abstract (2012 edition) prints the series through
+2009 and the Bureau discontinued the compilation after it. No 2010s value
+was fetched: the trade successor changed what it counts (print-plus-digital
+reporting), so any such figure would be a different measure. The 2010s
+room carries a gap card saying exactly that; nothing is chained onto the
+series.
+
+### Provenance mechanics
+
+- One source-registry entry (statistical-abstract-newspapers) whose notes
+  name every edition, table number, and the years each provides; the URL
+  is the archived 2012 section PDF, with `expect` markers verified in its
+  text ("Editor & Publisher", "62.1 represents").
+- Six decade-marker facts carry [fact.audit] blocks binding their
+  quantities to the transcription dump, with guards pinning the archive
+  zip and section-PDF sha256 lines in the dump header; the audit ledger
+  was regenerated (114 source checks against pinned bytes).
+- tests/test_newspaper_circulation.py holds the reconciliation, the
+  recorded revision, the absent years, the 1973 peak, the 1994-1999 fall,
+  the series end, and the archive pins.

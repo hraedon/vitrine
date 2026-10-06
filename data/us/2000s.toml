@@ -919,3 +919,24 @@ source = "dot-ost-2000-smoking-aboard-aircraft"
 tier = "A"
 notes = "§ 708 of Pub. L. 106-181 (approved Apr. 5, 2000) recodified the prohibition at 49 U.S.C. 41706: subsection (a) covers scheduled passenger interstate and intrastate air transportation with no duration limit, subsection (b) extends the prohibition to scheduled passenger foreign air transportation, and subsection (c) provides the foreign-objection waiver mechanism — effective 60 days after enactment. The companion FAA rule states that the former Department provisions allowing smoking on flights over 6 hours in duration are superseded by the new legislation. The implementing rule recites that at publication 97.7 percent of scheduled passenger segments to and from the United States were already smoke-free; the statute closed the remaining schedule. A legal prohibition records what the rule now requires, not what any flight's passengers had done."
 assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2000s-daily-newspaper-circulation"
+quantity = 55.8
+panel = "table"
+label = "Daily newspapers sold per weekday, 2000"
+value = "55.8 million copies of daily newspapers were sold per weekday"
+unit = "daily newspapers, net paid circulation, millions of copies"
+price_year = 2000
+source = "statistical-abstract-newspapers"
+tier = "C"
+notes = "The 2001 edition prints 55,773 thousand for 2000 (No. 1132, by state) and the 2012 edition prints 55.8 million (Table 1135), agreeing at the later edition's precision. The 2012 edition carries the series to 46.3 million (2009) — the collapse concentrated in the evening paper (9.0 million in 2000, 5.5 in 2009) — and is the last data the discontinued compilation printed."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "52-newspapers/daily-newspaper-circulation-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^2000 (55\.8) sa2012-t1135'
+guards = [
+    { locator = '^# source pdf sa2012 sha256: ([0-9a-f]{64})$', value = "bca7adafef6917582ad2b2584828c3e39dba8a5c12b35265a338f6bfff1f7b47" },
+]

@@ -533,6 +533,30 @@ ARCS: tuple[Arc, ...] = (
         ),
     ),
     Arc(
+        "daily-newspaper-circulation",
+        "Daily newspapers sold per weekday",
+        "millions of copies, net paid circulation",
+        _ids("us-{decade}-daily-newspaper-circulation", "195 196 197 198 199 200 201"),
+        series_id="us-daily-newspaper-circulation",
+        falling=True,
+        caveats=(
+            "A trade-publisher series: Editor & Publisher yearbook data as "
+            "republished by the Census Bureau's Statistical Abstract — Tier "
+            "C, not a federal statistic.",
+            "E&P revised the 1960 and 1965 figures between editions (the "
+            "1970 edition prints 60,882 and 63,030 thousand; the 1985 "
+            "edition prints 58.9 and 60.4 million). The arc carries the "
+            "revised prints; the superseded ones are recorded, not smoothed.",
+            "Years an archived edition does not reprint are absent, not "
+            "zero — 1951-1954, 1956-1959, 1961-1964, 1966-1971, 1989, "
+            "1991-1993 and 2001 among them.",
+            "The series ends at 2009: the last Statistical Abstract (2012 "
+            "edition) prints no later data and the Bureau discontinued the "
+            "compilation, so the 2010s marker is a gap. Later trade figures "
+            "count different things and are not spliced on.",
+        ),
+    ),
+    Arc(
         "availability-broccoli",
         "Broccoli available per person",
         "pounds per person per year (farm weight)",
@@ -805,6 +829,7 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
             "teen-birth-rate",
             "child-labor-share",
             "blood-lead-median",
+            "daily-newspaper-circulation",
             "exotic-turned-ordinary",
         ),
     ),
