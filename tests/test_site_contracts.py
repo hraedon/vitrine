@@ -158,17 +158,17 @@ EXPECTED: dict[str, PageContract] = {
     "index.html": _page(
         'vitrine — everyday life across time',
         landmarks=(1, 4, 1, 5, 1), disclosures=(1, 0),
-        local=(119, '86f41899ac4f'), marks=(0, 'e3b0c44298fc'), overlays=0,
+        local=(120, '285ec1708d7e'), marks=(0, 'e3b0c44298fc'), overlays=0,
     ),
     "rooms/us-1950s.html": _page(
         'US · 1950s — vitrine',
         landmarks=(1, 3, 1, 8, 1), disclosures=(98, 0),
-        local=(89, '660f751288b3'), marks=(8, '039d00bafc61'), overlays=46,
+        local=(90, '61ac4f75b222'), marks=(8, '039d00bafc61'), overlays=46,
     ),
     "rooms/us-1910s.html": _page(
         'US · 1910s — vitrine',
         landmarks=(1, 3, 1, 8, 1), disclosures=(45, 0),
-        local=(58, 'ca5af8d2a5d3'), marks=(3, 'c7ef52c43fee'), overlays=22,
+        local=(59, '877569b82358'), marks=(3, 'c7ef52c43fee'), overlays=22,
     ),
     "corridors/index.html": _page(
         'corridors — vitrine',
@@ -202,8 +202,8 @@ EXPECTED: dict[str, PageContract] = {
     ),
     "essays/index.html": _page(
         'docent tours — vitrine',
-        landmarks=(1, 1, 1, 0, 1), disclosures=(34, 0),
-        local=(18, '4fe2e505d03a'), marks=(0, 'e3b0c44298fc'), overlays=34,
+        landmarks=(1, 1, 1, 0, 1), disclosures=(64, 0),
+        local=(19, 'a793f312c484'), marks=(0, 'e3b0c44298fc'), overlays=64,
     ),
     "essays/one-paycheck.html": _page(
         'One paycheck — docent tours · vitrine',

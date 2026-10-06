@@ -1,5 +1,33 @@
 # Changelog
 
+## 2026-10-06 — WI-11 source assessment, and a third docent tour
+
+Two closers for plan 027. The WI-11 assessment
+(docs/appliances-repair-assessment.md) records what the appliance-and-repair
+candidate sources actually are, read from BLS's own series catalogs and
+confirmed through the API this repository already uses: the PPI household-
+appliances commodity index (WPU124, 1982=100) reaches back to 1947 and is
+the long price record; the retail CPI major-appliances index and the
+household-item repair index both exist only from their December 1997 base,
+and the repair index's catalog entry ends in October 2025; the long repair
+price record is motor-vehicle, a different object; and the SIC 76 → NAICS
+8114 classification break at 1997/98 falls in the middle of the period any
+repair story would be about. The conclusion: a narrow price exhibit is
+supportable (the plan's hours-per-appliance, crossover, and repair-culture
+stories are not); nothing is entered, and the plan records the acquisition
+state.
+
+The WI-12 route — the wing's third docent tour, "Where the questions
+went" — walks the finding-information exhibits the plan delivered:
+newspapers sold per weekday, reference questions answered at public
+libraries, and pieces of mail handled, with the signals wing's internet and
+smartphone adoption set beside them as juxtaposition. Each transition
+states what its record counts (copies sold, information contacts, pieces
+handled), where its gaps and absent years are, and where it ends; the prose
+binds every figure to its exhibit and claims no substitution or causation.
+Qualification: tests, strict typing, lint, the provenance gate, the docent
+numeral gate, build render/mark coverage, and updated page contracts.
+
 ## 2026-10-06 — Pieces of mail handled, 1900-2019
 
 Plan 027 WI-10, third and last of its measures: the Post Office Department's

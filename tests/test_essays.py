@@ -40,12 +40,15 @@ def corpus() -> Corpus:
 
 
 def test_essays_load(corpus: Corpus) -> None:
-    assert len(corpus.essays) == 2
+    assert len(corpus.essays) == 3
     one = next(e for e in corpus.essays if e.slug == "one-paycheck")
     assert one.title == "One paycheck"
     assert any(b.kind is BlockKind.CHART and b.metric for b in one.blocks)
     two = next(e for e in corpus.essays if e.slug == "the-work-that-moved")
     assert any(b.kind is BlockKind.CHART and b.group for b in two.blocks)
+    three = next(e for e in corpus.essays if e.slug == "where-the-questions-went")
+    assert three.title == "Where the questions went"
+    assert any(b.kind is BlockKind.CHART and b.arc for b in three.blocks)
 
 
 def test_committed_essays_pass_the_gate(corpus: Corpus) -> None:
