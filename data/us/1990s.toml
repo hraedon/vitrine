@@ -961,3 +961,26 @@ locator = '^1990 (62\.3) sa2001-t1126'
 guards = [
     { locator = '^# source pdf sa2001 sha256: ([0-9a-f]{64})$', value = "17ab266e6559ed8efcc75e019e9f4ba67bdc109fd2efe68a874da0def2447c19" },
 ]
+
+# ── Plan 027 WI-10: public-library reference transactions ────────────────
+
+[[fact]]
+id = "us-1990s-public-library-reference-transactions"
+quantity = 227.997
+panel = "table"
+label = "Reference questions answered at public libraries, 1992"
+value = "227.997 million reference transactions were answered at American public libraries in fiscal 1992"
+unit = "reference transactions, millions of information contacts per fiscal year"
+price_year = 1992
+source = "imls-public-libraries-survey"
+tier = "A"
+notes = "The Public Libraries Survey's first decade under its current form: the arc starts at fiscal 1992, the first year of the trend compilation IMLS publishes for the modern survey (the 1989-1991 FSCS reports exist as archived scans and are not transcribed). The total rose across the decade — 294.568 million by fiscal 1999 — while home internet adoption spread (recorded elsewhere in this room); the two records are juxtaposed, and this card claims no connection in either direction. A reference transaction is an information contact involving the knowledge, use, recommendations, interpretation, or instruction in the use of information sources, including information and referral; directional questions are excluded."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "53-library-reference/reference-transactions-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^1992 (227\.997) pls1992-t15$'
+guards = [
+    { locator = '^# source pdf PLS1992 sha256: ([0-9a-f]{64})$', value = "2377f134afcb379eba2aa77daf2ae6498712e3f096d2fd96269dcc75ccfe22eb" },
+]

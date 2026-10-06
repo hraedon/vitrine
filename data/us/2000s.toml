@@ -940,3 +940,24 @@ locator = '^2000 (55\.8) sa2012-t1135'
 guards = [
     { locator = '^# source pdf sa2012 sha256: ([0-9a-f]{64})$', value = "bca7adafef6917582ad2b2584828c3e39dba8a5c12b35265a338f6bfff1f7b47" },
 ]
+
+[[fact]]
+id = "us-2000s-public-library-reference-transactions"
+quantity = 309.839
+panel = "table"
+label = "Reference questions answered at public libraries, 2009"
+value = "309.839 million reference transactions were answered at American public libraries in fiscal 2009 — the series peak"
+unit = "reference transactions, millions of information contacts per fiscal year"
+price_year = 2009
+source = "imls-public-libraries-survey"
+tier = "A"
+notes = "The arc's peak falls in this room, after the web was already ordinary: the total moved 291.476 million (fiscal 2000) to 296.211 (2001), 301.757 (2002), 304.390 (2004), then down and back up through 294.986 (2006) and 300.917 (2008) to 309.839 (2009). Whatever the internet was doing to reference work in this decade, the printed totals do not show a collapse — they show a plateau near 300 million."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "53-library-reference/reference-transactions-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^2009 (309\.839) pls2009-t8$'
+guards = [
+    { locator = '^# source pdf PLS2009 sha256: ([0-9a-f]{64})$', value = "6a8142ab4ed09a5a38b3dcd16caeff68307d2b5e7360f99d6fc342e5f0f99925" },
+]

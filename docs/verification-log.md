@@ -2177,3 +2177,82 @@ series.
 - tests/test_newspaper_circulation.py holds the reconciliation, the
   recorded revision, the absent years, the 1973 peak, the 1994-1999 fall,
   the series end, and the archive pins.
+
+## Plan 027 WI-10 (reference transactions): public-library reference questions, FY1992-FY2019, from the Public Libraries Survey's own national tables and summaries (24 table/prose years, 2 documented absences, 1 source, 26-value series)
+
+The measure is the Public Libraries Survey's national total of annual
+reference transactions — the survey's own count of information contacts
+involving the knowledge, use, recommendations, interpretation, or
+instruction in the use of one or more information sources (including
+information and referral, excluding directional questions), collected from
+libraries through the state library agencies, annual where available and
+otherwise a typical-week-in-October count multiplied by 52. Tier A: the PLS
+is an official statistical series, a census run by NCES through FY2006 and
+by IMLS from FY2007 — this is not a republished trade survey.
+
+### Acquisition
+
+- The IMLS site stopped serving its PLS publications (the agency's research
+  pages were taken down in 2025); the live site's supplementary-tables pages
+  survive only for FY2010-FY2013. Every document was retrieved from Wayback
+  Machine captures of imls.gov — 31 PDFs archived in samples/
+  53-library-reference/ with sha256 pins in the transcription dump header —
+  plus the FY2019 results report from librarydataarchive.com after the
+  captures were exhausted.
+- The national totals: the annual reports' own services tables ("50 States
+  and DC" total rows, exact, in thousands) for FY1992-FY2009; the FY2010
+  supplementary tables' Table 8 (the FY2010 annual report prints no total);
+  indicator prose at one decimal for FY2011/FY2012/FY2014; the S1 summary
+  tables at two decimals for FY2015/FY2017/FY2018; the FY2019 results
+  report's S1 (219.7 million) for FY2019.
+- The supplementary tables' services table drops the reference-transaction
+  column after FY2011, and no national table prints the element again.
+
+### Transcription discipline and reconciliation
+
+- The FY1992 and FY1993 table rows are eye-transcribed from 300 dpi page
+  renders (their text layers garble the digits: "227,m" for 227,997);
+  FY1994-FY1995 rows were eye-verified against renders of the same rows.
+  Each report's own highlight was used as a cross-check where one exists:
+  "over 284 million" (FY1996), "287 million" (FY1997), "292 million"
+  (FY1998), "295 million" (FY1999), and the million-level highlights for
+  FY2000-FY2004 and FY2006-FY2007 — all agree with the table rows.
+- The reports revise, and the revision signals are recorded, not smoothed:
+  the FY2012 report describes 284.3 million as a one-year decrease of 3.9
+  percent, implying a revised FY2011 base near 295.8 million where the FY2011
+  report printed 293.1; the FY2014 report's 3.6 percent decrease implies a
+  FY2013 level near 272.5 million that no retrieved document prints. Each
+  year carries its own report's print.
+- Fiscal 2013 and 2016 are absent, not zero: the FY2013 annual report prints
+  no national reference-transaction total and its supplementary tables carry
+  no reference-transaction column; the FY2016 supplementary tables print
+  only per-capita state ranks (Total 0.79). The wayback capture of the
+  FY2016 report itself was not retrievable at acquisition time (the Internet
+  Archive was down); if it surfaces a printed total, the arc can take the
+  year as a revision, not a new measure.
+
+### Series end
+
+The arc ends at FY2019 (219.7 million, the lowest print since 1992). The
+FY2020 collection was disrupted by pandemic closures — the FY2020 research
+brief records libraries expanding virtual reference while buildings were
+shut — and the survey's publication format changed after FY2019; no
+FY2020-or-later national total was fetched, and the 2020s room carries a gap
+card. Nothing is chained onto the series.
+
+### Provenance mechanics
+
+- One source-registry entry (imls-public-libraries-survey) whose notes name
+  the print basis per era, the absent years, the revision signals, and the
+  archive pins; the URL is the archived FY2018 supplementary tables PDF,
+  with `expect` markers verified in its text ("Reference Transactions",
+  "227.01").
+- Three decade-marker facts and the 2020s gap card join the 1990s-2020s
+  rooms; the three value cards carry [fact.audit] blocks binding their
+  quantities to the transcription dump with sha256 guards on the pinned
+  documents; the audit ledger was regenerated (source checks against pinned
+  bytes).
+- tests/test_reference_transactions.py holds the span, the 2009 peak and the
+  monotone post-2010 fall, the absent years, the recorded revision signal,
+  the per-year print precision, the tier rationale, the arc wiring, and the
+  archive-pin checks (all dump-reading checks skip when samples/ is absent).

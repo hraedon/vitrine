@@ -884,3 +884,24 @@ source = "statistical-abstract-newspapers"
 tier = "C"
 notes = "The gap is the record's end, not evidence that nobody read newspapers. The Census Bureau discontinued the Statistical Abstract after the 2012 edition; the trade's own later reporting changed what it counts, and no figure from it was fetched, so no 2010s value is chained onto the series."
 assumptions = ["composite-family"]
+
+[[fact]]
+id = "us-2010s-public-library-reference-transactions"
+quantity = 308.629
+panel = "table"
+label = "Reference questions answered at public libraries, 2010"
+value = "308.629 million reference transactions were answered at American public libraries in fiscal 2010"
+unit = "reference transactions, millions of information contacts per fiscal year"
+price_year = 2010
+source = "imls-public-libraries-survey"
+tier = "A"
+notes = "Every printed year after fiscal 2010 is lower than the last: 293.1 million (2011), 284.3 (2012), 262.7 (2014), 255.88 (2015), 239.95 (2017), 227.01 (2018), 219.7 (2019) — a 29 percent fall from the fiscal 2009 peak, ending the series at its lowest print since 1992. The fall coincides with smartphone-era search (recorded elsewhere in this room), but the record shows only annual totals; this card claims no cause, and the survey's own reports likewise decline to assign one. No national total was printed for fiscal 2013 or 2016, and those years are absent from the arc rather than interpolated."
+assumptions = ["composite-family"]
+[fact.audit]
+file = "53-library-reference/reference-transactions-dump.txt"
+extractor = "text-regex"
+target = "quantity"
+locator = '^2010 (308\.629) pls2010-st8$'
+guards = [
+    { locator = '^# source pdf fy2010_pls_tables_8-16a sha256: ([0-9a-f]{64})$', value = "1789883d0d1b5adba510792ad7c77266ce1dc6c166d7e089fb07bf6e79ffe702" },
+]

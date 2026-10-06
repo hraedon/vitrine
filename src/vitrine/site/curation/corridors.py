@@ -557,6 +557,30 @@ ARCS: tuple[Arc, ...] = (
         ),
     ),
     Arc(
+        "public-library-reference-transactions",
+        "Reference questions answered at public libraries",
+        "millions of information contacts per fiscal year",
+        _ids("us-{decade}-public-library-reference-transactions", "199 200 201 202"),
+        series_id="us-public-library-reference-transactions",
+        falling=True,
+        caveats=(
+            "An official statistical series (Tier A): a census of public "
+            "libraries collected through the state library agencies — NCES "
+            "reports through FY2006, IMLS from FY2007.",
+            "The printed national total moves from exact thousands-precision "
+            "table rows to one- and two-decimal report prose after FY2011; "
+            "each year keeps its source's precision, and fiscal 2013 and 2016 "
+            "are absent because no document retrieved for them prints a "
+            "national total.",
+            "The reports revise: the FY2012 report's 3.9 percent decrease "
+            "implies a revised FY2011 base near 295.8 million where the FY2011 "
+            "report printed 293.1. Prints are carried as printed.",
+            "The series ends at FY2019 — the FY2020 collection was disrupted "
+            "by pandemic closures and no later national total was fetched, so "
+            "the 2020s marker is a gap, not a zero.",
+        ),
+    ),
+    Arc(
         "availability-broccoli",
         "Broccoli available per person",
         "pounds per person per year (farm weight)",
@@ -830,6 +854,7 @@ CORRIDOR_WINGS: tuple[CorridorWing, ...] = (
             "child-labor-share",
             "blood-lead-median",
             "daily-newspaper-circulation",
+            "public-library-reference-transactions",
             "exotic-turned-ordinary",
         ),
     ),

@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-10-06 — Reference questions answered at public libraries, 1992-2019
+
+Plan 027 WI-10, second of its three measures: the IMLS/NCES Public
+Libraries Survey's national reference-transaction total, an official
+statistical series (Tier A) collected as a census of public libraries
+through the state library agencies. Twenty-six values from the annual
+reports' own national tables ("50 States and DC" rows, exact, in thousands
+through FY2010), the FY2010 supplementary tables, and the reports' indicator
+prose and S1 summaries afterwards — each year keeps its source's print
+precision, and the FY2012 report's revision signal (a 3.9 percent decrease
+implying a revised FY2011 base near 295.8 million where the FY2011 report
+printed 293.1) is recorded rather than smoothed. Fiscal 2013 and 2016 are
+absent because no retrieved document prints a national total for them. The
+shape is the wing's finding: the total rose through the 1990s and 2000s —
+peaking at 309.839 million in fiscal 2009, after the web was already
+ordinary — then fell every printed year of the 2010s to 219.7 million in
+fiscal 2019, a 29 percent fall that the cards juxtapose with internet
+adoption without claiming substitution or causation. The series ends at
+FY2019: the FY2020 collection was disrupted by pandemic closures and the
+survey's publication format changed after FY2019, so the 2020s room carries
+a gap card. All 32 source documents are archived with sha256 pins (the
+IMLS site stopped serving its PLS publications; the documents were
+retrieved from Wayback captures of imls.gov, the FY2019 report from
+librarydataarchive.com after the captures were exhausted). Qualification:
+tests, strict typing, lint, the provenance gate with three new pinned
+audits, build render/mark coverage, and a regenerated README status block.
+
 ## 2026-10-06 — Daily newspapers sold per weekday, 1950-2009
 
 Plan 027 WI-10, first of its three measures: the daily-newspaper-
