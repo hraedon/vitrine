@@ -1,0 +1,44 @@
+# Plan 027 WI-10: reference questions answered at American public libraries —
+# annual reference transactions from the Public Libraries Survey (FSCS; NCES
+# reports through FY2006, IMLS reports and supplementary tables from FY2007).
+# The transcription dump with the per-year document tags and archive pins is
+# samples/53-library-reference/reference-transactions-dump.txt — see the
+# source registry entry and the verification log, Plan 027 WI-10, before
+# editing.
+
+[[series]]
+id = "us-public-library-reference-transactions"
+label = "Reference questions answered at public libraries, 1992-2019"
+source = "imls-public-libraries-survey"
+tier = "A"
+unit = "reference transactions, millions of information contacts per fiscal year"
+population = "Public libraries in the 50 states and the District of Columbia that meet the FSCS definition; annual reference transactions — information contacts involving the knowledge, use, recommendations, interpretation, or instruction in the use of information sources, including information and referral, excluding directional questions — actual annual counts where available, otherwise a typical-week-in-October count multiplied by 52"
+notes = "Tier A: an official statistical series, a census of public libraries collected through the state library agencies (NCES reports through FY2006, IMLS from FY2007). Values the reports print in thousands keep their full precision (converted to millions without rounding); the FY2011, FY2012 and FY2014 reports print the national total only as one-decimal millions in indicator prose, and the S1 summaries print two decimals — each year keeps its source's precision. The national totals are the reports' own '50 States and DC' rows. FY2013 and FY2016 are absent, not zero: no document retrieved for those years prints a national total (the FY2013 report and supplementary tables print none; the FY2016 supplementary tables print only per-capita ranks). The reports revise: the FY2012 report's '3.9 percent' one-year decrease implies a revised FY2011 base near 295.8 million where the FY2011 report printed 293.1 — the prints are carried as printed, and the revision signal is recorded. The series ends at FY2019: the FY2020 collection was disrupted by pandemic closures and the survey's publication format changed after FY2019, and no later national total was fetched."
+
+[series.values]
+1992 = 227.997
+1993 = 242.699
+1994 = 257.692
+1995 = 278.204
+1996 = 284.513
+1997 = 287.173
+1998 = 292.056
+1999 = 294.568
+2000 = 291.476
+2001 = 296.211
+2002 = 301.757
+2003 = 302.338
+2004 = 304.39
+2005 = 302.513
+2006 = 294.986
+2007 = 292.481
+2008 = 300.917
+2009 = 309.839
+2010 = 308.629
+2011 = 293.1
+2012 = 284.3
+2014 = 262.7
+2015 = 255.88
+2017 = 239.95
+2018 = 227.01
+2019 = 219.7

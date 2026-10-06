@@ -614,6 +614,15 @@ audited = "2026-10-06"
 operands = []
 
 [[entry]]
+fact_id = "us-1990s-public-library-reference-transactions"
+fingerprint = "8a1e4a8e482db122a7bd71aebe6f2099ece36b3a50b53ce04ee95ee0d749d54d"
+sample_sha256 = "00b268e23b62aa53f1b4497a5b0f12a3e4b4ce7c826ae0764f11f9a00bc79f00"
+file = "53-library-reference/reference-transactions-dump.txt"
+extracted = "227.997"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
 fact_id = "us-1990s-wages"
 fingerprint = "c2bc5d1d87ec995f792f80f68be891b39da018d53b192b6c29a93a130c5d4487"
 sample_sha256 = "58815a759653e0804cbd95fe389559cb436f0610053761c90c95c45918a56285"
@@ -767,6 +776,15 @@ audited = "2026-10-06"
 operands = []
 
 [[entry]]
+fact_id = "us-2000s-public-library-reference-transactions"
+fingerprint = "48f2004ccf2f1fbc8b035e660effb5522b716d47165ada3da32f93cb6c4e46f1"
+sample_sha256 = "00b268e23b62aa53f1b4497a5b0f12a3e4b4ce7c826ae0764f11f9a00bc79f00"
+file = "53-library-reference/reference-transactions-dump.txt"
+extracted = "309.839"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
 fact_id = "us-2000s-wages"
 fingerprint = "f102acebca2baf3d4c2e79d4ae15c1cad8fa5f02f757e9f5af309ae18f490230"
 sample_sha256 = "312ca4d1e3783c11cbfdfe0451dd475128d57e705414bf2ac8f0fd3c29c25375"
@@ -898,6 +916,15 @@ fingerprint = "639703d34695cd14d38a024ebcf7a4db1b12b9ff9b1a8f29913df7507839db2a"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "79560"
+audited = "2026-10-06"
+operands = []
+
+[[entry]]
+fact_id = "us-2010s-public-library-reference-transactions"
+fingerprint = "c61586b8be2a87be7c91ba2d9fe029fcc2d202fd5e76c4a42f4915a6e1d2b2e2"
+sample_sha256 = "00b268e23b62aa53f1b4497a5b0f12a3e4b4ce7c826ae0764f11f9a00bc79f00"
+file = "53-library-reference/reference-transactions-dump.txt"
+extracted = "308.629"
 audited = "2026-10-06"
 operands = []
 
