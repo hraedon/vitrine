@@ -24,7 +24,7 @@ value = "$5,620 (all families), $6,295 (4-person families)"
 unit = "USD per year, nominal"
 source = "census-f08-allraces"
 tier = "A"
-notes = "From Census F-8 (Table F-8, Size of Family--All Families by Median Income). All families: 45,540 thousand, median $5,620 ($48,760 in 2024 dollars). 4-person families: 9,288 thousand, median $6,295 ($54,620 in 2024 dollars). Average family size: 3.7. By 1969: all-family median $9,433, 4-person median $7,490."
+notes = "From Census F-8 (Table F-8, Size of Family--All Families by Median Income). All families: 45,540 thousand, median $5,620 ($48,760 in 2024 dollars). 4-person families: 9,288 thousand, median $6,295 ($54,620 in 2024 dollars). Average family size: 3.7. By 1969: all-family median $9,433, 4-person median $10,620."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]

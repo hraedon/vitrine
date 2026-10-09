@@ -2424,9 +2424,11 @@ keyed by section and year label):
 
 - 1947–2023: every current-dollar median, current-dollar mean, family count
   and average family size is identical in all seven family-size sections.
-- Constant dollars are rebased from 2024 to 2025 (new/old ratio
-  1.0238–1.0255 across rows). The deflator choice is unchanged — C-CPI-U from
-  2000, R-CPI-U-RS before — and was already so in the 2025 vintage.
+- Constant dollars are rebased from 2024 to 2025. The new/old ratio is
+  1.0238–1.0255 across the 1947–2023 rows; the re-estimated 2024 rows range
+  1.0153–1.0245 because their current-dollar figures moved too. The deflator
+  choice is unchanged — C-CPI-U from 2000, R-CPI-U-RS before — and was
+  already so in the 2025 vintage.
 - A 2025 row is added (all families $110,500; four-person $140,100).
 - **2024 is re-estimated**, relabelled `2024 (42)`; footnote 42 is
   "Implementation of Vintage 2025 population controls" (Census CPS historic
@@ -2446,6 +2448,18 @@ name the original address. `vitrine audit` passes 129/129 against the
 unchanged sample bytes. The 36 F-8 fingerprints were regenerated because the
 fingerprint covers the source record, and `--pin` restamped every entry's
 audit date. No observation changed.
+
+**Two visitor notes corrected on review.** A cross-lineage review (Codex)
+found that the 1960s budget note gave the 1969 four-person median as $7,490.
+That is the two-person figure (row 150); the four-person median is $10,620
+(`C316`, identical in both vintages). The note is display text outside the
+audit ledger, so the audit replay never saw it. Every other F-8 figure quoted
+in a visitor note (54 counts, medians, 2024-dollar medians and sizes across
+the 1940s–2020s rooms) was then checked against its own family-size section
+of the archived workbook: all match. The 2020s all-family note
+still called its figure "the most recent available data", which contradicts
+the new disclosure. It now names the 2025 CPS ASEC (reporting 2024 income) and
+points to the source card for the revised estimate.
 
 **Checked for the same failure elsewhere.** Only two audited sources
 register a live URL that serves the archived file itself; the rest are

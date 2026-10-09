@@ -336,7 +336,7 @@ operands = []
 
 [[entry]]
 fact_id = "us-1960s-median-family-income"
-fingerprint = "95cceb66fae24c0fa0669e3efe868a939f6a10e7517c090c1164879b893631dc"
+fingerprint = "0ecb7b7339e013fbc39b0ad50510d2ef8d5b5b60983f8bd477ae8ae8d9bb3316"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "5620"
@@ -1119,7 +1119,7 @@ operands = ["30.66", "30.56", "30.48", "30.39", "30.27", "30.16", "30.07", "29.9
 
 [[entry]]
 fact_id = "us-2020s-median-income-all-families"
-fingerprint = "12b628fd94c3eb0dfbf560bc6f1159cc631e23fec6dec0a953e894117e750d03"
+fingerprint = "b0e444364663fa1d6eb9bfa0df77b40d03e02eeef7ecd9c6333d79fb16cb6d65"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "105800"
