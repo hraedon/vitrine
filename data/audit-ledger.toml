@@ -7,7 +7,7 @@ fingerprint = "1a3efca8e31ee16e815134436a4db8371591e5b2d8ef459fc037b3bd60672efd"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
 file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "172.0"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -16,7 +16,7 @@ fingerprint = "3a5c575f189dcb5cb13595aa18453df8b44434f0497db757f89f91ce18897eb3"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
 file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "177213"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -25,7 +25,7 @@ fingerprint = "a22419745d1c7f2301e74fadcd7adbe6cfb41d1fdb08d9930e172a17fbad6a9e"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
 file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "317091"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -34,7 +34,7 @@ fingerprint = "6dbe98e6aba2eb5de9f73a64d692a0a7ff93156a072b8366b5bbcf69ed417282"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
 file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "175.8"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -43,7 +43,7 @@ fingerprint = "8f6dd5095647c520df3392c7150f3e8e844b910314615c8fac79291f63ce278e"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
 file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "408864"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -52,7 +52,7 @@ fingerprint = "ef8513bc1878039e50116d683e88fce17ed1197865751530925c051a67c8b50d"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
 file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "159.1"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -61,7 +61,7 @@ fingerprint = "40fb62a0e6c30471f3d6521c1a95e5c14071cba0b4ee36be993302e2b85a7fc8"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
 file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "381807"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -70,7 +70,7 @@ fingerprint = "02337e087f30b487d6a8eeef2e02a4e8ae5c4d2fa4f5713aa047e46a9a8ddcc2"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
 file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "152.5"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -79,7 +79,7 @@ fingerprint = "5cbf27250b67aaa170dcba850e953b303785f58799a7dbebc7da6f05e282a4d8"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
 file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "361684"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -88,7 +88,7 @@ fingerprint = "82fec949f76d7b02e3105b4045d196652bc43713f87e255b2d806b9dd4d97a8e"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
 file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "148.7"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -97,7 +97,7 @@ fingerprint = "699e530b897317ba224b86225ed27f2c515002b9e68890840ca11e6feee1c116"
 sample_sha256 = "8428fcd38eae6f61bcbbf6a74669ed0d7f15795380be978b91dfc4f331a16adc"
 file = "49-child-labor/census-1943-ch2-p97.txt"
 extracted = "18.2"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -106,7 +106,7 @@ fingerprint = "125c15ecc08fd4251317d32c67f123e519fb62f0ed783b5aa9e5ff5ccc4ef019"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
 file = "54-mail/mail-pieces-dump.txt"
 extracted = "7130"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -115,7 +115,7 @@ fingerprint = "1b0e69513ef715129ed8f21667a0e9861e494ebe0a88e1e2e5955871f13af158"
 sample_sha256 = "8428fcd38eae6f61bcbbf6a74669ed0d7f15795380be978b91dfc4f331a16adc"
 file = "49-child-labor/census-1943-ch2-p97.txt"
 extracted = "15.0"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -124,7 +124,7 @@ fingerprint = "29f3592d89316cf230693cab68c1279bf9ba035c0acf3d202d053bfd978102c4"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
 file = "54-mail/mail-pieces-dump.txt"
 extracted = "14850"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -133,7 +133,7 @@ fingerprint = "11a31d640a6e5dfd2609e59767093097594b83df4fd68eb9e396de585a4fe230"
 sample_sha256 = "8428fcd38eae6f61bcbbf6a74669ed0d7f15795380be978b91dfc4f331a16adc"
 file = "49-child-labor/census-1943-ch2-p97.txt"
 extracted = "11.3"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -142,7 +142,7 @@ fingerprint = "8aacd0a10037171fc401d6ffa82884cff3966b7d21b34eae85aa2f19151a78ca"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
 file = "54-mail/mail-pieces-dump.txt"
 extracted = "25835"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -151,7 +151,7 @@ fingerprint = "8bb3d81f89ff3bb9d0733a679550677eb24cec434eaa5aca422c1bdf77691534"
 sample_sha256 = "8428fcd38eae6f61bcbbf6a74669ed0d7f15795380be978b91dfc4f331a16adc"
 file = "49-child-labor/census-1943-ch2-p97.txt"
 extracted = "4.7"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -160,16 +160,16 @@ fingerprint = "3db8c6de1ef4d841c120ea98ed1a4dd94ffc3ea054f9345347e3c580c2a85d7b"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
 file = "54-mail/mail-pieces-dump.txt"
 extracted = "27888"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1940s-average-family-size"
-fingerprint = "b6ecc5ea6ac638ab235d82a83697557a4837c87d80d504fbcedd5c8d0973bb7f"
+fingerprint = "7c11db7158e5244a33f656f11ba70553cce66337ac7cb281e26b1e8bf4a80bd4"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3.64"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -178,16 +178,16 @@ fingerprint = "d72154195d9d7fa19c5cb070eee7b83bee702638981642aa3d6c8a0c7964862a"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
 file = "54-mail/mail-pieces-dump.txt"
 extracted = "27749"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1940s-median-family-income"
-fingerprint = "7b13d518265146cb62fdbd25e743f5f200b4dcab87469b132081bf84ae086043"
+fingerprint = "93814d3f9d48e1c60fec1482a763a86ba3ee8c0e14569694f4c6ecb7dbf1ceed"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3031"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -196,43 +196,43 @@ fingerprint = "2328f3b9e3a035e4e34c5be3496c5ba1511a7d18341c3a7258b14e9c33732e3c"
 sample_sha256 = "5fbabee6743983f4f39b61c6e42cc9a5727c2266173344ec3fc0381b06a221b6"
 file = "05-census-housing/values-unadj.txt"
 extracted = "2938"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1940s-median-income-four-person"
-fingerprint = "2602e741209755b5e0e48e7f8475f39de9d9938f93efca6726cfb54650b55ede"
+fingerprint = "7166686997519292bf86471777a01b266323e96d3232671c1e15327dc430cd58"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3292"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1940s-number-of-families"
-fingerprint = "49f39272302fa678dd25f19c3600a9a9722877f3de3a59951fcca6fb14315237"
+fingerprint = "5a24fb83cd75600529df55c6899bb093eb6fe8b10ab15a39c769959fb863bd50"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "37240"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1950s-all-family-income-real-2024"
-fingerprint = "ffb6006d9db57106e5ceb2128992bee9fddf3330f8978c966781fc2d3896cc4a"
+fingerprint = "aaec982a6bd62c708e5e55fe1f58d189efe9bbd0cfd515d678586635f2f66c0b"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "35290"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1950s-average-family-size"
-fingerprint = "0b0a73b8bad93221ca6a548b52d628654c2a6af17227a40f16abde51e7b8a43a"
+fingerprint = "0e3b8e2ecff8e4d43b201154f9072c85b97b3a2141f7e4acfdd5d6c329af1566"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3.54"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -241,7 +241,7 @@ fingerprint = "e0332c78e5ce0dfa34d13de3614f4bed28b07696c76c6b490baca8930ac4d4fb"
 sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "53.8"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -250,7 +250,7 @@ fingerprint = "555899743182599f1a4b9b529fd5d36ce63da8c25ed9b4e76a86b879873ee6dc"
 sample_sha256 = "e595ee79c19301fbb484096efa8e72514e028759f2e05fa6756fc816b14aa24c"
 file = "50-calculation-inputs/bls-ces-earnings-hours-1950-response.json"
 extracted = "1.32"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["1.39", "1.37", "1.36", "1.33", "1.33", "1.31", "1.30", "1.30", "1.29", "1.28", "1.26", "1.27"]
 
 [[entry]]
@@ -259,7 +259,7 @@ fingerprint = "7bc656866b8707d1504fb49089293d5e2b7ae8aa869b9289f062c961e2d3f24a"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
 file = "54-mail/mail-pieces-dump.txt"
 extracted = "45064"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -268,34 +268,34 @@ fingerprint = "42bd140f362d300656d5bda8a0f77325db99be6a8a5df522463d7b206820093e"
 sample_sha256 = "5fbabee6743983f4f39b61c6e42cc9a5727c2266173344ec3fc0381b06a221b6"
 file = "05-census-housing/values-unadj.txt"
 extracted = "7354"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1950s-median-income-all-families"
-fingerprint = "8f8d6c41315ff3570d070086082c95b7335201526ae62b2c1dc79fe5b1c248fb"
+fingerprint = "6fbc6641073fc4a1e05df41d84779e34da6915fa74a1b7c361185cd570588010"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3319"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1950s-median-income-four-person"
-fingerprint = "72c376dbab4bc4b0e10dbf76d8bb7a5ba25a48543bdebe6fbb7ab25729db2f79"
+fingerprint = "03d6f15f26cbb9f47f14f7bd71227b6b62bd390c38af2e4bb7dc8d3aa5ede45c"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3675"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1950s-number-of-families"
-fingerprint = "a77a1ecb1d9a8334be340c23610436227036b8711c29d93b9e9fe5efdb040cd5"
+fingerprint = "b1cf889fa8bc252a3649deedf4161b6ae70471ed6fbf67aaaef743f054a0195b"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "39930"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -304,16 +304,16 @@ fingerprint = "e70794af28dad8a6e14f6018145c99954c45338395540c662fa15170cdf922e4"
 sample_sha256 = "e595ee79c19301fbb484096efa8e72514e028759f2e05fa6756fc816b14aa24c"
 file = "50-calculation-inputs/bls-ces-earnings-hours-1950-response.json"
 extracted = "40.5"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["40.9", "41.0", "41.1", "40.8", "41.3", "40.9", "40.6", "40.3", "40.3", "39.7", "39.7", "39.6"]
 
 [[entry]]
 fact_id = "us-1960s-average-family-size"
-fingerprint = "aba283f036b2a0cdc32e14a70ef4a3790ed1ba145a94cfe89875888b485744f9"
+fingerprint = "6415d51912127538884a52419fb1bbf2bdaba2672967ddec80af0df8be126d58"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3.7"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -322,7 +322,7 @@ fingerprint = "878d27f64948eecee09d731d7a0a98494dcd1e5a48afc7099f50ef6eebebfa87"
 sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "58.9"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -331,16 +331,16 @@ fingerprint = "d9a5b6f7ba859d6536a4e430b39dc4c346152325b16390f833828465f1d5733f"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
 file = "54-mail/mail-pieces-dump.txt"
 extracted = "63675"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1960s-median-family-income"
-fingerprint = "e95e9552f7a9f08f85fab8b02760b493f605143751d675f1f44906c661d26e3a"
+fingerprint = "0ecb7b7339e013fbc39b0ad50510d2ef8d5b5b60983f8bd477ae8ae8d9bb3316"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "5620"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -349,25 +349,25 @@ fingerprint = "3ecbc0ede8df30fc0e86882c5dbb32deea5d37861de076ad16d3fea55a49eb4f"
 sample_sha256 = "5fbabee6743983f4f39b61c6e42cc9a5727c2266173344ec3fc0381b06a221b6"
 file = "05-census-housing/values-unadj.txt"
 extracted = "11900"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1960s-number-of-families"
-fingerprint = "a2608fb800a4749d393528ffe60ac541d18406c0ad3359b724cbd05368286bad"
+fingerprint = "9394978e2a2ff7ccff34daa1d572279f978aa1377beed50b6760ef5ee48e419e"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "45540"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1970s-average-family-size"
-fingerprint = "2b7dc5fb7825f1a198848897e0345d77dbc0cba8ed6c85e25d67bb1d3b7ff69a"
+fingerprint = "1e50c7dd4da6264d9f366f14caf037a20e0597f8d42cfe6307b893ec493c1dc7"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3.57"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -376,7 +376,7 @@ fingerprint = "5cb38f26e2c13fe5aaddf9b81ea092cc41fd20dadec67f5223cb83768c78f1b1"
 sample_sha256 = "ba0e2353890de464464255873a38e84f833be091bed6e558da6469670d2bf4af"
 file = "48-blood-lead/childstats-phy4a-lead-table.html"
 extracted = "15.0"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -385,7 +385,7 @@ fingerprint = "01df4aaf175ad947d913836200639f93362abd89fec86a521a9f7bd2d7a74e95"
 sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "62.1"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -394,16 +394,16 @@ fingerprint = "58bdb671e6a89e91dfc89a98803631dde463bd124380065480bb835c8453f736"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
 file = "54-mail/mail-pieces-dump.txt"
 extracted = "84882"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1970s-median-family-income"
-fingerprint = "4572a372f3f2f3df6d5729a7ea5a576703d88e5a5e5b50c4f38bfa76e7fe15fa"
+fingerprint = "34dba7ac6ffb256521e6314e0be38a7b90166a61a9c7d57b219a4b254e6e8957"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "9867"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -412,34 +412,34 @@ fingerprint = "90ff34d1d3314c36ecd1e56ea45905bd88b65798a545e61ab595d9dfa78c57ba"
 sample_sha256 = "5fbabee6743983f4f39b61c6e42cc9a5727c2266173344ec3fc0381b06a221b6"
 file = "05-census-housing/values-unadj.txt"
 extracted = "17000"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1970s-median-income-four-person"
-fingerprint = "d93da7d3adcc5e203b792170f9e74ac2ae516fbc5638bbbb11aebe971ea23161"
+fingerprint = "b23d236c453c8b3e621205ca566d832f2c0abddc80a8fdce1f8d575e8449e759"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "11170"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1970s-number-of-families"
-fingerprint = "bf34d03ebb56f5161a7d716015bac16ed711d702b2f4b731f87cf8b7b561861f"
+fingerprint = "3a15154dd81076da4e53634550510deaa8517de1bbeec5dc2ef84b4a5ff4076c"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "52230"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1980s-average-family-size"
-fingerprint = "af8e538baf81c12d6f3f6d8089d30c682c284d4e2d4e93ebf254e53e8314f819"
+fingerprint = "ccb1efa035c96d30f3b4d96be5d46c68cad6e3461a6bf444a7863b2a2674da83"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3.27"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -448,7 +448,7 @@ fingerprint = "2ce4d4d0a957388aab91c58a7e8ff359ec14f592544a7bff473f5698a05bd5ca"
 sample_sha256 = "ba0e2353890de464464255873a38e84f833be091bed6e558da6469670d2bf4af"
 file = "48-blood-lead/childstats-phy4a-lead-table.html"
 extracted = "3.0"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -457,7 +457,7 @@ fingerprint = "b9048f5997bd6f86b901ee221acc1df9589e69e4d9b60118994fac7ec33f248b"
 sample_sha256 = "f8a24f81c612bf62eb449a279887328d3ab0b8d4cffbfeefe1f5b42c0efef9e9"
 file = "02-cex/cusize-1985.txt"
 extracted = "6.0"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["1871", "31408"]
 
 [[entry]]
@@ -466,7 +466,7 @@ fingerprint = "1d57afcefbc3c8895b010a6502f220781aacfee2178b90d97cc6a853be8ad030"
 sample_sha256 = "f8a24f81c612bf62eb449a279887328d3ab0b8d4cffbfeefe1f5b42c0efef9e9"
 file = "02-cex/cusize-1985.txt"
 extracted = "93.5"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["23490", "25127"]
 
 [[entry]]
@@ -475,7 +475,7 @@ fingerprint = "97988bf77b986665fb8d88e7c5fffd2a28218d538c0ec457c393e7d1b3525da3"
 sample_sha256 = "f8a24f81c612bf62eb449a279887328d3ab0b8d4cffbfeefe1f5b42c0efef9e9"
 file = "02-cex/cusize-1985.txt"
 extracted = "14.8"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["3477", "23490"]
 
 [[entry]]
@@ -484,7 +484,7 @@ fingerprint = "9429e4e224ddf5302bda0332c34cda5679086aa566a3f0e2553cd17396a4869f"
 sample_sha256 = "f8a24f81c612bf62eb449a279887328d3ab0b8d4cffbfeefe1f5b42c0efef9e9"
 file = "02-cex/cusize-1985.txt"
 extracted = "4.7"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["1108", "23490"]
 
 [[entry]]
@@ -493,7 +493,7 @@ fingerprint = "a031c7ef9be44912f44e9c02bc094b40fd6d481d5d941b4569848dd7845cb235"
 sample_sha256 = "f8a24f81c612bf62eb449a279887328d3ab0b8d4cffbfeefe1f5b42c0efef9e9"
 file = "02-cex/cusize-1985.txt"
 extracted = "23490"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -502,7 +502,7 @@ fingerprint = "f59faf1a78dbcd6b532747a9db0c18dc3e7ba2230c4f5979d8059895095ec11c"
 sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "62.2"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -511,7 +511,7 @@ fingerprint = "e1133fea01e4cfeeebb18326188b60191af8685d5611cb3ee6d10e77330451f0"
 sample_sha256 = "40c83e21cd4bf1fba058ef5ce85f0ccfe902ba80da049a1a8a09a9bcb7e7d4a0"
 file = "50-calculation-inputs/bls-ces-earnings-hours-1980-response.json"
 extracted = "7.15"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["7.52", "7.47", "7.38", "7.30", "7.24", "7.16", "7.10", "7.02", "6.97", "6.95", "6.88", "6.82"]
 
 [[entry]]
@@ -520,16 +520,16 @@ fingerprint = "b89da67f90e96cfdff1026e47cf905d07d0af902fe6112b4272a5a21470ea7ba"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
 file = "54-mail/mail-pieces-dump.txt"
 extracted = "106311"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1980s-median-family-income"
-fingerprint = "2ccd263234e3312d62f4b2c4e92624af14d8741e93c9d4b197aa0a70e8978cbd"
+fingerprint = "68aa18a855313317ce1f9f17473257d069abad4854356e722d9500ee8f6a8026"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "21020"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -538,25 +538,25 @@ fingerprint = "432e5938f64cca633ae7285f682779980bd17943c6655368ca38a339118aa8af"
 sample_sha256 = "5fbabee6743983f4f39b61c6e42cc9a5727c2266173344ec3fc0381b06a221b6"
 file = "05-census-housing/values-unadj.txt"
 extracted = "47200"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1980s-median-income-four-person"
-fingerprint = "c8cacf2f4ed9ab01b54a21526fbab645fda56534e8a7a7e3c810fe297d8ab25d"
+fingerprint = "961fbd278d5ef11a869f688dd76e6147b1f2e068bb7bfa9cd9eadf16119430a1"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "24330"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1980s-number-of-families"
-fingerprint = "ef7eb9a15b51e21242eca97947ee730f7fb6abf3d0388b1b62a5cb87fd849483"
+fingerprint = "824bdef32e3324c3ad4e6b2489a39351111d1a829dd722057e145bf859dfa0a2"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "60310"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -565,7 +565,7 @@ fingerprint = "5dcbd11d54304c054e0ed501a70fd317936198145af59f7f367d641e91386041"
 sample_sha256 = "40c83e21cd4bf1fba058ef5ce85f0ccfe902ba80da049a1a8a09a9bcb7e7d4a0"
 file = "50-calculation-inputs/bls-ces-earnings-hours-1980-response.json"
 extracted = "6.85"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["7.13", "7.09", "7.02", "6.95", "6.91", "6.86", "6.82", "6.76", "6.72", "6.69", "6.63", "6.57"]
 
 [[entry]]
@@ -574,7 +574,7 @@ fingerprint = "c8e0bd314c673f06435216375f4e02f9ff0447d568e19c5723862f241bd72359"
 sample_sha256 = "40c83e21cd4bf1fba058ef5ce85f0ccfe902ba80da049a1a8a09a9bcb7e7d4a0"
 file = "50-calculation-inputs/bls-ces-earnings-hours-1980-response.json"
 extracted = "39.7"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["40.1", "39.9", "39.8", "39.6", "39.5", "39.1", "39.2", "39.3", "39.8", "39.9", "40.1", "40.0"]
 
 [[entry]]
@@ -583,16 +583,16 @@ fingerprint = "2655fd0fc3910d226fb930f313710754c2dca0a80cb2303bd6600cb565d6aeff"
 sample_sha256 = "40c83e21cd4bf1fba058ef5ce85f0ccfe902ba80da049a1a8a09a9bcb7e7d4a0"
 file = "50-calculation-inputs/bls-ces-earnings-hours-1980-response.json"
 extracted = "35.2"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["35.3", "35.3", "35.2", "35.1", "35.1", "34.9", "35.0", "35.1", "35.2", "35.3", "35.4", "35.4"]
 
 [[entry]]
 fact_id = "us-1990s-average-family-size"
-fingerprint = "f96a650a3142e177357cb1c68118a29fb3fbb02fa2eb55a15d7842addc953df1"
+fingerprint = "146792ef53300c82086124e95dc28456ffc782a2fb41a1a952dbfc50d8017a0e"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3.18"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -601,7 +601,7 @@ fingerprint = "a007c578d77f61ceaee4f4f87c2ba25aaaa628f1428c4691e876b772f5d3e0e6"
 sample_sha256 = "ba0e2353890de464464255873a38e84f833be091bed6e558da6469670d2bf4af"
 file = "48-blood-lead/childstats-phy4a-lead-table.html"
 extracted = "1.9"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -610,7 +610,7 @@ fingerprint = "a24e17bbafb9067d35ebc49b2089f08f51b84ac9cc18b5d826ffed36f34b1da5"
 sample_sha256 = "b96c928e38e99eeca848b2dbee9d8429f041a0e29507de4f6502cd48045493c2"
 file = "02-cex/cusize-1996.txt"
 extracted = "5.7"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["2492", "43670"]
 
 [[entry]]
@@ -619,7 +619,7 @@ fingerprint = "df0cfcf17c6045f55d15f7abfc2ab904cde02b4ffb65be5c93f2bd87829ee9cc"
 sample_sha256 = "b96c928e38e99eeca848b2dbee9d8429f041a0e29507de4f6502cd48045493c2"
 file = "02-cex/cusize-1996.txt"
 extracted = "88.9"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["33797", "38014"]
 
 [[entry]]
@@ -628,7 +628,7 @@ fingerprint = "ff162132ec8d7abe5d4c6cd376ad5ccec42bdbfc6e9d72610da6b0265500e005"
 sample_sha256 = "b96c928e38e99eeca848b2dbee9d8429f041a0e29507de4f6502cd48045493c2"
 file = "02-cex/cusize-1996.txt"
 extracted = "5.2"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["1770", "33797"]
 
 [[entry]]
@@ -637,7 +637,7 @@ fingerprint = "8740c955e6d707bd10b78bd38fba4c20facac6c81af3344d2bfd9c0718389583"
 sample_sha256 = "b96c928e38e99eeca848b2dbee9d8429f041a0e29507de4f6502cd48045493c2"
 file = "02-cex/cusize-1996.txt"
 extracted = "33797"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -646,7 +646,7 @@ fingerprint = "72f23d6723621167680cd9f0b6ade095d76587a69342aba5cb02cde4a2eedd24"
 sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "62.3"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -655,7 +655,7 @@ fingerprint = "360440526381817156e4b6117be10648342463a0d5f36542f35149c66178a2fe"
 sample_sha256 = "58815a759653e0804cbd95fe389559cb436f0610053761c90c95c45918a56285"
 file = "50-calculation-inputs/bls-ces-earnings-hours-1990-response.json"
 extracted = "10.77"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["10.93", "10.89", "10.92", "10.86", "10.80", "10.81", "10.78", "10.74", "10.68", "10.70", "10.64", "10.52"]
 
 [[entry]]
@@ -664,16 +664,16 @@ fingerprint = "757be891eb92608ab7197b729befb62dae1252ae881085059a934de6b774bffd"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
 file = "54-mail/mail-pieces-dump.txt"
 extracted = "166301"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1990s-median-family-income"
-fingerprint = "087996fdb98e417a2b2a17145d9379bacfcebcc54e46e52f3019d5ab2e18a2b3"
+fingerprint = "11319a95d6ea2fa240f33e05cd310192c7c2e26f01515caf1a178d55e287937b"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "35350"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -682,25 +682,25 @@ fingerprint = "7e2a4ddf2045325e7712694cca20033092d50b921f57dd4024295843c5f72e35"
 sample_sha256 = "5fbabee6743983f4f39b61c6e42cc9a5727c2266173344ec3fc0381b06a221b6"
 file = "05-census-housing/values-unadj.txt"
 extracted = "79100"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1990s-median-income-four-person"
-fingerprint = "dff9586814df00bd59ba91a32a4c4b244c24f6536861d27c3ede58911b5c20b8"
+fingerprint = "81a53f21ab645eadf891e05d8c60c373c8ff1afdb95e10d51bdf0714b9af0e78"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "41450"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-1990s-number-of-families"
-fingerprint = "c068581ba08edbb4245567581a359fe06b52e5488773f2f6e83c32240e7a326d"
+fingerprint = "6b315b625f9ddc014b06dc333ea117b938204977c7e8adfae52796b742a18e88"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "66320"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -709,7 +709,7 @@ fingerprint = "8a1e4a8e482db122a7bd71aebe6f2099ece36b3a50b53ce04ee95ee0d749d54d"
 sample_sha256 = "00b268e23b62aa53f1b4497a5b0f12a3e4b4ce7c826ae0764f11f9a00bc79f00"
 file = "53-library-reference/reference-transactions-dump.txt"
 extracted = "227.997"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -718,7 +718,7 @@ fingerprint = "c2bc5d1d87ec995f792f80f68be891b39da018d53b192b6c29a93a130c5d4487"
 sample_sha256 = "58815a759653e0804cbd95fe389559cb436f0610053761c90c95c45918a56285"
 file = "50-calculation-inputs/bls-ces-earnings-hours-1990-response.json"
 extracted = "10.20"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["10.34", "10.32", "10.30", "10.27", "10.24", "10.22", "10.20", "10.16", "10.12", "10.11", "10.07", "10.02"]
 
 [[entry]]
@@ -727,7 +727,7 @@ fingerprint = "775799cafab29f11f911c29a994cfc1ba3f79a9a9e3f08f14d8d54626a7c04d3"
 sample_sha256 = "58815a759653e0804cbd95fe389559cb436f0610053761c90c95c45918a56285"
 file = "50-calculation-inputs/bls-ces-earnings-hours-1990-response.json"
 extracted = "40.5"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["40.3", "40.2", "40.4", "40.5", "40.5", "40.6", "40.7", "40.6", "40.4", "40.6", "40.6", "40.5"]
 
 [[entry]]
@@ -736,16 +736,16 @@ fingerprint = "e10e9accd76c4b66855f9b5e708aae9f6c1a2786fcd5454cb9d68c7943b6edf8"
 sample_sha256 = "58815a759653e0804cbd95fe389559cb436f0610053761c90c95c45918a56285"
 file = "50-calculation-inputs/bls-ces-earnings-hours-1990-response.json"
 extracted = "34.3"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["34.2", "34.2", "34.1", "34.2", "34.3", "34.2", "34.4", "34.3", "34.2", "34.4", "34.4", "34.5"]
 
 [[entry]]
 fact_id = "us-2000s-average-family-size"
-fingerprint = "268ab501acc05843c804f9d9697606c37d07ead38acd77e865c3986491b5eedb"
+fingerprint = "c4a0a4698d40e9d37d40fb729955603656d12b4d57fe4328d17df93f7691ea0c"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3.14"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -754,7 +754,7 @@ fingerprint = "cde750daba79e747df96ec9f43a8eb4ea41234bfa3359658021e8f49dae33973"
 sample_sha256 = "ba0e2353890de464464255873a38e84f833be091bed6e558da6469670d2bf4af"
 file = "48-blood-lead/childstats-phy4a-lead-table.html"
 extracted = "1.6"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -763,7 +763,7 @@ fingerprint = "ef4a2dbdc5e88ff0a445e1d4aaa8d82a723689ae4a1a544e79d41180aa0bb642"
 sample_sha256 = "ba0e2353890de464464255873a38e84f833be091bed6e558da6469670d2bf4af"
 file = "48-blood-lead/childstats-phy4a-lead-table.html"
 extracted = "1.3"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -772,7 +772,7 @@ fingerprint = "29de44629d0f7af6579262d489865d880d3e00ddf3be2e52c7be4b7dbf7987cd"
 sample_sha256 = "eb49e4dab599cb00a371c12cfa7cf9d106128ea9fda99f3a701ce978313aee82"
 file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx"
 extracted = "4.9"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["1856", "38045"]
 
 [[entry]]
@@ -781,7 +781,7 @@ fingerprint = "2e1ff357147becc7db61efa9d58c87363aa079aa0fe3a182e9a06069dbad6aed"
 sample_sha256 = "eb49e4dab599cb00a371c12cfa7cf9d106128ea9fda99f3a701ce978313aee82"
 file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx"
 extracted = "85.2"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["38045", "44649"]
 
 [[entry]]
@@ -790,7 +790,7 @@ fingerprint = "a511d8efe42412121ebf2a236fd5477799f46d4cebf42b5645d0dd5b32ba7dbf"
 sample_sha256 = "eb49e4dab599cb00a371c12cfa7cf9d106128ea9fda99f3a701ce978313aee82"
 file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx"
 extracted = "13.6"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["5158", "38045"]
 
 [[entry]]
@@ -799,7 +799,7 @@ fingerprint = "d75c88c0ac7f021e328bab8e9dabd7ffa8247b74d29c81927937ae4397f62238"
 sample_sha256 = "eb49e4dab599cb00a371c12cfa7cf9d106128ea9fda99f3a701ce978313aee82"
 file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx"
 extracted = "5.4"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["2066", "38045"]
 
 [[entry]]
@@ -808,7 +808,7 @@ fingerprint = "61d195cabe2ef712353de824bb4adeff7421b3dea0c190199ab60c3626ce4033"
 sample_sha256 = "eb49e4dab599cb00a371c12cfa7cf9d106128ea9fda99f3a701ce978313aee82"
 file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx"
 extracted = "38045"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -817,7 +817,7 @@ fingerprint = "891e1aecc2abcdf6a81385d7fd2214c590bb0d4a723d36b044856e4e11d68246"
 sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "55.8"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -826,7 +826,7 @@ fingerprint = "827356a1cdd74add6e7a20644e5873bf746bbed49632eb39131d2c81751d7bb6"
 sample_sha256 = "312ca4d1e3783c11cbfdfe0451dd475128d57e705414bf2ac8f0fd3c29c25375"
 file = "50-calculation-inputs/bls-ces-earnings-hours-2000-response.json"
 extracted = "14.31"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["14.50", "14.52", "14.48", "14.40", "14.36", "14.33", "14.30", "14.22", "14.23", "14.17", "14.14", "14.12"]
 
 [[entry]]
@@ -835,16 +835,16 @@ fingerprint = "e462dea2450697d250880e0866fb66ca17632b85a17bc9f70ef6a7faf1819730"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
 file = "54-mail/mail-pieces-dump.txt"
 extracted = "211743"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-2000s-median-family-income"
-fingerprint = "48fbd1f954db37f0219cb437b0dddcde285bce11906e27c07ce2588ec93f7242"
+fingerprint = "35ac1a38aa5ceca67808e87ccb26bcb81b190b2faa478f53ca7b37e9e2be22f5"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "50730"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -853,25 +853,25 @@ fingerprint = "bfb00ac69ab500374ffd1daeec0a5eb6a2ff16284a81abc598ea361b19b76f6e"
 sample_sha256 = "5fbabee6743983f4f39b61c6e42cc9a5727c2266173344ec3fc0381b06a221b6"
 file = "05-census-housing/values-unadj.txt"
 extracted = "119600"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-2000s-median-income-four-person"
-fingerprint = "de0305c71bc76c8cbc6ace64d97ae31ad41571da12b2ca05b02ab45ac37a5964"
+fingerprint = "498010e4ce513a8ac13e1c5e7b948711a1f0aedf61c8b1b7c103f12e27868b9f"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "62670"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-2000s-number-of-families"
-fingerprint = "3bbe55cbc2a3ae1c1391e495ccacfba2c60db52ba16b7172c5701e2d99707e8d"
+fingerprint = "ff283bae4e8ed0670d4bb3da467dcd9977a2308764a9bb6dbbeb9298356feb8a"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "73780"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -880,7 +880,7 @@ fingerprint = "48f2004ccf2f1fbc8b035e660effb5522b716d47165ada3da32f93cb6c4e46f1"
 sample_sha256 = "00b268e23b62aa53f1b4497a5b0f12a3e4b4ce7c826ae0764f11f9a00bc79f00"
 file = "53-library-reference/reference-transactions-dump.txt"
 extracted = "309.839"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -889,7 +889,7 @@ fingerprint = "f102acebca2baf3d4c2e79d4ae15c1cad8fa5f02f757e9f5af309ae18f490230"
 sample_sha256 = "312ca4d1e3783c11cbfdfe0451dd475128d57e705414bf2ac8f0fd3c29c25375"
 file = "50-calculation-inputs/bls-ces-earnings-hours-2000-response.json"
 extracted = "14.01"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["14.29", "14.23", "14.17", "14.13", "14.07", "14.02", "13.98", "13.93", "13.89", "13.85", "13.80", "13.74"]
 
 [[entry]]
@@ -898,7 +898,7 @@ fingerprint = "af558c5a6c3dc32b599535808a9db50a8d639df17915d111cf06cf4f4769c62f"
 sample_sha256 = "312ca4d1e3783c11cbfdfe0451dd475128d57e705414bf2ac8f0fd3c29c25375"
 file = "50-calculation-inputs/bls-ces-earnings-hours-2000-response.json"
 extracted = "41.2"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["40.3", "41.1", "41.1", "41.1", "41.1", "41.5", "41.3", "41.2", "41.6", "41.4", "41.5", "41.5"]
 
 [[entry]]
@@ -907,16 +907,16 @@ fingerprint = "baa4a983cadeed75240ec35a121d8e7bd8955f600a6f5871cf8a19ed09190a24"
 sample_sha256 = "312ca4d1e3783c11cbfdfe0451dd475128d57e705414bf2ac8f0fd3c29c25375"
 file = "50-calculation-inputs/bls-ces-earnings-hours-2000-response.json"
 extracted = "34.3"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["34.0", "34.2", "34.2", "34.3", "34.2", "34.3", "34.3", "34.3", "34.4", "34.4", "34.4", "34.4"]
 
 [[entry]]
 fact_id = "us-2010s-average-family-size"
-fingerprint = "00825b1374ff1f0d4eb5331bfb53a28dce1b1a7e2ea171d572b73d6275331581"
+fingerprint = "60ec365dc4674a7f1e65b6de45f8e6fd7b4da22d31aa963f66129c7cf8590dc2"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3.14"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -925,7 +925,7 @@ fingerprint = "726de036ea464ef5874e4210b763fed9919d63110742a1b95165e1ab3f779dec"
 sample_sha256 = "ba0e2353890de464464255873a38e84f833be091bed6e558da6469670d2bf4af"
 file = "48-blood-lead/childstats-phy4a-lead-table.html"
 extracted = "0.7"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -934,7 +934,7 @@ fingerprint = "fb3e52912e5cbd2825bc38f9f1c2f2b366b55d9027043ad9d1902602fecbd7df"
 sample_sha256 = "ba0e2353890de464464255873a38e84f833be091bed6e558da6469670d2bf4af"
 file = "48-blood-lead/childstats-phy4a-lead-table.html"
 extracted = "0.6"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -943,7 +943,7 @@ fingerprint = "4c146929dbc325d060ec48a4e7b4a38107589cf852896afee21b1134216f3fae"
 sample_sha256 = "802fd4ecaf9641bf6560f6719888cf7b4bf94da34093fa85b097f1c549e01e28"
 file = "19-cpi-tables/cu-all-multi-year-2006-2012.xlsx"
 extracted = "3.4"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["1736", "51442"]
 
 [[entry]]
@@ -952,7 +952,7 @@ fingerprint = "4a14ab2142737913ecafbf74bdf30d6b5aa0915d55b2e3f5193c5d172b0ca1b1"
 sample_sha256 = "802fd4ecaf9641bf6560f6719888cf7b4bf94da34093fa85b097f1c549e01e28"
 file = "19-cpi-tables/cu-all-multi-year-2006-2012.xlsx"
 extracted = "78.4"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["51442", "65596"]
 
 [[entry]]
@@ -961,7 +961,7 @@ fingerprint = "50bd5867739dec6414a93a2ba60b42948e399fbadbf6da9c6ed3190755650add"
 sample_sha256 = "802fd4ecaf9641bf6560f6719888cf7b4bf94da34093fa85b097f1c549e01e28"
 file = "19-cpi-tables/cu-all-multi-year-2006-2012.xlsx"
 extracted = "6.9"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["3556", "51442"]
 
 [[entry]]
@@ -970,7 +970,7 @@ fingerprint = "98f5dda9c804b61db43e369a37d51b6df352b5b35cf3010637830e9868d23db0"
 sample_sha256 = "492b25fd7c7a7f4b862f811594fb490054b4ac53b082c472588add3f3b5c81f4"
 file = "19-cpi-tables/cu-income-quintiles-before-taxes-2012.xlsx"
 extracted = "221.8"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["22154", "9988"]
 
 [[entry]]
@@ -979,7 +979,7 @@ fingerprint = "95b9fd3432f6216c328ff735e814d3aefdcd81d9f6f49c8938ee7750659d4d4e"
 sample_sha256 = "802fd4ecaf9641bf6560f6719888cf7b4bf94da34093fa85b097f1c549e01e28"
 file = "19-cpi-tables/cu-all-multi-year-2006-2012.xlsx"
 extracted = "51442"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -988,7 +988,7 @@ fingerprint = "40dd96adf971f5c9ad8d8a8a2b7a990fc40c097f32836270d5bc42d119ac258a"
 sample_sha256 = "a174058890f3fb7bed00a6ed12d0eb59202d842e37651946a7625e9c3e228184"
 file = "50-calculation-inputs/bls-ces-earnings-hours-2010-response.json"
 extracted = "18.61"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["18.79", "18.76", "18.72", "18.71", "18.64", "18.64", "18.57", "18.58", "18.50", "18.46", "18.47", "18.43"]
 
 [[entry]]
@@ -997,34 +997,34 @@ fingerprint = "121153943717d6354af77cc6e3b40b44eb323585ea6e30d41b3399e90cf826dc"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
 file = "54-mail/mail-pieces-dump.txt"
 extracted = "170574"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-2010s-median-family-income"
-fingerprint = "52b027765b2c66f75b42d90cf7d75126a0ec469a226c4a5c51fdf9aee754a452"
+fingerprint = "2e18be88d819646ad95d73374fe2af785cd938309d5c71de3e88f4779b188db0"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "60240"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-2010s-median-income-four-person"
-fingerprint = "4ecfa11e39262f57e3b34452e931ab40652acfa507806ed906c22d317fef344e"
+fingerprint = "9b928d035bd55373d84b6df3e02d24c359b778018fcb57e61eaa80315b3f0d68"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "74750"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-2010s-number-of-families"
-fingerprint = "639703d34695cd14d38a024ebcf7a4db1b12b9ff9b1a8f29913df7507839db2a"
+fingerprint = "51d3bb6c2c7f5406c0ef1606316efd74c26f13ce60a5a64c014d5d06f238a386"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "79560"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -1033,7 +1033,7 @@ fingerprint = "c61586b8be2a87be7c91ba2d9fe029fcc2d202fd5e76c4a42f4915a6e1d2b2e2"
 sample_sha256 = "00b268e23b62aa53f1b4497a5b0f12a3e4b4ce7c826ae0764f11f9a00bc79f00"
 file = "53-library-reference/reference-transactions-dump.txt"
 extracted = "308.629"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -1042,7 +1042,7 @@ fingerprint = "a2a5ec35cfc3a88aa8e63d6940764c7929de88e7af93382794c3d918a58d89fd"
 sample_sha256 = "a174058890f3fb7bed00a6ed12d0eb59202d842e37651946a7625e9c3e228184"
 file = "50-calculation-inputs/bls-ces-earnings-hours-2010-response.json"
 extracted = "19.05"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["19.23", "19.21", "19.21", "19.11", "19.11", "19.04", "19.03", "19.01", "18.96", "18.92", "18.91", "18.88"]
 
 [[entry]]
@@ -1051,7 +1051,7 @@ fingerprint = "879911b9e37f6cfd32401b42c52cdfef0e39a1a1d9288711e5785b4f1cd55cfe"
 sample_sha256 = "a174058890f3fb7bed00a6ed12d0eb59202d842e37651946a7625e9c3e228184"
 file = "50-calculation-inputs/bls-ces-earnings-hours-2010-response.json"
 extracted = "41.1"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["41.3", "41.3", "41.3", "41.4", "41.2", "41.1", "41.0", "41.4", "41.1", "41.0", "40.5", "40.9"]
 
 [[entry]]
@@ -1060,16 +1060,16 @@ fingerprint = "735a7e63fcbe0166dab553d43e9bd26e011b716299ee69a8a668de0781dec7e2"
 sample_sha256 = "a174058890f3fb7bed00a6ed12d0eb59202d842e37651946a7625e9c3e228184"
 file = "50-calculation-inputs/bls-ces-earnings-hours-2010-response.json"
 extracted = "33.4"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["33.5", "33.5", "33.6", "33.5", "33.5", "33.4", "33.3", "33.4", "33.4", "33.3", "33.1", "33.3"]
 
 [[entry]]
 fact_id = "us-2020s-average-family-size"
-fingerprint = "ec6d85fa61f92f79da0a089d9a5f6e79efb5bb696f7c7df6958dcfcf85eb5868"
+fingerprint = "b6b5ee96675b394af6d244f1c193a99cd9312d37eb23f64cf0293d2058b4949e"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3.15"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -1078,7 +1078,7 @@ fingerprint = "fcc20fc52f04a34ee8f9e2822e35d2177f3af1b2c9cb875f2dcafe571874694a"
 sample_sha256 = "862b6ecbda1d747ee74826e714a27a83e5339f81211ccaa91a16dd0cbf5053cf"
 file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx"
 extracted = "2.5"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["2001.0", "78535.0"]
 
 [[entry]]
@@ -1087,7 +1087,7 @@ fingerprint = "7a724ff47986474b6cad83cf2e61c3e3cd5dce7702321f54b5c5de08b02080be"
 sample_sha256 = "862b6ecbda1d747ee74826e714a27a83e5339f81211ccaa91a16dd0cbf5053cf"
 file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx"
 extracted = "75.4"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["78535.0", "104207.0"]
 
 [[entry]]
@@ -1096,7 +1096,7 @@ fingerprint = "3a4f6aae98bfead59e494cfdb1486b7518a7dd84889546587ad5ebe70c0ed59b"
 sample_sha256 = "862b6ecbda1d747ee74826e714a27a83e5339f81211ccaa91a16dd0cbf5053cf"
 file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx"
 extracted = "7.9"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["6197.0", "78535.0"]
 
 [[entry]]
@@ -1105,7 +1105,7 @@ fingerprint = "ef3c0387f6284de63e049fe65f11a14e515e80f4b3e6b757ea117bea547c80d8"
 sample_sha256 = "862b6ecbda1d747ee74826e714a27a83e5339f81211ccaa91a16dd0cbf5053cf"
 file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx"
 extracted = "78535.0"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -1114,34 +1114,34 @@ fingerprint = "a182c83f29fdf3689bacd1dc31d793103d0112f87ad2196bedea71a52cdbf3ce"
 sample_sha256 = "0efb3f6fada4a469d6bc2d4fa523b4716da902aac6803a8b1cfb57b82d664154"
 file = "50-calculation-inputs/bls-ces-earnings-hours-2024-response.json"
 extracted = "30.12"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["30.66", "30.56", "30.48", "30.39", "30.27", "30.16", "30.07", "29.97", "29.85", "29.78", "29.66", "29.61"]
 
 [[entry]]
 fact_id = "us-2020s-median-income-all-families"
-fingerprint = "b270072dc5822613ff769fc75534215b4240325a34585592aa83e718cb0f1538"
+fingerprint = "b0e444364663fa1d6eb9bfa0df77b40d03e02eeef7ecd9c6333d79fb16cb6d65"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "105800"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-2020s-median-income-four-person"
-fingerprint = "46aeec913cfe193dde8b0b036b8de62a2f29bc5ed977646a520395347d48ec46"
+fingerprint = "684675a60cdb9c6e50f539aff680381ac83be8e0e02237a3aba9777ba02a4d5e"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "139900"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
 fact_id = "us-2020s-number-of-families"
-fingerprint = "f2cde7b34ec63bf0a1bf614804a21dd1179e1f19a93ceb119a648afbccf94ab9"
+fingerprint = "dc8265dfbcbc746a8671d22920ede37fdb5b69cb06908c59cd6878ea1c5d92a1"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "85980"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = []
 
 [[entry]]
@@ -1150,7 +1150,7 @@ fingerprint = "59356d4351ac46a5e23f6159fcb9edff4e26ebde1dbf370110660c3815e1d362"
 sample_sha256 = "0efb3f6fada4a469d6bc2d4fa523b4716da902aac6803a8b1cfb57b82d664154"
 file = "50-calculation-inputs/bls-ces-earnings-hours-2024-response.json"
 extracted = "40.7"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["40.9", "40.8", "40.6", "40.8", "40.7", "40.7", "40.8", "40.8", "40.6", "40.6", "40.6", "40.3"]
 
 [[entry]]
@@ -1159,5 +1159,5 @@ fingerprint = "986627fcd7fac709fa269247884088d4179a6143a7251d765d6f6fd754ec9e46"
 sample_sha256 = "0efb3f6fada4a469d6bc2d4fa523b4716da902aac6803a8b1cfb57b82d664154"
 file = "50-calculation-inputs/bls-ces-earnings-hours-2024-response.json"
 extracted = "33.7"
-audited = "2026-10-06"
+audited = "2026-10-09"
 operands = ["33.7", "33.7", "33.7", "33.7", "33.7", "33.7", "33.8", "33.7", "33.7", "33.8", "33.8", "33.6"]

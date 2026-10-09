@@ -63,7 +63,7 @@ amount_minor = 10580000
 currency = "USD"
 price_year = 2024
 basis = "annual"
-notes = "From Table F-8 (All Races), row 10. CPS money income, as of March 2025 (2024 ASEC). This is the most recent available data."
+notes = "From Table F-8 (All Races), row 10. CPS money income from the 2025 CPS ASEC (reporting 2024 income), as published in the 2025 vintage of the table. Census has since revised this estimate; the source card gives the revised figure."
 assumptions = ["composite-family", "nominal-values", "affordability-normalization"]
 
 [[fact]]

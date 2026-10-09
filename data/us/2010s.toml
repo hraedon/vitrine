@@ -447,7 +447,7 @@ value = "2.99 years ($179,900 home vs $60,240 income)"
 unit = "years of median family income (nominal)"
 source = "census-acs-homevalue"
 tier = "C"
-notes = "Computed: 2010 ACS median home value ($179,900) / 2010 Census F-8 median family income ($60,240). Post-crash: home values had dropped but incomes stagnated, making housing less affordable than the 1990s ratio (~2.3). By 2024: $360,600 / ~$104,000 = ~3.5 years."
+notes = "Computed: 2010 ACS median home value ($179,900) / 2010 Census F-8 median family income ($60,240). Post-crash: home values had dropped but incomes stagnated, making housing less affordable than the 1990s ratio (~2.3). For 2024 see us-2020s-home-as-income-years, which divides by four-person rather than all-family income; the number is deliberately not repeated here, because hand-quoted cross-room echoes rot (this one had: it divided by ~$104,000 where F-8 gives $105,800)."
 assumptions = ["affordability-normalization", "nominal-values"]
 
 [[fact]]

@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-10-09 — The F-8 citation names the vintage that was transcribed (FWI-008)
+
+Census republished Historical Income Table F-8 at its original address on
+2026-09-15, and the weekly link check had been red ever since. The museum's
+family-income figures were transcribed from the 2025 vintage, so the source
+now cites the Internet Archive capture of that vintage. The capture is
+byte-identical to the archived copy, so the 36 audited F-8 values and both
+F-8 income series can be reproduced from the linked document. The 2026
+vintage was compared cell by cell: 1947–2023 is unchanged in current
+dollars, and 2024 is re-estimated under new population controls (four-person
+median $139,900 → $139,500). The source card discloses that the publisher has
+superseded the museum's 2024 figures, and the 2020s note no longer calls them
+the most recent data. Moving the museum to the 2026 vintage is left as an
+editorial refresh.
+
+Review replayed the F-8 figures quoted in visitor notes too, and found one
+wrong: the 1960s room gave the 1969 four-person median as $7,490, which is
+the two-person figure. It now reads $10,620. The 2010s home-as-income
+note's 2024 echo divided by ~$104,000 (F-8: $105,800); it now points to the
+2020s room's computed ratio instead of quoting a number.
+
 ## 2026-10-06 — WI-11 source assessment, and a third docent tour
 
 Two closers for plan 027. The WI-11 assessment
