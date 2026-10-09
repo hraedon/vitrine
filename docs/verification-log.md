@@ -2403,3 +2403,62 @@ a vision-capable session against the built site (main 3746bdc).
 
 No page, template, curation or data change resulted from this pass; the
 build under review is main 3746bdc unchanged.
+
+## FWI-008: Census republished Table F-8 under the museum — the citation now names the vintage that was transcribed (2026-10-09)
+
+The weekly link check had been red on three consecutive Mondays (2026-09-21,
+09-28, 10-05) with one must-fix item: `census-f08-allraces` served a 200 that
+no longer contained the marker `Size of Family--All Families`. Nobody was
+pulled in; this entry closes that.
+
+**What happened.** On 2026-09-15 Census replaced `f08ar.xlsx` at its
+original address with the 2026 vintage (CPS ASEC 1948–2026, income to 2025).
+The title was reworded ("Median and Mean Family Income of All Families by
+Size of Family: 1947 to 2025"), which is all the marker check could see. The
+museum's 36 audited F-8 fields, both F-8 series and every F-8 fact were
+transcribed from the 2025 vintage, so the registered URL had stopped serving
+the document a reader needs to reproduce them.
+
+**The two vintages, compared cell by cell** (stdlib xlsx reader, both files
+keyed by section and year label):
+
+- 1947–2023: every current-dollar median, current-dollar mean, family count
+  and average family size is identical in all seven family-size sections.
+- Constant dollars are rebased from 2024 to 2025 (new/old ratio
+  1.0238–1.0255 across rows). The deflator choice is unchanged — C-CPI-U from
+  2000, R-CPI-U-RS before — and was already so in the 2025 vintage.
+- A 2025 row is added (all families $110,500; four-person $140,100).
+- **2024 is re-estimated**, relabelled `2024 (42)`; footnote 42 is
+  "Implementation of Vintage 2025 population controls" (Census CPS historic
+  footnotes page, last revised 2026-08-18). All-family median $105,800 →
+  $105,300 and count 85,980k → 86,730k; four-person median $139,900 →
+  $139,500 and mean $178,500 → $178,400.
+
+**Fix.** The source now cites the Internet Archive snapshot of 2026-08-25
+(`web.archive.org/web/20260825024632id_/…/f08ar.xlsx`), the same remedy the
+retired CDC smoking table received. Its CDX digest
+(`DXERG56PZLFP2VYI34JJHA5TX4GUDVAY`) matches the SHA-1 of the archived copy
+in `samples/06-acs-csv/f08ar.xlsx`, and the downloaded snapshot is
+sha256-identical to it (`2eb2802f…67b6cf8`). The existing `expect` markers are
+true of that document, and `scripts/link_check.py` content-verifies it (local
+run: 0 must-fix). The source card's notes disclose the 2024 re-estimate and
+name the original address. `vitrine audit` passes 129/129 against the
+unchanged sample bytes. The 36 F-8 fingerprints were regenerated because the
+fingerprint covers the source record, and `--pin` restamped every entry's
+audit date. No observation changed.
+
+**Checked for the same failure elsewhere.** Only two audited sources
+register a live URL that serves the archived file itself; the rest are
+landing pages, API responses or immutable Wayback captures. The other one,
+`census-historical-housing-values`, is sha256-identical to its archive
+(served bytes last modified 2017). F-8 was the only drift. It was caught
+only because Census happened to reword a title. A republication that kept
+the title would have passed the marker check while silently invalidating
+the citation.
+
+**Not done (editorial, recorded for the owner):** adopting the 2026 vintage.
+That would move the 2020s room's headline year from 2024 to 2025, replace the
+first-published 2024 estimates, extend both F-8 series, and rewrite the
+"in 2024 dollars" and CPI-ratio notes in the 1940s–1970s rooms. It is a room
+refresh (Plan 012-shaped), not a transcription fix, and the fact model leaves
+statistical revision to editorial judgement.

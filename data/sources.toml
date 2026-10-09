@@ -22,7 +22,7 @@ publisher = "U.S. Census Bureau"
 year = 2024
 url = "https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-families.html"
 population = "All US families (two or more related persons), CPS money income"
-notes = "Landing page listing Tables F-1 through F-23. Continuously updated. Last revision Sep 2025 (2024 data)."
+notes = "Landing page listing Tables F-1 through F-23. Continuously updated: revised each September with the new CPS ASEC year (Sep 2025 added 2024 data; Sep 2026 added 2025 data and re-estimated 2024 under Vintage 2025 population controls). Facts citing a specific table cite that table's own source entry, which records the vintage transcribed."
 measure = "money_income"
 
 [[source]]
@@ -32,9 +32,9 @@ expect = ["Table F-8", "Size of Family--All Families"]
 short_cite = "U.S. Census Bureau, CPS Historical Income Tables (Table F-8)"
 publisher = "U.S. Census Bureau"
 year = 2025
-url = "https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-families/f08ar.xlsx"
+url = "https://web.archive.org/web/20260825024632id_/https://www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-families/f08ar.xlsx"
 population = "All US families by family size (2, 3, 4, 5, 6, 7+ persons), CPS money income"
-notes = "Excel file (f08ar = All Races). The 4-person-family section is the primary source for the museum's family-of-four medians. Coverage window starts at 1947 — verify the 4-person column covers the full window. CORRECTION 2026-07-13: this source was registered with the f08a.xlsx URL, which is the ASIAN-families table (sections 'Asian Alone or in Combination'/'Asian Alone', 2002-2020 only); every transcribed value re-verified against the fetched f08ar.xlsx (All Families 2024 row 10: $105,800 median/$144,500 mean; 1950 row 86: $3,319 current/$35,290 in 2024$; Four People 2024 row 259: $139,900). Race variants: f08w (White), f08b (Black), f08h (Hispanic), f08wnh (White not Hispanic), f08a (Asian)."
+notes = "Excel file (f08ar = All Races). The 4-person-family section is the primary source for the museum's family-of-four medians. Coverage window starts at 1947 — verify the 4-person column covers the full window. CORRECTION 2026-07-13: this source was registered with the f08a.xlsx URL, which is the ASIAN-families table (sections 'Asian Alone or in Combination'/'Asian Alone', 2002-2020 only); every transcribed value re-verified against the fetched f08ar.xlsx (All Families 2024 row 10: $105,800 median/$144,500 mean; 1950 row 86: $3,319 current/$35,290 in 2024$; Four People 2024 row 259: $139,900). Race variants: f08w (White), f08b (Black), f08h (Hispanic), f08wnh (White not Hispanic), f08a (Asian). VINTAGE PIN 2026-10-09 (FWI-008): every value here is transcribed from the 2025 workbook vintage (CPS ASEC 1948-2025, income to 2024, constant dollars in 2024 C-CPI-U / R-CPI-U-RS). On 2026-09-15 Census replaced the file at its original address (www2.census.gov/programs-surveys/cps/tables/time-series/historical-income-families/f08ar.xlsx) with the 2026 vintage, so the citation now names the Internet Archive snapshot of 2026-08-25, confirmed sha256-identical to the archived copy in samples/ on 2026-10-09: the document a reader reaches is the one that was transcribed. The 2026 vintage was compared cell by cell: every current-dollar median, mean, family count and average size for 1947-2023 is unchanged; constant dollars are rebased to 2025; a 2025 row is added; and 2024 is re-estimated under Vintage 2025 population controls (its footnote 42) - all-family median $105,800 -> $105,300, four-person median $139,900 -> $139,500. The museum's 2024 figures are therefore the first published estimate, superseded by the publisher: disclosed here rather than silently reconciled. Adopting the 2026 vintage is an editorial refresh, not a transcription fix."
 measure = "money_income"
 
 [[source]]
