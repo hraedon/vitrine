@@ -2449,17 +2449,27 @@ unchanged sample bytes. The 36 F-8 fingerprints were regenerated because the
 fingerprint covers the source record, and `--pin` restamped every entry's
 audit date. No observation changed.
 
-**Two visitor notes corrected on review.** A cross-lineage review (Codex)
-found that the 1960s budget note gave the 1969 four-person median as $7,490.
-That is the two-person figure (row 150); the four-person median is $10,620
-(`C316`, identical in both vintages). The note is display text outside the
-audit ledger, so the audit replay never saw it. Every other F-8 figure quoted
-in a visitor note (54 counts, medians, 2024-dollar medians and sizes across
-the 1940s–2020s rooms) was then checked against its own family-size section
-of the archived workbook: all match. The 2020s all-family note
-still called its figure "the most recent available data", which contradicts
-the new disclosure. It now names the 2025 CPS ASEC (reporting 2024 income) and
-points to the source card for the revised estimate.
+**Three visitor notes corrected on review.** Visitor notes are display text
+outside the audit ledger, so the audit replay never sees figures quoted only
+in prose. A cross-lineage review (Codex) found two:
+
+- The 1960s budget note gave the 1969 four-person median as $7,490. That is
+  the two-person figure (row 150); the four-person median is $10,620
+  (`C316`, identical in both vintages).
+- The 2010s home-as-income note ended "By 2024: $360,600 / ~$104,000 = ~3.5
+  years", but F-8 gives $105,800. Following the 1950s precedent
+  (hand-quoted cross-room echoes rot), the note now points to
+  `us-2020s-home-as-income-years` instead of repeating a number.
+
+The third, the 2020s all-family note, still called its figure "the most
+recent available data", which contradicts the new disclosure. It now names
+the 2025 CPS ASEC (reporting 2024 income) and points to the source card for
+the revised estimate. After the fixes, the 54 distinct exact F-8 figures
+quoted in fact and derived-fact notes (counts, medians, 2024-dollar medians
+and family sizes across the 1940s–2020s rooms) were each checked against
+their own family-size section of the archived workbook, and all match.
+Essays and series notes quote none. The one approximate quote
+(2019, "~$86,000") is supported by $86,010.
 
 **Checked for the same failure elsewhere.** Only two audited sources
 register a live URL that serves the archived file itself; the rest are

@@ -17,7 +17,9 @@ editorial refresh.
 
 Review replayed the F-8 figures quoted in visitor notes too, and found one
 wrong: the 1960s room gave the 1969 four-person median as $7,490, which is
-the two-person figure. It now reads $10,620.
+the two-person figure. It now reads $10,620. The 2010s home-as-income
+note's 2024 echo divided by ~$104,000 (F-8: $105,800); it now points to the
+2020s room's computed ratio instead of quoting a number.
 
 ## 2026-10-06 — WI-11 source assessment, and a third docent tour
 
