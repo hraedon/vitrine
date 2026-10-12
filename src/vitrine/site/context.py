@@ -247,9 +247,10 @@ class MatrixCell:
 
 @dataclass(frozen=True, slots=True)
 class MatrixRow:
-    """One decade's row in the corpus matrix (cells in ``Panel`` order)."""
+    """One room's row in the corpus matrix (cells in ``Panel`` order)."""
 
     decade: str
+    country: str
     slug: str
     cells: tuple[MatrixCell, ...]
     totals: MatrixCell
@@ -407,9 +408,10 @@ class RoomPage:
     gap_banner: str
     # Does the comparative layer (the affordability dashboard, the corridors,
     # the pair matrix) cover this room's country? Those surfaces are projected
-    # over CURATED_COUNTRIES, so a room outside that set must not offer to
+    # over COMPARATIVE_COUNTRIES, so a room outside that set must not offer to
     # cross-reference itself against them -- it would land on a page holding
-    # no fact of its own (FWI-005).
+    # no fact of its own (FWI-005). A country can be curated (authored room
+    # stories) without being comparative (authored comparative curation).
     comparative: bool
     observed_count: int
     gap_count: int

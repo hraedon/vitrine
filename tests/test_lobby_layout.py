@@ -30,7 +30,7 @@ def _words(html: str) -> str:
 def test_inventory_is_optional_with_visible_separate_totals(lobby: str) -> None:
     """A visitor can understand collection coverage without opening the matrix."""
     before, inventory = lobby.split('<details class="inventory-disclosure">', 1)
-    assert 'aria-label="US collection totals"' in before
+    assert 'aria-label="curated collection totals"' in before
     assert "Sourced observations" in before
     assert "Calculations from sourced inputs" in before
     assert "Documented gaps" in before

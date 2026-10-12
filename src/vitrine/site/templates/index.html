@@ -93,9 +93,9 @@
 {% endif %}
 
 <section class="research-inventory" aria-labelledby="inventory-title">
-<h2 class="case-title" id="inventory-title">Inside the US collection</h2>
-<p class="case-sub">A research inventory of the US wing. Counts describe the collection's coverage, not how common something was or how certain the evidence is.</p>
-<dl class="inventory-totals" aria-label="US collection totals">
+<h2 class="case-title" id="inventory-title">Inside the curated collection</h2>
+<p class="case-sub">A research inventory of the curated wings. Counts describe the collection's coverage, not how common something was or how certain the evidence is.</p>
+<dl class="inventory-totals" aria-label="curated collection totals">
   <div><dt>Sourced observations</dt><dd>{{ page.totals.facts - page.totals.gaps }}</dd></div>
   <div><dt>Calculations from sourced inputs</dt><dd>{{ page.totals.computed }}</dd></div>
   <div><dt>Documented gaps</dt><dd>{{ page.totals.gaps }}</dd></div>
@@ -104,14 +104,14 @@
 <details class="inventory-disclosure">
 <summary>Browse coverage by decade and subject</summary>
 <p class="matrix-hint" id="matrix-help">On a narrow screen, scroll the table sideways to explore every case.</p>
-<div class="matrix-wrap" role="region" aria-label="US exhibit counts" aria-describedby="matrix-help" tabindex="0">
+<div class="matrix-wrap" role="region" aria-label="curated exhibit counts" aria-describedby="matrix-help" tabindex="0">
 <table class="record-matrix">
-  <caption>US collection only. Observation counts exclude documented gaps; calculations are counted separately.</caption>
+  <caption>Curated collection. Observation counts exclude documented gaps; calculations are counted separately.</caption>
   <thead><tr><th scope="col">Room</th>{% for panel in panels %}<th scope="col">{{ panel_title(panel) }}</th>{% endfor %}<th scope="col">Room total</th></tr></thead>
   <tbody>
   {% for row in page.matrix %}
   <tr>
-    <th scope="row"><a href="rooms/{{ row.slug }}.html">{{ row.decade }}</a></th>
+    <th scope="row"><a href="rooms/{{ row.slug }}.html">{% if row.country != "us" %}{{ row.country | upper }} {% endif %}{{ row.decade }}</a></th>
     {% for cell in row.cells %}
     <td>{% if cell.exhibits %}<a class="mx" href="rooms/{{ row.slug }}.html#panel-{{ panels[loop.index0].value }}">{{ inventory_count(cell) }}</a>{% else %}<span class="mx empty">No records</span>{% endif %}</td>
     {% endfor %}
@@ -120,7 +120,7 @@
   {% endfor %}
   </tbody>
   <tfoot><tr>
-    <th scope="row">US collection</th>
+    <th scope="row">Curated total</th>
     {% for cell in page.panel_totals %}
     <td>{{ inventory_count(cell) }}</td>
     {% endfor %}

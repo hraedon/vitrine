@@ -66,14 +66,23 @@ def _scan(page: Path) -> _Scanner:
 
 
 def _curated(corpus: Corpus) -> list:
-    """The rooms the editorial layer actually covers, in build order.
-
-    The comparative surfaces (lobby matrix, pair matrix, corridors, walkthrough)
-    are still keyed by decade alone, so they are projected over the curated
-    country only. Rooms outside it are built and navigable but not compared.
-    """
+    """The rooms the editorial layer covers (curated countries), in build order."""
     return sorted(
         (r for r in corpus.rooms if r.country in curation.CURATED_COUNTRIES),
+        key=lambda r: (r.country, r.decade),
+    )
+
+
+def _comparative(corpus: Corpus) -> list:
+    """The rooms the comparative layer covers, in build order.
+
+    The pair pages, the corridor atlas and the walkthrough are decade-keyed
+    authored curation, so they are projected over COMPARATIVE_COUNTRIES —
+    a country joins that set when its comparative curation is written, which
+    can lag its enrollment (CURATED_COUNTRIES) by a full round.
+    """
+    return sorted(
+        (r for r in corpus.rooms if r.country in curation.COMPARATIVE_COUNTRIES),
         key=lambda r: (r.country, r.decade),
     )
 
@@ -108,10 +117,12 @@ def test_all_three_surfaces_render(site: Path, corpus: Corpus) -> None:
     """AC 1/5: rooms, corridors, and the walkthrough all exist."""
     assert (site / "walkthrough.html").is_file()
     assert (site / "corridors" / "index.html").is_file()
-    # Every room gets a page; the pairwise matrix is over the curated country
-    # only, since a pair page is keyed by decade and cannot yet name a country.
+    # Every room gets a page; the pairwise set is the comparative layer, so
+    # it counts the comparative rooms (a pair page is keyed by decade and
+    # cannot yet name a country — enrolled-but-not-comparative wings are
+    # built and navigable but not compared).
     assert len(list((site / "rooms").glob("*.html"))) == len(corpus.rooms)
-    paired = len(_curated(corpus))
+    paired = len(_comparative(corpus))
     assert (
         len(list((site / "corridors").glob("*--*.html")))
         == paired * (paired - 1) // 2
@@ -161,7 +172,7 @@ def test_index_matrix_counts_match_the_corpus(site: Path, corpus: Corpus) -> Non
 def test_lobby_distinguishes_full_collection_from_comparative_wing(
     site: Path, corpus: Corpus,
 ) -> None:
-    """UK/JP stay discoverable without being counted as US comparative records."""
+    """UK/JP stay discoverable without being counted as curated records."""
     rooms = tuple(_curated(corpus))
     page = project_lobby(corpus, rooms, {}, all_rooms=corpus.rooms)
     assert page.corpus_totals.facts == sum(len(r.facts) for r in corpus.rooms)
@@ -178,7 +189,7 @@ def test_lobby_distinguishes_full_collection_from_comparative_wing(
         assert f'href="rooms/{room.slug}.html"' in directory
     for name in ("United States", "United Kingdom", "Japan"):
         assert f'aria-label="{name} decade rooms"' in directory
-    assert 'aria-label="US exhibit counts"' in html
+    assert 'aria-label="curated exhibit counts"' in html
     assert html.index('id="choose-room"') < html.index('class="record-matrix"')
 
 
@@ -205,27 +216,39 @@ def test_museum_map_is_semantic_and_surface_aware(site: Path) -> None:
 
 
 def test_room_map_has_context_and_complete_timeline(site: Path, corpus: Corpus) -> None:
-    rooms = _curated(corpus)
-    first = (site / "rooms" / f"{rooms[0].slug}.html").read_text()
-    middle_position = len(rooms) // 2
-    middle_room = rooms[middle_position]
-    middle = (site / "rooms" / f"{middle_room.slug}.html").read_text()
-    last = (site / "rooms" / f"{rooms[-1].slug}.html").read_text()
+    # The room map chains inside one wing (the last US room must not link
+    # the first UK one as though the timeline continued), so every curated
+    # wing is checked as its own sequence.
+    wings = {
+        country: [
+            room
+            for room in _curated(corpus)
+            if room.country == country
+        ]
+        for country in sorted({room.country for room in _curated(corpus)})
+    }
+    assert wings, "no curated rooms to chain"
+    for rooms in wings.values():
+        first = (site / "rooms" / f"{rooms[0].slug}.html").read_text()
+        middle_position = len(rooms) // 2
+        middle_room = rooms[middle_position]
+        middle = (site / "rooms" / f"{middle_room.slug}.html").read_text()
+        last = (site / "rooms" / f"{rooms[-1].slug}.html").read_text()
 
-    for html in (first, middle, last):
-        assert '<nav class="room-map" aria-label="Decade rooms">' in html
-        assert html.count('<i aria-hidden="true"></i>') == len(rooms)
+        for html in (first, middle, last):
+            assert '<nav class="room-map" aria-label="Decade rooms">' in html
+            assert html.count('<i aria-hidden="true"></i>') == len(rooms)
 
-    assert 'rel="prev"' not in first
-    assert 'rel="next"' in first
-    assert 'rel="prev"' in middle and 'rel="next"' in middle
-    assert f"Room {middle_position + 1} of {len(rooms)}" in middle
-    assert (
-        f'class="on" aria-current="page" href="{middle_room.slug}.html"'
-        in middle
-    )
-    assert 'rel="prev"' in last
-    assert 'rel="next"' not in last
+        assert 'rel="prev"' not in first
+        assert 'rel="next"' in first
+        assert 'rel="prev"' in middle and 'rel="next"' in middle
+        assert f"Room {middle_position + 1} of {len(rooms)}" in middle
+        assert (
+            f'class="on" aria-current="page" href="{middle_room.slug}.html"'
+            in middle
+        )
+        assert 'rel="prev"' in last
+        assert 'rel="next"' not in last
 
 
 def test_corridor_wings_partition_every_rendered_arc_once() -> None:

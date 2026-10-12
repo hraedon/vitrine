@@ -31,17 +31,18 @@ def afford_fact_ids(corpus: Corpus, pattern: str) -> dict[str, str]:
     with verified anchors).
 
     The result is keyed by decade alone, so it is only well-defined over a
-    single-country wing: two curated countries both holding a "1950s" room
+    single-country wing: two comparative countries both holding a "1950s" room
     would silently collapse onto one entry and put one country's price on the
     other's arc — the borrowed-exhibit failure the museum exists to prevent.
-    Non-curated rooms are excluded (the comparative surfaces are projected
-    over ``CURATED_COUNTRIES``) and a genuine collision inside the curated set
-    is a red build, not a last-wins overwrite (FWI-004).
+    Rooms outside the comparative layer are excluded (the affordability
+    surfaces are projected over ``COMPARATIVE_COUNTRIES``) and a genuine
+    collision inside the comparative set is a red build, not a last-wins
+    overwrite (FWI-004).
     """
     ids: dict[str, str] = {}
     seen: dict[str, str] = {}
     for room in corpus.rooms:
-        if room.country not in curation.CURATED_COUNTRIES:
+        if room.country not in curation.COMPARATIVE_COUNTRIES:
             continue
         fid = pattern.format(decade=room.decade)
         if not any(f.id == fid for f in room.facts):
