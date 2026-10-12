@@ -172,7 +172,7 @@ def test_index_matrix_counts_match_the_corpus(site: Path, corpus: Corpus) -> Non
 def test_lobby_distinguishes_full_collection_from_comparative_wing(
     site: Path, corpus: Corpus,
 ) -> None:
-    """UK/JP stay discoverable without being counted as US comparative records."""
+    """UK/JP stay discoverable without being counted as curated records."""
     rooms = tuple(_curated(corpus))
     page = project_lobby(corpus, rooms, {}, all_rooms=corpus.rooms)
     assert page.corpus_totals.facts == sum(len(r.facts) for r in corpus.rooms)
@@ -189,7 +189,7 @@ def test_lobby_distinguishes_full_collection_from_comparative_wing(
         assert f'href="rooms/{room.slug}.html"' in directory
     for name in ("United States", "United Kingdom", "Japan"):
         assert f'aria-label="{name} decade rooms"' in directory
-    assert 'aria-label="US exhibit counts"' in html
+    assert 'aria-label="curated exhibit counts"' in html
     assert html.index('id="choose-room"') < html.index('class="record-matrix"')
 
 
