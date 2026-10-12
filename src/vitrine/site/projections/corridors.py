@@ -201,7 +201,7 @@ def _decade_keyed_fact_ids() -> dict[str, list[str]]:
 
 
 def validate_comparative_registries(corpus: Corpus) -> None:
-    """Build-time gate: comparative registries resolve curated-country rooms.
+    """Build-time gate: comparative registries resolve comparative-country rooms.
 
     An id naming no room at all is already a red build elsewhere (mark
     coverage); this gate is specifically about *which country* the id belongs
@@ -216,7 +216,7 @@ def validate_comparative_registries(corpus: Corpus) -> None:
             country = country_by_fact.get(fact_id)
             if country is None:
                 problems.append(f"{name}: {fact_id!r} names no room's fact")
-            elif country not in curation.CURATED_COUNTRIES:
+            elif country not in curation.COMPARATIVE_COUNTRIES:
                 problems.append(
                     f"{name}: {fact_id!r} belongs to the {country!r} wing, "
                     "which has no comparative curation"
@@ -224,8 +224,8 @@ def validate_comparative_registries(corpus: Corpus) -> None:
     if problems:
         raise ValueError(
             "the comparative layer is decade-keyed single-country curation; "
-            "these registry entries reach outside CURATED_COUNTRIES "
-            f"({sorted(curation.CURATED_COUNTRIES)}): " + "; ".join(problems)
+            "these registry entries reach outside COMPARATIVE_COUNTRIES "
+            f"({sorted(curation.COMPARATIVE_COUNTRIES)}): " + "; ".join(problems)
         )
 
 

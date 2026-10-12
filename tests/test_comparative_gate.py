@@ -3,9 +3,12 @@
 Three registries reach across decades to compare rooms: the corridor atlas,
 the pair matrix and the affordability dashboard. All are keyed by decade
 alone and hold US fact ids, so they are only well-defined inside one wing.
-Today that holds because they are projected over ``CURATED_COUNTRIES``; these
-tests are the mechanism that reddens when it stops holding, and the
-regression guard for the room-level link that reached for them regardless.
+Curation has two layers: ``CURATED_COUNTRIES`` (a country with authored room
+stories — enrollment) and ``COMPARATIVE_COUNTRIES`` (a country whose own
+comparative curation is written — membership of the decade-keyed analyses,
+always a subset). These tests are the mechanism that reddens when an
+enrolled-but-not-comparative room reaches into those analyses, and the
+regression guard for the room-level link that once did it regardless.
 """
 
 from __future__ import annotations
@@ -31,11 +34,12 @@ PANEL_LINK = "See this metric across all decades"
 # ── FWI-005: the room-level link into the US-only comparative page ───────────
 
 
-def test_affordability_link_only_on_curated_rooms(tmp_path: Path) -> None:
-    """A non-curated room never offers to compare itself across decades.
+def test_affordability_link_only_on_comparative_rooms(tmp_path: Path) -> None:
+    """A non-comparative room never offers to compare itself across decades.
 
-    ``affordability/index.html`` is projected over CURATED_COUNTRIES, so the
-    link landed a UK or JP visitor on a page holding no fact of their country.
+    ``affordability/index.html`` is projected over COMPARATIVE_COUNTRIES, so
+    the link would land an enrolled-but-not-comparative visitor (the UK, once
+    its stories are authored) on a page holding no fact of their country.
     """
     corpus = load_corpus(DATA)
     render_site(corpus, tmp_path, load_series(DATA), DATA)
@@ -48,19 +52,20 @@ def test_affordability_link_only_on_curated_rooms(tmp_path: Path) -> None:
     assert linked, "no room links the affordability page — the gate is aimed wrong"
 
     countries = {slug.split("-", 1)[0] for slug in linked}
-    assert countries <= curation.CURATED_COUNTRIES, (
-        f"non-curated rooms link the US-only affordability page: "
-        f"{sorted(countries - curation.CURATED_COUNTRIES)}"
+    assert countries <= curation.COMPARATIVE_COUNTRIES, (
+        f"non-comparative rooms link the US-only affordability page: "
+        f"{sorted(countries - curation.COMPARATIVE_COUNTRIES)}"
     )
 
-    # and the non-curated wings are genuinely present, or this proves nothing
+    # and rooms outside the comparative layer are genuinely present, or this
+    # proves nothing
     all_countries = {room.country for room in corpus.rooms}
-    assert all_countries - curation.CURATED_COUNTRIES, (
-        "every room is curated — this test cannot detect the bug it guards"
+    assert all_countries - curation.COMPARATIVE_COUNTRIES, (
+        "every room is comparative — this test cannot detect the bug it guards"
     )
 
 
-def test_affordability_page_holds_only_curated_facts(tmp_path: Path) -> None:
+def test_affordability_page_holds_only_comparative_facts(tmp_path: Path) -> None:
     """The page the link points at really is single-country (the premise)."""
     corpus = load_corpus(DATA)
     render_site(corpus, tmp_path, load_series(DATA), DATA)
@@ -69,10 +74,10 @@ def test_affordability_page_holds_only_curated_facts(tmp_path: Path) -> None:
     foreign = sorted(
         room.country
         for room in corpus.rooms
-        if room.country not in curation.CURATED_COUNTRIES
+        if room.country not in curation.COMPARATIVE_COUNTRIES
         and any(f.id in page for f in room.facts)
     )
-    assert not foreign, f"the affordability page cites non-curated wings: {foreign}"
+    assert not foreign, f"the affordability page cites non-comparative wings: {foreign}"
 
 
 # ── FWI-004: the build-time gate over the decade-keyed registries ────────────
@@ -83,7 +88,7 @@ def test_committed_registries_pass_the_gate() -> None:
 
 
 def _corpus_with_foreign_fact(corpus: Corpus, fact_id: str) -> Corpus:
-    """Move ``fact_id`` into a fresh non-curated wing, keeping its decade."""
+    """Move ``fact_id`` into a fresh non-comparative wing, keeping its decade."""
     donor = next(r for r in corpus.rooms if any(f.id == fact_id for f in r.facts))
     fact = next(f for f in donor.facts if f.id == fact_id)
     stripped = dataclasses.replace(
@@ -94,8 +99,8 @@ def _corpus_with_foreign_fact(corpus: Corpus, fact_id: str) -> Corpus:
     return dataclasses.replace(corpus, rooms=rooms)
 
 
-def test_gate_rejects_a_registry_entry_from_a_non_curated_wing() -> None:
-    """A curated registry naming another country's fact is a red build."""
+def test_gate_rejects_a_registry_entry_from_a_non_comparative_wing() -> None:
+    """A comparative registry naming another country's fact is a red build."""
     corpus = load_corpus(DATA)
     borrowed = curation.COMPOSITIONS["1970s"]
     with pytest.raises(ValueError) as excinfo:
@@ -106,7 +111,7 @@ def test_gate_rejects_a_registry_entry_from_a_non_curated_wing() -> None:
     assert "COMPOSITIONS" in message
 
 
-def test_gate_rejects_an_arc_entry_from_a_non_curated_wing() -> None:
+def test_gate_rejects_an_arc_entry_from_a_non_comparative_wing() -> None:
     """The gate covers the arcs, not only the composition registry."""
     corpus = load_corpus(DATA)
     arc = next(a for a in curation.ARCS if a.fact_ids)
@@ -135,13 +140,13 @@ def test_gate_rejects_an_id_naming_no_room() -> None:
 # ── FWI-004: the affordability arc's decade key ──────────────────────────────
 
 
-def test_afford_fact_ids_excludes_non_curated_rooms() -> None:
-    """Every id the hours axis resolves belongs to a curated wing.
+def test_afford_fact_ids_excludes_non_comparative_rooms() -> None:
+    """Every id the hours axis resolves belongs to a comparative wing.
 
     Against the committed corpus this holds for a second reason — the arc
     patterns carry a ``us-`` prefix, so a UK room could not match one even
     unfiltered. That makes the assertion alone unable to detect the filter's
-    removal, so the synthetic case below supplies a non-curated room whose
+    removal, so the synthetic case below supplies a non-comparative room whose
     fact id *does* match: without the filter it is resolved and the arc
     borrows it.
     """
@@ -155,9 +160,9 @@ def test_afford_fact_ids_excludes_non_curated_rooms() -> None:
         for fid in afford_fact_ids(corpus, pattern).values()
     ]
     assert resolved, "no affordability arc resolves — the gate is aimed wrong"
-    assert {country_by_fact[fid] for fid in resolved} <= curation.CURATED_COUNTRIES
+    assert {country_by_fact[fid] for fid in resolved} <= curation.COMPARATIVE_COUNTRIES
 
-    # the load-bearing half: a non-curated wing holding a matching id
+    # the load-bearing half: a non-comparative wing holding a matching id
     synthetic = Corpus(
         sources={},
         assumptions={},
@@ -181,11 +186,12 @@ def _priced_fact(fact_id: str) -> Fact:
 
 
 def test_afford_fact_ids_rejects_a_decade_collision() -> None:
-    """Two curated rooms sharing a decade must redden, not overwrite.
+    """Two comparative rooms sharing a decade must redden, not overwrite.
 
-    Today CURATED_COUNTRIES is US-only so the collision cannot occur; when a
-    second country joins the story layer it will, and the last-wins dict would
-    have put one country's price on the other's hours axis.
+    Today COMPARATIVE_COUNTRIES is US-only so the collision cannot occur; the
+    last-wins dict would have put one country's price on the other's hours
+    axis — this is exactly the guard that fires if a second country joins the
+    comparative layer while the arc registries stay decade-keyed.
     """
     pattern = "{decade}-bread"
     rooms = (
@@ -194,22 +200,26 @@ def test_afford_fact_ids_rejects_a_decade_collision() -> None:
     )
     corpus = Corpus(sources={}, assumptions={}, rooms=rooms)
 
-    # only "us" is curated: the second room is skipped, no collision
+    # only "us" is comparative: the second room is skipped, no collision
     assert afford_fact_ids(corpus, pattern) == {"1950s": "1950s-bread"}
 
-    with pytest.raises(ValueError, match="share decade"), _curated({"us", "zz"}):
+    with pytest.raises(ValueError, match="share decade"), _layers({"us", "zz"}):
         afford_fact_ids(corpus, pattern)
 
 
-class _curated:
-    """Temporarily widen CURATED_COUNTRIES (it is read through the module)."""
+class _layers:
+    """Temporarily widen both curation layers (they are read through the
+    module), simulating a second country that is enrolled *and* comparative."""
 
     def __init__(self, countries: set[str]) -> None:
         self._countries = frozenset(countries)
 
     def __enter__(self) -> None:
-        self._saved = curation.CURATED_COUNTRIES
+        self._saved_curated = curation.CURATED_COUNTRIES
+        self._saved_comparative = curation.COMPARATIVE_COUNTRIES
         curation.CURATED_COUNTRIES = self._countries  # type: ignore[misc]
+        curation.COMPARATIVE_COUNTRIES = self._countries  # type: ignore[misc]
 
     def __exit__(self, *exc: object) -> None:
-        curation.CURATED_COUNTRIES = self._saved  # type: ignore[misc]
+        curation.CURATED_COUNTRIES = self._saved_curated  # type: ignore[misc]
+        curation.COMPARATIVE_COUNTRIES = self._saved_comparative  # type: ignore[misc]

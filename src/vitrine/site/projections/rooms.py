@@ -128,6 +128,7 @@ def atlas_matrix(
         rows.append(
             MatrixRow(
                 decade=room.decade,
+                country=room.country,
                 slug=room.slug,
                 cells=cells,
                 totals=_matrix_cell(list(room.facts), computed),
@@ -216,7 +217,7 @@ def project_room(
         computed = evaluate_room(room, series, fact_index)
     affordability = affordability_for_room(corpus, room)
     stage = build_stage(room, index, "../")
-    comparative = room.country in curation.CURATED_COUNTRIES
+    comparative = room.country in curation.COMPARATIVE_COUNTRIES
     observed = tuple(f for f in room.facts if not f.value.strip().lower().startswith(GAP_PREFIX))
     editorial = editorial_choice(room.slug)
     story = room_story(room)

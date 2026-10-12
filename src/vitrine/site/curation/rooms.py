@@ -171,6 +171,14 @@ CURATED_COUNTRIES: frozenset[str] = frozenset(
     story.country for story in ROOM_STORIES
 )
 
+# The comparative layer — the pair pages, the corridor atlas, the walkthrough
+# transect, the affordability dashboard — is authored US curation: its
+# decade-keyed registries and afford patterns hold us- fact ids. A curated
+# country joins those surfaces when its own comparative curation is written,
+# not at enrollment: an enrolled room must never cross-link into an analysis
+# that holds none of its facts (FWI-005). Always a subset of CURATED_COUNTRIES.
+COMPARATIVE_COUNTRIES: frozenset[str] = frozenset({"us"})
+
 
 # ── budget composition (parseable "Category N.N%" facts) ─────────────────────
 

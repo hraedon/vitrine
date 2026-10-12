@@ -225,14 +225,26 @@ def _build_site_contents(
     fact_index = {fid: ref.fact for fid, ref in index.items()}
     rooms = sorted(corpus.rooms, key=lambda r: (r.country, r.decade))
 
-    # Curation is still single-country. A second country's rooms are built and
-    # navigable, but the comparative surfaces below -- the pair matrix, the
-    # corridors, the walkthrough -- are US analyses keyed by decade alone, and a
-    # second "1950s" collides with the first. Until those are country-aware they
-    # are projected over the curated rooms only; the rest render as bare stages.
-    curated_countries = {story.country for story in curation.ROOM_STORIES}
+    # Curation has two layers. The curated countries — those with authored
+    # room stories (see curation.CURATED_COUNTRIES, the single derivation) —
+    # join the lobby matrix and the wing badges. The comparative layer (the
+    # pair pages, the corridors atlas, the walkthrough) is still authored US
+    # curation keyed by decade alone, so it is projected over
+    # COMPARATIVE_COUNTRIES only, and a second "1950s" never collides with
+    # the first (see curation.rooms).
+    curated_countries = set(curation.CURATED_COUNTRIES)
+    if not curation.COMPARATIVE_COUNTRIES <= curated_countries:
+        raise ValueError(
+            "COMPARATIVE_COUNTRIES must stay inside the curated set: "
+            f"{sorted(curation.COMPARATIVE_COUNTRIES - curated_countries)} "
+            "is comparative but not curated"
+        )
     curated_rooms = [room for room in rooms if room.country in curated_countries]
-    decades = [room.decade for room in curated_rooms]
+    comparative_rooms = [
+        room for room in curated_rooms
+        if room.country in curation.COMPARATIVE_COUNTRIES
+    ]
+    decades = [room.decade for room in comparative_rooms]
 
     # Every curated story must name a room that exists, and the registry must not
     # collapse two stories onto one key. The converse is deliberately NOT
@@ -331,12 +343,14 @@ def _build_site_contents(
             root="../", surface="rooms", page=project_japan_collection(corpus),
         )
 
-    # corridors index (wing validation happens inside project_corridor)
+    # corridors index (wing validation happens inside project_corridor); the
+    # atlas and the pairwise set are the comparative layer (US-authored
+    # decade curation), so they project over the comparative rooms only
     _render_page(
         env, "corridors.html", out_dir / "corridors" / "index.html",
         root="../", surface="corridors",
         page=project_corridor(
-            corpus, index, series, curated_rooms, all_affordability
+            corpus, index, series, comparative_rooms, all_affordability
         ),
     )
 
@@ -349,11 +363,13 @@ def _build_site_contents(
                 page=project_pair(corpus, index, a, b, all_affordability),
             )
 
-    # the walkthrough
+    # the walkthrough: the guided transect is US-authored curation, so it
+    # takes the comparative rooms (see curation.COMPARATIVE_COUNTRIES); the
+    # collision guard inside stays the backstop if that ever changes
     _render_page(
         env, "walkthrough.html", out_dir / "walkthrough.html",
         root="", surface="walkthrough",
-        page=project_walkthrough(corpus, index, curated_rooms, all_affordability),
+        page=project_walkthrough(corpus, index, comparative_rooms, all_affordability),
     )
 
     # the affordability dashboard (Plan 011)

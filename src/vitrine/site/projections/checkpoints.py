@@ -10,7 +10,7 @@ from vitrine.model import Corpus
 from vitrine.site import svg
 from vitrine.site.context import ArcSection
 from vitrine.site.curation.checkpoints import CHECKPOINT_ARCS, CheckpointArc
-from vitrine.site.curation.rooms import CURATED_COUNTRIES
+from vitrine.site.curation.rooms import COMPARATIVE_COUNTRIES
 from vitrine.site.projections.facts import GAP_PREFIX, FactRef
 
 
@@ -43,7 +43,7 @@ def checkpoint_points(
         seen_ids.add(fact_id)
         seen_periods.add(period)
         ref = index.get(fact_id)
-        if ref is None or ref.room.country not in CURATED_COUNTRIES:
+        if ref is None or ref.room.country not in COMPARATIVE_COUNTRIES:
             raise ValueError(f"checkpoint arc {arc.slug}: unknown or foreign fact {fact_id}")
         fact = ref.fact
         if fact.source != arc.source or fact.unit != arc.unit:

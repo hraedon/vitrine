@@ -102,12 +102,14 @@ Bureau / MIC, MHLW) with country-specific assumptions
 (`jp-household-not-family`, `jp-kakei-1962-seam`,
 `jp-deflation-lost-decades`). The `MONTHLY` basis supports Japan's
 monthly-income-denominated surveys. Their rooms are complete galleries in
-their own right, but the **comparative surfaces remain US-only**: the corridor
-atlas, the pairwise set and the affordability view are keyed by decade and
-hold US fact ids, so a second country's "1950s" is a different room and cannot
-be plotted on the same axis. A country joins those surfaces when its own
-comparative curation is authored; until then a non-US room never links to
-them, and a registry entry that reaches outside the curated set is a red build
+their own right. Curation has two layers (Plan 031): a country **enrolls**
+when its room stories are authored (`CURATED_COUNTRIES` — its wing joins the
+curated badges and the lobby matrix), and it joins the **comparative**
+surfaces — the corridor atlas, the pairwise set, the walkthrough and the
+affordability view, which are keyed by decade and hold US fact ids — when
+its own comparative curation is authored (`COMPARATIVE_COUNTRIES`). Until
+then a room of a non-comparative country never links to those surfaces, and
+a registry entry that reaches outside the comparative set is a red build
 (`validate_comparative_registries`). The
 presentation is the "statistical atlas" (Plan 020): a light folio where
 every fact row carries its value, tier chip, measured population, and
