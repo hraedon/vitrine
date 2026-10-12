@@ -233,11 +233,11 @@ def _build_site_contents(
     # COMPARATIVE_COUNTRIES only, and a second "1950s" never collides with
     # the first (see curation.rooms).
     curated_countries = set(curation.CURATED_COUNTRIES)
-    if not curation.COMPARATIVE_COUNTRIES <= curated_countries:
+    unenrolled = curation.COMPARATIVE_COUNTRIES - curated_countries
+    if unenrolled:
         raise ValueError(
             "COMPARATIVE_COUNTRIES must stay inside the curated set: "
-            f"{sorted(curation.COMPARATIVE_COUNTRIES - curated_countries)} "
-            "is comparative but not curated"
+            f"{sorted(unenrolled)} is comparative but not curated"
         )
     curated_rooms = [room for room in rooms if room.country in curated_countries]
     comparative_rooms = [
