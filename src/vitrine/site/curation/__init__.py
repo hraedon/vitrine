@@ -35,6 +35,7 @@ from vitrine.site.curation.models import (
     StageCuration,
 )
 from vitrine.site.curation.rooms import (
+    COMPARATIVE_COUNTRIES,
     COMPOSITIONS,
     CURATED_COUNTRIES,
     HOME_SIZE_FACTS,
@@ -64,6 +65,7 @@ __all__ = [
     "ARC_GROUP_BY_SLUG",
     "COMPOSITIONS",
     "CORRIDOR_WINGS",
+    "COMPARATIVE_COUNTRIES",
     "CURATED_COUNTRIES",
     "HOME_SIZE_FACTS",
     "METRIC_BY_SLUG",
