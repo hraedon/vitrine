@@ -153,6 +153,96 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
             "us-2020s-internet-diffusion",
         ),
     ),
+    # The United Kingdom's rooms (plan 031): the wing's spine is the
+    # tenure-and-durables record (census tenure, the GHS forty-year
+    # durables series, TV licence counts), so its stories lead with what
+    # was owned and measured, and name the silences where the archive does
+    # not reach. Every fact is the room's own; the comparative layer stays
+    # closed to the wing until UK comparative curation is authored.
+    RoomStory(
+        "1950s",
+        "A rented majority",
+        "What could a wage and a licence buy in a country where most homes were rented?",
+        (
+            "uk-1950s-weekly-earnings",
+            "uk-1950s-tenure",
+            "uk-1950s-television",
+            "uk-1950s-food-basket-gap",
+        ),
+        country="uk",
+    ),
+    RoomStory(
+        "1960s",
+        "Sets everywhere, hours unchanged",
+        "Who had the evening to watch a set that nearly every home now held?",
+        (
+            "uk-1960s-television",
+            "uk-1960s-work-hours",
+            "uk-1960s-tenure",
+            "uk-1960s-weekly-earnings",
+        ),
+        country="uk",
+    ),
+    RoomStory(
+        "1970s",
+        "The durable-goods decade",
+        "Which possessions were counted before the household's income was?",
+        (
+            "uk-1970s-colour-tv",
+            "uk-1970s-telephone",
+            "uk-1970s-tenure",
+            "uk-1970s-household-income",
+        ),
+        country="uk",
+    ),
+    RoomStory(
+        "1980s",
+        "The owner's decade",
+        "How far did owning a home outpace owning a telephone line?",
+        (
+            "uk-1980s-tenure",
+            "uk-1980s-telephone",
+            "uk-1980s-colour-tv",
+            "uk-1980s-household-income",
+        ),
+        country="uk",
+    ),
+    RoomStory(
+        "1990s",
+        "Ownership peaks, computing begins",
+        "What did the fullest record yet show about a country of owners?",
+        (
+            "uk-1990s-tenure",
+            "uk-1990s-computer",
+            "uk-1990s-house-price",
+            "uk-1990s-hourly-pay",
+        ),
+        country="uk",
+    ),
+    RoomStory(
+        "2000s",
+        "Connected, still unmeasured at the table",
+        "What did near-universal connection leave unrecorded about the household budget?",
+        (
+            "uk-2000s-telephone",
+            "uk-2000s-computer",
+            "uk-2000s-house-price",
+            "uk-2000s-food-basket-gap",
+        ),
+        country="uk",
+    ),
+    RoomStory(
+        "2010s",
+        "The owner's share turns",
+        "How did a connected household meet a housing market turning back to rent?",
+        (
+            "uk-2010s-tenure",
+            "uk-2010s-computer",
+            "uk-2010s-house-price",
+            "uk-2010s-paid-hours",
+        ),
+        country="uk",
+    ),
 )
 
 ROOM_STORY_BY_SLUG: dict[str, RoomStory] = {

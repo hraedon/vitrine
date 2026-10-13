@@ -1,9 +1,10 @@
 # Plan 031 — The United Kingdom joins the curated collection
 
-**Status:** mechanism tranche implemented 2026-10-12 (locally qualified on
-the Linux build host; publication via the tested-commit CI/deployment
-workflow). The story tranche — the seven UK room stories and editorial
-selections that flip enrollment — lands with this plan as its acceptance.
+**Status:** implemented and locally qualified, 2026-10-12, in two tranches on
+one plan: the mechanism (PR #25 — the two-layer split and its tests) and the
+story tranche (the seven UK room stories and editorial selections below,
+which enroll the wing). Publication uses the tested-commit CI/deployment
+workflow.
 
 ## Intended outcome
 
