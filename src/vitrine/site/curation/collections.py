@@ -41,6 +41,23 @@ ROOM_EDITORIAL: dict[str, EditorialChoice] = {
         "us-1990s", "us-2000s", "us-2010s", "us-2020s",
     )
 }
+# The UK wing joins the curated collection with its own guided routes
+# (plan 031). Its records draw on more populations than the US rooms —
+# Great Britain surveys, England and Wales census tenure, UK house prices —
+# so the shared caution carries the geography with it.
+ROOM_EDITORIAL.update({
+    slug: EditorialChoice(
+        EditorialStatus.GUIDED,
+        "A selected route introduces this room's records. Its sources describe "
+        "different countries and populations — Great Britain surveys, England "
+        "and Wales census tenure, United Kingdom prices — so the route does "
+        "not reconstruct a single household.",
+    )
+    for slug in (
+        "uk-1950s", "uk-1960s", "uk-1970s", "uk-1980s",
+        "uk-1990s", "uk-2000s", "uk-2010s",
+    )
+})
 ROOM_EDITORIAL.update({
     "us-1910s": EditorialChoice(
         EditorialStatus.RESEARCH,

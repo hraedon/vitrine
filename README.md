@@ -110,7 +110,10 @@ affordability view, which are keyed by decade and hold US fact ids — when
 its own comparative curation is authored (`COMPARATIVE_COUNTRIES`). Until
 then a room of a non-comparative country never links to those surfaces, and
 a registry entry that reaches outside the comparative set is a red build
-(`validate_comparative_registries`). The
+(`validate_comparative_registries`). The United Kingdom joined the curated
+collection in plan 031 — seven guided rooms with their own stories (1950s–2010s)
+— while its comparative curation remains unauthored, so UK rooms join the
+curated badges and the lobby matrix but not the decade-keyed analyses. The
 presentation is the "statistical atlas" (Plan 020): a light folio where
 every fact row carries its value, tier chip, measured population, and
 source record in one scan-line, and the index leads with a corpus matrix —

@@ -158,7 +158,14 @@ EXPECTED: dict[str, PageContract] = {
     "index.html": _page(
         'vitrine — everyday life across time',
         landmarks=(1, 4, 1, 5, 1), disclosures=(1, 0),
-        local=(120, '285ec1708d7e'), marks=(0, 'e3b0c44298fc'), overlays=0,
+        local=(162, 'c68e7baf0c27'), marks=(0, 'e3b0c44298fc'), overlays=0,
+    ),
+    # A guided UK room (plan 031): the wing's stories enroll it in the
+    # curated collection while its records stay its own.
+    "rooms/uk-1970s.html": _page(
+        'UK · 1970s — vitrine',
+        landmarks=(1, 3, 1, 8, 1), disclosures=(23, 0),
+        local=(41, 'fb9e8341f796'), marks=(5, '022cdef83ea3'), overlays=11,
     ),
     "rooms/us-1950s.html": _page(
         'US · 1950s — vitrine',
