@@ -251,7 +251,7 @@ ROOM_STORY_BY_SLUG: dict[str, RoomStory] = {
 
 # Enrollment follows the authored stories above, which identify their own
 # country and decade (currently US and UK). Some registries below, including
-# compositions and gap banners, still use decade-only keys and US fact ids.
+# compositions and gap banners, still use decade-only keys and US-specific content.
 # A second country's "1950s" is a different room: country guards must prevent
 # it from borrowing those exhibits. Enrollment alone does not make a country
 # comparative; that separate boundary is declared below. Stage registries are
