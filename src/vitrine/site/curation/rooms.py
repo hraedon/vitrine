@@ -243,6 +243,21 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
         ),
         country="uk",
     ),
+    # A focused equipment route enrolls Japan at country level (plan 032).
+    # The other Japan rooms retain their research status and have no story.
+    RoomStory(
+        "1990s",
+        "Equipment through a household survey",
+        "What do the computer, phone, fax and word processor records "
+        "measure about surveyed households?",
+        (
+            "jp-1990s-pc",
+            "jp-1990s-mobile-phone",
+            "jp-1990s-fax",
+            "jp-1990s-word-processor",
+        ),
+        country="jp",
+    ),
 )
 
 ROOM_STORY_BY_SLUG: dict[str, RoomStory] = {
@@ -250,7 +265,7 @@ ROOM_STORY_BY_SLUG: dict[str, RoomStory] = {
 }
 
 # Enrollment follows the authored stories above, which identify their own
-# country and decade (currently US and UK). Some registries below, including
+# country and decade (currently US, UK and Japan). Some registries below, including
 # compositions and gap banners, still use decade-only keys and US-specific content.
 # A second country's "1950s" is a different room: country guards must prevent
 # it from borrowing those exhibits. Enrollment alone does not make a country

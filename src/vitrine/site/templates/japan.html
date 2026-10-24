@@ -23,6 +23,11 @@
   <aside class="collection-intro"><p class="story-kicker">How this collection is arranged</p><p>{{ page.editorial.rationale }}</p><p>Dates below identify the observations. Gaps in the archive do not establish that something was absent from people's lives.</p></aside>
 </div>
 <div class="plaque room-disclaimer"><b>{{ disclaimer_title }}.</b> <span>{{ disclaimer }}</span></div>
+<section class="collection-intro" aria-labelledby="equipment-route-title">
+  <p class="story-kicker">Focused room route</p><h2 id="equipment-route-title">Read the household equipment records</h2>
+  <p>The other decade rooms remain research holdings. This route keeps the survey's population and date; separate ownership shares do not reconstruct a household.</p>
+  <a href="../rooms/jp-1990s.html#room-story-title">Open the 1990s equipment route →</a>
+</section>
 <nav class="theme-map" aria-label="Japan collection themes">
 {% for theme in page.themes %}<a href="#{{ theme.slug }}"><span class="story-kicker">{{ loop.index }} · Explore a question</span><b>{{ theme.title }}</b><span>{{ theme.question }}</span></a>{% endfor %}
 </nav>
@@ -45,7 +50,7 @@
 {% endfor %}
 <section class="collection-intro" aria-labelledby="japan-archive-title">
   <p class="story-kicker">Continue researching</p><h2 id="japan-archive-title">The decade archive</h2>
-  <p>Every authored observation and documented gap remains in its original decade folder. These folders are research holdings; the selected views above do not exhaust their records.</p>
+  <p>Every authored observation and documented gap remains in its original decade folder. The equipment room has a focused opening route; the other folders retain their research status. These selections do not exhaust the archive.</p>
   <nav class="wing-decades" aria-label="Japan decade archives">{% for room in page.rooms %}<a href="../rooms/{{ room.slug }}.html">{{ room.decade }} ↗</a>{% endfor %}</nav>
 </section>
 {% endblock %}
