@@ -81,20 +81,24 @@ can't name a curated fact is a red build. A fact's chartable number is its
 structured `quantity` (must appear verbatim in `value` — gate-enforced);
 facts without one render as gaps.
 
-**The comparative layer is single-country.** The corridor atlas, the pairwise
-set and the affordability view are keyed by *decade alone* while holding US
-fact ids, so they are only well-defined inside one wing — a second country's
-"1950s" is a different room, and plotting it on the same axis is the
-borrowed-exhibit failure the museum exists to prevent. Two mechanisms hold
-this, so it is not a convention you have to remember:
-`validate_comparative_registries` (build-time, beside the essay registry gate)
-reddens if any decade-keyed registry entry resolves outside
-`CURATED_COUNTRIES` or to no room; and `afford_fact_ids` skips non-curated
-rooms and raises on a decade collision rather than silently overwriting. Rooms
-outside the curated set do not link to those surfaces (`RoomPage.comparative`).
-The stage layer is the exception — it is already country-keyed, through
-`STAGE_BY_COUNTRY`. Adding a country to `CURATED_COUNTRIES` means authoring
-its comparative curation, not just its rooms.
+**Enrollment and comparative curation are separate (Plan 031).**
+`CURATED_COUNTRIES` is derived from authored `ROOM_STORIES`; it currently
+includes the US and UK. Enrollment gives a country curated rooms and lobby
+membership. It does not enroll that country in comparative analyses.
+
+**The comparative layer is single-country.** The corridor atlas, pairwise
+set, walkthrough and affordability view use `COMPARATIVE_COUNTRIES`, currently
+US-only. Their registries are keyed by *decade alone* while holding US fact ids:
+a second country's "1950s" is a different room. The build requires
+`COMPARATIVE_COUNTRIES` to stay inside `CURATED_COUNTRIES`.
+`validate_comparative_registries` rejects entries resolving outside the
+comparative set or to no room; `afford_fact_ids` skips non-comparative rooms
+and raises on a decade collision rather than silently overwriting. Rooms
+outside the comparative set do not link to those surfaces
+(`RoomPage.comparative`), even when they are curated. Joining this layer
+requires the country's own comparative curation and addressing the remaining
+decade-keyed collision guards. The stage layer is already country-keyed through
+`STAGE_BY_COUNTRY`; enrollment does not change its bindings.
 
 ## Data authoring
 

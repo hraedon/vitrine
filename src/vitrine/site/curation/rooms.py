@@ -249,14 +249,13 @@ ROOM_STORY_BY_SLUG: dict[str, RoomStory] = {
     story.slug: story for story in ROOM_STORIES
 }
 
-# Every registry below this line -- stories, compositions, the stage, the gap
-# banners -- is keyed by decade alone and holds US fact ids. A second country's
-# "1950s" is a different room, so those registries must never be consulted for
-# it: doing so let uk-2010s draw us-2010s-expenditure-shares, which is exactly
-# the borrowed-exhibit failure the museum exists to prevent. Stories and gap
-# banners stay US-keyed (a country joins CURATED_COUNTRIES when its editorial
-# layer is authored); the stage registries are country-keyed instead, through
-# STAGE_BY_COUNTRY at the bottom of this file.
+# Enrollment follows the authored stories above, which identify their own
+# country and decade (currently US and UK). Some registries below, including
+# compositions and gap banners, still use decade-only keys and US fact ids.
+# A second country's "1950s" is a different room: country guards must prevent
+# it from borrowing those exhibits. Enrollment alone does not make a country
+# comparative; that separate boundary is declared below. Stage registries are
+# country-keyed through STAGE_BY_COUNTRY at the bottom of this file.
 CURATED_COUNTRIES: frozenset[str] = frozenset(
     story.country for story in ROOM_STORIES
 )
