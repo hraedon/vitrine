@@ -83,8 +83,10 @@ facts without one render as gaps.
 
 **Enrollment and comparative curation are separate (Plan 031).**
 `CURATED_COUNTRIES` is derived from authored `ROOM_STORIES`; it currently
-includes the US and UK. Enrollment gives a country curated rooms and lobby
-membership. It does not enroll that country in comparative analyses.
+includes the US, UK and Japan. Japan has a focused equipment route; its other
+rooms remain research holdings. Enrollment gives a country lobby membership
+for every room, not a shared per-room editorial status. It does not enroll
+that country in comparative analyses.
 
 **The comparative layer is single-country.** The corridor atlas, pairwise
 set, walkthrough and affordability view use `COMPARATIVE_COUNTRIES`, currently

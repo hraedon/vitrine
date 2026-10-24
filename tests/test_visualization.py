@@ -169,14 +169,39 @@ def test_index_matrix_counts_match_the_corpus(site: Path, corpus: Corpus) -> Non
     assert "Observation counts exclude documented gaps" in html
 
 
-def test_lobby_distinguishes_full_collection_from_comparative_wing(
-    site: Path, corpus: Corpus,
+@pytest.mark.parametrize("enroll_japan", [True, False],
+                         ids=["all-wings-enrolled", "japan-directory-only"])
+def test_lobby_distinguishes_full_collection_from_enrolled_inventory(
+    site: Path, corpus: Corpus, enroll_japan: bool,
 ) -> None:
-    """UK/JP stay discoverable without being counted as curated records."""
-    rooms = tuple(_curated(corpus))
-    page = project_lobby(corpus, rooms, {}, all_rooms=corpus.rooms)
-    assert page.corpus_totals.facts == sum(len(r.facts) for r in corpus.rooms)
-    assert page.corpus_totals.facts > page.totals.facts
+    """The directory retains non-enrolled facts; inventory uses only its inputs."""
+    countries = frozenset(room.country for room in corpus.rooms)
+    if not enroll_japan:
+        countries -= {"jp"}
+    rooms = tuple(room for room in corpus.rooms if room.country in countries)
+    page = project_lobby(
+        corpus, rooms, {}, all_rooms=corpus.rooms, curated_countries=countries,
+    )
+    enrolled_facts = sum(len(room.facts) for room in rooms)
+    directory_only_facts = sum(
+        len(room.facts) for room in corpus.rooms if room.country not in countries
+    )
+    assert page.totals.facts == enrolled_facts
+    assert page.corpus_totals.facts == enrolled_facts + directory_only_facts
+    assert page.corpus_totals.facts - page.totals.facts == directory_only_facts
+    if enroll_japan:
+        assert page.corpus_totals.facts == page.totals.facts
+    else:
+        assert page.corpus_totals.facts > page.totals.facts
+        assert directory_only_facts == sum(
+            len(room.facts) for room in corpus.rooms if room.country == "jp"
+        )
+    japan = next(wing for wing in page.wings if wing.country == "jp")
+    assert japan.curated is enroll_japan
+    assert {row.slug for row in page.matrix} == {room.slug for room in rooms}
+    assert {room.slug for room in japan.rooms} == {
+        room.slug for room in corpus.rooms if room.country == "jp"
+    }
     assert page.corpus_totals.gaps == sum(
         f.value.strip().lower().startswith(GAP_PREFIX)
         for r in corpus.rooms for f in r.facts

@@ -689,3 +689,44 @@ def test_lead_checkpoint_sources_work_without_javascript(
     exhibit.locator(f'a[href="#{fact_id}--modal"]').click()
     expect(nojs_page.locator(f"#{fact_id}--modal")).to_be_visible()
     expect(nojs_page.locator(f"#{fact_id}--modal")).to_contain_text("2017–March 2020")
+
+
+@pytest.mark.parametrize("width,height", VIEWPORTS)
+def test_japan_device_route_is_discoverable_and_opens_sources(
+    page: Page, server_url: str, width: int, height: int,
+) -> None:
+    page.set_viewport_size({"width": width, "height": height})
+    page.goto(server_url + "collections/japan.html")
+    route_link = page.get_by_role("link", name="Open the 1990s equipment route", exact=False)
+    expect(route_link).to_be_visible(timeout=1000)
+    route_link.click()
+    expect(page).to_have_url(re.compile(r"/rooms/jp-1990s\.html#room-story-title$"))
+    expect(page.get_by_role("heading", name="Equipment through a household survey")).to_be_visible()
+    stops = page.locator(".room-overture .story-stop")
+    fact_ids = ["jp-1990s-pc", "jp-1990s-mobile-phone", "jp-1990s-fax",
+                "jp-1990s-word-processor"]
+    assert stops.evaluate_all("links => links.map(link => link.dataset.factId)") == fact_ids
+    for fact_id in fact_ids:
+        page.locator(f'.story-stop[data-fact-id="{fact_id}"]').click()
+        modal = page.locator(f"#{fact_id}--modal")
+        expect(modal).to_be_visible()
+        expect(modal.locator(".evidence-grid")).to_contain_text("Two-or-more-person households")
+        modal.get_by_role("link", name="Close placard", exact=True).last.click()
+        expect(modal).not_to_be_visible()
+    assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
+
+
+def test_japan_device_route_works_without_javascript(nojs_page: Page, server_url: str) -> None:
+    nojs_page.set_viewport_size({"width": 375, "height": 812})
+    nojs_page.goto(server_url + "collections/japan.html")
+    route_link = nojs_page.get_by_role("link", name="Open the 1990s equipment route", exact=False)
+    expect(route_link).to_be_visible(timeout=1000)
+    route_link.click()
+    heading = nojs_page.get_by_role("heading", name="Equipment through a household survey")
+    expect(heading).to_be_visible()
+    nojs_page.locator('.story-stop[data-fact-id="jp-1990s-pc"]').click()
+    modal = nojs_page.locator("#jp-1990s-pc--modal")
+    expect(modal).to_be_visible()
+    modal.get_by_text("Open source record", exact=True).click()
+    expect(modal.get_by_role("link", name="source", exact=True)).to_be_visible()
+    assert nojs_page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")

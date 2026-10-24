@@ -158,7 +158,7 @@ EXPECTED: dict[str, PageContract] = {
     "index.html": _page(
         'vitrine — everyday life across time',
         landmarks=(1, 4, 1, 5, 1), disclosures=(1, 0),
-        local=(162, 'c68e7baf0c27'), marks=(0, 'e3b0c44298fc'), overlays=0,
+        local=(204, '5502230d0ef0'), marks=(0, 'e3b0c44298fc'), overlays=0,
     ),
     # A guided UK room (plan 031): the wing's stories enroll it in the
     # curated collection while its records stay its own.
@@ -224,8 +224,8 @@ EXPECTED: dict[str, PageContract] = {
     ),
     "collections/japan.html": _page(
         'Japan · households, work and equipment — vitrine',
-        landmarks=(1, 3, 1, 14, 1), disclosures=(50, 0),
-        local=(113, '0b9f2fef57a8'), marks=(40, 'cff5a576da82'), overlays=40,
+        landmarks=(1, 3, 1, 15, 1), disclosures=(50, 0),
+        local=(114, '752d4e9dcd53'), marks=(40, 'cff5a576da82'), overlays=40,
     ),
 }
 

@@ -86,6 +86,13 @@ ROOM_EDITORIAL.update({
         "workplace-wage observations describe separate populations. The remaining "
         "panels are documented research gaps, not evidence of historical absence.",
     ),
+    "jp-1990s": EditorialChoice(
+        EditorialStatus.FOCUSED,
+        "This focused route stays within the durable-goods survey's household "
+        "population and observation date. These separate ownership shares do not "
+        "establish co-ownership in the same household, device use, or a matched "
+        "household portrait.",
+    ),
 })
 
 
@@ -139,8 +146,9 @@ class CollectionTheme:
 JAPAN_EDITORIAL = EditorialChoice(
     EditorialStatus.FOCUSED,
     "Selected observations are organised by question and source population. "
-    "The decade folders remain a research archive; neither their density nor "
-    "their gaps determines this exhibit's structure.",
+    "A focused equipment room sits alongside research holdings; each room "
+    "retains its own editorial status. Neither enrollment nor record density "
+    "reconstructs a household.",
 )
 
 JAPAN_THEMES = (

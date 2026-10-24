@@ -20,8 +20,9 @@ build fails mechanically if any fact lacks one.
   reconstructed from period cost-of-living surveys; the museum stops where the
   record does, and says so.
 - **World collections:** United Kingdom and Japan currently have decade
-  records. Japan also has a thematic entrance separating household budgets,
-  workplace measures and household equipment. Further countries remain
+  records. Japan also has a focused equipment-room route and a thematic entrance
+  separating household budgets, workplace measures and household equipment. Further
+  countries remain
   research possibilities, not a commitment to fill an identical room grid.
 
 ## Why it exists
@@ -101,9 +102,9 @@ have been curated against their own official series (ONS, Statistics
 Bureau / MIC, MHLW) with country-specific assumptions
 (`jp-household-not-family`, `jp-kakei-1962-seam`,
 `jp-deflation-lost-decades`). The `MONTHLY` basis supports Japan's
-monthly-income-denominated surveys. Their rooms are complete galleries in
-their own right. Curation has two layers (Plan 031): a country **enrolls**
-when its room stories are authored (`CURATED_COUNTRIES` — its wing joins the
+monthly-income-denominated surveys. Their records and source cards remain
+accessible in their own rooms. Curation has two layers (Plan 031): a country
+**enrolls** when its room stories are authored (`CURATED_COUNTRIES` — its wing joins the
 curated badges and the lobby matrix), and it joins the **comparative**
 surfaces — the corridor atlas, the pairwise set, the walkthrough and the
 affordability view, which are keyed by decade and hold US fact ids — when
@@ -113,8 +114,14 @@ a registry entry that reaches outside the comparative set is a red build
 (`validate_comparative_registries`). The United Kingdom joined the curated
 collection in plan 031 — seven guided rooms with their own stories (1950s–2010s)
 — while its comparative curation remains unauthored, so UK rooms join the
-curated badges and the lobby matrix but not the decade-keyed analyses. The
-presentation is the "statistical atlas" (Plan 020): a light folio where
+curated badges and the lobby matrix but not the decade-keyed analyses. Japan's
+focused equipment route (Plan 032) enrolls the country too: **all seven Japan
+rooms join the country badge and lobby inventory**, although only `jp-1990s`
+has a focused opening route. The other six rooms retain their research labels,
+including the existing `jp-1950s` rationale. Enrollment does not promote a
+room's editorial status or establish a complete household portrait. Japan stays
+outside the US-only comparative layer and the illustrated house entrance.
+The presentation is the "statistical atlas" (Plan 020): a light folio where
 every fact row carries its value, tier chip, measured population, and
 source record in one scan-line, and the index leads with a corpus matrix —
 rooms × cases with tier mixes and documented silences counted. Three static

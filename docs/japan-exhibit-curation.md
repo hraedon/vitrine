@@ -13,10 +13,17 @@ regardless of country or record count. A guided room must resolve its curated
 opening route. Status describes presentation, not evidence quality or an audit
 result. Existing source tiers continue to describe the cited evidence.
 
-The Japan exhibit is focused; its decade folders remain research holdings.
-The early US rooms with substantial structural gaps are explicitly research
-or focused presentations. The US comparative registries remain independent:
-Japan's exhibit does not enroll Japan in decade-keyed US charts.
+The Japan thematic exhibit remains focused. The `jp-1990s` room now has a
+focused equipment route; the other six Japan rooms remain research holdings,
+including the unchanged explicit `jp-1950s` status and rationale. This choice
+concerns presentation, not a claim that the room reconstructs a household.
+
+Country enrollment is broader than the pilot: an authored Japan story derives
+Japan into `CURATED_COUNTRIES`, so all seven Japan rooms join the country badge
+and lobby inventory. The other rooms gain no stories or status upgrades.
+`COMPARATIVE_COUNTRIES` remains US-only; Japan gains no comparative room links,
+pairwise pages or illustrated house entrance. Country-keyed stage bindings are
+unchanged. The early US rooms retain their existing research/focused choices.
 
 ## Selection and boundaries
 
@@ -41,6 +48,18 @@ dated observations use native disclosures. All source cards and decade links
 work without JavaScript. Different observations are not joined into a trend
 line: comparability requires additional source qualification, not just a shared
 currency, subject or neighboring year.
+
+## Equipment-room pilot
+
+The discovery link on the Japan thematic entrance opens the `jp-1990s` route.
+Its four existing records concern personal computers, mobile phones, facsimile
+machines and standalone word processors in the NSFIIE 1999 household survey.
+Each record retains its label, value, population, tier and source card. Separate
+ownership shares do not establish co-ownership, device use or a matched
+household. The route adds no calculations, replacement narrative or trend.
+The thematic entrance retains its existing measurement lenses and selections.
+See Plan 032 for the limited scope, country-wide enrollment effect and pending
+technical/editorial review; this draft does not imply human acceptance.
 
 ## Presentation pilot
 
