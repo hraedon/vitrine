@@ -175,11 +175,11 @@ def _build_wings(
 # A second country's "1950s" is a different room, so a decade-keyed lookup is
 # only well-defined inside one wing. The stage layer solved this by keying on
 # country (STAGE_BY_COUNTRY); the comparative surfaces below still hold their
-# side of it by discipline -- they are projected over CURATED_COUNTRIES in
-# build.py, so today every id here does resolve to a US room. Nothing reddened
-# if that stopped being true, which is what this gate is for: a second country
-# joining the story layer without its own comparative curation must be a red
-# build, not a room quietly borrowing another country's exhibit.
+# side of it by projecting over COMPARATIVE_COUNTRIES in build.py, currently
+# US-only. Story enrollment in CURATED_COUNTRIES is separate: a country can
+# join the story layer without joining comparative analyses (Plan 031).
+# This gate rejects registry entries that reach outside the comparative set
+# or name no room, preventing a room from borrowing another country's exhibit.
 def _decade_keyed_fact_ids() -> dict[str, list[str]]:
     """Every (registry name → fact ids) pair the comparative layer resolves."""
     registries: dict[str, list[str]] = {
