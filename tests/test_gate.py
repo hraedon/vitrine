@@ -453,9 +453,22 @@ def test_quantity_rejects_numeric_fragments_and_sign_drift(
 
 @pytest.mark.parametrize(
     "quantity,value",
+    [(1.5, "1.5.0%"), (-1.5, "-1.5.000%"), (12.3, "12.3.0%"), (0.5, "0.5.0000")],
+)
+def test_quantity_does_not_normalize_multiple_decimal_components(
+    tmp_path: Path, quantity: float, value: str,
+) -> None:
+    problems = _quantity_gate_problems(tmp_path, quantity, value)
+    assert len(problems) == 1
+    assert "does not appear in the display value" in problems[0]
+
+
+@pytest.mark.parametrize(
+    "quantity,value",
     [
         (5, "5%"), (5, "5.00%"), (5, "+5%"), (5, "+5.0%"),
         (-5, "-5%"), (-5, "-5.00%"), (-5, "Change: -5%"), (0, "0.00"), (12.3, "12.300%"),
+        (1.5, "1.5000%"), (-1.5, "-1.5000%"), (12.3, "12.3000%"), (0.5, "0.5000"),
         (1500, "Median 1,500 sq ft"), (1500, "1,500.000"), (1500, "1500"),
         (1e6, "1e+06"), (1e-5, "1e-05"), (1.23456e-6, "1.23456e-06"),
         (0.123456789, "0.1234570"), (123456789, "1.23457e+08"),

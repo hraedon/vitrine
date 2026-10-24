@@ -35,6 +35,7 @@ _QUANTITY_TOKENS = re.compile(
     rf"{_QUANTITY_NUMBER}(?:\s*[-–—]\s*{_QUANTITY_NUMBER})*"
 )
 _QUANTITY_CONTINUATION = re.compile(r"(?:[.,eE+\-\N{MINUS SIGN}]+\d|[eE][+\-])")
+_QUANTITY_DECIMAL = re.compile(r"-?(?:\d+|\d{1,3}(?:,\d{3})+)\.\d+")
 
 
 def _quantity_renderings(quantity: float) -> set[str]:
@@ -68,7 +69,7 @@ def _quantity_in_value(quantity: float, value: str) -> bool:
         token = token.removeprefix("+")
         # Preserve display precision such as 36.00 and 12.300, but keep
         # scientific notation literal: this is not a new equivalence parser.
-        if "." in token and "e" not in token.lower():
+        if _QUANTITY_DECIMAL.fullmatch(token):
             token = token.rstrip("0").rstrip(".")
         if token in renderings:
             return True

@@ -44,8 +44,10 @@ token in `value` — it is a transcription of the displayed datum, so the chart
 cannot drift from the placard. The existing spellings are Python `g` formatting
 (six significant digits), plus plain and comma-grouped integers. An explicit
 positive sign and trailing decimal zeros preserve display precision (`36.00`,
-`12.300`); no arithmetic, locale conversion, tolerance or alternate scientific
-spelling is inferred. For example, `1` cannot be supplied by `21%` or `1e+06`,
+`12.300`). Precision normalization requires a single decimal point, an integer
+part and fractional digits: malformed `1.5.0` cannot become `1.5`. No arithmetic,
+locale conversion, tolerance or alternate scientific spelling is inferred. For
+example, `1` cannot be supplied by `21%` or `1e+06`,
 and positive `5` cannot be supplied by `-5%` or `1.5%`.
 
 Dash-joined numeric ranges and ambiguous adjoining signs or numeric punctuation
