@@ -28,6 +28,14 @@ from vitrine.model import (
 )
 from vitrine.series import Series
 
+# Tokenize complete decimal/comma/scientific spellings. Keep dash-joined
+# numbers together: a range cannot supply a single headline quantity.
+_QUANTITY_NUMBER = r"[+\-\N{MINUS SIGN}]?(?:\d+(?:[.,]\d+)*|\.\d+)(?:[eE][+\-]?\d+)?"
+_QUANTITY_TOKENS = re.compile(
+    rf"{_QUANTITY_NUMBER}(?:\s*[-–—]\s*{_QUANTITY_NUMBER})*"
+)
+_QUANTITY_CONTINUATION = re.compile(r"(?:[.,eE+\-\N{MINUS SIGN}]+\d|[eE][+\-])")
+
 
 def _quantity_renderings(quantity: float) -> set[str]:
     """The strings a structured quantity may appear as in the display value.
@@ -40,6 +48,31 @@ def _quantity_renderings(quantity: float) -> set[str]:
         renderings.add(str(int(quantity)))
         renderings.add(f"{int(quantity):,}")
     return renderings
+
+
+def _quantity_in_value(quantity: float, value: str) -> bool:
+    """Match existing renderings as whole numeric tokens, without arithmetic."""
+    renderings = _quantity_renderings(quantity)
+    for match in _QUANTITY_TOKENS.finditer(value):
+        start, end = match.span()
+        token = match.group()
+        # Do not recover an inner number from malformed punctuation/signs,
+        # or interpret a word-attached hyphen as an unambiguous unary sign.
+        if start and (
+            value[start - 1] in "+-\N{MINUS SIGN}–—.,eE0123456789"
+            or (token[0] in "+-\N{MINUS SIGN}" and value[start - 1].isalnum())
+        ):
+            continue
+        if _QUANTITY_CONTINUATION.match(value, end):
+            continue
+        token = token.removeprefix("+")
+        # Preserve display precision such as 36.00 and 12.300, but keep
+        # scientific notation literal: this is not a new equivalence parser.
+        if "." in token and "e" not in token.lower():
+            token = token.rstrip("0").rstrip(".")
+        if token in renderings:
+            return True
+    return False
 
 
 def check_corpus(corpus: Corpus, series: dict[str, Series] | None = None) -> list[str]:
@@ -106,7 +139,7 @@ def check_corpus(corpus: Corpus, series: dict[str, Series] | None = None) -> lis
             if fact.quantity is not None:
                 if not math.isfinite(fact.quantity):
                     problems.append(f"{where}: quantity is not a finite number")
-                elif not any(r in fact.value for r in _quantity_renderings(fact.quantity)):
+                elif not _quantity_in_value(fact.quantity, fact.value):
                     problems.append(
                         f"{where}: quantity {fact.quantity:g} does not appear in the "
                         f"display value — the structured quantity must transcribe "
