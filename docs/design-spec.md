@@ -121,13 +121,21 @@ Segments keep the 2px surface gaps. **Validator results** (computed by
 ≥ 4.5:1 against its white label and ≥ 3:1 against the sheet `#fbf7ec`;
 weakest pairs are `other` at 5.40:1 (label) and 4.58:1 (sheet).
 
-## The corpus matrix
+## The lobby and corpus matrix
 
-The index leads with the record at a glance: rooms × the six cases, counted.
-Counts are **build metadata** (sourced facts `N`, computed exhibits `+M`,
-documented gaps in ember), folded in the projection layer from the corpus
-itself; the tier-mix sliver under each count uses the honesty colors in tier
-order. No number in the matrix is authored anywhere.
+The index leads with country entrances, each offering a selected route into
+its own evidence. The United States opens the illustrated equipment record,
+the United Kingdom opens its housing and equipment records, and Japan opens
+its thematic collection. Native disclosures beneath each entrance expose
+every decade without JavaScript. The reading guide and whole-museum counts
+are optional; the complete composite-family disclaimer remains visible.
+
+The detailed matrix is a separate research inventory below the visitor routes:
+curated rooms × the six cases, counted. Counts are **build metadata**, folded
+from the corpus rather than authored: sourced records exclude documented gaps,
+derived exhibits have their own count, and gaps are labelled separately. Each
+cell links to the corresponding room panel. These counts describe holdings,
+not historical prevalence or confidence. Country collections stay separate.
 
 ## The artifact symbol library
 
@@ -153,17 +161,52 @@ screens. Editorial status explains the selection in a disclosure; the full
 composite-family disclaimer remains visible. Source-linked highlights still
 resolve to exactly four distinct in-room facts where a route is curated.
 
-Below the exhibit, three counters separate recorded observations, calculated
+Below the exhibit, three counters separate sourced records, derived
 exhibits, and documented gaps. Counts describe collection entries, not people
 or households, and gaps are never zero values. Six topic links lead to the
-complete record panels, each row showing its value, evidence tier, measured
-population, and source. The full drawer is one disclosure away and the source
-card one click away. Calculations identify their inputs and weakest-input tier.
-The lobby's detailed US inventory is likewise a second layer, with explicit
-count labels in every cell and footer. Country collections stay separate.
+complete record panels, each folded behind a native topic summary. Opening a
+topic reveals every row's value, evidence tier, measured population, and source.
+The full drawer adds detail and the source card opens independently of the fold.
+Record fragments reveal their topic natively without JavaScript; topic-map links
+land at the summary, which can be opened normally. The enhancement opens the
+chosen topic and provides expand/collapse controls for reading the whole room.
+Closed records remain printable. Calculations identify their inputs and
+weakest-input tier.
+
+The sourced-record bucket includes records with a value calculated from
+published source inputs. Such records carry an "Includes a calculated value"
+badge; their row drawer, source card and source collection show the declared
+method and rounding rule. That check covers its declared value, not every
+number in a compound record. Derived exhibits form a separate structural
+bucket combining curated records or series. Audit-calculated values are not
+added to that bucket or counted twice.
+The lobby's detailed curated inventory is likewise a second layer, with
+explicit count labels in every cell and footer. Country collections stay separate.
 
 Browser qualification uses production response headers and checks component
 geometry at phone and desktop widths; see `production-layout-policy.md`.
+
+Trend, affordability and essay charts offer native table disclosures as a
+second reading path. Selected points keep their source-card links; annual
+tables list the actual source years and population without filling missing
+years. A record excluded from a plotting axis is labelled "Not plotted".
+Calculated annual values cite their input series and disclose their display
+rounding. Tables adapt to the page width while retaining column headings and
+bounded vertical scrolling for long series. The plot itself keeps its scale
+and contained horizontal scroll on narrow screens.
+
+An arc's excluded record remains accessible but cannot supply geometry or a
+shared-axis comparison elsewhere. The same exclusion applies to direct metric
+markers, pair cells, walkthrough bars and stage annotations. Illustrative
+mid-decade positions are labelled as such; table periods use the curated
+decade or an explicitly declared record year, with the source date retained
+in the record label.
+
+Withdrawn composition shares retain their decade slot as a linked, labelled
+gap rather than an empty bar or an omitted row. Both the main corridor and
+pair views preserve this source access. Literal food-category expenses do
+not become percentage-axis values when no comparable expenditure denominator
+has been verified.
 
 Docent tours (Plan 016) render as narrow reading columns: prose blocks with an
 accent rule, every interpolated figure an inline chip (petrol value, tier

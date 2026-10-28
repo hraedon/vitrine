@@ -75,7 +75,7 @@ statement = "Japan's Family Income and Expenditure Survey (FIES) publishes by ho
 [[assumption]]
 id = "jp-kakei-1962-seam"
 title = "FIES was urban-only before 1962"
-statement = "The Family Income and Expenditure Survey covered only cities before 1962; national coverage (including rural and agricultural households) began in 1963. Pre-1962 income and expenditure facts are urban-only and carry the urban-rural-split caveat. The 1962 extension is a methodology seam — series chaining across it must flag the population change."
+statement = "The archived early FIES income table covers workers' households in all cities. The later tables extend geographical coverage nationally from 1963 but explicitly exclude agricultural, forestry and fisheries households throughout their 1963–2017 span. National geographical coverage does not mean every household type is represented. Pre-1962 income facts retain the urban-rural-split caveat; chaining across the geographical seam must preserve the population difference."
 
 [[assumption]]
 id = "jp-deflation-lost-decades"
@@ -90,9 +90,24 @@ statement = "The UK has no published counterpart to the US Census four-person-fa
 [[assumption]]
 id = "uk-wage-anchor-all-employees"
 title = "The UK wage anchor is the median over all employee jobs"
-statement = "The UK hourly-wage anchor is ASHE's median gross hourly pay across all employee jobs — full- and part-time, both sexes. It is deliberately not the full-time median, which is the figure usually quoted as 'the' UK wage and runs roughly 12% higher; the all-jobs median is the one that describes the hour of work actually available in the labour market. Every fact using it carries the full-time median beside it so the gap is visible rather than implied. Because it is a median and the US anchor is a mean of a narrower population, the two are different measures and are not chained."
+statement = "The UK hourly-wage anchor is ASHE's median gross hourly pay across all employee jobs, full- and part-time, both sexes. It is not a full-time-only median, a wage offered to people outside sampled jobs, or a household income. Full-time figures cited as context retain their own source population. The US anchor is a mean for a different worker population; the two are different measures and are not chained."
 
 [[assumption]]
 id = "produce-variety-rule"
 title = "The produce-variety count and its one-pound rule"
 statement = "The derived produce-variety fact counts, for one stated year per decade, how many fresh fruit and vegetable commodities the US food supply provided at least a full pound of per person — farm-weight availability, as ERS publishes it. The candidate set is every commodity sheet in the two ERS fresh workbooks, enumerated by id in the derivation, never a filename convention. The count is computed by the build from those committed series, never authored. Commodities whose ERS series had not begun or had ended by the stated year are outside both the count and the displayed total, so a widening record cannot masquerade as rising variety: the value always shows count of tracked. Availability is a disappearance estimate — what the supply made available, not what anyone ate."
+
+[[assumption]]
+id = "food-price-display-rounding"
+title = "Average food prices display at the nearest cent"
+statement = "The selected BLS APU compound placards retain original December API observations in the research archive. scripts/food_price_review.py uses exact decimal half-up rounding to two decimal places for display in dollars. Values are price levels for the stated month, not a fixed-quality inflation index or a family food budget; item identities and original package units remain explicit."
+
+[[assumption]]
+id = "jp-fies-food-share"
+title = "FIES food shares use same-row expenditure operands"
+statement = "Food shares divide the archived FIES Food expenditure by total Consumption expenditures in the same annual-average row and household population, multiply by one hundred, and round once to one decimal place using decimal half-up rounding. The audit stores the raw source operands and replays the operation. The source tables exclude agricultural, forestry and fisheries households; income observations use a different workers-household population."
+
+[[assumption]]
+id = "cex-ratios-of-means"
+title = "CEX budget shares are ratios of published means"
+statement = "The selected compound food records divide the published food-expenditure mean by the published total-expenditure mean for the same four-person consumer-unit population and year, multiply by one hundred and round once to one decimal place, half up. This is not the mean of individual units' budget shares. Independently rounded published components may not add to totals; missing cells are not reconstructed by subtraction."

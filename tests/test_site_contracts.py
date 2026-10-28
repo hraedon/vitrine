@@ -4,7 +4,7 @@ Two layers:
 
 1. **Exact snapshot** (``test_page_contract``): pins the shape most likely to
    change during template work — page landmarks, disclosure counts, local
-   destinations, provenance overlays, and the set of fact marks — for 12
+   destinations, provenance overlays, and the set of fact marks — for
    representative pages. Text and SVG bytes intentionally remain free to
    improve. These are characterization snapshots, not visual snapshots; update
    the inline literals when a page changes intentionally.
@@ -14,14 +14,14 @@ Two layers:
    template evolution — landmarks, nav, unique titles, modal-target
    resolution, source-card disclosures, panel sections, and the composite-
    family disclaimer. These catch regressions to the site's skeleton across all
-   ~114 pages (including UK/JP rooms and corridor pairs) without the maintenance
+   pages (including UK/JP rooms, source collections and corridor pairs) without the maintenance
    burden of exact-count pinning.
 
-Re-baselined for Plan 020 (the statistical atlas redesign): the fact-mark
-hashes, overlay counts, and every pair/walkthrough/affordability structure
-survived the redesign untouched; what changed is deliberate — index gained
-the corpus-matrix links, room panels became sections (each carrying one
-in-page record drawer per fact), and a colophon footer joined every page.
+Re-baselined for Plan 033 after inspecting the structural differences:
+six native topic folds per room; source-linked chart-table disclosures;
+withdrawn compositions rendered as linked gaps; added source collections and
+methodology assumptions. Stable fact IDs, archival overlays, disclaimers and
+page landmarks remain independently checked below.
 """
 
 from __future__ import annotations
@@ -157,45 +157,46 @@ def _page(
 EXPECTED: dict[str, PageContract] = {
     "index.html": _page(
         'vitrine — everyday life across time',
-        landmarks=(1, 4, 1, 5, 1), disclosures=(1, 0),
+        # Three native decade archives, reading guide and research inventory.
+        landmarks=(1, 4, 1, 5, 1), disclosures=(5, 0),
         local=(162, 'c68e7baf0c27'), marks=(0, 'e3b0c44298fc'), overlays=0,
     ),
     # A guided UK room (plan 031): the wing's stories enroll it in the
     # curated collection while its records stay its own.
     "rooms/uk-1970s.html": _page(
         'UK · 1970s — vitrine',
-        landmarks=(1, 3, 1, 8, 1), disclosures=(23, 0),
+        landmarks=(1, 3, 1, 8, 1), disclosures=(29, 0),
         local=(41, 'fb9e8341f796'), marks=(5, '022cdef83ea3'), overlays=11,
     ),
     "rooms/us-1950s.html": _page(
         'US · 1950s — vitrine',
-        landmarks=(1, 3, 1, 8, 1), disclosures=(98, 0),
+        landmarks=(1, 3, 1, 8, 1), disclosures=(104, 0),
         local=(90, '61ac4f75b222'), marks=(8, '039d00bafc61'), overlays=46,
     ),
     "rooms/us-1910s.html": _page(
         'US · 1910s — vitrine',
-        landmarks=(1, 3, 1, 8, 1), disclosures=(45, 0),
+        landmarks=(1, 3, 1, 8, 1), disclosures=(51, 0),
         local=(59, '877569b82358'), marks=(3, 'c7ef52c43fee'), overlays=22,
     ),
     "corridors/index.html": _page(
         'corridors — vitrine',
-        landmarks=(6, 2, 1, 6, 1), disclosures=(408, 5),
-        local=(465, 'e6d2cbc0b1c3'), marks=(363, 'd5568cc276c9'), overlays=364,
+        landmarks=(6, 2, 1, 6, 1), disclosures=(467, 5),
+        local=(478, '56c6c433fb41'), marks=(364, 'b5e7c43d9c71'), overlays=364,
     ),
     "corridors/1900s--2020s.html": _page(
         '1900s ↔ 2020s — vitrine corridors',
         landmarks=(1, 1, 1, 0, 1), disclosures=(28, 0),
-        local=(44, 'd571d978518a'), marks=(26, 'fd7fd237efd1'), overlays=27,
+        local=(45, '66a8e44ce2f1'), marks=(27, '4ca781f9b9ef'), overlays=27,
     ),
     "affordability/index.html": _page(
         'affordability — vitrine',
-        landmarks=(1, 1, 1, 0, 2), disclosures=(0, 0),
-        local=(20, 'f1db22719e66'), marks=(9, 'cc00d43721f7'), overlays=0,
+        landmarks=(1, 1, 1, 0, 2), disclosures=(5, 0),
+        local=(27, '3d90abe70b34'), marks=(9, 'cc00d43721f7'), overlays=0,
     ),
     "walkthrough.html": _page(
         'the walkthrough — vitrine',
         landmarks=(1, 1, 1, 0, 1), disclosures=(52, 0),
-        local=(75, '2772fd4a6bb1'), marks=(52, '536879fd6071'), overlays=52,
+        local=(75, 'd45bf357b0bb'), marks=(52, '536879fd6071'), overlays=52,
     ),
     "methodology.html": _page(
         'methodology — vitrine',
@@ -204,8 +205,9 @@ EXPECTED: dict[str, PageContract] = {
     ),
     "bibliography.html": _page(
         'bibliography — vitrine',
-        landmarks=(1, 1, 1, 0, 1), disclosures=(123, 0),
-        local=(133, 'aa1bae7680fe'), marks=(0, 'e3b0c44298fc'), overlays=0,
+        # Source-specific CEX vintages, durables and NFS join the register.
+        landmarks=(1, 1, 1, 0, 1), disclosures=(130, 0),
+        local=(140, 'aa10f47df3f1'), marks=(0, 'e3b0c44298fc'), overlays=0,
     ),
     "essays/index.html": _page(
         'docent tours — vitrine',
@@ -214,8 +216,8 @@ EXPECTED: dict[str, PageContract] = {
     ),
     "essays/one-paycheck.html": _page(
         'One paycheck — docent tours · vitrine',
-        landmarks=(1, 1, 1, 0, 1), disclosures=(7, 0),
-        local=(28, 'd6b4a98ab573'), marks=(9, 'd7a0f3435114'), overlays=7,
+        landmarks=(1, 1, 1, 0, 1), disclosures=(8, 0),
+        local=(30, '740e13343ca2'), marks=(9, 'd7a0f3435114'), overlays=7,
     ),
     "data.html": _page(
         'data — vitrine',
@@ -225,7 +227,7 @@ EXPECTED: dict[str, PageContract] = {
     "collections/japan.html": _page(
         'Japan · households, work and equipment — vitrine',
         landmarks=(1, 3, 1, 14, 1), disclosures=(50, 0),
-        local=(113, '0b9f2fef57a8'), marks=(40, 'cff5a576da82'), overlays=40,
+        local=(114, '9079e2a04205'), marks=(40, 'cff5a576da82'), overlays=40,
     ),
 }
 
@@ -243,7 +245,7 @@ def test_page_contract(site: Path, relative: str) -> None:
 # composite-family disclaimer, the footer, etc. Unlike the exact-contract test
 # above (which pins counts and hashes for 11 pages and changes on every data
 # update), these invariants are discovered from the built output and cover
-# every rendered page — currently ~114 pages including all UK/JP rooms and
+# every rendered page, including all UK/JP rooms, source collections and
 # corridor pairs.
 
 

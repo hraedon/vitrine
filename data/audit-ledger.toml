@@ -2,6 +2,69 @@
 version = 2
 
 [[entry]]
+fact_id = "jp-1950s-fies-workers-income"
+fingerprint = "7d153e4815d692bb3b85569a5406052bd89284f91ea46d6fdef1884a2f115221"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "29169"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "jp-1960s-fies-consumption"
+fingerprint = "268404f1ce9667af06446d713adfddc64f147571c2c78281b53c127f2da2af91"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "48396"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "jp-1960s-fies-food-share"
+fingerprint = "45a144a0d7253ec2040a4a7343d094086bc4a2831a2c61ebb1f205df6c09a4ed"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "38.1"
+audited = "2026-10-28"
+operands = ["18454", "48396"]
+
+[[entry]]
+fact_id = "jp-1960s-fies-workers-income"
+fingerprint = "f77897c2cc19cea13def966b446f5871a47be87668edb76b2f9d1b6ef9a7b42c"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "65141"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "jp-1970s-fies-consumption"
+fingerprint = "fb8a51e3c1ca4bf45d48aca6ed757312c16ae1b714b7ae892a7d3ba451b47c4a"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "157982"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "jp-1970s-fies-food-share"
+fingerprint = "02c62d92e7a4d69c317b732dc7528dd651ea0328a71534b6ceb72473534df576"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "32.0"
+audited = "2026-10-28"
+operands = ["50479", "157982"]
+
+[[entry]]
+fact_id = "jp-1970s-fies-workers-income"
+fingerprint = "035e9efbc17ea5e0e04c8a44c14e14980e8d28d826feb2c659482b2c7d6857d0"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "236152"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
 fact_id = "jp-1970s-mls-hours"
 fingerprint = "1a3efca8e31ee16e815134436a4db8371591e5b2d8ef459fc037b3bd60672efd"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
@@ -18,6 +81,24 @@ file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "177213"
 audited = "2026-10-09"
 operands = []
+
+[[entry]]
+fact_id = "jp-1980s-consumption"
+fingerprint = "cf3897e2e4924db1301e51b44f9488c1ad113e84cebe5556da4fa81c514035bc"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "273114"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "jp-1980s-food-share"
+fingerprint = "2f70148e77be4f43a8830b3b8334207a7cb6922e84fdfcccb35cbf43448ffd2c"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "27.0"
+audited = "2026-10-28"
+operands = ["73735", "273114"]
 
 [[entry]]
 fact_id = "jp-1980s-mls-wages"
@@ -38,6 +119,33 @@ audited = "2026-10-09"
 operands = []
 
 [[entry]]
+fact_id = "jp-1980s-workers-income"
+fingerprint = "96dfac76a15be62d18d770b275ca55c49241daa28f5be1f8bd079e61ead0aad2"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "444846"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "jp-1990s-consumption"
+fingerprint = "1e53a73714a3817d4587a293daff5d2193ca07827d33ea5d4d67b19e685f8337"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "329062"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "jp-1990s-food-share"
+fingerprint = "a3cd43fac1c0a1562157e3de510596a95c76fd2bf4f71f616b059fe0136c5cf8"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "23.7"
+audited = "2026-10-28"
+operands = ["77886", "329062"]
+
+[[entry]]
 fact_id = "jp-1990s-mls-wages"
 fingerprint = "8f6dd5095647c520df3392c7150f3e8e844b910314615c8fac79291f63ce278e"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
@@ -54,6 +162,33 @@ file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "159.1"
 audited = "2026-10-09"
 operands = []
+
+[[entry]]
+fact_id = "jp-1990s-workers-income"
+fingerprint = "165e5c1f11da3f992c198c1ff7d214639d39c21092c6104c6caf38f1ed478dea"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "570817"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "jp-2000s-consumption"
+fingerprint = "73b8693b7fe7098eab56cd90285e920e9fa22d5096586e8f90e8f4159b457c52"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "300903"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "jp-2000s-food-share"
+fingerprint = "43d359786f763d9fdbccf23964d3d2a77e10cabf2b1637a04e149dd8c31c7797"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "22.9"
+audited = "2026-10-28"
+operands = ["68910", "300903"]
 
 [[entry]]
 fact_id = "jp-2000s-mls-wages"
@@ -74,6 +209,33 @@ audited = "2026-10-09"
 operands = []
 
 [[entry]]
+fact_id = "jp-2000s-workers-income"
+fingerprint = "482bfcbe511d9f86e068ac04ea597dbaddec844bba852133fc5641906994d728"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "522629"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "jp-2010s-consumption"
+fingerprint = "fe15f0ff93c617128b13867db40337352aa4bc58b556c71c4bddcc228c537d9a"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "288326"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "jp-2010s-food-share"
+fingerprint = "d3f2d831a71eb492f19f61078bc6e579d53f08fb05515fc9383f977f2b64befc"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "25.0"
+audited = "2026-10-28"
+operands = ["72114", "288326"]
+
+[[entry]]
 fact_id = "jp-2010s-mls-wages"
 fingerprint = "5cbf27250b67aaa170dcba850e953b303785f58799a7dbebc7da6f05e282a4d8"
 sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9b"
@@ -89,6 +251,465 @@ sample_sha256 = "162449609b9fa2a061c8fec671e57fd3eda2a42cd9a707accebcb1b25ae3df9
 file = "36-jp-income/mls-long-term-actual.csv"
 extracted = "148.7"
 audited = "2026-10-09"
+operands = []
+
+[[entry]]
+fact_id = "jp-2010s-workers-income"
+fingerprint = "1cae5cbae490a6f7cbad33ef7b8728b3d8ce9f5a2a757fcafc75ae43ff5a3e35"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "525955"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1950s-tenure"
+fingerprint = "396e3dbc7f932b302c8684b5cd7e61b0bb9aa0d2d432e947d50cf753077ec9b3"
+sample_sha256 = "0b77ee0c2348fd9285f1ffe397953dd4771b73c91404accf726be7a6e5a5af2d"
+file = "32-uk-housing/ons-century-homeownership.csv"
+extracted = "32"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1950s-weekly-earnings"
+fingerprint = "a2aacad43725fa3cdc2ebea19a90cbf830ad02aaf734c29016383ee4bad96f67"
+sample_sha256 = "090c182fed3520f17e3b7be64541e2f377cd7a70e618cff53a77dc8176f27e2e"
+file = "30-uk-income/ons-earnings-1938-2025.xlsx"
+extracted = "10.87"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1960s-tenure"
+fingerprint = "96e59fb3cd65fb16d0e57fb0c73edff2d40c02d19ec0a0a8f4fa78b7c135544c"
+sample_sha256 = "0b77ee0c2348fd9285f1ffe397953dd4771b73c91404accf726be7a6e5a5af2d"
+file = "32-uk-housing/ons-century-homeownership.csv"
+extracted = "43"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1960s-weekly-earnings"
+fingerprint = "c8ce37cfed06847dccadc96fe8a96a8f6967f6dbf69d9ff3dad108ebcc77fc5a"
+sample_sha256 = "090c182fed3520f17e3b7be64541e2f377cd7a70e618cff53a77dc8176f27e2e"
+file = "30-uk-income/ons-earnings-1938-2025.xlsx"
+extracted = "18.91"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1970s-car"
+fingerprint = "66981f283a9f51d1d16b7d8377e2ecc9ecec0b746936147c62fdd7f8d371a227"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "52"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1970s-colour-tv"
+fingerprint = "4768131374fcbbb698ec7d177093b48e63b01fdc2bc4ae0689f517f4253ce155"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "61"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1970s-household-income"
+fingerprint = "44392e43bee6a8fb5e2e6d9d81d36332c3ca81fee3b1817f8a4eaa382c4f34e3"
+sample_sha256 = "d1c870524ba5339120b5f94e732b3a9347b7e01cb79e9449e7825c0cd84cc323"
+file = "30-uk-income/etb-hhldtype.xlsx"
+extracted = "4116"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1970s-telephone"
+fingerprint = "276e86cc84cfd0b3bbec093bd3f70fd74103aa5f35416b920e826538bda280be"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "42"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1970s-tenure"
+fingerprint = "c313d5992ec4c2518d75e3916d02081071510b9ce68b58dd6b2be224a2a53c27"
+sample_sha256 = "0b77ee0c2348fd9285f1ffe397953dd4771b73c91404accf726be7a6e5a5af2d"
+file = "32-uk-housing/ons-century-homeownership.csv"
+extracted = "51"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1970s-weekly-earnings"
+fingerprint = "872bc333c0eff5114a54a8c89b4a9e7c56e8684881f0d33360a57ef06a6be2de"
+sample_sha256 = "090c182fed3520f17e3b7be64541e2f377cd7a70e618cff53a77dc8176f27e2e"
+file = "30-uk-income/ons-earnings-1938-2025.xlsx"
+extracted = "30"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1980s-car"
+fingerprint = "a82b8f9a6eed9a67968da4c22c046362c23e374364670309d33da076db3233fc"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "59"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1980s-colour-tv"
+fingerprint = "ae39638edabecffde2838ed749177af337e41238e9b53ea43245721fc12fc195"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "74"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1980s-eggs-at-home"
+fingerprint = "2827796caa9b1a954fcefae70df34be90c2421139eefc3ffa20b5904fa6688d2"
+sample_sha256 = "0326b0fb97e9112be2bdd1a002615c92c994d5cddf176438a6dd38d05ef3d091"
+file = "59-workbook-review/nfs-1984-observations.json"
+extracted = "3.21"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1980s-full-price-whole-milk"
+fingerprint = "c0b1e5e09a39af78ccd100dee5c4c148b1f4b5fb3348bb0918e6a9657d0178ff"
+sample_sha256 = "0326b0fb97e9112be2bdd1a002615c92c994d5cddf176438a6dd38d05ef3d091"
+file = "59-workbook-review/nfs-1984-observations.json"
+extracted = "3.53"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1980s-household-income"
+fingerprint = "600a8cb68a4425ffae14ad62f501e7c5597dc096f861bcff978d693694a851d6"
+sample_sha256 = "d1c870524ba5339120b5f94e732b3a9347b7e01cb79e9449e7825c0cd84cc323"
+file = "30-uk-income/etb-hhldtype.xlsx"
+extracted = "6888"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1980s-telephone"
+fingerprint = "3b43d91e0acea0e4c1f90234f5b68a8d81394e9978fe9c77373230feba2853f1"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "75"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1980s-tenure"
+fingerprint = "14d19e9bd080db7c31ae5b0e06aa8ba1ec77aadb06f81ed4fd3befab82bf12c7"
+sample_sha256 = "0b77ee0c2348fd9285f1ffe397953dd4771b73c91404accf726be7a6e5a5af2d"
+file = "32-uk-housing/ons-century-homeownership.csv"
+extracted = "58"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1980s-weekly-earnings"
+fingerprint = "4abc3c3d51fb6fd18d48b46444c5254b442164877fc2b4b2d283fc8309f13c5b"
+sample_sha256 = "090c182fed3520f17e3b7be64541e2f377cd7a70e618cff53a77dc8176f27e2e"
+file = "30-uk-income/ons-earnings-1938-2025.xlsx"
+extracted = "124.5"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1990s-car"
+fingerprint = "e88703620a75f4c97bcd2c7292456d6f0d5d6e2aa7279517f4d79e0a27aabec5"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "67"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1990s-colour-tv"
+fingerprint = "e8e995631eabf4ccf073c01658df3f20ba8feb9aa224c062198aa408c6b946d2"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "93"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1990s-computer"
+fingerprint = "247da4b470068c3793a4f71dcd7e99bf3f3201b27446b8cfb3d3e4bb910292a7"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "21"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1990s-hourly-pay"
+fingerprint = "56b1e9c63a4dd9334b8b0332418c79dc52affb918838f6fc150a8aa03cc3ce44"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "7.07"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1990s-house-price"
+fingerprint = "b26ddccd98cb445a1e8c8d8ebbe7d394266223715be56b432980de58d1e31dc9"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "76103"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1990s-household-income"
+fingerprint = "6bc6755cd9be01ba4db75f6d5fb0514af895d7e49901ab8792a1cb29afad0446"
+sample_sha256 = "d1c870524ba5339120b5f94e732b3a9347b7e01cb79e9449e7825c0cd84cc323"
+file = "30-uk-income/etb-hhldtype.xlsx"
+extracted = "24934"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1990s-paid-hours"
+fingerprint = "c9438f1a5c24bdca878e157202df8b1720bcc099964928feda8c6f80362595bc"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "37"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1990s-telephone"
+fingerprint = "f744856a8f1531216287f99e841e15d8490712e33697a5dcc98034c379b0b759"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "88"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1990s-tenure"
+fingerprint = "a93115e6dd472c910d49af29d726dbf354f9e9c0d2d0c053cb02bab0afcc91b7"
+sample_sha256 = "0b77ee0c2348fd9285f1ffe397953dd4771b73c91404accf726be7a6e5a5af2d"
+file = "32-uk-housing/ons-century-homeownership.csv"
+extracted = "68"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-1990s-weekly-earnings"
+fingerprint = "d52e6fc03c88d707e713f236af83f2caf6fe5da3407c4f6b2f99759d94732448"
+sample_sha256 = "090c182fed3520f17e3b7be64541e2f377cd7a70e618cff53a77dc8176f27e2e"
+file = "30-uk-income/ons-earnings-1938-2025.xlsx"
+extracted = "295.6"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2000s-car"
+fingerprint = "f625f23e6b9d8cb0dd5b5b839ded0c7fdba45b3ad277573a417a5b7929bad1d5"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "73"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2000s-colour-tv"
+fingerprint = "66f820df45bffad389ab0d54b2a4ae75491a10e7685e319ab0b4f3bc7036e04d"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "99"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2000s-computer"
+fingerprint = "f3120448745d6305f73077daf5ad29019b766f2bf5bd11b5df4cfd0cf50cd6db"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "54"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2000s-hourly-pay"
+fingerprint = "eb47f269748370f5d1f3b55d9649e51fb3b2a593ea23fa4372ae709d85b016e3"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "7.93"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2000s-house-price"
+fingerprint = "4870513bbc722471071414a27ab8f91535936e6783cbbc74a54e1682668292b4"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "101550"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2000s-household-income"
+fingerprint = "542e400db3a1dfabac29b9505e37efdc9220df5176e79203a8909e0588fc0521"
+sample_sha256 = "d1c870524ba5339120b5f94e732b3a9347b7e01cb79e9449e7825c0cd84cc323"
+file = "30-uk-income/etb-hhldtype.xlsx"
+extracted = "30181"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2000s-paid-hours"
+fingerprint = "91b47e253cc745f547f18bb8abdcb7bc734aaaa8c5b6823e8941f0d36ec74ea2"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "37"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2000s-telephone"
+fingerprint = "9ce779e17cd0f315cff857156d233212f239ef88e5a3bd97aa653709ae7df0a9"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "99"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2000s-tenure"
+fingerprint = "2f1af598367f2afc8ccde887c08497126cf0f6eac864906eb623da0d7ec1b2fd"
+sample_sha256 = "0b77ee0c2348fd9285f1ffe397953dd4771b73c91404accf726be7a6e5a5af2d"
+file = "32-uk-housing/ons-century-homeownership.csv"
+extracted = "69"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2000s-weekly-earnings"
+fingerprint = "3ff61a8526f70649f87406c221520ae3ac6efd2fa34e8eb02d413f0951ce2f14"
+sample_sha256 = "090c182fed3520f17e3b7be64541e2f377cd7a70e618cff53a77dc8176f27e2e"
+file = "30-uk-income/ons-earnings-1938-2025.xlsx"
+extracted = "473.6"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2010s-car"
+fingerprint = "6acd690b2c8440f9352ef3be83582997bb186f26b2f80ce8a410a6764eabc0e4"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "76"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2010s-colour-tv"
+fingerprint = "869ada96996f2ee1a44cdb195ddf254c000a40156b2b54ec0fa2e2c67c425de4"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "99"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2010s-computer"
+fingerprint = "95d92f1b66673100e43378fe7020bd3feb7fe604331217b5e1cd198c504fe4a9"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "80"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2010s-dwelling-central-heating"
+fingerprint = "3082514125586bb2c4ff198ad7b3bba6eba31c620f46318e20ab5c95ddb68e0f"
+sample_sha256 = "cf9a366372bc8c154b66ea6675adf828549ffadbaa47c5538d2030de5fdd1ffe"
+file = "58-uk-housing-review/ehs-homes-2011-observations.txt"
+extracted = "90"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2010s-hourly-pay"
+fingerprint = "65a8d2035e00ce96965252b79ebc54881d70c436b4194e5a6f2380d17f82f4ce"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "11.14"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2010s-house-price"
+fingerprint = "d5fe56bdf16f38f5e1cc44dd6e57f99186b5d3311f934b6ae4e1da6521d4938b"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "251174"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2010s-household-income"
+fingerprint = "0a59f4dfebbabec7862a5572c48127042ef48d21651e81c187131b038ef5eb84"
+sample_sha256 = "d1c870524ba5339120b5f94e732b3a9347b7e01cb79e9449e7825c0cd84cc323"
+file = "30-uk-income/etb-hhldtype.xlsx"
+extracted = "46129"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2010s-mean-dwelling-floor-area"
+fingerprint = "9bfcd81e4db42587faf97619387b62c0f5dc9e9c46995d5c506ddb02e4e26633"
+sample_sha256 = "cf9a366372bc8c154b66ea6675adf828549ffadbaa47c5538d2030de5fdd1ffe"
+file = "58-uk-housing-review/ehs-homes-2011-observations.txt"
+extracted = "91"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2010s-paid-hours"
+fingerprint = "7c7103f704dc09a37ce0495edfe3ebccc227bd6ec3d9b66147c24affbd2f94bd"
+sample_sha256 = "44ae5d1f7bc9a25e717c26f2dbe5a6861760d92dde35245955d17b5264309b05"
+file = "59-workbook-review/observations.json"
+extracted = "37"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2010s-telephone"
+fingerprint = "09e17bed4c0f799b0ca2c74356944ed2505529f253479e4318bdf41391bf3816"
+sample_sha256 = "4582cf46618e0ad82a19b15509f9e45511533bd6ab3122a6a58e9038f520bc7e"
+file = "33-uk-diffusion/ghs-data-chart3.csv"
+extracted = "100"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2010s-tenure"
+fingerprint = "a52a36b085622696f781c398efb580ed0787d6871edf62186f54ac55260c6636"
+sample_sha256 = "0b77ee0c2348fd9285f1ffe397953dd4771b73c91404accf726be7a6e5a5af2d"
+file = "32-uk-housing/ons-century-homeownership.csv"
+extracted = "64"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "uk-2010s-weekly-earnings"
+fingerprint = "15ec1d7fbb0556247006b975fa78f303ad5c0a482e9257306c3a7d2721c0c619"
+sample_sha256 = "090c182fed3520f17e3b7be64541e2f377cd7a70e618cff53a77dc8176f27e2e"
+file = "30-uk-income/ons-earnings-1938-2025.xlsx"
+extracted = "657"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]
@@ -165,11 +786,29 @@ operands = []
 
 [[entry]]
 fact_id = "us-1940s-average-family-size"
-fingerprint = "7c11db7158e5244a33f656f11ba70553cce66337ac7cb281e26b1e8bf4a80bd4"
+fingerprint = "0b19b688cc010d99908ad7d75a71eb5be462f64cacbef8b24e1dfef3aec56590"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3.64"
-audited = "2026-10-09"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "us-1940s-cancer-mortality"
+fingerprint = "2ac0759a047e5b30a1f8d326768a97d6afb0bf033e94905cc72f1141dc26b10e"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "187.8"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "us-1940s-heart-disease-mortality"
+fingerprint = "949c8fc619e4a97894c6c22c67901edd61a6b6b03617c71de21d860d3b1116f9"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "558.5"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]
@@ -236,12 +875,30 @@ audited = "2026-10-09"
 operands = []
 
 [[entry]]
+fact_id = "us-1950s-cancer-mortality"
+fingerprint = "1ac8323a751822cf4de9b94f9652ee132c0207bda55d6ff9e3d002430e8bf0f6"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "193.9"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
 fact_id = "us-1950s-daily-newspaper-circulation"
 fingerprint = "e0332c78e5ce0dfa34d13de3614f4bed28b07696c76c6b490baca8930ac4d4fb"
 sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "53.8"
 audited = "2026-10-09"
+operands = []
+
+[[entry]]
+fact_id = "us-1950s-heart-disease-mortality"
+fingerprint = "dd9101af6454f85475d0aa4b42ca2c557ca36dbba83898d74f2917dc2c03f12c"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "588.8"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]
@@ -299,6 +956,15 @@ audited = "2026-10-09"
 operands = []
 
 [[entry]]
+fact_id = "us-1950s-stroke-mortality"
+fingerprint = "846466f00a8c2ee44c05a16fe0ed9a45d7803ea9851c7eb20174df87fd234830"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "180.7"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
 fact_id = "us-1950s-weekly-hours-manufacturing"
 fingerprint = "e70794af28dad8a6e14f6018145c99954c45338395540c662fa15170cdf922e4"
 sample_sha256 = "e595ee79c19301fbb484096efa8e72514e028759f2e05fa6756fc816b14aa24c"
@@ -323,6 +989,15 @@ sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "58.9"
 audited = "2026-10-09"
+operands = []
+
+[[entry]]
+fact_id = "us-1960s-heart-disease-mortality"
+fingerprint = "912f63e044a9d8a64cc9e36762bea57406096498095ff20c778dd25dd10a3a54"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "559.0"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]
@@ -380,12 +1055,30 @@ audited = "2026-10-09"
 operands = []
 
 [[entry]]
+fact_id = "us-1970s-cancer-mortality"
+fingerprint = "3befc7fb18337435cce876cd130b6965b10edb347aa58c2276d27fc2089621be"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "198.6"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
 fact_id = "us-1970s-daily-newspaper-circulation"
 fingerprint = "01df4aaf175ad947d913836200639f93362abd89fec86a521a9f7bd2d7a74e95"
 sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c1"
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "62.1"
 audited = "2026-10-09"
+operands = []
+
+[[entry]]
+fact_id = "us-1970s-heart-disease-mortality"
+fingerprint = "506ebcbe5ed185d41fc5583af014bc4bdd763a73dedb44c0f95ddfa99e47c7ff"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "492.7"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]
@@ -434,6 +1127,15 @@ audited = "2026-10-09"
 operands = []
 
 [[entry]]
+fact_id = "us-1970s-stroke-mortality"
+fingerprint = "3577f80e1684803d032f50bf76ff0fc26064ba64c0a862c51f8e60d696e8c0d5"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "147.7"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
 fact_id = "us-1980s-average-family-size"
 fingerprint = "ccb1efa035c96d30f3b4d96be5d46c68cad6e3461a6bf444a7863b2a2674da83"
 sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
@@ -462,38 +1164,38 @@ operands = ["1871", "31408"]
 
 [[entry]]
 fact_id = "us-1980s-cex-expenditure-income-ratio"
-fingerprint = "1d57afcefbc3c8895b010a6502f220781aacfee2178b90d97cc6a853be8ad030"
+fingerprint = "d4b1ff74e4b3c3a13b19342ea122bfb7594b3734a53a3d3ac02675f31b1d0e90"
 sample_sha256 = "f8a24f81c612bf62eb449a279887328d3ab0b8d4cffbfeefe1f5b42c0efef9e9"
 file = "02-cex/cusize-1985.txt"
 extracted = "93.5"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["23490", "25127"]
 
 [[entry]]
 fact_id = "us-1980s-cex-food-share"
-fingerprint = "97988bf77b986665fb8d88e7c5fffd2a28218d538c0ec457c393e7d1b3525da3"
+fingerprint = "b2184773787de82b1dd20447a58f07889a1de85e5d35346771363a5c84e339e1"
 sample_sha256 = "f8a24f81c612bf62eb449a279887328d3ab0b8d4cffbfeefe1f5b42c0efef9e9"
 file = "02-cex/cusize-1985.txt"
 extracted = "14.8"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["3477", "23490"]
 
 [[entry]]
 fact_id = "us-1980s-cex-healthcare-share"
-fingerprint = "9429e4e224ddf5302bda0332c34cda5679086aa566a3f0e2553cd17396a4869f"
+fingerprint = "66d1ab6df68f728f96250f03da0ec4caed220e1900d34db24f439ea13a43678a"
 sample_sha256 = "f8a24f81c612bf62eb449a279887328d3ab0b8d4cffbfeefe1f5b42c0efef9e9"
 file = "02-cex/cusize-1985.txt"
 extracted = "4.7"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["1108", "23490"]
 
 [[entry]]
 fact_id = "us-1980s-cex-total-expenditures"
-fingerprint = "a031c7ef9be44912f44e9c02bc094b40fd6d481d5d941b4569848dd7845cb235"
+fingerprint = "ad0f3bc4a9af6ed620f10fa673a3d98ff5ac87d25d9553e20bf417d6a2064505"
 sample_sha256 = "f8a24f81c612bf62eb449a279887328d3ab0b8d4cffbfeefe1f5b42c0efef9e9"
 file = "02-cex/cusize-1985.txt"
 extracted = "23490"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]
@@ -503,6 +1205,33 @@ sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "62.2"
 audited = "2026-10-09"
+operands = []
+
+[[entry]]
+fact_id = "us-1980s-expenditure-shares"
+fingerprint = "c45442907b8cbcf546f4505ce801c1ec562cfed3a330b2ddca6455ccf5077cf7"
+sample_sha256 = "c06e50c9e2dd1b04c382dad3d2bdbc7b0562ecdc9ad15199f925395e7f130b52"
+file = "59-workbook-review/cex-food-observations.json"
+extracted = "29.5"
+audited = "2026-10-28"
+operands = ["9265", "31408"]
+
+[[entry]]
+fact_id = "us-1980s-food-basket"
+fingerprint = "1b847df7815634589aa26c6bbd627d3ab6625d54db1c7f8f0d48806beb190434"
+sample_sha256 = "c06e50c9e2dd1b04c382dad3d2bdbc7b0562ecdc9ad15199f925395e7f130b52"
+file = "59-workbook-review/cex-food-observations.json"
+extracted = "15.0"
+audited = "2026-10-28"
+operands = ["4706", "31408"]
+
+[[entry]]
+fact_id = "us-1980s-heart-disease-mortality"
+fingerprint = "e44ac616ff08f174abf8dd2d67979892a9e28b9452f39219c241b628a3e1f42a"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "412.1"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]
@@ -605,6 +1334,15 @@ audited = "2026-10-09"
 operands = []
 
 [[entry]]
+fact_id = "us-1990s-cancer-mortality"
+fingerprint = "f20d893dd37a88b082bbf83824996811e010b3bfb5437178a46494b1a3a724a7"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "216.0"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
 fact_id = "us-1990s-cex-apparel-share"
 fingerprint = "a24e17bbafb9067d35ebc49b2089f08f51b84ac9cc18b5d826ffed36f34b1da5"
 sample_sha256 = "b96c928e38e99eeca848b2dbee9d8429f041a0e29507de4f6502cd48045493c2"
@@ -615,29 +1353,29 @@ operands = ["2492", "43670"]
 
 [[entry]]
 fact_id = "us-1990s-cex-expenditure-income-ratio"
-fingerprint = "df0cfcf17c6045f55d15f7abfc2ab904cde02b4ffb65be5c93f2bd87829ee9cc"
+fingerprint = "8ab932acafba4369af83544667afb9ca09e3fed3582db0e06e5e2f7fc3a35290"
 sample_sha256 = "b96c928e38e99eeca848b2dbee9d8429f041a0e29507de4f6502cd48045493c2"
 file = "02-cex/cusize-1996.txt"
 extracted = "88.9"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["33797", "38014"]
 
 [[entry]]
 fact_id = "us-1990s-cex-healthcare-share"
-fingerprint = "ff162132ec8d7abe5d4c6cd376ad5ccec42bdbfc6e9d72610da6b0265500e005"
+fingerprint = "c5f98e0ae6e3161f8f4be6503cda3a494ca37db7e0c159e0f533a7b263fd4d0c"
 sample_sha256 = "b96c928e38e99eeca848b2dbee9d8429f041a0e29507de4f6502cd48045493c2"
 file = "02-cex/cusize-1996.txt"
 extracted = "5.2"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["1770", "33797"]
 
 [[entry]]
 fact_id = "us-1990s-cex-total-expenditures"
-fingerprint = "8740c955e6d707bd10b78bd38fba4c20facac6c81af3344d2bfd9c0718389583"
+fingerprint = "8d778e4db10b4f477403f9694067a603388211e349cd2a8960a5f8488c8af1d5"
 sample_sha256 = "b96c928e38e99eeca848b2dbee9d8429f041a0e29507de4f6502cd48045493c2"
 file = "02-cex/cusize-1996.txt"
 extracted = "33797"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]
@@ -647,6 +1385,33 @@ sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "62.3"
 audited = "2026-10-09"
+operands = []
+
+[[entry]]
+fact_id = "us-1990s-expenditure-shares"
+fingerprint = "c900a49b379a8d61333495c2655e09529d266180f257ad4a1a4aa0aabaab60f5"
+sample_sha256 = "c06e50c9e2dd1b04c382dad3d2bdbc7b0562ecdc9ad15199f925395e7f130b52"
+file = "59-workbook-review/cex-food-observations.json"
+extracted = "31.3"
+audited = "2026-10-28"
+operands = ["13674", "43670"]
+
+[[entry]]
+fact_id = "us-1990s-food-basket"
+fingerprint = "6f60c6016abadaf443c130d507bcf7afdcbf8aae843e223d8f76a5642cb9cf70"
+sample_sha256 = "c06e50c9e2dd1b04c382dad3d2bdbc7b0562ecdc9ad15199f925395e7f130b52"
+file = "59-workbook-review/cex-food-observations.json"
+extracted = "15.0"
+audited = "2026-10-28"
+operands = ["6535", "43670"]
+
+[[entry]]
+fact_id = "us-1990s-heart-disease-mortality"
+fingerprint = "902ac018d447a9bca3bb379ecb1464f1455c52d1118f687110d6a2c5118f21e7"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "321.8"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]
@@ -768,47 +1533,47 @@ operands = []
 
 [[entry]]
 fact_id = "us-2000s-cex-apparel-share"
-fingerprint = "29de44629d0f7af6579262d489865d880d3e00ddf3be2e52c7be4b7dbf7987cd"
+fingerprint = "09337f1e0fd98e7283e5e45642571b9e9572a0ee6e28fda16d0a06ee8be636df"
 sample_sha256 = "eb49e4dab599cb00a371c12cfa7cf9d106128ea9fda99f3a701ce978313aee82"
 file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx"
 extracted = "4.9"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["1856", "38045"]
 
 [[entry]]
 fact_id = "us-2000s-cex-expenditure-income-ratio"
-fingerprint = "2e1ff357147becc7db61efa9d58c87363aa079aa0fe3a182e9a06069dbad6aed"
+fingerprint = "9f571504f8bd7c85bdac7fa9e1d8e0039c624b14efc0d38153a8eedef1761f58"
 sample_sha256 = "eb49e4dab599cb00a371c12cfa7cf9d106128ea9fda99f3a701ce978313aee82"
 file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx"
 extracted = "85.2"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["38045", "44649"]
 
 [[entry]]
 fact_id = "us-2000s-cex-food-share"
-fingerprint = "a511d8efe42412121ebf2a236fd5477799f46d4cebf42b5645d0dd5b32ba7dbf"
+fingerprint = "a3d1b2a1610bd1900aa87ca1cb88a5b3682ce614f2d7a918dc678f496123b925"
 sample_sha256 = "eb49e4dab599cb00a371c12cfa7cf9d106128ea9fda99f3a701ce978313aee82"
 file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx"
 extracted = "13.6"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["5158", "38045"]
 
 [[entry]]
 fact_id = "us-2000s-cex-healthcare-share"
-fingerprint = "d75c88c0ac7f021e328bab8e9dabd7ffa8247b74d29c81927937ae4397f62238"
+fingerprint = "22aec978b0ef5209d83cfa06951057190be4b4ffe0357b3d517283ee66e56ef1"
 sample_sha256 = "eb49e4dab599cb00a371c12cfa7cf9d106128ea9fda99f3a701ce978313aee82"
 file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx"
 extracted = "5.4"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["2066", "38045"]
 
 [[entry]]
 fact_id = "us-2000s-cex-total-expenditures"
-fingerprint = "61d195cabe2ef712353de824bb4adeff7421b3dea0c190199ab60c3626ce4033"
+fingerprint = "7d2225cf0777fd579b59562e740f706a81236af5e127199998e16e11ab55378f"
 sample_sha256 = "eb49e4dab599cb00a371c12cfa7cf9d106128ea9fda99f3a701ce978313aee82"
 file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx"
 extracted = "38045"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]
@@ -818,6 +1583,33 @@ sample_sha256 = "09c2434114ddda00d6f1792c763cf254b529c9f04dce34743205222356c741c
 file = "52-newspapers/daily-newspaper-circulation-dump.txt"
 extracted = "55.8"
 audited = "2026-10-09"
+operands = []
+
+[[entry]]
+fact_id = "us-2000s-expenditure-shares"
+fingerprint = "d256a8bb222a08af5371d6a4e3d2f22340ce4ef4afa9605dce77e6029c862379"
+sample_sha256 = "c06e50c9e2dd1b04c382dad3d2bdbc7b0562ecdc9ad15199f925395e7f130b52"
+file = "59-workbook-review/cex-food-observations.json"
+extracted = "32.3"
+audited = "2026-10-28"
+operands = ["20076", "62215"]
+
+[[entry]]
+fact_id = "us-2000s-food-basket"
+fingerprint = "fb9428dca6eef6038bcf515a974b666d038b276c871cdb59e4583e00abab6b53"
+sample_sha256 = "c06e50c9e2dd1b04c382dad3d2bdbc7b0562ecdc9ad15199f925395e7f130b52"
+file = "59-workbook-review/cex-food-observations.json"
+extracted = "13.9"
+audited = "2026-10-28"
+operands = ["8622", "62215"]
+
+[[entry]]
+fact_id = "us-2000s-heart-disease-mortality"
+fingerprint = "8196850d21983cd0b88e435e9d10017103b82f341f42ecd9d10737a22d3d609e"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "257.6"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]
@@ -938,30 +1730,39 @@ audited = "2026-10-09"
 operands = []
 
 [[entry]]
+fact_id = "us-2010s-cancer-mortality"
+fingerprint = "5c5c9efdabbd56ba1f947d2ee568e305fe550438b44d9ef92002ba6071cb372f"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "172.8"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
 fact_id = "us-2010s-cex-apparel-share"
-fingerprint = "4c146929dbc325d060ec48a4e7b4a38107589cf852896afee21b1134216f3fae"
+fingerprint = "04859efa15556b21463c385fd2e8d4c0c1d15d2073f40c4db6e5fb4517f25671"
 sample_sha256 = "802fd4ecaf9641bf6560f6719888cf7b4bf94da34093fa85b097f1c549e01e28"
 file = "19-cpi-tables/cu-all-multi-year-2006-2012.xlsx"
 extracted = "3.4"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["1736", "51442"]
 
 [[entry]]
 fact_id = "us-2010s-cex-expenditure-income-ratio"
-fingerprint = "4a14ab2142737913ecafbf74bdf30d6b5aa0915d55b2e3f5193c5d172b0ca1b1"
+fingerprint = "2a7d9a38124efe9863605d9c0ef5379b5c7bd11fadfa4d4067c325474971837a"
 sample_sha256 = "802fd4ecaf9641bf6560f6719888cf7b4bf94da34093fa85b097f1c549e01e28"
 file = "19-cpi-tables/cu-all-multi-year-2006-2012.xlsx"
 extracted = "78.4"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["51442", "65596"]
 
 [[entry]]
 fact_id = "us-2010s-cex-healthcare-share"
-fingerprint = "50bd5867739dec6414a93a2ba60b42948e399fbadbf6da9c6ed3190755650add"
+fingerprint = "c2fc205c0dbe818219c8fb88531d7d4a92c6d8adfb9534b39d27888ef8a5c251"
 sample_sha256 = "802fd4ecaf9641bf6560f6719888cf7b4bf94da34093fa85b097f1c549e01e28"
 file = "19-cpi-tables/cu-all-multi-year-2006-2012.xlsx"
 extracted = "6.9"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["3556", "51442"]
 
 [[entry]]
@@ -975,11 +1776,38 @@ operands = ["22154", "9988"]
 
 [[entry]]
 fact_id = "us-2010s-cex-total-expenditures"
-fingerprint = "95b9fd3432f6216c328ff735e814d3aefdcd81d9f6f49c8938ee7750659d4d4e"
+fingerprint = "e02ac299d28b47776b76ec649b284a1c9970029a828c74460b3730bd2c9f577f"
 sample_sha256 = "802fd4ecaf9641bf6560f6719888cf7b4bf94da34093fa85b097f1c549e01e28"
 file = "19-cpi-tables/cu-all-multi-year-2006-2012.xlsx"
 extracted = "51442"
-audited = "2026-10-09"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "us-2010s-expenditure-shares"
+fingerprint = "0b2a78c891838f7d30684c90ce39f995044ebd93c49e117ed06f51ce2668225d"
+sample_sha256 = "1636828737a1a8df29ac173dbffd8a072267e7f958f34d0eef4a9c851d8e0353"
+file = "19-cpi-tables/cu-size-2013.xlsx"
+extracted = "33.0"
+audited = "2026-10-28"
+operands = []
+
+[[entry]]
+fact_id = "us-2010s-food-basket"
+fingerprint = "8b11c4ae621376274c4839af08e7e2f17500cb2790a47473652fe68fcb11af59"
+sample_sha256 = "1636828737a1a8df29ac173dbffd8a072267e7f958f34d0eef4a9c851d8e0353"
+file = "19-cpi-tables/cu-size-2013.xlsx"
+extracted = "14.0"
+audited = "2026-10-28"
+operands = ["9588.0", "68299.0"]
+
+[[entry]]
+fact_id = "us-2010s-heart-disease-mortality"
+fingerprint = "c8b32cc134cfb71b90d147136c36b99952030db17a82c95292abc41b6c665b3e"
+sample_sha256 = "867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160"
+file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv"
+extracted = "179.1"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]
@@ -1074,38 +1902,38 @@ operands = []
 
 [[entry]]
 fact_id = "us-2020s-cex-apparel-share"
-fingerprint = "fcc20fc52f04a34ee8f9e2822e35d2177f3af1b2c9cb875f2dcafe571874694a"
+fingerprint = "c94aeb65c258446e87494c8eacf73d034af3e643fa6facebbe05a6183c9e9657"
 sample_sha256 = "862b6ecbda1d747ee74826e714a27a83e5339f81211ccaa91a16dd0cbf5053cf"
 file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx"
 extracted = "2.5"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["2001.0", "78535.0"]
 
 [[entry]]
 fact_id = "us-2020s-cex-expenditure-income-ratio"
-fingerprint = "7a724ff47986474b6cad83cf2e61c3e3cd5dce7702321f54b5c5de08b02080be"
+fingerprint = "fe60c99f4593701ed5b2090853de182c950dc778c678ae8490466b680d80a8e0"
 sample_sha256 = "862b6ecbda1d747ee74826e714a27a83e5339f81211ccaa91a16dd0cbf5053cf"
 file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx"
 extracted = "75.4"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["78535.0", "104207.0"]
 
 [[entry]]
 fact_id = "us-2020s-cex-healthcare-share"
-fingerprint = "3a4f6aae98bfead59e494cfdb1486b7518a7dd84889546587ad5ebe70c0ed59b"
+fingerprint = "888193d29d55c89c343d3e9e61d856ade039d63eec9048d1081588e2bdac4bfa"
 sample_sha256 = "862b6ecbda1d747ee74826e714a27a83e5339f81211ccaa91a16dd0cbf5053cf"
 file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx"
 extracted = "7.9"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = ["6197.0", "78535.0"]
 
 [[entry]]
 fact_id = "us-2020s-cex-total-expenditures"
-fingerprint = "ef3c0387f6284de63e049fe65f11a14e515e80f4b3e6b757ea117bea547c80d8"
+fingerprint = "f2c82e664fbda4b9be1e71f8f2b960089a8c671f8cc45f24ec48bc5a764531ca"
 sample_sha256 = "862b6ecbda1d747ee74826e714a27a83e5339f81211ccaa91a16dd0cbf5053cf"
 file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx"
 extracted = "78535.0"
-audited = "2026-10-09"
+audited = "2026-10-28"
 operands = []
 
 [[entry]]

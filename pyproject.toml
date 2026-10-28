@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "vitrine"
 version = "0.1.0"
-description = "A decade-by-decade museum of the median family's lifestyle — every fact behind glass with its source card"
+description = "A source-cited museum of material life across time"
 requires-python = ">=3.13"
 dependencies = []
 
@@ -41,7 +41,7 @@ line-length = 100
 target-version = "py313"
 # exclude setuptools' ephemeral build dir (created on first `pip install -e`,
 # mirrors src/ and would surface duplicate E501s that aren't real findings)
-exclude = ["build"]
+extend-exclude = ["build"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]

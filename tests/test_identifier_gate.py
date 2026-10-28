@@ -341,15 +341,26 @@ def test_symlink_target_string_is_scanned_without_following_the_link(
     string itself can carry the identifier, so it is scanned in place.
     """
     link = tmp_path / "link"
-    link.symlink_to("/srv/widgetcorp/data")
+    try:
+        link.symlink_to("/srv/widgetcorp/data")
+    except OSError as exc:
+        if os.name == "nt" and getattr(exc, "winerror", None) == 1314:
+            pytest.skip("creating a symlink requires Windows Developer Mode or privilege")
+        raise
     (violation,) = gate.scan_files(frozenset({"widgetcorp"}), [link])
     assert violation.path == link
-    assert violation.line == "/srv/widgetcorp/data"
+    assert violation.line == os.readlink(link)
+    assert "widgetcorp" in violation.line
 
 
 def test_broken_symlink_does_not_count_as_unreadable(tmp_path: Path) -> None:
     link = tmp_path / "dangling"
-    link.symlink_to(tmp_path / "does-not-exist")
+    try:
+        link.symlink_to(tmp_path / "does-not-exist")
+    except OSError as exc:
+        if os.name == "nt" and getattr(exc, "winerror", None) == 1314:
+            pytest.skip("creating a symlink requires Windows Developer Mode or privilege")
+        raise
     unreadable: list[Path] = []
     assert gate.scan_files(frozenset({"widgetcorp"}), [link], unreadable=unreadable) == []
     assert unreadable == []

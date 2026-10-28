@@ -67,15 +67,16 @@ notes = "From Census F-8. Down from 3.27 in 1980. By 2000: 3.14."
 
 [[fact]]
 id = "us-1990s-expenditure-shares"
+audit = { file = "59-workbook-review/cex-food-observations.json", extractor = "json-pointer", locator = "/1996/values/housing", target = "quantity", guards = [{ locator = "/1996/year", value = "1996" }, { locator = "/1996/source_sha256", value = "f85753e37acc96a31070183e18db7993c52613149df550c3469d9e3f9ba5eca5" }, { locator = "/1996/file", value = "02-cex/cusize-1996.pdf" }, { locator = "/1996/population", value = "Four-person consumer units" }, { locator = "/1996/statistic", value = "Annual expenditure means" }, { locator = "/1996/source_header", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996\nItem\nAll\nconsumer\nunits\nOne\nperson\nTwo or\nmore\npersons\nTwo\npersons\nThree\npersons\nFour\npersons\nFive or\nmore\npersons" }, { locator = "/1996/budget_placard", value = "Housing 31.3%, transportation 18.7%, food 15.0%, insurance/pensions 10.1%, entertainment 6.0%, healthcare 4.3%, apparel 5.7%, cash contributions 2.1%, education 1.8%" }], calculation = { op = "pct_of", operands = ["/1996/values/total"], precision = 1, rounding = "half_up", method = "Housing mean divided by total annual expenditure mean for four-person consumer units; times one hundred, rounded once half up to one decimal place. Companion category shares are reproduced by the same source extractor and full-value guard." } }
 quantity = 31.3
 panel = "budget"
-label = "Expenditure breakdown, 4-person families, 1996"
+label = "Expenditure breakdown, four-person consumer units, 1996"
 value = "Housing 31.3%, transportation 18.7%, food 15.0%, insurance/pensions 10.1%, entertainment 6.0%, healthcare 4.3%, apparel 5.7%, cash contributions 2.1%, education 1.8%"
 unit = "% of total annual expenditure"
-source = "bls-cex"
+source = "bls-cex-four-person-1996"
 tier = "A"
-notes = "From the 1996 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 15,261 thousand 4-person CUs. Total expenditures: $43,670. Income before taxes: $50,836. Expenditure = 86% of gross income. Housing crossed 31% for the first time. Source: BLS CEX Table 4, 1996 (cusize.pdf via Wayback Machine, web.archive.org)."
-assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
+notes = "Ratios of published annual category expenditure means to the total-expenditure mean for four-person consumer units, rounded once half up to one decimal place by scripts/cex_food_review.py. These are not published individual budget distributions or the mean of unit-level budget shares. The archived table provides expenditure means; the audit checks the housing ratio and the full reproduced category-share string."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values", "cex-ratios-of-means"]
 
 [[fact]]
 id = "us-1990s-poverty-rate"
@@ -92,7 +93,7 @@ notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty
 id = "us-1990s-cex-total-expenditures"
 audit = { file = "02-cex/cusize-1996.txt", extractor = "text-regex", locator = "^Average annual expenditures[ .]+(\\$[\\d,]+)", guards = [{ locator = "^(Table 4\\. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996)$", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996" }] }
 panel = "budget"
-label = "Average annual household expenditures, 1996"
+label = "Average annual consumer-unit expenditures, 1996"
 quantity = 33797
 value = "$33,797"
 unit = "USD per consumer unit, nominal"
@@ -118,7 +119,7 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-1990s-cex-healthcare-share"
 audit = { file = "02-cex/cusize-1996.txt", extractor = "text-regex", locator = "^ Health care[ .]+([\\d,]+)", guards = [{ locator = "^(Table 4\\. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996)$", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996" }], calculation = { op = "pct_of", operands = ["^Average annual expenditures[ .]+(\\$[\\d,]+)"], precision = 1, rounding = "half_up", method = "All consumer units, 1996: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
-label = "Healthcare share of household budget, 1996"
+label = "Healthcare share of consumer-unit expenditure, 1996"
 quantity = 5.2
 value = "5.2% of total expenditures ($1,770)"
 unit = "% of total annual expenditures; USD nominal"
@@ -460,6 +461,7 @@ notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $40,290M of $7
 
 [[fact]]
 id = "us-1990s-heart-disease-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R92:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R92:C1", value = "1990" }, { locator = "R92:C2", value = "Heart Disease" }] }
 quantity = 321.8
 panel = "table"
 label = "Heart disease age-adjusted death rate, 1990"
@@ -472,6 +474,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1990s-cancer-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R211:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R211:C1", value = "1990" }, { locator = "R211:C2", value = "Cancer" }] }
 quantity = 216.0
 panel = "table"
 label = "Cancer age-adjusted death rate, 1990"
@@ -496,15 +499,16 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1990s-food-basket"
+audit = { file = "59-workbook-review/cex-food-observations.json", extractor = "json-pointer", locator = "/1996/values/food", target = "quantity", guards = [{ locator = "/1996/year", value = "1996" }, { locator = "/1996/source_sha256", value = "f85753e37acc96a31070183e18db7993c52613149df550c3469d9e3f9ba5eca5" }, { locator = "/1996/file", value = "02-cex/cusize-1996.pdf" }, { locator = "/1996/population", value = "Four-person consumer units" }, { locator = "/1996/statistic", value = "Annual expenditure means" }, { locator = "/1996/source_header", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996\nItem\nAll\nconsumer\nunits\nOne\nperson\nTwo or\nmore\npersons\nTwo\npersons\nThree\npersons\nFour\npersons\nFive or\nmore\npersons" }, { locator = "/1996/placard", value = "Food $6,535/yr (15.0% of expenditure). Food at home $4,046. Food away from home $2,489. Key items: meats/poultry/fish/eggs $1,064, cereals/bakery $658, fruits/vegetables $638, dairy $448, beef $319. Total expenditure: $43,670." }], calculation = { op = "pct_of", operands = ["/1996/values/total"], precision = 1, rounding = "half_up", method = "Four-person consumer units: ratio of same-table published food and total annual expenditure means, times one hundred, rounded once to one decimal place; not a mean of unit-level shares." } }
 quantity = 15
 panel = "table"
-label = "Food basket and expenditure breakdown, 1996 (CEX)"
-value = "Food $6,535/yr (15.0% of expenditure). Food at home $4,046 (62% of food), food away from home $2,489 (38%). Key items: meats/poultry/fish/eggs $1,064, cereals/bakery $658, fruits/vegetables $638, dairy $448, beef $319. Total expenditure: $43,670."
-unit = "USD per family per year, nominal"
-source = "bls-cex"
+label = "Food expenditure, four-person consumer units, 1996 (CEX)"
+value = "Food $6,535/yr (15.0% of expenditure). Food at home $4,046. Food away from home $2,489. Key items: meats/poultry/fish/eggs $1,064, cereals/bakery $658, fruits/vegetables $638, dairy $448, beef $319. Total expenditure: $43,670."
+unit = "USD per four-person consumer unit per year, nominal"
+source = "bls-cex-four-person-1996"
 tier = "A"
-notes = "From the 1996 CEX, Table 4. 15,261 thousand 4-person CUs. Food at home share: 62%, food away: 38%. Source: BLS CEX Table 4, 1996 (via Wayback Machine)."
-assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
+notes = "Annual expenditure means for four-person consumer units, not a median-income Census family. The recorded category amounts are reproduced from the original 1996 size-of-consumer-unit table by scripts/cex_food_review.py. Food share is the ratio of published food and total-expenditure means, rounded once to one decimal place; it is not the mean of individual consumer units' budget shares. Published rounded component means need not add exactly to their rounded totals."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values", "cex-ratios-of-means"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
@@ -585,11 +589,11 @@ assumptions = ["composite-family"]
 id = "us-1990s-food-prices"
 panel = "table"
 label = "Retail food prices, December 1990"
-value = "Bread $0.70/lb, ground beef $2.02/lb, bacon $2.28/lb, eggs $1.00/doz, lettuce $0.58/lb"
+value = "Bread $0.70/lb, ground chuck $2.02/lb, bacon $2.28/lb, eggs $1.00/doz, lettuce $0.58/lb"
 unit = "USD, retail prices (December 1990, BLS API)"
 source = "bls-api"
 tier = "A"
-notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, per lb), APU0000704111 (bacon, per lb), APU0000708111 (eggs, per doz), APU0000712211 (lettuce, per lb). Values are December 1990 monthly averages. CORRECTION 2026-07-08: previous version had mismatched labels (same error as 2020s room). Food price inflation moderated in the 1980s after the Volcker disinflation. Bread up 35% from 1980 ($0.52→$0.70), ground beef up 9% ($1.86→$2.02)."
+notes = "December 1990 monthly U.S. city-average prices from the BLS public API, series APU0000702111 (white pan bread per pound), APU0000703111 (100% ground chuck per pound), APU0000704111 (sliced bacon per pound), APU0000708111 (large Grade A eggs per dozen), APU0000712211 (iceberg lettuce per pound). Original response bytes were newly retrieved on 2026-10-28 and saved; this vintage is not a reconstruction of the earlier download. scripts/food_price_review.py reproduces the displayed prices using decimal half-up rounding to the nearest cent. Series identities and units were independently checked against the BLS-sourced FRED series pages. These observations describe price levels for the stated month; average-price ratios are not a constant-quality inflation index. Round steak in the historical tables is a different product from ground chuck."
 
 [[fact]]
 id = "us-1990s-cigarette-consumption"

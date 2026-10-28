@@ -14,6 +14,7 @@ decade = "1950s"
 
 [[fact]]
 id = "jp-1950s-fies-workers-income"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/1955/income/value", target = "amount_minor", guards = [{ locator = "/fies/1955/income/year", value = "1955" }, { locator = "/fies/1955/income/title", value = "Annual Average of Monthly Household Receipts and Disbursements - Workers' Households of All Cities (1948\uff5e1962)" }, { locator = "/fies/1955/income/heading", value = "Income" }, { locator = "/fies/1955/income/unit", value = "(Value in yen)" }, { locator = "/fies/1955/income/file", value = "36-jp-income/fies-18-02-a.xls" }, { locator = "/fies/1955/income/sha256", value = "91ea0aec3fee6b088a7297fb378bc00222535b0d5a8957d472bb2857734fd95d" }, { locator = "/fies/1955/income/cell", value = "18-2-a!R17C6" }] }
 panel = "budget"
 label = "Workers' household monthly income, 1955"
 value = "¥29,169"
@@ -25,7 +26,7 @@ amount_minor = 29169
 currency = "JPY"
 price_year = 1955
 basis = "monthly"
-notes = "From the FIES long-run tables. 1955: workers' households (two-or-more-person), all cities. The pre-1962 FIES covered cities only — rural and agricultural households are excluded. This is a workers' household average, not a four-person family median."
+notes = "From the archived FIES long-run table, 1955, 18-2-a!R17C6. This is annual-average monthly income of workers' households, not a median or a four-person family estimate. This earlier table covers workers' households in all cities."
 assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-kakei-1962-seam"]
 
 [[fact]]

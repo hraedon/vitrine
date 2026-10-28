@@ -28,6 +28,10 @@ class Arc:
     # splice.
     plot_gaps: frozenset[str] = field(default_factory=frozenset)
 
+    def quantity_for(self, decade: str, quantity: float | None) -> float | None:
+        """A source number may remain archived while this axis refuses it."""
+        return None if decade in self.plot_gaps else quantity
+
 
 @dataclass(frozen=True, slots=True)
 class ArcGroup:

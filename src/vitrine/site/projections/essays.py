@@ -25,7 +25,8 @@ from vitrine.site.context import (
     EssayPage,
     EssaysIndexPage,
 )
-from vitrine.site.projections.arcs import arc_chart_for, arc_group_chart_for
+from vitrine.site.projections.arcs import arc_chart_for, arc_group_chart_for, arc_points
+from vitrine.site.projections.chart_tables import annual_table, metric_tables, point_table
 from vitrine.site.projections.facts import FactRef, overlay_facts
 from vitrine.site.projections.metrics import metric_markers, resolve_metric
 
@@ -128,6 +129,10 @@ def _chart_block(
             chart_label=arc.label,
             chart_unit=arc.unit,
             caveats=arc.caveats,
+            tables=(point_table(arc_points(index, arc, root), arc.unit),) + (
+                (annual_table(series[arc.series_id], root),)
+                if arc.series_id and arc.series_id in series else ()
+            ),
         )
     if group_slug:
         group = curation.ARC_GROUP_BY_SLUG[group_slug]
@@ -139,6 +144,9 @@ def _chart_block(
             chart_label=group.label,
             chart_unit=group.unit,
             caveats=group.caveats,
+            tables=tuple(point_table(
+                arc_points(index, curation.ARC_BY_SLUG[slug], root), group.unit, label,
+            ) for slug, label, _color in group.members),
         )
     metric = curation.METRIC_BY_SLUG[metric_slug]
     values, note = resolve_metric(metric, series)
@@ -165,6 +173,7 @@ def _chart_block(
         chart_unit=metric.unit,
         caveats=metric.caveats,
         note=note or metric.caption,
+        tables=metric_tables(metric, values, markers, series, root),
     )
 
 

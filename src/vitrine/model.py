@@ -44,6 +44,14 @@ class Basis(enum.Enum):
     ANNUAL = "annual"    # an annual figure ($3,319/yr)
 
 
+class SeriesKind(enum.Enum):
+    """Numeric representation of annual observations — closed set."""
+
+    QUANTITY = "quantity"  # indices, hours, shares, counts; no currency
+    MONETARY_AMOUNT = "monetary_amount"  # integer currency minor units
+    MONETARY_RATE = "monetary_rate"  # major currency units per explicit time basis
+
+
 class Measure(enum.Enum):
     """What economic quantity an affordability *anchor* measures — closed set.
 

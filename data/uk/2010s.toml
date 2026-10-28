@@ -16,6 +16,7 @@ income_anchor = "uk-2010s-household-income"
 
 [[fact]]
 id = "uk-2010s-weekly-earnings"
+audit = { file = "30-uk-income/ons-earnings-1938-2025.xlsx", extractor = "xlsx-cell", locator = "Average Gross Weekly Earnings!I97", scale = "100", target = "amount_minor", guards = [{ locator = "Average Gross Weekly Earnings!E4", value = "Mean gross weekly earnings for Adult Full-Time Employees in Great Britain whose pay for the survey period was not affected by absence" }, { locator = "Average Gross Weekly Earnings!G7", value = "Adult Male" }, { locator = "Average Gross Weekly Earnings!I9", value = "\"All\"" }, { locator = "Average Gross Weekly Earnings!I11", value = "\u00a3" }, { locator = "Average Gross Weekly Earnings!B97", value = "2010" }] }
 basis = "weekly"
 amount_minor = 65700
 currency = "GBP"
@@ -27,11 +28,12 @@ value = "£657.00"
 unit = "GBP per week, nominal (mean gross weekly earnings, male full-time)"
 source = "ons-earnings-1938-2025"
 tier = "A"
-notes = "From the ONS long-run earnings series. 2010 (April sample, ASHE): adult male full-time £657.00/week; adult female full-time £514.70/week. Great Britain. Individual earnings, not family income. The decade saw the longest real-wage squeeze since the 1860s (the post-2008 'wage stagnation'), with nominal growth barely outpacing prices."
+notes = "From the ONS long-run mean gross weekly earnings table, April 2010, adult male full-time employees, Great Britain. The table excludes employees whose pay was affected by absence. This is individual employee pay, not a household income or a real-wage comparison; the nominal series alone cannot establish an inflation-adjusted historical ranking."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "uk-2010s-household-income"
+audit = { file = "30-uk-income/etb-hhldtype.xlsx", extractor = "xlsx-cell", locator = "2010-11!I33", scale = "100", guards = [{ locator = "2010-11!A1", value = "Summary of the effects of taxes and benefits, by household type,1 2010/11" }, { locator = "2010-11!B22", value = "Non-Retired households" }, { locator = "2010-11!I24", value = "2 adults" }, { locator = "2010-11!I25", value = "with 2" }, { locator = "2010-11!I26", value = "children" }, { locator = "2010-11!A33", value = "Disposable income" }], target = "amount_minor" }
 basis = "annual"
 amount_minor = 4612900
 currency = "GBP"
@@ -48,6 +50,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "uk-2010s-hourly-pay"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/ashe/2010/hourly/value", scale = "100", target = "amount_minor", guards = [{ locator = "/ashe/2010/hourly/year", value = "2010" }, { locator = "/ashe/2010/hourly/title", value = "Table 1.5a Hourly pay - Gross (\u00a3) - For all employee jobsa: United Kingdom, 2010" }, { locator = "/ashe/2010/hourly/heading", value = "Median" }, { locator = "/ashe/2010/hourly/population", value = "All Employees" }, { locator = "/ashe/2010/hourly/sheet", value = "All" }, { locator = "/ashe/2010/hourly/archive_sha256", value = "48af5787fa49f8f00e757b6e4bac04fc95cd1d331a9f9a66250ac883bee4e497" }, { locator = "/ashe/2010/hourly/member", value = "REVISED - All Employees Total Table 1.5a   Hourly pay - Gross 2010.xls" }, { locator = "/ashe/2010/hourly/member_sha256", value = "08b422cc33efdf82d283cef161130810465ce4a143eaa99507f421b7214523c3" }, { locator = "/ashe/2010/hourly/cell", value = "All!R6C4" }] }
 basis = "hourly"
 amount_minor = 1114
 currency = "GBP"
@@ -59,13 +62,14 @@ value = "£11.14"
 unit = "GBP per hour, nominal (median gross hourly pay, all employee jobs)"
 source = "ons-ashe-table1"
 tier = "A"
-notes = "From ASHE Table 1.5a, all-employee sheet, 2010. Median £11.14 across 24,263 thousand employee jobs; the mean was £14.60, and the full-time median £12.57. The all-jobs median is the wage anchor because it describes the hour of work actually on offer; the full-time figure sits above it. April pay, employees on adult rates whose pay was not affected by absence."
+notes = "From ASHE Table 1.5a, all-employee sheet, 2010. Median £11.14 across 24,263 thousand employee jobs; the mean was £14.60, and the full-time median £12.57. The all-jobs median includes part-time and full-time employee jobs and is the wage anchor. It does not measure wage offers to people outside the sampled jobs. April pay, employees on adult rates whose pay was not affected by absence."
 assumptions = ["nominal-values", "uk-wage-anchor-all-employees", "affordability-normalization"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
 [[fact]]
 id = "uk-2010s-tenure"
+audit = { file = "32-uk-housing/ons-century-homeownership.csv", extractor = "csv-cell", locator = "R10:C2", guards = [{ locator = "R1:C1", value = "group" }, { locator = "R1:C2", value = "Owned" }, { locator = "R1:C3", value = "Private rented" }, { locator = "R1:C4", value = "Socially rented" }, { locator = "R10:C1", value = "2011" }, { locator = "R10:C3", value = "18" }, { locator = "R10:C4", value = "18" }], target = "quantity" }
 quantity = 64
 panel = "home"
 label = "Tenure of households, England and Wales, 2011"
@@ -73,23 +77,50 @@ value = "Owned 64%, private rented 18%, socially rented 18%"
 unit = "% of households"
 source = "ons-century-homeownership"
 tier = "A"
-notes = "From ONS analysis of Census of England and Wales tenure. Owner-occupation had begun its decline (64% in 2011, down from the 69% peak) as house prices outpaced wages; private renting rose sharply (18%, double its 1991 low). Households, not families."
+notes = "From ONS analysis of Census of England and Wales tenure. Owner-occupation had begun its decline (64% in 2011, down from the 69% peak); private renting rose sharply (18%, double its 1991 low). Households, not families."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-2010s-housing-amenities-gap"
 panel = "home"
-label = "Rooms, floor area, amenities (bath, WC, central heating)"
-value = "no reliable record accessible online"
+label = "Room counts and bath/WC amenities for the room's household populations"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The GHS was discontinued after 2012; its central-heating and appliance tables for the early 2010s are not in the archive. The English Housing Survey (EHS) is the successor for housing amenity data but is not transcribed here."
+notes = "This gap now concerns room counts and bath/WC amenities, which remain untranscribed for the household populations represented here. Separate English Housing Survey records below report mean floor area and central heating for all dwellings in England, including vacant dwellings. Those dwelling-stock observations neither fill the remaining household-amenity fields nor describe a median-income family."
+
+[[fact]]
+id = "uk-2010s-mean-dwelling-floor-area"
+panel = "home"
+label = "Mean usable floor area of dwellings in England, 2011"
+quantity = 91
+value = "91 m²"
+unit = "m² per dwelling (mean total usable internal floor area)"
+source = "dclg-ehs-homes-2011"
+tier = "A"
+notes = "EHS Homes 2011, printed page 10 (key findings) and paragraph 1.14 on pages 18-19. This is the report's rounded mean for all dwellings, occupied or vacant, rather than a median or a four-person household estimate. Physical-survey fieldwork ran from April 2010 to March 2012, with April 2011 as midpoint. The accompanying errata corrects the size definition: integral garages and integral balconies are included; external/internal wall footprints and staircases are excluded. Loft space counts only when habitable with a fixed stair. This measure must not be compared directly with a US new-construction median."
+assumptions = ["composite-family"]
+audit = { file = "58-uk-housing-review/ehs-homes-2011-observations.txt", extractor = "text-regex", locator = '^mean-usable-floor-area-m2 = (\d+)$', target = "quantity", guards = [{ locator = '^# report sha256: ([0-9a-f]{64})$', value = "1908c15dbb29196e53f2a5b91c9c9020f9df94a36aa7c702ae56c010f0055f5b" }, { locator = '^# errata sha256: ([0-9a-f]{64})$', value = "2418fab7b73e928ba574f70e77928c7404c4efb2de0af9a1c2040b9e3864022a" }, { locator = '^# population: (.+)$', value = "all dwellings in England, occupied or vacant" }, { locator = '^# observation: (.+)$', value = "2011; fieldwork April 2010 to March 2012" }] }
+
+[[fact]]
+id = "uk-2010s-dwelling-central-heating"
+panel = "home"
+label = "Dwellings with central heating in England, 2011"
+quantity = 90
+value = "90%"
+unit = "% of all dwellings in England with boiler-fed radiator central heating"
+source = "dclg-ehs-homes-2011"
+tier = "A"
+notes = "EHS Homes 2011, printed page 90, paragraph 4.6 and footnote 2; Figure 4.2 on page 91 identifies the base as all dwellings. The report's rounded percentage includes occupied and vacant dwellings, not households throughout the UK. Central heating here means a boiler feeding radiators: warm-air, underfloor, ceiling systems and electric storage heaters are excluded. Physical-survey fieldwork ran from April 2010 to March 2012, with April 2011 as midpoint. This definition differs from broader census or household-survey heating categories."
+assumptions = ["composite-family"]
+audit = { file = "58-uk-housing-review/ehs-homes-2011-observations.txt", extractor = "text-regex", locator = '^central-heating-percent = (\d+)$', target = "quantity", guards = [{ locator = '^# report sha256: ([0-9a-f]{64})$', value = "1908c15dbb29196e53f2a5b91c9c9020f9df94a36aa7c702ae56c010f0055f5b" }, { locator = '^# errata sha256: ([0-9a-f]{64})$', value = "2418fab7b73e928ba574f70e77928c7404c4efb2de0af9a1c2040b9e3864022a" }, { locator = '^# population: (.+)$', value = "all dwellings in England, occupied or vacant" }, { locator = '^# observation: (.+)$', value = "2011; fieldwork April 2010 to March 2012" }] }
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
 [[fact]]
 id = "uk-2010s-colour-tv"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R21:C2", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C2", value = "Colour television" }, { locator = "R21:C1", value = "2011" }], target = "quantity" }
 quantity = 99
 panel = "diffusion"
 label = "Households with a colour television, 2011"
@@ -102,6 +133,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-2010s-computer"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R21:C3", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C3", value = "Home computer" }, { locator = "R21:C1", value = "2011" }], target = "quantity" }
 quantity = 80
 panel = "diffusion"
 label = "Households with a home computer, 2011"
@@ -109,11 +141,12 @@ value = "80%"
 unit = "% of households with a home computer"
 source = "ons-ghs-40yr"
 tier = "A"
-notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Home computers reached 80% in 2011 (from 54% in 2002), though the smartphone was beginning to displace the household computer as the primary connected device."
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Home computers reached 80% in 2011 (from 54% in 2002)."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-2010s-telephone"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R21:C4", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C4", value = "Telephone" }, { locator = "R21:C1", value = "2011" }], target = "quantity" }
 quantity = 100
 panel = "diffusion"
 label = "Households with a telephone, 2011"
@@ -121,11 +154,12 @@ value = "100%"
 unit = "% of households with a telephone"
 source = "ons-ghs-40yr"
 tier = "A"
-notes = "From GHS 40-year overview, Figure 40.2 (unweighted). The GHS recorded 100% telephone coverage in 2011 — near-universal, combining residual fixed lines with mobile phones. The GHS was discontinued after 2012; later diffusion (smartphones, broadband) is tracked by Ofcom and the ONS Internet Access survey, not transcribed here."
+notes = "From GHS 40-year overview, Figure 40.2, unweighted data: the Telephone series is 100% in 2011. The selected table does not provide a separate fixed-line/mobile breakdown, so this record does not infer one."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-2010s-car"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R21:C5", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C5", value = "Car or van" }, { locator = "R21:C1", value = "2011" }], target = "quantity" }
 quantity = 76
 panel = "diffusion"
 label = "Households with a car or van, 2011"
@@ -133,13 +167,14 @@ value = "76%"
 unit = "% of households with a car or van"
 source = "ons-ghs-40yr"
 tier = "A"
-notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Car ownership reached 76% in 2011 (slightly below the 78% peak of 2008, reflecting the post-2008 downturn) — the GHS's final reading."
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Car ownership reached 76% in 2011 (slightly below the 78% peak of 2008) — the GHS's final reading."
 assumptions = ["composite-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
 [[fact]]
 id = "uk-2010s-paid-hours"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/ashe/2010/hours/value", target = "quantity", guards = [{ locator = "/ashe/2010/hours/year", value = "2010" }, { locator = "/ashe/2010/hours/title", value = "Table 1.9a Paid hours worked - Total - For all employee jobsa: United Kingdom, 2010" }, { locator = "/ashe/2010/hours/heading", value = "Median" }, { locator = "/ashe/2010/hours/population", value = "All Employees" }, { locator = "/ashe/2010/hours/sheet", value = "All" }, { locator = "/ashe/2010/hours/archive_sha256", value = "48af5787fa49f8f00e757b6e4bac04fc95cd1d331a9f9a66250ac883bee4e497" }, { locator = "/ashe/2010/hours/member", value = "REVISED - All Employees Total Table 1.9a   Paid hours worked - Total 2010.xls" }, { locator = "/ashe/2010/hours/member_sha256", value = "b4ecbafdae2959568304b20f0bbdeb2ed92bd01aeac2049a73915d28861aa76a" }, { locator = "/ashe/2010/hours/cell", value = "All!R6C4" }] }
 quantity = 37
 panel = "day"
 label = "Paid hours worked in a week, all employee jobs, April 2010"
@@ -147,7 +182,7 @@ value = "37.0 hours (median)"
 unit = "total paid hours per week, all employee jobs (median)"
 source = "ons-ashe-table1"
 tier = "A"
-notes = "From ASHE Table 1.9a, all-employee sheet, 2010. The median employee job was paid for 37.0 hours — unmoved from 1997 and 2000 — while the mean fell to 33.4, the part-time share having grown. Full-time jobs alone: median 37.5, mean 39.2. Total paid hours includes paid overtime."
+notes = "From ASHE Table 1.9a, all-employee sheet, 2010. The median employee job was paid for 37.0 hours — unmoved from 1997 and 2000 — while the mean fell to 33.4. Full-time jobs alone: median 37.5, mean 39.2. Total paid hours includes paid overtime."
 assumptions = ["composite-family"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
@@ -166,6 +201,7 @@ notes = "Defra's Family Food module (LCFS) covers the 2010s, but that data is no
 
 [[fact]]
 id = "uk-2010s-house-price"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/housing/2010/value", scale = "100", target = "amount_minor", guards = [{ locator = "/housing/2010/year", value = "2010" }, { locator = "/housing/2010/title", value = "Table 31 Housing market: simple average house prices, United Kingdom (chart) 1, 2, 3 Previously DLUHC Table 571" }, { locator = "/housing/2010/heading", value = "Unadjusted" }, { locator = "/housing/2010/sha256", value = "73d680bc718472953d7e09a0b6e4640777e70981aa6dbca7293ecabb499d1c9d" }, { locator = "/housing/2010/cell", value = "Table 31!R23C2" }] }
 basis = "total"
 amount_minor = 25117400
 currency = "GBP"

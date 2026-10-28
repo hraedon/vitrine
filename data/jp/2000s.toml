@@ -20,6 +20,7 @@ decade = "2000s"
 
 [[fact]]
 id = "jp-2000s-workers-income"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/2005/income/value", target = "amount_minor", guards = [{ locator = "/fies/2005/income/year", value = "2005" }, { locator = "/fies/2005/income/title", value = "18-2 Yearly Average of Monthly Receipts and Disbursements per Household for Workers' Households (1963\uff5e2017)" }, { locator = "/fies/2005/income/heading", value = "Income" }, { locator = "/fies/2005/income/unit", value = "(yen)" }, { locator = "/fies/2005/income/file", value = "36-jp-income/fies-a18-2.xls" }, { locator = "/fies/2005/income/sha256", value = "36407a833d72c661aaef7ca541405e16f5497b2624358a6a02f7a2ca8888379d" }, { locator = "/fies/2005/income/cell", value = "\u52e4\u52b4\u8005\u4e16\u5e2f!R57C8" }, { locator = "/fies/2005/income/exclusion", value = "\uff0a The data is not including agricultural, forestry and fisheries households." }] }
 basis = "monthly"
 amount_minor = 522629
 currency = "JPY"
@@ -30,7 +31,7 @@ value = "¥522,629 per month"
 unit = "JPY per month, nominal (actual monthly income, workers' households)"
 source = "jp-fies"
 tier = "A"
-notes = "From FIES long-run time-series (fies-a18-2.xls), 2005, column 実収入, workers' households. Nominal income declined 8.4% from the 1995 peak (¥570,817) — the lost-decades contraction. It would stagnate near this level through 2015 (¥525,955). Two-or-more-person workers' households, Japan."
+notes = "From the archived FIES long-run table, 2005, 勤労者世帯!R57C8. This is annual-average monthly income of workers' households, not a median or a four-person family estimate. The archived table excludes agricultural, forestry and fisheries households."
 assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-deflation-lost-decades"]
 
 [[fact]]
@@ -226,6 +227,7 @@ assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-2000s-consumption"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/2005/consumption/value", target = "amount_minor", guards = [{ locator = "/fies/2005/consumption/year", value = "2005" }, { locator = "/fies/2005/consumption/title", value = "18-1 Yearly Average of Monthly Disbursements per Household for Two-or-more-person Households (1963\uff5e2017)" }, { locator = "/fies/2005/consumption/heading", value = "Consumption expenditures" }, { locator = "/fies/2005/consumption/unit", value = "(yen)" }, { locator = "/fies/2005/consumption/file", value = "36-jp-income/fies-a18-1.xls" }, { locator = "/fies/2005/consumption/sha256", value = "35159f6fa73f09e786857f9aee43800f880a57126a0ec09c821b0d423cdbe172" }, { locator = "/fies/2005/consumption/cell", value = "\u4e8c\u4eba\u4ee5\u4e0a\u306e\u4e16\u5e2f!R56C7" }, { locator = "/fies/2005/consumption/exclusion", value = "\uff0a The data is not including agricultural, forestry and fisheries households." }] }
 basis = "monthly"
 amount_minor = 300903
 currency = "JPY"
@@ -236,11 +238,12 @@ value = "¥300,903 per month"
 unit = "JPY per month, nominal (consumption expenditure, all two-or-more-person households)"
 source = "jp-fies"
 tier = "A"
-notes = "From FIES long-run time-series (fies-a18-1.xls), 2005, all two-or-more-person households. Nominal consumption declined 8.6% from the 1995 peak (¥329,062) — deflation reduced both nominal income and nominal spending. Continued decline to ¥288,326 (2015). Population differs from the income fact (all households vs workers' households)."
+notes = "From the archived FIES long-run table, 2005, 二人以上の世帯!R56C7. This is annual-average monthly total consumption expenditure, not a food basket. The expenditure population includes all household types within the stated survey scope; the income observations use workers' households. The archived table excludes agricultural, forestry and fisheries households."
 assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-deflation-lost-decades"]
 
 [[fact]]
 id = "jp-2000s-food-share"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/2005/food/value", target = "quantity", guards = [{ locator = "/fies/2005/food/year", value = "2005" }, { locator = "/fies/2005/food/title", value = "18-1 Yearly Average of Monthly Disbursements per Household for Two-or-more-person Households (1963\uff5e2017)" }, { locator = "/fies/2005/food/heading", value = "Food" }, { locator = "/fies/2005/food/unit", value = "(yen)" }, { locator = "/fies/2005/food/file", value = "36-jp-income/fies-a18-1.xls" }, { locator = "/fies/2005/food/sha256", value = "35159f6fa73f09e786857f9aee43800f880a57126a0ec09c821b0d423cdbe172" }, { locator = "/fies/2005/food/cell", value = "\u4e8c\u4eba\u4ee5\u4e0a\u306e\u4e16\u5e2f!R56C8" }, { locator = "/fies/2005/food/exclusion", value = "\uff0a The data is not including agricultural, forestry and fisheries households." }, { locator = "/fies/2005/consumption/year", value = "2005" }, { locator = "/fies/2005/consumption/heading", value = "Consumption expenditures" }, { locator = "/fies/2005/consumption/sha256", value = "35159f6fa73f09e786857f9aee43800f880a57126a0ec09c821b0d423cdbe172" }, { locator = "/fies/2005/consumption/cell", value = "\u4e8c\u4eba\u4ee5\u4e0a\u306e\u4e16\u5e2f!R56C7" }], calculation = { op = "pct_of", operands = ["/fies/2005/consumption/value"], precision = 1, rounding = "half_up", method = "Food expenditure divided by total consumption expenditure in the same annual-average source row, times one hundred; same household population and year, rounded once to one decimal place." } }
 quantity = 22.9
 panel = "table"
 label = "Food share of consumption expenditure, 2005"
@@ -248,8 +251,8 @@ value = "22.9%"
 unit = "% of consumption expenditure spent on food"
 source = "jp-fies"
 tier = "A"
-notes = "From FIES (fies-a18-1.xls), 2005: food ¥68,910 ÷ consumption ¥300,903 = 22.9%. All two-or-more-person households. The Engel ratio reached its low point here (23.7% in 1995 → 22.9% in 2005) before rising to 25.0% in 2015 as nominal consumption fell faster than food spending."
-assumptions = ["composite-family", "jp-household-not-family"]
+notes = "Calculated from the archived FIES long-run table's Food and Consumption expenditures cells in the same 2005 annual-average row. The source's Food category is retained without relabelling it as food and non-alcoholic beverages. The percentage is rounded once to one decimal place; calculation operands and rounding are recorded in the audit. The archived table excludes agricultural, forestry and fisheries households."
+assumptions = ["composite-family", "jp-household-not-family", "jp-fies-food-share"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 

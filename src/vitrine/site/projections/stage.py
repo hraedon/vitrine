@@ -22,6 +22,10 @@ def build_stage(room: Room, index: dict[str, FactRef], root: str) -> svg.Stage:
         return svg.Stage(decade=room.decade, artifacts=(), zone_notes=())
 
     room_ids = {fact.id for fact in room.facts}
+    excluded_quantities = {
+        fid for arc in curation.ARCS for decade, fid in arc.fact_ids.items()
+        if decade in arc.plot_gaps
+    }
 
     def resolve(fid: str, what: str) -> FactRef:
         if fid not in room_ids:
@@ -61,7 +65,10 @@ def build_stage(room: Room, index: dict[str, FactRef], root: str) -> svg.Stage:
                 href=placard_href(index, fid, root),
                 label=ref.fact.label,
                 value=ref.fact.value,
-                quantity=ref.fact.quantity if kind == "diffusion" else None,
+                quantity=(
+                    ref.fact.quantity
+                    if kind == "diffusion" and fid not in excluded_quantities else None
+                ),
                 kind=kind,
             )
         )
@@ -87,7 +94,7 @@ def build_stage(room: Room, index: dict[str, FactRef], root: str) -> svg.Stage:
         fs_fid = curated.food_share.get(room.decade)
         if fs_fid is not None:
             fact = resolve(fs_fid, "food-share note").fact
-            if fact.quantity is not None:
+            if fact.quantity is not None and fs_fid not in excluded_quantities:
                 x, y = curation.ZONE_NOTE_POS["food"]
                 zone_notes.append(
                     svg.ZoneNote(

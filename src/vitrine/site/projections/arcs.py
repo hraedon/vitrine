@@ -33,7 +33,7 @@ def arc_points(
                 tier=ref.fact.tier.value,
                 label=ref.fact.label,
                 value=ref.fact.value,
-                quantity=(None if decade in arc.plot_gaps else ref.fact.quantity),
+                quantity=arc.quantity_for(decade, ref.fact.quantity),
                 year=year,
             )
         )

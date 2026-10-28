@@ -220,7 +220,10 @@ def test_cross_unit_drift_catches_mismatched_wage(tmp_path: Path) -> None:
     """An hourly series (float dollars) must agree with an hourly fact (cents)
     converted to dollars within cent-rounding tolerance."""
     data = _write_hourly_fact(tmp_path, amount_minor=132)  # $1.32/hr
-    _write_series(data, _series_body("[series.values]\n1950 = 2.50\n"))  # drifts
+    _write_series(data, _series_body(
+        'kind = "monetary_rate"\ncurrency = "USD"\nrate_basis = "hourly"\n'
+        "[series.values]\n1950 = 2.50\n"
+    ))  # drifts
     problems = check_series(load_series(data), load_corpus(data))
     assert any("drifted in two places" in p for p in problems)
 
@@ -228,7 +231,10 @@ def test_cross_unit_drift_catches_mismatched_wage(tmp_path: Path) -> None:
 def test_cross_unit_drift_passes_within_rounding(tmp_path: Path) -> None:
     """$1.3158 (annual mean) vs $1.32 (fact, rounded to the cent) agrees."""
     data = _write_hourly_fact(tmp_path, amount_minor=132)
-    _write_series(data, _series_body("[series.values]\n1950 = 1.3158\n"))
+    _write_series(data, _series_body(
+        'kind = "monetary_rate"\ncurrency = "USD"\nrate_basis = "hourly"\n'
+        "[series.values]\n1950 = 1.3158\n"
+    ))
     assert check_series(load_series(data), load_corpus(data)) == []
 
 
@@ -236,7 +242,10 @@ def test_cross_unit_drift_skips_weekly_facts(tmp_path: Path) -> None:
     """A weekly-earnings fact shares an hourly series's source but is a
     different basis — the detector must not compare them (no false positive)."""
     data = _write_hourly_fact(tmp_path, amount_minor=5329, basis="weekly")  # $53.29/wk
-    _write_series(data, _series_body("[series.values]\n1950 = 1.3158\n"))  # $/hr
+    _write_series(data, _series_body(
+        'kind = "monetary_rate"\ncurrency = "USD"\nrate_basis = "hourly"\n'
+        "[series.values]\n1950 = 1.3158\n"
+    ))  # $/hr
     assert check_series(load_series(data), load_corpus(data)) == []
 
 

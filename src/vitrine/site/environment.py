@@ -2,10 +2,50 @@
 
 from __future__ import annotations
 
+from typing import assert_never
+
 from jinja2 import Environment, PackageLoader, select_autoescape
 
-from vitrine.model import Panel, basis_label, panel_title, tier_label
+from vitrine.model import (
+    AuditOperation,
+    AuditRounding,
+    AuditTarget,
+    Panel,
+    basis_label,
+    panel_title,
+    tier_label,
+)
 from vitrine.site import tokens
+
+
+def audit_target_label(target: AuditTarget) -> str:
+    match target:
+        case AuditTarget.QUANTITY:
+            return "Calculation of the headline numeric value"
+        case AuditTarget.AMOUNT_MINOR:
+            return "Calculation of the monetary amount"
+        case _ as unreachable:
+            assert_never(unreachable)
+
+
+def audit_operation_label(operation: AuditOperation) -> str:
+    match operation:
+        case AuditOperation.MEAN:
+            return "Arithmetic mean"
+        case AuditOperation.PCT_OF:
+            return "Percentage of the denominator"
+        case _ as unreachable:
+            assert_never(unreachable)
+
+
+def audit_rounding_label(rounding: AuditRounding) -> str:
+    match rounding:
+        case AuditRounding.HALF_EVEN:
+            return "to the nearest even digit"
+        case AuditRounding.HALF_UP:
+            return "away from zero"
+        case _ as unreachable:
+            assert_never(unreachable)
 
 
 def build_environment(disclaimer: str, disclaimer_title: str) -> Environment:
@@ -30,6 +70,9 @@ def build_environment(disclaimer: str, disclaimer_title: str) -> Environment:
     env.globals["panel_title"] = panel_title
     env.globals["tier_label"] = tier_label
     env.globals["basis_label"] = basis_label
+    env.globals["audit_target_label"] = audit_target_label
+    env.globals["audit_operation_label"] = audit_operation_label
+    env.globals["audit_rounding_label"] = audit_rounding_label
     env.globals["T"] = tokens
     env.globals["tier_names"] = {
         "A": "official statistical series",

@@ -8,17 +8,17 @@ AHETPI = Average Hourly Earnings of Production and Nonsupervisory Employees,
 Total Private (CES0500000008), monthly, seasonally adjusted, dollars/hour.
 The export runs 1964-01 through 2026-06. We annualize by taking the arithmetic
 mean of the 12 months for each year that has a complete Jan-Dec set, 1964-2024
-(the plan's window; 2025/2026 are partial and dropped). Non-monetary-in-cents
-(a wage RATE in dollars) -> ``values`` (floats).
+(the plan's window). Monetary rates retain subcent annual means in ``values``
+(major USD per hour), with explicit currency and hourly rate metadata.
 
-Drift note: ``fred-ahetpi`` facts carry ``amount_minor`` (cents) but no
-``quantity``, and the drift detector's float branch keys on ``quantity``, so no
-drift failure can arise here. We still verify the 2024 average ~= $30.12 by eye.
+The drift detector compares matching rate and fact currency/time bases using
+the currency registry's minor-unit scale and displayed-rounding tolerance.
 """
 
 from __future__ import annotations
 
 import datetime
+import math
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -31,26 +31,38 @@ OUT = REPO / "data" / "series" / "hourly-earnings-total-private.toml"
 START_YEAR, END_YEAR = 1964, 2024
 
 
+def _annualize(months: dict[int, dict[int, float]]) -> dict[int, float]:
+    """A complete year means distinct January–December observations."""
+    values: dict[int, float] = {}
+    for year in range(START_YEAR, END_YEAR + 1):
+        observations = months.get(year, {})
+        if set(observations) != set(range(1, 13)):
+            continue
+        values[year] = round(sum(observations[month] for month in range(1, 13)) / 12.0, 4)
+    return values
+
+
 def main() -> int:
     if not XLSX.is_file():
         print(f"ERROR: {XLSX} not found", file=sys.stderr)
         return 1
     wb = openpyxl.load_workbook(XLSX, data_only=True)
     ws = wb["Monthly"]
-    months: dict[int, list[float]] = defaultdict(list)
+    months: dict[int, dict[int, float]] = defaultdict(dict)
     for r in range(2, ws.max_row + 1):
         date = ws.cell(row=r, column=1).value
         val = ws.cell(row=r, column=2).value
         if not isinstance(date, datetime.datetime) or not isinstance(val, int | float):
             continue
-        months[date.year].append(float(val))
+        if date.month in months[date.year]:
+            raise ValueError("duplicate monthly earnings observation")
+        if isinstance(val, bool) or not math.isfinite(val):
+            raise ValueError("monthly earnings must be finite numeric observations")
+        months[date.year][date.month] = float(val)
 
-    values: dict[int, float] = {}
-    for y in range(START_YEAR, END_YEAR + 1):
-        obs = months.get(y, [])
-        if len(obs) != 12:
-            continue  # incomplete year -> gap (only 2025/2026 are partial here)
-        values[y] = round(sum(obs) / 12.0, 4)
+    values = _annualize(months)
+    if not values:
+        raise ValueError("no complete calendar years in the declared window")
 
     yrs = sorted(values)
     notes = (
@@ -68,6 +80,9 @@ def main() -> int:
         'label = "Average hourly earnings, total private production/nonsupervisory"',
         'source = "fred-ahetpi"',
         'tier = "A"',
+        'kind = "monetary_rate"',
+        'currency = "USD"',
+        'rate_basis = "hourly"',
         'unit = "USD per hour, nominal (annual mean of 12 monthly values)"',
         'population = "Production and nonsupervisory employees, total private sector"',
         f'notes = "{notes}"',
@@ -77,10 +92,11 @@ def main() -> int:
     for y in yrs:
         lines.append(f"{y} = {values[y]:.4f}")
     lines.append("")
-    OUT.write_text("\n".join(lines))
+    OUT.write_text("\n".join(lines), encoding="utf-8", newline="\n")
     # Report a few spot-check anchors.
     for y in (1964, 1980, 1990, 2000, 2010, 2024):
-        print(f"  {y}: ${values[y]:.4f}/hr  (n={len(months[y])} months)")
+        if y in values:
+            print(f"  {y}: ${values[y]:.4f}/hr  (n={len(months[y])} months)")
     print(f"hourly-earnings-total-private: {len(values)} years "
           f"({yrs[0]}-{yrs[-1]}) -> {OUT.relative_to(REPO)}")
     return 0

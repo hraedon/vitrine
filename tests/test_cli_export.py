@@ -318,6 +318,8 @@ def test_publish_cleanup_artifact_with_destination_fails_closed(tmp_path: Path) 
 def test_rollback_discovery_treats_output_name_as_literal(
     tmp_path: Path, name: str
 ) -> None:
+    if os.name == "nt" and any(character in name for character in "*?"):
+        pytest.skip("Windows file names cannot contain '*' or '?'")
     output = tmp_path / name
     backup = tmp_path / f".{name}.backup-crash"
     backup.mkdir()
@@ -419,6 +421,7 @@ def test_orphan_staging_artifact_is_cleaned_by_next_cooperating_run(
     assert (output / "new.txt").read_text() == "new"
 
 
+@pytest.mark.skipif(os.name == "nt", reason="POSIX mode/umask contract; Windows uses ACLs")
 def test_published_directories_are_readable_and_traversable_under_umask(
     tmp_path: Path,
 ) -> None:
@@ -445,6 +448,7 @@ def test_published_directories_are_readable_and_traversable_under_umask(
             os.umask(previous_umask)
 
 
+@pytest.mark.skipif(os.name == "nt", reason="POSIX mode/umask contract; Windows uses ACLs")
 def test_nested_publications_repeat_under_umask_0777(tmp_path: Path) -> None:
     previous_umask = os.umask(0o777)
     try:
@@ -466,6 +470,7 @@ def test_nested_publications_repeat_under_umask_0777(tmp_path: Path) -> None:
         os.umask(previous_umask)
 
 
+@pytest.mark.skipif(os.name == "nt", reason="POSIX mode/umask contract; Windows uses ACLs")
 def test_existing_private_parent_mode_is_preserved_under_both_umasks(
     tmp_path: Path,
 ) -> None:
@@ -486,6 +491,7 @@ def test_existing_private_parent_mode_is_preserved_under_both_umasks(
         assert stat.S_IMODE((output / "index.html").stat().st_mode) == 0o644
 
 
+@pytest.mark.skipif(os.name == "nt", reason="POSIX mode/umask contract; Windows uses ACLs")
 def test_nested_exports_repeat_under_umask_0777(tmp_path: Path) -> None:
     data = _minimal_data(tmp_path / "data")
     output = tmp_path / "fresh-parent" / "nested" / "output"

@@ -32,7 +32,7 @@ id = "us-2020s-food-share-comparison"
 panel = "budget"
 label = "Food-share comparison with 1901: verification gap"
 value = "no reliable record verified for this comparison"
-unit = "% of total family expenditure"
+unit = "% of total consumer-unit expenditure"
 source = "bls-cex-four-person-2024-aggregate"
 tier = "D"
 notes = "The archived 2024 Table 1400 contains rounded shares of national aggregate spending by consumer-unit size, not published within-budget mean expenditure shares. Its income mean also differs from the previous transcription. Exact four-person expenditure amounts and budget shares previously shown here cannot be reproduced from this file and have been withdrawn pending the correct annual-means table. The direct official means-table download returned HTTP 403 on 2026-09-07. Historical comparisons also mix survey populations; 1901 rent is narrower than modern housing expenditure. All-consumer-unit 2024 figures remain separately available and audited."
@@ -43,7 +43,7 @@ id = "us-2020s-housing-share-comparison"
 panel = "budget"
 label = "Housing-share comparison with 1901: incompatible categories"
 value = "no reliable record verified for this comparison"
-unit = "% of total family expenditure"
+unit = "% of total consumer-unit expenditure"
 source = "bls-cex-four-person-2024-aggregate"
 tier = "D"
 notes = "The archived 2024 Table 1400 contains rounded shares of national aggregate spending by consumer-unit size, not published within-budget mean expenditure shares. Its income mean also differs from the previous transcription. Exact four-person expenditure amounts and budget shares previously shown here cannot be reproduced from this file and have been withdrawn pending the correct annual-means table. The direct official means-table download returned HTTP 403 on 2026-09-07. Historical comparisons also mix survey populations; 1901 rent is narrower than modern housing expenditure. All-consumer-unit 2024 figures remain separately available and audited."
@@ -113,7 +113,7 @@ assumptions = ["composite-family"]
 id = "us-2020s-cex-total-expenditures"
 audit = { file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx", extractor = "xlsx-cell", locator = "Table!E48", guards = [{ locator = "Table!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Surveys, 2021-2024" }, { locator = "Table!A48", value = "Average annual expenditures" }, { locator = "Table!E3", value = "2024.0" }] }
 panel = "budget"
-label = "Average annual household expenditures, 2024"
+label = "Average annual consumer-unit expenditures, 2024"
 quantity = 78535
 value = "$78,535"
 unit = "USD per consumer unit, nominal"
@@ -139,7 +139,7 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-2020s-cex-healthcare-share"
 audit = { file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx", extractor = "xlsx-cell", locator = "Table!E137", guards = [{ locator = "Table!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Surveys, 2021-2024" }, { locator = "Table!E3", value = "2024.0" }, { locator = "Table!A137", value = "Healthcare" }, { locator = "Table!A48", value = "Average annual expenditures" }], calculation = { op = "pct_of", operands = ["Table!E48"], precision = 1, rounding = "half_up", method = "All consumer units, 2024: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
-label = "Healthcare share of household budget, 2024"
+label = "Healthcare share of consumer-unit expenditure, 2024"
 quantity = 7.9
 value = "7.9% of total expenditures ($6,197)"
 unit = "% of total annual expenditures; USD nominal"
@@ -152,7 +152,7 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-2020s-cex-apparel-share"
 audit = { file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx", extractor = "xlsx-cell", locator = "Table!E113", guards = [{ locator = "Table!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Surveys, 2021-2024" }, { locator = "Table!E3", value = "2024.0" }, { locator = "Table!A113", value = "Apparel and services" }, { locator = "Table!A48", value = "Average annual expenditures" }], calculation = { op = "pct_of", operands = ["Table!E48"], precision = 1, rounding = "half_up", method = "All consumer units, 2024: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
-label = "Apparel share of household budget, 2024"
+label = "Apparel share of consumer-unit expenditure, 2024"
 quantity = 2.5
 value = "2.5% of total expenditures"
 unit = "% of total annual expenditures"
@@ -367,12 +367,12 @@ assumptions = ["composite-family"]
 id = "us-2020s-food-prices"
 panel = "table"
 label = "Retail food prices, December 2024"
-value = "Bread $1.91/lb, ground beef $5.58/lb, bacon $6.92/lb, eggs $4.15/doz, lettuce $1.71/lb, bananas $0.62/lb"
+value = "Bread $1.91/lb, ground chuck $5.58/lb, bacon $6.92/lb, eggs $4.15/doz, lettuce $1.71/lb, bananas $0.62/lb"
 unit = "USD, nominal, BLS average price survey (APU series, December 2024)"
 source = "bls-api"
 tier = "A"
-notes = "From BLS Public Data API v2, series APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, 100% beef, per lb), APU0000704111 (bacon, sliced, per lb), APU0000708111 (eggs, grade A, large, per doz), APU0000712211 (lettuce, iceberg, per lb), APU0000711211 (bananas, per lb). Values are December 2024 monthly averages, verified via BLS API catalog endpoint. CORRECTION 2026-07-08: the previous version of this fact had mismatched labels — APU0000712211 was labeled 'bread' but is actually lettuce; APU0000702111 was labeled 'flour' but is actually bread; APU0000703111 was labeled 'round steak' but is actually ground chuck; APU0000704111 was labeled 'milk' but is actually bacon; APU0000708111 was labeled 'potatoes' but is actually eggs; APU0000711211 was labeled 'coffee' but is actually bananas. The note claiming 'eggs, butter, bananas, sugar returned N/A' was also wrong — eggs and bananas both returned valid data. For comparison with 1950: bread 14.3¢→$1.91/lb (13.4x), ground beef ~93.6¢→$5.58/lb (6.0x), eggs 60.4¢→$4.15/doz (6.9x)."
-assumptions = ["nominal-values"]
+notes = "December 2024 monthly U.S. city-average prices from the BLS public API, series APU0000702111 (white pan bread per pound), APU0000703111 (100% ground chuck per pound), APU0000704111 (sliced bacon per pound), APU0000708111 (large Grade A eggs per dozen), APU0000712211 (iceberg lettuce per pound), and APU0000711211 (bananas per pound). Original response bytes were newly retrieved on 2026-10-28 and saved; this vintage is not a reconstruction of the earlier download. scripts/food_price_review.py reproduces the displayed prices using decimal half-up rounding to the nearest cent. Series identities and units were independently checked against the BLS-sourced FRED series pages. These observations describe price levels for the stated month; average-price ratios are not a constant-quality inflation index. Round steak in the historical tables is a different product from ground chuck."
+assumptions = ["nominal-values", "food-price-display-rounding"]
 
 [[fact]]
 id = "us-2020s-food-expenditure-share"
@@ -768,7 +768,7 @@ value = "76.5 male, 81.4 female (79.0 total)"
 unit = "years"
 source = "nchs-nvss"
 tier = "A"
-notes = "From NCHS Data Brief No. 548 (Jan 2026), final 2024 mortality data. Male: 76.5 (up 0.7 from 75.8 in 2023). Female: 81.4 (up 0.3 from 81.1 in 2023). Total 79.0 (up 0.4 from 78.6 in 2023). The 2020-21 COVID decline (78.8 -> 76.1) has fully recovered and exceeded the pre-pandemic level. For cross-decade comparison: 1900-02: 48.2M/51.1F; 1939-41: 62.8M/67.3F; 1949-51: 66.3M/72.0F; 1960: 66.6M/73.1F (white)."
+notes = "From NCHS Data Brief No. 548 (January 2026), final 2024 mortality data, Figure 1 and Table 1. Total life expectancy at birth was 79.0 years in 2024, compared with 78.4 in 2023, an increase of 0.6 year as stated in the report. Female life expectancy was 81.4 and male life expectancy was 76.5. The original publisher HTML was re-read and saved on 2026-10-28; this note follows that document rather than quoting unmatched historical or population-specific comparisons."
 
 [[fact]]
 id = "us-2020s-infant-mortality"
@@ -841,7 +841,7 @@ value = "72.8% of population watched TV on an average day (2024), down from 78.8
 unit = "% of population watching TV on an average day"
 source = "bls-atus"
 tier = "A"
-notes = "From BLS American Time Use Survey, Table A-1 (2024 annual averages). The decline from 78.8% (2003) to 72.8% (2024) reflects cord-cutting and the shift to streaming and online video. Average daily TV watching time declined from 2.58 hrs (2003) to 2.60 hrs (2024), having peaked at 2.82 hrs in 2009. By 2017, ~411 million mobile wireless connections existed (FCC 18-181)."
+notes = "From BLS American Time Use Survey, Table A-1 (2024 annual averages). The share of the civilian noninstitutionalized population age 15 and over watching TV on an average day was 78.8% in 2003 and 72.8% in 2024. Average daily TV-watching time across that whole population was 2.58 hours in 2003, 2.82 hours in 2009 and 2.60 hours in 2024. These tables do not establish why participation changed."
 assumptions = ["composite-family"]
 
 [[fact]]

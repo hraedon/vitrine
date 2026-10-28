@@ -16,6 +16,7 @@ income_anchor = "uk-1990s-household-income"
 
 [[fact]]
 id = "uk-1990s-weekly-earnings"
+audit = { file = "30-uk-income/ons-earnings-1938-2025.xlsx", extractor = "xlsx-cell", locator = "Average Gross Weekly Earnings!I71", scale = "100", target = "amount_minor", guards = [{ locator = "Average Gross Weekly Earnings!E4", value = "Mean gross weekly earnings for Adult Full-Time Employees in Great Britain whose pay for the survey period was not affected by absence" }, { locator = "Average Gross Weekly Earnings!G7", value = "Adult Male" }, { locator = "Average Gross Weekly Earnings!I9", value = "\"All\"" }, { locator = "Average Gross Weekly Earnings!I11", value = "\u00a3" }, { locator = "Average Gross Weekly Earnings!B71", value = "1990" }] }
 basis = "weekly"
 amount_minor = 29560
 currency = "GBP"
@@ -27,11 +28,12 @@ value = "£295.60"
 unit = "GBP per week, nominal (mean gross weekly earnings, male full-time)"
 source = "ons-earnings-1938-2025"
 tier = "A"
-notes = "From the ONS long-run earnings series. 1990 (April sample, NES): adult male full-time £295.60/week; adult female full-time £201.50/week. Great Britain. Individual earnings, not family income. The decade began in recession (1990–92) and saw the start of the long real-wage slowdown."
+notes = "From the ONS long-run mean gross weekly earnings table, April 1990, adult male full-time employees, Great Britain. The table excludes employees whose pay was affected by absence. This is individual employee pay, not a household income or a real-wage comparison; the nominal series alone cannot establish an inflation-adjusted historical ranking."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "uk-1990s-household-income"
+audit = { file = "30-uk-income/etb-hhldtype.xlsx", extractor = "xlsx-cell", locator = "1997-98!I33", scale = "100", guards = [{ locator = "1997-98!A1", value = "Summary of the effects of taxes and benefits, by household type,1 1997/98" }, { locator = "1997-98!B22", value = "Non-Retired households" }, { locator = "1997-98!I24", value = "2 adults" }, { locator = "1997-98!I25", value = "with 2" }, { locator = "1997-98!I26", value = "children" }, { locator = "1997-98!A33", value = "Disposable income" }], target = "amount_minor" }
 basis = "annual"
 amount_minor = 2493400
 currency = "GBP"
@@ -48,6 +50,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "uk-1990s-hourly-pay"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/ashe/1997/hourly/value", scale = "100", target = "amount_minor", guards = [{ locator = "/ashe/1997/hourly/year", value = "1997" }, { locator = "/ashe/1997/hourly/title", value = "Table 1.5a Hourly pay - Gross (\u00a3) - For all employee jobsa: United Kingdom, 1997" }, { locator = "/ashe/1997/hourly/heading", value = "Median" }, { locator = "/ashe/1997/hourly/population", value = "All Employees" }, { locator = "/ashe/1997/hourly/sheet", value = "All" }, { locator = "/ashe/1997/hourly/archive_sha256", value = "69a084baf07231e3da3afd369068e651abb8df3ed444680111765ddf43d967c8" }, { locator = "/ashe/1997/hourly/member", value = "Total Table 1.5a   Hourly pay - Gross 1997.xls" }, { locator = "/ashe/1997/hourly/member_sha256", value = "a0226f29eb26c2e74330dc87df01fb6125080b069b63020b8836ffb1136a2a5b" }, { locator = "/ashe/1997/hourly/cell", value = "All!R6C4" }] }
 basis = "hourly"
 amount_minor = 707
 currency = "GBP"
@@ -66,6 +69,7 @@ assumptions = ["nominal-values", "uk-wage-anchor-all-employees", "affordability-
 
 [[fact]]
 id = "uk-1990s-tenure"
+audit = { file = "32-uk-housing/ons-century-homeownership.csv", extractor = "csv-cell", locator = "R8:C2", guards = [{ locator = "R1:C1", value = "group" }, { locator = "R1:C2", value = "Owned" }, { locator = "R1:C3", value = "Private rented" }, { locator = "R1:C4", value = "Socially rented" }, { locator = "R8:C1", value = "1991" }, { locator = "R8:C3", value = "9" }, { locator = "R8:C4", value = "23" }], target = "quantity" }
 quantity = 68
 panel = "home"
 label = "Tenure of households, England and Wales, 1991"
@@ -90,6 +94,7 @@ notes = "The GHS recorded central-heating and appliance ownership through the 19
 
 [[fact]]
 id = "uk-1990s-colour-tv"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R14:C2", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C2", value = "Colour television" }, { locator = "R14:C1", value = "1990" }], target = "quantity" }
 quantity = 93
 panel = "diffusion"
 label = "Households with a colour television, 1990"
@@ -102,6 +107,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-1990s-computer"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R14:C3", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C3", value = "Home computer" }, { locator = "R14:C1", value = "1990" }], target = "quantity" }
 quantity = 21
 panel = "diffusion"
 label = "Households with a home computer, 1990"
@@ -114,6 +120,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-1990s-telephone"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R14:C4", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C4", value = "Telephone" }, { locator = "R14:C1", value = "1990" }], target = "quantity" }
 quantity = 88
 panel = "diffusion"
 label = "Households with a telephone, 1990"
@@ -126,6 +133,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-1990s-car"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R14:C5", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C5", value = "Car or van" }, { locator = "R14:C1", value = "1990" }], target = "quantity" }
 quantity = 67
 panel = "diffusion"
 label = "Households with a car or van, 1990"
@@ -140,6 +148,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-1990s-paid-hours"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/ashe/1997/hours/value", target = "quantity", guards = [{ locator = "/ashe/1997/hours/year", value = "1997" }, { locator = "/ashe/1997/hours/title", value = "Table 1.9a Hours worked - Total - For all employee jobsa: United Kingdom, 1997" }, { locator = "/ashe/1997/hours/heading", value = "Median" }, { locator = "/ashe/1997/hours/population", value = "All Employees" }, { locator = "/ashe/1997/hours/sheet", value = "All" }, { locator = "/ashe/1997/hours/archive_sha256", value = "69a084baf07231e3da3afd369068e651abb8df3ed444680111765ddf43d967c8" }, { locator = "/ashe/1997/hours/member", value = "Total Table 1.9a   Hours worked - Total 1997.xls" }, { locator = "/ashe/1997/hours/member_sha256", value = "f80ec2d4092aeb331b086ebf81a2111b23a657941510a9721aa8006f43e2ed94" }, { locator = "/ashe/1997/hours/cell", value = "All!R6C4" }] }
 quantity = 37
 panel = "day"
 label = "Paid hours worked in a week, all employee jobs, April 1997"
@@ -166,6 +175,7 @@ notes = "The National Food Survey (NFS) ran continuously 1940–2000; the 1990s 
 
 [[fact]]
 id = "uk-1990s-house-price"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/housing/1997/value", scale = "100", target = "amount_minor", guards = [{ locator = "/housing/1997/year", value = "1997" }, { locator = "/housing/1997/title", value = "Table 31 Housing market: simple average house prices, United Kingdom (chart) 1, 2, 3 Previously DLUHC Table 571" }, { locator = "/housing/1997/heading", value = "Unadjusted" }, { locator = "/housing/1997/sha256", value = "73d680bc718472953d7e09a0b6e4640777e70981aa6dbca7293ecabb499d1c9d" }, { locator = "/housing/1997/cell", value = "Table 31!R10C2" }] }
 basis = "total"
 amount_minor = 7610300
 currency = "GBP"

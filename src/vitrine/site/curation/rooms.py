@@ -89,8 +89,8 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
     ),
     RoomStory(
         "1970s",
-        "The budget changes shape",
-        "What happens when the house grows while time and spending are redistributed?",
+        "Housing, work and an unfinished budget",
+        "What do housing, work and food records show while expenditure shares remain unverified?",
         (
             "us-1970s-expenditure-shares",
             "us-1970s-median-home-size",
@@ -161,8 +161,8 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
     # closed to the wing until UK comparative curation is authored.
     RoomStory(
         "1950s",
-        "A rented majority",
-        "What could a wage and a licence buy in a country where most homes were rented?",
+        "Homes, wages and licences",
+        "What do separate records show about housing, pay and television?",
         (
             "uk-1950s-weekly-earnings",
             "uk-1950s-tenure",
@@ -173,8 +173,8 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
     ),
     RoomStory(
         "1960s",
-        "Sets everywhere, hours unchanged",
-        "Who had the evening to watch a set that nearly every home now held?",
+        "Television and the working week",
+        "What did the licence register and manual-worker survey each measure?",
         (
             "uk-1960s-television",
             "uk-1960s-work-hours",
@@ -185,8 +185,8 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
     ),
     RoomStory(
         "1970s",
-        "The durable-goods decade",
-        "Which possessions were counted before the household's income was?",
+        "Equipment and household income",
+        "Who was measured in the equipment, tenure and household-income surveys?",
         (
             "uk-1970s-colour-tv",
             "uk-1970s-telephone",
@@ -197,8 +197,8 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
     ),
     RoomStory(
         "1980s",
-        "The owner's decade",
-        "How far did owning a home outpace owning a telephone line?",
+        "Homes and household equipment",
+        "What do the tenure and equipment surveys each show?",
         (
             "uk-1980s-tenure",
             "uk-1980s-telephone",
@@ -209,8 +209,8 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
     ),
     RoomStory(
         "1990s",
-        "Ownership peaks, computing begins",
-        "What did the fullest record yet show about a country of owners?",
+        "Ownership and home computing",
+        "What do housing, computing and pay records show about their measured populations?",
         (
             "uk-1990s-tenure",
             "uk-1990s-computer",
@@ -221,8 +221,8 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
     ),
     RoomStory(
         "2000s",
-        "Connected, still unmeasured at the table",
-        "What did near-universal connection leave unrecorded about the household budget?",
+        "Telephones, computers and a gap at the table",
+        "What can equipment and house-price records show while food remains uncurated?",
         (
             "uk-2000s-telephone",
             "uk-2000s-computer",
@@ -233,8 +233,8 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
     ),
     RoomStory(
         "2010s",
-        "The owner's share turns",
-        "How did a connected household meet a housing market turning back to rent?",
+        "Housing, computing and paid hours",
+        "How do housing records and employee-job surveys describe different parts of life?",
         (
             "uk-2010s-tenure",
             "uk-2010s-computer",
@@ -249,14 +249,13 @@ ROOM_STORY_BY_SLUG: dict[str, RoomStory] = {
     story.slug: story for story in ROOM_STORIES
 }
 
-# Every registry below this line -- stories, compositions, the stage, the gap
-# banners -- is keyed by decade alone and holds US fact ids. A second country's
-# "1950s" is a different room, so those registries must never be consulted for
-# it: doing so let uk-2010s draw us-2010s-expenditure-shares, which is exactly
-# the borrowed-exhibit failure the museum exists to prevent. Stories and gap
-# banners stay US-keyed (a country joins CURATED_COUNTRIES when its editorial
-# layer is authored); the stage registries are country-keyed instead, through
-# STAGE_BY_COUNTRY at the bottom of this file.
+# Enrollment follows the authored stories above, which identify their own
+# country and decade (currently US and UK). Some registries below, including
+# compositions and gap banners, still use decade-only keys and US-specific content.
+# A second country's "1950s" is a different room: country guards must prevent
+# it from borrowing those exhibits. Enrollment alone does not make a country
+# comparative; that separate boundary is declared below. Stage registries are
+# country-keyed through STAGE_BY_COUNTRY at the bottom of this file.
 CURATED_COUNTRIES: frozenset[str] = frozenset(
     story.country for story in ROOM_STORIES
 )
@@ -406,7 +405,10 @@ US_STAGE = StageCuration(
     diffusion=STAGE_DIFFUSION,
     stats=STAGE_STATS,
     compositions=COMPOSITIONS,
-    food_share=ARC_BY_SLUG["food-share"].fact_ids,
+    food_share={
+        decade: fid for decade, fid in ARC_BY_SLUG["food-share"].fact_ids.items()
+        if decade not in ARC_BY_SLUG["food-share"].plot_gaps
+    },
     home_size=HOME_SIZE_FACTS,
     # baseline: 1,525 sq ft — the 1970s datum, the earliest in the series.
     home_size_baseline=1525.0,

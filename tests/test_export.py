@@ -27,9 +27,9 @@ def test_json_round_trip_preserves_corpus_shape(tmp_path: Path) -> None:
     series = load_series(DATA)
     export_corpus(corpus, tmp_path, series)
 
-    payload = json.loads((tmp_path / "data" / "corpus.json").read_text())
+    payload = json.loads((tmp_path / "data" / "corpus.json").read_text(encoding="utf-8"))
     assert set(payload) == {"assumptions", "rooms", "schema_version", "series", "sources"}
-    assert payload["schema_version"] == 1
+    assert payload["schema_version"] == 2
     assert len(payload["rooms"]) == len(corpus.rooms)
     assert len(payload["sources"]) == len(corpus.sources)
     assert len(payload["assumptions"]) == len(corpus.assumptions)
@@ -51,7 +51,7 @@ def test_json_round_trip_preserves_corpus_shape(tmp_path: Path) -> None:
     }
     series_fields = {
         "currency", "id", "label", "measure", "notes", "population", "source",
-        "splices_from", "tier", "unit", "values", "values_minor",
+        "splices_from", "tier", "unit", "values", "values_minor", "kind", "rate_basis",
     }
     assert all(set(source) == source_fields for source in payload["sources"])
     assert all(set(item) == series_fields for item in payload["series"])
@@ -125,6 +125,12 @@ def test_exports_are_byte_identical_and_csv_is_quantified_only(tmp_path: Path) -
     export_corpus(corpus, second, series)
     build_data_page(corpus, first)
     build_data_page(corpus, second)
+    exported_schema = json.loads(
+        (first / "data" / "corpus.json").read_text(encoding="utf-8")
+    )["schema_version"]
+    assert f"schema version {exported_schema} ·" in (first / "data.html").read_text(
+        encoding="utf-8",
+    )
 
     for name in (
         "corpus.json",
@@ -170,12 +176,12 @@ def test_formula_safe_csv_keeps_canonical_values_unchanged(tmp_path: Path) -> No
     )
 
     export_corpus(altered, tmp_path, series)
-    raw = (tmp_path / "data" / RAW_CSV_FILENAME).read_text()
-    safe = (tmp_path / "data" / SAFE_CSV_FILENAME).read_text()
+    raw = (tmp_path / "data" / RAW_CSV_FILENAME).read_text(encoding="utf-8")
+    safe = (tmp_path / "data" / SAFE_CSV_FILENAME).read_text(encoding="utf-8-sig")
     assert "=SUM(A1)" in raw
     assert "'=SUM(A1)" in safe
     assert "'+cmd|'/C calc'!A0" in safe
-    payload = json.loads((tmp_path / "data" / "corpus.json").read_text())
+    payload = json.loads((tmp_path / "data" / "corpus.json").read_text(encoding="utf-8"))
     exported = next(
         fact
         for room in payload["rooms"]

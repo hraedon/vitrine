@@ -41,6 +41,8 @@ def test_room_selector_stays_a_compact_horizontal_row(
 def test_each_decade_badge_fits_its_own_tile(page: Page, server_url: str, width: int) -> None:
     page.set_viewport_size({"width": width, "height": 900})
     page.goto(server_url + "index.html")
+    for archive in page.locator(".wing-archive").all():
+        archive.locator("summary").click()
     bad = page.locator(".wing-decades a").evaluate_all("""els => els.flatMap(el => {
       const parent=el.getBoundingClientRect(); const issues=[];
       for (const child of el.querySelectorAll('small,span')) {
@@ -53,6 +55,37 @@ def test_each_decade_badge_fits_its_own_tile(page: Page, server_url: str, width:
       return issues;
     })""")
     assert not bad
+
+
+@pytest.mark.parametrize("width,height", [(375, 812), (768, 1024), (1440, 900)])
+def test_lobby_leads_with_accessible_country_entrances(
+    nojs_page: Page, server_url: str, width: int, height: int,
+) -> None:
+    """Visitors reach an exhibit before methodology and can expand each archive."""
+    nojs_page.set_viewport_size({"width": width, "height": height})
+    nojs_page.goto(server_url + "index.html")
+    entrances = nojs_page.locator(".wing-feature")
+    assert entrances.count() == 3
+    first = entrances.first.bounding_box()
+    assert first is not None and first["y"] < height - 60
+    assert nojs_page.locator(".lobby-guide").get_attribute("open") is None
+    assert nojs_page.locator(".lobby-disclaimer").inner_text().startswith("The composite family")
+    for entry in nojs_page.locator(".wing-entry").all():
+        feature = entry.locator(".wing-feature")
+        expect(feature).to_be_visible()
+        box = feature.bounding_box()
+        assert box is not None and box["height"] >= 44
+        assert box["x"] >= 0 and box["x"] + box["width"] <= width
+        archive = entry.locator(".wing-archive")
+        assert archive.get_attribute("open") is None
+        archive.locator("summary").click()
+        expect(archive.locator(".wing-decades a").first).to_be_visible()
+    assert nojs_page.evaluate("document.documentElement.scrollWidth <= innerWidth")
+    nojs_page.locator('#wing-uk-title').locator("xpath=ancestor::section[1]").locator(
+        ".wing-feature"
+    ).click()
+    expect(nojs_page.locator(".room-disclaimer")).to_be_visible()
+    expect(nojs_page.locator(".room-overture")).to_be_visible()
 
 
 @pytest.mark.parametrize("width", [375, 1280, 1440])

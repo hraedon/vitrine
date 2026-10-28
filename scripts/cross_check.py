@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Cross-check facts against sources — the WI-009 note-vs-source audit.
+"""Structural and editorial checks; this does not re-extract source values.
 
 Surfaces WI-008-class miscites corpus-wide by mechanically checking:
 1. Every fact's source ID resolves in sources.toml
 2. Every fact's quantity appears verbatim in its value string
-3. Fact notes don't mention a different source than what's cited
+3. Other source mentions in notes are surfaced for contextual review
 4. Source notes don't reference stale fact data (values no fact cites)
 5. Fact notes identify the cited source (heuristic keyword match)
 
@@ -13,30 +13,34 @@ Usage: python3 scripts/cross_check.py [--verbose]
 
 from __future__ import annotations
 
-import sys
+import argparse
+import math
 import tomllib
 from pathlib import Path
+
+from vitrine.check import _quantity_in_value
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
-def load_sources() -> dict[str, dict]:
-    with open(REPO_ROOT / "data/sources.toml", "rb") as f:
+def load_sources(data_dir: Path = REPO_ROOT / "data") -> dict[str, dict]:
+    with (data_dir / "sources.toml").open("rb") as f:
         data = tomllib.load(f)
     return {s["id"]: s for s in data.get("source", [])}
 
 
-def load_facts() -> list[dict]:
+def load_facts(data_dir: Path = REPO_ROOT / "data") -> list[dict]:
     facts: list[dict] = []
-    fact_dir = REPO_ROOT / "data/us"
-    for fname in sorted(fact_dir.iterdir()):
-        if not fname.name.endswith(".toml"):
-            continue
-        with open(fname, "rb") as f:
+    for fname in sorted(data_dir.glob("*/*.toml")):
+        with fname.open("rb") as f:
             data = tomllib.load(f)
+        room = data.get("room")
+        if not isinstance(room, dict):
+            continue  # essays and annual series are not room facts
         for fact in data.get("fact", []):
             fact["_decade"] = fname.stem
-            fact["_file"] = fname.name
+            fact["_country"] = room.get("country", "?")
+            fact["_file"] = fname.relative_to(data_dir).as_posix()
             facts.append(fact)
     return facts
 
@@ -48,7 +52,7 @@ def check_source_resolves(
     issues = []
     for fact in facts:
         sid = fact.get("source", "")
-        if sid and sid not in sources:
+        if not sid or sid not in sources:
             fid = fact.get("id", "?")
             issues.append(
                 f'  MISSING SOURCE: {fid} cites "{sid}" '
@@ -58,20 +62,17 @@ def check_source_resolves(
 
 
 def check_quantity_in_value(facts: list[dict]) -> list[str]:
-    """Check 2: quantity appears verbatim in the value string."""
+    """Use the core gate's complete-token rule, not a second substring test."""
     issues = []
     for fact in facts:
         qty = fact.get("quantity")
         val = fact.get("value", "")
-        if qty is None or not val:
+        if qty is None:
             continue
-        qty_str = str(qty)
-        qty_int = (
-            f"{int(qty):,}"
-            if isinstance(qty, (int, float)) and qty == int(qty)
-            else None
-        )
-        if qty_str not in val and (qty_int is None or qty_int not in val):
+        if (
+            isinstance(qty, bool) or not isinstance(qty, int | float)
+            or not math.isfinite(qty) or not _quantity_in_value(qty, val)
+        ):
             fid = fact.get("id", "?")
             issues.append(
                 f'  QTY MISMATCH: {fid} quantity={qty} '
@@ -83,7 +84,7 @@ def check_quantity_in_value(facts: list[dict]) -> list[str]:
 def check_note_source_mismatch(
     facts: list[dict], sources: dict[str, dict]
 ) -> list[str]:
-    """Check 3: fact notes don't mention a different source."""
+    """Flag other source mentions for review; a comparison is not a miscite."""
     issues = []
     source_patterns = {
         "ncta": {"ncta-cable-history"},
@@ -114,16 +115,22 @@ def check_note_source_mismatch(
         notes = fact.get("notes", "").lower()
         if not sid or not notes:
             continue
+        source = sources.get(sid, {})
+        identity = " ".join(str(source.get(key, "")) for key in (
+            "id", "title", "publisher", "short_cite",
+        )).lower()
         for pattern, valid_ids in source_patterns.items():
-            if pattern in notes and sid not in valid_ids:
+            if pattern in notes and sid not in valid_ids and pattern not in identity:
                 # Suppress false positive: notes that mention a
                 # previous source attribution in correction context
                 if "previous source" in notes or "was incorrect" in notes:
                     continue
                 fid = fact.get("id", "?")
                 issues.append(
-                    f"  NOTE-SOURCE MISMATCH: {fid} (source={sid}) "
-                    f'notes mention "{pattern}" -> {valid_ids}'
+                    f"  OTHER SOURCE MENTION: {fid} (source={sid}) "
+                    f'notes mention "{pattern}" '
+                    f'(known registrations: {", ".join(sorted(valid_ids))}); '
+                    "inspect whether this is comparison, lineage or a miscite"
                 )
     return issues
 
@@ -188,29 +195,34 @@ def check_source_url_resolves(
     issues = []
     for sid, src in sources.items():
         url = src.get("url", "")
-        if not url:
+        if not isinstance(url, str) or not url.strip():
             issues.append(f"  MISSING URL: source {sid} has no URL")
     return issues
 
 
 def check_tier_discipline(facts: list[dict]) -> list[str]:
-    """Check 7: no Tier D facts remain."""
+    """Surface scholarly estimates for editorial review; Tier D is permitted."""
     issues = []
     for fact in facts:
         tier = fact.get("tier", "")
-        if tier == "D":
+        if tier == "D" and not fact.get("value", "").strip().lower().startswith(
+            "no reliable record"
+        ):
             fid = fact.get("id", "?")
             issues.append(
-                f"  TIER D: {fid} is still Tier D — upgrade "
-                f"or render as gap"
+                f"  SCHOLARLY ESTIMATE: {fid} — retain the disclosed Tier D "
+                "unless new source evidence justifies a change"
             )
     return issues
 
 
-def main() -> int:
-    verbose = "--verbose" in sys.argv
-    sources = load_sources()
-    facts = load_facts()
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--data", type=Path, default=REPO_ROOT / "data")
+    parser.add_argument("--verbose", action="store_true")
+    args = parser.parse_args(argv)
+    sources = load_sources(args.data)
+    facts = load_facts(args.data)
 
     print(f"Cross-check: {len(facts)} facts, {len(sources)} sources")
     print()
@@ -220,7 +232,7 @@ def main() -> int:
          check_source_resolves(facts, sources)),
         ("CHECK 2: Quantity in value",
          check_quantity_in_value(facts)),
-        ("CHECK 3: Note-source mismatch",
+        ("CHECK 3: Other source mentions (editorial review)",
          check_note_source_mismatch(facts, sources)),
         ("CHECK 4: Stale source notes",
          check_stale_source_notes(facts, sources)),
@@ -228,7 +240,7 @@ def main() -> int:
          check_note_completeness(facts)),
         ("CHECK 6: Source has URL",
          check_source_url_resolves(facts, sources)),
-        ("CHECK 7: Zero Tier D",
+        ("CHECK 7: Disclosed scholarly estimates",
          check_tier_discipline(facts)),
     ]
 
@@ -252,7 +264,7 @@ def main() -> int:
             total_issues += len(issues)
             if name in hard_check_names:
                 hard_issues += len(issues)
-        elif verbose:
+        elif args.verbose:
             print(f"=== {name}: clean ===")
             print()
 
@@ -262,11 +274,12 @@ def main() -> int:
     print(f"Total issues: {total_issues}")
     print(f"Hard errors (block CI): {hard_issues}")
     if hard_issues == 0:
-        print("All hard checks passed — zero miscites detected.")
+        print("Structural checks passed. Source values were not re-extracted.")
+        print("Editorial advisories need contextual review; this is not source verification.")
     else:
         print(f"  {hard_issues} hard error(s) found — must fix.")
     return 1 if hard_issues else 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())

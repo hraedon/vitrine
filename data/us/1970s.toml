@@ -68,25 +68,23 @@ notes = "From Census F-8. Declining from 3.64 in 1947. By 1980: 3.27."
 [[fact]]
 id = "us-1970s-expenditure-shares"
 panel = "budget"
-label = "Expenditure breakdown, 4-person families, 1972-73"
-quantity = 26.0
-value = "Housing 26.0%, transportation 17.6%, food 17.1%, insurance/pensions 8.7%, entertainment 7.8%, healthcare 5.3%, apparel 6.4%, cash contributions 3.7%, education 1.5%"
+label = "Expenditure breakdown, four-person consumer units, 1972-73"
+value = "no reliable record verified for this comparison"
 unit = "% of total annual expenditure"
-source = "bls-cex"
-tier = "A"
-notes = "From the 1972-73 Consumer Expenditure Survey, Bulletin 1992, Table 2 (by family size). 10,668 thousand 4-person families. Total expenditures: $12,226 (current consumption $10,710 + personal insurance/pensions $1,063 + gifts/contributions $453). Income before taxes: $16,155. Expenditure = 76% of gross income. Source: BLS Bulletin 1992, Table 2, accessed via FRASER (fraser.stlouisfed.org)."
+source = "bls-cex-four-person-1972-73"
+tier = "D"
+notes = "The cited Bulletin 1992 Table 2 prints current consumption expenses separately from personal insurance/retirement/pensions and gifts/contributions. The previously displayed percentages used an undocumented constructed total rather than a publisher-printed total with a verified comparable definition. Those shares have been withdrawn pending an explicitly justified denominator. Literal food-category means remain available in us-1970s-food-basket. This is a verification gap, not proof that no expenditure data exist."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-1970s-cex-apparel-share"
 panel = "budget"
-label = "Apparel share of expenditure, four-person families, 1972-73"
-quantity = 6.4
-value = "6.4% of total expenditures"
+label = "Apparel share of expenditure, four-person consumer units, 1972-73"
+value = "no reliable record verified for this comparison"
 unit = "% of total annual expenditures"
-source = "bls-cex"
-tier = "A"
-notes = "From the 1972-73 Consumer Expenditure Survey, Bulletin 1992, Table 2 (by family size). 4-person families. Apparel and services: $782 of $12,226 total expenditure. Population differs from 2000s+ facts (all consumer units)."
+source = "bls-cex-four-person-1972-73"
+tier = "D"
+notes = "The cited Bulletin 1992 Table 2 prints current consumption expenses separately from personal insurance/retirement/pensions and gifts/contributions. The previously displayed percentages used an undocumented constructed total rather than a publisher-printed total with a verified comparable definition. Those shares have been withdrawn pending an explicitly justified denominator. Literal food-category means remain available in us-1970s-food-basket. This is a verification gap, not proof that no expenditure data exist."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
@@ -98,7 +96,7 @@ value = "12.6% (25.5 million people in poverty)"
 unit = "% of all people below official poverty level"
 source = "census-poverty-historical"
 tier = "A"
-notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 12.6%. Family poverty: 10.9%. Down sharply from 22.4% (1959) — War on Poverty programs (Medicaid, food stamps, expanded Social Security) and economic growth cut poverty nearly in half."
+notes = "From Census Historical Poverty Tables (API: histpov2). The official rate for all people was 12.6% in 1970, compared with 22.4% in 1959. The separate family poverty rate was 10.9% in 1970. These descriptive rates do not identify the causes of the change."
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -267,7 +265,7 @@ value = "Refrigerator 99.7%, color TV (NA in 1978), clothes washer 70.5%, clothe
 unit = "% of households with each appliance"
 source = "eia-aer-appliances"
 tier = "A"
-notes = "From EIA Annual Energy Review 1988, Table 8.3 (republished in Census Bureau, USSR/USA Statistical Abstract 1990). Data sourced from RECS (Form EIA-84). 1978 is the first RECS survey. Refrigerator was already universal (99.7%). The microwave oven was just beginning its diffusion (7.8%). Compare 1960s: TV 91.4%, refrigerator 84.7%, washing machine 70.0%. The 1970s saw refrigerator reach saturation; color TV data starts in 1980 (82.1%)."
+notes = "From EIA Annual Energy Review 1988, Table 8.3 (republished in Census Bureau, USSR/USA Statistical Abstract 1990). Data sourced from RECS (Form EIA-84). 1978 is the first RECS survey. Refrigerator was already universal (99.7%). The microwave oven was just beginning its diffusion (7.8%). The 1970s saw refrigerator reach saturation; color TV data starts in 1980 (82.1%)."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -339,6 +337,7 @@ notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $5,497M of $74
 
 [[fact]]
 id = "us-1970s-heart-disease-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R72:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R72:C1", value = "1970" }, { locator = "R72:C2", value = "Heart Disease" }] }
 quantity = 492.7
 panel = "table"
 label = "Heart disease age-adjusted death rate, 1970"
@@ -351,6 +350,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1970s-cancer-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R191:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R191:C1", value = "1970" }, { locator = "R191:C2", value = "Cancer" }] }
 quantity = 198.6
 panel = "table"
 label = "Cancer age-adjusted death rate, 1970"
@@ -363,6 +363,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1970s-stroke-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R429:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R429:C1", value = "1970" }, { locator = "R429:C2", value = "Stroke" }] }
 quantity = 147.7
 panel = "table"
 label = "Stroke age-adjusted death rate, 1970"
@@ -387,14 +388,13 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1970s-food-basket"
-quantity = 17.1
 panel = "table"
-label = "Food basket and expenditure breakdown, 1972-73 (CEX)"
-value = "Food $2,089/yr (17.1% of expenditure). Food at home $1,543 (74% of food), food away from home $546 (26%). Key items: beef $242, bakery $139, fresh milk $130, pork $134, poultry $69, other meats $61, fish $40, eggs $37, cereals $46. Total expenditure: $12,226."
-unit = "USD per family per year, nominal"
-source = "bls-cex"
+label = "Annual food-category expenditure, four-person consumer units, 1972-73"
+value = "Food $2,088.85/yr; food at home $1,542.58; food away from home $524.63; meals as pay $21.64. Selected food-at-home categories: beef $242.31, bakery $139.02, fresh milk and cream $130.20, pork $134.09, poultry $69.18, other meats $61.25, fish and seafood $39.93, eggs $36.59, cereals $45.75."
+unit = "USD per four-person consumer unit per year, nominal"
+source = "bls-cex-four-person-1972-73"
 tier = "A"
-notes = "From the 1972-73 CEX, Bulletin 1992, Table 2. 10,668 thousand 4-person families. Food at home share: 74%, food away: 26%. Beef was the largest single food item at $242/yr. Source: BLS Bulletin 1992, accessed via FRASER."
+notes = "Bulletin 1992, Table 2, printed page 37 (PDF page 44), 4 Persons column, annual means. The table covers urban and rural families and single consumers; its family terminology uses the consumer-unit concept described in the report. The Food total includes separately listed meals as pay. The old away-from-home amount incorrectly combined that category with meals as pay. Original cents precision is retained without whole-dollar rounding. A share of comparable total annual expenditure is not supplied: the table separates current consumption, personal insurance/pensions and gifts/contributions, and this review has not established a harmonized total. These category means are not a matched family diet."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
@@ -446,7 +446,7 @@ amount_minor = 354300
 currency = "USD"
 price_year = 1970
 basis = "total"
-notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13, Edition 40). Measures the average price consumers actually paid (not wholesale/list). Covers domestic + import passenger cars, excluding pickups, vans, and SUVs. Cross-check: CEX 1972-73 implies ~$3,552 average net outlay per new vehicle purchase ($440.41 annual expenditure / 12.4% reporting), closely matching the BEA figure. The Historical Statistics wholesale average for 1970 was ~$2,214 — the ~60% markup to transaction price reflects dealer margin, options, and taxes."
+notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13, Edition 40). Measures the average price consumers actually paid (not wholesale/list). Covers domestic + import passenger cars, excluding pickups, vans, and SUVs."
 assumptions = ["nominal-values"]
 
 
@@ -486,11 +486,11 @@ assumptions = ["composite-family"]
 id = "us-1970s-food-prices"
 panel = "table"
 label = "Retail food prices, April 1970"
-value = "Bread 23.9¢/lb, round steak 133¢/lb, milk 65.5¢/qt, potatoes 9.0¢/lb, eggs 57.3¢/doz"
-unit = "retail food prices (cents per pound/quart/dozen, April 1970)"
+value = "Bread 23.9¢/lb, round steak 133.3¢/lb, milk 65.5¢/half-gallon, potatoes 9.0¢/lb, eggs 57.3¢/doz"
+unit = "retail food prices (cents per pound/half-gallon/dozen, April 1970)"
 source = "statab-food-prices"
 tier = "A"
-notes = "From 1970 Statistical Abstract Table 530 (BLS data, April 1970 — most recent available). Milk is per quart, delivered. By April 1970, food inflation was accelerating: bread up 18% from 1960, round steak up 26%, milk up 152% (from 26.0¢ to 65.5¢/qt). The 1970s would bring double-digit food price inflation, especially after the 1973-74 oil shock and Soviet grain purchases."
+notes = "From the 1970 Statistical Abstract, Table 530 (printed page 349), April 1970 column. Delivered milk is priced per half-gallon here: footnote 4 says one quart through 1960 and a half-gallon thereafter. The earlier record treated this as a quart and incorrectly described a same-unit milk-price increase. Round steak is not the ground chuck quoted in the later BLS API records. These are selected-item city retail prices, not a matched household food basket."
 
 [[fact]]
 id = "us-1970s-cigarette-consumption"

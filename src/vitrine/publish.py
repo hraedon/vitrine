@@ -27,21 +27,23 @@ preflight checks are not a no-follow/dir-fd defense against an independent
 process that deliberately substitutes symlinks after validation. This module
 does not make that stronger security claim.
 
-This is deliberately stdlib-only. The site renderer and the corpus exporter
-both use it at their CLI boundary; direct projection functions remain useful
-for tests and callers that intentionally own their output directory. Note
-that "stdlib-only" here also means POSIX-only: the advisory lock uses
-``fcntl``, so the module (and the CLI) does not import on Windows.
+This is deliberately stdlib-only. The site renderer and corpus exporter share
+it at their CLI boundary. POSIX uses flock; Windows uses a cooperating byte
+lock through msvcrt. Windows permissions follow the parent directory's ACLs;
+the publisher clears read-only attributes but does not claim POSIX mode bits
+configure a Windows ACL. Path validation rejects junctions as well as symlinks.
 """
 
 from __future__ import annotations
 
-import fcntl
+import errno
 import os
 import shutil
 import stat
+import sys
 import tempfile
 import threading
+import time
 import uuid
 from collections.abc import Iterable, Iterator
 from contextlib import contextmanager
@@ -62,6 +64,39 @@ _KNOWN_NESTED_LOCK_ARTIFACT_NAMES = frozenset({".data.publish.lock"})
 _LOCK_STATE = threading.local()
 
 
+def _is_link(path: Path) -> bool:
+    """A directory junction can redirect Windows writes just like a symlink."""
+    return path.is_symlink() or path.is_junction()
+
+
+def _advisory_lock(fd: int, *, release: bool = False) -> None:
+    """Lock the same persistent inode/byte across processes on each platform."""
+    if sys.platform == "win32":
+        import msvcrt
+
+        # Windows permits locking beyond EOF, so the persistent file need not
+        # be initialized or written while another publisher owns its lock.
+        os.lseek(fd, 0, os.SEEK_SET)
+        if release:
+            msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+            return
+        while True:
+            try:
+                msvcrt.locking(fd, msvcrt.LK_NBLCK, 1)
+                return
+            except OSError as exc:
+                if exc.errno != errno.EACCES:
+                    raise
+                # LK_LOCK itself gives up after ten one-second attempts.
+                # Preserve flock's blocking contract for longer builds while
+                # allowing interruption and propagating non-contention errors.
+                time.sleep(0.05)
+    else:
+        import fcntl
+
+        fcntl.flock(fd, fcntl.LOCK_UN if release else fcntl.LOCK_EX)
+
+
 def _lexists(path: Path) -> bool:
     """Return whether *path* exists, including a broken symlink."""
     return os.path.lexists(path)
@@ -71,7 +106,7 @@ def _reject_symlink_components(destination: Path) -> None:
     """Reject a symlink at any component of an output path."""
     current = destination
     while True:
-        if current.is_symlink():
+        if _is_link(current):
             raise OutputError(f"refusing symlinked output path component: {current}")
         parent = current.parent
         if parent == current:
@@ -121,12 +156,12 @@ def validate_existing_tree(root: Path) -> None:
     """Reject a symlink at *root* or anywhere below an existing tree."""
     if not _lexists(root):
         return
-    if root.is_symlink():
+    if _is_link(root):
         raise OutputError(f"refusing symlink inside output destination: {root}")
     if not root.is_dir():
         return
     for path in root.rglob("*"):
-        if path.is_symlink():
+        if _is_link(path):
             raise OutputError(f"refusing symlink inside output destination: {path}")
 
 
@@ -137,13 +172,21 @@ def ensure_publishable_directory(path: Path) -> None:
     kernel masks with the process umask. Publication intentionally restores the
     public read/execute bits afterward, while never granting group/other write.
     """
-    if stat.S_IMODE(path.stat().st_mode) != _PUBLISHED_DIRECTORY_MODE:
+    if os.name == "nt":
+        # chmod cannot express ACLs; only ensure the owner can update this
+        # generated tree. Never change ACLs inherited from a private parent.
+        if not path.stat().st_mode & stat.S_IWRITE:
+            os.chmod(path, stat.S_IREAD | stat.S_IWRITE)
+    elif stat.S_IMODE(path.stat().st_mode) != _PUBLISHED_DIRECTORY_MODE:
         os.chmod(path, _PUBLISHED_DIRECTORY_MODE)
 
 
 def ensure_publishable_file(path: Path) -> None:
     """Make a regular static file owner-readable and public-readable."""
-    if stat.S_IMODE(path.stat().st_mode) != _PUBLISHED_FILE_MODE:
+    if os.name == "nt":
+        if not path.stat().st_mode & stat.S_IWRITE:
+            os.chmod(path, stat.S_IREAD | stat.S_IWRITE)
+    elif stat.S_IMODE(path.stat().st_mode) != _PUBLISHED_FILE_MODE:
         os.chmod(path, _PUBLISHED_FILE_MODE)
 
 
@@ -151,7 +194,7 @@ def ensure_publishable_tree(root: Path) -> None:
     """Validate a tree and ensure every real directory is publishable."""
     if not _lexists(root):
         return
-    if root.is_symlink():
+    if _is_link(root):
         raise OutputError(f"refusing symlink inside output destination: {root}")
     if not root.is_dir():
         return
@@ -159,7 +202,7 @@ def ensure_publishable_tree(root: Path) -> None:
     # be traversable until its root mode is fixed.
     ensure_publishable_directory(root)
     for path in root.rglob("*"):
-        if path.is_symlink():
+        if _is_link(path):
             raise OutputError(f"refusing symlink inside output destination: {path}")
         if path.is_dir():
             ensure_publishable_directory(path)
@@ -200,7 +243,7 @@ def _prepare_output_parent(path: Path) -> None:
         try:
             directory.mkdir(mode=_REQUESTED_DIRECTORY_MODE)
         except FileExistsError:
-            if directory.is_symlink() or not directory.is_dir():
+            if _is_link(directory) or not directory.is_dir():
                 raise OutputError(f"output parent was replaced: {directory}") from None
         ensure_publishable_directory(directory)
 
@@ -268,7 +311,7 @@ def _recover_rollback_artifact(destination: Path) -> None:
             f"{', '.join(str(path) for path in artifacts)}"
         )
     artifact = artifacts[0]
-    if artifact.is_symlink() or not artifact.is_dir():
+    if _is_link(artifact) or not artifact.is_dir():
         raise OutputError(f"invalid rollback artifact for {destination}: {artifact}")
     validate_existing_tree(artifact)
     try:
@@ -295,7 +338,7 @@ def _staging_artifacts(lock_root: Path) -> list[Path]:
 def _clean_orphan_staging_artifacts(lock_root: Path) -> None:
     """Remove safe-to-delete staging artifacts while its cooperative lock is held."""
     for artifact in _staging_artifacts(lock_root):
-        if artifact.is_symlink() or not artifact.is_dir():
+        if _is_link(artifact) or not artifact.is_dir():
             raise OutputError(f"invalid orphan staging artifact: {artifact}")
         try:
             ensure_publishable_tree(artifact)
@@ -313,7 +356,7 @@ def _remove_nested_lock_artifacts(root: Path) -> None:
         path = root / name
         if not _lexists(path):
             continue
-        if path.is_symlink() or not path.is_file():
+        if _is_link(path) or not path.is_file():
             raise OutputError(f"invalid nested publication lock: {path}")
         try:
             path.unlink()
@@ -337,7 +380,14 @@ def _remove_tree(path: Path) -> None:
     if _lexists(path):
         if path.is_symlink():
             path.unlink()
+        elif path.is_junction():
+            path.rmdir()
         else:
+            if os.name == "nt":
+                # A successful install must not strand its backup merely
+                # because the previous generated files were DOS read-only.
+                # Validate before clearing attributes; inherited ACLs remain.
+                ensure_publishable_tree(path)
             shutil.rmtree(path)
 
 
@@ -360,14 +410,19 @@ def _destination_lock(lock_root: Path) -> Iterator[bool]:
     if key in held:
         yield False
         return
-    if _lexists(lock_path) and lock_path.is_symlink():
+    if _lexists(lock_path) and _is_link(lock_path):
         raise OutputError(f"refusing symlinked publication lock: {lock_path}")
     if _lexists(lock_path):
         try:
             existing_stat = os.stat(lock_path, follow_symlinks=False)
             if not stat.S_ISREG(existing_stat.st_mode):
                 raise OutputError(f"publication lock is not a regular file: {lock_path}")
-            os.chmod(lock_path, 0o600, follow_symlinks=False)
+            if os.name != "nt":
+                os.chmod(lock_path, 0o600, follow_symlinks=False)
+            elif not existing_stat.st_mode & stat.S_IWRITE:
+                # A Windows process umask may have created a read-only lock.
+                # Its ACL is retained; clear only the DOS read-only attribute.
+                os.chmod(lock_path, stat.S_IREAD | stat.S_IWRITE)
         except OSError as exc:
             raise OutputError(f"could not repair publication lock: {lock_path}") from exc
     flags = os.O_RDWR | os.O_CREAT | getattr(os, "O_NOFOLLOW", 0)
@@ -383,8 +438,11 @@ def _destination_lock(lock_root: Path) -> Iterator[bool]:
                 lock_stat, path_stat
             ):
                 raise OutputError(f"publication lock is not a regular file: {lock_path}")
-            os.fchmod(fd, 0o600)
-            fcntl.flock(fd, fcntl.LOCK_EX)
+            if os.name != "nt":
+                os.fchmod(fd, 0o600)
+            elif not lock_stat.st_mode & stat.S_IWRITE:
+                os.chmod(lock_path, stat.S_IREAD | stat.S_IWRITE)
+            _advisory_lock(fd)
         except OSError as exc:
             raise OutputError(f"could not acquire publication lock: {lock_path}") from exc
         held.add(key)
@@ -392,7 +450,7 @@ def _destination_lock(lock_root: Path) -> Iterator[bool]:
             yield True
         finally:
             held.remove(key)
-            fcntl.flock(fd, fcntl.LOCK_UN)
+            _advisory_lock(fd, release=True)
     finally:
         os.close(fd)
 

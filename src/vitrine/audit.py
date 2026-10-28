@@ -346,7 +346,7 @@ def _extract(blob: bytes, ref: AuditRef) -> tuple[tuple[object, ...], tuple[obje
     values: list[object] = []
     match ref.extractor:
         case Extractor.CSV_CELL:
-            rows = list(csv.reader(io.StringIO(blob.decode(ref.encoding))))
+            rows = list(csv.reader(io.StringIO(blob.decode(ref.encoding), newline="")))
             for locator in locators:
                 row, col = (int(n) for n in re.findall(r"\d+", locator))
                 values.append(rows[row - 1][col - 1])

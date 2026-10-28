@@ -1,4 +1,4 @@
-# The corpus export — consumer notes (schema version 1)
+# The corpus export — consumer notes (schema version 2)
 
 `vitrine export` (and every full `vitrine build`) writes a data surface:
 `data/corpus.json`, `data/facts.csv`, and `data/facts-raw.csv`, introduced
@@ -25,7 +25,7 @@ exporter changed — never chance.
 
 ## `corpus.json`
 
-Top level: `schema_version` (currently `1`), then four arrays.
+Top level: `schema_version` (currently `2`), then four arrays.
 
 ### `rooms[]`
 
@@ -54,10 +54,10 @@ Two conventions matter to consumers:
   units; never assume 100.
 - **`quantity` is the chartable number, and the gate enforces that one of
   its canonical renderings (plain, thousands-comma, or trailing-zero
-  forms) occurs inside `value`** — so `value` is the display form of
-  `quantity`. The containment is substring-based, not token-based: a
-  consumer quoting `value` verbatim is safe, but a consumer parsing
-  numbers back out of `value` should read `quantity` instead.
+  forms) occurs as a complete numeric token inside `value`**. Consumers
+  should read `quantity` instead of parsing display prose. Token presence
+  does not establish which of several independent numbers is the headline,
+  or verify the cited source; those remain editorial checks.
 
 ### `rooms[].derived[]` — one computed fact
 
@@ -81,10 +81,25 @@ reproducible from this file alone too.
 
 Sources serialize every registry field (`id`, `title`, `publisher`, `year`,
 `url`, `population`, `notes`, `short_cite`, `measure`, `expect[]`).
-Assumptions are `id` / `title` / `statement`. Series carry their full
-annual observation set — `values`, and `values_minor` with `currency` when
-the series is monetary — plus `label`, `source`, `tier`, `unit`,
-`population`, `notes`, `splices_from`, `measure`.
+Assumptions are `id` / `title` / `statement`. Series carry their full annual
+observation set, plus `label`, `source`, `tier`, `unit`, `population`, `notes`,
+`splices_from`, `measure`, `kind`, `currency` and nullable `rate_basis`.
+Exactly one observation map is nonempty:
+
+| `kind` | Storage and interpretation | `currency` | `rate_basis` |
+|---|---|---|---|
+| `quantity` | `values`: index points, shares, hours or other stated units | Empty | `null` |
+| `monetary_amount` | `values_minor`: integer minor currency units | Required | `null` |
+| `monetary_rate` | `values`: major currency units per stated time basis | Required | `hourly`, `weekly`, `monthly` or `annual` |
+
+Rates are already in major currency units: **do not divide rate observations
+by the currency's minor-unit scale**. Their annual observations may be means
+of monthly published rates; four-decimal subcent precision is retained.
+`rate_basis` states the denominator of each rate, not the frequency of the
+annual observation map. It does not establish a complete year of employment.
+Rates and amounts can form same-currency affordability ratios. An inflation
+index or threshold-count input must be a non-monetary quantity; a monetary
+rate cannot stand in for one.
 
 ## The CSV pair
 
@@ -115,8 +130,18 @@ the terms stated on its source record.
 
 ## Versioning
 
-`schema_version` is `1`. Within a version, changes are additive only (new
+`schema_version` is `2`. Within a version, changes are additive only (new
 optional fields, new enum values are avoided for existing fields). A
 breaking change — a field removed or retyped, a convention above altered —
 bumps `schema_version` and gets a `docs/changelog.md` entry. Consumers
 should read `schema_version` and stop on a version they do not know.
+
+Version 2 adds explicit series `kind` and `rate_basis` and permits `currency`
+beside `values` only for monetary rates. Version 1 described every float
+series as non-monetary, although three earnings series actually held major
+USD rates with currency only in their prose units. Their numeric observations
+are unchanged in version 2. A version-1 client must not interpret the newly
+declared currency as a request to scale those float values. Other record
+fields and both CSV projections retain their previous semantics. Previous
+exports can be reproduced from the corresponding repository revision;
+the current exporter emits version 2 only.

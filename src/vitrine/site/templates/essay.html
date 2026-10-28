@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from "macros/placards.html" import placard_overlay %}
+{% from "macros/charts.html" import chart_tables %}
 {% block title %}{{ page.title }} — docent tours · vitrine{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · docent tour · <a href="index.html">all tours</a></p>
@@ -15,6 +16,7 @@
     <figcaption><b>{{ block.chart_label }}</b> · {{ block.chart_unit }}</figcaption>
     {% for caveat in block.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
     {% if block.chart %}<div class="chart-panel">{{ block.chart }}</div>{% endif %}
+    {{ chart_tables(block.tables) }}
     {% if block.note %}<p class="case-sub">{{ block.note }}</p>{% endif %}
   </figure>
   {% endif %}

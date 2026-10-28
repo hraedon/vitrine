@@ -1,6 +1,6 @@
 # UK, the 1960s. Pre-1970, only MANUAL-worker earnings exist in the ONS series,
 # so the wage anchor is adult male manual workers. TV diffusion is taken from
-# receiving-licence counts (near-universal by mid-decade); colour from 1968.
+# receiving-licence counts; these are not household penetration rates.
 # No affordability anchors: the household-income series begins only in 1977, and
 # the decade's hourly earnings are printed in shillings and pence, which the money
 # layer cannot hold. Hours, which the same table prints in decimals, are recorded.
@@ -14,6 +14,7 @@ decade = "1960s"
 
 [[fact]]
 id = "uk-1960s-weekly-earnings"
+audit = { file = "30-uk-income/ons-earnings-1938-2025.xlsx", extractor = "xlsx-cell", locator = "Average Gross Weekly Earnings!E42", scale = "100", target = "amount_minor", guards = [{ locator = "Average Gross Weekly Earnings!E4", value = "Mean gross weekly earnings for Adult Full-Time Employees in Great Britain whose pay for the survey period was not affected by absence" }, { locator = "Average Gross Weekly Earnings!G7", value = "Adult Male" }, { locator = "Average Gross Weekly Earnings!E9", value = "Manual" }, { locator = "Average Gross Weekly Earnings!E11", value = "\u00a3" }, { locator = "Average Gross Weekly Earnings!B42", value = "1965" }] }
 basis = "weekly"
 amount_minor = 1891
 currency = "GBP"
@@ -25,7 +26,7 @@ value = "£18.91"
 unit = "GBP per week, nominal (mean gross weekly earnings, male manual, full-time)"
 source = "ons-earnings-1938-2025"
 tier = "A"
-notes = "From the ONS long-run earnings series. 1965 (April sample, pre-NES): adult male manual workers £18.91/week; adult female manual workers £9.21/week. Great Britain. Pre-1970 the series reports manual and non-manual workers separately, not a combined all-employee figure. Individual earnings, not family income."
+notes = "From the ONS long-run mean gross weekly earnings table, April 1965, adult male manual full-time employees, Great Britain. The table excludes employees whose pay was affected by absence. This is individual employee pay, not a household income or a real-wage comparison; the nominal series alone cannot establish an inflation-adjusted historical ranking."
 assumptions = ["composite-family", "nominal-values", "manufacturing-wage-proxy"]
 
 [[fact]]
@@ -42,6 +43,7 @@ notes = "No median household-income series is transcribed for the 1960s. The FES
 
 [[fact]]
 id = "uk-1960s-tenure"
+audit = { file = "32-uk-housing/ons-century-homeownership.csv", extractor = "csv-cell", locator = "R5:C2", guards = [{ locator = "R1:C1", value = "group" }, { locator = "R1:C2", value = "Owned" }, { locator = "R1:C3", value = "Private rented" }, { locator = "R1:C4", value = "Socially rented" }, { locator = "R5:C1", value = "1961" }, { locator = "R5:C3", value = "34" }, { locator = "R5:C4", value = "23" }], target = "quantity" }
 quantity = 43
 panel = "home"
 label = "Tenure of households, England and Wales, 1961"
@@ -49,7 +51,7 @@ value = "Owned 43%, private rented 34%, socially rented 23%"
 unit = "% of households"
 source = "ons-century-homeownership"
 tier = "A"
-notes = "From ONS analysis of Census of England and Wales tenure. 1961: owner-occupation had risen to 43% (from 32% in 1953) as mortgage access widened; private renting continued its long decline (34%). The social-rented sector more than doubled over the decade (10% → 23%) on the postwar council-house building drive. Households, not families."
+notes = "From ONS analysis of Census of England and Wales tenure. 1961: owner-occupation had risen to 43% (from 32% in 1953) as mortgage access widened; private renting continued its long decline (34%). The social-rented share was 23%, compared with 18% in 1953. Households, not families."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -69,10 +71,10 @@ id = "uk-1960s-television"
 panel = "diffusion"
 label = "Television receiving licences, 1965"
 value = "13,253,045 licences (1965)"
-unit = "television receiving licences at 31 March (≈ TV-owning households)"
+unit = "television receiving licences at 31 March"
 source = "terramedia-tv-licences"
 tier = "A"
-notes = "From BBC / TV Licensing receiving-licence counts. Television reached near-universality through the 1960s: 10,469,753 licences (1960) → 13,253,045 (1965), covering the great majority of households. BBC2 and colour television began in 1968. One licence was required per household with a set, so the count approximates TV-owning households (slight evasion undercount). This licence count is not directly comparable to the post-1972 GHS household-percentage series."
+notes = "From BBC / TV Licensing receiving-licence counts. The register reports 10,469,753 licences in 1960 and 13,253,045 in 1965. These are administrative counts without a household denominator; they do not establish a household ownership percentage or near-universal access. This licence count is not directly comparable to the post-1972 GHS household-percentage series."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 

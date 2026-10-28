@@ -17,6 +17,7 @@ income_anchor = "uk-1970s-household-income"
 
 [[fact]]
 id = "uk-1970s-weekly-earnings"
+audit = { file = "30-uk-income/ons-earnings-1938-2025.xlsx", extractor = "xlsx-cell", locator = "Average Gross Weekly Earnings!I49", scale = "100", target = "amount_minor", guards = [{ locator = "Average Gross Weekly Earnings!E4", value = "Mean gross weekly earnings for Adult Full-Time Employees in Great Britain whose pay for the survey period was not affected by absence" }, { locator = "Average Gross Weekly Earnings!G7", value = "Adult Male" }, { locator = "Average Gross Weekly Earnings!I9", value = "\"All\"" }, { locator = "Average Gross Weekly Earnings!I11", value = "\u00a3" }, { locator = "Average Gross Weekly Earnings!B49", value = "1970" }] }
 basis = "weekly"
 amount_minor = 3000
 currency = "GBP"
@@ -28,11 +29,12 @@ value = "£30.00"
 unit = "GBP per week, nominal (mean gross weekly earnings, male full-time)"
 source = "ons-earnings-1938-2025"
 tier = "A"
-notes = "From the ONS long-run earnings series. 1970 (April sample, NES methodology): adult male full-time employees £30.00/week. Occupational spread in the source: manual £26.80, non-manual £35.80. Adult female full-time: £16.30/week (manual £13.40, non-manual £17.80). Great Britain. This is individual earnings, not family income — a two-earner family earned more, a single-earner family less."
+notes = "From the ONS long-run mean gross weekly earnings table, April 1970, adult male full-time employees, Great Britain. The table excludes employees whose pay was affected by absence. This is individual employee pay, not a household income or a real-wage comparison; the nominal series alone cannot establish an inflation-adjusted historical ranking."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "uk-1970s-household-income"
+audit = { file = "30-uk-income/etb-hhldtype.xlsx", extractor = "xlsx-cell", locator = "1977!G38", scale = "100", guards = [{ locator = "1977!A1", value = "Summary of the effects of taxes and benefits, by household type,1 1977" }, { locator = "1977!B27", value = "Non-Retired households" }, { locator = "1977!G29", value = "2 adults" }, { locator = "1977!G30", value = "with 2" }, { locator = "1977!G31", value = "children" }, { locator = "1977!A38", value = "Disposable income" }], target = "amount_minor" }
 basis = "annual"
 amount_minor = 411600
 currency = "GBP"
@@ -51,6 +53,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "uk-1970s-tenure"
+audit = { file = "32-uk-housing/ons-century-homeownership.csv", extractor = "csv-cell", locator = "R6:C2", guards = [{ locator = "R1:C1", value = "group" }, { locator = "R1:C2", value = "Owned" }, { locator = "R1:C3", value = "Private rented" }, { locator = "R1:C4", value = "Socially rented" }, { locator = "R6:C1", value = "1971" }, { locator = "R6:C3", value = "20" }, { locator = "R6:C4", value = "29" }], target = "quantity" }
 quantity = 51
 panel = "home"
 label = "Tenure of households, England and Wales, 1971"
@@ -75,6 +78,7 @@ notes = "The 1971 Census of England and Wales asked about hot water, fixed bath,
 
 [[fact]]
 id = "uk-1970s-telephone"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R8:C4", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C4", value = "Telephone" }, { locator = "R8:C1", value = "1972" }], target = "quantity" }
 quantity = 42
 panel = "diffusion"
 label = "Households with a telephone, 1972"
@@ -87,6 +91,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-1970s-car"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R8:C5", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C5", value = "Car or van" }, { locator = "R8:C1", value = "1972" }], target = "quantity" }
 quantity = 52
 panel = "diffusion"
 label = "Households with a car or van, 1972"
@@ -99,6 +104,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-1970s-colour-tv"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R10:C2", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C2", value = "Colour television" }, { locator = "R10:C1", value = "1978" }], target = "quantity" }
 quantity = 61
 panel = "diffusion"
 label = "Households with a colour television, 1978"
@@ -106,7 +112,7 @@ value = "61%"
 unit = "% of households with a colour television"
 source = "ons-ghs-40yr"
 tier = "A"
-notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Colour television began in 1968 (BBC2); by 1978, 61% of households had a colour set. Total TV ownership (black-and-white plus colour) was near-universal by the late 1960s, so this colour figure understates TV access. The GHS did not record colour TV before 1978."
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). In 1978, 61% of households had a colour set. This measures colour-set ownership, not ownership of any television. The overview's colour-TV series begins with 1978."
 assumptions = ["composite-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -141,11 +147,11 @@ assumptions = ["nominal-values"]
 id = "uk-1970s-food-basket-gap"
 panel = "table"
 label = "The food basket, 1970s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The National Food Survey (NFS) ran continuously 1940–2000 and recorded household food consumption and expenditure; the 1970s NFS data is not in the archive. (The archive holds NFS 1940–49 working-class-diet reports and 2023–24 Family Food data, but not the 1970s.)"
+notes = "The National Food Survey reports for 1974 and 1979 are in the archive, including national consumption, expenditure and price tables for food obtained for consumption at home. Those tables have not yet been transcribed and qualified for this room. This is a curation gap, not evidence that the reports or the underlying record are unavailable."
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 

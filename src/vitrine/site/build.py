@@ -97,7 +97,8 @@ def _render_page(
     out_path.write_text(
         env.get_template(template_name).render(
             root=root, surface=surface, page=page, standalone=standalone
-        )
+        ),
+        encoding="utf-8", newline="\n",
     )
 
 
@@ -126,16 +127,20 @@ def _write_assets(out_dir: Path) -> None:
     assets_dir = out_dir / "assets"
     assets_dir.mkdir(mode=0o755, exist_ok=True)
     ensure_publishable_directory(assets_dir)
-    enhancements = files("vitrine.site").joinpath("assets/enhancements.js").read_text()
-    (assets_dir / "enhancements.js").write_text(enhancements)
-    css_source = files("vitrine.site").joinpath("assets/museum.css.j2").read_text()
+    enhancements = files("vitrine.site").joinpath("assets/enhancements.js").read_text(
+        encoding="utf-8",
+    )
+    (assets_dir / "enhancements.js").write_text(enhancements, encoding="utf-8", newline="\n")
+    css_source = files("vitrine.site").joinpath("assets/museum.css.j2").read_text(
+        encoding="utf-8",
+    )
     # The stylesheet renders in its own non-autoescaping env on purpose: the
     # CSS uses {{ T.COPPER }} etc. and would be mangled by HTML autoescape.
     # build_environment() is for HTML templates only.
     museum_css = Environment(autoescape=False, undefined=StrictUndefined).from_string(
         css_source
     ).render(T=tokens)
-    (assets_dir / "museum.css").write_text(museum_css)
+    (assets_dir / "museum.css").write_text(museum_css, encoding="utf-8", newline="\n")
 
 
 def _environment_for(corpus: Corpus) -> Environment:
@@ -420,7 +425,9 @@ def _build_site_contents(
             root="../../", surface="bibliography", page=project_source(corpus, source),
         )
 
-    (out_dir / "facts-manifest.txt").write_text("\n".join(rendered_ids) + "\n")
+    (out_dir / "facts-manifest.txt").write_text(
+        "\n".join(rendered_ids) + "\n", encoding="utf-8", newline="\n",
+    )
 
 
 def build_site(

@@ -73,6 +73,9 @@ def _clean_env(home: Path) -> dict[str, str]:
     env = {k: v for k, v in os.environ.items() if not k.endswith("FORBIDDEN_IDENTIFIERS")}
     env["GIT_CONFIG_GLOBAL"] = os.devnull
     env["GIT_CONFIG_NOSYSTEM"] = "1"
+    # Pin the subprocess diagnostic protocol only. The forced-locale tests
+    # still exercise non-UTF-8 file decoding with UTF-8 mode disabled.
+    env["PYTHONIOENCODING"] = "utf-8"
     # Some gates fall back to a denylist FILE under $HOME when the variable is
     # unset (a developer convenience). A developer box that has one would arm
     # the gate exactly as an inherited variable would, so HOME points at an
@@ -174,6 +177,7 @@ class VisibilityContract(unittest.TestCase):
             env=env,
             capture_output=True,
             text=True,
+            encoding="utf-8",
             timeout=120,
             check=False,
         )
@@ -328,7 +332,14 @@ class DeclarationSourceContract(VisibilityContract):
                 target = self.root / "elsewhere.toml"
                 if target_exists:
                     target.write_text(self._declare("private-until-review"), encoding="utf-8")
-                (self.root / "publication.toml").symlink_to(target.name)
+                try:
+                    (self.root / "publication.toml").symlink_to(target.name)
+                except OSError as exc:
+                    if os.name == "nt" and getattr(exc, "winerror", None) == 1314:
+                        self.skipTest(
+                            "creating a symlink requires Windows Developer Mode or privilege"
+                        )
+                    raise
                 result = self._gate()
                 self.assertEqual(result.returncode, 1, result.stderr)
 
@@ -455,7 +466,12 @@ class DeclarationSourceContract(VisibilityContract):
         self._git("add", "notes.txt")
         self._git("commit", "-q", "--no-verify", "-m", "regular file")
         link.unlink()
-        link.symlink_to("zzzsynthetictoken.example.invalid")
+        try:
+            link.symlink_to("zzzsynthetictoken.example.invalid")
+        except OSError as exc:
+            if os.name == "nt" and getattr(exc, "winerror", None) == 1314:
+                self.skipTest("creating a symlink requires Windows Developer Mode or privilege")
+            raise
         self._git("add", "notes.txt")
         result = self._gate("--staged", denylist="zzzsynthetictoken")
         self.assertEqual(result.returncode, 1, result.stderr)
@@ -590,8 +606,10 @@ class DeclarationSourceContract(VisibilityContract):
         self._run(self._declare("public"))
         decl = self.root / "publication.toml"
         decl.unlink()
-        decl.symlink_to(self._declare("private-until-review"))
-        self._git("add", "publication.toml")
+        # History validation concerns the Git object mode, not whether the
+        # host OS allows a symlink whose target contains TOML punctuation.
+        oid = self._blob(self._declare("private-until-review").encode())
+        self._stage_raw_declaration("120000", [f"{oid} 0"])
         self._git("commit", "-q", "--no-verify", "-m", "symlink declaration")
         self._git("rm", "-q", "publication.toml")
         self._git("commit", "-q", "--no-verify", "-m", "remove declaration")

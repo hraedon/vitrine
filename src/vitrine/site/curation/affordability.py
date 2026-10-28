@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from vitrine.site.curation.corridors import ARC_BY_SLUG
 from vitrine.site.curation.models import Metric
 
 # ── affordability dashboard metrics (Plan 011) ───────────────────────────────
@@ -14,8 +15,8 @@ AFFORDABILITY_METRICS: tuple[Metric, ...] = (
         "home-as-income-years",
         "A median home, in years of median income",
         "years of 4-person median family income",
-        "Home values are decennial (1940–2000) then ACS (2005+); the line "
-        "is sparse because that is the honest shape of the record before ACS.",
+        "Home values are decennial (1940–2000) then ACS (2005+); observations "
+        "are sparse before ACS, and lines join consecutive years only.",
         numerator=("median-home-value-decennial", "median-home-value-acs"),
         denominator=("median-family-income-4p",),
         caveats=(
@@ -27,8 +28,8 @@ AFFORDABILITY_METRICS: tuple[Metric, ...] = (
         "car-as-hours-of-work",
         "A new car, in hours of work",
         "hours of average hourly earnings (total private)",
-        "The price line has only six transcribed points (the BEA transaction "
-        "series' decade years); early-decade gaps render as gaps.",
+        "The price record has only six transcribed points (the BEA transaction "
+        "series' decade years); the unobserved years remain gaps between dots.",
         numerator=("new-car-price",),
         denominator=("hourly-earnings-total-private",),
         caveats=(
@@ -63,10 +64,13 @@ AFFORDABILITY_METRICS: tuple[Metric, ...] = (
         "food-share",
         "Food's share of spending",
         "% of household expenditure",
-        "No annual series exists for food share — the line is the decade "
-        "survey points, and the gaps between surveys are unknown.",
+        "No annual series exists for food share. Decade markers use illustrative "
+        "midpoint positions unless a record declares an exact year; the record "
+        "label preserves the observation's actual date. Gaps between surveys "
+        "are unknown, and an excluded archive record is never a plotted value.",
         source_arc="food-share",
         falling=True,
+        caveats=ARC_BY_SLUG["food-share"].caveats,
     ),
     Metric(
         "real-wage-index",

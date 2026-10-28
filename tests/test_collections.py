@@ -113,7 +113,7 @@ def test_japan_page_keeps_disclaimer_source_cards_and_decade_archive(
     page = project_japan_collection(corpus)
     html = unescape((site / "collections" / "japan.html").read_text())
     assert corpus.assumptions["composite-family"].statement in html
-    assert "Observed 2009" in html
+    assert "Record date 2009" in html
     assert "Filed in the 2010s archive" in html
     assert "not a four-person median" in html
     for ref in page.overlay_facts:

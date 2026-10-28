@@ -1,15 +1,17 @@
 {% extends "base.html" %}
 {% from "macros/placards.html" import placard_overlay %}
+{% from "macros/placards.html" import calculation_badge %}
 {% macro observation(item) %}
 {% set fact = item.ref.fact %}
 <article class="observation-card" id="selection-{{ fact.id }}">
-  <p class="observation-date">Observed {{ item.year }}{% if item.outside_decade %}<span class="archive-date-note">Filed in the {{ item.ref.room.decade }} archive</span>{% endif %}</p>
+  <p class="observation-date">Record date {{ item.year }}{% if item.outside_decade %}<span class="archive-date-note">Filed in the {{ item.ref.room.decade }} archive</span>{% endif %}</p>
   <a class="observation-link" href="#{{ fact.id }}--modal" data-fact-id="{{ fact.id }}">
     {% if item.glyph %}<span class="artifact-image"><svg viewBox="-19 -19 38 38" aria-hidden="true" class="artifact-icon">{{ item.glyph }}</svg></span>{% endif %}
     <span><span class="observation-value">{{ fact.value }}</span><b>{{ fact.label }}</b></span>
     <span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}">{{ fact.tier.value }}</span>
   </a>
   <p class="case-sub">{{ fact.unit }}</p>
+  {{ calculation_badge(fact) }}
   <p class="observation-population"><b>Source population:</b> {{ page.sources[fact.source].population }}</p>
   <a class="record-permalink" href="../rooms/{{ item.ref.room.slug }}.html#{{ fact.id }}">Record in the decade archive ↗</a>
 </article>
@@ -35,7 +37,7 @@
     <div class="lens-heading"><h3 id="{{ lens.slug }}-title">{{ lens.title }}</h3><p>{{ lens.note }}</p><a href="../archive/sources/{{ lens.source.id }}.html">{{ lens.source.publisher }} · source collection ↗</a></div>
     {{ observation(lens.observations[0]) }}
     {% if lens.observations|length > 1 %}
-    <details class="observation-more"><summary>Read {{ lens.observations|length - 1 }} more dated observation{{ 's' if lens.observations|length > 2 else '' }}</summary>
+    <details class="observation-more"><summary>Read {{ lens.observations|length - 1 }} more dated record{{ 's' if lens.observations|length > 2 else '' }}</summary>
       <div class="observation-grid">{% for item in lens.observations[1:] %}{{ observation(item) }}{% endfor %}</div>
     </details>
     {% endif %}
@@ -45,7 +47,7 @@
 {% endfor %}
 <section class="collection-intro" aria-labelledby="japan-archive-title">
   <p class="story-kicker">Continue researching</p><h2 id="japan-archive-title">The decade archive</h2>
-  <p>Every authored observation and documented gap remains in its original decade folder. These folders are research holdings; the selected views above do not exhaust their records.</p>
+  <p>Every sourced record and documented gap remains in its original decade folder. These folders are research holdings; the selected views above do not exhaust their records.</p>
   <nav class="wing-decades" aria-label="Japan decade archives">{% for room in page.rooms %}<a href="../rooms/{{ room.slug }}.html">{{ room.decade }} ↗</a>{% endfor %}</nav>
 </section>
 {% endblock %}

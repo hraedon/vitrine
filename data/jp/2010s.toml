@@ -22,6 +22,7 @@ decade = "2010s"
 
 [[fact]]
 id = "jp-2010s-workers-income"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/2015/income/value", target = "amount_minor", guards = [{ locator = "/fies/2015/income/year", value = "2015" }, { locator = "/fies/2015/income/title", value = "18-2 Yearly Average of Monthly Receipts and Disbursements per Household for Workers' Households (1963\uff5e2017)" }, { locator = "/fies/2015/income/heading", value = "Income" }, { locator = "/fies/2015/income/unit", value = "(yen)" }, { locator = "/fies/2015/income/file", value = "36-jp-income/fies-a18-2.xls" }, { locator = "/fies/2015/income/sha256", value = "36407a833d72c661aaef7ca541405e16f5497b2624358a6a02f7a2ca8888379d" }, { locator = "/fies/2015/income/cell", value = "\u52e4\u52b4\u8005\u4e16\u5e2f!R67C8" }, { locator = "/fies/2015/income/exclusion", value = "\uff0a The data is not including agricultural, forestry and fisheries households." }] }
 basis = "monthly"
 amount_minor = 525955
 currency = "JPY"
@@ -32,7 +33,7 @@ value = "¥525,955 per month"
 unit = "JPY per month, nominal (actual monthly income, workers' households)"
 source = "jp-fies"
 tier = "A"
-notes = "From FIES long-run time-series (fies-a18-2.xls), 2015, column 実収入, workers' households. Essentially flat versus 2005 (¥522,629) — nominal income stagnated for a decade, still 8% below the 1995 peak (¥570,817). Real (CPI-adjusted) income rose as prices fell. Two-or-more-person workers' households, Japan."
+notes = "From the archived FIES long-run table, 2015, 勤労者世帯!R67C8. This is annual-average monthly income of workers' households, not a median or a four-person family estimate. The archived table excludes agricultural, forestry and fisheries households."
 assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-deflation-lost-decades"]
 
 [[fact]]
@@ -110,7 +111,7 @@ value = "61.9%"
 unit = "% of two-or-more-person households"
 source = "jp-nsfiie"
 tier = "A"
-notes = "From NSFIIE 2009 summary (https://www.stat.go.jp/english/data/zensho/2009/pdf/results4.pdf): flat-screen TV ownership rate 61.9% (865 units per 1,000 households). A new survey item in 2009; up 652.2% from 2004. The CRT/Braun-tube TV rate was 74.9% (down from 97.3% in 2004) as households replaced CRTs. 2009 is the closest available NSFIIE survey — the 2014 and 2019 surveys do not publish English durable-goods summaries. Two-or-more-person households, nationwide."
+notes = "From NSFIIE 2009 summary (https://www.stat.go.jp/english/data/zensho/2009/pdf/results4.pdf): flat-screen TV ownership rate 61.9% (865 units per 1,000 households). The 652.2% increase from 2004 describes the number of sets per 1,000 households (115 to 865), not the percentage of households owning a set. The CRT/Braun-tube TV ownership rate was 74.9% (97.3% in 2004). 2009 is the closest available NSFIIE survey — the 2014 and 2019 surveys do not publish English durable-goods summaries. Two-or-more-person households, nationwide."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
@@ -134,7 +135,7 @@ value = "75.9%"
 unit = "% of two-or-more-person households"
 source = "jp-nsfiie"
 tier = "A"
-notes = "From NSFIIE 2009 summary: PC ownership rate 75.9% (1,157 units per 1,000 households). Up 15.8% from 2004 (69.3%). The ICWP 2015 (end 2014) household penetration was 78.0%. 2009 is the closest available NSFIIE survey. Two-or-more-person households, nationwide."
+notes = "From NSFIIE 2009 summary: PC ownership rate 75.9% (1,157 units per 1,000 households). The 2004 ownership rate was 69.3%. The source's 15.8% increase describes the number of computers per 1,000 households (999 to 1,157), not growth in the ownership rate. The ICWP 2015 (end 2014) household penetration was 78.0%. 2009 is the closest available NSFIIE survey. Two-or-more-person households, nationwide."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
@@ -213,12 +214,12 @@ assumptions = ["composite-family", "jp-household-not-family"]
 id = "jp-2010s-broadband"
 quantity = 99.9
 panel = "diffusion"
-label = "Households with ultra-high-speed broadband availability, end 2014"
+label = "Households with ultra-high-speed broadband availability, March 2014"
 value = "99.9%"
 unit = "% of households with ultra-high-speed broadband availability"
 source = "jp-icwp"
 tier = "A"
-notes = "From ICWP 2015 white paper, Chapter 7 (Figure 7-2-2-2), data end of FY 2014: ultra-high-speed broadband (FTTH, cable TV Internet, FWA, BWA, or LTE, ≥30 Mbps download) available to 99.9% of households (55.53 million). All-types broadband availability was 100% (55.57 million). Fixed-line broadband subscriptions 36.80 million. Source: 2014 Communications Usage Trend Survey, MIC."
+notes = "From ICWP 2015 white paper, Chapter 7 (Figure 7-2-2-2), data at the end of March 2014: ultra-high-speed broadband (FTTH, cable TV Internet, FWA, BWA, or LTE, ≥30 Mbps download) available to 99.9% of households (55.53 million). All-types broadband availability was 100% (55.57 million). The separate subscription series reports 36.80 million fixed-line broadband subscriptions at the end of FY 2014; that is a different date and measure. The availability figure comes from the broadband infrastructure assessment in Figure 7-2-2-2, rather than the Communications Usage Trend Survey used for the device-ownership figures."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
@@ -250,6 +251,7 @@ assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-2010s-consumption"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/2015/consumption/value", target = "amount_minor", guards = [{ locator = "/fies/2015/consumption/year", value = "2015" }, { locator = "/fies/2015/consumption/title", value = "18-1 Yearly Average of Monthly Disbursements per Household for Two-or-more-person Households (1963\uff5e2017)" }, { locator = "/fies/2015/consumption/heading", value = "Consumption expenditures" }, { locator = "/fies/2015/consumption/unit", value = "(yen)" }, { locator = "/fies/2015/consumption/file", value = "36-jp-income/fies-a18-1.xls" }, { locator = "/fies/2015/consumption/sha256", value = "35159f6fa73f09e786857f9aee43800f880a57126a0ec09c821b0d423cdbe172" }, { locator = "/fies/2015/consumption/cell", value = "\u4e8c\u4eba\u4ee5\u4e0a\u306e\u4e16\u5e2f!R66C7" }, { locator = "/fies/2015/consumption/exclusion", value = "\uff0a The data is not including agricultural, forestry and fisheries households." }] }
 basis = "monthly"
 amount_minor = 288326
 currency = "JPY"
@@ -260,11 +262,12 @@ value = "¥288,326 per month"
 unit = "JPY per month, nominal (consumption expenditure, all two-or-more-person households)"
 source = "jp-fies"
 tier = "A"
-notes = "From FIES long-run time-series (fies-a18-1.xls), 2015, all two-or-more-person households. Continued decline from ¥300,903 (2005) — down 12.4% from the 1995 peak (¥329,062). Nominal consumption fell as deflation persisted. Population differs from the income fact (all households vs workers' households)."
+notes = "From the archived FIES long-run table, 2015, 二人以上の世帯!R66C7. This is annual-average monthly total consumption expenditure, not a food basket. The expenditure population includes all household types within the stated survey scope; the income observations use workers' households. The archived table excludes agricultural, forestry and fisheries households."
 assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-deflation-lost-decades"]
 
 [[fact]]
 id = "jp-2010s-food-share"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/2015/food/value", target = "quantity", guards = [{ locator = "/fies/2015/food/year", value = "2015" }, { locator = "/fies/2015/food/title", value = "18-1 Yearly Average of Monthly Disbursements per Household for Two-or-more-person Households (1963\uff5e2017)" }, { locator = "/fies/2015/food/heading", value = "Food" }, { locator = "/fies/2015/food/unit", value = "(yen)" }, { locator = "/fies/2015/food/file", value = "36-jp-income/fies-a18-1.xls" }, { locator = "/fies/2015/food/sha256", value = "35159f6fa73f09e786857f9aee43800f880a57126a0ec09c821b0d423cdbe172" }, { locator = "/fies/2015/food/cell", value = "\u4e8c\u4eba\u4ee5\u4e0a\u306e\u4e16\u5e2f!R66C8" }, { locator = "/fies/2015/food/exclusion", value = "\uff0a The data is not including agricultural, forestry and fisheries households." }, { locator = "/fies/2015/consumption/year", value = "2015" }, { locator = "/fies/2015/consumption/heading", value = "Consumption expenditures" }, { locator = "/fies/2015/consumption/sha256", value = "35159f6fa73f09e786857f9aee43800f880a57126a0ec09c821b0d423cdbe172" }, { locator = "/fies/2015/consumption/cell", value = "\u4e8c\u4eba\u4ee5\u4e0a\u306e\u4e16\u5e2f!R66C7" }], calculation = { op = "pct_of", operands = ["/fies/2015/consumption/value"], precision = 1, rounding = "half_up", method = "Food expenditure divided by total consumption expenditure in the same annual-average source row, times one hundred; same household population and year, rounded once to one decimal place." } }
 quantity = 25.0
 panel = "table"
 label = "Food share of consumption expenditure, 2015"
@@ -272,8 +275,8 @@ value = "25.0%"
 unit = "% of consumption expenditure spent on food"
 source = "jp-fies"
 tier = "A"
-notes = "From FIES (fies-a18-1.xls), 2015: food ¥72,114 ÷ consumption ¥288,326 = 25.0%. All two-or-more-person households. The Engel ratio reversed its long decline — rising from 22.9% (2005) to 25.0% (2015) as nominal consumption expenditure fell faster than food spending. Still well below the 1965 level (38.1%)."
-assumptions = ["composite-family", "jp-household-not-family"]
+notes = "Calculated from the archived FIES long-run table's Food and Consumption expenditures cells in the same 2015 annual-average row. The source's Food category is retained without relabelling it as food and non-alcoholic beverages. The percentage is rounded once to one decimal place; calculation operands and rounding are recorded in the audit. The archived table excludes agricultural, forestry and fisheries households."
+assumptions = ["composite-family", "jp-household-not-family", "jp-fies-food-share"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 

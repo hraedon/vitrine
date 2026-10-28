@@ -245,9 +245,11 @@ ARCS: tuple[Arc, ...] = (
         caveats=(
             "Populations differ across the century — 1901 wage-earner families vs "
             "modern consumer units; every placard names who was measured.",
-            "The 1950s point is the nearest available survey (CEX 1960–61), stated "
-            "plainly rather than back-cast.",
+            "The food record filed in the 1950s room is CEX 1960–61, not a "
+            "1950s observation. It remains accessible as a linked exclusion; "
+            "its quantity is not plotted or compared at that earlier decade.",
         ),
+        plot_gaps=frozenset({"1950s"}),
     ),
     Arc(
         "weekly-hours",

@@ -1,5 +1,67 @@
 # Changelog
 
+## 2026-10-28 — Shorter reading routes and portable builds
+
+Country entrances lead the lobby. Native topic disclosures shorten room
+pages while preserving direct record links, source access and no-script
+printing. Source-linked chart tables provide an alternative to scrolling
+plots. Calculated source fields disclose their methods and limited coverage.
+Excluded and withdrawn comparisons remain visible as linked gaps across
+corridors, pairs, room stages and walkthroughs.
+
+The render gate independently checks actual room rows rather than trusting
+only a generated manifest. Annual graphics no longer join across absent
+years. Monetary dimension and undefined-inflation checks fail before rendering.
+The auxiliary source-topic check now includes every country's rooms and
+describes its structural checks without claiming numerical verification.
+
+Native Windows publication now uses cooperating byte locks, preserves parent
+ACLs, rejects junctions and recovers after interrupted writers. UTF-8 output
+and explicit line endings preserve generated-byte parity with Linux; legacy
+console codecs no longer turn a completed publication into an error.
+The CI matrix adds Windows core/publication checks for supported Python versions.
+
+## 2026-10-28 — Source boundaries and compound food records rechecked
+
+Sixty new field bindings bring current primary-source replay coverage from
+161 to 221 fields. The continuation verifies FIES budget operands, UK earnings
+and house prices, historical cause-of-death rates and selected US food/budget
+headlines. Original-file re-extraction separately qualifies compound price and
+expenditure placards. Source hashes, populations, formulas, units and dates
+remain explicit; optional curator readers do not enter the stdlib core.
+
+Two NFS 1984 food-at-home observations retain original per-person weekly units
+and the survey's acquisition definition. Corrected US historical food prices
+retain five-/fifteen-pound packages and half-gallon milk. The 1961 CES
+refrigerator figure is 82.7 percent with its own published urban-family scope.
+The 1985 CEX blank food-away cell remains blank. Unsupported 1972 expenditure
+shares are verification gaps, while literal food amounts retain cents
+precision. FIES agricultural exclusions apply across the selected long-run
+table, including post-2000 observations. Unsupported causal and historical
+superlative notes were removed from the reviewed records.
+
+The dated continuation in `docs/provenance-review-20261028.md` records exact
+source locators, reproducible reader versions and remaining verification
+limits. This is field coverage, not whole-corpus certification.
+
+
+## 2026-10-28 — Monetary rates retain precision and declare their dimensions
+
+Three annual earnings series now identify major-unit monetary rates with a
+currency and hourly/weekly basis, preserving every existing observation.
+Their generators emit the same declarations. Ordinary float quantities
+remain currency-free; amounts retain integer minor-unit storage. Numeric
+representation and splice gates reject contradictory states, currencies and
+rate bases. Inflation and threshold counts reject monetary rates, including
+direct evaluator calls. Matching fact/rate drift checks use the currency's
+minor-unit scale and displayed rounding, including non-USD currencies.
+
+The corpus JSON schema is now version 2: every series exports its resolved
+`kind` and nullable `rate_basis`, and float rates may carry currency metadata
+without changing their major-unit values. This alters the version-1 currency
+convention, so consumers must opt into the new version. Fact exports and CSV
+semantics are unchanged. See `docs/export-schema.md` for migration details.
+
 ## 2026-10-09 — The F-8 citation names the vintage that was transcribed (FWI-008)
 
 Census republished Historical Income Table F-8 at its original address on

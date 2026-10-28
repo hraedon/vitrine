@@ -67,15 +67,16 @@ notes = "From Census F-8. Down from 3.57 in 1970. By 1990: 3.18."
 
 [[fact]]
 id = "us-1980s-expenditure-shares"
+audit = { file = "59-workbook-review/cex-food-observations.json", extractor = "json-pointer", locator = "/1985/values/housing", target = "quantity", guards = [{ locator = "/1985/year", value = "1985" }, { locator = "/1985/source_sha256", value = "5d5375b8b207572d9fa5caded4a6ebaad9e0c2b966dcb7bad9534d70143fb82c" }, { locator = "/1985/file", value = "02-cex/cusize-1985.pdf" }, { locator = "/1985/population", value = "Four-person consumer units" }, { locator = "/1985/statistic", value = "Annual expenditure means" }, { locator = "/1985/source_header", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics,\nConsumer Expenditure Survey, 1985\nItem\nAll\nconsumer\nunits\nOne\nperson\nTwo\npersons\nThree\npersons\nFour\npersons\nFive\npersons\nSix or\nmore\npersons\nSee footnotes at end of table.     1" }, { locator = "/1985/budget_placard", value = "Housing 29.5%, transportation 20.6%, food 15.0%, insurance/pensions 9.8%, entertainment 5.3%, healthcare 4.1%, apparel 6.0%, cash contributions 2.6%, education 1.5%" }], calculation = { op = "pct_of", operands = ["/1985/values/total"], precision = 1, rounding = "half_up", method = "Housing mean divided by total annual expenditure mean for four-person consumer units; times one hundred, rounded once half up to one decimal place. Companion category shares are reproduced by the same source extractor and full-value guard." } }
 panel = "budget"
-label = "Expenditure breakdown, 4-person families, 1985"
+label = "Expenditure breakdown, four-person consumer units, 1985"
 quantity = 29.5
 value = "Housing 29.5%, transportation 20.6%, food 15.0%, insurance/pensions 9.8%, entertainment 5.3%, healthcare 4.1%, apparel 6.0%, cash contributions 2.6%, education 1.5%"
 unit = "% of total annual expenditure"
-source = "bls-cex"
+source = "bls-cex-four-person-1985"
 tier = "A"
-notes = "From the 1985 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 13,671 thousand 4-person CUs. Total expenditures: $31,408. Income before taxes: $34,414. Expenditure = 91% of gross income. Transportation share peaked in the 1980s at 20.6%. Source: BLS CEX Table 4, 1985 (cusize.pdf via Wayback Machine, web.archive.org)."
-assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
+notes = "Ratios of published annual category expenditure means to the total-expenditure mean for four-person consumer units, rounded once half up to one decimal place by scripts/cex_food_review.py. These are not published individual budget distributions or the mean of unit-level budget shares. The archived table provides expenditure means; the audit checks the housing ratio and the full reproduced category-share string."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values", "cex-ratios-of-means"]
 
 [[fact]]
 id = "us-1980s-poverty-rate"
@@ -92,7 +93,7 @@ notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty
 id = "us-1980s-cex-total-expenditures"
 audit = { file = "02-cex/cusize-1985.txt", extractor = "text-regex", locator = "^Average annual expenditures:\\s+(\\$[\\d,]+)", guards = [{ locator = "^(Consumer Expenditure Survey, 1985)$", value = "Consumer Expenditure Survey, 1985" }] }
 panel = "budget"
-label = "Average annual household expenditures, 1985"
+label = "Average annual consumer-unit expenditures, 1985"
 quantity = 23490
 value = "$23,490"
 unit = "USD per consumer unit, nominal"
@@ -118,7 +119,7 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-1980s-cex-food-share"
 audit = { file = "02-cex/cusize-1985.txt", extractor = "text-regex", locator = "^ Food\\s+([\\d,]+)", guards = [{ locator = "^(Consumer Expenditure Survey, 1985)$", value = "Consumer Expenditure Survey, 1985" }], calculation = { op = "pct_of", operands = ["^Average annual expenditures:\\s+(\\$[\\d,]+)"], precision = 1, rounding = "half_up", method = "All consumer units, 1985: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
-label = "Food share of household budget, 1985"
+label = "Food share of consumer-unit expenditure, 1985"
 quantity = 14.8
 value = "14.8% of total expenditures"
 unit = "% of total annual expenditures"
@@ -131,7 +132,7 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-1980s-cex-healthcare-share"
 audit = { file = "02-cex/cusize-1985.txt", extractor = "text-regex", locator = "^ Health care\\s+([\\d,]+)", guards = [{ locator = "^(Consumer Expenditure Survey, 1985)$", value = "Consumer Expenditure Survey, 1985" }], calculation = { op = "pct_of", operands = ["^Average annual expenditures:\\s+(\\$[\\d,]+)"], precision = 1, rounding = "half_up", method = "All consumer units, 1985: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
-label = "Healthcare share of household budget, 1985"
+label = "Healthcare share of consumer-unit expenditure, 1985"
 quantity = 4.7
 value = "4.7% of total expenditures ($1,108)"
 unit = "% of total annual expenditures; USD nominal"
@@ -403,6 +404,7 @@ notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $12,049M of $2
 
 [[fact]]
 id = "us-1980s-heart-disease-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R82:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R82:C1", value = "1980" }, { locator = "R82:C2", value = "Heart Disease" }] }
 quantity = 412.1
 panel = "table"
 label = "Heart disease age-adjusted death rate, 1980"
@@ -427,15 +429,16 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1980s-food-basket"
+audit = { file = "59-workbook-review/cex-food-observations.json", extractor = "json-pointer", locator = "/1985/values/food", target = "quantity", guards = [{ locator = "/1985/year", value = "1985" }, { locator = "/1985/source_sha256", value = "5d5375b8b207572d9fa5caded4a6ebaad9e0c2b966dcb7bad9534d70143fb82c" }, { locator = "/1985/file", value = "02-cex/cusize-1985.pdf" }, { locator = "/1985/population", value = "Four-person consumer units" }, { locator = "/1985/statistic", value = "Annual expenditure means" }, { locator = "/1985/source_header", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics,\nConsumer Expenditure Survey, 1985\nItem\nAll\nconsumer\nunits\nOne\nperson\nTwo\npersons\nThree\npersons\nFour\npersons\nFive\npersons\nSix or\nmore\npersons\nSee footnotes at end of table.     1" }, { locator = "/1985/placard", value = "Food $4,706/yr (15.0% of expenditure). Food at home $2,900. Food away from home: no value printed in the archived column. Key items: meats/poultry/fish/eggs $832, cereals/bakery $410, dairy $404, fruits/vegetables $425, beef $290, fresh milk and cream $202. Total expenditure: $31,408." }], calculation = { op = "pct_of", operands = ["/1985/values/total"], precision = 1, rounding = "half_up", method = "Four-person consumer units: ratio of same-table published food and total annual expenditure means, times one hundred, rounded once to one decimal place; not a mean of unit-level shares." } }
 quantity = 15
 panel = "table"
-label = "Food basket and expenditure breakdown, 1985 (CEX)"
-value = "Food $4,706/yr (15.0% of expenditure). Food at home $2,900 (62% of food), food away from home $1,806 (38%). Key items: meats/poultry/fish/eggs $832, cereals/bakery $410, dairy $404, fruits/vegetables $425, beef $290, fresh milk $202. Total expenditure: $31,408."
-unit = "USD per family per year, nominal"
-source = "bls-cex"
+label = "Food expenditure, four-person consumer units, 1985 (CEX)"
+value = "Food $4,706/yr (15.0% of expenditure). Food at home $2,900. Food away from home: no value printed in the archived column. Key items: meats/poultry/fish/eggs $832, cereals/bakery $410, dairy $404, fruits/vegetables $425, beef $290, fresh milk and cream $202. Total expenditure: $31,408."
+unit = "USD per four-person consumer unit per year, nominal"
+source = "bls-cex-four-person-1985"
 tier = "A"
-notes = "From the 1985 CEX, Table 4. 13,671 thousand 4-person CUs. Food at home share: 62%, food away: 38%. Food away from home was growing as a share of total food expenditure. Source: BLS CEX Table 4, 1985 (via Wayback Machine)."
-assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
+notes = "Annual expenditure means for four-person consumer units, not a median-income Census family. The recorded category amounts are reproduced from the original 1985 size-of-consumer-unit table by scripts/cex_food_review.py. Food share is the ratio of published food and total-expenditure means, rounded once to one decimal place; it is not the mean of individual consumer units' budget shares. Published rounded component means need not add exactly to their rounded totals. The archived four-person food-away-from-home cell is blank; the former amount and percentage inferred from subtraction have been withdrawn rather than presented as published observations."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values", "cex-ratios-of-means"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
@@ -526,11 +529,11 @@ assumptions = ["composite-family"]
 id = "us-1980s-food-prices"
 panel = "table"
 label = "Retail food prices, December 1980"
-value = "Bread $0.52/lb, ground beef $1.86/lb, bacon $1.71/lb, eggs $1.03/doz, lettuce $0.48/lb"
+value = "Bread $0.52/lb, ground chuck $1.86/lb, bacon $1.71/lb, eggs $1.03/doz, lettuce $0.48/lb"
 unit = "USD, retail prices (December 1980, BLS API)"
 source = "bls-api"
 tier = "A"
-notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, per lb), APU0000704111 (bacon, per lb), APU0000708111 (eggs, per doz), APU0000712211 (lettuce, per lb). Values are December 1980 monthly averages. CORRECTION 2026-07-08: previous version had mismatched labels (same error as 2020s room — series IDs were assigned to wrong food items). Bread at $0.52/lb is 2.2× the 1970 price (23.9¢). Ground beef at $1.86/lb is 1.4× the 1970 price. Food prices surged in the late 1970s due to inflation: the CPI for food rose 8.6% in 1978, 10.9% in 1979, and 8.6% in 1980."
+notes = "December 1980 monthly U.S. city-average prices from the BLS public API, series APU0000702111 (white pan bread per pound), APU0000703111 (100% ground chuck per pound), APU0000704111 (sliced bacon per pound), APU0000708111 (large Grade A eggs per dozen), APU0000712211 (iceberg lettuce per pound). Original response bytes were newly retrieved on 2026-10-28 and saved; this vintage is not a reconstruction of the earlier download. scripts/food_price_review.py reproduces the displayed prices using decimal half-up rounding to the nearest cent. Series identities and units were independently checked against the BLS-sourced FRED series pages. These observations describe price levels for the stated month; average-price ratios are not a constant-quality inflation index. Round steak in the historical tables is a different product from ground chuck."
 
 [[fact]]
 id = "us-1980s-cigarette-consumption"

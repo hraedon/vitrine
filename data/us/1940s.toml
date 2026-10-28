@@ -69,7 +69,7 @@ value = "3.64"
 unit = "persons per family"
 source = "census-f08-allraces"
 tier = "A"
-notes = "From Census F-8. Declining from 3.64 in 1947 to 3.54 by 1950 as the postwar baby boom changed family composition."
+notes = "From Census F-8. Average size of all families was 3.64 in 1947, compared with 3.54 in 1950. These observations do not identify the causes of changes in family composition."
 
 [[fact]]
 id = "us-1940s-prewar-wages"
@@ -99,11 +99,11 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-1940s-expenditure-gap"
 panel = "budget"
 label = "Expenditure shares, 1940s"
-value = "no reliable record accessible online"
+value = "no reliable record verified for this comparison"
 unit = "n/a"
 source = "bls-cex"
 tier = "D"
-notes = "No Consumer Expenditure Survey was conducted for the 1940s. The CEX series runs 1960-61, then continuously from 1980. BLS Bulletin 1055 (1952) covers retail food prices 1939-50 but not full expenditure shares. The wartime economy (price controls, rationing, victory gardens) makes expenditure patterns non-comparable to peacetime decades."
+notes = "No full expenditure-share table has been verified for this room. BLS Bulletin 1055 covers retail food prices during 1939-50, not full expenditure shares. The source registry identifies later Consumer Expenditure Surveys in 1960-61 and 1972-73, followed by continuous surveys from 1980; those later observations do not fill this decade's gap. This is a verification gap, not a claim that no historical household-budget evidence exists."
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -233,6 +233,7 @@ notes = "Commercial television broadcasting began in the US in 1941 but was susp
 
 [[fact]]
 id = "us-1940s-heart-disease-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R42:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R42:C1", value = "1940" }, { locator = "R42:C2", value = "Heart Disease" }] }
 quantity = 558.5
 panel = "table"
 label = "Heart disease age-adjusted death rate, 1940"
@@ -245,6 +246,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1940s-cancer-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R161:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R161:C1", value = "1940" }, { locator = "R161:C2", value = "Cancer" }] }
 quantity = 187.8
 panel = "table"
 label = "Cancer age-adjusted death rate, 1940"

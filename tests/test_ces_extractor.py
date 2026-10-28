@@ -72,3 +72,24 @@ def test_duplicate_month_is_not_an_annual_average(
 def test_incomplete_calendar_year_is_not_emitted(extractor: ModuleType) -> None:
     months = {f"M{i:02}": Decimal("1.3") for i in range(1, 12)}
     assert extractor._annualize({1950: months}) == {}
+
+
+def test_emitted_rates_keep_currency_basis_and_subcent_means(
+    extractor: ModuleType, monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+) -> None:
+    from vitrine.model import Basis, SeriesKind
+    from vitrine.series import load_series
+
+    directory = tmp_path / "series"
+    directory.mkdir()
+    monkeypatch.setattr(extractor, "OUT_DIR", directory)
+    for specification in extractor.SERIES:
+        extractor._emit(specification, {1950: Decimal("1.3158")})
+    loaded = load_series(tmp_path)
+    assert len(loaded) == 2
+    for candidate in loaded.values():
+        assert candidate.kind is SeriesKind.MONETARY_RATE
+        assert candidate.currency == "USD" and candidate.values == {1950: 1.3158}
+        assert candidate.rate_basis is (
+            Basis.WEEKLY if candidate.id.startswith("weekly") else Basis.HOURLY
+        )

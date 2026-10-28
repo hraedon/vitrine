@@ -33,10 +33,10 @@ panel = "budget"
 label = "Average annual expenditure, 1960-61"
 quantity = 5393
 value = "$5,393"
-unit = "USD per family per year, nominal (urban families)"
-source = "bls-cex"
+unit = "USD per urban consumer unit per year, nominal (urban consumer units)"
+source = "bls-cex-urban-1960-61"
 tier = "A"
-notes = "From the 1960-61 Consumer Expenditure Survey data tables (ce_196061_tables.pdf, p.8), OCR'd via GLM-OCR. US average for all urban families. By region: Northeast $5,834, North Central $5,272, South $4,769, West $5,777."
+notes = "From the 1960-61 Consumer Expenditure Survey data tables (ce_196061_tables.pdf, p.8), OCR'd via GLM-OCR. US average for all urban consumer units. By region: Northeast $5,834, North Central $5,272, South $4,769, West $5,777."
 assumptions = ["composite-family", "nominal-values", "income-vs-consumption"]
 
 [[fact]]
@@ -46,7 +46,7 @@ label = "Expenditure breakdown, 1960-61"
 quantity = 24.3
 value = "Food 24.3%, housing 29.6%, food away from home 5.1%, local telephone $69/yr"
 unit = "% of total expenditure ($5,393)"
-source = "bls-cex"
+source = "bls-cex-urban-1960-61"
 tier = "A"
 notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.8). Food $1,309 (24.3%), housing $1,594 (29.6%), shelter/fuel/light $991, food away from home $274, household operations $319, local telephone $69. Housing became the largest category — up from 12.95% in 1901. Food dropped from 42.54% (1901) to 24.3%."
 assumptions = ["composite-family", "nominal-values", "income-vs-consumption"]
@@ -217,6 +217,7 @@ notes = "From CMS NHE Table 02. Hospital care: $8,985M of $27,122M total. Hospit
 
 [[fact]]
 id = "us-1960s-heart-disease-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R62:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R62:C1", value = "1960" }, { locator = "R62:C2", value = "Heart Disease" }] }
 quantity = 559.0
 panel = "table"
 label = "Heart disease age-adjusted death rate, 1960"
@@ -243,12 +244,12 @@ assumptions = ["composite-family"]
 id = "us-1960s-food-basket"
 quantity = 24.3
 panel = "table"
-label = "Food expenditure and basket, 1960-61"
+label = "Food expenditure, urban consumer units, 1960-61"
 value = "Food $1,309/yr (24.3% of expenditure). Food away from home $274 (20.9% of food). Local telephone $69/yr."
-unit = "USD per family per year, nominal"
-source = "bls-cex"
+unit = "USD per urban consumer unit per year, nominal"
+source = "bls-cex-urban-1960-61"
 tier = "A"
-notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.8). Food was 24.3% of total expenditure — down from 42.54% in 1901. Housing was the largest category at 29.6%. The survey also shows durable goods ownership (p.15): TV 91.4%, refrigerator 84.7%, washing machine 70.0%, air conditioner 18.8%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%."
+notes = "CES urban consumer-unit sample, archived Appendix B Table B-11, printed page 94 (PDF page 8), United States column. Food, housing, food-away and local-telephone entries are annual expenditure means. This is not a four-person-family diet. The displayed shares compare published category means with the total-expenditure mean."
 assumptions = ["nominal-values", "income-vs-consumption"]
 
 
@@ -256,11 +257,11 @@ assumptions = ["nominal-values", "income-vs-consumption"]
 id = "us-1960s-food-prices"
 panel = "table"
 label = "Retail food prices, 1960"
-value = "Bread 20.3¢/lb, round steak 106¢/lb, milk 26.0¢/qt, potatoes 7.2¢/lb, eggs 57.3¢/doz"
+value = "Bread 20.3¢/lb, round steak 105.5¢/lb, milk 26.0¢/qt, potatoes 7.2¢/lb, eggs 57.3¢/doz"
 unit = "retail food prices (cents per pound/quart/dozen, 1960 annual average)"
 source = "statab-food-prices"
 tier = "A"
-notes = "From 1970 Statistical Abstract Table 530 (BLS Retail Food Prices by Cities). 1960 annual averages for 51 cities. Milk is per quart, delivered. Bread 20.3¢/lb vs 14.3¢/lb in 1950 (+42%). Round steak $1.06/lb vs $0.94/lb in 1950 (+13%). Potatoes 7.2¢/lb vs 4.6¢/lb in 1950 (+57%). The 1950→1960 food price increase was modest compared to the inflation that followed in the 1970s."
+notes = "From the 1970 Statistical Abstract, Table 530 (printed page 349), 1960 annual-average column. The delivered-milk specification is one quart through 1960; the table changes to a half-gallon thereafter. Round steak is not the ground chuck in the later BLS API price records. These are selected-item city retail prices, not a matched household food basket."
 
 [[fact]]
 id = "us-1960s-cigarette-consumption"
@@ -465,12 +466,12 @@ assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-con
 id = "us-1960s-television"
 quantity = 91.4
 panel = "diffusion"
-label = "Television in the home, 1960-61"
+label = "CES urban families with television, 1961"
 value = "91.4% of households had TV"
-unit = "% of urban families with television"
-source = "bls-cex"
+unit = "% of CES urban families (publisher's term) with television"
+source = "bls-ces-1961-urban-durables"
 tier = "A"
-notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.15, OCR'd via GLM-OCR). TV adoption exploded in the 1950s: up from 12.3% in 1950 to 91.4% in 1960-61 — one of the fastest technology diffusions in American history. Census 1960 confirms: TV 90.5%."
+notes = "CES 1961 urban row in Appendix B Table B-20, printed page 108 (PDF page 15). This is the survey's television-set ownership observation; the table separately identifies Census and Consumer Buying Intentions measures. Table B-20 labels its columns percent of families. That published term is retained here; this review has not harmonized its definition with Census families or the consumer-unit definitions used in other tables. These observations cover the source's full urban sample, not a median-income or four-person family. Other rows use their own published denominators and are not substituted for CES observations."
 
 [[fact]]
 id = "us-1960s-vehicle-ownership"
@@ -498,22 +499,22 @@ notes = "From Historical Statistics Vol 2, Series R 1-3 (p.191, OCR'd via GLM-OC
 id = "us-1960s-air-conditioning"
 quantity = 18.8
 panel = "diffusion"
-label = "Air conditioning, 1960-61"
+label = "CES urban families with air conditioning, 1961"
 value = "18.8% of households had air conditioning"
-unit = "% of urban families with air conditioner"
-source = "bls-cex"
+unit = "% of CES urban families (publisher's term) with air conditioner"
+source = "bls-ces-1961-urban-durables"
 tier = "A"
-notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.15, OCR'd via GLM-OCR). AC was still a luxury in 1960 — mostly window units. By 1978 (first RECS), 23% had central AC alone. The diffusion arc: 18.8% (1960) → 68% (1993) → 87% (2009) → 88% (2020)."
+notes = "CES 1961 urban row in Appendix B Table B-20, printed page 108 (PDF page 15). The footnote includes individual room units and central air-conditioning systems; it is not a central-air-only statistic. Table B-20 labels its columns percent of families. That published term is retained here; this review has not harmonized its definition with Census families or the consumer-unit definitions used in other tables. These observations cover the source's full urban sample, not a median-income or four-person family. Other rows use their own published denominators and are not substituted for CES observations."
 
 [[fact]]
 id = "us-1960s-household-appliances"
 panel = "diffusion"
-label = "Household appliances, 1960-61"
-value = "Refrigerator 84.7%, washing machine 70.0%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%"
-unit = "% of urban families with each appliance"
-source = "bls-cex"
+label = "Appliance ownership, CES urban families, 1961"
+value = "Refrigerator 82.7%, washing machine 70.0%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%"
+unit = "% of CES urban families (publisher's term) with each appliance"
+source = "bls-ces-1961-urban-durables"
 tier = "A"
-notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.15, OCR'd via GLM-OCR). Census 1960 confirms: refrigerator 86.1%, washing machine 72.2%. The refrigerator was nearly universal. The clothes dryer (18.4%) and dishwasher (5.7%) were still early-stage adoption — they would become common in the 1970s-80s."
+notes = "CES 1961 urban row in Appendix B Table B-20, printed page 108 (PDF page 15). Refrigerator ownership is 82.7%; the earlier transcription misread this cell. The comparison table contains separate Census of Housing and Consumer Buying Intentions rows with different years and populations; they are not a confirmation sample for this record. Table B-20 labels its columns percent of families. That published term is retained here; this review has not harmonized its definition with Census families or the consumer-unit definitions used in other tables. These observations cover the source's full urban sample, not a median-income or four-person family. Other rows use their own published denominators and are not substituted for CES observations."
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
