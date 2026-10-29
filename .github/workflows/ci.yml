@@ -37,6 +37,8 @@ jobs:
         run: .venv/bin/mypy
       - name: Tests
         run: .venv/bin/pytest -q --ignore=tests/test_browser.py --ignore=tests/test_display_layout.py
+      - name: Remaining-record review inventory
+        run: .venv/bin/python scripts/record_review_report.py --check
       - name: Provenance gate
         run: .venv/bin/vitrine check
       - name: Build renders

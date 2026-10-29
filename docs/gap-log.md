@@ -14,45 +14,68 @@ summary table drifting from the data it summarizes is this project's founding
 observation about everyone else's history content; it does not get to happen
 here. Hence `vitrine gaps`.
 
-## Structural gaps (likely permanent)
+## Current curation and source-definition gaps
 
-- **Pre-1960 produce variety** (Plan 027 WI-6, 2026-09-01). The ERS
-  per-commodity fresh sheets begin at the earliest in 1960 (broccoli and
-  most vegetables) and mostly 1970 (fruit); FADS's "continuous from 1909"
-  claim holds only for its aggregate sheets, which carry no commodity
-  detail. The derived produce-variety count therefore renders nothing in the
-  1900s–1950s rooms, and no per-commodity availability card exists there
-  either. Permanent unless ERS (or a Tier C period source) publishes
-  commodity detail before 1960 — not a backlog item.
-- **1910s–1930s income, housing, food basket, work-buys.** No consumer
-  expenditure survey or Census of Housing before 1940. These are permanent
-  rendered gaps — the museum shows them.
-- **1940s expenditure and food basket.** No consumer expenditure survey exists
-  for the 1940s, and wartime rationing (1942–46) makes what data exists
-  non-representative. BLS Bulletin 1055 (1952) covers retail food *prices*
-  1939–50 but not household baskets. The 1942 Wartime Consumption Survey is the
-  only candidate; treat these as gaps the museum shows, not backlog.
-- **Pre-1947 income.** No national family income survey before the CPS series
-  (Census P-60, 1947→). The 1910s–1930s income gaps are filled only by proxy
-  reconstructions (period cost-of-living surveys, Tier C) or scholarly
-  estimates (Tier D) — never by an official median.
+- **Pre-1960 produce variety** (Plan 027 WI-6, 2026-09-01). ERS's Food
+  Availability system has historical summary sheets as well as detailed
+  commodity workbooks; the summary sheets can reach earlier years than the
+  detailed commodity records. Those are different levels of detail and do not
+  by themselves establish a continuous, comparable count of the selected
+  produce items. The current room gaps mean that an earlier per-commodity
+  series has not been qualified for this comparison; they do not establish
+  that ERS published no earlier produce information. See the registered
+  primary source `usda-ers-fads` and the selected workbook locators recorded in
+  `middle-us-health-food-results.json`.
+- **1910s–1930s income, housing, food basket, work-buys.** The current rooms do
+  not present a continuous set of decade-specific observations with one
+  population and comparable definitions. Historical records do exist: BLS
+  Bulletin 49 covers selected wage-earner families; the BLS 1918–19 cost-of-
+  living report covers selected locations; the 1935–36 Study of Consumer
+  Purchases covers urban and rural families in selected areas; and the 1930
+  Census asked about radio ownership. The Census of Housing's 1940 amenity
+  series is a separate, later source. These source records do not automatically
+  provide a national median, a complete household basket, or every housing
+  measure used by the rooms. The gaps mark observations not yet curated and
+  qualified for the room's comparison, not a claim that no relevant records
+  exist. See registered sources `bls-bulletin-49-1903`,
+  `bls-1918-cost-of-living`, `bls-1935-consumer-purchases`, and
+  `census-decennial-pubs`.
+- **1940s expenditure and food basket.** The current room has no verified full
+  household expenditure-share table. BLS Bulletin 1055 covers retail food
+  prices for 1939–50; price observations do not constitute a household budget.
+  The reviewed record therefore describes a curation gap, not proof that no
+  contemporary budget survey exists. See `us-1940s-expenditure-gap` in
+  `root-reserved-results.json` and the registered BLS Bulletin 1055 source.
+- **Pre-1947 family-income coverage in the current rooms.** The family-income
+  series used by the rooms begins with the Census historical family-income
+  table's 1947 coverage. Census P-60 No. 5 compares its 1947 family-income
+  result with a 1944 figure, so the broader statement that no pre-1947 family-
+  income estimate or survey existed is unsupported. Earlier selected surveys
+  have their own populations and measures and are not automatically a national
+  family median. The gap is that a suitable decade-specific median has not
+  been curated and qualified for these rooms, not that pre-1947 income records
+  do not exist. See the `us-1910s-income-gap`, `us-1920s-income-gap`, and
+  `us-1930s-income-gap` reviews in `early_us-results.json` and registered
+  sources `census-hist-income-families` and `census-p60-001`.
 - **1990s Ramey home production.** Ramey excluded the 1992-94 survey; no
   benchmark exists for the decade.
-- **UK affordability before the 1990s** (FWI-001, 2026-09-01). The UK axis is
-  built from three ingredients, and each has a hard start date in the record:
-  household income begins with the ONS taxes-and-benefits series in **1977**;
-  official house prices begin in **1986** (Table 28) / **1991** (Table 31); and
-  an hourly wage in whole pence begins with **ASHE in 1997**. Hours are the
-  exception, reaching back to 1965 in the Department of Employment's Year Books.
-  So: the 1990s–2010s rooms compute both axes; the 1970s and 1980s carry an
-  income anchor with nothing yet priced against it; the 1960s has hours only;
-  and the 1950s has none of the three. These are boundaries in what the UK
-  published, not a transcription backlog — with two exceptions worth naming as
-  backlog rather than structure: (a) the 1970s hourly wage *exists* (166.6p,
-  April 1976) but cannot be an anchor while the money layer holds whole pence
-  only; (b) a pre-1986 UK house price exists in the Nationwide lender index,
-  which would let the 1970s and 1980s rooms compute a share-of-income axis at
-  the cost of citing a non-official series. Both are decisions, not absences.
+- **UK affordability before the 1990s** (FWI-001, 2026-09-01). The current
+  affordability view combines selected income, price, earnings, and hours
+  inputs; their start dates describe those inputs, not the full record of UK
+  statistics. The cited ONS household-income dataset begins in 1977; the
+  selected ONS house-price Table 31 begins in 1991; and the selected ASHE median
+  hourly-pay series begins in 1997. Other table definitions are not assumed to
+  be interchangeable. ONS also publishes a long-run weekly-earnings series
+  reaching back to 1938; its earlier years measure adult manual workers, while
+  later sections use different surveys.
+  Those weekly means are not interchangeable with the selected ASHE median
+  hourly measure. Department of Employment year books provide separate hours
+  observations. Accordingly, the existing room gaps mark where the current
+  inputs have not been matched and qualified for the affordability calculation;
+  they are not claims that UK income, wage, price, or hours records were absent.
+  See registered sources `ons-etb-household-type`, `ons-hpi-annual-tables`,
+  `ons-ashe-table1`, `ons-earnings-1938-2025`,
+  `dep-labour-year-book-1969`, and `dep-labour-year-book-1976`.
 
 - **Alcohol consumption, 1920–1933.** National Prohibition. The NIAAA
   surveillance series is built from legal beverage sales, so when legal sales
@@ -71,16 +94,18 @@ here. Hence `vitrine gaps`.
   the card; the annual series begins at 1934 because a range cannot be keyed to
   a year without inventing a datum. Not fillable from this source at any tier.
 
-- **Workplace deaths before 2006.** Structural, and now rendered. The Census
-  of Fatal Occupational Injuries has covered all fifty states only since 1992,
-  so for the nine decades before that no federal count of people killed at work
-  exists; and the rates CFOI published from 1992 to 2005 were computed against
-  employment rather than hours worked, a basis BLS replaced in 2006, so they
-  measure something else and are not chained on. The 1990s room carries the gap
-  card. The century-long figures usually quoted for this measure come from the
-  National Safety Council's *Injury Facts*, a commercial publication rather
-  than a government census; buying it would fill the arc but at Tier B or
-  lower, and with an estimation method that would need its own card.
+- **Comparable workplace fatality rates before the selected 2006 series.** The
+  current source card uses BLS's hours-based full-time-equivalent rate tables
+  beginning in 2006. The reviewed CFOI description states that the federal
+  program has covered all fifty states and D.C. since 1992, so the gap must not
+  be read as absence of federal fatality counts before 2006. Earlier CFOI rate
+  tables use an employment denominator, while this selected series uses hours
+  worked; they are different measures and are not silently joined in the
+  current arc. The rendered gap is for the current comparable rate series, not
+  for workplace-death records. See `us-1990s-workplace-death-rate` in
+  `recent_us-results.json`, the registered source
+  `bls-cfoi-hours-based-rates`, and the archived BLS CFOI survey description
+  cited in that review.
 - **Road deaths before 1976 are counted differently.** FHWA footnote (3): from
   1976 the count includes only people who died within 30 days of the crash.
   Earlier years used a wider window. Not fillable and not correctable; it is

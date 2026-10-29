@@ -1,39 +1,28 @@
 #!/usr/bin/env python3
-"""Extract the Plan 027 WI-6 food-availability series from USDA/ERS FADS.
+"""Regenerate curated USDA/ERS food-availability series from pinned workbooks.
 
-Emits one series per commodity into ``data/series/us-availability-*.toml``
-from the ERS Food Availability (Per Capita) Data System workbooks archived in
-``samples/46-diet-variety/``. Every fresh fruit and vegetable commodity sheet
-in the two workbooks is extracted — the four the plan picked for the
-"exotic-turned-ordinary" arc group (broccoli, bell peppers, avocados, grapes)
-plus every other commodity, whose combined per-decade counts feed the derived
-produce-variety fact (FWI-007 item 1).
-
-**What this measures, and does not.** Food *availability* is a disappearance
-estimate — production plus imports, less exports and non-food use, divided by
-population. It is what the food supply made available per person, not what
-anyone ate; ERS publishes a separate loss-adjusted series for consumption-like
-figures and this is not it. Every card says so.
-
-**Farm weight, not retail.** Each sheet publishes two per-capita columns side
-by side: farm weight, and a retail weight derived by applying a conversion
-factor (0.92 for broccoli, printed in the sheet). The unadjusted farm-weight
-column is taken, because the retail column is a modelled adjustment; the
-factor is disclosed rather than silently applied.
-
-**The column is identified by arithmetic, not position.** Farm-weight per
-capita must equal total food availability (millions of pounds) divided by
-population (millions). The parser recomputes it for every year and refuses to
-write unless the published figure reproduces — the same guard the FHWA
-extractor uses, and for the same reason: several plausible numeric columns sit
-side by side.
-
-Spot-verification: see docs/verification-log.md, Plan 027 WI-6.
+Existing year windows are retained. Source formulas and cached results are
+checked before applying each cell's published precision; source literals are
+preserved when the publisher does not provide the supporting supply values.
 """
 
 from __future__ import annotations
 
+import ast
+import hashlib
+import json
+import re
+import tomllib
+from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
+
+from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
+
+if __package__:
+    from .middle_us_health_food_review import PINS, farm_row
+else:
+    from middle_us_health_food_review import PINS, farm_row
 
 REPO = Path(__file__).resolve().parent.parent
 ARCHIVE = REPO / "samples" / "46-diet-variety"
@@ -104,187 +93,250 @@ COMMODITIES: dict[str, tuple[Path, str, str]] = {
     "watermelon": (FRUIT, "Watermelon", "Fresh watermelon"),
 }
 
-HEADER_ROW_FIRST_CELL = "Year"
+
+def _pin(path: Path) -> None:
+    key = f"46-diet-variety/{path.name}"
+    if hashlib.sha256(path.read_bytes()).hexdigest() != PINS[key]:
+        raise ValueError(f"Original workbook differs from the inspected source: {path.name}")
 
 
-def _sheet_rows(workbook: Path, sheet: str) -> list[tuple]:
-    import openpyxl
-
-    wb = openpyxl.load_workbook(workbook, data_only=True)
-    if sheet not in wb.sheetnames:
-        raise SystemExit(f"{workbook.name}: no sheet {sheet!r}")
-    return list(wb[sheet].iter_rows(values_only=True))
-
-
-def _number(value: object) -> float | None:
-    if value is None:
-        return None
-    text = str(value).strip().replace(",", "")
-    if text in {"", "NA", "--", "-"}:
-        return None
-    try:
-        return float(text)
-    except ValueError:
-        return None
-
-
-def _locate(rows: list[tuple]) -> tuple[int, dict[str, int], str]:
-    """Find the header row and the columns, by their printed labels.
-
-    The two workbooks do not share a layout: the fruit sheets carry an extra
-    "Shipments to U.S. Territories" column and print "Farm" on the row below
-    the header, while the vegetable sheets print it on the header row itself.
-    A fixed column index is therefore wrong for one of them, so every column
-    is found by its label and the result is asserted.
-    """
+def _layout(sheet: object) -> tuple[int, int, int, int, str, str, str]:
     header = next(
-        (i for i, r in enumerate(rows)
-         if r and str(r[0] or "").strip().startswith(HEADER_ROW_FIRST_CELL)),
+        (i for i in range(1, 8) if str(sheet.cell(i, 1).value or "").strip().startswith("Year")),
         None,
     )
     if header is None:
-        raise SystemExit(f"no header row starting {HEADER_ROW_FIRST_CELL!r}")
-
-    def cells(i: int) -> list[str]:
-        return [("" if c is None else str(c)).strip() for c in rows[i]]
-
-    head = cells(header)
-    below = cells(header + 1) if header + 1 < len(rows) else []
-
-    cols: dict[str, int] = {"year": 0}
-    # The population column label varies across the workbooks — the citrus
-    # sheets print "U.S. total population, July 1<footnote>" while the others
-    # print "U.S. population, July 1" — so the column is matched by the word
-    # "population" and must match exactly one column, else the layout is not
-    # what this parser assumes.
-    pop_cols = [j for j, text in enumerate(head) if "population" in text.casefold()]
-    if len(pop_cols) != 1:
-        raise SystemExit(
-            f"expected exactly one 'population' column, found {len(pop_cols)} "
-            f"— the layout is not what this parser assumes"
+        raise ValueError("year heading absent")
+    head = [str(sheet.cell(header, i).value or "").strip() for i in range(1, sheet.max_column + 1)]
+    pop = [i + 1 for i, v in enumerate(head) if "population" in v.lower()]
+    if len(pop) != 1:
+        raise ValueError("population heading absent or ambiguous")
+    availability = []
+    for i in range(max(1, header - 3), header):
+        availability.extend(
+            j
+            for j in range(1, sheet.max_column + 1)
+            if str(sheet.cell(i, j).value or "").startswith("Food availability")
         )
-    cols["population"] = pop_cols[0]
-    # The header row prints two columns starting with "Total" ("Total supply"
-    # and the availability total), both carrying footnote markers, so the
-    # availability column is found by the "Food availability" spanner printed
-    # above it rather than by matching header text.
-    for i in range(max(0, header - 3), header):
-        for j, text in enumerate(cells(i)):
-            if text.startswith("Food availability"):
-                cols["availability"] = j
-    # "Farm" sits on the header row (vegetables) or the row below it (fruit)
-    for source in (head, below):
-        for j, text in enumerate(source):
-            if text == "Farm":
-                cols["farm"] = j
-                break
-        if "farm" in cols:
-            break
+    if len(availability) != 1:
+        raise ValueError("food availability heading absent or ambiguous")
+    farm = [
+        j
+        for i in (header, header + 1)
+        for j in range(1, sheet.max_column + 1)
+        if sheet.cell(i, j).value == "Farm"
+    ]
+    if len(farm) != 1 or farm[0] <= availability[0]:
+        raise ValueError("farm-weight heading absent, ambiguous, or out of order")
+    notes = [
+        str(sheet.cell(i, 1).value).strip()
+        for i in range(1, sheet.max_row + 1)
+        if isinstance(sheet.cell(i, 1).value, str)
+    ]
+    population = [
+        n for n in notes if re.search(r"Resident population plus (?:the )?Armed Forces overseas", n)
+    ]
+    if len(population) != 1:
+        raise ValueError("population definition absent or ambiguous")
+    conversion = next(
+        (
+            str(sheet.cell(i, j).value).strip()
+            for i in range(header, header + 4)
+            for j in range(1, sheet.max_column + 1)
+            if str(sheet.cell(i, j).value or "").startswith("CF =")
+        ),
+        "",
+    )
+    marketing = [n for n in notes if "marketing" in n.lower() and re.match(r"\d", n)]
+    heading = re.sub(r"(?:(?<=1)|(?<=year))[1-9]$", "", head[pop[0] - 1]).strip()
+    return (
+        header,
+        pop[0],
+        availability[0],
+        farm[0],
+        conversion,
+        heading,
+        " ".join(re.sub(r"^\d+", "", note).strip() for note in marketing),
+    )
 
-    missing = {"population", "availability", "farm"} - set(cols)
-    if missing:
-        raise SystemExit(f"could not locate columns {sorted(missing)} from {head!r}")
-    if cols["farm"] <= cols["availability"]:
-        raise SystemExit(
-            f"the 'Farm' column ({cols['farm']}) is not right of 'Total' "
-            f"({cols['availability']}) — the layout is not what this parser assumes"
+
+def _formula_value(
+    sheet: object, address: str, row: int, seen: frozenset[str] = frozenset()
+) -> Decimal | str:
+    if address in seen or not re.fullmatch(rf"[A-Z]+{row}", address):
+        raise ValueError(f"cycle or cross-row reference: {address}")
+    value = sheet[address].value
+    if value is None or value == "NA":
+        return "NA"
+    if isinstance(value, bool):
+        raise ValueError("boolean is not a source numeral")
+    if not isinstance(value, str) or not value.startswith("="):
+        try:
+            number = Decimal(str(value))
+        except Exception as exc:
+            raise ValueError(f"unexpected literal in {address}") from exc
+        if not number.is_finite():
+            raise ValueError("nonfinite source numeral")
+        return number
+    expr = value[1:]
+    expr = re.sub(
+        r"([A-Z]+\d+):([A-Z]+\d+)",
+        lambda m: (
+            ",".join(
+                f"{get_column_letter(i)}{row}"
+                for i in range(sheet[m[1]].column, sheet[m[2]].column + 1)
+            )
+            if re.fullmatch(rf"[A-Z]+{row}", m[1]) and re.fullmatch(rf"[A-Z]+{row}", m[2])
+            else "INVALID_RANGE"
+        ),
+        expr,
+    )
+    expr = re.sub(r"(?<![<>=])=(?!=)", "==", expr)
+    try:
+        tree = ast.parse(expr, mode="eval")
+    except SyntaxError as exc:
+        raise ValueError(f"unsupported source formula in {address}") from exc
+
+    def evaluate(node: ast.AST) -> Decimal | str | bool:
+        if isinstance(node, ast.Constant) and type(node.value) in (int, float):
+            return Decimal(str(node.value))
+        if isinstance(node, ast.Name):
+            return _formula_value(sheet, node.id, row, seen | {address})
+        if isinstance(node, ast.BinOp) and isinstance(node.op, (ast.Add, ast.Sub, ast.Div)):
+            left, right = evaluate(node.left), evaluate(node.right)
+            if not isinstance(left, Decimal) or not isinstance(right, Decimal):
+                raise ValueError("missing source value used outside SUM")
+            if isinstance(node.op, ast.Add):
+                return left + right
+            if isinstance(node.op, ast.Sub):
+                return left - right
+            return left / right
+        if isinstance(node, ast.Compare) and len(node.ops) == 1 and isinstance(node.ops[0], ast.Eq):
+            return evaluate(node.left) == evaluate(node.comparators[0])
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+            if node.func.id == "SUM" and not node.keywords:
+                items = [evaluate(arg) for arg in node.args]
+                if any(not isinstance(v, Decimal) and v != "NA" for v in items):
+                    raise ValueError("unexpected value in SUM")
+                return sum((v for v in items if isinstance(v, Decimal)), Decimal())
+            if node.func.id == "IF" and len(node.args) == 3 and not node.keywords:
+                condition = evaluate(node.args[0])
+                if not isinstance(condition, bool):
+                    raise ValueError("IF condition is not a comparison")
+                return evaluate(node.args[1] if condition else node.args[2])
+        raise ValueError(f"unsupported formula syntax in {address}")
+
+    return evaluate(tree.body)  # type: ignore[return-value]
+
+
+def parse(
+    workbook: Path, sheet_name: str, years: set[int], formula: object, cache: object
+) -> tuple[dict[int, str], str, str, str]:
+    """Read only the existing curated years, respecting every source cell format."""
+    s, cached = formula[sheet_name], cache[sheet_name]
+    if "Supply and use" not in str(s["A1"].value):
+        raise ValueError("commodity title changed")
+    header, _pop, _availability, farm, conversion, heading, marketing = _layout(s)
+    out: dict[int, str] = {}
+    for row in range(header + 1, s.max_row + 1):
+        year_value = s.cell(row, 1).value
+        if isinstance(year_value, bool) or not re.fullmatch(r"\d{4}", str(year_value)):
+            continue
+        year = int(year_value)
+        if year not in years:
+            continue
+        address = f"{get_column_letter(farm)}{row}"
+        cell = s[address]
+        fmt = cell.number_format
+        match = re.fullmatch(r"(?:#,##)?0\.(0+)", fmt)
+        if not match:
+            raise ValueError(f"uninspected source precision: {sheet_name} {year}: {fmt}")
+        places = len(match[1])
+        source_value = _formula_value(s, address, row)
+        if not isinstance(source_value, Decimal):
+            raise ValueError(f"missing farm value: {sheet_name} {year}")
+        cached_value = Decimal(str(cached[address].value))
+        if abs(source_value - cached_value) > Decimal("0.0000000001"):
+            raise ValueError(f"source formula cache differs: {sheet_name} {year}")
+        # Four principal exhibits also replay the source-family qualifier.
+        if sheet_name in {"Avocados", "Grapes", "Broccoli", "Peppers"}:
+            qualified = farm_row(s, cached, row, workbook == FRUIT)
+            if Decimal(str(qualified["value"])) != source_value.quantize(
+                Decimal(1).scaleb(-places), rounding=ROUND_HALF_UP
+            ):
+                raise ValueError("independent source qualifier differs")
+        if year in out:
+            raise ValueError("duplicate source year")
+        out[year] = format(
+            source_value.quantize(Decimal(1).scaleb(-places), rounding=ROUND_HALF_UP), "f"
         )
-
-    conversion = ""
-    for i in range(header, min(header + 4, len(rows))):
-        for text in cells(i):
-            if text.startswith("CF ="):
-                conversion = text
-    return header, cols, conversion
+    if set(out) != years:
+        raise ValueError(f"source years changed: {sheet_name}: {sorted(years - set(out))}")
+    return out, conversion, heading, marketing
 
 
-def parse(workbook: Path, sheet: str) -> tuple[dict[int, float], str]:
-    """Return (year -> farm-weight lb per capita, the retail conversion note)."""
-    rows = _sheet_rows(workbook, sheet)
-    header, cols, conversion = _locate(rows)
-
-    out: dict[int, float] = {}
-    checked = 0
-    for row in rows[header + 1 :]:
-        if not row:
-            continue
-        year = _number(row[cols["year"]])
-        if year is None or not (1900 <= year <= 2100):
-            continue
-        pcc = _number(row[cols["farm"]]) if cols["farm"] < len(row) else None
-        if pcc is None:
-            continue
-        pop = _number(row[cols["population"]])
-        total = _number(row[cols["availability"]])
-        if pop and total is not None:
-            recomputed = total / pop
-            if abs(recomputed - pcc) > 0.001 + abs(pcc) * 1e-4:
-                raise SystemExit(
-                    f"{sheet} {int(year)}: the column read as farm per-capita "
-                    f"({pcc}) does not equal availability/population "
-                    f"({recomputed:.4f}) — wrong column?"
-                )
-            checked += 1
-        out[int(year)] = round(pcc, 2)
-    if not out:
-        raise SystemExit(f"{sheet}: parsed no rows")
-    if checked < len(out) // 2:
-        raise SystemExit(
-            f"{sheet}: only {checked} of {len(out)} rows could be arithmetically "
-            "checked — the identity guard is too weak to trust the column"
-        )
-    return out, conversion
-
-
-def render_toml(slug: str, label: str, values: dict[int, float], conversion: str) -> str:
+def render_toml(
+    slug: str, label: str, values: dict[int, str], conversion: str, heading: str, marketing: str
+) -> str:
     years = sorted(values)
     note = (
-        f"Fresh {slug.replace('-', ' ')} per capita, farm weight, from the ERS Food "
-        "Availability (Per Capita) Data System. Availability is a disappearance "
-        "estimate — production plus imports, less exports and non-food use, over "
-        "population — so it is what the food supply made available per person, not "
-        "what was eaten; ERS publishes a separate loss-adjusted series for that and "
-        "this is not it. The sheet also prints a retail-weight column derived by a "
-        f"conversion factor ({conversion or 'stated in the sheet'}); the unadjusted "
-        "farm-weight column is taken and the factor is disclosed rather than applied. "
-        "Verified against the sheet's own availability and population columns for "
-        "every year."
+        "Fresh food availability is production plus imports, less exports and other "
+        "specified uses, per person. This is a supply measure, not intake. "
+        f"The source population reference is {heading}; it includes resident population "
+        "and Armed Forces overseas. Values use the source cell's displayed precision, "
+        "after replaying source formulas and checking their caches where formulas are present; "
+        "published literal cells remain literal. "
+        f"The separate retail-weight conversion ({conversion or 'see source sheet'}) "
+        "is not applied. These are the selected curated years, not a claim about "
+        "the first or last year available from ERS."
     )
+    if marketing:
+        note += " Source marketing-period note: " + marketing
+    series_label = f"{label} available per person, {years[0]}-{years[-1]}"
     lines = [
-        "# Auto-generated by scripts/ers_fads_extract.py from the USDA/ERS Food",
-        "# Availability (Per Capita) Data System (samples/46-diet-variety/ — see the",
-        "# source registry entry and the verification log, Plan 027 WI-6, before",
-        "# editing by hand).",
+        "# Auto-generated from pinned USDA/ERS food-availability workbooks.",
         "",
         "[[series]]",
         f'id = "us-availability-{slug}"',
-        f'label = "{label} available per person, {years[0]}-{years[-1]}"',
+        f"label = {json.dumps(series_label, ensure_ascii=False)}",
         'source = "usda-ers-fads"',
         'tier = "A"',
-        'unit = "pounds per person per year (farm weight)"',
-        'population = "The whole US resident population — a supply-side average, not '
-        'a measure of who ate anything"',
-        f'notes = "{note}"',
+        'unit = "pounds per person per source year (farm weight)"',
+        'population = "U.S. resident population plus Armed Forces overseas; supply-side average"',
+        f"notes = {json.dumps(note, ensure_ascii=False)}",
         "",
         "[series.values]",
     ]
-    for year in years:
-        lines.append(f"{year} = {values[year]}")
+    lines.extend(f"{year} = {values[year]}" for year in years)
     return "\n".join(lines) + "\n"
 
 
 def main() -> None:
-    for slug, (workbook, sheet, label) in COMMODITIES.items():
-        values, conversion = parse(workbook, sheet)
-        out = OUT_DIR / f"us-availability-{slug}.toml"
-        out.write_text(render_toml(slug, label, values, conversion))
-        years = sorted(values)
-        first, last = years[0], years[-1]
-        print(f"{slug:14} {len(values):>3} years {first}-{last}   "
-              f"{values[first]:>6.2f} -> {values[last]:>6.2f} lb   ({conversion})")
-    print()
-    print("column identity: farm per-capita == food availability / population, "
-          "checked for every year of every commodity")
+    books = {}
+    prepared = []
+    try:
+        for workbook in (VEG, FRUIT):
+            _pin(workbook)
+            books[workbook] = (
+                load_workbook(workbook, data_only=False),
+                load_workbook(workbook, data_only=True),
+            )
+        for slug, (workbook, sheet, label) in COMMODITIES.items():
+            path = OUT_DIR / f"us-availability-{slug}.toml"
+            existing = tomllib.loads(path.read_text(encoding="utf-8"))["series"][0]["values"]
+            values, conversion, heading, marketing = parse(
+                workbook, sheet, {int(y) for y in existing}, *books[workbook]
+            )
+            prepared.append(
+                (path, render_toml(slug, label, values, conversion, heading, marketing))
+            )
+            print(f"{slug}: {len(values)} selected years, source-formula and format checked")
+        for path, content in prepared:
+            path.write_text(content, encoding="utf-8", newline="\n")
+    finally:
+        for formula, cache in books.values():
+            formula.close()
+            cache.close()
 
 
 if __name__ == "__main__":

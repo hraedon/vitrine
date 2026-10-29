@@ -52,11 +52,11 @@ assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
 id = "jp-1970s-home-gap"
 panel = "home"
 label = "Housing tenure, floor area, and amenities, 1970s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "jp-hls"
 tier = "D"
-notes = "The Housing and Land Survey summary results used by this project are extracted from the Japan Statistical Yearbook, which begins English-language housing tables in 1988. The 1970s HLS data is not in the archive."
+notes = "The English Japan Statistical Yearbook tables used here begin in 1988. A Japanese Housing and Land Survey summary includes historical housing and facilities charts for 1978, but observations for this room have not yet been transcribed and qualified."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
@@ -65,11 +65,11 @@ assumptions = ["composite-family", "jp-household-not-family"]
 id = "jp-1970s-diffusion-gap"
 panel = "diffusion"
 label = "Household durable goods and communications, 1970s"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "jp-nsfiie"
 tier = "D"
-notes = "The National Survey of Family Income and Expenditure publishes English durable-goods summaries from 1999 onward. The 1974 and 1979 survey waves are not in the archive in English."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -125,9 +125,9 @@ assumptions = ["composite-family", "jp-household-not-family", "jp-fies-food-shar
 id = "jp-1970s-work-buys-gap"
 panel = "work-buys"
 label = "Affordability comparisons, 1970s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "jp-mls"
 tier = "D"
-notes = "Monthly working hours are available from 1975, but no weekly-hour series or durable-goods prices are in the archive, so an hourly wage and hours-of-work-to-afford comparisons cannot be computed for the 1970s. The monthly wage figure above is the available wage reference."
+notes = "Monthly wages and working hours are available for 1975. Their comparability and a documented derivation have not been qualified here; durable-goods prices have not been transcribed. No hours-of-work-to-afford comparison is shown."
 assumptions = ["composite-family", "jp-household-not-family"]

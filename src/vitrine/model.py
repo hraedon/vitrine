@@ -263,6 +263,8 @@ class Extractor(enum.Enum):
 class AuditOperation(enum.Enum):
     MEAN = "mean"
     PCT_OF = "pct_of"
+    RATIO = "ratio"
+    ROUND = "round"
 
 
 class AuditRounding(enum.Enum):
@@ -322,7 +324,7 @@ class Fact:
     assumptions: tuple[str, ...] = field(default=())
     amount_minor: int | None = None  # integer minor units (cents) — no float drift
     currency: str = ""  # "USD"; required iff amount_minor is set
-    price_year: int | None = None  # year the amount is quoted in
+    price_year: int | None = None  # amount year; legacy observation-year field on numeric charts
     basis: Basis | None = None  # required iff amount_minor is set
     quantity: float | None = None  # headline numeric for chart projection; must
     # appear verbatim in ``value`` (gate-enforced) — a transcription of the

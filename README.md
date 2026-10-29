@@ -15,8 +15,8 @@ build fails mechanically if any fact lacks one.
 
 - **v1 (US):** rooms from the 1900s through the 2020s, tier-badged (an 1890s
   room is planned; the 1890–91 Commissioner of Labor survey is already in the
-  source registry). Official median family income exists only from 1947
-  (Census P-60); the 1940s room leans on census microdata; the early rooms are
+  source registry). The selected Census P-60 median family-income series starts
+  in 1947; the 1940s room leans on census microdata; the early rooms are
   reconstructed from period cost-of-living surveys; the museum stops where the
   record does, and says so.
 - **World collections:** United Kingdom and Japan currently have decade
@@ -50,7 +50,7 @@ Putting those observations together does not make them a matched household.
 | A | Official statistical series for the stated population (e.g. Census P-60 median family income, 1947→) |
 | B | Official microdata; the statistic is computed by this project (e.g. IPUMS 1940 census) |
 | C | Reconstructed from contemporaneous surveys of a proxy population (e.g. 1901 BLS cost-of-living survey of urban wage-earners) |
-| D | Scholarly estimate or narrative; no contemporaneous survey exists |
+| D | Scholarly estimate or reconstruction; method and limitations are disclosed |
 
 ## Scope
 
@@ -88,7 +88,7 @@ not cryptographic.
 
 <!-- The marked line is machine-checked by tests/test_docs_sync.py;
      regenerate with `python scripts/sync_readme_status.py` after curating. -->
-Corpus: <!-- corpus-status:begin -->27 decade rooms (1900s–2020s), 782 facts, 16 derived facts, 6 Tier D estimates, 69 rendered gaps<!-- corpus-status:end --> (US decade coverage runs
+Corpus: <!-- corpus-status:begin -->27 decade rooms (1900s–2020s), 770 facts, 28 derived facts, 10 Tier D estimates, 75 rendered gaps<!-- corpus-status:end --> (US decade coverage runs
 1900s–2020s; the world collections below extend it). The Tier D estimates are
 disclosed scholarly reconstructions kept honest by the tier rule
 (`vitrine gaps` prints the mechanical inventory). Gap notes distinguish
@@ -196,6 +196,11 @@ source files and updates the committed ledger only when all checks pass.
 bindings through the normal provenance gate. Install `.[audit]` to read XLSX;
 `.[dev]` includes it. See [Plan 015](plans/015-transcription-audit.md) for scope
 and [the coverage snapshot](docs/transcription-audit-coverage.md) for omissions.
+
+The [remaining-record review](docs/remaining-record-audit-20261028.md) records
+source checks for all previously unbound records, the corrected source and
+population seams, and the specific missing evidence. Its committed inventory
+is checked offline with `python scripts/record_review_report.py --check`.
 
 Every bibliography entry now links to its source collection: all records that
 cite it, their measured populations, and available transcription-audit dates.

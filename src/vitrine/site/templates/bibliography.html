@@ -9,7 +9,7 @@
 <div class="ledger-row" id="{{ src.id }}">
   <span class="l-num" aria-hidden="true">{{ loop.index }}</span>
   <div><div class="l-title">{{ src.title }}</div>
-  <div class="l-meta">{{ src.publisher }}{% if src.year %} · {{ src.year }}{% endif %}{% if src.short_cite %} · {{ src.short_cite }}{% endif %}</div>
+  <div class="l-meta">{{ src.publisher }} · {{ src.year if src.year else 'undated' }}{% if src.short_cite %} · {{ src.short_cite }}{% endif %}</div>
   <p class="l-body"><b>Population measured:</b> {{ src.population }}
   {% if src.url %}<br><a href="{{ src.url }}">{{ src.url }}</a>{% endif %}</p>
   {% if src.notes %}<details><summary>Source notes</summary><div class="drawer">{{ src.notes }}</div></details>{% endif %}

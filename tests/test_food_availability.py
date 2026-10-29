@@ -2,8 +2,8 @@
 
 Four commodities on one shared pounds-per-person axis. The exhibit's honesty
 depends on three things this file holds: that the cards and their series agree,
-that the group keeps saying availability is not intake, and that the lines are
-not extended past the years their sheets publish.
+that the group keeps saying availability is not intake, and that the selected
+lines retain their documented curation windows.
 """
 
 from __future__ import annotations
@@ -21,8 +21,8 @@ DATA = Path(__file__).parent.parent / "data"
 GROUP = "exotic-turned-ordinary"
 COMMODITIES = ("broccoli", "bell-peppers", "avocados", "grapes")
 
-# where each published sheet begins; a card before this would be invented
-FIRST_YEAR = {"broccoli": 1960, "bell-peppers": 1960, "avocados": 1970, "grapes": 1970}
+# First year selected for each curated line; earlier publisher years may exist.
+CURATION_START = {"broccoli": 1960, "bell-peppers": 1960, "avocados": 1970, "grapes": 1970}
 
 
 def _facts() -> dict[str, dict[str, object]]:
@@ -71,12 +71,12 @@ def test_cards_match_their_series(commodity: str) -> None:
 
 
 @pytest.mark.parametrize("commodity", COMMODITIES)
-def test_no_card_before_the_published_sheet(commodity: str) -> None:
-    """The line starts where ERS starts, not where the commodity did."""
+def test_cards_fit_the_curated_series_window(commodity: str) -> None:
+    """Cards use the selected series window, not a claim about the original sheet."""
     series = load_series(DATA)[f"us-availability-{commodity}"]
-    assert min(series.values) == FIRST_YEAR[commodity]
+    assert min(series.values) == CURATION_START[commodity]
     years = [f.price_year for f in _facts()[commodity].values()]  # type: ignore[attr-defined]
-    assert min(years) >= FIRST_YEAR[commodity]
+    assert min(years) >= CURATION_START[commodity]
 
 
 def test_the_group_says_availability_is_not_intake() -> None:
@@ -93,7 +93,7 @@ def test_the_group_admits_the_shape_is_not_a_smooth_rise() -> None:
     assert "not a smooth rise" in joined
     avocados = load_series(DATA)["us-availability-avocados"].values
     broccoli = load_series(DATA)["us-availability-broccoli"].values
-    assert avocados[1986] == 2.37 and avocados[1989] == 1.08, (
+    assert avocados[1986] == 2.4 and avocados[1989] == 1.1, (
         "the caveat's 1980s avocado swing no longer matches the series"
     )
     assert broccoli[max(broccoli)] < broccoli[2000], (
@@ -102,6 +102,48 @@ def test_the_group_admits_the_shape_is_not_a_smooth_rise() -> None:
 
 
 def test_the_source_declares_a_content_marker() -> None:
-    raw = tomllib.loads((DATA / "sources.toml").read_text())
+    raw = tomllib.loads((DATA / "sources.toml").read_text(encoding="utf-8"))
     source = next(s for s in raw["source"] if s["id"] == "usda-ers-fads")
     assert "Food Availability (Per Capita) Data System" in source["expect"]
+
+
+def test_formula_replay_only_ignores_missing_values_inside_sum() -> None:
+    """A missing source component cannot silently become zero in arithmetic."""
+    from ers_fads_extract import _formula_value
+    from openpyxl import Workbook
+
+    workbook = Workbook()
+    sheet = workbook.active
+    assert sheet is not None
+    sheet["C7"] = 4
+    sheet["D7"] = "NA"
+    sheet["E7"] = "=SUM(C7,D7)"
+    assert str(_formula_value(sheet, "E7", 7)) == "4"
+    sheet["E7"] = "=C7+D7"
+    with pytest.raises(ValueError, match="outside SUM"):
+        _formula_value(sheet, "E7", 7)
+    sheet["E7"] = "=C8"
+    with pytest.raises(ValueError, match="cross-row"):
+        _formula_value(sheet, "E7", 7)
+    sheet["E7"] = "=SUM(C157:D157)"
+    with pytest.raises(ValueError, match="cross-row"):
+        _formula_value(sheet, "E7", 7)
+    workbook.close()
+
+
+def test_all_selected_series_reproduce_from_pinned_sources(tmp_path: Path, monkeypatch) -> None:
+    """Regenerate every existing curated year without changing the checkout."""
+    import shutil
+
+    import ers_fads_extract as extractor
+
+    if not extractor.VEG.exists() or not extractor.FRUIT.exists():
+        pytest.skip("Pinned USDA workbooks are required for source replay")
+    for slug in extractor.COMMODITIES:
+        name = f"us-availability-{slug}.toml"
+        shutil.copyfile(DATA / "series" / name, tmp_path / name)
+    monkeypatch.setattr(extractor, "OUT_DIR", tmp_path)
+    extractor.main()
+    for slug in extractor.COMMODITIES:
+        name = f"us-availability-{slug}.toml"
+        assert (tmp_path / name).read_bytes() == (DATA / "series" / name).read_bytes()

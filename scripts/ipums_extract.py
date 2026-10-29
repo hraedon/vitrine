@@ -186,7 +186,7 @@ VITRINE_VARIABLES = {
 # Sample IDs by decade (IPUMS sample codes)
 VITRINE_SAMPLES = {
     "1940": ["us1940a"],  # Full count
-    "1950": ["us1950a"],  # Full count
+    "1950": ["us1950a"],  # 1% sample; INCTOT covers sample-line persons, not every family member
     "1960": ["us1960a"],  # 1% sample
     "1970": ["us1970a"],  # 1% sample (Form 1)
     "1980": ["us1980a"],  # 5% sample

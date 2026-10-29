@@ -113,25 +113,41 @@ def test_compare_skips_missing_fact() -> None:
     comparison = compare_item(
         corpus,
         "A new car, in hours of work",
-        {"1950s": "us-1950s-car-price", "2020s": "us-2020s-no-such-fact"},
+        {"1970s": "us-1970s-car-price", "2020s": "us-2020s-no-such-fact"},
     )
     decades = [p.decade for p in comparison.points]
-    assert "1950s" in decades
+    assert "1970s" in decades
     assert "2020s" not in decades
 
 
-def test_compare_includes_fact_with_amount() -> None:
-    """Plan 013 restored the 1910s car price amount_minor + wage anchor, so
-    it now appears in the affordability comparison (previously skipped)."""
+def test_compare_includes_verified_price_and_skips_factory_totals() -> None:
+    """A factory count and wholesale total are not a source-bound retail price."""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
         "A new car, in hours of work",
-        {"1910s": "us-1910s-car-price", "1950s": "us-1950s-car-price"},
+        {"1910s": "us-1910s-car-price", "1970s": "us-1970s-car-price"},
     )
     decades = [p.decade for p in comparison.points]
-    assert "1910s" in decades
-    assert "1950s" in decades
+    assert "1910s" not in decades
+    assert "1970s" in decades
+
+
+def test_compare_withdrawn_1950_car_price_keeps_archival_fact_without_point() -> None:
+    """Factory sales counts and wholesale values do not establish a car price."""
+    corpus = load_corpus(DATA)
+    room = next(r for r in corpus.rooms if r.slug == "us-1950s")
+    fact = next(f for f in room.facts if f.id == "us-1950s-car-price")
+    assert fact.amount_minor is None
+    assert fact.source == "statab-1953-car-factory-sales"
+    assert fact.source in corpus.sources
+    assert "wholesale" in fact.value.lower()
+    comparison = compare_item(
+        corpus,
+        "A new car, in hours of work",
+        {"1950s": fact.id, "1970s": "us-1970s-car-price"},
+    )
+    assert [point.decade for point in comparison.points] == ["1970s"]
 
 
 def test_compare_1900s_has_both_anchors() -> None:
@@ -151,11 +167,7 @@ def test_compare_1900s_has_both_anchors() -> None:
 
 
 def test_compare_tier_inheritance_weakest_wins() -> None:
-    """1900s car: price Tier C (period-survey reconstruction), wage Tier A,
-    income Tier A → weakest is C.
-
-    (The 1950s car price was upgraded to Tier A in WI-002, leaving the 1900s
-    car as the corpus's canonical Tier-C affordability price.)"""
+    """The historical wage reconstruction limits this affordability estimate."""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
@@ -164,7 +176,7 @@ def test_compare_tier_inheritance_weakest_wins() -> None:
     )
     assert len(comparison.points) == 1
     point = comparison.points[0]
-    assert point.afford.tier == Tier.C
+    assert point.afford.tier == Tier.D
 
 
 def test_compare_2020s_home_tier_a() -> None:
@@ -180,34 +192,34 @@ def test_compare_2020s_home_tier_a() -> None:
     assert point.afford.tier == Tier.A
 
 
-def test_compare_1950s_car_hours() -> None:
-    """$1,295 / $1.32/hr ≈ 981 hours."""
+def test_compare_1970s_car_hours() -> None:
+    """The verified $3,543 ORNL car price uses the $3.23 hourly wage anchor."""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
         "A new car, in hours of work",
-        {"1950s": "us-1950s-car-price"},
+        {"1970s": "us-1970s-car-price"},
     )
     assert len(comparison.points) == 1
     point = comparison.points[0]
     assert point.afford.hours_to_afford is not None
-    assert point.afford.hours_to_afford == pytest.approx(129500 / 132, rel=1e-6)
-    assert point.afford.hours_to_afford == pytest.approx(981.1, rel=1e-3)
+    assert point.afford.hours_to_afford == pytest.approx(354300 / 323, rel=1e-6)
+    assert point.afford.hours_to_afford == pytest.approx(1096.9, abs=0.1)
 
 
-def test_compare_1950s_car_pct_of_income() -> None:
-    """$1,295 / $3,675 (four-person median) ≈ 35.2%."""
+def test_compare_1970s_car_pct_of_income() -> None:
+    """The $3,543 price uses the $11,170 four-person median income anchor."""
     corpus = load_corpus(DATA)
     comparison = compare_item(
         corpus,
         "A new car, in hours of work",
-        {"1950s": "us-1950s-car-price"},
+        {"1970s": "us-1970s-car-price"},
     )
     assert len(comparison.points) == 1
     point = comparison.points[0]
     assert point.afford.pct_of_income is not None
-    assert point.afford.pct_of_income == pytest.approx(129500 / 367500 * 100, rel=1e-6)
-    assert point.afford.pct_of_income == pytest.approx(35.2, abs=0.1)
+    assert point.afford.pct_of_income == pytest.approx(354300 / 1117000 * 100, rel=1e-6)
+    assert point.afford.pct_of_income == pytest.approx(31.7, abs=0.1)
 
 
 def test_compare_1950s_home_values() -> None:
@@ -282,7 +294,7 @@ def test_comparison_point_is_frozen() -> None:
     comparison = compare_item(
         corpus,
         "A new car, in hours of work",
-        {"1950s": "us-1950s-car-price"},
+        {"1970s": "us-1970s-car-price"},
     )
     point = comparison.points[0]
     with pytest.raises((AttributeError, TypeError)):

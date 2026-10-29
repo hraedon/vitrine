@@ -1,5 +1,24 @@
 # Changelog
 
+## 2026-10-28 — Remaining-record source audit
+
+Reviewed all 561 previously unbound records, corrected source columns,
+populations, dates, definitions and unsupported companions, and retained
+explicit gaps where evidence is insufficient. The four remaining acquisition
+needs are the original IPUMS family-income analysis/output and one untraced
+BLS housing-budget table. See the [audit report](remaining-record-audit-20261028.md)
+and its committed, fingerprinted record inventory.
+
+Source-field replay now covers 390 bindings. Hidden early car-price amounts
+are removed and the gate requires visible, currency-marked monetary amounts
+or a disclosed source-bound rounding method. Early reconstructed manufacturing
+wages disclose bias and use Tier D. Annual food availability retains publisher
+precision across 54 series; the documented threshold correction changes only
+the 2020 variety count. Incompatible chart measures remain linked exclusions.
+
+Additional original releases restore the early aggregate net-worth observation
+and support new bindings. Raw source files and microdata remain outside Git.
+
 ## 2026-10-28 — Shorter reading routes and portable builds
 
 Country entrances lead the lobby. Native topic disclosures shorten room

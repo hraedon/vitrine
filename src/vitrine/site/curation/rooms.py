@@ -24,7 +24,7 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
     RoomStory(
         "1910s",
         "The record goes quiet",
-        "What can a room reveal when the national household books are missing?",
+        "What can these surveys show about the different households and workers they measured?",
         (
             "us-1910s-housing-gap",
             "us-1910s-income-gap",
@@ -46,7 +46,7 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
     RoomStory(
         "1930s",
         "A modern room with missing books",
-        "What survives in the record when wages contract and household surveys fail us?",
+        "Which changes can we trace through the available household and workplace surveys?",
         (
             "us-1930s-manufacturing-wages",
             "us-1930s-radio-automobile",
@@ -106,7 +106,7 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
             "us-1980s-median-home-size",
             "us-1980s-cable-tv",
             "us-1980s-computer",
-            "us-1980s-home-as-income-years",
+            "us-1980s-median-home-value",
         ),
     ),
     RoomStory(
@@ -128,7 +128,7 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
             "us-2000s-internet",
             "us-2000s-atus-time-use",
             "us-2000s-home-production-household",
-            "us-2000s-home-as-income-years",
+            "us-2000s-median-home-value",
         ),
     ),
     RoomStory(
@@ -139,7 +139,7 @@ ROOM_STORIES: tuple[RoomStory, ...] = (
             "us-2010s-internet",
             "us-2010s-expenditure-shares",
             "us-2010s-cex-quintile-q1-ratio",
-            "us-2010s-home-as-income-years",
+            "us-2010s-median-home-value",
         ),
     ),
     RoomStory(
@@ -361,23 +361,23 @@ HOME_SIZE_FACTS: dict[str, str] = {
 ROOM_GAP_BANNERS: dict[str, str] = {
     "1910s": (
         "Four core exhibits — income, housing, the food basket, and work-buys — "
-        "lack a reliable national record for this room. Their gaps are shown, "
-        "not reconstructed from neighboring decades."
+        "have not been verified for this room's comparison. The linked records "
+        "explain the gaps and the populations that still need curation."
     ),
     "1920s": (
         "Four core exhibits — income, housing, the food basket, and work-buys — "
-        "lack a reliable national record for this room. Their gaps are shown, "
-        "not reconstructed from neighboring decades."
+        "have not been verified for this room's comparison. The linked records "
+        "explain the gaps and the populations that still need curation."
     ),
     "1930s": (
         "Four core exhibits — income, housing, the food basket, and work-buys — "
-        "lack a reliable national record for this room. Their gaps are shown, "
-        "not reconstructed from neighboring decades."
+        "have not been verified for this room's comparison. The linked records "
+        "explain the gaps and the populations that still need curation."
     ),
     "1940s": (
-        "The wartime record is structurally different: no Consumer Expenditure "
-        "Survey covered the decade, while rationing and price controls make a "
-        "peacetime-style food basket misleading. Both exhibits remain gaps."
+        "A full expenditure-share comparison and a household food basket have "
+        "not been verified for this room. The retail-price observations measure "
+        "prices, rather than the quantities a household bought."
     ),
 }
 

@@ -17,10 +17,12 @@ Two layers:
    pages (including UK/JP rooms, source collections and corridor pairs) without the maintenance
    burden of exact-count pinning.
 
-Re-baselined for Plan 033 after inspecting the structural differences:
+Re-baselined for Plans 033–034 after inspecting the structural differences:
 six native topic folds per room; source-linked chart-table disclosures;
 withdrawn compositions rendered as linked gaps; added source collections and
-methodology assumptions. Stable fact IDs, archival overlays, disclaimers and
+methodology assumptions. The source review adds source cards and links,
+and excludes instrument density from household-adoption marks. Stable fact IDs,
+archival overlays, disclaimers and
 page landmarks remain independently checked below.
 """
 
@@ -171,22 +173,22 @@ EXPECTED: dict[str, PageContract] = {
     "rooms/us-1950s.html": _page(
         'US · 1950s — vitrine',
         landmarks=(1, 3, 1, 8, 1), disclosures=(104, 0),
-        local=(90, '61ac4f75b222'), marks=(8, '039d00bafc61'), overlays=46,
+        local=(91, 'bee4daaa618a'), marks=(8, '039d00bafc61'), overlays=46,
     ),
     "rooms/us-1910s.html": _page(
         'US · 1910s — vitrine',
         landmarks=(1, 3, 1, 8, 1), disclosures=(51, 0),
-        local=(59, '877569b82358'), marks=(3, 'c7ef52c43fee'), overlays=22,
+        local=(59, '877569b82358'), marks=(2, 'd6538e55f8a6'), overlays=22,
     ),
     "corridors/index.html": _page(
         'corridors — vitrine',
         landmarks=(6, 2, 1, 6, 1), disclosures=(467, 5),
-        local=(478, '56c6c433fb41'), marks=(364, 'b5e7c43d9c71'), overlays=364,
+        local=(484, '10a70403e6d1'), marks=(364, 'b5e7c43d9c71'), overlays=364,
     ),
     "corridors/1900s--2020s.html": _page(
         '1900s ↔ 2020s — vitrine corridors',
         landmarks=(1, 1, 1, 0, 1), disclosures=(28, 0),
-        local=(45, '66a8e44ce2f1'), marks=(27, '4ca781f9b9ef'), overlays=27,
+        local=(46, 'bfb3bdd49516'), marks=(27, '4ca781f9b9ef'), overlays=27,
     ),
     "affordability/index.html": _page(
         'affordability — vitrine',
@@ -196,7 +198,7 @@ EXPECTED: dict[str, PageContract] = {
     "walkthrough.html": _page(
         'the walkthrough — vitrine',
         landmarks=(1, 1, 1, 0, 1), disclosures=(52, 0),
-        local=(75, 'd45bf357b0bb'), marks=(52, '536879fd6071'), overlays=52,
+        local=(77, 'aee0e3b2a145'), marks=(52, '536879fd6071'), overlays=52,
     ),
     "methodology.html": _page(
         'methodology — vitrine',
@@ -205,14 +207,14 @@ EXPECTED: dict[str, PageContract] = {
     ),
     "bibliography.html": _page(
         'bibliography — vitrine',
-        # Source-specific CEX vintages, durables and NFS join the register.
-        landmarks=(1, 1, 1, 0, 1), disclosures=(130, 0),
-        local=(140, 'aa10f47df3f1'), marks=(0, 'e3b0c44298fc'), overlays=0,
+        # Source-specific survey vintages and the recovered Fed release.
+        landmarks=(1, 1, 1, 0, 1), disclosures=(165, 0),
+        local=(179, 'c5dc778ee9ed'), marks=(0, 'e3b0c44298fc'), overlays=0,
     ),
     "essays/index.html": _page(
         'docent tours — vitrine',
         landmarks=(1, 1, 1, 0, 1), disclosures=(64, 0),
-        local=(19, 'a793f312c484'), marks=(0, 'e3b0c44298fc'), overlays=64,
+        local=(20, 'aa7702fae567'), marks=(0, 'e3b0c44298fc'), overlays=64,
     ),
     "essays/one-paycheck.html": _page(
         'One paycheck — docent tours · vitrine',

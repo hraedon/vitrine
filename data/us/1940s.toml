@@ -19,6 +19,10 @@ income_anchor = "us-1940s-median-income-four-person"
 
 [[fact]]
 id = "us-1940s-median-family-income"
+basis = "annual"
+price_year = 1947
+currency = "USD"
+amount_minor = 303100
 audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C89", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A89", value = "1947 (5)" }, { locator = "f08ar!C8", value = "Median income" }, { locator = "f08ar!C9", value = "Current\ndollars" }] }
 quantity = 3031
 panel = "budget"
@@ -80,7 +84,7 @@ value = "$1,389"
 unit = "USD per year, nominal (wages and salaries only)"
 source = "census-p60-001"
 tier = "A"
-notes = "From P-60 No. 1 (1947), reporting 1940 Census data. Median civilian money wages and salaries of primary families: $1,389 in 1939, rising to $2,697 by 1944 — nearly doubling during wartime. This is wages/salaries only, not total money income. The P-60 notes: 'The comparison of 1946, 1944, and 1939 income data is restricted to civilian money wages or salaries of primary families and individuals in private households because these were the family and income concepts used in the 1940 census.'"
+notes = "From P-60 No. 1 revised (1948), reporting 1940 Census data. Median civilian money wages and salaries of primary families: $1,389 in 1939, rising to $2,697 by 1944 — nearly doubling during wartime. This is wages/salaries only, not total money income. The P-60 notes: 'The comparison of 1946, 1944, and 1939 income data is restricted to civilian money wages or salaries of primary families and individuals in private households because these were the family and income concepts used in the 1940 census.'"
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
@@ -92,7 +96,7 @@ value = "~$3,000"
 unit = "USD per year, nominal (urban and rural-nonfarm families)"
 source = "census-p60-001"
 tier = "A"
-notes = "From P-60 No. 1 (1947): 'The average income of nonfarm families in 1946 was about $3,000.' Median total money income of urban and rural-nonfarm families and individuals: $2,410 (1944), $2,595 (1945), $2,659 (1946). This predates the CPS F-8 series (begins 1947) and covers nonfarm families only."
+notes = "From P-60 No. 1 revised (1948): 'The average income of nonfarm families in 1946 was about $3,000.' Median total money income of urban and rural-nonfarm families and individuals: $2,410 (1944), $2,595 (1945), $2,659 (1946). This predates the CPS F-8 series (begins 1947) and covers nonfarm families only."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
@@ -116,7 +120,7 @@ value = "43.6%"
 unit = "% of occupied dwelling units (owner-occupied)"
 source = "census-homeownership-historical"
 tier = "A"
-notes = "From Census Bureau decennial time series (owner.pdf). The 1940 rate was the lowest of the century — the Great Depression had driven it down from 47.8% in 1930. By 1950 it would surge to 55.0% with postwar GI Bill financing and suburban expansion."
+notes = "Census historical homeownership rate for 1940. The rate describes owner-occupied housing among occupied units."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -137,25 +141,26 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1940s-plumbing"
+audit = { file = "remaining-audit-20261028/world-middle-housing-extract.json", extractor = "json-pointer", locator = "/years/1940/plumbing/complete_count", target = "quantity", guards = [{ locator = "/publisher_sha256/plumbing-tab.txt", value = "56dcbdabfcdb340ccf23b988779725a3165b0e150d62795848a9ddd4b767132b" }, { locator = "/years/1940/plumbing/population_basis", value = "all dwelling units reporting" }], calculation = { op = "pct_of", operands = ["/years/1940/plumbing/total_reporting"], precision = 1, rounding = "half_up", method = "1940 Census reporting dwelling units: published complete count divided by all reporting count, times 100, rounded once to one decimal." } }
 quantity = 54.7
 panel = "home"
-label = "Complete plumbing facilities, 1940"
-value = "54.7% of homes had complete plumbing (45.3% lacked)"
-unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
-source = "census-hist-housing-plumbing"
+label = "Private bath and private flush toilet, 1940"
+value = "54.7% had private bath and private flush toilet (45.3% lacked)"
+unit = "% of reporting dwelling units"
+source = "census-hist-housing-private-bath-1940"
 tier = "A"
-notes = "From Census Historical Housing Tables: Plumbing (plumbing-tab.txt, US row: 15,852,098 of 35,026,442 occupied units lacking). Complete plumbing = hot and cold piped water + flush toilet + bathtub/shower for exclusive use. The 1940 Census of Housing was the first to ask about plumbing. 45.3% of American homes lacked complete plumbing — the worst point in the series. By 1950: 35.5% lacked (64.5% had). By 1960: 16.8% lacked (83.2% had). Rural areas were far worse: many farm homes still used outhouses and hand pumps. Figures verified against the Census time-series file 2026-07-07."
-assumptions = ["composite-family"]
+notes = "Census reported 35,026,442 reporting dwelling units. The complete share is computed from the printed complete and lacking counts, rounded once to one decimal. The source prints the lacking share separately. The 1940 private-bath and private-toilet measure differs from later complete-plumbing definitions."
+assumptions = ["composite-family", "census-housing-source-count-shares"]
 
 [[fact]]
 id = "us-1940s-heating-fuel"
 panel = "home"
 label = "House heating fuel, 1940"
-value = "Coal 55%, wood 23%, fuel oil/kerosene 10%, utility gas 11%, other 1%"
+value = "Gas (utility and bottled combined) 11.3%, coal/coke 54.7%, wood 22.8%, fuel oil/kerosene 10.0%, other fuel 0.4%, no fuel 0.8%"
 unit = "% of occupied housing units reporting heating fuel"
 source = "census-hist-housing-fuels"
 tier = "A"
-notes = "From the 1940 Census of Housing, Historical Census of Housing Tables: House Heating Fuel. Coal dominated American heating in 1940 — over half of all homes. Utility gas and bottled/LP gas were combined in 1940 (electricity was collected but not tabulated separately). By 1950, coal dropped to 35% as gas rose to 27%. Source: fuels1940.txt, www2.census.gov."
+notes = "Census historical housing table for 1940, occupied dwelling units reporting their main heating fuel. Percentages are as printed; categories may not sum to exactly 100% because of rounding. In 1940 utility and bottled gas were combined; electricity was not tabulated separately."
 
 [[fact]]
 id = "us-1940s-median-gross-rent"
@@ -166,7 +171,7 @@ value = "$27/month"
 unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
 source = "census-hist-housing-rents"
 tier = "A"
-notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). National median gross rent for specified renter-occupied housing units paying cash rent. In 2000 dollars: $284/month (CPI-U-RS adjusted)."
+notes = "Census historical table reports the 1940 national median gross rent for specified renter-occupied units paying cash rent, in nominal dollars."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -176,9 +181,9 @@ panel = "day"
 label = "Life expectancy at birth, 1939-41 and 1949-51"
 value = "1939-41: 62.8 male, 67.3 female | 1949-51: 66.3 male, 72.0 female"
 unit = "years (white population)"
-source = "hist-stats-colonial-1970"
+source = "hist-stats-life-expectancy-white"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series B 116-117 (life expectancy at birth, white population). The 1940s saw dramatic gains: +3.5 years male, +4.7 years female in a single decade — driven by sulfa drugs, penicillin, and improved public health. For comparison: 1929-31 was 59.1 male, 62.7 female; 1900-02 was 48.2 male, 51.1 female."
+notes = "Historical Statistics reports period life expectancy at birth for the white population in the conterminous United States, by sex."
 
 [[fact]]
 id = "us-1940s-manufacturing-earnings"
@@ -188,14 +193,15 @@ value = "$2,793"
 unit = "USD per year, nominal (full-time equivalent)"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series D 740 (average annual earnings per full-time equivalent employee in manufacturing). 1947: $2,793; 1948: $3,038; 1949: $3,095; 1950: $3,302. Wartime manufacturing earnings: 1945: $2,517; 1944: $2,621. For context, median family income (all families) in 1947 was $3,031."
+notes = "Historical Statistics Series D 740 reports average annual earnings per full-time equivalent employee in manufacturing in 1947."
 assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1940s-hourly-earnings"
+audit = { file = "remaining-audit-20261028/middle_bls_hourly_extract.json", extractor = "json-pointer", locator = "/1947", target = "amount_minor", scale = "100", guards = [{ locator = "/source_sha256", value = "576c7b81afc613cc4313644e367739c14c06f83dd003ea88c032ea1d835b305b" }, { locator = "/pdf_page", value = "287" }, { locator = "/printed_page", value = "909" }, { locator = "/unit", value = "current dollars per hour" }, { locator = "/population", value = "Production or nonsupervisory workers on private nonagricultural payrolls" }], calculation = { op = "round", operands = [], precision = 2, rounding = "half_up", method = "Round the published USD hourly rate once to cents for the existing integer-minor-unit affordability anchor." } }
 panel = "day"
 label = "Average hourly earnings, production/nonsupervisory workers, 1947"
-value = "$1.13"
+value = "$1.131 per hour"
 unit = "USD per hour, nominal"
 source = "bls-bulletin-1312-12"
 tier = "A"
@@ -203,8 +209,8 @@ amount_minor = 113
 currency = "USD"
 price_year = 1947
 basis = "hourly"
-notes = "From BLS Bulletin 1312-12, Vol. II, p. 287, 'Average Hourly Earnings of Production or Nonsupervisory Workers on Private Nonagricultural Payrolls, TOTAL PRIVATE, in Current Dollars.' 1947 annual average: $1.131. This is the predecessor series to FRED AHETPI (which begins 1964)."
-assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency"]
+notes = "BLS Bulletin 1312-12, printed page 909, gives $1.131 per hour for production or nonsupervisory workers on private nonagricultural payrolls in 1947. That source rate stays visible. The affordability anchor uses an explicitly code-rounded cent amount, so its ratios inherit that storage approximation; the audit replays the rounding from the original rate."
+assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency", "source-rate-cent-rounding"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -216,18 +222,18 @@ value = "45.1% (1944) → 61.8% (1950)"
 unit = "% of households with telephone"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "From Historical Statistics Vol 2, Series R 1-3 (telephones). Households with telephone: 1944: 45.1%; 1945: 46.2%; 1946: 51.4%; 1947: 54.9%; 1948: 58.2%; 1949: 60.2%; 1950: 61.8%. Total telephones in 1947: 34,867 thousand (239.7 per 1,000 population). The postwar surge added ~17 percentage points in six years as the Bell System expanded residential service."
+notes = "Historical Statistics Series R 3 estimates households with telephones. This is a different measure from Series R 2, telephone instruments per 1,000 people."
 
 [[fact]]
 id = "us-1940s-no-television"
-quantity = 1
+quantity = 172000
 panel = "diffusion"
-label = "Television diffusion, 1940s"
-value = "~1% of households (1948), negligible before 1947"
-unit = "% of households with television"
+label = "Households with television sets"
+value = "172,000 households with television sets (1948)"
+unit = "households with television sets"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "Commercial television broadcasting began in the US in 1941 but was suspended during WWII. The Historical Statistics Vol 2 television series begins in 1950 at 9.0% of households. By the late 1940s, fewer than 1% of households had a TV set — the mass diffusion belongs to the 1950s. For the 1940s family, radio was the dominant broadcast medium."
+notes = "Historical Statistics Series R 105 reports an estimated 172,000 households with television sets in 1948. The source attributes the non-census estimates to NBC."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -241,7 +247,7 @@ value = "558.5 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS, Age-adjusted Death Rates for Selected Major Causes of Death (data.cdc.gov 6rkc-nb2q). Heart disease was rising rapidly, on its way to a mid-century peak."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -254,7 +260,7 @@ value = "187.8 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS. Cancer was the 2nd leading cause of death. Smoking rates were rising, presaging the lung cancer epidemic."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -269,6 +275,7 @@ notes = "BLS Bulletin 1055 (1952) covers retail food prices 1939-50 but does not
 
 [[fact]]
 id = "us-1940s-cigarette-consumption"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/cdc/cigarettes_per_adult/1940", target = "quantity", guards = [{ locator = "/cdc/source_sha256", value = "02e4e219a65571dd287ca9e6d13dae1d3138c290f410550ea63eea33c85bb277" }, { locator = "/cdc/adult_age", value = "18 and older" }, { locator = "/cdc/military", value = "Overseas military included in per-capita consumption 1930-1994" }] }
 quantity = 1976
 panel = "table"
 label = "Adult per capita cigarette consumption, 1940"
@@ -277,24 +284,26 @@ unit = "cigarettes per adult (≥18 years) per year"
 price_year = 1940
 source = "cdc-mmwr-tobacco-surveillance"
 tier = "A"
-notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. WWII drove massive increases — free cigarettes were distributed to soldiers. By 1945 consumption hit 3,449 per adult. Total U.S. consumption was 181.9 billion cigarettes in 1940."
+notes = "CDC MMWR Table 1 estimates total manufactured cigarette consumption per person aged 18 or older in 1940. This is a population-based ratio, not a count of cigarettes smoked only by adults. The per-capita estimate includes U.S. military personnel overseas."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1940s-ethanol-per-capita"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/niaaa/all_beverages/1940", target = "quantity", guards = [{ locator = "/niaaa/source_sha256", value = "71f1e8531f2de32138f99d20b239ec78215a23b50070294fbb80671507bc222a" }, { locator = "/niaaa/age_basis", value = "15 and older before 1970; 14 and older from 1970" }, { locator = "/niaaa/unit", value = "gallons ethanol per person per year" }] }
 quantity = 1.56
 panel = "table"
 label = "Alcohol consumed per person, 1940"
 value = "1.56 gallons of pure ethanol per person per year"
-unit = "gallons of pure ethanol per person per year"
+unit = "gallons of ethanol per person aged 15 and older per year"
 price_year = 1940
 source = "niaaa-surveillance-122"
 tier = "A"
-notes = "Wartime. Consumption rose through the war years from this 1940 level, peaking at 2.30 in 1946."
+notes = "NIAAA Table 1 reports apparent ethanol consumption per person aged 15 or older in 1940. The denominator includes people who do not drink."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1940s-traffic-death-rate"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/fhwa/rows/1940/per_100m_vmt", target = "quantity", guards = [{ locator = "/fhwa/source_sha256", value = "e5cb5e304b9c86f3124543e27dd4e9e0e18f2d1d8a40bc9891805332f88490d6" }, { locator = "/fhwa/table", value = "FI-200" }] }
 quantity = 10.89
 panel = "day"
 label = "Road deaths per 100 million vehicle-miles, 1940"
@@ -303,46 +312,43 @@ unit = "deaths per 100 million vehicle-miles travelled"
 price_year = 1940
 source = "fhwa-fi200-2023"
 tier = "A"
-notes = "Wartime rationing cut driving sharply — vehicle-miles fell 38 percent between 1941 and 1943 — and deaths fell almost exactly as far, by 40 percent. The rate barely moved: 11.43 in 1941, 10.92 in 1943. Fewer people died because less driving happened, not because driving got safer."
+notes = "FHWA Table FI-200 reports traffic fatalities per 100 million vehicle-miles travelled in 1940. This rate covers all persons killed in motor-vehicle traffic crashes."
 assumptions = ["composite-family"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
-[[fact]]
+[[derived]]
 id = "us-1940s-home-as-income-years"
 panel = "work-buys"
-label = "Median home value as years of median family income, 1947"
-value = "0.97 years ($2,938 home vs ~$3,031 income)"
-unit = "years of median family income (nominal)"
-source = "census-historical-housing-values"
-tier = "C"
-notes = "Computed: 1940 median home value ($2,938, from Census Historical Housing Tables) divided by 1947 median family income ($3,031, from F-8). A home cost roughly one year's income — the lowest ratio in the museum. Caveat: the home value is from 1940 and the income from 1947; wartime inflation had driven incomes up while the housing stock (and controlled prices) had not yet adjusted. By 1950: $7,354 home / $3,319 income = 2.2 years."
-assumptions = ["affordability-normalization", "nominal-values"]
+label = "Median home value relative to annual family income, 1940"
+op = "ratio"
+numerator = "us-1940s-median-home-value"
+denominator = "us-1940s-median-family-income"
+unit = "years of median family income, nominal"
+precision = 2
+notes = "The 1940 home value is compared with 1947 family income; these are different years. The medians describe different surveyed populations and do not describe a matched family or an actual purchase."
+assumptions = ["nominal-values", "housing-median-income-ratio"]
 
 [[fact]]
 id = "us-1940s-week-of-work-buys"
 panel = "work-buys"
-label = "What a week of manufacturing work bought, 1947"
-value = "$53.71/week — a full year of it (×52) ≈ 92% of median family income"
-unit = "weekly manufacturing earnings vs annual median family income"
+label = "Average annual manufacturing earnings, 1947"
+value = "$2,793 per full-time-equivalent employee"
+unit = "USD per year, nominal, average per full-time-equivalent employee"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "Computed: manufacturing FTE annual earnings ($2,793, Historical Statistics Series D740) ÷ 52 = $53.71/week. × 52 = $2,793, which is 92.1% of the all-family median income ($3,031, Census F-8). A single manufacturing wage nearly covered the median family's income — the 8% gap implies a small second income or overtime. Compare 1950: 83%. Source splice: annual earnings (D740) vs weekly hours (not separately published for 1947); the annual figure is the official series."
+notes = "Historical Statistics Series D 740 reports average annual earnings per full-time-equivalent manufacturing employee in 1947. This is not median family income."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1940s-car-price"
 panel = "work-buys"
-label = "Average new car price, 1940"
-value = "~$638 (average wholesale, computed from factory sales)"
-unit = "USD, nominal (wholesale value per passenger car)"
-source = "hist-stats-colonial-1970"
+label = "Passenger-car factory sales, 1940"
+value = "3,717.3 thousand passenger cars; $2,370 million wholesale value"
+unit = "passenger cars sold; aggregate wholesale value in nominal USD"
+source = "hist-stats-auto-factory-q148"
 tier = "A"
-amount_minor = 63800
-currency = "USD"
-price_year = 1940
-basis = "total"
-notes = "Computed from Historical Statistics, Series Q 148-162. 1940: 3,717,300 passenger cars sold at $2,370 million wholesale value = ~$638 average per car. Wartime production halted civilian car manufacturing (1942-45); no new cars were available for purchase during most of the 1940s. The 1940 price reflects the last pre-war price. Wholesale value; retail/transaction price would be higher. Population: all US factory sales of passenger cars."
+notes = "The source reports factory sales of passenger cars and aggregate wholesale value in 1940; these are not retail transaction prices. No average wholesale price is asserted here; it requires a documented calculation from these inputs. The factory-sales counts include military vehicle sales. Wholesale values exclude federal excise taxes and include standard equipment from 1937 onward."
 assumptions = ["nominal-values"]
 
 
@@ -362,7 +368,7 @@ value = "41.9"
 unit = "hours per week, prime-age women (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+notes = "Ramey Table 6 estimates weekly home-production hours for all women ages 18–64 in 1940. Italicized early estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -374,7 +380,7 @@ value = "7.7"
 unit = "hours per week, prime-age men (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+notes = "Ramey Table 7 estimates weekly home-production hours for all men ages 18–64 in 1940. Italicized early estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 # ── Married women's labor force participation ─────────────────────────────
@@ -385,10 +391,10 @@ quantity = 13.8
 panel = "day"
 label = "Married women's labor force participation, 1940"
 value = "~13.8%"
-unit = "% of married women (husband present) in the civilian labor force"
+unit = "percent of married women aged 14 and older, husband present, in the civilian labor force"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series D 49-62 (decennial). Total female LFPR was 27.4%. The wartime 'Rosie the Riveter' mobilization would temporarily push married women's participation much higher, but many were pushed out of jobs after the war. By 1948 (Series D 63-74, annual): 22.0% — the postwar surge is visible. The 1940s mark the beginning of the long-term shift from single-earner to dual-earner families."
+notes = "Historical Statistics reports the share of married women with husband present in the civilian labor force, 1940 decennial census. The source column covers women aged fourteen and older; later sixteen-and-older series have a different age boundary."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────
@@ -402,7 +408,7 @@ value = "Men: 24.3, Women: 21.5"
 unit = "years (median age at first marriage)"
 source = "census-table-ms2"
 tier = "A"
-notes = "From Census Table MS-2. Decennial census. War and postwar mobilization would push marriage ages down to the mid-century low (22.8/20.3 by 1950)."
+notes = "Census Table MS-2 reports the estimated median age at first marriage by sex for 1940."
 
 # ── Education ─────────────────────────────────────────────────────────────
 
@@ -410,12 +416,12 @@ notes = "From Census Table MS-2. Decennial census. War and postwar mobilization 
 id = "us-1940s-education"
 quantity = 24.5
 panel = "day"
-label = "Educational attainment, 1940"
-value = "HS grad or more: 24.5%, Bachelor's or more: 4.6%, Less than 9th grade: 59.5%. Median school years: 8.6."
-unit = "% of population 25+ (all races, both sexes); median years completed"
+label = "Years of school completed, adults aged 25 and over, 1940"
+value = "Four or more years of high school: 24.5%; four or more years of college: 4.6%; median school years: 8.6."
+unit = "% of people aged 25 and over; median years completed"
 source = "census-table-a1-a2"
 tier = "A"
-notes = "From Census Table A-1 (taba-1-educational-attainment.xlsx). Decennial census. In 1940, only 1 in 4 adults had a high school diploma and 60% had not completed 9th grade. Only 4.6% had a bachelor's degree. Median school years completed: 8.6 — roughly through 8th grade."
+notes = "Census A-1 reports the median years completed; NCES reports the historical percentages for 1940. Before the classification change, categories describe completed years, not necessarily diplomas or degrees."
 
 # ── Net worth (aggregate household sector) ────────────────────────────────
 
@@ -428,7 +434,7 @@ value = "$592 billion"
 unit = "aggregate net worth of nonfarm household sector, current dollars"
 source = "goldsmith-balance-sheet"
 tier = "D"
-notes = "From Goldsmith, Lipsey & Mendelson (1963), Table 1, Sector I.1 (Nonfarm households). Total assets: $623B. Tangible assets: $200B (real estate $142B, consumer durables $41B). Financial assets: $423B. Debt: $31B. Net worth: $592B. WWII transformed the household balance sheet: financial assets surged to 68% of total as war bonds and savings deposits accumulated. Debt was minimal ($31B) — wartime controls suppressed consumer credit. Aggregate — NOT median. The Fed Z.1 series begins here (Q4 1945)."
+notes = "Goldsmith Table 1 estimates aggregate net worth of nonfarm households in 1945. It is not a median household value."
 
 # ── Plan 027 WI-8: children and work — the measurement changed ────────────
 
@@ -440,7 +446,7 @@ value = "no comparable record — the 1940 census counted the labor force, not g
 unit = "percent of children 10-15 years old gainfully occupied"
 source = "census-1943-comparative-occupations"
 tier = "A"
-notes = "The 1940 census asked about the labor force — recent work or active seeking — instead of any gainful occupation, and changed the occupation and industry classifications alongside. Chapter III of the comparative volume is titled 'The Gainful Worker Concept of 1930 and the Labor Force Concept of 1940' and states the two are not exactly comparable, even occupation by occupation. The share of children counted at work did not become zero — the measurement changed. The Bureau also records that the decline in employment opportunities across the 1930s affected young workers particularly, so no part of the fall can be attributed to any single statute by timing alone."
+notes = "The 1940 census labor-force data cover people aged 14 and older; the earlier gainful-worker tables included children aged 10–13. The concepts are not exactly comparable."
 assumptions = ["composite-family"]
 
 [[fact]]

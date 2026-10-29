@@ -34,6 +34,10 @@ def audit_operation_label(operation: AuditOperation) -> str:
             return "Arithmetic mean"
         case AuditOperation.PCT_OF:
             return "Percentage of the denominator"
+        case AuditOperation.RATIO:
+            return "Numerator divided by denominator"
+        case AuditOperation.ROUND:
+            return "Source value rounded to the declared precision"
         case _ as unreachable:
             assert_never(unreachable)
 

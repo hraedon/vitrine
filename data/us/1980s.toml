@@ -13,6 +13,10 @@ income_anchor = "us-1980s-median-income-four-person"
 
 [[fact]]
 id = "us-1980s-median-family-income"
+basis = "annual"
+price_year = 1980
+currency = "USD"
+amount_minor = 2102000
 audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C56", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A56", value = "1980" }, { locator = "f08ar!C8", value = "Median income" }, { locator = "f08ar!C9", value = "Current\ndollars" }] }
 panel = "budget"
 label = "Median family income, all families, 1980"
@@ -80,14 +84,15 @@ assumptions = ["composite-family", "income-vs-consumption", "nominal-values", "c
 
 [[fact]]
 id = "us-1980s-poverty-rate"
+audit = { file = "remaining-audit-20261028/census-poverty-1980.json", extractor = "json-pointer", locator = "/1/1", target = "quantity", guards = [{ locator = "/0/0", value = "NAME" }, { locator = "/0/1", value = "PCTPOV" }, { locator = "/0/2", value = "POV" }, { locator = "/0/3", value = "POP" }, { locator = "/0/4", value = "PCTFAMPOV" }, { locator = "/0/5", value = "FAMPOV" }, { locator = "/0/6", value = "FAM" }, { locator = "/0/7", value = "YEAR" }, { locator = "/0/8", value = "RACE" }, { locator = "/0/9", value = "RACE" }, { locator = "/0/10", value = "time" }, { locator = "/0/11", value = "us" }, { locator = "/1/0", value = "United States" }, { locator = "/1/7", value = "1980" }, { locator = "/1/8", value = "1" }, { locator = "/1/9", value = "1" }, { locator = "/1/10", value = "1980" }, { locator = "/1/11", value = "1" }, { locator = "/1/2", value = "29270000" }] }
 quantity = 13
 panel = "budget"
 label = "Official poverty rate, 1980"
 value = "13.0% (29.3 million people in poverty)"
-unit = "% of all people below official poverty level"
+unit = "percent of people in the Census official-poverty universe"
 source = "census-poverty-historical"
 tier = "A"
-notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 13.0%. Family poverty: 11.5%. Poverty rose from 12.6% (1970) due to stagflation and the early 1980s recessions. By 1985: 14.0%."
+notes = "Census histpov2 all-race national row, retrieved for this source review. The people count is rounded once to one decimal million by the source qualifier. The API PCTFAMPOV is a percentage of people in families, not a percentage of family units. These descriptive rates do not identify causes; no family-unit rate is inferred from them."
 
 [[fact]]
 id = "us-1980s-cex-total-expenditures"
@@ -165,7 +170,7 @@ value = "64.4%"
 unit = "% of occupied dwelling units (owner-occupied)"
 source = "census-homeownership-historical"
 tier = "A"
-notes = "From Census Bureau decennial time series (owner.pdf). Up from 62.9% in 1970. High interest rates (mortgage rates peaked ~18% in 1981) would pressure homeownership later in the decade."
+notes = "Census historical homeownership rate for 1980. The rate describes owner-occupied housing among occupied units."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -186,24 +191,26 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1980s-plumbing"
-quantity = 2.7
+audit = { file = "remaining-audit-20261028/world-middle-housing-extract.json", extractor = "json-pointer", locator = "/years/1980/plumbing/complete_count", target = "quantity", guards = [{ locator = "/publisher_sha256/plumbing-tab.txt", value = "56dcbdabfcdb340ccf23b988779725a3165b0e150d62795848a9ddd4b767132b" }, { locator = "/years/1980/plumbing/population_basis", value = "housing units including vacant units" }], calculation = { op = "pct_of", operands = ["/years/1980/plumbing/total_reporting"], precision = 1, rounding = "half_up", method = "1980 Census reporting dwelling units: published complete count divided by all reporting count, times 100, rounded once to one decimal." } }
+assumptions = ["census-housing-source-count-shares"]
+quantity = 97.3
 panel = "home"
 label = "Complete plumbing facilities, 1980"
-value = "97.3% of homes had complete plumbing (2.7% lacked)"
-unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
-source = "census-hist-housing-plumbing"
+value = "97.3% had complete plumbing facilities (2.7% lacked)"
+unit = "% of housing units including vacant units reporting plumbing status"
+source = "census-hist-housing-plumbing-reporting"
 tier = "A"
-notes = "From Census Historical Housing Tables: Plumbing (plumbing-tab.txt, US row: 2,333,690 of 86,692,823 occupied units lacking). Down from 6.9% lacking in 1970. By 1990: 1.1% lacked."
+notes = "Census reported 86,692,823 year-round housing units. The complete share is computed from the printed complete and lacking counts, rounded once to one decimal. The source prints the lacking share separately."
 
 [[fact]]
 id = "us-1980s-heating-fuel"
 panel = "home"
 label = "House heating fuel, 1980"
-value = "Utility gas 53%, electricity 18%, fuel oil/kerosene 18%, bottled/LP gas 6%, wood 3%, coal 1%"
+value = "Utility gas 53.1%, bottled/LP gas 5.6%, electricity 18.4%, fuel oil/kerosene 18.2%, coal/coke 0.6%, wood 3.2%, other fuel 0.2%, no fuel 0.7%"
 unit = "% of occupied housing units reporting heating fuel"
 source = "census-hist-housing-fuels"
 tier = "A"
-notes = "From the 1980 Census of Housing. Electricity surged to 18.4% (up from 7.7% in 1970) as heat pumps became affordable. Gas remained dominant but plateaued at 53%. Coal was essentially eliminated (0.6%). Source: fuels1980.txt, www2.census.gov."
+notes = "Census historical housing table for 1980, occupied dwelling units reporting their main heating fuel. Percentages are as printed; categories may not sum to exactly 100% because of rounding."
 
 [[fact]]
 id = "us-1980s-median-home-size"
@@ -214,7 +221,7 @@ value = "1,595 sq ft (new construction)"
 unit = "median square feet of floor area, new single-family houses completed"
 source = "census-soc-new-housing"
 tier = "A"
-notes = "From the Census Bureau's Survey of Construction (C-25 annual report). New homes were modestly larger than 1973 (1,525). The 1980s saw a dip then recovery: 1982 was 1,520 (recession), 1985 was 1,605, 1989 was 1,850. By 1990: 1,905. Source: c25ann2003.pdf, 'Median and Average Square Feet of Floor Area in New Single-Family Houses Completed.'"
+notes = "Census Survey of Construction reports the median floor area of new single-family houses completed in 1980. This is not a median for the existing housing stock."
 
 [[fact]]
 id = "us-1980s-median-gross-rent"
@@ -225,7 +232,7 @@ value = "$243/month"
 unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
 source = "census-hist-housing-rents"
 tier = "A"
-notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $108 in 1970 — more than doubling due to 1970s inflation. In 2000 dollars: $481/month. Cross-verified: NHGIS 1980 national median contract rent was $199 (C8O001, STF 1 100% data); the $243 figure is median gross rent (includes utilities), from STF 4Hb sample data."
+notes = "Census historical table reports the 1980 national median gross rent for specified renter-occupied units paying cash rent, in nominal dollars."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -234,11 +241,11 @@ id = "us-1980s-life-expectancy"
 quantity = 73.7
 panel = "day"
 label = "Life expectancy at birth, 1980"
-value = "70.0 male, 77.5 female (73.7 total, all races)"
+value = "70.0 male, 77.4 female (73.7 total, all races)"
 unit = "years"
 source = "nchs-nvss"
 tier = "A"
-notes = "From NCHS National Vital Statistics System. Up from ~67.1/74.8 in 1970 (all races). The 1980s saw continued gains from cardiovascular disease treatment advances."
+notes = "NCHS National Vital Statistics Reports 56(10), 2008, Table 8: period life expectancy at birth, all races, 1980."
 
 [[fact]]
 id = "us-1980s-wages"
@@ -260,6 +267,8 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1980s-telephone"
+audit = { file = "remaining-audit-20261028/world-middle-housing-extract.json", extractor = "json-pointer", locator = "/years/1980/telephone/with_phone_count", target = "quantity", guards = [{ locator = "/publisher_sha256/phone-tab.txt", value = "f0029b5ad7a1974e90d69e24f19584548a23c6343efdd033dee3f872f31e1a27" }, { locator = "/years/1980/telephone/population_basis", value = "occupied housing units reporting telephone status" }], calculation = { op = "pct_of", operands = ["/years/1980/telephone/total_reporting"], precision = 1, rounding = "half_up", method = "1980 occupied housing units reporting telephone status: with-phone count divided by total reporting, times 100, rounded once to one decimal." } }
+assumptions = ["census-housing-source-count-shares"]
 quantity = 92.9
 panel = "diffusion"
 label = "Telephone in housing unit, 1980"
@@ -267,28 +276,27 @@ value = "92.9% (7.1% without telephone)"
 unit = "% of occupied housing units with telephone"
 source = "census-hist-housing-phone"
 tier = "A"
-notes = "From the 1980 Census of Housing, Historical Census of Housing Tables: Telephones. Up from 87.0% (1970), reaching 94.8% by 1990. Telephone was nearly universal by 1980. Source: phone-tab.txt, www2.census.gov."
+notes = "Census historical telephone table, 1980: the share lacking telephone is printed for occupied units. The displayed share with telephone is calculated from source counts and rounded once. The measure is telephone in the unit."
 
 [[fact]]
 id = "us-1980s-air-conditioning"
 panel = "diffusion"
 label = "Air conditioning, 1980s"
-value = "Central AC 23% (1978 RECS) → total AC 68% (1993 RECS)"
-unit = "% of households with air conditioning"
-source = "eia-recs"
+value = "Central AC: 23% (1978), 44% (1993)"
+unit = "percent of U.S. households with central air conditioning"
+source = "eia-recs-central-ac"
 tier = "A"
-notes = "No RECS survey falls within the 1980s decade that reports total AC. The 1978 RECS (first survey) found 23% had central AC; by the 1993 RECS, total AC (central + window units) reached 68%. The 1980s were the transition decade when AC shifted from luxury to common. Source: EIA RECS 1978 and 1993."
+notes = "EIA reports central air conditioning in 23% of U.S. households in 1978 and 44% in 1993. Households with both central and window or wall units are counted under central."
 
 [[fact]]
 id = "us-1980s-cable-tv"
-quantity = 50.5
 panel = "diffusion"
-label = "Cable TV, 1988-1989"
-value = "More than 52 million cable customers (50.5% penetration, 1988)"
-unit = "households with cable TV subscription"
+label = "Cable TV penetration and subscriptions, 1987 and 1989"
+value = "50.5% of television households (1987); more than 52 million customers (1989)"
+unit = "percent of television households in 1987; cable customers in 1989"
 source = "ncta-cable-history"
 tier = "C"
-notes = "From NCTA/Syndeo Institute Cable History Timeline. NCTA reports 'more than 52 million cable customers' in 1989, with national cable penetration reaching 50.5 percent (1988). Total industry revenues exceeded $15 billion with 9,050 cable systems. Cable grew rapidly in the 1980s — NCTA reports 14.8 million households subscribed in 1979. Source: NCTA Cable History Timeline (verified 2026-07-08)."
+notes = "NCTA timeline states 50.5% of television households in 1987 and more than 52 million cable customers in 1989."
 
 [[fact]]
 id = "us-1980s-computer"
@@ -298,29 +306,31 @@ value = "8.2% (1984) → 15.0% (1989)"
 unit = "% of households with a computer"
 source = "census-cps-computer"
 tier = "A"
-notes = "From Census CPS Computer Use Supplements (reported in P20-522). Household computer ownership doubled in five years: 8.2% in 1984 (first measurement) to 15.0% in 1989. By 1993: 22.8%, by 1997: 36.6%. The personal computer was entering American homes in the 1980s, driven by falling prices and the rise of IBM PC compatibles. Source: Census P20-522, Table A."
+notes = "Census reports personal computer ownership in 8.2% of households in 1984 and 15.0% in 1989."
 
 [[fact]]
 id = "us-1980s-vehicle-ownership"
+audit = { file = "remaining-audit-20261028/world-recent-vehicle-extract.json", extractor = "json-pointer", locator = "/years/1980/one_or_more_percent", scale = "1", guards = [{ locator = "/provenance", value = "Curator complement from pinned BTS Figure 2-6" }, { locator = "/years/1980/population", value = "occupied housing units" }] }
 quantity = 87.1
 panel = "diffusion"
 label = "Households with at least one vehicle, 1980"
-value = "87.1% (12.9% with no vehicle); avg 1.7 vehicles per household"
+value = "87.1% (12.9% with no vehicle)"
 unit = "% of occupied housing units with 1+ vehicles"
 source = "bts-vehicle-availability"
 tier = "A"
-notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1980). 12.9% had no vehicle, 35.5% had one, 34.0% had two, 17.5% had three or more. The two-car family became the norm — 34% of households had two vehicles, up from 19.0% in 1960. By 1990: 88.5%. Population: all occupied housing units."
+notes = "BTS Figure 2-6 reports 12.9% of occupied housing units with no vehicle in 1980. The share with at least one is its complement; the source groups three or more vehicles together."
+assumptions = ["recent-vehicle-complement"]
 
 [[fact]]
 id = "us-1980s-appliance-ownership"
 quantity = 82.1
 panel = "diffusion"
 label = "Household appliance ownership, 1980"
-value = "Refrigerator 99.9%, color TV 82.1%, clothes washer 71.6%, clothes dryer 46.9%, dishwasher 37.3%, microwave 14.2%, freezer 25.9%"
+value = "Refrigerator 99.9%, color TV 82.1%, electric clothes washer 71.6%, electric clothes dryer 46.9%, dishwasher 37.3%, microwave 14.2%, freezer 25.9%"
 unit = "% of households with each appliance"
-source = "eia-aer-appliances"
+source = "statab-1990-electrical-appliances"
 tier = "A"
-notes = "From EIA Annual Energy Review 1988, Table 8.3 (republished in Census Bureau, USSR/USA Statistical Abstract 1990). Data sourced from RECS (Form EIA-84). By 1980, refrigerator was universal (99.9%), color TV had reached 82.1% (up from NA in 1978), and the microwave oven was diffusing rapidly (14.2%, up from 7.8% in 1978). By 1987: color TV 92.7%, microwave 60.8%, dishwasher 43.1%. The 1980s were the decade of the microwave."
+notes = "The 1990 Statistical Abstract reports household appliance ownership in 1978 and 1980. The washer and dryer percentages refer to electric appliances; color television is unavailable for 1978."
 
 [[fact]]
 id = "us-1980s-produce-department-skus"
@@ -332,12 +342,14 @@ unit = "stockkeeping units in the average supermarket produce department"
 price_year = 1987
 source = "usda-ers-aib758"
 tier = "C"
-notes = "What the average supermarket's produce department stocked, by the trade's own count. A stockkeeping unit is a distinct item on the shelf — one commodity in one form, package or brand — so this counts the shop's assortment, not the diet, and does not measure the same thing as the commodity variety the FADS record tracks. Basis: ERS's AIB-758 relays Litwak's surveys of supermarket produce departments (Supermarket Business, 1988 and 1998 volumes, reporting 1987 and 1997) — a commercial period-survey proxy relayed by a federal bulletin, Tier C; it is not official microdata computed by this project. The pair this belongs to: the assortment nearly doubled across the decade this card sits in."
+notes = "USDA ERS cites commercial surveys reporting an average of 173 produce department stockkeeping units in 1987 and 335 in 1997. Assortment does not measure consumption."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-1980s-nhe-total"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1980/gdp_share", target = "quantity", guards = [{ locator = "/cms/1980/year", value = "1980" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 8.9
 panel = "table"
 label = "Healthcare spending, 1980"
@@ -345,10 +357,12 @@ value = "$253.2 billion (8.9% of GDP)"
 unit = "USD billions, nominal; NHE as % of GDP"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01. NHE: $253.2B. GDP: $2,857.3B. Per capita: $1,099. Healthcare's GDP share jumped 2 percentage points in the 1970s as Medicare/Medicaid expanded and medical inflation outpaced general inflation."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1980. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1980s-nhe-out-of-pocket-share"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1980/out_of_pocket", target = "quantity", guards = [{ locator = "/cms/1980/year", value = "1980" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }], calculation = { op = "pct_of", operands = ["/cms/1980/total"], precision = 1, rounding = "half_up", method = "Same-year out-of-pocket spending divided by total NHE, times one hundred." } }
+assumptions = ["cms-nhe-shares"]
 quantity = 21.8
 panel = "budget"
 label = "Out-of-pocket share of health spending, 1980"
@@ -356,10 +370,12 @@ value = "21.8% of national health expenditures paid out of pocket"
 unit = "% of total NHE"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02. Out of pocket: $55,251M of $253,217M total. Down from 32.7% in 1970. Private health insurance expansion continued shifting costs away from direct payment."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1980. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1980s-nhe-per-capita"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1980/per_capita", target = "quantity", guards = [{ locator = "/cms/1980/year", value = "1980" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 1099
 panel = "table"
 label = "National health spending per person, 1980"
@@ -367,10 +383,12 @@ value = "$1,099 per capita ($930 for personal health care)"
 unit = "USD per person, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE per capita: $1,099. Personal Health Care per capita: $930. Population: 230M."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1980. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1980s-nhe-medicare"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1980/medicare", target = "quantity", guards = [{ locator = "/cms/1980/year", value = "1980" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 37387
 panel = "table"
 label = "Medicare spending, 1980"
@@ -378,10 +396,12 @@ value = "$37,387 million (14.8% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Medicare: $37,387M of $253,217M total."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1980. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1980s-nhe-medicaid"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1980/medicaid", target = "quantity", guards = [{ locator = "/cms/1980/year", value = "1980" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 26032
 panel = "table"
 label = "Medicaid spending, 1980"
@@ -389,10 +409,12 @@ value = "$26,032 million (10.3% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Medicaid: $26,032M of $253,217M total."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1980. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1980s-nhe-prescription-drugs"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1980/prescription_drugs", target = "quantity", guards = [{ locator = "/cms/1980/year", value = "1980" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 12049
 panel = "table"
 label = "Prescription drug spending, 1980"
@@ -400,7 +422,7 @@ value = "$12,049 million (4.8% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $12,049M of $253,217M total."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1980. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1980s-heart-disease-mortality"
@@ -412,19 +434,20 @@ value = "412.1 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS. Down 30% from the 1950 peak. Beta-blockers, bypass surgery, and the emergence of thrombolytic therapy drove the decline."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1980s-cancer-survival"
+audit = { file = "remaining-audit-20261028/special-seer-extract.json", extractor = "json-pointer", locator = "/1980-1984", target = "quantity", guards = [{ locator = "/1975-1979", value = "48.9" }, { locator = "/source_sha256", value = "8049fb982770d59f9c6e7cadf0f0fa3fcd10da458dc2e88cf10c9ffa36feb21c" }, { locator = "/table", value = "2.9" }, { locator = "/measure", value = "five-year relative survival percent" }, { locator = "/population", value = "SEER 9 areas; all races; males and females; invasive cancer" }] }
 quantity = 50.2
 panel = "table"
 label = "Cancer 5-year relative survival rate, 1980-1984"
 value = "50.2%"
-unit = "% surviving 5 years after diagnosis (relative survival, SEER 9)"
+unit = "five-year relative survival percentage (SEER 9)"
 source = "seer-csr-1975-2017"
 tier = "A"
-notes = "From NCI SEER Cancer Statistics Review 1975-2017, Table 2.9. Modest improvement over the late 1970s. Adjuvant chemotherapy for breast cancer was becoming standard."
+notes = "SEER Cancer Statistics Review Table 2.9 reports five-year relative survival for invasive cancers diagnosed in 1980-1984, all races and both sexes, in the nine SEER registry areas. Relative survival compares observed survival with expected survival."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -442,43 +465,46 @@ assumptions = ["composite-family", "income-vs-consumption", "nominal-values", "c
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
-[[fact]]
+[[derived]]
 id = "us-1980s-home-as-income-years"
 panel = "work-buys"
-label = "Median home value as years of median family income, 1980"
-value = "2.24 years ($47,200 home vs $21,020 income)"
-unit = "years of median family income (nominal)"
-source = "census-historical-housing-values"
-tier = "C"
-notes = "Computed: 1980 median home value ($47,200) / 1980 median family income ($21,020). Up from 1.72 in 1970 — 1970s inflation had pushed home prices ahead of incomes."
-assumptions = ["affordability-normalization", "nominal-values"]
+label = "Median home value relative to annual family income, 1980"
+op = "ratio"
+numerator = "us-1980s-median-home-value"
+denominator = "us-1980s-median-family-income"
+unit = "years of median family income, nominal"
+precision = 2
+notes = "The medians describe different surveyed populations and do not describe a matched family or an actual purchase."
+assumptions = ["nominal-values", "housing-median-income-ratio"]
 
 [[fact]]
 id = "us-1980s-cpi"
 quantity = 82.4
 price_year = 1980
 panel = "work-buys"
-label = "Consumer Price Index and purchasing power, 1980"
-value = "CPI 82.4 (1980) → 313.7 (2024) = 3.8x. $1 in 1980 = $3.81 in 2024. Real median family income grew 1.32x."
-unit = "CPI-U (1982-84=100), annual average"
+label = "Consumer Price Index"
+value = "82.4"
+unit = "index, 1982–84=100"
 source = "bls-cpi"
 tier = "A"
-notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1980: 82.4. 2024: 313.7. Ratio: 3.81x. Nominal median family income: $21,020 (1980) → $105,800 (2024) = 5.03x. Real growth: 5.03/3.81 = 1.32x. The 1970s inflation had doubled the price level; the 1980s Volcker disinflation brought inflation under control."
+notes = "The BLS annual average Consumer Price Index for All Urban Consumers, U.S. city average, was 82.4 in 1980 (1982–84=100)."
 assumptions = ["nominal-values", "affordability-normalization"]
 
-[[fact]]
+[[derived]]
 id = "us-1980s-week-of-work-buys"
 panel = "work-buys"
-label = "What a week of work bought, 1980"
-value = "$241.12/week — a full year of it (×52) ≈ 60% of median family income"
-unit = "weekly earnings vs annual median family income"
-source = "fred-ahetpi"
-tier = "A"
-notes = "The product of the rounded hourly wage and weekly-hours observations for total-private production and nonsupervisory employees is $241.12. Assuming 52 paid weeks gives $12,538.24, or 59.6% of the all-family median income of $21,020 (Census F-8). Worker and family survey populations differ. This illustrative ratio does not establish household needs, income sufficiency, or the number of earners in a family."
-assumptions = ["composite-family", "nominal-values"]
+label = "Illustrative weekly earnings, 1980"
+op = "product"
+numerator = "us-1980s-wages"
+denominator = "us-1980s-weekly-hours-total-private"
+unit = "USD per week, nominal; product of rounded annual average hourly earnings and weekly hours"
+precision = 2
+notes = "Computed from the two published average series. This illustrative product is not annual income or a measured family income."
+assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1980s-car-price"
+audit = { file = "remaining-audit-20261028/ornl-car-price-extract.json", extractor = "json-pointer", locator = "/years/1980/total_current_dollars", target = "amount_minor", scale = "100", guards = [{ locator = "/provenance", value = "Curator extraction from pinned ORNL TEDB Edition 39 Table 11.13" }, { locator = "/source_sha256", value = "f0f041b1b9c844136e10f2d455c3082fe7c3f5f631e4894e9f402c816747b0b1" }, { locator = "/column", value = "Total, current dollars" }, { locator = "/years/1980/population", value = "Average new car, excluding pickups, vans and sport utility vehicles" }] }
 panel = "work-buys"
 label = "Average new car transaction price, 1980"
 value = "$7,557"
@@ -489,7 +515,7 @@ amount_minor = 755700
 currency = "USD"
 price_year = 1980
 basis = "total"
-notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13). Prices more than doubled in the 1970s due to inflation and the oil shocks. The 1970s saw the rise of imported compact cars (Japanese), which were initially cheaper but eventually exceeded domestic prices. Population: all new passenger cars sold in the US (domestic + import)."
+notes = "ORNL Transportation Energy Data Book, Edition 39, Table 11.13: the BEA total is the average price of a new car in current dollars. The table excludes pickups, vans, and sport utility vehicles."
 assumptions = ["nominal-values"]
 
 
@@ -509,7 +535,7 @@ value = "28.4"
 unit = "hours per week, prime-age women (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+notes = "Ramey Table 6 estimates weekly home-production hours for all women ages 18–64 in 1985. Italicized early estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -521,7 +547,7 @@ value = "13.9"
 unit = "hours per week, prime-age men (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+notes = "Ramey Table 7 estimates weekly home-production hours for all men ages 18–64 in 1985. Italicized early estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 
@@ -533,10 +559,11 @@ value = "Bread $0.52/lb, ground chuck $1.86/lb, bacon $1.71/lb, eggs $1.03/doz, 
 unit = "USD, retail prices (December 1980, BLS API)"
 source = "bls-api"
 tier = "A"
-notes = "December 1980 monthly U.S. city-average prices from the BLS public API, series APU0000702111 (white pan bread per pound), APU0000703111 (100% ground chuck per pound), APU0000704111 (sliced bacon per pound), APU0000708111 (large Grade A eggs per dozen), APU0000712211 (iceberg lettuce per pound). Original response bytes were newly retrieved on 2026-10-28 and saved; this vintage is not a reconstruction of the earlier download. scripts/food_price_review.py reproduces the displayed prices using decimal half-up rounding to the nearest cent. Series identities and units were independently checked against the BLS-sourced FRED series pages. These observations describe price levels for the stated month; average-price ratios are not a constant-quality inflation index. Round steak in the historical tables is a different product from ground chuck."
+notes = "BLS U.S. city average retail prices for December 1980: white pan bread, ground chuck, sliced bacon, large Grade A eggs and iceberg lettuce. Prices are per pound except eggs, which are per dozen."
 
 [[fact]]
 id = "us-1980s-cigarette-consumption"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/cdc/cigarettes_per_adult/1980", target = "quantity", guards = [{ locator = "/cdc/source_sha256", value = "02e4e219a65571dd287ca9e6d13dae1d3138c290f410550ea63eea33c85bb277" }, { locator = "/cdc/adult_age", value = "18 and older" }, { locator = "/cdc/military", value = "Overseas military included in per-capita consumption 1930-1994" }] }
 quantity = 3849
 panel = "table"
 label = "Adult per capita cigarette consumption, 1980"
@@ -545,73 +572,78 @@ unit = "cigarettes per adult (≥18 years) per year"
 price_year = 1980
 source = "cdc-mmwr-tobacco-surveillance"
 tier = "A"
-notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Consumption was beginning its long decline. Total U.S. consumption peaked at 640 billion cigarettes in 1981, then fell steadily."
+notes = "CDC MMWR Table 1 estimates total manufactured cigarette consumption per person aged 18 or older in 1980. This is a population-based ratio, not a count of cigarettes smoked only by adults. The per-capita estimate includes U.S. military personnel overseas."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1980s-ethanol-per-capita"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/niaaa/all_beverages/1980", target = "quantity", guards = [{ locator = "/niaaa/source_sha256", value = "71f1e8531f2de32138f99d20b239ec78215a23b50070294fbb80671507bc222a" }, { locator = "/niaaa/age_basis", value = "15 and older before 1970; 14 and older from 1970" }, { locator = "/niaaa/unit", value = "gallons ethanol per person per year" }] }
 quantity = 2.75
 panel = "table"
 label = "Alcohol consumed per person, 1980"
 value = "2.75 gallons of pure ethanol per person per year"
-unit = "gallons of pure ethanol per person per year"
+unit = "gallons of ethanol per person aged 14 and older per year"
 price_year = 1980
 source = "niaaa-surveillance-122"
 tier = "A"
-notes = "The modern peak: 1981 reaches 2.76, the highest figure in the table since 1915. Consumption then falls for a decade."
+notes = "NIAAA Table 1 reports apparent ethanol consumption per person aged 14 or older in 1980. The denominator includes people who do not drink."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1980s-availability-grapes"
-quantity = 4.01
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1980s-availability-grapes/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1980s-availability-grapes/year", value = "1980" }, { locator = "/availability/us-1980s-availability-grapes/file", value = "46-diet-variety/ers-fads-fruit-fresh.xlsx" }, { locator = "/availability/us-1980s-availability-grapes/sha256", value = "6988e35a4a4b8700a6f9255de0e29708afc01f91662ce28394973a0cc740069c" }, { locator = "/availability/us-1980s-availability-grapes/title", value = "Fresh grapes: Supply and use1" }, { locator = "/availability/us-1980s-availability-grapes/cell", value = "Grapes!I17" }, { locator = "/availability/us-1980s-availability-grapes/population_heading", value = "U.S. population, January 1 of following year3" }, { locator = "/availability/us-1980s-availability-grapes/population_definition", value = "3Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1980s-availability-grapes/number_format", value = "#,##0.0" }], calculation = { op = "ratio", operands = ["/availability/us-1980s-availability-grapes/population_millions"], precision = 1, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
+quantity = 4.0
 panel = "table"
 label = "Grapes available per person, 1980"
-value = "4.01 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "4.0 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1980
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh grapes. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it."
-assumptions = ["composite-family"]
+notes = "Fresh grapes: Supply and use1; source year 1980, Grapes!I17. Original population heading: U.S. population, January 1 of following year (footnote 3). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (1 decimal places). The source retail-weight conversion is not applied. The source year follows a fruit marketing year: July–June before 1990/91 and beginning in May from 1990 onward. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-1980s-availability-avocados"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1980s-availability-avocados/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1980s-availability-avocados/year", value = "1980" }, { locator = "/availability/us-1980s-availability-avocados/file", value = "46-diet-variety/ers-fads-fruit-fresh.xlsx" }, { locator = "/availability/us-1980s-availability-avocados/sha256", value = "6988e35a4a4b8700a6f9255de0e29708afc01f91662ce28394973a0cc740069c" }, { locator = "/availability/us-1980s-availability-avocados/title", value = "Fresh avocados: Supply and use1" }, { locator = "/availability/us-1980s-availability-avocados/cell", value = "Avocados!I17" }, { locator = "/availability/us-1980s-availability-avocados/population_heading", value = "U.S. population, July 1 of following year3" }, { locator = "/availability/us-1980s-availability-avocados/population_definition", value = "3Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1980s-availability-avocados/number_format", value = "#,##0.0" }], calculation = { op = "ratio", operands = ["/availability/us-1980s-availability-avocados/population_millions"], precision = 1, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 2.1
 panel = "table"
 label = "Avocados available per person, 1980"
-value = "2.1 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "2.1 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1980
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh avocados. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 4.7 times the 1970 figure."
-assumptions = ["composite-family"]
+notes = "Fresh avocados: Supply and use1; source year 1980, Avocados!I17. Original population heading: U.S. population, July 1 of following year (footnote 3). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (1 decimal places). The source retail-weight conversion is not applied. The source combines commodity marketing seasons with calendar-year trade; California and Florida seasons differ and their definitions change in 2002. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-1980s-availability-bell-peppers"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1980s-availability-bell-peppers/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1980s-availability-bell-peppers/year", value = "1980" }, { locator = "/availability/us-1980s-availability-bell-peppers/file", value = "46-diet-variety/ers-fads-vegetables-fresh.xlsx" }, { locator = "/availability/us-1980s-availability-bell-peppers/sha256", value = "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e" }, { locator = "/availability/us-1980s-availability-bell-peppers/title", value = "Fresh bell peppers: Supply and use" }, { locator = "/availability/us-1980s-availability-bell-peppers/cell", value = "Peppers!H27" }, { locator = "/availability/us-1980s-availability-bell-peppers/population_heading", value = "U.S. population, July 11" }, { locator = "/availability/us-1980s-availability-bell-peppers/population_definition", value = "1Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1980s-availability-bell-peppers/number_format", value = "0.00" }], calculation = { op = "ratio", operands = ["/availability/us-1980s-availability-bell-peppers/population_millions"], precision = 2, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 2.89
 panel = "table"
 label = "Bell peppers available per person, 1980"
-value = "2.89 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "2.89 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1980
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh bell peppers. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it."
-assumptions = ["composite-family"]
+notes = "Fresh bell peppers: Supply and use; source year 1980, Peppers!H27. Original population heading: U.S. population, July 1 (footnote 1). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (2 decimal places). The source retail-weight conversion is not applied. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-1980s-availability-broccoli"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1980s-availability-broccoli/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1980s-availability-broccoli/year", value = "1980" }, { locator = "/availability/us-1980s-availability-broccoli/file", value = "46-diet-variety/ers-fads-vegetables-fresh.xlsx" }, { locator = "/availability/us-1980s-availability-broccoli/sha256", value = "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e" }, { locator = "/availability/us-1980s-availability-broccoli/title", value = "Fresh broccoli: Supply and use" }, { locator = "/availability/us-1980s-availability-broccoli/cell", value = "Broccoli!H27" }, { locator = "/availability/us-1980s-availability-broccoli/population_heading", value = "U.S. population, July 11" }, { locator = "/availability/us-1980s-availability-broccoli/population_definition", value = "1Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1980s-availability-broccoli/number_format", value = "#,##0.00" }], calculation = { op = "ratio", operands = ["/availability/us-1980s-availability-broccoli/population_millions"], precision = 2, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 1.4
 panel = "table"
 label = "Broccoli available per person, 1980"
-value = "1.4 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "1.40 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1980
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 3.5 times the 1960 figure."
-assumptions = ["composite-family"]
+notes = "Fresh broccoli: Supply and use; source year 1980, Broccoli!H27. Original population heading: U.S. population, July 1 (footnote 1). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (2 decimal places). The source retail-weight conversion is not applied. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[derived]]
 id = "us-1980s-produce-variety-count"
@@ -677,11 +709,12 @@ count_series = [
 ]
 threshold = 1.0
 at_year = 1980
-notes = "Every fresh fruit and vegetable commodity sheet in the two ERS fresh workbooks, counted when the food supply provided at least a full pound per person that year, farm weight. The total is the commodities ERS tracked that year: series that had not yet begun or had already ended are outside the count, so a widening record cannot masquerade as rising variety. Availability is a disappearance estimate — what the supply made available, not what anyone ate; the rule and its rationale are in the assumption ledger (produce-variety-rule)."
+notes = "The curated fresh fruit and vegetable series are counted when the publisher's displayed farm-weight availability estimate is at least one pound per person in the source year. Values are rounded to each source cell's displayed precision before comparison, so estimates near the threshold depend on that precision. The count is out of the commodities tracked in the selected series for that year; availability is a supply measure, not food actually eaten."
 assumptions = ["produce-variety-rule", "composite-family"]
 
 [[fact]]
 id = "us-1980s-traffic-death-rate"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/fhwa/rows/1980/per_100m_vmt", target = "quantity", guards = [{ locator = "/fhwa/source_sha256", value = "e5cb5e304b9c86f3124543e27dd4e9e0e18f2d1d8a40bc9891805332f88490d6" }, { locator = "/fhwa/table", value = "FI-200" }] }
 quantity = 3.35
 panel = "day"
 label = "Road deaths per 100 million vehicle-miles, 1980"
@@ -690,7 +723,7 @@ unit = "deaths per 100 million vehicle-miles travelled"
 price_year = 1980
 source = "fhwa-fi200-2023"
 tier = "A"
-notes = "Seat-belt laws spread across the states through this decade, and the rate fell from 3.35 to 2.08 across it."
+notes = "FHWA Table FI-200 reports traffic fatalities per 100 million vehicle-miles travelled in 1980. This rate covers all persons killed in motor-vehicle traffic crashes."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -703,20 +736,21 @@ unit = "live births per 1,000 women aged 15-19"
 price_year = 1980
 source = "nchs-hus-2019-table1"
 tier = "A"
-notes = "The low point of the century's second half so far — and not the end of the story: the rate rises again by 1990."
+notes = "NCHS Health, United States, 2019, Table 1: live births per 1,000 women aged 15–19, 1980. The 1950 estimate is adjusted for underregistration; geographic and resident coverage change across years."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1980s-smoking-prevalence"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/cdc/smoking_prevalence/1980/total", target = "quantity", guards = [{ locator = "/cdc/source_sha256", value = "02e4e219a65571dd287ca9e6d13dae1d3138c290f410550ea63eea33c85bb277" }, { locator = "/cdc/adult_age", value = "18 and older" }, { locator = "/cdc/smoking_prevalence/1980/male", value = "37.6" }, { locator = "/cdc/smoking_prevalence/1980/female", value = "29.3" }] }
 quantity = 33.2
 panel = "table"
 label = "Adult cigarette smoking prevalence, 1980"
 value = "33.2% of adults smoked (37.6% of men, 29.3% of women)"
 unit = "% of adults ≥18 who currently smoke (NHIS)"
 price_year = 1980
-source = "cdc-nhis-smoking-prevalence"
+source = "cdc-mmwr-nhis-smoking-prevalence"
 tier = "A"
-notes = "From CDC NHIS (compiled by American Lung Association). Steady decline from 37.4% in 1970. The 1988 Surgeon General's Report on nicotine addiction further increased awareness."
+notes = "CDC National Health Interview Survey estimates for civilian noninstitutionalized adults aged 18 and older in 1980. Current smokers reported at least 100 cigarettes in their lifetime and were smoking at the time of the survey."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -728,7 +762,7 @@ value = "12.6 per 1,000 live births"
 unit = "deaths under age 1 per 1,000 live births"
 source = "nchs-nvss"
 tier = "A"
-notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 8.5; postneonatal: 4.1. The early 1980s saw a slowdown in decline, then artificial pulmonary surfactant (1989-91) reduced respiratory distress syndrome deaths."
+notes = "NCHS Health, United States, 2016, Table 11: all-races infant deaths per 1,000 live births in 1980. Neonatal and postneonatal rates are published separately."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────
@@ -742,7 +776,7 @@ value = "Men: 24.7, Women: 22.0"
 unit = "years (median age at first marriage)"
 source = "census-table-ms2"
 tier = "A"
-notes = "From Census Table MS-2. CPS ASEC. Marriage ages rose sharply in the 1970s — up 1.5 years for men, 1.2 for women. The women's movement, contraception (Roe v. Wade 1973), and delayed family formation were reshaping the composite family."
+notes = "Census Table MS-2 reports the estimated median age at first marriage by sex for 1980."
 
 # ── Married women's labor force participation ─────────────────────────────
 
@@ -755,7 +789,7 @@ value = "49.8%"
 unit = "% of married women (spouse present) in the civilian labor force"
 source = "statab-lfpr-marital"
 tier = "A"
-notes = "From Statistical Abstract Table 596 (11s0596.xls, BLS CPS annual averages). Crossed 50% by 1983 (51.8%). Up from 40.5% in 1970. The 1980s saw the steepest decade gain (+9.3 pp) as the dual-earner family became the norm. By 1990: 58.4%."
+notes = "Census Table 596 reports a 49.8% labor-force participation rate in 1980 for married women with spouse present, among the civilian noninstitutional population aged 16 and over. This is an annual average of monthly Current Population Survey observations."
 
 # ── Education ─────────────────────────────────────────────────────────────
 
@@ -763,12 +797,12 @@ notes = "From Statistical Abstract Table 596 (11s0596.xls, BLS CPS annual averag
 id = "us-1980s-education"
 quantity = 68.6
 panel = "day"
-label = "Educational attainment, 1980"
-value = "HS grad or more: 68.6%, Bachelor's or more: 17.0%, Less than 9th grade: 17.5%. Median school years: 12.5."
-unit = "% of population 25+ (all races, both sexes); median years completed"
+label = "Years of school completed, adults aged 25 and over, 1980"
+value = "Four or more years of high school: 68.6%; four or more years of college: 17.0%; median school years: 12.5."
+unit = "% of people aged 25 and over; median years completed"
 source = "census-table-a1-a2"
 tier = "A"
-notes = "From Census Table A-1. Decennial census. HS graduation approaching 70%. Less-than-9th-grade fell below 20% — down from 60% in 1940. Bachelor's or more crossed 17%. Median school years: 12.5 — just past high school graduation."
+notes = "Census A-1 reports the median years completed; NCES reports the historical percentages for 1980. Before the classification change, categories describe completed years, not necessarily diplomas or degrees."
 
 # ── Net worth (median family) ────────────────────────────────────────────
 
@@ -781,7 +815,7 @@ value = "$42,700 (42.7 thousand, 1989 dollars)"
 unit = "median net worth, all families (SCF)"
 source = "fed-scf"
 tier = "A"
-notes = "From SCF 1983-1989 Federal Reserve Bulletin (bull0192.pdf, January 1992, Table 2). First modern SCF survey (1983). Median family net worth in 1989 dollars. This is the first true median household wealth figure in the Vitrine corpus — all earlier net worth facts are aggregate. The SCF surveys ~4,100 families every 3 years. Note: values are in 1989 dollars (the 1983-89 bulletin's base year), not directly comparable to later SCF Chartbook figures in 2016 dollars."
+notes = "The 1983 Survey of Consumer Finances reports median family net worth of 42.7 thousand in 1989 dollars. This is a median, not an aggregate sector balance."
 
 [[fact]]
 id = "us-1980s-weekly-hours-total-private"
@@ -855,11 +889,11 @@ guards = [
 id = "us-1980s-flight-smoking-ban"
 panel = "day"
 label = "Smoking on short flights, 1988"
-value = "From April 1988 it was unlawful to smoke in the passenger cabin or lavatory on any scheduled airline flight of two hours or less — a temporary ban, written to repeal itself after 28 months"
+value = "A federal statute prohibited smoking in passenger cabins and lavatories on scheduled flights of two hours or less, beginning four months after enactment."
 unit = "legal status of smoking aboard scheduled flights of two hours or less (federal statute)"
 source = "us-public-law-100-202-sec-328"
 tier = "A"
-notes = "§ 328 of the Department of Transportation and Related Agencies Appropriations Act, 1988 (carried in Pub. L. 100-202, approved Dec. 22, 1987), amending Federal Aviation Act § 404 with 49 U.S.C. App. 1374(d): effective on the expiration of the 4-month period following enactment, and repealed effective on the expiration of the 28-month period. The first flight ban was self-expiring; flights longer than two hours were unaffected, and the permanence question was left to later law. The same subsection set a civil penalty of up to $2,000 for tampering with lavatory smoke alarms."
+notes = "Section 328 of Pub. L. 100-202 also specified repeal of this prohibition 28 months after enactment."
 assumptions = ["composite-family"]
 
 [[fact]]

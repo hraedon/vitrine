@@ -84,11 +84,11 @@ assumptions = ["composite-family"]
 id = "uk-1990s-housing-amenities-gap"
 panel = "home"
 label = "Rooms, floor area, amenities (bath, WC, central heating)"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The GHS recorded central-heating and appliance ownership through the 1990s, but the fuller GHS durable-goods table (central heating, refrigerator, washing machine, vacuum, dishwasher) is not in the archive for transcription."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -165,11 +165,11 @@ assumptions = ["composite-family"]
 id = "uk-1990s-food-basket-gap"
 panel = "table"
 label = "The food basket, 1990s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The National Food Survey (NFS) ran continuously 1940–2000; the 1990s NFS data is not in the archive. (Archive holds NFS 1940–49 and 2023–24, but not the 1990s.)"
+notes = "The original 1997 National Food Survey annual report is now in the archive. Its national food observations have not yet been transcribed and qualified for this room. The survey expanded to Northern Ireland in 1996, and the report distinguishes UK and Great Britain results."
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 

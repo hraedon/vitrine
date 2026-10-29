@@ -17,6 +17,49 @@ def test_committed_corpus_is_green() -> None:
     assert corpus.rooms, "corpus must contain at least one room"
 
 
+def test_hidden_monetary_average_cannot_feed_affordability() -> None:
+    """A plausible undisplayed quotient is not a transcribed price."""
+    corpus = load_corpus(DATA)
+    room = next(room for room in corpus.rooms if room.slug == "us-1910s")
+    original = next(fact for fact in room.facts if fact.id == "us-1910s-car-price")
+    assert original.amount_minor is None
+    from vitrine.model import Basis
+
+    hidden = replace(original, amount_minor=118800, currency="USD", price_year=1910,
+                     basis=Basis.TOTAL)
+    changed = replace(room, facts=tuple(hidden if f.id == original.id else f for f in room.facts))
+    changed_corpus = replace(corpus, rooms=tuple(
+        changed if r.slug == room.slug else r for r in corpus.rooms
+    ))
+    assert any("structured monetary amount does not appear" in p
+               for p in check_corpus(changed_corpus))
+
+
+def test_an_observation_year_cannot_supply_a_monetary_amount() -> None:
+    from decimal import Decimal
+
+    from vitrine.check import _quantity_in_value
+    from vitrine.money import get
+
+    assert not _quantity_in_value(Decimal("1910"), "1910: factory sales $215 million", get("USD"))
+    assert _quantity_in_value(Decimal("1234.50"), "$1,234.50", get("USD"))
+
+
+def test_rounded_anchor_must_display_its_amount_or_audited_source_operand() -> None:
+    corpus = load_corpus(DATA)
+    room = next(room for room in corpus.rooms if room.slug == "us-1940s")
+    original = next(fact for fact in room.facts if fact.id == "us-1940s-hourly-earnings")
+    assert original.audit is not None and original.audit.calculation is not None
+    changed = replace(room, facts=tuple(
+        replace(fact, value="$0.99 per hour") if fact.id == original.id else fact
+        for fact in room.facts
+    ))
+    modified = replace(corpus, rooms=tuple(
+        changed if r.slug == room.slug else r for r in corpus.rooms
+    ))
+    assert any("structured monetary amount does not appear" in p for p in check_corpus(modified))
+
+
 def _write_minimal(tmp_path: Path, fact_source: str = "src-1") -> Path:
     (tmp_path / "sources.toml").write_text(
         '[[source]]\nid = "src-1"\ntitle = "T"\npublisher = "P"\nyear = 1950\n'
@@ -502,7 +545,7 @@ def test_quantity_drift_in_loaded_committed_corpus_is_refused(quantity: float, v
     corpus = load_corpus(DATA)
     room_index, fact_index = next(
         (ri, fi) for ri, room in enumerate(corpus.rooms) for fi, fact in enumerate(room.facts)
-        if fact.audit is None and fact.quantity is not None
+        if fact.audit is None and fact.quantity is not None and fact.amount_minor is None
     )
     original_room = corpus.rooms[room_index]
     original_fact = original_room.facts[fact_index]

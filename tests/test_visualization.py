@@ -743,10 +743,10 @@ def test_budget_composition_exposes_folded_categories(site: Path) -> None:
     corridor = (site / "corridors" / "index.html").read_text()
     assert 'class="composition-key"' in corridor
     assert "Inspect the folded categories" in corridor
-    assert "fuel &amp; light 5.25%" in corridor
-    assert "liquor/sickness/amusements 14.51%" in corridor
+    assert "fuel and light 5.25%" in corridor
+    assert "specified other purposes 14.51%" in corridor
     # The same breakdown rides in the SVG's native hover/focus tooltip.
-    assert "other: 30.47% — 1900s (fuel &amp; light 5.25%" in corridor
+    assert "other: 30.47% — 1900s (fuel and light 5.25%" in corridor
 
 
 def test_wage_budget_illustration_keeps_separate_populations(

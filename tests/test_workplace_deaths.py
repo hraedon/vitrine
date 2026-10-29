@@ -62,7 +62,8 @@ def test_the_1990s_slot_is_a_gap_and_says_why() -> None:
     assert fact.value.startswith(GAP_PREFIX)  # type: ignore[attr-defined]
     assert fact.quantity is None  # type: ignore[attr-defined]
     assert str(CFOI_BEGINS) in fact.value  # type: ignore[attr-defined]
-    assert "absence of the counting" in fact.notes  # type: ignore[attr-defined]
+    assert "not in federal fatality counting" in fact.notes  # type: ignore[attr-defined]
+    assert str(HOURS_BASIS_BEGINS) in fact.notes  # type: ignore[attr-defined]
 
 
 @pytest.mark.parametrize("decade,year", sorted(PLOTTED.items()))

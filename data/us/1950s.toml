@@ -24,59 +24,47 @@ income_anchor = "us-1950s-median-income-four-person"
 
 [[fact]]
 id = "us-1950s-median-income-metro"
-quantity = 3250
 panel = "budget"
 label = "Median family income, 4-person families, metropolitan areas, 1950"
-value = "$3,250"
-unit = "USD per year, nominal (IPUMS INCTOT, weighted by HHWT)"
+value = "no reliable record verified for this comparison"
+unit = "n/a — family-income estimate not reproduced"
 source = "ipums-usa"
-tier = "B"
-amount_minor = 325000
-currency = "USD"
-price_year = 1950
-basis = "annual"
-notes = "Computed from IPUMS USA 1950 1% sample (us1950a). METRO codes 3+4 combined. N=13,708 4-person families. Weighted median. See budget panel header for methodology and caveats."
+tier = "D"
+notes = "The previously displayed weighted median has been withdrawn. Original extract 00001 metadata was recovered on the research host, but no original aggregation program or aggregate output was found. The extract includes neither FTOTINC nor SLWT. INCTOT concerns income in the prior calendar year, so the 1950 census observation refers to 1949 income. 1950 INCTOT is available for sample-line persons, so summing its nonmissing values within a household does not establish total family income. The old METRO 3+4 selection also omitted identifiable central-city households. A valid family-income construction, geography selection and weighting must be specified and reproduced before this comparison returns. Only aggregate results may be published; raw microdata remains in samples."
 assumptions = ["composite-family", "four-person-normalization", "nominal-values", "metropolitan-definition"]
 
 [[fact]]
 id = "us-1950s-median-income-nonmetro"
-quantity = 2350
 panel = "budget"
 label = "Median family income, 4-person families, non-metropolitan areas, 1950"
-value = "$2,350"
-unit = "USD per year, nominal (IPUMS INCTOT, weighted by HHWT)"
+value = "no reliable record verified for this comparison"
+unit = "n/a — family-income estimate not reproduced"
 source = "ipums-usa"
-tier = "B"
-amount_minor = 235000
-currency = "USD"
-price_year = 1950
-basis = "annual"
-notes = "Computed from IPUMS USA 1950 1% sample (us1950a). METRO code 1. N=9,045 4-person families. Weighted median. Non-metro families earned 28% less than metro families."
+tier = "D"
+notes = "The previously displayed weighted median has been withdrawn. Original extract 00001 metadata was recovered on the research host, but no original aggregation program or aggregate output was found. The extract includes neither FTOTINC nor SLWT. INCTOT concerns income in the prior calendar year, so the 1950 census observation refers to 1949 income. 1950 INCTOT is available for sample-line persons, so summing its nonmissing values within a household does not establish total family income. The old METRO 3+4 selection also omitted identifiable central-city households. A valid family-income construction, geography selection and weighting must be specified and reproduced before this comparison returns. Only aggregate results may be published; raw microdata remains in samples."
 assumptions = ["composite-family", "four-person-normalization", "nominal-values", "metropolitan-definition"]
 
 [[fact]]
 id = "us-1950s-median-income-suburban"
-quantity = 3350
 panel = "budget"
 label = "Median family income, 4-person families, suburban (metro not central city), 1950"
-value = "$3,350"
-unit = "USD per year, nominal (IPUMS INCTOT, weighted by HHWT)"
+value = "no reliable record verified for this comparison"
+unit = "n/a — family-income estimate not reproduced"
 source = "ipums-usa"
-tier = "B"
-notes = "Computed from IPUMS USA 1950 1% sample (us1950a). METRO code 3 (in metro area, not central city). N=11,762 4-person families. Suburban families earned 42% more than non-metro families. The suburban income advantage was already evident in 1950."
+tier = "D"
+notes = "The previously displayed weighted median has been withdrawn. Original extract 00001 metadata was recovered on the research host, but no original aggregation program or aggregate output was found. The extract includes neither FTOTINC nor SLWT. INCTOT concerns income in the prior calendar year, so the 1950 census observation refers to 1949 income. 1950 INCTOT is available for sample-line persons, so summing its nonmissing values within a household does not establish total family income. The old METRO 3+4 selection also omitted identifiable central-city households. A valid family-income construction, geography selection and weighting must be specified and reproduced before this comparison returns. Only aggregate results may be published; raw microdata remains in samples."
 assumptions = ["composite-family", "four-person-normalization", "nominal-values", "metropolitan-definition"]
 
-[[derived]]
+[[fact]]
 id = "us-1950s-metro-nonmetro-gap"
 panel = "budget"
-label = "Metro vs non-metro income gap, 4-person families, 1950"
-op = "diff"
-numerator = "us-1950s-median-income-metro"
-denominator = "us-1950s-median-income-nonmetro"
-unit = "difference in weighted median family income (computed: metro minus non-metro)"
-precision = 0
-notes = "Both operands come from the same IPUMS extract and income concept (INCTOT), so the difference is like-for-like. No 1940 counterpart is shown: the 1940 sample reports wage income only (INCWAGE), a different measure."
-assumptions = ["composite-family", "four-person-normalization", "nominal-values", "metropolitan-definition"]
+label = "Metro vs nonmetro family-income comparison, 1950"
+value = "no reliable record verified for this comparison"
+unit = "n/a"
+source = "ipums-usa"
+tier = "D"
+notes = "The difference cannot be calculated from withdrawn, unreproduced locale medians. This stable record remains a linked verification gap pending valid source extract and aggregation evidence."
+assumptions = ["composite-family", "metropolitan-definition"]
 
 [[fact]]
 id = "us-1950s-median-income-all-families"
@@ -140,14 +128,13 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-housing-expenditure-share"
-quantity = 11
 panel = "budget"
 label = "Housing as share of urban wage-earner budget, 1950"
-value = "~11%"
+value = "no reliable record"
 unit = "share of total family expenditure"
 source = "umizzou-prices-wages"
 tier = "C"
-notes = "From the University of Missouri Prices and Wages guide, 1950-1959 page, citing BLS. This measures urban wage-earner families, not all families — the population is narrower than the Census median. Tier C because the underlying BLS source is a proxy population."
+notes = "A comparable 1950s housing-expenditure share has not been verified against a primary source."
 assumptions = ["composite-family", "income-vs-consumption"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
@@ -161,7 +148,7 @@ value = "55.0%"
 unit = "% of occupied housing units that are owner-occupied"
 source = "census-homeownership-historical"
 tier = "A"
-notes = "From Census Bureau decennial time series (owner.pdf). National homeownership rate. Up from 43.6% in 1940 (Great Depression low)."
+notes = "Census historical homeownership rate for 1950. The rate describes owner-occupied housing among occupied units."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -182,24 +169,26 @@ assumptions = ["nominal-values", "affordability-normalization", "hours-vs-income
 
 [[fact]]
 id = "us-1950s-plumbing"
-quantity = 64.5
+audit = { file = "remaining-audit-20261028/world-middle-housing-extract.json", extractor = "json-pointer", locator = "/years/1950/plumbing/complete_count", target = "quantity", guards = [{ locator = "/publisher_sha256/plumbing-tab.txt", value = "56dcbdabfcdb340ccf23b988779725a3165b0e150d62795848a9ddd4b767132b" }, { locator = "/years/1950/plumbing/population_basis", value = "all dwelling units reporting" }], calculation = { op = "pct_of", operands = ["/years/1950/plumbing/total_reporting"], precision = 1, rounding = "half_up", method = "1950 Census reporting dwelling units: published complete count divided by all reporting count, times 100, rounded once to one decimal." } }
+assumptions = ["census-housing-source-count-shares"]
+quantity = 64.6
 panel = "home"
 label = "Complete plumbing facilities, 1950"
-value = "64.5% of homes had complete plumbing (35.5% lacked)"
-unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
-source = "census-hist-housing-plumbing"
+value = "64.6% had complete plumbing facilities (35.5% lacked)"
+unit = "% of reporting dwelling units"
+source = "census-hist-housing-plumbing-reporting"
 tier = "A"
-notes = "From Census Historical Housing Tables: Plumbing (plumbing-tab.txt, US row). Down from 45.3% lacking in 1940 to 35.5% lacking in 1950 (15,772,717 of 44,502,192 occupied units) — the postwar building boom and suburban expansion were starting to close the gap, but more than one in three American homes still lacked complete plumbing. Rural areas lagged badly. By 1960: 16.8% lacked (83.2% had). Figures verified against the Census time-series file 2026-07-07."
+notes = "Census reported 44,502,192 reporting dwelling units. The complete share is computed from the printed complete and lacking counts, rounded once to one decimal. The source prints the lacking share separately."
 
 [[fact]]
 id = "us-1950s-heating-fuel"
 panel = "home"
 label = "House heating fuel, 1950"
-value = "Coal 35%, utility gas 27%, fuel oil/kerosene 23%, wood 10%, bottled/LP gas 2%, electricity 1%"
+value = "Utility gas 26.6%, bottled/LP gas 2.3%, electricity 0.7%, fuel oil/kerosene 22.6%, coal/coke 34.6%, wood 10.0%, other fuel 1.8%, no fuel 1.4%"
 unit = "% of occupied housing units reporting heating fuel"
 source = "census-hist-housing-fuels"
 tier = "A"
-notes = "From the 1950 Census of Housing, Historical Census of Housing Tables: House Heating Fuel. Coal was still the leading fuel at 35% but dropping rapidly (from 55% in 1940). Utility gas rose from 11% (1940) to 27% (1950) as pipeline networks expanded. Electricity was barely present (0.7%). Source: fuels1950.txt, www2.census.gov."
+notes = "Census historical housing table for 1950, occupied dwelling units reporting their main heating fuel. Percentages are as printed; categories may not sum to exactly 100% because of rounding."
 
 [[fact]]
 id = "us-1950s-television-arrival"
@@ -207,10 +196,10 @@ quantity = 12.3
 panel = "home"
 label = "Television in the home, 1950"
 value = "arriving — 12.3% of households (1950 census)"
-unit = "% of households with TV"
+unit = "% of occupied dwelling units reporting television"
 source = "census-hc5-02-1950"
 tier = "A"
-notes = "From 1950 Census of Housing, HC-5 No. 2, Table 1. OCR'd from scanned image PDF at 400 DPI. TV was new — the 1940 census did not ask about it. Urban: 13.7%, rural nonfarm: 6.8%, rural farm: 3.0%. See diffusion panel for full detail."
+notes = "Census HC-5 No. 2, Table 1, preliminary 1950 sample: 12.3% of occupied units reporting had a television. Urban was 15.8%, rural nonfarm 6.8%, rural farm 3.0%. The preliminary estimates are subject to sampling variability."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -222,7 +211,7 @@ value = "$42/month"
 unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
 source = "census-hist-housing-rents"
 tier = "A"
-notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $27 in 1940. In 2000 dollars: $257/month. Alaska and Hawaii not included in 1950 US total."
+notes = "Census historical table reports the 1950 national median gross rent for specified renter-occupied units paying cash rent, in nominal dollars."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -236,7 +225,7 @@ value = "588.8 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS. This is the all-time U.S. peak for heart disease mortality. Heart disease was the leading cause of death throughout the decade. The Framingham Heart Study (begun 1948) was identifying risk factors."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -249,7 +238,7 @@ value = "193.9 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS. Cancer mortality rose steadily through mid-century, driven by lung cancer from the smoking epidemic."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -262,34 +251,34 @@ value = "180.7 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS. Stroke was the 3rd leading cause of death. Effective antihypertensive drugs did not yet exist."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-food-prices"
 panel = "table"
 label = "Retail food prices, 1950 (annual average)"
-value = "Flour 49.1¢/5lb, bread 14.3¢/lb, round steak 93.6¢/lb, rib roast 74.3¢/lb, pork chops 75.4¢/lb, bacon 63.7¢/lb, butter 72.9¢/lb, milk 20.6¢/qt, eggs 60.4¢/doz, sugar 48.7¢/5lb, coffee 79.4¢/lb, potatoes 69.2¢/15lb"
+value = "Flour 49.1¢/5lb, bread 14.3¢/lb, round steak 93.6¢/lb, rib roast 74.3¢/lb, pork chops 75.4¢/lb, bacon 63.7¢/lb, butter 72.9¢/lb, delivered milk 20.6¢/qt, eggs 60.4¢/doz, sugar 48.7¢/5lb, coffee 79.4¢/lb, potatoes 69.2¢/15lb"
 unit = "cents per stated unit (pound, five-pound or fifteen-pound package, quart or dozen), nominal (56 large U.S. cities)"
 source = "bls-bulletin-1055-1952"
 tier = "A"
-notes = "From BLS Bulletin No. 1055, Table 4 (printed page 9), average-for-the-year column. The table prints sugar per five pounds and potatoes per fifteen pounds; these package units are retained. Round steak is a different product from the ground chuck quoted in the later BLS API records, so these observations do not establish a same-product beef price ratio. City coverage and item specifications also change across the historical surveys."
+notes = "BLS Bulletin 1055 Table 4 reports annual average retail prices in 1950; package sizes differ by item."
 assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1950s-food-basket"
-quantity = 24.3
 panel = "table"
-label = "Later food-expenditure checkpoint, urban consumer units, 1960-61"
-value = "Food $1,309/yr (24.3% of expenditure), housing $1,594 (29.6%), food away from home $274, local telephone $69/yr. Total expenditure: $5,393."
-unit = "USD per urban consumer unit per year, nominal (urban consumer units, 1960-61)"
+label = "Urban consumer expenditures, 1960–61"
+value = "Food $1,309; housing $1,594; food away from home $274; local telephone $69; total current consumption $5,393 per year"
+unit = "USD per urban consumer unit per year, nominal"
 source = "bls-cex-urban-1960-61"
 tier = "A"
-notes = "Later checkpoint from the 1960-61 CES urban consumer-unit sample, archived Appendix B Table B-11, printed page 94 (PDF page 8), United States column. The source prints food, housing and total expenditure means; their displayed shares are rounded ratios. This observation belongs after the room's decade and is retained with its actual date, not as a measured 1950 food budget. A comparable 1950s food basket has not been transcribed here."
+notes = "BLS 1960–61 Consumer Expenditure Survey Table B-11 reports mean annual current-consumption expenditures of U.S. urban consumer units. Food away from home is part of the food amount."
 assumptions = ["income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-1950s-cigarette-consumption"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/cdc/cigarettes_per_adult/1950", target = "quantity", guards = [{ locator = "/cdc/source_sha256", value = "02e4e219a65571dd287ca9e6d13dae1d3138c290f410550ea63eea33c85bb277" }, { locator = "/cdc/adult_age", value = "18 and older" }, { locator = "/cdc/military", value = "Overseas military included in per-capita consumption 1930-1994" }] }
 quantity = 3552
 panel = "table"
 label = "Adult per capita cigarette consumption, 1950"
@@ -298,24 +287,26 @@ unit = "cigarettes per adult (≥18 years) per year"
 price_year = 1950
 source = "cdc-mmwr-tobacco-surveillance"
 tier = "A"
-notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Smoking was at near-peak levels. The 1964 Surgeon General's Report was still 14 years away. By 1953 consumption briefly dipped to 3,778 before resuming. Total U.S. consumption was 369.8 billion cigarettes in 1950."
+notes = "CDC MMWR Table 1 estimates total manufactured cigarette consumption per person aged 18 or older in 1950. This is a population-based ratio, not a count of cigarettes smoked only by adults. The per-capita estimate includes U.S. military personnel overseas."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-ethanol-per-capita"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/niaaa/all_beverages/1950", target = "quantity", guards = [{ locator = "/niaaa/source_sha256", value = "71f1e8531f2de32138f99d20b239ec78215a23b50070294fbb80671507bc222a" }, { locator = "/niaaa/age_basis", value = "15 and older before 1970; 14 and older from 1970" }, { locator = "/niaaa/unit", value = "gallons ethanol per person per year" }] }
 quantity = 2.04
 panel = "table"
 label = "Alcohol consumed per person, 1950"
 value = "2.04 gallons of pure ethanol per person per year"
-unit = "gallons of pure ethanol per person per year"
+unit = "gallons of ethanol per person aged 15 and older per year"
 price_year = 1950
 source = "niaaa-surveillance-122"
 tier = "A"
-notes = "Back to roughly the pre-Prohibition level for the first time since 1919, and close to flat across the decade."
+notes = "NIAAA Table 1 reports apparent ethanol consumption per person aged 15 or older in 1950. The denominator includes people who do not drink."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-traffic-death-rate"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/fhwa/rows/1950/per_100m_vmt", target = "quantity", guards = [{ locator = "/fhwa/source_sha256", value = "e5cb5e304b9c86f3124543e27dd4e9e0e18f2d1d8a40bc9891805332f88490d6" }, { locator = "/fhwa/table", value = "FI-200" }] }
 quantity = 7.24
 panel = "day"
 label = "Road deaths per 100 million vehicle-miles, 1950"
@@ -324,7 +315,7 @@ unit = "deaths per 100 million vehicle-miles travelled"
 price_year = 1950
 source = "fhwa-fi200-2023"
 tier = "A"
-notes = "Absolute deaths were close to where they had been in 1930 — 33,186 against 31,204 — while travel had more than doubled, from 206,320 million vehicle-miles to 458,246 million. The falling rate is that denominator, not fewer funerals."
+notes = "FHWA Table FI-200 reports traffic fatalities per 100 million vehicle-miles travelled in 1950. This rate covers all persons killed in motor-vehicle traffic crashes."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -337,22 +328,18 @@ unit = "live births per 1,000 women aged 15-19"
 price_year = 1950
 source = "nchs-hus-2019-table1"
 tier = "A"
-notes = "The rate is not a measure of teenage sex; it is births per thousand women aged 15 to 19, and in 1950 most of those births were to married women. Nearly one in twelve women in the age band gave birth that year."
+notes = "NCHS Health, United States, 2019, Table 1: live births per 1,000 women aged 15–19, 1950. The 1950 estimate is adjusted for underregistration; geographic and resident coverage change across years."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-car-price"
 panel = "work-buys"
-label = "Average new car price, 1950"
-value = "~$1,295 (average wholesale, computed from factory sales)"
-unit = "USD, nominal (wholesale value per passenger car)"
-source = "hist-stats-colonial-1970"
+label = "Passenger-car factory sales, 1950"
+value = "6,666 thousand passenger cars; $8,633,272 thousand wholesale value"
+unit = "passenger cars sold; aggregate wholesale value in nominal USD"
+source = "statab-1953-car-factory-sales"
 tier = "A"
-amount_minor = 129500
-currency = "USD"
-price_year = 1950
-basis = "total"
-notes = "Computed from Historical Statistics, Series Q 148-162 (source: Automobile Manufacturers Association, Automobile Facts and Figures). 1950: 6,666,000 passenger cars sold at $8,633,272,000 wholesale value = ~$1,295 average per car. Verified against Statistical Abstract of the United States, 1953, Table 615 (Motor Vehicles—Factory Sales and Registrations: 1900 to 1951), p.533 — identical figures. A Ford Custom retailed at ~$1,511 in 1950 (secondary sources: Reader's Digest, Fifties Web, Brilliantio — all consistent); included as narrative context for the retail price a family would actually pay. Wholesale value; retail/transaction price would be higher (dealer markup). Population: all US factory sales of passenger cars."
+notes = "The source reports factory sales of passenger cars and aggregate wholesale value in 1950; these are not retail transaction prices. The 1953 Statistical Abstract vintage includes cars assembled abroad from U.S. parts. No average wholesale price is asserted here; it requires a documented calculation from these inputs."
 assumptions = ["nominal-values"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -401,12 +388,12 @@ assumptions = ["nominal-values"]
 [[fact]]
 id = "us-1950s-annual-earnings"
 panel = "day"
-label = "Implied average annual earnings, manufacturing, 1950"
-value = "$2,673"
+label = "Annual manufacturing earnings, 1950"
+value = "no reliable record"
 unit = "USD per year, nominal (computed: $53.46 × 50 weeks)"
 source = "fred-ces-manuf-earnings"
 tier = "A"
-notes = "The rounded hourly-rate and weekly-hours inputs imply $53.46 weekly earnings; multiplying by an assumed 50 paid weeks gives $2,673. The 50-week convention is not observed annual employment and this is not an official annual earnings series. Comparing this worker illustration with a separate family-income distribution does not identify family earners or financing."
+notes = "A published annual manufacturing earnings figure for this claim has not been verified. An hourly rate and weekly hours alone do not establish weeks worked or actual annual income."
 assumptions = ["nominal-values", "composite-family"]
 
 [[fact]]
@@ -419,7 +406,7 @@ unit = "% of housekeeping households using the item at home in one week"
 price_year = 1955
 source = "usda-hfcs-1955-report1"
 tier = "A"
-notes = "The USDA's 1955 Household Food Consumption Survey recorded what food came into the kitchen in one spring week, April-June. Fewer than one housekeeping household in twenty brought fresh broccoli home; in the under-$2,000 income classes about one in a hundred did, against roughly one in nine at $8,000-9,999 — a sharper income gradient than any other vegetable in the table. Same table, same week: 51.5% of households used carrots and 21.0% used green peppers, and 69.4% used something from the dark-green-and-deep-yellow group as a whole. 'Using' is the survey's economic sense — food eaten, discarded, or fed to pets, from all sources including home gardens — and it is a spring week, when greens were coming into season. Verification: the row is the survey's own size-weighted mean (its Table 1 weights, one-person households 369 of 4,556) and reconciles to the printed decimal; see the verification log. The liftoff this card confronts begins five years later, in the 1960s room's availability card, where the ERS series starts at 0.40 pounds per person."
+notes = "USDA Table 14 reports fresh broccoli used at home from all sources during one survey week in April–June 1955, for housekeeping households. The two figures use all households and one-person households, respectively."
 assumptions = ["composite-family"]
 
 # ── Diffusion panel (upgraded to Tier A via tesseract OCR of Census HC-5-02) ─
@@ -430,10 +417,10 @@ quantity = 95.6
 panel = "diffusion"
 label = "Households with radio, 1950"
 value = "95.6%"
-unit = "% of dwelling units with a radio (40,093,000 of 41,932,000 reporting)"
+unit = "% of occupied dwelling units reporting radio"
 source = "census-hc5-02-1950"
 tier = "A"
-notes = "From 1950 Census of Housing, HC-5 No. 2, Table 2. OCR'd from scanned image PDF at 400 DPI. Up from 82.8% in 1940. Urban: 96.0%, rural nonfarm: 93.2%, rural farm: 93.1%. Preliminary sample data — sampling variability ~8%."
+notes = "Census HC-5 No. 2, Table 2, preliminary 1950 sample: 95.6% of occupied units reporting had radio. Urban was 96.9%, rural nonfarm 93.2%, rural farm 93.1%."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -442,10 +429,10 @@ quantity = 12.3
 panel = "diffusion"
 label = "Households with television, 1950"
 value = "12.3%"
-unit = "% of dwelling units with a TV (5,120,000 of 41,704,000 reporting)"
+unit = "% of occupied dwelling units reporting television"
 source = "census-hc5-02-1950"
 tier = "A"
-notes = "From 1950 Census of Housing, HC-5 No. 2, Table 1. OCR'd from scanned image PDF. Urban: 13.7%, rural nonfarm: 6.8%, rural farm: 3.0%. TV was new — the 1940 census did not ask about it. By 1960, TV ownership exceeded 87%."
+notes = "Census HC-5 No. 2, Table 1, preliminary 1950 sample: 12.3% of occupied units reporting had a television. Urban was 15.8%, rural nonfarm 6.8%, rural farm 3.0%. The preliminary estimates are subject to sampling variability."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -454,22 +441,22 @@ quantity = 80
 panel = "diffusion"
 label = "Households with mechanical refrigeration, 1950"
 value = "80.0%"
-unit = "% of dwelling units with mechanical refrigeration (33,521,000 of 41,903,000 reporting)"
+unit = "% of occupied dwelling units reporting refrigeration equipment"
 source = "census-hc5-02-1950"
 tier = "A"
-notes = "From 1950 Census of Housing, HC-5 No. 2, Table 2. OCR'd from scanned image PDF. Up from 44.0% in 1940 — mechanical refrigeration nearly doubled in a decade. Additionally 10.7% had ice refrigeration, 0.6% other, 8.7% none. Urban: 83.1%, rural nonfarm: 71.7%, rural farm: 60.9%."
+notes = "Census HC-5 No. 2, Table 2, preliminary 1950 sample: 80.0% of occupied units reporting had mechanical refrigeration. Urban was 86.5%, rural nonfarm 71.7%, rural farm 60.9%. The 1940 comparison was 44.1%."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-electricity-diffusion"
 quantity = 94
 panel = "diffusion"
-label = "Households with electric lighting, 1950"
+label = "Dwelling units with electric lighting, 1950"
 value = "94.0%"
-unit = "% of dwelling units with electric lights (42,264,000 of 44,942,000 reporting)"
+unit = "% of all dwelling units reporting electric lighting"
 source = "census-hc5-02-1950"
 tier = "A"
-notes = "From 1950 Census of Housing, HC-5 No. 2, Table 2. OCR'd from scanned image PDF. Up from 78.7% in 1940. 6.0% had no electric lights. Urban: 96.7%, rural nonfarm: 90.4%, rural farm: 77.7%. The rural electrification gap was closing but still significant."
+notes = "Census HC-5 No. 2, Table 2, preliminary 1950 sample: 94.0% of all dwelling units reporting had electric lighting. Urban was 98.9%, rural nonfarm 90.4%, rural farm 77.7%. The 1940 comparison was 78.7%."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -478,22 +465,22 @@ quantity = 50
 panel = "diffusion"
 label = "Households with central heating, 1950"
 value = "50.0%"
-unit = "% of occupied dwelling units with central heating (20,870,000 of 41,702,000 reporting)"
+unit = "% of occupied dwelling units reporting heating equipment"
 source = "census-hc5-02-1950"
 tier = "A"
-notes = "From 1950 Census of Housing, HC-5 No. 2, Table 3. OCR'd from scanned image PDF. Up from 42.0% in 1940. Coal was the primary heating fuel (45.5% of central heating). 50.0% had non-central heating or no heating."
+notes = "Census HC-5 No. 2, Table 3, preliminary 1950 sample: 50.0% of occupied units reporting had central heating. The 1940 comparison was 42.0%."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1950s-telephone-automobile"
 quantity = 61.8
 panel = "diffusion"
-label = "Telephone and automobile adoption, 1950"
-value = "Telephone: 61.8% of households (280.9 per 1,000 population). Automobile: registration data available but not asked in 1950 Census."
+label = "Household telephone service, 1950"
+value = "61.8% of households (280.9 instruments per 1,000 population)"
 unit = "% of households with telephone; per 1,000 population"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "From Historical Statistics Vol 2, Series R 1-3 (p.191, OCR'd via GLM-OCR): 1950 had 43,004,000 telephones = 280.9 per 1,000 population = 61.8% of households. The 1950 Census of Housing did NOT ask about telephone or automobile ownership (these were added in 1960). By 1960: 78.3% of households had telephones; by 1970: 90.5%. Motor vehicle registration data (Series Q 152-155) is available but measured total registrations, not household adoption rate."
+notes = "Historical Statistics Series R 3 estimates the percentage of households with telephones; Series R 2 separately counts telephone instruments per 1,000 population."
 assumptions = ["composite-family", "urban-rural-split"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
@@ -508,7 +495,7 @@ value = "24.1"
 unit = "CPI-U, 1982-84=100, annual average"
 source = "fred-cpiaucns"
 tier = "A"
-notes = "From FRED CPIAUCNS (not seasonally adjusted). Annual average of 12 monthly observations for 1950. BLS CPI-U for All Urban Consumers."
+notes = "The BLS annual average Consumer Price Index for All Urban Consumers, U.S. city average, was 24.1 in 1950 (1982–84=100)."
 assumptions = ["nominal-values"]
 
 [[fact]]
@@ -552,24 +539,17 @@ precision = 1
 notes = "The home value is Tier C (secondary source), so the ratio is too — the weakest input wins, mechanically. For the 2020s counterpart see us-2020s-home-as-income-years; the number is deliberately not repeated here (hand-quoted cross-room echoes rot — one did, in this very note, before plan 006)."
 assumptions = ["composite-family", "nominal-values", "affordability-normalization", "hours-vs-income-denominator"]
 
-[[fact]]
+[[derived]]
 id = "us-1950s-week-of-work-buys"
 panel = "work-buys"
-label = "What a week of manufacturing work bought, 1950"
-value = "$53.46/week — a full year of it (×52) ≈ 84% of median family income"
-unit = "weekly manufacturing earnings vs annual median family income"
-source = "fred-ces-manuf-earnings"
-tier = "A"
-notes = "The product of the rounded hourly wage and weekly-hours observations for manufacturing production workers is $53.46. Assuming 52 paid weeks gives $2,779.92, or 83.8% of the all-family median income of $3,319 (Census F-8). Worker and family survey populations differ. This illustrative ratio does not establish household needs, income sufficiency, or the number of earners in a family."
-assumptions = ["composite-family", "nominal-values"]
-
-
-# ── Home production hours (Ramey 2009) ─────────────────────────────────────
-# Plan 005 WI-2: women's + men's weekly unpaid home-production hours.
-# Source: Ramey (2009), Table 6A (women) & Table 7 (men), "All Prime-Age" cols.
-# Population: ages 18–64, weighted by employment-population ratio.
-# Tier C: reconstruction from period time-diary studies linked to modern surveys.
-# Note: actor/hours_kind fields pending Plan 005 WI-1 model changes.
+label = "Illustrative weekly earnings, 1950"
+op = "product"
+numerator = "us-1950s-hourly-earnings-manufacturing"
+denominator = "us-1950s-weekly-hours-manufacturing"
+unit = "USD per week, nominal; product of rounded annual average hourly earnings and weekly hours"
+precision = 2
+notes = "Computed from the two published average series. This illustrative product is not annual income or a measured family income."
+assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1950s-home-production-women"
@@ -580,7 +560,7 @@ value = "41.5"
 unit = "hours per week, prime-age women (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+notes = "Ramey Table 6 estimates weekly home-production hours for all women ages 18–64 in 1950. Italicized early estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -592,7 +572,7 @@ value = "9.0"
 unit = "hours per week, prime-age men (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+notes = "Ramey Table 7 estimates weekly home-production hours for all men ages 18–64 in 1950. Italicized early estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 # ── Married women's labor force participation ─────────────────────────────
@@ -603,10 +583,10 @@ quantity = 23.8
 panel = "day"
 label = "Married women's labor force participation, 1950"
 value = "23.8%"
-unit = "% of married women (husband present) in the civilian labor force"
+unit = "percent of married women aged 14 and older, husband present, in the civilian labor force"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "Population-level participation of married women. Labor-force participation includes employment and unemployment; it does not classify families by the number of earners or establish a household transition."
+notes = "Historical Statistics reports the share of married women with husband present in the civilian labor force, 1950 annual survey. The source column covers women aged fourteen and older; later sixteen-and-older series have a different age boundary."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────
@@ -620,7 +600,7 @@ value = "Men: 22.8, Women: 20.3"
 unit = "years (median age at first marriage)"
 source = "census-table-ms2"
 tier = "A"
-notes = "From Census Table MS-2. CPS ASEC (1947+). The mid-century low — men married at 22.8, women at 20.3. This is the youngest marriage age in the entire 1890-2023 series. The postwar economic boom and GI Bill enabled early family formation. By 1960: 22.8/20.3 (same)."
+notes = "Census Table MS-2 reports the estimated median age at first marriage by sex for 1950."
 
 # ── Education ─────────────────────────────────────────────────────────────
 
@@ -628,12 +608,12 @@ notes = "From Census Table MS-2. CPS ASEC (1947+). The mid-century low — men m
 id = "us-1950s-education"
 quantity = 34.3
 panel = "day"
-label = "Educational attainment, 1950"
-value = "HS grad or more: 34.3%, Bachelor's or more: 6.2%, Less than 9th grade: 47.0%. Median school years: 9.3."
-unit = "% of population 25+ (all races, both sexes); median years completed"
+label = "Years of school completed, adults aged 25 and over, 1950"
+value = "Four or more years of high school: 34.3%; four or more years of college: 6.2%; median school years: 9.3."
+unit = "% of people aged 25 and over; median years completed"
 source = "census-table-a1-a2"
 tier = "A"
-notes = "From Census Table A-1. Decennial census. Up from 24.5% HS grad in 1940. Nearly half of adults still had less than a 9th-grade education. Median school years: 9.3 — cross-validated against 1956 County and City Data Book (item 10: median school years completed = 9.3, exact match)."
+notes = "Census A-1 reports the median years completed; NCES reports the historical percentages for 1950. Before the classification change, categories describe completed years, not necessarily diplomas or degrees."
 
 [[fact]]
 id = "us-1950s-infant-mortality"
@@ -644,21 +624,22 @@ value = "29.2 per 1,000 live births"
 unit = "deaths under age 1 per 1,000 live births"
 source = "nchs-nvss"
 tier = "A"
-notes = "From NCHS, Health, United States, 2016, Table 11 (Infant mortality rates, by race: United States, selected years 1950-2015). All races. Down from ~100 in 1900. Neonatal (under 28 days): 20.5; postneonatal (28-364 days): 8.7. The 1950s saw slow decline (1% per year) as postneonatal gains plateaued."
+notes = "NCHS Health, United States, 2016, Table 11: all-races infant deaths per 1,000 live births in 1950. Neonatal and postneonatal rates are published separately. The historical figure includes births and deaths of nonresidents of the 50 states and DC."
 assumptions = ["composite-family"]
 
 # ── Net worth (aggregate household sector) ────────────────────────────────
 
 [[fact]]
 id = "us-1950s-household-net-worth"
-quantity = 1171
+audit = { file = "remaining-audit-20261028/z1-full-selected.json", extractor = "json-pointer", locator = "/observations/1950/FL152090005.Q/value", target = "quantity", guards = [{ locator = "/source_sha256", value = "83b8eded0bc7f9b74c0269ef503a863cee88312460fd7eef076284b98fc28c06" }, { locator = "/unit", value = "millions of US dollars" }, { locator = "/period", value = "Q4" }, { locator = "/population", value = "Households and nonprofit organizations" }, { locator = "/observations/1950/FL152090005.Q/date", value = "1950-12-31" }, { locator = "/observations/1950/FL152090005.Q/series_name", value = "Z1/Z1/FL152090005.Q" }, { locator = "/observations/1950/FL152090005.Q/currency", value = "United States / United States Dollar" }, { locator = "/observations/1950/FL152090005.Q/frequency", value = "Quarterly" }, { locator = "/observations/1950/FL152090005.Q/unit", value = "Currency" }, { locator = "/observations/1950/FL152090005.Q/unit_mult", value = "Millions" }, { locator = "/observations/1950/FL152090005.Q/series_sector", value = "Households and nonprofit organizations (S14+S15)" }, { locator = "/observations/1950/FL152090005.Q/series_prefix", value = "Level, not seasonally adjusted (NSA)" }, { locator = "/observations/1950/FL152090005.Q/series_instrument", value = "Net worth" }] }
+quantity = 1171530
 panel = "day"
 label = "Household sector net worth, 1950"
-value = "$1,171 billion"
-unit = "aggregate net worth, households + nonprofit organizations, current dollars"
-source = "fed-z1"
+value = "$1,171,530 million"
+unit = "millions of current U.S. dollars, aggregate quarter-end net worth"
+source = "fed-z1-quarter-end-balances-2026q2"
 tier = "A"
-notes = "From FRED TNWBSHNO (Fed Z.1 Table B.101.h, Q4 1950). Total assets: $1,248B. Total liabilities: $77B. Net worth: $1,171B. Up from $807B in 1945 (Z.1) / $592B (Goldsmith nonfarm). Liabilities were only 6% of assets — the lowest debt-to-asset ratio in the series. Aggregate — NOT median."
+notes = "Federal Reserve Z.1, September 11, 2026 release: December 31, 1950, households and nonprofit organizations. This sector stock includes nonprofit organizations and is not median household wealth or a family budget. The curator reproduces the original release and checks net worth against total assets less liabilities. Historical figures are release-dependent."
 
 # ── Plan 027 WI-10: daily newspapers — net paid circulation ──────────────
 

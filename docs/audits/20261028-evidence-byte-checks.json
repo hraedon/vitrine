@@ -1,0 +1,1895 @@
+{
+  "review_date": "2026-10-28",
+  "scope": "Explicit source-evidence files in the 561-record inventory; authoritative archive",
+  "meaning": "Byte presence and identity only; not source interpretation or statistical validation",
+  "file_check_instances": 1009,
+  "matching_reported_pin_instances": 880,
+  "unreported_pin_instances_observed_at_consolidation": 129,
+  "unique_files": 209,
+  "missing_files": 0,
+  "mismatched_files": 0,
+  "url_only_evidence": [
+    {
+      "report": "root-recent-full-results.json",
+      "url": "https://www.bls.gov/iif/additional-resources/cfoi-hours-based-rates.htm",
+      "kind": "unarchived_web_url"
+    }
+  ],
+  "files": [
+    {
+      "file": "01-statistical-abstracts/1970.zip",
+      "observed_sha256": "97fc4247f7c977770177a997950351ec256897886817d88e619ddf4d596c707c",
+      "reported_original_pins": [
+        "97fc4247f7c977770177a997950351ec256897886817d88e619ddf4d596c707c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "02-cex/ce_196061_tables.pdf",
+      "observed_sha256": "5717c491ec5d26209161943c18251e4f2f7238488a713d7a1dd49adf680af452",
+      "reported_original_pins": [
+        "5717c491ec5d26209161943c18251e4f2f7238488a713d7a1dd49adf680af452"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "02-cex/cex-1972-73-integrated.pdf",
+      "observed_sha256": "448844ea53f0c7700c8fd43ce278c91ccd3fafedafcb36aca6f9129f0e062cc3",
+      "reported_original_pins": [
+        "448844ea53f0c7700c8fd43ce278c91ccd3fafedafcb36aca6f9129f0e062cc3"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "03-bls-historical/bls_1055_1952.pdf",
+      "observed_sha256": "61fb22d6ad8c70c8f210ff24d46a7a1877911f8c7fc8c761db7a5344762f7c78",
+      "reported_original_pins": [
+        "61fb22d6ad8c70c8f210ff24d46a7a1877911f8c7fc8c761db7a5344762f7c78"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "03-bls-historical/bls_v08_0049_1903.pdf",
+      "observed_sha256": "34a9af272e6461a5074eb97797b3c77bb6ba249445adbc8a8ad4058581a42638",
+      "reported_original_pins": [
+        "34a9af272e6461a5074eb97797b3c77bb6ba249445adbc8a8ad4058581a42638"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "04-labor-commissioner/ar_laborcomm_1903.pdf",
+      "observed_sha256": "c4fee8ce6ed1826b6a8e326929f325e51e98c08a0f4fd20674b68d9c4d52182f",
+      "reported_original_pins": [
+        "c4fee8ce6ed1826b6a8e326929f325e51e98c08a0f4fd20674b68d9c4d52182f"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/bts-vehicle-availability.xlsx",
+      "observed_sha256": "7970889831564822da730bdd642f9973bed461a7430857588d460e287c5f2eb3",
+      "reported_original_pins": [
+        "7970889831564822da730bdd642f9973bed461a7430857588d460e287c5f2eb3"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/fuels1940.txt",
+      "observed_sha256": "fad774386aeb6debd0fb3abf5844efa28897ccafe695c3a164ef405f4ec05b79",
+      "reported_original_pins": [
+        "fad774386aeb6debd0fb3abf5844efa28897ccafe695c3a164ef405f4ec05b79"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/fuels1950.txt",
+      "observed_sha256": "6d506e2e566fff5d38a9b68c3a8de2c55e8097e3d98ff672793cc1697c4a423e",
+      "reported_original_pins": [
+        "6d506e2e566fff5d38a9b68c3a8de2c55e8097e3d98ff672793cc1697c4a423e"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/fuels1960.txt",
+      "observed_sha256": "a155cf62623a84e9cf508580cd000b77e17779ce21505e5b9ea68e30a006e68e",
+      "reported_original_pins": [
+        "a155cf62623a84e9cf508580cd000b77e17779ce21505e5b9ea68e30a006e68e"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/fuels1970.txt",
+      "observed_sha256": "8d4d3d62e5eec6d74b3da7ec3d8e9fa7bc1af6a43260653e06d9900c539087be",
+      "reported_original_pins": [
+        "8d4d3d62e5eec6d74b3da7ec3d8e9fa7bc1af6a43260653e06d9900c539087be"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/fuels1980.txt",
+      "observed_sha256": "e0a241cf8dea73e7902803eed60a11267ee3836e7ac9b8a64968175cc0bb9e1c",
+      "reported_original_pins": [
+        "e0a241cf8dea73e7902803eed60a11267ee3836e7ac9b8a64968175cc0bb9e1c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/grossrents-unadj.txt",
+      "observed_sha256": "4dfcac27581a57216c1dacac5af23abf8d31083d9a5167f0a669a99d0ac18b27",
+      "reported_original_pins": [
+        "4dfcac27581a57216c1dacac5af23abf8d31083d9a5167f0a669a99d0ac18b27"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/hc-5-02.pdf",
+      "observed_sha256": "29904d394f0ad3cbc0888410f4960e2731142398e395cef8617b9a31054a01a1",
+      "reported_original_pins": [
+        "29904d394f0ad3cbc0888410f4960e2731142398e395cef8617b9a31054a01a1"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/housing-1940-v2p1ch1.pdf",
+      "observed_sha256": "21d76aadcf211366c5a758797848e1342fda1602e19aa30165460e446cf6eed1",
+      "reported_original_pins": [
+        "21d76aadcf211366c5a758797848e1342fda1602e19aa30165460e446cf6eed1"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/housing-1970-v1p1ch01.pdf",
+      "observed_sha256": "878788b3dbdb566ed8f8d70824ec4a705dc7bcbe58c9197adfdb5764a21febcc",
+      "reported_original_pins": [
+        "878788b3dbdb566ed8f8d70824ec4a705dc7bcbe58c9197adfdb5764a21febcc"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/phone-tab.txt",
+      "observed_sha256": "f0029b5ad7a1974e90d69e24f19584548a23c6343efdd033dee3f872f31e1a27",
+      "reported_original_pins": [
+        "f0029b5ad7a1974e90d69e24f19584548a23c6343efdd033dee3f872f31e1a27"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/plumbing-tab.txt",
+      "observed_sha256": "56dcbdabfcdb340ccf23b988779725a3165b0e150d62795848a9ddd4b767132b",
+      "reported_original_pins": [
+        "56dcbdabfcdb340ccf23b988779725a3165b0e150d62795848a9ddd4b767132b"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "05-census-housing/values-unadj.txt",
+      "observed_sha256": "5fbabee6743983f4f39b61c6e42cc9a5727c2266173344ec3fc0381b06a221b6",
+      "reported_original_pins": [
+        "5fbabee6743983f4f39b61c6e42cc9a5727c2266173344ec3fc0381b06a221b6"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "06-acs-csv/ACSDT1Y2010.B25077-2026-07-07T023001.csv",
+      "observed_sha256": "20d49b96e25a9ff1d1d443fa7d0a8d84419d2920d69ced48fa966c9374dc4ec7",
+      "reported_original_pins": [
+        "20d49b96e25a9ff1d1d443fa7d0a8d84419d2920d69ced48fa966c9374dc4ec7"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "06-acs-csv/ACSDT1Y2014.B25077-2026-07-07T022819.csv",
+      "observed_sha256": "efb540749933e03a045d99c9b2a5e433f3e88bfe3fc5cf39bab000382179a173",
+      "reported_original_pins": [
+        "efb540749933e03a045d99c9b2a5e433f3e88bfe3fc5cf39bab000382179a173"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "06-acs-csv/ACSDT1Y2019.B25077-2026-07-07T022928.csv",
+      "observed_sha256": "29874ddf2506e60deeb7817fd8b92d562bbe83ec212079396873ce22921154ee",
+      "reported_original_pins": [
+        "29874ddf2506e60deeb7817fd8b92d562bbe83ec212079396873ce22921154ee"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "06-acs-csv/ACSDT1Y2024.B25077-2026-07-07T022809.csv",
+      "observed_sha256": "efdd932e21b8736f46bc413b18c13682240301ac3dcb23744a4e3fa614b79caf",
+      "reported_original_pins": [
+        "efdd932e21b8736f46bc413b18c13682240301ac3dcb23744a4e3fa614b79caf"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "06-acs-csv/f08ar.xlsx",
+      "observed_sha256": "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8",
+      "reported_original_pins": [
+        "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "06-acs-csv/p60-001.pdf",
+      "observed_sha256": "7be469f88522da05ba415d7ed653fe48ae940622e07206c84fb2db0453186816",
+      "reported_original_pins": [
+        "7be469f88522da05ba415d7ed653fe48ae940622e07206c84fb2db0453186816"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "09-fcc/DA-17-71A1.pdf",
+      "observed_sha256": "7416f3937a9bf043638f83724fd6c9b488fd869516db11e04f06aa8bd3450c88",
+      "reported_original_pins": [
+        "7416f3937a9bf043638f83724fd6c9b488fd869516db11e04f06aa8bd3450c88"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "09-fcc/FCC-07-206A1.pdf",
+      "observed_sha256": "1f8edaae47143a65f7a9bc50e54195f810610f7362130cc8582ebd41ee3e518e",
+      "reported_original_pins": [
+        "1f8edaae47143a65f7a9bc50e54195f810610f7362130cc8582ebd41ee3e518e"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "09-fcc/FCC-12-81A1_Rcd.pdf",
+      "observed_sha256": "768d1c0e4f860562e081dcea57520a8082df45c251213802003e115c7f58baaf",
+      "reported_original_pins": [
+        "768d1c0e4f860562e081dcea57520a8082df45c251213802003e115c7f58baaf"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "09-fcc/fcc97423.pdf",
+      "observed_sha256": "2353f1aab3278c7d76c982f9119b7473fd1db907b821319e2f85c54cbaeb26ca",
+      "reported_original_pins": [
+        "2353f1aab3278c7d76c982f9119b7473fd1db907b821319e2f85c54cbaeb26ca"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "10-recs/file2_cbd.txt",
+      "observed_sha256": "18d062e9ca3056079d7579a3819fe349ce52929650bf8cb2a731569450d10f45",
+      "reported_original_pins": [
+        "18d062e9ca3056079d7579a3819fe349ce52929650bf8cb2a731569450d10f45"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "10-recs/recs-2001-hc3.pdf",
+      "observed_sha256": "a91d817069d46c0ac58e4f83af534a570df2d36c8b88ec856e84e7bb8ebc9520",
+      "reported_original_pins": [
+        "a91d817069d46c0ac58e4f83af534a570df2d36c8b88ec856e84e7bb8ebc9520"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "11-historical-statistics/historicalstatis00unit.pdf",
+      "observed_sha256": "c343e9c92d4ff0d343c4e3446f120fa6ddc9a23fd47cf7e2289673fae5174a81",
+      "reported_original_pins": [
+        "c343e9c92d4ff0d343c4e3446f120fa6ddc9a23fd47cf7e2289673fae5174a81"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "11-historical-statistics/hstat1970_cen_1975_v2.pdf",
+      "observed_sha256": "0e209a421af0cf48af7261f6fbd7a599c27a0afce5b7523f2bc89a7d18647fa5",
+      "reported_original_pins": [
+        "0e209a421af0cf48af7261f6fbd7a599c27a0afce5b7523f2bc89a7d18647fa5"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "13-atus/a1-2024.pdf",
+      "observed_sha256": "0778b8b3517d93e6eb2fc8ab901c10604904ff62ab4e2daab2e711bafc18686a",
+      "reported_original_pins": [
+        "0778b8b3517d93e6eb2fc8ab901c10604904ff62ab4e2daab2e711bafc18686a"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "13-atus/a1_2003.pdf",
+      "observed_sha256": "a82614e1138727e9ca43c00ab6a8d8163057b3a0e03e5e1272cfa775f9779ca2",
+      "reported_original_pins": [
+        "a82614e1138727e9ca43c00ab6a8d8163057b3a0e03e5e1272cfa775f9779ca2"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "13-atus/a1_2009.pdf",
+      "observed_sha256": "cb2cd2e826430196c984edf8793c210a407a8db46b199257d3902929323000a3",
+      "reported_original_pins": [
+        "cb2cd2e826430196c984edf8793c210a407a8db46b199257d3902929323000a3"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "13-atus/a1_2010.pdf",
+      "observed_sha256": "67ad1713c8c417c76955c5f12c9282f50ee0593efd98ec7d971bb2628bbfa450",
+      "reported_original_pins": [
+        "67ad1713c8c417c76955c5f12c9282f50ee0593efd98ec7d971bb2628bbfa450"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "13-atus/a2_2010.pdf",
+      "observed_sha256": "e83abbb32bce5f23a10f876acb97a7521ca377a1a043a90841247f109124cf2d",
+      "reported_original_pins": [
+        "e83abbb32bce5f23a10f876acb97a7521ca377a1a043a90841247f109124cf2d"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "14-ramey/Home_Production_published.pdf",
+      "observed_sha256": "f2221fae52c1b6514cfd88d90b1a5a6f3136d7b630c18d7ed20019e3057a2d9e",
+      "reported_original_pins": [
+        "f2221fae52c1b6514cfd88d90b1a5a6f3136d7b630c18d7ed20019e3057a2d9e"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "14-ramey/w13985.pdf",
+      "observed_sha256": "472bba5a31de3570ebef9b6c78c85441885abc4de9330726df0cd6bb07fc3da8",
+      "reported_original_pins": [
+        "472bba5a31de3570ebef9b6c78c85441885abc4de9330726df0cd6bb07fc3da8"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "22-census-historical-tables/ms2-median-age-first-marriage.xls",
+      "observed_sha256": "96fa604d57b4e2eafdd7a971fc1686de2cc46a36d23921359df77bc33772f6b1",
+      "reported_original_pins": [
+        "96fa604d57b4e2eafdd7a971fc1686de2cc46a36d23921359df77bc33772f6b1"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "22-census-historical-tables/nces-digest-2010-008.html",
+      "observed_sha256": "7eafd5177114cd1100591da18abcbd327f52f3e196d325aa8b35434414a46cb4",
+      "reported_original_pins": [
+        "7eafd5177114cd1100591da18abcbd327f52f3e196d325aa8b35434414a46cb4"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "22-census-historical-tables/taba-1-educational-attainment.xlsx",
+      "observed_sha256": "252125cdb35edbb0c4e65b2f5f8fdd00b11e8abcc7f93cc7991613c41d4ab472",
+      "reported_original_pins": [
+        "252125cdb35edbb0c4e65b2f5f8fdd00b11e8abcc7f93cc7991613c41d4ab472"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "22-census-historical-tables/taba-2-pct-high-school.xlsx",
+      "observed_sha256": "1491f7f9676436aa72d8b7ea5a478a4273227256aaf8702cca313c7269a64341",
+      "reported_original_pins": [
+        "1491f7f9676436aa72d8b7ea5a478a4273227256aaf8702cca313c7269a64341"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "23-cms-health-expenditure/NHE2024.csv",
+      "observed_sha256": "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3",
+      "reported_original_pins": [],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": false
+    },
+    {
+      "file": "23-cms-health-expenditure/NHE24_Summary.csv",
+      "observed_sha256": "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d",
+      "reported_original_pins": [],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": false
+    },
+    {
+      "file": "26-goldsmith/nber-c3926.pdf",
+      "observed_sha256": "2ae481486727e18879b1795595ce05449b18ccf5ff00a3d62e25483447bc6f78",
+      "reported_original_pins": [
+        "2ae481486727e18879b1795595ce05449b18ccf5ff00a3d62e25483447bc6f78"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "27-characteristics-new-housing/c25ann-2003.pdf",
+      "observed_sha256": "84c2ec2b0496c9cc2568299badc95f1e80a02424399fd2474279dd8c9a7867d0",
+      "reported_original_pins": [
+        "84c2ec2b0496c9cc2568299badc95f1e80a02424399fd2474279dd8c9a7867d0"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "28-bls-employment-benchmarks/emp-benchmark-1909-1984-vol2.pdf",
+      "observed_sha256": "576c7b81afc613cc4313644e367739c14c06f83dd003ea88c032ea1d835b305b",
+      "reported_original_pins": [
+        "576c7b81afc613cc4313644e367739c14c06f83dd003ea88c032ea1d835b305b"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "31-uk-expenditure/Domestic_Food_Consumption_and_Expenditure_1955.pdf",
+      "observed_sha256": "df00fbb10d03cdea5ca0fe638a34201ef68160ce95ecfa7cd66cf4df9bddfb5d",
+      "reported_original_pins": [
+        "df00fbb10d03cdea5ca0fe638a34201ef68160ce95ecfa7cd66cf4df9bddfb5d"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "31-uk-expenditure/Domestic_Food_Consumption_and_Expenditure_1965.pdf",
+      "observed_sha256": "55534e2ed6b4639647d572ccbf4e2a78d0937c6f200f7e19c703ae862d60b695",
+      "reported_original_pins": [
+        "55534e2ed6b4639647d572ccbf4e2a78d0937c6f200f7e19c703ae862d60b695"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "31-uk-expenditure/Domestic_Food_Consumption_and_Expenditure_1979.pdf",
+      "observed_sha256": "05ec98674544067ef62682099dd1297410ae567947f87ac3793f710fb2823beb",
+      "reported_original_pins": [
+        "05ec98674544067ef62682099dd1297410ae567947f87ac3793f710fb2823beb"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "31-uk-expenditure/Domestic_Food_Consumption_and_Expenditure_1984.pdf",
+      "observed_sha256": "b462e25868b77ba74e17eabeac4679837d5b0fe4382a977861886bbba04a72b2",
+      "reported_original_pins": [
+        "b462e25868b77ba74e17eabeac4679837d5b0fe4382a977861886bbba04a72b2"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "31-uk-expenditure/familyfood-2014report.pdf",
+      "observed_sha256": "5200e1a7bc2bffad66927f8ac73b51d06ffdbc867d35c6784664bfc7129b4875",
+      "reported_original_pins": [
+        "5200e1a7bc2bffad66927f8ac73b51d06ffdbc867d35c6784664bfc7129b4875"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "31-uk-expenditure/nfs-1997-report.pdf",
+      "observed_sha256": "d12aa1da966bb9d143acbb39bacd39a1986aa4c89da6188a2d54b2b660538023",
+      "reported_original_pins": [
+        "d12aa1da966bb9d143acbb39bacd39a1986aa4c89da6188a2d54b2b660538023"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "32-uk-housing/census-1951-general-report.pdf",
+      "observed_sha256": "f778c913cd25fe9c0d458517a850f1e02e3e742fff0bb39938c5d717c1d51a3d",
+      "reported_original_pins": [
+        "f778c913cd25fe9c0d458517a850f1e02e3e742fff0bb39938c5d717c1d51a3d"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "33-uk-diffusion/ghs-2011-housing-html.html",
+      "observed_sha256": "216befd2903a5959bb384fc9b1f58cd7cd90201db2cba723825516705e93d59c",
+      "reported_original_pins": [
+        "216befd2903a5959bb384fc9b1f58cd7cd90201db2cba723825516705e93d59c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "33-uk-diffusion/hansard-1986-tv-licences.html",
+      "observed_sha256": "6d2aefb2a7430e8030e274fd199f030ea572fd15a7a10d72cb6319620b44a04e",
+      "reported_original_pins": [
+        "6d2aefb2a7430e8030e274fd199f030ea572fd15a7a10d72cb6319620b44a04e"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "33-uk-diffusion/terramedia-tv.html",
+      "observed_sha256": "527c1c85d43bf4d91ecd235ec7326faaa75941bacaf7dcd36d3eed6b9391e99f",
+      "reported_original_pins": [
+        "527c1c85d43bf4d91ecd235ec7326faaa75941bacaf7dcd36d3eed6b9391e99f"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "34-smoking/adult-tobacco-consumption-2000-present.csv",
+      "observed_sha256": "8af10f7ebcadd5274882194f4fa9ae95f38e1b23e5fe3be80b08ee246823f07b",
+      "reported_original_pins": [
+        "8af10f7ebcadd5274882194f4fa9ae95f38e1b23e5fe3be80b08ee246823f07b"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "34-smoking/ala-smoking-prevalence-1965-2022.txt",
+      "observed_sha256": "8fe0927a72841adbb423c855eb25a8aa3831057fc7dc18173d9c395d4e0599e2",
+      "reported_original_pins": [
+        "8fe0927a72841adbb423c855eb25a8aa3831057fc7dc18173d9c395d4e0599e2"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "34-smoking/cdc-mmw-r2020.html",
+      "observed_sha256": "e2e387e668b7765a52279063de2b27551dc500082d23b835e2c6c7782591002b",
+      "reported_original_pins": [
+        "e2e387e668b7765a52279063de2b27551dc500082d23b835e2c6c7782591002b"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "34-smoking/mmwr-tobacco-surveillance-1900-1994.html",
+      "observed_sha256": "02e4e219a65571dd287ca9e6d13dae1d3138c290f410550ea63eea33c85bb277",
+      "reported_original_pins": [
+        "02e4e219a65571dd287ca9e6d13dae1d3138c290f410550ea63eea33c85bb277"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "34-smoking/niaaa-surveillance-122.pdf",
+      "observed_sha256": "71f1e8531f2de32138f99d20b239ec78215a23b50070294fbb80671507bc222a",
+      "reported_original_pins": [
+        "71f1e8531f2de32138f99d20b239ec78215a23b50070294fbb80671507bc222a"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "36-jp-income/jilpt-monthly-hours-1947-2025.xlsx",
+      "observed_sha256": "e3569b095baf7b9f638c2d32caed25741d705f10ce28bf2602eeb952c30da814",
+      "reported_original_pins": [
+        "e3569b095baf7b9f638c2d32caed25741d705f10ce28bf2602eeb952c30da814"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "36-jp-income/retail-price-2005-appliances.xls",
+      "observed_sha256": "d6ab72c40eead9b71f959e23969f3c584d1d0243f24e36381cdb6fd8fb95cacb",
+      "reported_original_pins": [
+        "d6ab72c40eead9b71f959e23969f3c584d1d0243f24e36381cdb6fd8fb95cacb"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "36-jp-income/ys1966_t210.jpg",
+      "observed_sha256": "b2b296d5cf11d6d8fd4c2548b38060358ccfc41afd17d92a94ebee904690d817",
+      "reported_original_pins": [
+        "b2b296d5cf11d6d8fd4c2548b38060358ccfc41afd17d92a94ebee904690d817"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "37-jp-diffusion/icwp-2005-chapter2.pdf",
+      "observed_sha256": "f14dff723e4bf94a464905bebadc9ad0f20d17d861fd9738583efdff1e1236dc",
+      "reported_original_pins": [
+        "f14dff723e4bf94a464905bebadc9ad0f20d17d861fd9738583efdff1e1236dc"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "37-jp-diffusion/icwp-2015-chapter5.pdf",
+      "observed_sha256": "feb30e0a64ba1cafd7f81faf335cab858647fc48e7a0aec58b2e58fa33d9168e",
+      "reported_original_pins": [
+        "feb30e0a64ba1cafd7f81faf335cab858647fc48e7a0aec58b2e58fa33d9168e"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "37-jp-diffusion/nsficw-2019-outline.pdf",
+      "observed_sha256": "7d0c80ea04e312eda7a36c98146ff79165648ca13e9456a92ccc2e1625f98835",
+      "reported_original_pins": [
+        "7d0c80ea04e312eda7a36c98146ff79165648ca13e9456a92ccc2e1625f98835"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "37-jp-diffusion/nsfiie-1999-durable-goods-raw.html",
+      "observed_sha256": "ee3b17306100ba3326e011bb53571072c3d3b4a32c06c0713bc2d6bd20b4fdc5",
+      "reported_original_pins": [
+        "ee3b17306100ba3326e011bb53571072c3d3b4a32c06c0713bc2d6bd20b4fdc5"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "37-jp-diffusion/nsfiie-2004-durable-goods-raw.html",
+      "observed_sha256": "8db26912e4d6cf5e8488e8c927888563a2bada44c9e36fafad149368710b62d7",
+      "reported_original_pins": [
+        "8db26912e4d6cf5e8488e8c927888563a2bada44c9e36fafad149368710b62d7"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "37-jp-diffusion/nsfiie-2009-overview-raw.html",
+      "observed_sha256": "26626306d8354ab1d3166fa18a0ea7ed399e52d7bb95204af9fb1b195ed73f90",
+      "reported_original_pins": [
+        "26626306d8354ab1d3166fa18a0ea7ed399e52d7bb95204af9fb1b195ed73f90"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "37-jp-diffusion/nsfiie-2009-results4.pdf",
+      "observed_sha256": "418c398dd0076012b5061ef3bde50d86602287b86aaac81f30b20f15088d8c5e",
+      "reported_original_pins": [
+        "418c398dd0076012b5061ef3bde50d86602287b86aaac81f30b20f15088d8c5e"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "38-jp-housing/hls-2008-facilities-japanese.html",
+      "observed_sha256": "da592cad062301c47900d5897242ca53366c644f399e2dd2a462eebd7d083c83",
+      "reported_original_pins": [
+        "da592cad062301c47900d5897242ca53366c644f399e2dd2a462eebd7d083c83"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "38-jp-housing/hls-2008-summary-chapter2.pdf",
+      "observed_sha256": "d0dc0bf63a6a1a464905e26525f337f798f020c2b50e60311e73258e65f2fb9f",
+      "reported_original_pins": [
+        "d0dc0bf63a6a1a464905e26525f337f798f020c2b50e60311e73258e65f2fb9f"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "38-jp-housing/jsy2016-y652101000.xls",
+      "observed_sha256": "a66515ed7dc3d73dc0a440e3f36c3786e720c533cc561ef2894f0fb8c0e9c0de",
+      "reported_original_pins": [
+        "a66515ed7dc3d73dc0a440e3f36c3786e720c533cc561ef2894f0fb8c0e9c0de"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "38-jp-housing/jsy2016-y652105000.xls",
+      "observed_sha256": "8bcf5903fa5cb9cc46985e7324eae4f77ed16b8eeac6ba1c3db4418f4cf263b7",
+      "reported_original_pins": [
+        "8bcf5903fa5cb9cc46985e7324eae4f77ed16b8eeac6ba1c3db4418f4cf263b7"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "43-uk-hours/bls-yearbook-1969.pdf",
+      "observed_sha256": "71a685cf5e0daa1d02ef636d4dd5b842b071e646ad721b56fe60a3d4a7220b3a",
+      "reported_original_pins": [
+        "71a685cf5e0daa1d02ef636d4dd5b842b071e646ad721b56fe60a3d4a7220b3a"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "43-uk-hours/bls-yearbook-1976.pdf",
+      "observed_sha256": "f7f6b97183e82b2e2d8299c0f6a0f04d0e367c1361432c203750019bfce5cf01",
+      "reported_original_pins": [
+        "f7f6b97183e82b2e2d8299c0f6a0f04d0e367c1361432c203750019bfce5cf01"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "43-uk-hours/boe-millennium.xlsx",
+      "observed_sha256": "4c23dd392a498691eac92659aec283fb43f28118bd80511dc87fc595974195eb",
+      "reported_original_pins": [
+        "4c23dd392a498691eac92659aec283fb43f28118bd80511dc87fc595974195eb"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "44-road-workplace-deaths/bls-cfoi-fw-survey-definition.txt",
+      "observed_sha256": "62745890991e5faeee59a5105ac7ab7558b1acf24a7fc8fcd95c892d32ad7622",
+      "reported_original_pins": [
+        "62745890991e5faeee59a5105ac7ab7558b1acf24a7fc8fcd95c892d32ad7622"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "44-road-workplace-deaths/cfoi-2020-summary-wayback.pdf",
+      "observed_sha256": "9e7fd3b13b9e06eaa89f4356b2a83ae6b87bb6633d3b1a9baa8927df8a90d55b",
+      "reported_original_pins": [
+        "9e7fd3b13b9e06eaa89f4356b2a83ae6b87bb6633d3b1a9baa8927df8a90d55b"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "44-road-workplace-deaths/cfoi-2022-summary-wayback.pdf",
+      "observed_sha256": "5e5613bc15c916b553ed9cb404b35c70c69ae42bb1f98d31b06a55f3f5daef0d",
+      "reported_original_pins": [
+        "5e5613bc15c916b553ed9cb404b35c70c69ae42bb1f98d31b06a55f3f5daef0d"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "44-road-workplace-deaths/cfoi-2024-summary-wayback.pdf",
+      "observed_sha256": "774d9763f083527900bca224bf280805fdf2f1c9447a1a0baf93e9ca5214a9b1",
+      "reported_original_pins": [
+        "774d9763f083527900bca224bf280805fdf2f1c9447a1a0baf93e9ca5214a9b1"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "44-road-workplace-deaths/cfoi-charts-1992-2017.pdf",
+      "observed_sha256": "8d80001ed0ce0d7e77e0b8fde2662b5f4606a2ff031d11812abb838046d5509e",
+      "reported_original_pins": [
+        "8d80001ed0ce0d7e77e0b8fde2662b5f4606a2ff031d11812abb838046d5509e"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "44-road-workplace-deaths/fhwa-fi200-highway-statistics-2023.html",
+      "observed_sha256": "e5cb5e304b9c86f3124543e27dd4e9e0e18f2d1d8a40bc9891805332f88490d6",
+      "reported_original_pins": [
+        "e5cb5e304b9c86f3124543e27dd4e9e0e18f2d1d8a40bc9891805332f88490d6"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "45-teen-births/hus-2016-table11.pdf",
+      "observed_sha256": "382664aac27b06f17199a6a6df861d626ce7833f57cf5cd954159ea767e2b5fd",
+      "reported_original_pins": [
+        "382664aac27b06f17199a6a6df861d626ce7833f57cf5cd954159ea767e2b5fd"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "45-teen-births/hus-2019-table1-birth-rates.pdf",
+      "observed_sha256": "a83715a1640303bb2e95c64146ec81e99ee4877489785aade5a23bfefc7f987d",
+      "reported_original_pins": [
+        "a83715a1640303bb2e95c64146ec81e99ee4877489785aade5a23bfefc7f987d"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "45-teen-births/nchs-db58-teen-births-1960-2009.pdf",
+      "observed_sha256": "b3a03c3eeb6d6a3b29e8d518bc06590c74768a217756394503ad63ba3e21b75d",
+      "reported_original_pins": [
+        "b3a03c3eeb6d6a3b29e8d518bc06590c74768a217756394503ad63ba3e21b75d"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "45-teen-births/nvsr56-10-life-tables.pdf",
+      "observed_sha256": "9d26f2ad059bdc8c2dbd8ba5beb8cc6b08f93e60233d09ec3f601a88ca7c22f2",
+      "reported_original_pins": [
+        "9d26f2ad059bdc8c2dbd8ba5beb8cc6b08f93e60233d09ec3f601a88ca7c22f2"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "46-diet-variety/ers-fads-fruit-fresh.xlsx",
+      "observed_sha256": "6988e35a4a4b8700a6f9255de0e29708afc01f91662ce28394973a0cc740069c",
+      "reported_original_pins": [
+        "6988e35a4a4b8700a6f9255de0e29708afc01f91662ce28394973a0cc740069c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "46-diet-variety/ers-fads-vegetables-fresh.xlsx",
+      "observed_sha256": "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e",
+      "reported_original_pins": [
+        "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "47-produce-sku/aib758-understanding-dynamics-produce-markets.pdf",
+      "observed_sha256": "c050c52f615cfe5e5e54a72a2c14e2f7e072ed3a1f9ccb8f300182a408ee5717",
+      "reported_original_pins": [
+        "c050c52f615cfe5e5e54a72a2c14e2f7e072ed3a1f9ccb8f300182a408ee5717"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "47-produce-sku/hfcs-1955-report1-united-states.pdf",
+      "observed_sha256": "d43b6d39e0e5a42bd59d359b88fa6c5ba095fc04746d838089e5ef98e7d3e007",
+      "reported_original_pins": [
+        "d43b6d39e0e5a42bd59d359b88fa6c5ba095fc04746d838089e5ef98e7d3e007"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "49-child-labor/census-1940-comparative-occupation-statistics-ch1.pdf",
+      "observed_sha256": "c612eccd768e39a732ed3c0f6f68fcdabca659b44d7a4a0ab38f3bcdadb30eb8",
+      "reported_original_pins": [
+        "c612eccd768e39a732ed3c0f6f68fcdabca659b44d7a4a0ab38f3bcdadb30eb8"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "50-calculation-inputs/bls-ces-earnings-hours-1950-response.json",
+      "observed_sha256": "e595ee79c19301fbb484096efa8e72514e028759f2e05fa6756fc816b14aa24c",
+      "reported_original_pins": [
+        "e595ee79c19301fbb484096efa8e72514e028759f2e05fa6756fc816b14aa24c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "50-calculation-inputs/bls-ces-earnings-hours-1980-response.json",
+      "observed_sha256": "40c83e21cd4bf1fba058ef5ce85f0ccfe902ba80da049a1a8a09a9bcb7e7d4a0",
+      "reported_original_pins": [
+        "40c83e21cd4bf1fba058ef5ce85f0ccfe902ba80da049a1a8a09a9bcb7e7d4a0"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "50-calculation-inputs/bls-ces-earnings-hours-1990-response.json",
+      "observed_sha256": "58815a759653e0804cbd95fe389559cb436f0610053761c90c95c45918a56285",
+      "reported_original_pins": [
+        "58815a759653e0804cbd95fe389559cb436f0610053761c90c95c45918a56285"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "50-calculation-inputs/bls-ces-earnings-hours-2000-response.json",
+      "observed_sha256": "312ca4d1e3783c11cbfdfe0451dd475128d57e705414bf2ac8f0fd3c29c25375",
+      "reported_original_pins": [
+        "312ca4d1e3783c11cbfdfe0451dd475128d57e705414bf2ac8f0fd3c29c25375"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "50-calculation-inputs/bls-ces-earnings-hours-2010-response.json",
+      "observed_sha256": "a174058890f3fb7bed00a6ed12d0eb59202d842e37651946a7625e9c3e228184",
+      "reported_original_pins": [
+        "a174058890f3fb7bed00a6ed12d0eb59202d842e37651946a7625e9c3e228184"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "50-calculation-inputs/bls-ces-earnings-hours-2024-response.json",
+      "observed_sha256": "0efb3f6fada4a469d6bc2d4fa523b4716da902aac6803a8b1cfb57b82d664154",
+      "reported_original_pins": [
+        "0efb3f6fada4a469d6bc2d4fa523b4716da902aac6803a8b1cfb57b82d664154"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "51-smoking-legal/FR-2000-06-09-00-14480.htm",
+      "observed_sha256": "89c78949a927973c7f924b10a9fb4588f86f13c28e05f9ff4c1e4254cd7b4122",
+      "reported_original_pins": [
+        "89c78949a927973c7f924b10a9fb4588f86f13c28e05f9ff4c1e4254cd7b4122"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "51-smoking-legal/FR-2000-06-09-00-14603.htm",
+      "observed_sha256": "8bb51f4c0348b473b3e54a615400dbfb8c8fc3a15da802470a282e4f91d5f6f2",
+      "reported_original_pins": [
+        "8bb51f4c0348b473b3e54a615400dbfb8c8fc3a15da802470a282e4f91d5f6f2"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "51-smoking-legal/PLAW-106publ181.pdf",
+      "observed_sha256": "7a629e515e95e314cb7cb3e2100b3bbcd0c7b69c8c1435469c2cf1c2ac337204",
+      "reported_original_pins": [
+        "7a629e515e95e314cb7cb3e2100b3bbcd0c7b69c8c1435469c2cf1c2ac337204"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "51-smoking-legal/STATUTE-101-uslm.xml",
+      "observed_sha256": "719811f0ec82d2e20a4dd58955e300a0ac1b975816fab5e5b59f1c288035cbaa",
+      "reported_original_pins": [
+        "719811f0ec82d2e20a4dd58955e300a0ac1b975816fab5e5b59f1c288035cbaa"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "51-smoking-legal/STATUTE-103-Pg1069.pdf",
+      "observed_sha256": "59b5b307a754a6328aa75419e68bb105990fc738e0b5b327222fa36cdeb12df6",
+      "reported_original_pins": [
+        "59b5b307a754a6328aa75419e68bb105990fc738e0b5b327222fa36cdeb12df6"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "51-smoking-legal/ca-ab13-bill-940721-chaptered.txt",
+      "observed_sha256": "94910bb1839961fe6054998c082c4e76b1650c8cdec0d6045ffdcb2535a68979",
+      "reported_original_pins": [
+        "94910bb1839961fe6054998c082c4e76b1650c8cdec0d6045ffdcb2535a68979"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "59-workbook-review/APU0000702111-fred-metadata.html",
+      "observed_sha256": "692c5d5ba392e59c80b91947f0fa52d45bbbf929a145420ec8c7673894abb9cd",
+      "reported_original_pins": [
+        "692c5d5ba392e59c80b91947f0fa52d45bbbf929a145420ec8c7673894abb9cd"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "59-workbook-review/APU0000703111-fred-metadata.html",
+      "observed_sha256": "eee14cba2324156eb0e278660e24ee197f2c670b294caa9b93c0acb4e5479efa",
+      "reported_original_pins": [
+        "eee14cba2324156eb0e278660e24ee197f2c670b294caa9b93c0acb4e5479efa"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "59-workbook-review/APU0000704111-fred-metadata.html",
+      "observed_sha256": "57f9eca46b6b09b9a1248725416603968c776ee921c783a75a90d91a4fa09880",
+      "reported_original_pins": [
+        "57f9eca46b6b09b9a1248725416603968c776ee921c783a75a90d91a4fa09880"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "59-workbook-review/APU0000708111-fred-metadata.html",
+      "observed_sha256": "c4e32cceb6ec5208efe6872e01ab06689b6ec3d3b1dc64a2c567b3a849f4009c",
+      "reported_original_pins": [
+        "c4e32cceb6ec5208efe6872e01ab06689b6ec3d3b1dc64a2c567b3a849f4009c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "59-workbook-review/APU0000711211-fred-metadata.html",
+      "observed_sha256": "ece86f8262ee7b7305983741c9e0ddbe07351e7de5602c8a88b164b3d355ab33",
+      "reported_original_pins": [
+        "ece86f8262ee7b7305983741c9e0ddbe07351e7de5602c8a88b164b3d355ab33"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "59-workbook-review/APU0000712211-fred-metadata.html",
+      "observed_sha256": "5f8f609349dc64064df358d5ed0e01389d06b8866c8d718f086a005632960a8c",
+      "reported_original_pins": [
+        "5f8f609349dc64064df358d5ed0e01389d06b8866c8d718f086a005632960a8c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "59-workbook-review/bls-average-prices-1980-response.json",
+      "observed_sha256": "39f40dacbbceebc458e97f7a7abd4a7e3ee470977b5cf027a48ea267956843bd",
+      "reported_original_pins": [
+        "39f40dacbbceebc458e97f7a7abd4a7e3ee470977b5cf027a48ea267956843bd"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "59-workbook-review/bls-average-prices-1990-response.json",
+      "observed_sha256": "02876afedcf7c330ee0cc32ed85e11d41391a7f43ded3009fe3221cee5f4672a",
+      "reported_original_pins": [
+        "02876afedcf7c330ee0cc32ed85e11d41391a7f43ded3009fe3221cee5f4672a"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "59-workbook-review/bls-average-prices-2000-response.json",
+      "observed_sha256": "b9d5a07a3ea0fe79d4a9b83851300da1110dec6180af115f6916cf753c80d114",
+      "reported_original_pins": [
+        "b9d5a07a3ea0fe79d4a9b83851300da1110dec6180af115f6916cf753c80d114"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "59-workbook-review/bls-average-prices-2010-response.json",
+      "observed_sha256": "1363249ec6c6243e5302c9397e2dfc53c9879fe130e4755f919c4cfcfb5a287c",
+      "reported_original_pins": [
+        "1363249ec6c6243e5302c9397e2dfc53c9879fe130e4755f919c4cfcfb5a287c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "59-workbook-review/bls-average-prices-2024-response.json",
+      "observed_sha256": "fbe61a9c3b0d043a19690118423d65fce3a23b86ac9f4e4e2964d41e2a6622c6",
+      "reported_original_pins": [
+        "fbe61a9c3b0d043a19690118423d65fce3a23b86ac9f4e4e2964d41e2a6622c6"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "60-mortality-review/cdc-db548.html",
+      "observed_sha256": "dc96f7a1635477ab63123b064a274ab8af47dd01d55f4e360e75bee92d9d6be1",
+      "reported_original_pins": [
+        "dc96f7a1635477ab63123b064a274ab8af47dd01d55f4e360e75bee92d9d6be1"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/FRB_Z1_csv-20261028.zip",
+      "observed_sha256": "83b8eded0bc7f9b74c0269ef503a863cee88312460fd7eef076284b98fc28c06",
+      "reported_original_pins": [
+        "83b8eded0bc7f9b74c0269ef503a863cee88312460fd7eef076284b98fc28c06"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/bls-cpi-annual-1913-1929.json",
+      "observed_sha256": "68290db70bebfdc3d071602f8d2d4c947aa6377e9ef3a310fedd1e1fbc597715",
+      "reported_original_pins": [
+        "68290db70bebfdc3d071602f8d2d4c947aa6377e9ef3a310fedd1e1fbc597715"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/bls-cpi-annual-1930-1939.json",
+      "observed_sha256": "fd3f869ca3b15fc26d236d4830065a4defed004fb6c049abb56af094eb2ba8a7",
+      "reported_original_pins": [
+        "fd3f869ca3b15fc26d236d4830065a4defed004fb6c049abb56af094eb2ba8a7"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/bls-cpi-annual-1990-1999.json",
+      "observed_sha256": "2909c00308be5b0fa553f1776ec47b86d0bd1a7f9a453d75743cf0acf86a9950",
+      "reported_original_pins": [
+        "2909c00308be5b0fa553f1776ec47b86d0bd1a7f9a453d75743cf0acf86a9950"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/bls-cpi-annual-2000-2009.json",
+      "observed_sha256": "90deeae8c8e677f14001fa7c575caa06d039448deaf6f98d02a4d61c47e6ba4c",
+      "reported_original_pins": [
+        "90deeae8c8e677f14001fa7c575caa06d039448deaf6f98d02a4d61c47e6ba4c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/bls-cpi-annual-2010-2019.json",
+      "observed_sha256": "f995c5ff3a78aab2a4afad1b7eae012d5232e53f212e1c5123b750731e36da63",
+      "reported_original_pins": [
+        "f995c5ff3a78aab2a4afad1b7eae012d5232e53f212e1c5123b750731e36da63"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/bls-cpi-annual-2020-2024.json",
+      "observed_sha256": "621716306a478483b3d38e41ad594284a123892601717153cc3401ec1d8c8a72",
+      "reported_original_pins": [
+        "621716306a478483b3d38e41ad594284a123892601717153cc3401ec1d8c8a72"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/c2010br-07.pdf",
+      "observed_sha256": "ee16dff0c6ea33535812e182cdfee217f61ec5c87f8ac2cbd5cda5d9b0c72886",
+      "reported_original_pins": [
+        "ee16dff0c6ea33535812e182cdfee217f61ec5c87f8ac2cbd5cda5d9b0c72886"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/census-1905-manufactures.pdf",
+      "observed_sha256": "fec45427515941dfc65d0642bad6135e166233adc8f759accf2717b44b7e715d",
+      "reported_original_pins": [
+        "fec45427515941dfc65d0642bad6135e166233adc8f759accf2717b44b7e715d"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/census-income-1947-p60-05.pdf",
+      "observed_sha256": "944c17b80992075555281d1c3e546dcc1044547b68cc9754552e7ef1fa95051c",
+      "reported_original_pins": [
+        "944c17b80992075555281d1c3e546dcc1044547b68cc9754552e7ef1fa95051c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/census-owner.pdf",
+      "observed_sha256": "f44ad243f74c8a06381ae15ca52af9cafa350b03e34a4fa0a75b9df5220b6619",
+      "reported_original_pins": [
+        "f44ad243f74c8a06381ae15ca52af9cafa350b03e34a4fa0a75b9df5220b6619"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/census-poverty-1960.json",
+      "observed_sha256": "6f80dc78d317fd2b7ab9690a19b2a411a9aebfdb7d7c37be94b2f935d029618a",
+      "reported_original_pins": [
+        "6f80dc78d317fd2b7ab9690a19b2a411a9aebfdb7d7c37be94b2f935d029618a"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/census-poverty-1970.json",
+      "observed_sha256": "69480a06cb839c7dca66951314578f78f40589496436c580899feccfcc76dfc7",
+      "reported_original_pins": [
+        "69480a06cb839c7dca66951314578f78f40589496436c580899feccfcc76dfc7"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/census-poverty-1980.json",
+      "observed_sha256": "c0e484c1add176e5e737ea291811a0e864b85112cf16616b7bdd044ced799fb4",
+      "reported_original_pins": [
+        "c0e484c1add176e5e737ea291811a0e864b85112cf16616b7bdd044ced799fb4"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/census-poverty-1990.json",
+      "observed_sha256": "35212fafabeb42719426e1203576ed3cc9fc2a146c0f791de863555e5ad64079",
+      "reported_original_pins": [
+        "35212fafabeb42719426e1203576ed3cc9fc2a146c0f791de863555e5ad64079"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/census-poverty-2000.json",
+      "observed_sha256": "582c6657943c8d8bdefea348de79b761e4ae4294f18dfc91e1d1f56b941d4047",
+      "reported_original_pins": [
+        "582c6657943c8d8bdefea348de79b761e4ae4294f18dfc91e1d1f56b941d4047"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/census-poverty-2010.json",
+      "observed_sha256": "41f5cf00a2ce70427b9295967ffcdb7164b26cc95ee6633582c8fe2403c34b2d",
+      "reported_original_pins": [
+        "41f5cf00a2ce70427b9295967ffcdb7164b26cc95ee6633582c8fe2403c34b2d"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/census-poverty-2024.json",
+      "observed_sha256": "6cd2e0c1c3787687a00f33ab6d08d36187aa12b371794576d28f318a2c7bd1f6",
+      "reported_original_pins": [
+        "6cd2e0c1c3787687a00f33ab6d08d36187aa12b371794576d28f318a2c7bd1f6"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/census-statab1941-consumer.pdf",
+      "observed_sha256": "059512d695407209823495451a18bd894fbc442a3be7ba940f7c9bad317a3648",
+      "reported_original_pins": [
+        "059512d695407209823495451a18bd894fbc442a3be7ba940f7c9bad317a3648"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/census-statab1953-05.pdf",
+      "observed_sha256": "232f88a0db866124972ff683661af798d351bb0a7756bba5da9c2948d790d10c",
+      "reported_original_pins": [
+        "232f88a0db866124972ff683661af798d351bb0a7756bba5da9c2948d790d10c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/final-census-lfpr.xls",
+      "observed_sha256": "505312d9a33aad0fa956a4cb6d7b123e5ac2088ae95b118c71e81f2afa6e09dc",
+      "reported_original_pins": [
+        "505312d9a33aad0fa956a4cb6d7b123e5ac2088ae95b118c71e81f2afa6e09dc"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/final-census-p20-522.pdf",
+      "observed_sha256": "89ff92fa4de0fbecb7d6bbf1b7f7c09f01e16cfad9b065c38b9e37aa47135089",
+      "reported_original_pins": [
+        "89ff92fa4de0fbecb7d6bbf1b7f7c09f01e16cfad9b065c38b9e37aa47135089"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/final-cpi-1950.json",
+      "observed_sha256": "a4ed18328efaa342e355476509560fab1ca0aea8299203ea12f1c013d4055123",
+      "reported_original_pins": [
+        "a4ed18328efaa342e355476509560fab1ca0aea8299203ea12f1c013d4055123"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/final-cpi-1980.json",
+      "observed_sha256": "a463275ed4b228ec2266bf14bef58af5eec7ace7cdca32d247862590114292e5",
+      "reported_original_pins": [
+        "a463275ed4b228ec2266bf14bef58af5eec7ace7cdca32d247862590114292e5"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/final-eia-stb0206.xls",
+      "observed_sha256": "5c61b3b9dc35738fc92b0add2bea1797af37abe61f25af4bc7f6ab9585d09e11",
+      "reported_original_pins": [
+        "5c61b3b9dc35738fc92b0add2bea1797af37abe61f25af4bc7f6ab9585d09e11"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/final-us-ussr-1990.pdf",
+      "observed_sha256": "021c07ed494cf148c16bdbda35a1ae6a19a16a399a9eba16c3bdacbe8d239b4d",
+      "reported_original_pins": [
+        "021c07ed494cf148c16bdbda35a1ae6a19a16a399a9eba16c3bdacbe8d239b4d"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/gm-1903-oldsmobile.html",
+      "observed_sha256": "759c159df630f7865a74378e816538b20a7af222e2a7e55225445ad4cec8a79f",
+      "reported_original_pins": [
+        "759c159df630f7865a74378e816538b20a7af222e2a7e55225445ad4cec8a79f"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/ipums-original-metadata/usa_00001.cbk",
+      "observed_sha256": "b3422197a46ca3725996596ffe4ed10a6533edb1e5b7a4772155d611a194a748",
+      "reported_original_pins": [
+        "b3422197a46ca3725996596ffe4ed10a6533edb1e5b7a4772155d611a194a748"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/ipums-original-metadata/usa_00001.sts",
+      "observed_sha256": "6aae35972daf1b9ca160cbd6f8c06382e3dc41da8458409bfb1e8b66b81e6542",
+      "reported_original_pins": [
+        "6aae35972daf1b9ca160cbd6f8c06382e3dc41da8458409bfb1e8b66b81e6542"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/ipums-original-metadata/usa_00001.xml",
+      "observed_sha256": "94548b629af74815e4d31e91f0795d003e44c4baa00ef233a4886bbd62859cbe",
+      "reported_original_pins": [
+        "94548b629af74815e4d31e91f0795d003e44c4baa00ef233a4886bbd62859cbe"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/middle-cpi-1960-1970.json",
+      "observed_sha256": "822e4166a4c6938da7ba86a2333c5f65f89ff76e81dccbe2e55aabd447ffa619",
+      "reported_original_pins": [
+        "822e4166a4c6938da7ba86a2333c5f65f89ff76e81dccbe2e55aabd447ffa619"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/middle-us-health-food.json",
+      "observed_sha256": "ccd7a59a6f62f00ace77aa142d1c19516df15b421f27e0b1717ee0d01f688d71",
+      "reported_original_pins": [],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": false
+    },
+    {
+      "file": "remaining-audit-20261028/middle_bls_hourly_extract.json",
+      "observed_sha256": "8ac1c70b052b53292f2c502b456321dc8dff2a1e6143cab0a1a0449364ebd365",
+      "reported_original_pins": [
+        "8ac1c70b052b53292f2c502b456321dc8dff2a1e6143cab0a1a0449364ebd365"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/ornl-car-price-extract.json",
+      "observed_sha256": "7c444b8407bb19084c26037cec4b5d169c17416534358d3ed360168d77cb385f",
+      "reported_original_pins": [
+        "7c444b8407bb19084c26037cec4b5d169c17416534358d3ed360168d77cb385f"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/AHS_TABLE2_2023_check.xlsx",
+      "observed_sha256": "4a28527620180bfb5e6912db54f62d0f3f090d045f967ab15a36715ff62a948a",
+      "reported_original_pins": [
+        "4a28527620180bfb5e6912db54f62d0f3f090d045f967ab15a36715ff62a948a"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/AHS_TABLE4_2023_check.xlsx",
+      "observed_sha256": "88a012f124018ced85c4ae272f7f3ed35f039bed32c50cb7ab9965d495dc061d",
+      "reported_original_pins": [
+        "88a012f124018ced85c4ae272f7f3ed35f039bed32c50cb7ab9965d495dc061d"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/ITCELSETSP2USA.csv",
+      "observed_sha256": "7cd2824289e24e09c3c539118b63291d6be0dae405bf6b05c5cce776cfaf2462",
+      "reported_original_pins": [
+        "7cd2824289e24e09c3c539118b63291d6be0dae405bf6b05c5cce776cfaf2462"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/TEDB_Ed_39.pdf",
+      "observed_sha256": "f0f041b1b9c844136e10f2d455c3082fe7c3f5f631e4894e9f402c816747b0b1",
+      "reported_original_pins": [
+        "f0f041b1b9c844136e10f2d455c3082fe7c3f5f631e4894e9f402c816747b0b1"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/acs-cancer-facts-figures-2024.pdf",
+      "observed_sha256": "a406cd9d3569e014a350206124d1c96a8144f6b9833cc8b2db78d32bcfc5e358",
+      "reported_original_pins": [
+        "a406cd9d3569e014a350206124d1c96a8144f6b9833cc8b2db78d32bcfc5e358"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/aib758.pdf",
+      "observed_sha256": "c050c52f615cfe5e5e54a72a2c14e2f7e072ed3a1f9ccb8f300182a408ee5717",
+      "reported_original_pins": [
+        "c050c52f615cfe5e5e54a72a2c14e2f7e072ed3a1f9ccb8f300182a408ee5717"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/bls_women_2017.html",
+      "observed_sha256": "4ca51ddf1a7e5ac479eb960e569a45228f2dab9e1a32decda3573d1c95823751",
+      "reported_original_pins": [
+        "4ca51ddf1a7e5ac479eb960e569a45228f2dab9e1a32decda3573d1c95823751"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/bls_women_2022.html",
+      "observed_sha256": "1ae9e6df3b9c29231180906d051ce422fcc4e2b1cadd70e7b7d04c3680bdf9d4",
+      "reported_original_pins": [
+        "1ae9e6df3b9c29231180906d051ce422fcc4e2b1cadd70e7b7d04c3680bdf9d4"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/c25ann-2003.pdf",
+      "observed_sha256": "84c2ec2b0496c9cc2568299badc95f1e80a02424399fd2474279dd8c9a7867d0",
+      "reported_original_pins": [
+        "84c2ec2b0496c9cc2568299badc95f1e80a02424399fd2474279dd8c9a7867d0"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/cable-history-timeline-2022.pdf",
+      "observed_sha256": "8ee53ddb521e2344a381528a585f08c27b4669a5ccc98c225f27b1ef200e1425",
+      "reported_original_pins": [
+        "8ee53ddb521e2344a381528a585f08c27b4669a5ccc98c225f27b1ef200e1425"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/census-f08ar-archive.xlsx",
+      "observed_sha256": "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8",
+      "reported_original_pins": [
+        "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf8"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/census-p20-522.pdf",
+      "observed_sha256": "89ff92fa4de0fbecb7d6bbf1b7f7c09f01e16cfad9b065c38b9e37aa47135089",
+      "reported_original_pins": [
+        "89ff92fa4de0fbecb7d6bbf1b7f7c09f01e16cfad9b065c38b9e37aa47135089"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/cu-size-2024-means-wayback.xlsx",
+      "observed_sha256": "6378f4aa2e2f54bfe758c7604aeb366e8cc38d0d626a583bd77ba6aee87d28f9",
+      "reported_original_pins": [
+        "6378f4aa2e2f54bfe758c7604aeb366e8cc38d0d626a583bd77ba6aee87d28f9"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/final-census-lfpr.xls",
+      "observed_sha256": "505312d9a33aad0fa956a4cb6d7b123e5ac2088ae95b118c71e81f2afa6e09dc",
+      "reported_original_pins": [
+        "505312d9a33aad0fa956a4cb6d7b123e5ac2088ae95b118c71e81f2afa6e09dc"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/fttn00.pdf",
+      "observed_sha256": "b185d50ded88e0b8ba84cba8dccfdc034806d06eb4e0cddadfe4755fa713dac0",
+      "reported_original_pins": [
+        "b185d50ded88e0b8ba84cba8dccfdc034806d06eb4e0cddadfe4755fa713dac0"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/hus-2019-table1-birth-rates.pdf",
+      "observed_sha256": "a83715a1640303bb2e95c64146ec81e99ee4877489785aade5a23bfefc7f987d",
+      "reported_original_pins": [
+        "a83715a1640303bb2e95c64146ec81e99ee4877489785aade5a23bfefc7f987d"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/niaaa-surveillance-122.pdf",
+      "observed_sha256": "71f1e8531f2de32138f99d20b239ec78215a23b50070294fbb80671507bc222a",
+      "reported_original_pins": [
+        "71f1e8531f2de32138f99d20b239ec78215a23b50070294fbb80671507bc222a"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/nvsr72-01-births-final-2021.pdf",
+      "observed_sha256": "0718d7f68dc10429f1eb9d5ddee0e6bd5db077363d77e892b32d7171875d8d1a",
+      "reported_original_pins": [
+        "0718d7f68dc10429f1eb9d5ddee0e6bd5db077363d77e892b32d7171875d8d1a"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/p60-287.pdf",
+      "observed_sha256": "b99624bfd024a4f9396594d23a845d5bd581f8094401a3b469aa0a3fb6c799d1",
+      "reported_original_pins": [
+        "b99624bfd024a4f9396594d23a845d5bd581f8094401a3b469aa0a3fb6c799d1"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/pew-device-ownership-over-time.html",
+      "observed_sha256": "6ae4e418715ed46945a4b0fd95add75dbf0f583ae45e661927ddc6e9cfe9bb19",
+      "reported_original_pins": [
+        "6ae4e418715ed46945a4b0fd95add75dbf0f583ae45e661927ddc6e9cfe9bb19"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/pew-internet-broadband-2025.html",
+      "observed_sha256": "59b4dbab0212424443d3f56a105c9ada2a211998a365a1d0ee11304f9aac42e6",
+      "reported_original_pins": [
+        "59b4dbab0212424443d3f56a105c9ada2a211998a365a1d0ee11304f9aac42e6"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/pew-internet-use-over-time.html",
+      "observed_sha256": "8ce21e4f51244a25867f2e3653b5324949eefb7c29e7a62093fcdafe1fa818f1",
+      "reported_original_pins": [
+        "8ce21e4f51244a25867f2e3653b5324949eefb7c29e7a62093fcdafe1fa818f1"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/pew-mobile-2019.html",
+      "observed_sha256": "4678b4f2e6c1a9a081cc51c9b113c28ca2abb09aebed8dfb37cc2dd5b715bae4",
+      "reported_original_pins": [
+        "4678b4f2e6c1a9a081cc51c9b113c28ca2abb09aebed8dfb37cc2dd5b715bae4"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/pls2020doc.pdf",
+      "observed_sha256": "640dc8cfae2886d948df934552bf8ac74235392d5d650465a512fd14c644f401",
+      "reported_original_pins": [
+        "640dc8cfae2886d948df934552bf8ac74235392d5d650465a512fd14c644f401"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/pls_fy2020_csv.zip",
+      "observed_sha256": "30da545b230ceec6d29bf8598bfadc8149673ba1f77e8e6787caff9b58c43a79",
+      "reported_original_pins": [
+        "30da545b230ceec6d29bf8598bfadc8149673ba1f77e8e6787caff9b58c43a79"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/recs-1993-detailed-tables.pdf",
+      "observed_sha256": "b6da1125e38c46612aae1917457cac8b8c3437ac5aaef85cf49452e7a67e8d99",
+      "reported_original_pins": [
+        "b6da1125e38c46612aae1917457cac8b8c3437ac5aaef85cf49452e7a67e8d99"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/sa-2012-ed-infocomm.pdf",
+      "observed_sha256": "bca7adafef6917582ad2b2584828c3e39dba8a5c12b35265a338f6bfff1f7b47",
+      "reported_original_pins": [
+        "bca7adafef6917582ad2b2584828c3e39dba8a5c12b35265a338f6bfff1f7b47"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/scf-2016-chartbook.pdf",
+      "observed_sha256": "67a46434f9c85a60d1e3e88e89e37f45e23776759f7f28dbcca40aefa96c9602",
+      "reported_original_pins": [
+        "67a46434f9c85a60d1e3e88e89e37f45e23776759f7f28dbcca40aefa96c9602"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/scf23.pdf",
+      "observed_sha256": "2666446e9c0cc100b9816d8b7c6569722d9d96af5359ce8f2de51aedf97b8276",
+      "reported_original_pins": [
+        "2666446e9c0cc100b9816d8b7c6569722d9d96af5359ce8f2de51aedf97b8276"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/seer-all-sites-2026.html",
+      "observed_sha256": "54a04941b9addd975ece9da197265056e5684bfe81b343a9edf9bd486e6c5d02",
+      "reported_original_pins": [
+        "54a04941b9addd975ece9da197265056e5684bfe81b343a9edf9bd486e6c5d02"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/special-seer.pdf",
+      "observed_sha256": "8049fb982770d59f9c6e7cadf0f0fa3fcd10da458dc2e88cf10c9ffa36feb21c",
+      "reported_original_pins": [
+        "8049fb982770d59f9c6e7cadf0f0fa3fcd10da458dc2e88cf10c9ffa36feb21c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/squarefeet_cust.xls",
+      "observed_sha256": "81c9156cde3dcfc43e5cc97c827fd83c1f076d5fc621feb6f50ba955c44e5735",
+      "reported_original_pins": [
+        "81c9156cde3dcfc43e5cc97c827fd83c1f076d5fc621feb6f50ba955c44e5735"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/usps-10k-fy2019.pdf",
+      "observed_sha256": "9d4531f672e55a6c8703d3914a16a2662a363e78ccfb11cba9313e49365db9b6",
+      "reported_original_pins": [
+        "9d4531f672e55a6c8703d3914a16a2662a363e78ccfb11cba9313e49365db9b6"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/recent_us-originals/usps-10k-fy2025.pdf",
+      "observed_sha256": "b93552b4c71d884e564084a0be9b4b52848aa847a83c726831d9f56bae6fef8f",
+      "reported_original_pins": [
+        "b93552b4c71d884e564084a0be9b4b52848aa847a83c726831d9f56bae6fef8f"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/special-ipums-ftotinc.html",
+      "observed_sha256": "3b4ca7579d01a932eae4addb29ee98ddec65a005e66cdadde90a4ada6861660e",
+      "reported_original_pins": [
+        "3b4ca7579d01a932eae4addb29ee98ddec65a005e66cdadde90a4ada6861660e"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/special-ipums-inctot.html",
+      "observed_sha256": "959dd207749b1613ff401339bf31d861050d6721481830ad200c783e55bc633e",
+      "reported_original_pins": [
+        "959dd207749b1613ff401339bf31d861050d6721481830ad200c783e55bc633e"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/special-ipums-metro-codes.pdf",
+      "observed_sha256": "3137d5a672e853c4ef3204abca98816203ed6d20815d24fbe0ec9066141eb97c",
+      "reported_original_pins": [
+        "3137d5a672e853c4ef3204abca98816203ed6d20815d24fbe0ec9066141eb97c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/special-ipums-metro.html",
+      "observed_sha256": "ae36eb1d6523ea59fc93fa464e5fef8b8359452169047b65a904cf6cfadb1b38",
+      "reported_original_pins": [
+        "ae36eb1d6523ea59fc93fa464e5fef8b8359452169047b65a904cf6cfadb1b38"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/special-scf.pdf",
+      "observed_sha256": "c3c15df0813b4c1931553133b6906744feda000eba3324fb819446ca22fb2c80",
+      "reported_original_pins": [
+        "c3c15df0813b4c1931553133b6906744feda000eba3324fb819446ca22fb2c80"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/special-seer.pdf",
+      "observed_sha256": "8049fb982770d59f9c6e7cadf0f0fa3fcd10da458dc2e88cf10c9ffa36feb21c",
+      "reported_original_pins": [
+        "8049fb982770d59f9c6e7cadf0f0fa3fcd10da458dc2e88cf10c9ffa36feb21c"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/special-z1-visualization.zip",
+      "observed_sha256": "379ced866e8da615a23b10d84cfd15c5271c49f1776fc0292d477f3b198ace93",
+      "reported_original_pins": [
+        "379ced866e8da615a23b10d84cfd15c5271c49f1776fc0292d477f3b198ace93"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/us-2000-plumbing-h048.json",
+      "observed_sha256": "f688cad57d0e974a3dd3b8d5e39140ac93124c01d5dcb24d4349cd3d09aa4bb5",
+      "reported_original_pins": [
+        "f688cad57d0e974a3dd3b8d5e39140ac93124c01d5dcb24d4349cd3d09aa4bb5"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/us-2010-acs-b25064.json",
+      "observed_sha256": "765473ae6b661ae3a4bdd86816808cba761afae04fc56847e75dd7efb2123483",
+      "reported_original_pins": [
+        "765473ae6b661ae3a4bdd86816808cba761afae04fc56847e75dd7efb2123483"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/us-2024-acs-b25064.json",
+      "observed_sha256": "a4ef34b97cb6aed17f1446407ec472afca3595fc16e5ba36bc79a4aea162b1a4",
+      "reported_original_pins": [
+        "a4ef34b97cb6aed17f1446407ec472afca3595fc16e5ba36bc79a4aea162b1a4"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/world-recent-extract.json",
+      "observed_sha256": "a5382d9a5ca94b5f7d193598e4a20287c3908c5ccb2fb11c9d1c90d62391b7eb",
+      "reported_original_pins": [
+        "a5382d9a5ca94b5f7d193598e4a20287c3908c5ccb2fb11c9d1c90d62391b7eb"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/world-recent-originals/acs2024-B25003.json",
+      "observed_sha256": "8bc581c43c8f78bf954420331747141dc32639ff151b90a239fe8af6e7e7bfdb",
+      "reported_original_pins": [
+        "8bc581c43c8f78bf954420331747141dc32639ff151b90a239fe8af6e7e7bfdb"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/world-recent-originals/acs2024-B25040.json",
+      "observed_sha256": "627d0999586df3043b299861c2520737dd3b2c21e56a524abf3ff205a021f228",
+      "reported_original_pins": [
+        "627d0999586df3043b299861c2520737dd3b2c21e56a524abf3ff205a021f228"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/world-recent-originals/acs2024-B25045.json",
+      "observed_sha256": "e83645406f1d0a9070c37e8b6ad6f0e96689c2b13868a82fa16abfefc54c6f83",
+      "reported_original_pins": [
+        "e83645406f1d0a9070c37e8b6ad6f0e96689c2b13868a82fa16abfefc54c6f83"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/world-recent-originals/eia-2009-ac.html",
+      "observed_sha256": "95d6bcb90b70895ebb8e4f8fb4025e9f51073ba1f2f9de7aca1f6a6f9d74a506",
+      "reported_original_pins": [
+        "95d6bcb90b70895ebb8e4f8fb4025e9f51073ba1f2f9de7aca1f6a6f9d74a506"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/world-recent-originals/eia-2009-overview.html",
+      "observed_sha256": "ee6cf4ad59a3a553c1f1eca0338e9d90779216358d60d2013eaad1e53d221ad9",
+      "reported_original_pins": [
+        "ee6cf4ad59a3a553c1f1eca0338e9d90779216358d60d2013eaad1e53d221ad9"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/world-recent-originals/eia-2015-overview.html",
+      "observed_sha256": "62ac7a9bb9e0822e9800036157eb9ff79ca2a2f1a08a85169ed87e0e09e14bfe",
+      "reported_original_pins": [
+        "62ac7a9bb9e0822e9800036157eb9ff79ca2a2f1a08a85169ed87e0e09e14bfe"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/world-recent-originals/eia-2020-ac.html",
+      "observed_sha256": "8669fb6edf9dec3631605a6d8b9571657620727101e8158907fff636fab00ca6",
+      "reported_original_pins": [
+        "8669fb6edf9dec3631605a6d8b9571657620727101e8158907fff636fab00ca6"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/world-recent-originals/nchs-life-2010.pdf",
+      "observed_sha256": "2aa0d28170be0fb5420e0c8c2c485c5bfb2cef276442fad232c7f3ed0af17528",
+      "reported_original_pins": [
+        "2aa0d28170be0fb5420e0c8c2c485c5bfb2cef276442fad232c7f3ed0af17528"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/world-recent-vehicle-extract.json",
+      "observed_sha256": "561c3ec31dbd8f00e1fbd9e4487ec6243f9f1d7153652ebbbec09d1967a25354",
+      "reported_original_pins": [
+        "561c3ec31dbd8f00e1fbd9e4487ec6243f9f1d7153652ebbbec09d1967a25354"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    },
+    {
+      "file": "remaining-audit-20261028/z1-full-selected.json",
+      "observed_sha256": "362c4169923119fabf6e6de73b8be2c56dc5b02d6116ccb41a0c93bb7395091a",
+      "reported_original_pins": [
+        "362c4169923119fabf6e6de73b8be2c56dc5b02d6116ccb41a0c93bb7395091a"
+      ],
+      "observed_hash_time": "consolidation",
+      "prior_pin_available": true
+    }
+  ]
+}

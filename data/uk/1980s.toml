@@ -64,11 +64,11 @@ assumptions = ["composite-family"]
 id = "uk-1980s-housing-amenities-gap"
 panel = "home"
 label = "Rooms, floor area, amenities (bath, WC, central heating)"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The GHS recorded central-heating and appliance ownership through the 1980s, and the 1981 Census asked about hot water, fixed bath, and inside WC, but neither the census amenity tables nor the fuller GHS durable-goods table (central heating, refrigerator, washing machine, vacuum, dishwasher) is in the archive for transcription."
+notes = "The General Household Survey recorded household central heating and other amenities, and an ONS historical summary contains selected heating observations. Relevant measures have not yet been transcribed and qualified for this room."
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -117,11 +117,11 @@ assumptions = ["composite-family"]
 id = "uk-1980s-work-hours-gap"
 panel = "day"
 label = "Weekly work hours, 1980s"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "ons-earnings-1938-2025"
 tier = "D"
-notes = "The 1980s fall in a gap between two sources that do carry UK hours. The British Labour Statistics Year Books, which republished the New Earnings Survey's hours tables, end with the 1976 volume; ASHE's hours tables begin in 1997. The LFS ran through the decade but its per-worker averages start only in 1992. Without hours, weekly earnings cannot be converted to an hourly wage, so no wage anchor is set for this room — the income anchor is."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -167,8 +167,8 @@ audit = { file = "59-workbook-review/nfs-1984-observations.json", extractor = "j
 id = "uk-1980s-work-buys-gap"
 panel = "work-buys"
 label = "Affordability comparisons, 1980s"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "ons-hpi-annual-tables"
 tier = "D"
-notes = "A household income is now in hand (£6,888, 1980) but nothing to divide by it: the official ONS house-price series begins in 1986, and the only UK series reaching 1980 is the Nationwide lender index, which is not an official statistic and is not transcribed here. No hourly wage exists for the decade either, so the hours axis is doubly blocked."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."

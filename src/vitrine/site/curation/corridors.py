@@ -20,9 +20,9 @@ ARCS: tuple[Arc, ...] = (
         "years (all races, both sexes)",
         _ids("us-{decade}-life-expectancy", "190 191 192 193 194 196 197 198 199 200 201 202"),
         caveats=(
-            "Decades before the 1960s published white-only male/female life tables "
-            "with no all-races total — the placard carries the sexed figures and "
-            "the chart renders the gap rather than a spliced concept.",
+            "The selected early records give White male/female life expectancy "
+            "in changing death-registration areas. They are not plotted as a "
+            "national all-races total; this is a limit of the selected records.",
         ),
     ),
     Arc(
@@ -31,6 +31,11 @@ ARCS: tuple[Arc, ...] = (
         "deaths under age 1 per 1,000 live births",
         _ids("us-{decade}-infant-mortality", "190 195 196 197 198 199 200 201 202"),
         falling=True,
+        plot_gaps=frozenset({"2020s"}),
+        caveats=(
+            "The 2024 source reports deaths per 100,000 live births. Its record "
+            "remains available but is not plotted on this per-1,000 axis.",
+        ),
     ),
     Arc(
         "poverty-rate",
@@ -91,6 +96,14 @@ ARCS: tuple[Arc, ...] = (
         "Complete plumbing",
         "% of homes with complete plumbing",
         _ids("us-{decade}-plumbing", "194 195 196 197 198 199 200"),
+        caveats=(
+            "The 1940 record establishes private bath and private flush toilet, "
+            "not the later complete-plumbing definition, and is not plotted on this axis.",
+            "The 1950–1990 plumbing tables cover reporting dwelling or year-round "
+            "stock including vacant units; the 2000 observation covers occupied units. "
+            "These checkpoints have different universes.",
+        ),
+        plot_gaps=frozenset({"1940s"}),
     ),
     Arc(
         "television",
@@ -101,6 +114,13 @@ ARCS: tuple[Arc, ...] = (
             "1950s": "us-1950s-tv-diffusion",
             "1960s": "us-1960s-television",
         },
+        caveats=(
+            "The 1940s record is an estimated count of households with sets, "
+            "without a household denominator; it is not plotted as a percentage.",
+            "The 1950 point covers occupied dwelling units reporting; the 1961 "
+            "CES point covers urban families. They are different survey populations.",
+        ),
+        plot_gaps=frozenset({"1940s"}),
     ),
     Arc(
         "telephone",
@@ -120,12 +140,13 @@ ARCS: tuple[Arc, ...] = (
             "2020s": "us-2020s-phone-vehicle-diffusion",
         },
         caveats=(
-            "The 1900s source combines several technologies in one headline "
-            "percentage, so its 5% is not plotted as a telephone datum.",
+            "The early records count telephone instruments and extensions, "
+            "including business equipment, per population; they are not household shares.",
             "1910s–1930s sources counted telephones per 1,000 population, not "
             "households — those decades render as gaps rather than a unit splice.",
+            "The 2020s card measures cellphones, so it is not plotted as landline ownership.",
         ),
-        plot_gaps=frozenset({"1900s", "2020s"}),
+        plot_gaps=frozenset({"1900s", "1910s", "1920s", "1930s", "2020s"}),
     ),
     Arc(
         "air-conditioning",
@@ -133,9 +154,14 @@ ARCS: tuple[Arc, ...] = (
         "% of households with AC",
         _ids("us-{decade}-air-conditioning", "196 197 198 199 200 201 202"),
         caveats=(
-            "The 1980s source bridges 1978 central-AC and 1993 total-AC figures — "
+            "The 1970s record describes central AC only, not all air conditioning, "
+            "and is not plotted as an all-AC share.",
+            "The 1961 observation describes CES urban families; later RECS "
+            "observations describe occupied primary homes nationwide.",
+            "The 1980s record bridges central-AC observations in 1978 and 1993 — "
             "no single-decade datum, so the decade renders as a gap.",
         ),
+        plot_gaps=frozenset({"1970s"}),
     ),
     Arc(
         "cable-tv",
@@ -163,7 +189,10 @@ ARCS: tuple[Arc, ...] = (
         caveats=(
             "1990s–2010s sources report within-decade ranges; the placards carry "
             "them and the chart renders the gaps.",
+            "The 2025 observation measures adult internet users, not households "
+            "with internet at home, and is not plotted on this household axis.",
         ),
+        plot_gaps=frozenset({"2020s"}),
     ),
     Arc(
         "radio",
@@ -245,6 +274,9 @@ ARCS: tuple[Arc, ...] = (
         caveats=(
             "Populations differ across the century — 1901 wage-earner families vs "
             "modern consumer units; every placard names who was measured.",
+            "Expenditure concepts differ too: the 1901 budget includes specified "
+            "mortgage and other payments, whereas the 1960–61 denominator is "
+            "current consumption. These are survey checkpoints, not one harmonized budget.",
             "The food record filed in the 1950s room is CEX 1960–61, not a "
             "1950s observation. It remains accessible as a linked exclusion; "
             "its quantity is not plotted or compared at that earlier decade.",
@@ -254,13 +286,18 @@ ARCS: tuple[Arc, ...] = (
     Arc(
         "weekly-hours",
         "Weekly hours, manufacturing",
-        "hours per week, production workers",
+        "hours per week, manufacturing workers",
         {
             "1900s": "us-1900s-weekly-hours",
             "1950s": "us-1950s-weekly-hours-manufacturing",
             "2020s": "us-2020s-weekly-hours-manufacturing",
         },
         falling=True,
+        caveats=(
+            "The 1900 observation covers all manufacturing workers in the "
+            "historical series; the later observations cover production workers. "
+            "These are different worker populations.",
+        ),
     ),
     Arc(
         "cpi",
@@ -337,16 +374,19 @@ ARCS: tuple[Arc, ...] = (
     Arc(
         "cancer-survival",
         "Cancer 5-year relative survival",
-        "% surviving 5 years after diagnosis (SEER)",
+        "five-year relative survival, percent",
         _ids(
             "us-{decade}-cancer-survival",
             "196 197 198 199 200 201 202",
         ),
         caveats=(
-            "Different source family (SEER/NCI, not CDC NCHS) and different "
-            "unit (% surviving, not deaths per 100,000) — not grouped with "
-            "the mortality arcs.",
+            "Relative survival compares observed survival with expected survival; "
+            "it is not the observed percentage surviving after diagnosis.",
+            "The 1960 record covers White patients in the ACS historical "
+            "estimate and is not plotted with the SEER observations. Later "
+            "SEER 9 and SEER 21 registry populations also differ.",
         ),
+        plot_gaps=frozenset({"1960s"}),
     ),
     Arc(
         "nhe-gdp-share",
@@ -577,9 +617,9 @@ ARCS: tuple[Arc, ...] = (
             "The reports revise: the FY2012 report's 3.9 percent decrease "
             "implies a revised FY2011 base near 295.8 million where the FY2011 "
             "report printed 293.1. Prints are carried as printed.",
-            "The series ends at FY2019 — the FY2020 collection was disrupted "
-            "by pandemic closures and no later national total was fetched, so "
-            "the 2020s marker is a gap, not a zero.",
+            "The annual selection ends at FY2019. The separately sourced "
+            "FY2020 marker sums state-reference totals including imputation; "
+            "pandemic closures and survey adjustments limit its comparability.",
         ),
     ),
     Arc(
@@ -609,9 +649,10 @@ ARCS: tuple[Arc, ...] = (
             "and the FY2012 10-K prints 170,859 for the same year — the arc "
             "carries the compilation's print through 2010 and the 10-K's "
             "from 2011.",
-            "The series ends at FY2019: past it the total is increasingly "
-            "packages rather than correspondence, so the 2020s marker is a "
-            "gap, not a chained-on value.",
+            "The annual selection ends at FY2019. A separately sourced "
+            "FY2025 marker includes mail and packages and is separated from "
+            "that line by a gap in the selected years. Neither total isolates "
+            "personal correspondence.",
         ),
     ),
     Arc(
@@ -718,12 +759,12 @@ ARC_GROUPS: tuple[ArcGroup, ...] = (
             "Farm weight, as ERS publishes it. Each sheet also prints a "
             "retail-weight column derived by a conversion factor; the factor "
             "is disclosed rather than applied.",
-            "The lines start where their sheets start, not where the "
-            "commodity did: broccoli and bell peppers at 1960, avocados and "
-            "grapes at 1970. Avocados end at 2017 and the others run later, "
-            "because that is how far each published series reaches.",
+            "These lines use the selected detailed commodity sheets: broccoli "
+            "and bell peppers from 1960, avocados and grapes from 1970. Earlier "
+            "summary observations may exist. Endpoints reflect the archived "
+            "sheets selected here, not the end of the publisher's series.",
             "The shape is not a smooth rise. Avocados swing year to year "
-            "through the 1980s — 2.37 pounds in 1986, 1.08 in 1989 — and "
+            "through the 1980s — 2.4 pounds in 1986, 1.1 in 1989 — and "
             "broccoli is lower in 2022 than it was in 2000. An arc of steady "
             "progress would be the wrong picture even here.",
         ),

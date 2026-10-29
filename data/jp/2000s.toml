@@ -54,6 +54,7 @@ assumptions = ["composite-family", "nominal-values", "jp-household-not-family", 
 
 [[fact]]
 id = "jp-2000s-homeownership"
+audit = { file = "38-jp-housing/world-hls-curator-extract.json", extractor = "json-pointer", locator = "/rows/2003/owned/value", target = "quantity", guards = [{ locator = "/rows/2003/year", value = "2003" }, { locator = "/rows/2003/owned/heading", value = "Ratio of owned houses" }, { locator = "/population", value = "Occupied dwellings" }, { locator = "/publisher_files_sha256/jsy2016-y652105000.xls", value = "8bcf5903fa5cb9cc46985e7324eae4f77ed16b8eeac6ba1c3db4418f4cf263b7" }] }
 quantity = 61.2
 panel = "home"
 label = "Homeownership rate, 2003"
@@ -66,6 +67,7 @@ assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-2000s-floor-area"
+audit = { file = "38-jp-housing/world-hls-curator-extract.json", extractor = "json-pointer", locator = "/rows/2003/area/value", target = "quantity", guards = [{ locator = "/rows/2003/year", value = "2003" }, { locator = "/rows/2003/area/heading", value = "Area of floor space per dwelling" }, { locator = "/population", value = "Occupied dwellings" }, { locator = "/publisher_files_sha256/jsy2016-y652101000.xls", value = "a66515ed7dc3d73dc0a440e3f36c3786e720c533cc561ef2894f0fb8c0e9c0de" }] }
 quantity = 94.85
 panel = "home"
 label = "Floor area per dwelling, 2003"
@@ -73,11 +75,12 @@ value = "94.85 m²"
 unit = "m² per dwelling (occupied dwellings, nationwide)"
 source = "jp-hls"
 tier = "A"
-notes = "From HLS 2003 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 94.85 m² floor space per dwelling (occupied dwellings). Up from 91.92 m² (1993); the 2008 survey gave 94.13 m² (a slight decline). Floor area peaked around 2003–2008. Owned houses averaged 121.67 m² vs rented 51.56 m² (JSY 2016 Table 21-8)."
+notes = "From HLS 2003 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 94.85 m² floor space per dwelling (occupied dwellings). Up from 91.92 m² (1993); the 2008 survey gave 94.13 m² (a slight decline)."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-2000s-rooms"
+audit = { file = "38-jp-housing/world-hls-curator-extract.json", extractor = "json-pointer", locator = "/rows/2003/rooms/value", target = "quantity", guards = [{ locator = "/rows/2003/year", value = "2003" }, { locator = "/rows/2003/rooms/heading", value = "Dwelling rooms per dwelling" }, { locator = "/population", value = "Occupied dwellings" }, { locator = "/publisher_files_sha256/jsy2016-y652101000.xls", value = "a66515ed7dc3d73dc0a440e3f36c3786e720c533cc561ef2894f0fb8c0e9c0de" }] }
 quantity = 4.77
 panel = "home"
 label = "Rooms per dwelling, 2003"
@@ -85,18 +88,18 @@ value = "4.77 rooms"
 unit = "rooms per dwelling (occupied dwellings, nationwide)"
 source = "jp-hls"
 tier = "A"
-notes = "From HLS 2003 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 4.77 rooms per dwelling. Down from 4.85 (1993); the 2008 survey gave 4.67. Persons per room 0.56 (down from 0.62 in 1993) as household size continued to fall. Nationwide."
+notes = "From HLS 2003 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 4.77 rooms per dwelling. Down from 4.85 (1993); the 2008 survey gave 4.67. Persons per room 0.56 (down from 0.62 in 1993). Nationwide."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-2000s-housing-amenities-gap"
 panel = "home"
 label = "Dwelling facilities (bath, flush toilet, kitchen)"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "jp-hls"
 tier = "D"
-notes = "The HLS 'Situation of facilities' (bath, toilet, kitchen) data is not published in the English JSY tables — only aged-person and energy-saving facility tables appear. Basic facility prevalence for the 2000s is not transcribed; needs e-Stat (Japanese) or printed HLS reports."
+notes = "The English Japan Statistical Yearbook tables cover aged-person and energy-saving facilities. The original 2008 Housing and Land Survey includes basic toilet and bathroom results in Japanese; these have not yet been transcribed and qualified for this room."
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -157,7 +160,7 @@ value = "84.7%"
 unit = "% of two-or-more-person households"
 source = "jp-nsfiie"
 tier = "A"
-notes = "From NSFIIE 2004 summary: cellular phone ownership rate 84.7% (1,823 units per 1,000 households). Up from 64.9% (1999). The ICWP 2005 (end 2004) household penetration rate for mobile phones was 91.1% — the difference reflects the two surveys' methodologies (NSFIIE durable-goods questionnaire vs Communications Usage Trend Survey). Two-or-more-person households, nationwide."
+notes = "From NSFIIE 2004 summary: cellular phone ownership rate 84.7% (1,823 units per 1,000 households). Up from 64.9% (1999). The ICWP 2005 (end 2004) household penetration rate for mobile phones was 91.1% — the surveys use different populations and methods. Two-or-more-person households, nationwide."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
@@ -169,7 +172,7 @@ value = "69.3%"
 unit = "% of two-or-more-person households"
 source = "jp-nsfiie"
 tier = "A"
-notes = "From NSFIIE 2004 summary: PC ownership rate 69.3% (999 units per 1,000 households). Up 106.0% from 1999 (37.7%). The ICWP 2005 (end 2004) household penetration for PCs was 77.5%. Two-or-more-person households, nationwide."
+notes = "From NSFIIE 2004 summary: PC ownership rate 69.3% (999 units per 1,000 households). The number of computers per 1,000 households rose 106.0% from 485 in 1999 to 999 in 2004; the ownership rate rose from 37.7% to 69.3%. The ICWP 2005 (end 2004) household penetration for PCs was 77.5%. Two-or-more-person households, nationwide."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
@@ -205,7 +208,7 @@ value = "77.5%"
 unit = "% of households (Communications Usage Trend Survey)"
 source = "jp-icwp"
 tier = "A"
-notes = "From ICWP 2005 white paper, Chapter 2, Section 7 (Figure 2-7-1), data end of 2004: PC household penetration 77.5%. Source: 2004 Communications Usage Trend Survey, MIC. Higher than the NSFIIE 2004 rate (69.3%) due to survey-method differences."
+notes = "From ICWP 2005 white paper, Chapter 2, Section 7 (Figure 2-7-1), data end of 2004: PC household penetration 77.5%. Source: 2004 Communications Usage Trend Survey, MIC. The NSFIIE 2004 rate was 69.3%; the two surveys use different populations and methods."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -260,8 +263,8 @@ assumptions = ["composite-family", "jp-household-not-family", "jp-fies-food-shar
 id = "jp-2000s-work-buys-gap"
 panel = "work-buys"
 label = "Affordability comparisons, 2000s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "jp-mls"
 tier = "D"
-notes = "No item prices are in the archive for the 2000s, so hours-of-work-to-afford comparisons cannot be computed. The MLS wage (¥381,807/month, 2005) is the available wage reference. Under deflation, the affordability axis (hours-to-afford) would be the more reliable comparator than nominal-value ratios."
+notes = "The 2005 Retail Price Survey includes appliance prices for selected cities. A price observation and compatible wage basis have not yet been transcribed and qualified for an hours-of-work comparison. The MLS monthly wage is shown separately."

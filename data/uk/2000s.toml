@@ -83,11 +83,11 @@ assumptions = ["composite-family"]
 id = "uk-2000s-housing-amenities-gap"
 panel = "home"
 label = "Rooms, floor area, amenities (bath, WC, central heating)"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The GHS recorded central-heating and appliance ownership into the 2000s, but the fuller GHS durable-goods table (central heating, refrigerator, washing machine, vacuum, dishwasher) is not in the archive for transcription."
+notes = "The General Household Survey recorded household central heating and other amenities, and an ONS historical summary contains selected heating observations. Relevant measures have not yet been transcribed and qualified for this room."
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -164,11 +164,11 @@ assumptions = ["composite-family"]
 id = "uk-2000s-food-basket-gap"
 panel = "table"
 label = "The food basket, 2000s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The National Food Survey (NFS) ran to 2000 and was succeeded by Defra's Family Food module of the Living Costs and Food Survey; the 2000s data is not in the archive. (Archive holds NFS 1940–49 and 2023–24 Family Food, but not the 2000s.)"
+notes = "The National Food Survey was succeeded by the Expenditure and Food Survey and later the Family Food module. An archived Family Food report includes some 2000s estimates, but a suitable food basket has not yet been transcribed and qualified for this room."
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 

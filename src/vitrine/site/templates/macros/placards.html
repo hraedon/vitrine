@@ -14,7 +14,7 @@
 {% macro _shared_drawer(fact, sources, assumptions, affordability, root) %}
   {% set src = sources[fact.source] %}
   <b>{{ src.title }}</b><br>
-  {{ src.publisher }}, {{ src.year }} · <a href="{{ src.url }}">source</a><br>
+  {{ src.publisher }}, {{ src.year if src.year else 'undated' }} · <a href="{{ src.url }}">source</a><br>
   <em>Confidence:</em> {{ fact.tier.value }} — {{ tier_label(fact.tier) }}
   {% if fact.basis is not none %}<br><em>Basis:</em> {{ basis_label(fact.basis) }}{% endif %}
   {% if fact.id in affordability and affordability[fact.id].anchor_note %}<br><em>Affordability anchors:</em> {{ affordability[fact.id].anchor_note }}{% endif %}
@@ -45,7 +45,7 @@
     <p class="f-unit">{{ fact.unit }}</p>
     <div class="f-ev">
       <span><span class="mk">Population measured</span><span class="ev">{{ src.population }}</span></span>
-      <span><span class="mk">Source record</span><span class="ev">{{ src.publisher }} · {{ src.year }} · Tier {{ fact.tier.value }}</span></span>
+      <span><span class="mk">Source record</span><span class="ev">{{ src.publisher }} · {{ src.year if src.year else 'undated' }} · Tier {{ fact.tier.value }}</span></span>
     </div>
     <details class="f-drawer"><summary>Full record</summary><div class="drawer">
       {{ _shared_drawer(fact, sources, assumptions, affordability, root) }}
@@ -106,7 +106,7 @@
   <p class="cunit">{{ fact.unit }}</p>
   <div class="evidence-grid">
     <div class="evidence-cell"><span class="mk">Population measured</span><span class="ev">{{ src.population }}</span></div>
-    <div class="evidence-cell"><span class="mk">Source record</span><span class="ev">{{ src.publisher }} · {{ src.year }} · Tier {{ fact.tier.value }}</span></div>
+    <div class="evidence-cell"><span class="mk">Source record</span><span class="ev">{{ src.publisher }} · {{ src.year if src.year else 'undated' }} · Tier {{ fact.tier.value }}</span></div>
   </div>
   {{ _afford_box(fact, affordability) }}
   <details>

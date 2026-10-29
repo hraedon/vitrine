@@ -18,7 +18,7 @@ value = "no reliable record accessible online"
 unit = "n/a"
 source = "census-hist-income-families"
 tier = "D"
-notes = "No national income survey existed before 1947. The Census of Manufactures collected wage data but not family income. The first CPS income question was 1945 (P-60 No. 1). For 1910, the best available proxy is manufacturing wages: $0.260/hr, ~56.6 hrs/week (Historical Statistics Vol 1, Series D 765). See day panel."
+notes = "A suitable decade-specific national median family income has not been verified for this room."
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -31,7 +31,7 @@ value = "45.9%"
 unit = "% of occupied dwelling units (owner-occupied)"
 source = "census-homeownership-historical"
 tier = "A"
-notes = "From Census Bureau decennial time series (owner.pdf). Down from 46.7% in 1900 — the long slow decline from 1900 to 1920. By 1920: 45.6%."
+notes = "The Census historical homeownership series reports 45.9% of occupied housing units owner-occupied in 1910."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -42,7 +42,7 @@ value = "no reliable record accessible online"
 unit = "n/a"
 source = "census-decennial-pubs"
 tier = "D"
-notes = "The 1910 Census did not collect housing characteristics. The first Census of Housing was 1940. Most urban homes in the 1910s had electricity (~85% of urban/non-farm by 1920); rural homes were almost entirely unelectrified (~2% of farms in 1910). Indoor plumbing was available in cities but rare in rural areas."
+notes = "Suitable decade-specific measures of rooms, plumbing, and heating have not been transcribed for this room."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -52,23 +52,23 @@ panel = "day"
 label = "Life expectancy at birth, 1909-11"
 value = "50.2 male, 53.6 female (white)"
 unit = "years"
-source = "hist-stats-colonial-1970"
+source = "hist-stats-life-expectancy-white"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series B 116-117 (white population, at birth). The 1910s were devastated by the 1918-19 influenza pandemic, which killed ~675,000 Americans and temporarily reduced life expectancy by ~12 years. Pre-pandemic baseline: 50.2 male, 53.6 female."
+notes = "Period life expectancy at birth for the white population, by sex, 1909–11. Coverage: the 1900 death-registration area: 20 states and the District of Columbia."
 
 [[fact]]
 id = "us-1910s-manufacturing-wages"
 panel = "day"
-label = "Manufacturing production worker wages, 1910"
-value = "$0.260/hr, 56.6 hrs/week, ~$14.72/wk"
-unit = "USD, nominal (hourly earnings, weekly hours, implied weekly earnings)"
-source = "hist-stats-wages-manufacturing"
-tier = "A"
+label = "Manufacturing wages and hours, 1910"
+value = "$0.260/hr, 56.6 hours/week"
+unit = "USD per hour and hours per week, nominal earnings"
+source = "hist-stats-manufacturing-d765-d766"
+tier = "D"
 amount_minor = 26
 currency = "USD"
 price_year = 1910
 basis = "hourly"
-notes = "From Historical Statistics Vol 1, Series D 765-767 (manufacturing production workers). Hourly: $0.260 (26 cents, exact), weekly hours: 56.6, implied weekly earnings: $14.72. By 1915: $0.287/hr, 55.0 hrs/week. These are the pre-WWI wage levels; wartime demand would push wages up sharply by 1917-18."
+notes = "Historical Statistics Series D 765–766 republishes a historical reconstruction for total manufacturing industries from Paul H. Douglas, Real Wages in the United States, 1890–1926. It combines union scales with payroll-industry estimates. The compiler warns that the weighting makes the total average too high. The payroll component through 1913 uses selected occupations, omits most laborers and some other unskilled workers, and is extrapolated backward from 1914. It is not a complete observation of all manufacturing workers. "
 assumptions = ["nominal-values", "manufacturing-wage-proxy"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
@@ -77,21 +77,23 @@ assumptions = ["nominal-values", "manufacturing-wage-proxy"]
 id = "us-1910s-telephone"
 panel = "diffusion"
 label = "Telephone diffusion, 1910s"
-value = "~13 per 1,000 population (1915)"
+value = "103.9 per 1,000 population (1915)"
 unit = "telephones per 1,000 population"
-source = "hist-stats-colonial-1970"
+source = "hist-stats-telephones-r1-r3"
 tier = "A"
-notes = "From Historical Statistics Vol 2, Series R 1-2. In 1915: ~13 per 1,000 population (~5.5 million total phones). Household percentage not directly reported until 1944, but estimated at well under 10% of households. The Bell System was expanding but telephone remained a business and upper-class amenity."
+quantity = 103.9
+audit = { file = "remaining-audit-20261028/early_us-telephone-extract.json", extractor = "json-pointer", locator = "/rows/1915/per_1000_population", target = "quantity", guards = [{ locator = "/source_sha256", value = "0e209a421af0cf48af7261f6fbd7a599c27a0afce5b7523f2bc89a7d18647fa5" }, { locator = "/series", value = "R 1–12" }, { locator = "/population", value = "Telephone instruments and extensions per total population" }] }
+notes = "Historical Statistics Series R 2, 1915. Telephones are instruments and extensions per 1,000 people, including business instruments; through 1930 the count also includes telegraph and teletypewriter stations, and through 1934 private-line telephones."
 
 [[fact]]
 id = "us-1910s-electricity-gap"
 panel = "diffusion"
 label = "Electricity, radio, automobile"
-value = "Electricity ~5-10% of homes (urban only). Radio not yet commercial. Automobile <2%."
+value = "no reliable record"
 unit = "n/a"
 source = "hist-stats-colonial-1970"
 tier = "C"
-notes = "Historical Statistics does not track household electrification directly until the 1940 Census. Urban electrification was growing rapidly (Edison's Pearl Street station opened 1882); by 1910, most city homes had electric lighting. Rural homes were almost entirely unelectrified. Commercial radio broadcasting began 1920 (KDKA Pittsburgh). Automobile registrations were growing but still under 2% of households."
+notes = "A comparable household electricity, radio or automobile ownership estimate has not been verified for this room."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -103,7 +105,7 @@ value = "no reliable record accessible online"
 unit = "n/a"
 source = "bls-bulletin-49-1903"
 tier = "D"
-notes = "The BLS Bulletin No. 49 (1903) and 18th Annual Report (1903) cover the 1900s. No comparable survey exists for the 1910s. The next major consumer expenditure survey would be the 1918-19 study, conducted during wartime."
+notes = "A suitable food basket for this decade remains untranscribed; the 1918–19 survey is available for further review."
 
 [[fact]]
 id = "us-1910s-cigarette-consumption"
@@ -115,7 +117,7 @@ unit = "cigarettes per adult (≥18 years) per year"
 price_year = 1910
 source = "cdc-mmwr-tobacco-surveillance"
 tier = "A"
-notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Cigarette consumption was growing rapidly — up from 54 in 1900. WWI (1917-18) drove a spike: 697 per adult by 1918. Total consumption reached 45.6 billion cigarettes in 1918."
+notes = "Estimated manufactured cigarette consumption per person aged 18 or older, from CDC MMWR Table 1. Total and per-capita measures have different overseas-military coverage in some years. The numerator is total manufactured-cigarette consumption; dividing by the population aged eighteen and older does not restrict the numerator to cigarettes smoked by adults."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -127,7 +129,7 @@ value = "2.56 gallons of pure ethanol per person per year (1911-1915 average)"
 unit = "gallons of pure ethanol per person per year"
 source = "niaaa-surveillance-122"
 tier = "A"
-notes = "The 1911-1915 range is the highest in the table's pre-Prohibition record. The following range, 1916-1919, falls to 1.96 as state-level prohibition spread ahead of the federal ban."
+notes = "NIAAA Table 1 reports apparent ethanol consumption for 1911–1915. The pre-1970 denominator is people aged 15 and older; the estimate is not limited to drinkers."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -140,7 +142,7 @@ unit = "deaths per 100 million vehicle-miles travelled"
 price_year = 1910
 source = "fhwa-fi200-2023"
 tier = "A"
-notes = "Just past the worst year in the whole table: the rate peaked in 1909 at 45.33, as cars reached ordinary streets faster than anything that later made them survivable."
+notes = "FHWA FI-200 reports motor-vehicle traffic fatalities per 100 million vehicle-miles in 1910. The table is a historical series and its earlier estimates have limitations."
 assumptions = ["composite-family"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
@@ -153,21 +155,17 @@ value = "no reliable record accessible online"
 unit = "n/a"
 source = "hist-stats-colonial-1970"
 tier = "D"
-notes = "No national median family income figure exists for this decade, so a share-of-income comparison cannot be computed. The hourly manufacturing-wage anchor does support hours-to-afford calculations for the priced records that follow."
+notes = "A suitable decade-specific median family income has not been verified for a share-of-income comparison."
 
 [[fact]]
 id = "us-1910s-car-price"
 panel = "work-buys"
-label = "Average new car price, 1910"
-value = "~$1,188 (average wholesale, computed from factory sales)"
-unit = "USD, nominal (wholesale value per passenger car)"
-source = "hist-stats-colonial-1970"
+label = "Passenger-car factory sales, 1910"
+value = "181,000 passenger cars; wholesale value $215 million"
+unit = "factory sales and wholesale value, nominal"
+source = "hist-stats-auto-factory-q148"
 tier = "A"
-amount_minor = 118800
-currency = "USD"
-price_year = 1910
-basis = "total"
-notes = "Computed from Historical Statistics of the United States, Colonial Times to 1970, Part 2, p.716, Series Q 148-162 (source: Automobile Manufacturers Association, Automobile Facts and Figures, 27th ed., 1946-47). 1910: 181,000 passenger cars sold at $215 million wholesale value = ~$1,188 average per car. This is wholesale (factory) value; retail/transaction price would be higher (dealer markup). The source notes 'beginning 1937, standard equipment is included in the value estimate.' Population: all US factory sales of passenger cars."
+notes = "Historical Statistics Series Q 148–149 reports passenger cars sold by factories and their wholesale value in 1910; the figures are not retail prices."
 assumptions = ["nominal-values"]
 
 
@@ -187,7 +185,7 @@ value = "45.6"
 unit = "hours per week, prime-age women (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+notes = "Ramey Table 6 estimates average weekly home-production hours for all women aged 18–64 in 1910. Some estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -199,7 +197,7 @@ value = "4.0"
 unit = "hours per week, prime-age men (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+notes = "Ramey Table 7 estimates average weekly home-production hours for all men aged 18–64 in 1910. Some estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 # ── Married women's labor force participation ─────────────────────────────
@@ -208,12 +206,12 @@ assumptions = ["composite-family"]
 id = "us-1910s-married-women-lfpr"
 quantity = 10.7
 panel = "day"
-label = "Married women's labor force participation, 1910"
+label = "Married women in the labor force"
 value = "~10.7%"
-unit = "% of married women (husband present) in the civilian labor force"
-source = "hist-stats-colonial-1970"
+unit = "% of married women aged 15 and older"
+source = "hist-stats-married-women-lfpr-early"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series D 49-62. The 1910 census recorded ~10.7% — nearly double the 1900 figure — but Historical Statistics notes 1910 data is 'not comparable with other censuses' due to different enumerator instructions. The true rate may have been lower. Total female LFPR was 25.4%. Still a predominantly single-earner era."
+notes = "Historical Statistics Series D 60 reports married women total in the civilian labor force as a percentage of married women aged 15 and older. The 1910 census used different enumeration instructions and is not directly comparable to the other censuses."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────
@@ -227,7 +225,7 @@ value = "Men: 25.1, Women: 21.6"
 unit = "years (median age at first marriage)"
 source = "census-table-ms2"
 tier = "A"
-notes = "From Census Table MS-2. Decennial census. The age gap was narrowing slightly: 3.5 years vs 4.0 in 1900. WWI would temporarily disrupt marriage patterns."
+notes = "Estimated median age at first marriage, separately for men and women, from Census Table MS-2. The table identifies the historical figures as decennial-census estimates."
 
 # ── Price components: what eating, shelter and clothing cost ───────────────
 # BLS has published food, rent and apparel indexes continuously since 1913.
@@ -243,7 +241,8 @@ value = "18.6 in 1919, up from 10.0 in 1913"
 unit = "CPI-U food index (1982-84=100), annual average"
 source = "bls-api"
 tier = "A"
-notes = "BLS series CUUR0000SAF1. This is a consumer price index for food, not food expenditure or a record of what a particular family ate. The food-basket gap remains separate. The index does not identify causes of price changes."
+audit = { file = "remaining-audit-20261028/early_us-cpi-annual-extract.json", extractor = "json-pointer", locator = "/values/CUUR0000SAF1/1919", target = "quantity", guards = [{ locator = "/values/CUUR0000SAF1/1913", value = "10.0" }, { locator = "/period", value = "M13" }, { locator = "/population", value = "CPI-U U.S. city average" }, { locator = "/seasonality", value = "Not Seasonally Adjusted" }, { locator = "/original_sha256/bls-cpi-annual-1913-1929.json", value = "68290db70bebfdc3d071602f8d2d4c947aa6377e9ef3a310fedd1e1fbc597715" }, { locator = "/original_sha256/bls-cpi-annual-1930-1939.json", value = "fd3f869ca3b15fc26d236d4830065a4defed004fb6c049abb56af094eb2ba8a7" }] }
+notes = "BLS CUUR0000SAF1 annual averages for food in the U.S. city average. The index measures price change, not household expenditure or affordability."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -255,7 +254,8 @@ value = "23.3 in 1919, up from 21.0 in 1913"
 unit = "CPI-U rent-of-primary-residence index (1982-84=100), annual average"
 source = "bls-api"
 tier = "A"
-notes = "BLS series CUUR0000SEHA. This is a consumer price index for rent of primary residence, not a median rent level or a matched household budget. The index does not identify causes of price changes."
+audit = { file = "remaining-audit-20261028/early_us-cpi-annual-extract.json", extractor = "json-pointer", locator = "/values/CUUR0000SEHA/1919", target = "quantity", guards = [{ locator = "/values/CUUR0000SEHA/1913", value = "21.0" }, { locator = "/period", value = "M13" }, { locator = "/population", value = "CPI-U U.S. city average" }, { locator = "/seasonality", value = "Not Seasonally Adjusted" }, { locator = "/original_sha256/bls-cpi-annual-1913-1929.json", value = "68290db70bebfdc3d071602f8d2d4c947aa6377e9ef3a310fedd1e1fbc597715" }, { locator = "/original_sha256/bls-cpi-annual-1930-1939.json", value = "fd3f869ca3b15fc26d236d4830065a4defed004fb6c049abb56af094eb2ba8a7" }] }
+notes = "BLS CUUR0000SEHA annual averages for rent of primary residence in the U.S. city average. The index measures price change, not household expenditure or affordability."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -267,7 +267,8 @@ value = "36.2 in 1919, up from 14.9 in 1913"
 unit = "CPI-U apparel index (1982-84=100), annual average"
 source = "bls-api"
 tier = "A"
-notes = "BLS series CUUR0000SAA. This is a consumer price index for apparel, not clothing expenditure or a complete household budget. The index does not identify causes of price changes."
+audit = { file = "remaining-audit-20261028/early_us-cpi-annual-extract.json", extractor = "json-pointer", locator = "/values/CUUR0000SAA/1919", target = "quantity", guards = [{ locator = "/values/CUUR0000SAA/1913", value = "14.9" }, { locator = "/period", value = "M13" }, { locator = "/population", value = "CPI-U U.S. city average" }, { locator = "/seasonality", value = "Not Seasonally Adjusted" }, { locator = "/original_sha256/bls-cpi-annual-1913-1929.json", value = "68290db70bebfdc3d071602f8d2d4c947aa6377e9ef3a310fedd1e1fbc597715" }, { locator = "/original_sha256/bls-cpi-annual-1930-1939.json", value = "fd3f869ca3b15fc26d236d4830065a4defed004fb6c049abb56af094eb2ba8a7" }] }
+notes = "BLS CUUR0000SAA annual averages for apparel in the U.S. city average. The index measures price change, not household expenditure or affordability."
 assumptions = ["composite-family"]
 
 # ── Plan 027 WI-8: children and work ──────────────────────────────────────

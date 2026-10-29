@@ -68,11 +68,11 @@ assumptions = ["composite-family"]
 id = "uk-1970s-housing-amenities-gap"
 panel = "home"
 label = "Rooms, floor area, amenities (bath, WC, central heating)"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The 1971 Census of England and Wales asked about hot water, fixed bath, and inside WC (amenity questions introduced 1951 and dropped after 2001 as access neared universal). The GHS recorded central-heating and appliance ownership from 1972. Neither the census amenity tables nor the fuller GHS durable-goods table (central heating, refrigerator, washing machine, vacuum cleaner, dishwasher) is in the archive for transcription."
+notes = "The General Household Survey recorded household central heating and other amenities, and an ONS historical summary contains selected heating observations. Relevant measures have not yet been transcribed and qualified for this room."
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -126,7 +126,7 @@ value = "42.7 hours"
 unit = "average weekly hours worked, all industries (excluding those whose pay was affected by absence)"
 source = "dep-labour-year-book-1976"
 tier = "A"
-notes = "From the New Earnings Survey results republished in the Year Book, all industries, April 1976. Manual men worked 45.3 hours and non-manual men 39.1 — the same manual basis the 1960s room reports, so the two decades can be read against each other without splicing populations. Full-time women averaged 37.3 hours. The Bank of England's independent compilation gives 41.1 hours for full-time adults of both sexes in 1976, which is what these men's and women's figures weight to."
+notes = "From the New Earnings Survey results republished in the Year Book, Great Britain, all industries, April 1976. Full-time manual men aged 21 and over worked 45.3 hours and non-manual men 38.5. Full-time women aged 18 and over averaged 37.3 hours. The same table reports 41.1 hours for full-time adult men and women combined. The 1965 manual-hours observation covers the United Kingdom, a different geographic population."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -138,7 +138,7 @@ value = "166.6p an hour, excluding overtime"
 unit = "pence per hour, nominal (all industries; excluding overtime pay and overtime hours)"
 source = "dep-labour-year-book-1976"
 tier = "A"
-notes = "From the same Year Book table, all industries, April 1976: 166.6p an hour excluding overtime pay and hours, 166.8p including them. Manual men earned 141.0p and 143.7p on the same two bases — the gap between them is the overtime premium, which non-manual men barely drew. This is not set as the room's wage anchor: a tenth of a penny cannot be held in whole pence, and rounding it to £1.67 would put a number on the page that no source printed."
+notes = "From the same Year Book table, all industries in Great Britain, April 1976: 166.6p an hour excluding overtime pay and hours, 166.8p including them. Full-time manual men earned 141.0p and 143.7p on the same two bases. This is not set as the room wage anchor: a tenth of a penny cannot be held in whole pence, and rounding to £1.67 would change the printed value."
 assumptions = ["nominal-values"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
@@ -159,8 +159,8 @@ notes = "The National Food Survey reports for 1974 and 1979 are in the archive, 
 id = "uk-1970s-work-buys-gap"
 panel = "work-buys"
 label = "Affordability comparisons, 1970s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-hpi-annual-tables"
 tier = "D"
-notes = "Two of the three ingredients are now in hand: an hourly wage (166.6p, April 1976) and a household income (£4,116, 1977). What is missing is a price to divide. The official ONS house-price series begins in 1986; the only UK series reaching the 1970s is the Nationwide lender index, which is not an official statistic and is not transcribed here. The hours axis is also blocked on the wage itself, which cannot be held in whole pence — see the hourly-earnings fact."
+notes = "An hourly earnings observation and household-income observation are available. Food price tables also exist in archived National Food Survey reports, but no compatible item price has been transcribed and qualified for this comparison. The hourly earnings observation cannot currently be held as a whole-penny wage anchor."

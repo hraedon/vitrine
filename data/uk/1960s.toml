@@ -33,11 +33,11 @@ assumptions = ["composite-family", "nominal-values", "manufacturing-wage-proxy"]
 id = "uk-1960s-household-income-gap"
 panel = "budget"
 label = "Median household income, 1960s"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "ons-earnings-1938-2025"
 tier = "D"
-notes = "No median household-income series is transcribed for the 1960s. The FES collected household income through the decade but is not in the archive. The manual-earnings figure above is the available wage anchor, not a household-income median."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -58,11 +58,11 @@ assumptions = ["composite-family"]
 id = "uk-1960s-housing-amenities-gap"
 panel = "home"
 label = "Rooms, floor area, amenities (bath, WC, central heating)"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The 1961 Census asked about piped water, WC, fixed bath, and piped hot water, but those amenity tables are not in the archive. The GHS (central heating, appliances) did not begin until 1971. Slum clearance and new council estates were rapidly extending inside bathrooms and hot water through the decade."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -72,9 +72,9 @@ panel = "diffusion"
 label = "Television receiving licences, 1965"
 value = "13,253,045 licences (1965)"
 unit = "television receiving licences at 31 March"
-source = "terramedia-tv-licences"
+source = "hansard-tv-licences-1986"
 tier = "A"
-notes = "From BBC / TV Licensing receiving-licence counts. The register reports 10,469,753 licences in 1960 and 13,253,045 in 1965. These are administrative counts without a household denominator; they do not establish a household ownership percentage or near-universal access. This licence count is not directly comparable to the post-1972 GHS household-percentage series."
+notes = "From television licence counts reported by the Government to Parliament. The register reports 10,469,753 licences in 1960 and 13,253,045 in 1965. These are administrative counts without a household denominator; they do not establish a household ownership percentage or near-universal access. This licence count is not directly comparable to the post-1972 GHS household-percentage series."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -87,7 +87,7 @@ value = "47.5 hours"
 unit = "average weekly hours worked, all industries covered (men aged 21 and over, manual, full-time)"
 source = "dep-labour-year-book-1969"
 tier = "A"
-notes = "From the Department of Employment's twice-yearly earnings enquiry as republished in the Year Book, all industries covered, April 1965. Hours fell steadily through the decade — 47.5 in April 1965, 46.4 in April 1966, 46.1 in 1967, 46.2 in 1968, 46.4 in 1969 — as the basic week shortened faster than overtime grew. The same table's weekly earnings for this column and month read £18 18s 2d, and the ONS long-run series reports £18.91 for the same population and month; the two agree, which is how this transcription from a scanned volume was checked."
+notes = "From the Department of Employment earnings enquiry, republished in the Year Book, all industries covered, April 1965. Hours fell overall from 47.5 in April 1965 to 46.4 in April 1969, with increases in some years. The same table gives weekly earnings of £18 18s 2d for this group and month; the ONS long-run series gives £18.91."
 assumptions = ["composite-family"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
@@ -96,11 +96,11 @@ assumptions = ["composite-family"]
 id = "uk-1960s-food-basket-gap"
 panel = "table"
 label = "The food basket, 1960s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The National Food Survey (NFS) ran continuously 1940–2000, but the 1960s NFS data is not in the archive. (Archive holds NFS 1940–49 and 2023–24, but not the 1960s.)"
+notes = "An original food survey report for this decade is available in the source archive. Its food-at-home observations have not yet been transcribed and qualified for this room; the gap is a curation boundary."
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
@@ -108,8 +108,8 @@ notes = "The National Food Survey (NFS) ran continuously 1940–2000, but the 19
 id = "uk-1960s-work-buys-gap"
 panel = "work-buys"
 label = "Affordability comparisons, 1960s"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "dep-labour-year-book-1969"
 tier = "D"
-notes = "Hours are now recorded for this decade (47.5 a week, April 1965) but neither of the other two ingredients is. The hourly earnings printed beside them are in shillings and pence, which cannot be held in whole decimal pence without inventing precision; and no UK household-income series in the archive begins before 1977, nor any official house-price series before 1986. The weekly manual-earnings figure (£18.91, 1965) remains the available wage reference."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."

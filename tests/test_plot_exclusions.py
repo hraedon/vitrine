@@ -27,7 +27,7 @@ def test_food_record_from_later_survey_is_archived_but_not_a_1950s_point(
 ) -> None:
     arc = curation.ARC_BY_SLUG["food-share"]
     fact_id = arc.fact_ids["1950s"]
-    assert index[fact_id].fact.quantity is not None  # A real archived number.
+    assert "$1,309" in index[fact_id].fact.value  # Archived annual expense, not a share.
     point = next(point for point in arc_points(index, arc, "../") if point.decade == "1950s")
     assert point.fact_id == fact_id and point.quantity is None
     table = point_table((point,), arc.unit)
@@ -36,7 +36,7 @@ def test_food_record_from_later_survey_is_archived_but_not_a_1950s_point(
     assert "1950s" not in curation.STAGE_BY_COUNTRY["us"].food_share
     stage = build_stage(index[fact_id].room, index, "../")
     assert all(note.fact_id != fact_id for note in stage.zone_notes)
-    pair = next(family for family in pair_families(index, "1950s", "1960s", "../")
+    pair = next(family for family in pair_families(index, "1950s", "1980s", "../")
                 if family.label == arc.label)
     assert pair.cells[0].gap and not pair.cells[1].gap
     assert "not comparable" in pair.cells[0].text
@@ -61,6 +61,22 @@ def test_all_arc_exclusions_propagate_to_direct_metrics_and_pair_cells(
             pair = next(family for family in pair_families(index, decade, other, "../")
                         if family.label == arc.label)
             assert pair.cells[0].gap and pair.cells[0].fact_id == fact_id
+
+
+@pytest.mark.parametrize("slug,decade", [
+    ("infant-mortality", "2020s"),  # Source uses a per-100,000 denominator.
+    ("internet", "2020s"),  # Adults using internet are not connected households.
+    ("cancer-survival", "1960s"),  # White ACS estimate is not the SEER cohort.
+    ("television", "1940s"),  # Published household count is not a percentage.
+    ("plumbing", "1940s"),  # Private bath/toilet is not complete plumbing.
+])
+def test_reviewed_measurement_seams_remain_linked_exclusions(
+    index: dict[str, FactRef], slug: str, decade: str,
+) -> None:
+    arc = curation.ARC_BY_SLUG[slug]
+    point = next(point for point in arc_points(index, arc, "../") if point.decade == decade)
+    assert point.quantity is None
+    assert point.fact_id == arc.fact_ids[decade]
 
 
 def test_daily_unpaid_hours_never_acquire_weekly_walkthrough_geometry(

@@ -132,13 +132,18 @@ def test_source_registry_entry_states_the_tier_rationale() -> None:
     assert "typical-week-in-October" in source.population
 
 
-def test_the_arc_names_the_span_and_the_gap() -> None:
+def test_the_arc_distinguishes_the_annual_span_and_imputed_2020_marker() -> None:
     from vitrine.site import curation
 
     arc = curation.ARC_BY_SLUG["public-library-reference-transactions"]
     assert arc.series_id == SERIES_ID
     assert set(arc.fact_ids) == {"1990s", "2000s", "2010s", "2020s"}
-    assert any("gap" in c.lower() for c in arc.caveats)
+    assert any("FY2019" in c and "FY2020" in c and "imputation" in c for c in arc.caveats)
+    corpus = load_corpus(DATA)
+    fact = next(f for room in corpus.rooms for f in room.facts
+                if f.id == arc.fact_ids["2020s"])
+    assert fact.source == "imls-pls-2020-state-reference"
+    assert fact.quantity == 139.3
 
 
 def test_audit_dump_is_pinned_to_the_archived_bytes() -> None:

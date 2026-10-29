@@ -24,7 +24,7 @@ The atomic exhibit unit. One claim, one source, one tier.
 | `assumptions` | list[str] | Ids resolving into `data/assumptions.toml` |
 | `amount_minor` | int? | Structured value in integer minor units (cents) — no float drift |
 | `currency` | str | ISO 4217 code, e.g. `"USD"`; required iff `amount_minor` is set. Must be registered in `vitrine.money.CURRENCIES` — an unknown code is a red `vitrine check`. `vitrine.money` also formats amounts per-currency; **no FX** — the museum never converts between currencies as a truth-path number. |
-| `price_year` | int? | Year the amount is quoted in |
+| `price_year` | int? | Year of the amount; also the legacy observation-year field for non-monetary chart markers |
 | `basis` | Basis? | What the amount is measured against (closed set, below); required iff `amount_minor` is set |
 | `quantity` | float? | Headline non-monetary numeric for chart projection (a percentage, hours, a rate); must appear verbatim in `value` — gate-enforced |
 
@@ -35,6 +35,20 @@ replacement — they are optional, and when present they feed the affordability
 axis (see `src/vitrine/affordability.py`) and cross-decade comparators. A fact
 with no structured amount still renders; it just carries no derived
 affordability figure.
+
+The field name `price_year` predates non-monetary charts. Plan 007 also uses
+it to place a rate or other quantity at its observed year. Such a record has
+no monetary amount or affordability result. Keep a verified observation year:
+removing it would place the marker at an illustrative mid-decade position.
+
+The gate also requires a structured monetary amount to occur as a complete
+currency-marked number in the display value after conversion from minor units.
+Factory sales counts and wholesale totals therefore cannot hide an unexplained
+per-car price that feeds affordability. A source-bound `round` operation targeting
+`amount_minor` may retain the more precise published rate in the display; its
+current audit, original source operand in the display, disclosed method and
+rounding rule remain mandatory. This checks
+visibility and replay, rather than certifying the economic meaning of a price.
 
 `quantity` (Plan 007) extends the same additional-never-a-replacement pattern
 to non-monetary numerics: it is the one number a chart mark may project from
@@ -78,7 +92,7 @@ An entry in the global registry `data/sources.toml`.
 | `id` | str | Stable slug, e.g. `census-p60-hist-f8` |
 | `title` | str | Full citation title |
 | `publisher` | str | Census Bureau / BLS / GUS / NBS / IPUMS / scholar |
-| `year` | int | Publication year of the source document |
+| `year` | int | Publication year of the source document; zero for an undated source (renders as "undated"). A model/observation year is not substituted for a missing publication date. |
 | `url` | str | Where a visitor can verify (stable/archival link preferred) |
 | `population` | str | **Who was actually measured** — the anti-composite field |
 | `notes` | str | Access date, edition, table number, caveats |
@@ -195,7 +209,7 @@ unhandled site.
 | `A` | Official statistical series for the stated population | Census P-60 median family income, 1947→ |
 | `B` | Official microdata; statistic computed by this project | IPUMS 1940 census extract |
 | `C` | Reconstruction from contemporaneous surveys of a proxy population | 1901 BLS cost-of-living survey |
-| `D` | Scholarly estimate or narrative; no contemporaneous survey | Soviet-era living-standards reconstructions |
+| `D` | Scholarly estimate or reconstruction, with method and limitations disclosed | Historical estimates assembled from incomplete or indirectly weighted evidence |
 
 Tiering rule: when in doubt, tier down and say why in `notes`.
 
@@ -334,8 +348,12 @@ an object was historically absent.
 An audit may add `calculation = { op, operands, precision, rounding, method }`.
 The main `locator` is the first operand; `operands` lists subsequent addresses
 in the same pinned source file. `mean` computes their arithmetic mean;
-`pct_of` computes the first divided by the second, multiplied by one hundred.
-Only a positive percentage denominator is accepted. `precision` is the number
+`pct_of` computes the first divided by the second, multiplied by one hundred;
+`ratio` divides without percentage scaling. Both require a positive denominator.
+`round` accepts one source value and applies the declared display rounding;
+it is used where a subcent source rate supplies an explicitly rounded monetary
+anchor, while the original published rate remains visible.
+`precision` is the number
 of decimal places (zero through eight), and `rounding` is explicitly
 `half_even` or `half_up`. `method` records the population, aggregation and
 rounding rationale. The rounded result is scaled into the target unit last.

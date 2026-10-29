@@ -99,13 +99,22 @@ in scanned publications not text-extractable.
 - **OCR methodology:** The 1950 Census of Housing HC-5-02 publication is a
   scanned image PDF. `pymupdf` and `pdftotext` returned 0 characters. Text
   was extracted using `tesseract` OCR at 400 DPI after conversion with
-  `pdftoppm` (poppler-utils). Sampling variability of ~8% applies to 1950
-  Census preliminary sample data.
-- **IPUMS weighting:** Family-level income computed by summing INCTOT
-  (or INCWAGE for 1940) across all members sharing the same SERIAL
-  (household ID). Weighted medians computed using HHWT (household weight).
-  1950 INCTOT has 82% N/A rate; analysis covers only families where the
-  head (RELATE=1) reported valid income.
+  `pdftoppm` (poppler-utils). These are preliminary sample estimates; their
+  uncertainty depends on the particular estimate and denominator. No single
+  percentage describes every field's sampling variability.
+- **IPUMS income status:** The three 1950 locale medians and their dependent
+  difference are withdrawn pending a valid, reproducible extract specification
+  and aggregation. Original extract 00001 metadata was recovered from the
+  research host; it contains neither FTOTINC nor SLWT. No original aggregation
+  code or aggregate output was found. Its income reference year is 1949.
+  In 1950, INCTOT's sample-line universe does not cover every
+  family member; a sum of observed nonmissing values is not demonstrated total
+  family income. METRO 3+4 also excludes identifiable central-city households.
+  See the publisher's [INCTOT universe](https://usa.ipums.org/usa-action/variables/INCTOT),
+  [FTOTINC definition](https://usa.ipums.org/usa-action/variables/FTOTINC),
+  and [METRO comparability](https://usa.ipums.org/usa-action/variables/METRO).
+  No replacement estimator has been silently substituted. Other IPUMS-derived
+  records retain their own separate audit and methodology obligations.
 - **CPI adjustment:** Real income comparisons use CPIAUCNS (CPI-U, not
   seasonally adjusted, 1982-84=100). The ratio of 2024 annual average
   (313.7) to 1950 annual average (24.1) = 13.03 is used for all nominal-to-

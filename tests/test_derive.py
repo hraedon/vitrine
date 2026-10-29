@@ -101,7 +101,7 @@ def _write_corpus_with_derived(tmp_path: Path, denominator: str) -> Path:
     room_dir.mkdir()
     (room_dir / "1950s.toml").write_text(
         '[room]\ncountry = "us"\ndecade = "1950s"\n\n'
-        '[[fact]]\nid = "us-1950s-a"\npanel = "budget"\nlabel = "L"\nvalue = "V"\n'
+        '[[fact]]\nid = "us-1950s-a"\npanel = "budget"\nlabel = "L"\nvalue = "USD 1.00"\n'
         'unit = "U"\nsource = "src-1"\ntier = "A"\namount_minor = 100\n'
         'currency = "USD"\nprice_year = 1950\nbasis = "annual"\n\n'
         '[[derived]]\nid = "us-1950s-d"\npanel = "work-buys"\nlabel = "D"\n'
@@ -905,14 +905,14 @@ def _write_diff_corpus(tmp_path: Path, b_amount: int, b_currency: str = "USD") -
     room_dir = tmp_path / "us"
     room_dir.mkdir()
     fact = (
-        '[[fact]]\nid = "{id}"\npanel = "budget"\nlabel = "L"\nvalue = "V"\n'
+        '[[fact]]\nid = "{id}"\npanel = "budget"\nlabel = "L"\nvalue = "{cur} {display}"\n'
         'unit = "U"\nsource = "src-1"\ntier = "A"\namount_minor = {amt}\n'
         'currency = "{cur}"\nprice_year = 1950\nbasis = "annual"\n\n'
     )
     (room_dir / "1950s.toml").write_text(
         '[room]\ncountry = "us"\ndecade = "1950s"\n\n'
-        + fact.format(id="us-1950s-a", amt=100, cur="USD")
-        + fact.format(id="us-1950s-b", amt=b_amount, cur=b_currency)
+        + fact.format(id="us-1950s-a", amt=100, cur="USD", display="1.00")
+        + fact.format(id="us-1950s-b", amt=b_amount, cur=b_currency, display=f"{b_amount/100:.2f}")
         + '[[derived]]\nid = "us-1950s-d"\npanel = "budget"\nlabel = "D"\n'
         'unit = "gap"\nop = "diff"\nnumerator = "us-1950s-a"\n'
         'denominator = "us-1950s-b"\n'

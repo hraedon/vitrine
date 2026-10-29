@@ -84,11 +84,11 @@ assumptions = ["composite-family"]
 id = "uk-2010s-housing-amenities-gap"
 panel = "home"
 label = "Room counts and bath/WC amenities for the room's household populations"
-value = "no reliable record transcribed here"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "This gap now concerns room counts and bath/WC amenities, which remain untranscribed for the household populations represented here. Separate English Housing Survey records below report mean floor area and central heating for all dwellings in England, including vacant dwellings. Those dwelling-stock observations neither fill the remaining household-amenity fields nor describe a median-income family."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."
 
 [[fact]]
 id = "uk-2010s-mean-dwelling-floor-area"
@@ -191,11 +191,11 @@ assumptions = ["composite-family"]
 id = "uk-2010s-food-basket-gap"
 panel = "table"
 label = "The food basket, 2010s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "Defra's Family Food module (LCFS) covers the 2010s, but that data is not in the archive. (Archive holds NFS 1940–49 and Family Food 2023–24, but not the 2010s.)"
+notes = "An original food survey report for this decade is available in the source archive. Its food-at-home observations have not yet been transcribed and qualified for this room; the gap is a curation boundary."
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 

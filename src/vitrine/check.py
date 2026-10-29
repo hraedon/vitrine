@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import math
 import re
+from decimal import Decimal, InvalidOperation
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -17,6 +18,8 @@ from vitrine import money
 from vitrine.audit import check_audits
 from vitrine.model import (
     INTERPOLATION_RE,
+    AuditOperation,
+    AuditTarget,
     Basis,
     BlockKind,
     Corpus,
@@ -39,20 +42,26 @@ _QUANTITY_CONTINUATION = re.compile(r"(?:[.,eE+\-\N{MINUS SIGN}]+\d|[eE][+\-])")
 _QUANTITY_DECIMAL = re.compile(r"-?(?:\d+|\d{1,3}(?:,\d{3})+)\.\d+")
 
 
-def _quantity_renderings(quantity: float) -> set[str]:
+def _quantity_renderings(quantity: float | Decimal) -> set[str]:
     """The strings a structured quantity may appear as in the display value.
 
     The quantity is a transcription of the displayed datum; if none of these
     renderings occurs verbatim in ``value``, the two have drifted apart.
     """
+    if isinstance(quantity, Decimal):
+        quantity = quantity.normalize()
     renderings = {f"{quantity:g}"}
+    if isinstance(quantity, Decimal):
+        renderings.add(f"{quantity:,f}")
     if quantity == int(quantity):
         renderings.add(str(int(quantity)))
         renderings.add(f"{int(quantity):,}")
     return renderings
 
 
-def _quantity_in_value(quantity: float, value: str) -> bool:
+def _quantity_in_value(
+    quantity: float | Decimal, value: str, currency: money.Currency | None = None,
+) -> bool:
     """Match existing renderings as whole numeric tokens, without arithmetic."""
     renderings = _quantity_renderings(quantity)
     for match in _QUANTITY_TOKENS.finditer(value):
@@ -67,6 +76,16 @@ def _quantity_in_value(quantity: float, value: str) -> bool:
             continue
         if _QUANTITY_CONTINUATION.match(value, end):
             continue
+        if currency is not None:
+            before, after = value[:start].rstrip(), value[end:].lstrip()
+            marked = (
+                (currency.symbol_before and before.endswith(currency.symbol))
+                or (not currency.symbol_before and after.startswith(currency.symbol))
+                or re.search(rf"\b{re.escape(currency.code)}$", before) is not None
+                or re.match(rf"{re.escape(currency.code)}\b", after) is not None
+            )
+            if not marked:
+                continue
         token = token.removeprefix("+")
         # Preserve display precision such as 36.00 and 12.300, but keep
         # scientific notation literal: this is not a new equivalence parser.
@@ -80,6 +99,7 @@ def _quantity_in_value(quantity: float, value: str) -> bool:
 def check_corpus(corpus: Corpus, series: dict[str, Series] | None = None) -> list[str]:
     """Return all problems found; an empty list means the gate is green."""
     problems: list[str] = check_audits(corpus)
+    audit_by_id = {entry.fact_id: entry for entry in corpus.audit_ledger}
 
     for source in corpus.sources.values():
         if not source.url.strip():
@@ -129,6 +149,35 @@ def check_corpus(corpus: Corpus, series: dict[str, Series] | None = None) -> lis
                         f"{where}: unknown currency {fact.currency!r} — register it "
                         f"in vitrine.money.CURRENCIES"
                     )
+                else:
+                    currency = money.get(fact.currency)
+                    amount = Decimal(fact.amount_minor).scaleb(
+                        -currency.minor_digits,
+                    ).normalize()
+                    rounded_anchor = (
+                        fact.audit is not None
+                        and fact.audit.target is AuditTarget.AMOUNT_MINOR
+                        and fact.audit.calculation is not None
+                        and fact.audit.calculation.op is AuditOperation.ROUND
+                    )
+                    rounded_displayed = False
+                    entry = audit_by_id.get(fact.id)
+                    if rounded_anchor and entry is not None and len(entry.operands) == 1:
+                        try:
+                            operand = Decimal(entry.operands[0])
+                        except InvalidOperation:
+                            pass  # The audit gate separately diagnoses malformed operands.
+                        else:
+                            rounded_displayed = operand.is_finite() and _quantity_in_value(
+                                operand.normalize(), fact.value, currency,
+                            )
+                    if not rounded_displayed and not _quantity_in_value(
+                        amount, fact.value, currency,
+                    ):
+                        problems.append(
+                            f"{where}: structured monetary amount does not appear in value; "
+                            "remove the hidden amount or disclose a replayed rounding method"
+                        )
                 if fact.price_year is None:
                     problems.append(f"{where}: amount_minor set but price_year is missing")
                 if fact.basis is None:
