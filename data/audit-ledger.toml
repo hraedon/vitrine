@@ -1253,6 +1253,15 @@ audited = "2026-10-28"
 operands = []
 
 [[entry]]
+fact_id = "us-1950s-housing-expenditure-share"
+fingerprint = "44aea34eb2a63c9af6b15e3463868e829f9cad86c57e5235b19299ac32c3254f"
+sample_sha256 = "8f8857658a11361988575c8a310fa438c850b6681c13fa980df8da0809908584"
+file = "reconstruction-20261029/bls/table6-curator.json"
+extracted = "10.6"
+audited = "2026-10-29"
+operands = []
+
+[[entry]]
 fact_id = "us-1950s-mail-pieces-handled"
 fingerprint = "9c90c189c265c3111910a277d90c6bde92e0f9ad710fadc6955c4a71ec93e8f2"
 sample_sha256 = "0b7364b368da7475b00294bb59285ac895dd7346969cbd266e579b8634676023"
@@ -1286,6 +1295,33 @@ sample_sha256 = "2eb2802f80d6e46d7e76f6f133cc1b50fa5ae2342b6918e22459d1b9c67b6cf
 file = "06-acs-csv/f08ar.xlsx"
 extracted = "3675"
 audited = "2026-10-09"
+operands = []
+
+[[entry]]
+fact_id = "us-1950s-median-income-metro"
+fingerprint = "ff87bdd89da4d594526a7e615429d313af1608a36cf56250f4703a89b7a53314"
+sample_sha256 = "fbbf471b98f28b09933597e3448957fcad95e7255d70f68f8184edb2d58574a7"
+file = "reconstruction-20261029/ipums/family-income-curator.json"
+extracted = "3650"
+audited = "2026-10-29"
+operands = []
+
+[[entry]]
+fact_id = "us-1950s-median-income-nonmetro"
+fingerprint = "a2502c1d76310a9082584c56dd415bd7ef58874fa504a3b62ad71d9c802cfb87"
+sample_sha256 = "fbbf471b98f28b09933597e3448957fcad95e7255d70f68f8184edb2d58574a7"
+file = "reconstruction-20261029/ipums/family-income-curator.json"
+extracted = "2650"
+audited = "2026-10-29"
+operands = []
+
+[[entry]]
+fact_id = "us-1950s-median-income-suburban"
+fingerprint = "ba525a0aaedff8fe51a15d5129785d7a424e67edcef8bef797d6fe9573423b83"
+sample_sha256 = "fbbf471b98f28b09933597e3448957fcad95e7255d70f68f8184edb2d58574a7"
+file = "reconstruction-20261029/ipums/family-income-curator.json"
+extracted = "3750"
+audited = "2026-10-29"
 operands = []
 
 [[entry]]

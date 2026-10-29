@@ -11,60 +11,71 @@ income_anchor = "us-1950s-median-income-four-person"
 # ── Budget panel ──────────────────────────────────────────────────────────
 # National-median facts from Census F-8 (Tier A) + locale split from IPUMS (Tier B)
 
-# Locale split (Tier B — IPUMS 1% sample, computed by this project)
-# Computed from IPUMS USA 1950 1% sample (us1950a), extract ID 1.
-# Family-level INCTOT summed across members in same SERIAL.
-# Filter: FAMSIZE=4, head (RELATE=1) has valid INCTOT (0 to <9999999).
-# Weighted by HHWT. N=22,753 four-person families.
-# CAVEAT: 82% of 1950 records have INCTOT=9999999 (N/A). This analysis covers
-# only families where the head reported income. INCTOT for 1950 may exclude
-# self-employment, property, and transfer income. The IPUMS median ($2,950)
-# is lower than the F-8 Census median ($3,675 for 4-person families) partly
-# because of these exclusions and the N/A filtering.
+# Locale split: new FTOTINC/SLWT reconstruction from extract 00003.
+# Census observation 1950; income reference year 1949. See Plan 035 and
+# docs/reconstruction-20261029.md. The former INCTOT/HHWT estimates are withdrawn.
 
 [[fact]]
 id = "us-1950s-median-income-metro"
+audit = { file = "reconstruction-20261029/ipums/family-income-curator.json", extractor = "json-pointer", locator = "/groups/metro/median_code", target = "amount_minor", scale = "100", guards = [{ locator = "/extract_id", value = "usa_00003" }, { locator = "/ddi_sha256", value = "b7c6a48135e53031e1ec719eed2073f618b32f9f8dfa5c6f43b9a2da989a2bbb" }, { locator = "/data_sha256", value = "697a3b2fe3b095d9d080c65df96f7d771b3dda4d825548c8c7ae5ea3bcb5a6da" }, { locator = "/income_reference_year", value = "1949" }, { locator = "/selection", value = "RELATE=1; FAMUNIT=1; head FAMSIZE=4; four FAMUNIT=1 records per household; GQ=1; unique household head; SLWT>0" }, { locator = "/median_rule", value = "smallest ordered value whose cumulative SLWT is at least half the total; no interpolation" }, { locator = "/geography", value = "METRO 1 nonmetro; 2 indeterminable/excluded; 3 outside central city; 4 city status indeterminable; 5 central city; metro combines 3, 4, 5" }, { locator = "/groups/metro/unweighted_count", value = "13734" }] }
+basis = "annual"
+price_year = 1949
+currency = "USD"
+amount_minor = 365000
+quantity = 3650
 panel = "budget"
-label = "Median family income, 4-person families, metropolitan areas, 1950"
-value = "no reliable record verified for this comparison"
-unit = "n/a — family-income estimate not reproduced"
-source = "ipums-usa"
-tier = "D"
-notes = "The previously displayed weighted median has been withdrawn. Original extract 00001 metadata was recovered on the research host, but no original aggregation program or aggregate output was found. The extract includes neither FTOTINC nor SLWT. INCTOT concerns income in the prior calendar year, so the 1950 census observation refers to 1949 income. 1950 INCTOT is available for sample-line persons, so summing its nonmissing values within a household does not establish total family income. The old METRO 3+4 selection also omitted identifiable central-city households. A valid family-income construction, geography selection and weighting must be specified and reproduced before this comparison returns. Only aggregate results may be published; raw microdata remains in samples."
-assumptions = ["composite-family", "four-person-normalization", "nominal-values", "metropolitan-definition"]
+label = "Median primary-family income, four people, metropolitan areas, 1949"
+value = "$3,650"
+unit = "USD per year, nominal 1949 income; median of category-coded primary-family income"
+source = "ipums-1950-primary-family-income-1949"
+tier = "B"
+notes = "New reconstruction from the 1950 1% census sample, extract 00003; income refers to 1949. SLWT-weighted inverse-CDF median of FTOTINC for 13,734 valid sample-line heads in this geography. Primary family units of four in GQ=1 households are selected by the documented unit-membership checks. FTOTINC uses income-category midpoints, so this is a median of coded values, not an exact-dollar measurement. No interpolation or adjustment to the separate CPS median is made. These replace the withdrawn household-sum estimates; they do not reproduce the original calculation."
+assumptions = ["composite-family", "nominal-values", "metropolitan-definition", "ipums-1950-primary-family-median"]
 
 [[fact]]
 id = "us-1950s-median-income-nonmetro"
+audit = { file = "reconstruction-20261029/ipums/family-income-curator.json", extractor = "json-pointer", locator = "/groups/nonmetro/median_code", target = "amount_minor", scale = "100", guards = [{ locator = "/extract_id", value = "usa_00003" }, { locator = "/ddi_sha256", value = "b7c6a48135e53031e1ec719eed2073f618b32f9f8dfa5c6f43b9a2da989a2bbb" }, { locator = "/data_sha256", value = "697a3b2fe3b095d9d080c65df96f7d771b3dda4d825548c8c7ae5ea3bcb5a6da" }, { locator = "/income_reference_year", value = "1949" }, { locator = "/selection", value = "RELATE=1; FAMUNIT=1; head FAMSIZE=4; four FAMUNIT=1 records per household; GQ=1; unique household head; SLWT>0" }, { locator = "/median_rule", value = "smallest ordered value whose cumulative SLWT is at least half the total; no interpolation" }, { locator = "/geography", value = "METRO 1 nonmetro; 2 indeterminable/excluded; 3 outside central city; 4 city status indeterminable; 5 central city; metro combines 3, 4, 5" }, { locator = "/groups/nonmetro/unweighted_count", value = "9062" }] }
+basis = "annual"
+price_year = 1949
+currency = "USD"
+amount_minor = 265000
+quantity = 2650
 panel = "budget"
-label = "Median family income, 4-person families, non-metropolitan areas, 1950"
-value = "no reliable record verified for this comparison"
-unit = "n/a — family-income estimate not reproduced"
-source = "ipums-usa"
-tier = "D"
-notes = "The previously displayed weighted median has been withdrawn. Original extract 00001 metadata was recovered on the research host, but no original aggregation program or aggregate output was found. The extract includes neither FTOTINC nor SLWT. INCTOT concerns income in the prior calendar year, so the 1950 census observation refers to 1949 income. 1950 INCTOT is available for sample-line persons, so summing its nonmissing values within a household does not establish total family income. The old METRO 3+4 selection also omitted identifiable central-city households. A valid family-income construction, geography selection and weighting must be specified and reproduced before this comparison returns. Only aggregate results may be published; raw microdata remains in samples."
-assumptions = ["composite-family", "four-person-normalization", "nominal-values", "metropolitan-definition"]
+label = "Median primary-family income, four people, nonmetropolitan areas, 1949"
+value = "$2,650"
+unit = "USD per year, nominal 1949 income; median of category-coded primary-family income"
+source = "ipums-1950-primary-family-income-1949"
+tier = "B"
+notes = "New reconstruction from the 1950 1% census sample, extract 00003; income refers to 1949. SLWT-weighted inverse-CDF median of FTOTINC for 9,062 valid sample-line heads in this geography. Primary family units of four in GQ=1 households are selected by the documented unit-membership checks. FTOTINC uses income-category midpoints, so this is a median of coded values, not an exact-dollar measurement. No interpolation or adjustment to the separate CPS median is made. These replace the withdrawn household-sum estimates; they do not reproduce the original calculation."
+assumptions = ["composite-family", "nominal-values", "metropolitan-definition", "ipums-1950-primary-family-median"]
 
 [[fact]]
 id = "us-1950s-median-income-suburban"
+audit = { file = "reconstruction-20261029/ipums/family-income-curator.json", extractor = "json-pointer", locator = "/groups/outside_central_identified/median_code", target = "amount_minor", scale = "100", guards = [{ locator = "/extract_id", value = "usa_00003" }, { locator = "/ddi_sha256", value = "b7c6a48135e53031e1ec719eed2073f618b32f9f8dfa5c6f43b9a2da989a2bbb" }, { locator = "/data_sha256", value = "697a3b2fe3b095d9d080c65df96f7d771b3dda4d825548c8c7ae5ea3bcb5a6da" }, { locator = "/income_reference_year", value = "1949" }, { locator = "/selection", value = "RELATE=1; FAMUNIT=1; head FAMSIZE=4; four FAMUNIT=1 records per household; GQ=1; unique household head; SLWT>0" }, { locator = "/median_rule", value = "smallest ordered value whose cumulative SLWT is at least half the total; no interpolation" }, { locator = "/geography", value = "METRO 1 nonmetro; 2 indeterminable/excluded; 3 outside central city; 4 city status indeterminable; 5 central city; metro combines 3, 4, 5" }, { locator = "/groups/outside_central_identified/unweighted_count", value = "11788" }] }
+basis = "annual"
+price_year = 1949
+currency = "USD"
+amount_minor = 375000
+quantity = 3750
 panel = "budget"
-label = "Median family income, 4-person families, suburban (metro not central city), 1950"
-value = "no reliable record verified for this comparison"
-unit = "n/a — family-income estimate not reproduced"
-source = "ipums-usa"
-tier = "D"
-notes = "The previously displayed weighted median has been withdrawn. Original extract 00001 metadata was recovered on the research host, but no original aggregation program or aggregate output was found. The extract includes neither FTOTINC nor SLWT. INCTOT concerns income in the prior calendar year, so the 1950 census observation refers to 1949 income. 1950 INCTOT is available for sample-line persons, so summing its nonmissing values within a household does not establish total family income. The old METRO 3+4 selection also omitted identifiable central-city households. A valid family-income construction, geography selection and weighting must be specified and reproduced before this comparison returns. Only aggregate results may be published; raw microdata remains in samples."
-assumptions = ["composite-family", "four-person-normalization", "nominal-values", "metropolitan-definition"]
+label = "Median primary-family income, four people, identifiable outside-central-city areas, 1949"
+value = "$3,750"
+unit = "USD per year, nominal 1949 income; median of category-coded primary-family income"
+source = "ipums-1950-primary-family-income-1949"
+tier = "B"
+notes = "New reconstruction from the 1950 1% census sample, extract 00003; income refers to 1949. SLWT-weighted inverse-CDF median of FTOTINC for 11,788 valid sample-line heads in this geography. Primary family units of four in GQ=1 households are selected by the documented unit-membership checks. FTOTINC uses income-category midpoints, so this is a median of coded values, not an exact-dollar measurement. The outside-central-city subset covers identifiable METRO=3 cases only; METRO=4 has undetermined city status and is excluded from this subset. No interpolation or adjustment to the separate CPS median is made. These replace the withdrawn household-sum estimates; they do not reproduce the original calculation."
+assumptions = ["composite-family", "nominal-values", "metropolitan-definition", "ipums-1950-primary-family-median"]
 
-[[fact]]
+[[derived]]
 id = "us-1950s-metro-nonmetro-gap"
 panel = "budget"
-label = "Metro vs nonmetro family-income comparison, 1950"
-value = "no reliable record verified for this comparison"
-unit = "n/a"
-source = "ipums-usa"
-tier = "D"
-notes = "The difference cannot be calculated from withdrawn, unreproduced locale medians. This stable record remains a linked verification gap pending valid source extract and aggregation evidence."
-assumptions = ["composite-family", "metropolitan-definition"]
+label = "Difference between metro and nonmetro primary-family income medians, 1949"
+op = "diff"
+numerator = "us-1950s-median-income-metro"
+denominator = "us-1950s-median-income-nonmetro"
+unit = "USD per year, nominal 1949 income"
+notes = "Difference between two independently selected population medians from the same sample and income definition. This is descriptive; it does not measure a causal benefit of metropolitan residence or a difference for a particular family."
+assumptions = ["composite-family", "nominal-values", "metropolitan-definition", "ipums-1950-primary-family-median"]
 
 [[fact]]
 id = "us-1950s-median-income-all-families"
@@ -129,13 +140,15 @@ assumptions = ["composite-family"]
 [[fact]]
 id = "us-1950s-housing-expenditure-share"
 panel = "budget"
-label = "Housing as share of urban wage-earner budget, 1950"
-value = "no reliable record"
-unit = "share of total family expenditure"
-source = "umizzou-prices-wages"
-tier = "C"
-notes = "A comparable 1950s housing-expenditure share has not been verified against a primary source."
+label = "Housing share of current consumption, urban worker families, 1950"
+value = "10.6%"
+unit = "percent of mean current-consumption expenditure, urban wage-earner and clerical-worker families of two or more"
+quantity = 10.6
+source = "bls-buying-habits-1959-1950-worker-families"
+tier = "A"
+notes = "BLS Table 6 reports the housing share for urban wage-earner and clerical-worker families of two or more, including owners and renters. It is a narrow housing category: fuel, light, refrigeration, household operation, and furnishings are reported separately. Current consumption excludes other outlays, and this is not a four-person-family or all-household estimate."
 assumptions = ["composite-family", "income-vs-consumption"]
+audit = { file = "reconstruction-20261029/bls/table6-curator.json", extractor = "json-pointer", locator = "/housing_percent", target = "quantity", guards = [{ locator = "/source_sha256", value = "ba688e0a6130a872b33b1ecb89b304fafe307cca915b397fd4372e24d451219f" }, { locator = "/source_file", value = "reconstruction-20261029/bls/american-buying-habits-1959.pdf" }, { locator = "/table", value = "Table 6, printed p. 46 / PDF p. 60, all income classes" }, { locator = "/population", value = "Urban wage-earner and clerical-worker families of two or more persons" }, { locator = "/denominator", value = "Mean expenditures for current consumption" }, { locator = "/housing_scope", value = "Housing; fuel, light, refrigeration, household operation, and furnishings are separate" }, { locator = "/sample_families", value = "7007" }, { locator = "/consumption_dollars", value = "3925" }, { locator = "/housing_dollars", value = "415" }] }
 
 # ── Home panel ────────────────────────────────────────────────────────────
 

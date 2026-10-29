@@ -1,0 +1,39 @@
+{
+  "extract_id": "usa_00003",
+  "checked": "2026-10-29",
+  "meaning": "Provider metadata byte counts and SHA-256 matched downloaded files; no account bodies, keys, URLs or records are included.",
+  "files": [
+    {
+      "kind": "basicCodebook",
+      "file": "usa_00003.cbk",
+      "bytes": 16542,
+      "sha256": "425fc3098c3872023a51b41e8b10bb0c59fdffb8c3c295aecae3308b3247c54d",
+      "provider_size_matches": true,
+      "provider_sha256_matches": true
+    },
+    {
+      "kind": "data",
+      "file": "usa_00003.csv.gz",
+      "bytes": 13016246,
+      "sha256": "697a3b2fe3b095d9d080c65df96f7d771b3dda4d825548c8c7ae5ea3bcb5a6da",
+      "provider_size_matches": true,
+      "provider_sha256_matches": true
+    },
+    {
+      "kind": "stsCommandFile",
+      "file": "usa_00003.sts",
+      "bytes": 11548,
+      "sha256": "198ad2e5477aa573ef9f0c88783bba9d5297c27da6b2a28bd0cb4f721b91a76d",
+      "provider_size_matches": true,
+      "provider_sha256_matches": true
+    },
+    {
+      "kind": "ddiCodebook",
+      "file": "usa_00003.xml",
+      "bytes": 65939,
+      "sha256": "b7c6a48135e53031e1ec719eed2073f618b32f9f8dfa5c6f43b9a2da989a2bbb",
+      "provider_size_matches": true,
+      "provider_sha256_matches": true
+    }
+  ]
+}

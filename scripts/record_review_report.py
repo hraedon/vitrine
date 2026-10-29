@@ -44,6 +44,7 @@ REVIEW_FILES = (
     "root-early-full-results.json",
     "root-middle-full-results.json",
     "root-recent-full-results.json",
+    "root-reconstruction-20261029-results.json",
 )
 EXPECTED_BASELINE_COUNT = 561
 EXPECTED_BASELINE_ID_FINGERPRINT = (

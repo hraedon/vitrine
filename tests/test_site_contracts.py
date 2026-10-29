@@ -172,8 +172,9 @@ EXPECTED: dict[str, PageContract] = {
     ),
     "rooms/us-1950s.html": _page(
         'US · 1950s — vitrine',
-        landmarks=(1, 3, 1, 8, 1), disclosures=(104, 0),
-        local=(91, 'bee4daaa618a'), marks=(8, '039d00bafc61'), overlays=46,
+        # The reconstructed income difference is derived, with no Fact overlay.
+        landmarks=(1, 3, 1, 8, 1), disclosures=(103, 0),
+        local=(91, 'fd86418c2ea8'), marks=(8, '039d00bafc61'), overlays=45,
     ),
     "rooms/us-1910s.html": _page(
         'US · 1910s — vitrine',
@@ -207,9 +208,9 @@ EXPECTED: dict[str, PageContract] = {
     ),
     "bibliography.html": _page(
         'bibliography — vitrine',
-        # Source-specific survey vintages and the recovered Fed release.
-        landmarks=(1, 1, 1, 0, 1), disclosures=(165, 0),
-        local=(179, 'c5dc778ee9ed'), marks=(0, 'e3b0c44298fc'), overlays=0,
+        # Add the recovered BLS table and distinct IPUMS reconstruction source.
+        landmarks=(1, 1, 1, 0, 1), disclosures=(167, 0),
+        local=(181, '29e9d26e010d'), marks=(0, 'e3b0c44298fc'), overlays=0,
     ),
     "essays/index.html": _page(
         'docent tours — vitrine',

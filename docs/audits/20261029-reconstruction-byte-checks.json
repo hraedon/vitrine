@@ -1,0 +1,40 @@
+{
+  "review_date": "2026-10-29",
+  "scope": "New evidence files for the four reconstructed records; preceding dated archive check remains historical.",
+  "meaning": "Byte identity only. Source interpretation and aggregate calculation were separately reviewed and replayed.",
+  "unique_files": 5,
+  "missing_files": 0,
+  "mismatched_files": 0,
+  "files": [
+    {
+      "file": "reconstruction-20261029/bls/american-buying-habits-1959.pdf",
+      "bytes": 47732929,
+      "sha256": "ba688e0a6130a872b33b1ecb89b304fafe307cca915b397fd4372e24d451219f",
+      "reviewer_pin_matches": true
+    },
+    {
+      "file": "reconstruction-20261029/bls/table6-curator.json",
+      "bytes": 712,
+      "sha256": "8f8857658a11361988575c8a310fa438c850b6681c13fa980df8da0809908584",
+      "reviewer_pin_matches": true
+    },
+    {
+      "file": "reconstruction-20261029/ipums/family-income-curator.json",
+      "bytes": 3880,
+      "sha256": "fbbf471b98f28b09933597e3448957fcad95e7255d70f68f8184edb2d58574a7",
+      "reviewer_pin_matches": true
+    },
+    {
+      "file": "reconstruction-20261029/ipums/usa_00003.csv.gz",
+      "bytes": 13016246,
+      "sha256": "697a3b2fe3b095d9d080c65df96f7d771b3dda4d825548c8c7ae5ea3bcb5a6da",
+      "reviewer_pin_matches": true
+    },
+    {
+      "file": "reconstruction-20261029/ipums/usa_00003.xml",
+      "bytes": 65939,
+      "sha256": "b7c6a48135e53031e1ec719eed2073f618b32f9f8dfa5c6f43b9a2da989a2bbb",
+      "reviewer_pin_matches": true
+    }
+  ]
+}

@@ -1,5 +1,9 @@
 # Remaining-record source audit — 2026-10-28
 
+Follow-up: [four source gaps reconstructed on 2026-10-29](reconstruction-20261029.md).
+The findings below describe the earlier review checkpoint; the inventory retains
+its history and now includes the subsequent replacement reviews.
+
 The audit covers the **561 records without field bindings at `f58b808`**:
 92 early U.S., 190 mid-century U.S., 193 recent U.S., and 86 UK/Japan records.
 Terra and Luna agents read the primary archive, acquired additional originals,

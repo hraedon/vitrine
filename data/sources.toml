@@ -176,7 +176,7 @@ year = 2024
 url = "https://usa.ipums.org/usa/"
 short_cite = "IPUMS USA, University of Minnesota, www.ipums.org"
 population = "Decennial census respondents (sample or full count, depending on year) + ACS 2001-present"
-notes = "IPUMS USA is used under its agreement; raw microdata is not published. The 1950 locale median estimates and their difference were withdrawn in the remaining-record review because the original aggregate-reproduction evidence was unavailable and the described income/geography selection was not a valid demonstrated family-income construction. Extract 00001 metadata was recovered, but it has INCTOT without FTOTINC or SLWT, and no original aggregation code or aggregate output was found. These records now disclose verification gaps. See docs/ipums-compliance.md."
+notes = "Historical registry for the withdrawn 1950 locale estimates. Extract 00001 lacks FTOTINC and SLWT, and the original aggregation program/output was not recovered in the bounded four-host search. A distinct FTOTINC/SLWT reconstruction is now cited under ipums-1950-primary-family-income-1949; see docs/reconstruction-20261029.md. Raw microdata is never published."
 
 [[source]]
 id = "ipums-1940-census"
@@ -1727,3 +1727,23 @@ url = "https://www.cdc.gov/mmwr/preview/mmwrhtml/00033881.htm"
 population = "Total manufactured-cigarette consumption divided by the population aged 18 and older under USDA Table 1 definitions; not NHIS smoking prevalence"
 notes = "Table 1 reports a population ratio, not cigarettes known to have been smoked only by adults. Its footnotes include consumption by U.S. military forces overseas in 1930–1994 estimates. The same report’s NHIS prevalence tables describe a different survey universe."
 id = "cdc-mmwr-cigarette-consumption-table1"
+
+[[source]]
+title = "How American Buying Habits Change"
+publisher = "U.S. Department of Labor, Bureau of Labor Statistics"
+year = 1959
+url = "https://fraser.stlouisfed.org/docs/publications/dol/dol_americanBuyingHabits_1959.pdf"
+population = "Wage-earner and clerical-worker families of two or more persons in urban places of 2,500 or more, 1950 survey."
+notes = "Table 6, printed pp. 46–47, reports current-consumption expenditure means and shares for the all-income population. Housing is narrower than the modern total-housing category; fuel, operations and furnishings are separately reported. Table reproduced from the BLS/Wharton 1950 survey."
+short_cite = "BLS, How American Buying Habits Change (1959), Table 6"
+id = "bls-buying-habits-1959-1950-worker-families"
+
+[[source]]
+title = "IPUMS USA, Version 16.0: 1950 sample, primary-family income in 1949"
+publisher = "IPUMS, University of Minnesota"
+year = 2025
+url = "https://doi.org/10.18128/D010.V16.0"
+short_cite = "IPUMS USA 16.0; vitrine aggregate calculation"
+population = "U.S. primary family units of four people in households under the period census definition, with one identified head selected for the detailed income questions and usable family income. 1950 1% sample; income in 1949."
+notes = "Steven Ruggles, Sarah Flood, Matthew Sobek, Daniel Backman, Grace Cooper, Julia A. Rivera Drew, Stephanie Richards, Renae Rodgers, Jonathan Schroeder, and Kari C.W. Williams. IPUMS USA: Version 16.0 [dataset]. Minneapolis, MN: IPUMS, 2025. https://doi.org/10.18128/D010.V16.0. New extract 00003, acquired 2026-10-29. Uses FTOTINC and SLWT; excludes unknown metro status and does not sum personal INCTOT. Income-category midpoint coding, primary-unit definition and identifiable central-city coverage limit interpretation. See docs/reconstruction-20261029.md and scripts/ipums_family_income_1950.py. Raw microdata is never published."
+id = "ipums-1950-primary-family-income-1949"

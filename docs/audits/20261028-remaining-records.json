@@ -17,8 +17,7 @@
   "disposition_counts": {
     "computed_in_code": 13,
     "curation_gap": 42,
-    "needs_source": 4,
-    "source_reviewed": 502
+    "source_reviewed": 506
   },
   "diagnostics": [],
   "records": [
@@ -18155,13 +18154,15 @@
       "baseline_entity_type": "Fact",
       "gap_at_baseline": false,
       "entity_type": "Fact",
-      "current_fingerprint": "27a0e2765bf4f06ab4da55f817bfe34a0ca1665f8e8fbd948db163c07d6e62f8",
+      "current_fingerprint": "44aea34eb2a63c9af6b15e3463868e829f9cad86c57e5235b19299ac32c3254f",
       "current_matches_baseline_fingerprint": false,
-      "disposition": "needs_source",
-      "review_status_latest": "needs_source",
-      "review_report_latest": "early_us-special-addenda.json",
+      "disposition": "source_reviewed",
+      "review_status_latest": "corrected",
+      "review_report_latest": "root-reconstruction-20261029-results.json",
       "scope_fields_latest": [
-        "cited guide 1950s section"
+        "headline value and structured amount/quantity bound to pinned aggregate or visual-transcription artifact",
+        "label, unit, reference year, source population, tier, notes and assumptions independently reviewed",
+        "method, geography, source identity and reproducible source-file/metadata hashes checked"
       ],
       "historical_findings": [
         {
@@ -18193,14 +18194,60 @@
             "url": "https://libraryguides.missouri.edu/pricesandwages/quotable-facts",
             "reason": "Locate the actual BLS survey report, year, sample, housing definition and denominator; the linked guide does not supply the claimed cell."
           }
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "review_status": "corrected",
+          "review_fingerprint": "adc932060b23d64dc1d4591682d500bcb21155eecfe5335938b1dccf2de84469",
+          "matches_baseline_fingerprint": true,
+          "scope_fields": [
+            "headline value and structured amount/quantity bound to pinned aggregate or visual-transcription artifact",
+            "label, unit, reference year, source population, tier, notes and assumptions independently reviewed",
+            "method, geography, source identity and reproducible source-file/metadata hashes checked"
+          ],
+          "historical_findings": [],
+          "proposed_changes": {},
+          "proposed_audit": null,
+          "acquisition": "Four-host bounded original-artifact search followed by new source acquisition/reconstruction authorized by owner, 2026-10-29.",
+          "reviewed_current_fingerprint": "44aea34eb2a63c9af6b15e3463868e829f9cad86c57e5235b19299ac32c3254f"
         }
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/bls/american-buying-habits-1959.pdf",
+          "sha256": "ba688e0a6130a872b33b1ecb89b304fafe307cca915b397fd4372e24d451219f",
+          "exactlocator": "Table 6, printed pp.46–47; original page image, all income classes",
+          "shortsupportingtext": "Publisher reports 10.6% Housing / current consumption, 7007 sampled urban worker families of two or more; narrow housing category."
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/bls/table6-curator.json",
+          "sha256": "8f8857658a11361988575c8a310fa438c850b6681c13fa980df8da0809908584",
+          "exactlocator": "/housing_percent and population/denominator guards",
+          "shortsupportingtext": "Explicit visual transcription independently checked on original table image."
+        }
+      ],
       "numeric_field_binding": {
-        "status": "no_audit_ref",
-        "explanation": "No guarded numeric field binding is authored on this Fact."
+        "status": "bound_current",
+        "explanation": "The ledger entry fingerprint matches the current Fact; this binds transcription, not interpretation.",
+        "file": "reconstruction-20261029/bls/table6-curator.json",
+        "extractor": "json-pointer",
+        "locator": "/housing_percent",
+        "sample_sha256": "8f8857658a11361988575c8a310fa438c850b6681c13fa980df8da0809908584"
       },
-      "evidence_checks": []
+      "evidence_checks": [
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/bls/american-buying-habits-1959.pdf",
+          "status": "normalized_relative_path"
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/bls/table6-curator.json",
+          "status": "normalized_relative_path"
+        }
+      ]
     },
     {
       "fact_id": "us-1950s-infant-mortality",
@@ -18537,18 +18584,15 @@
       "baseline_entity_type": "Fact",
       "gap_at_baseline": false,
       "entity_type": "Fact",
-      "current_fingerprint": "a5dcd12453f113f3ff9857e3b8da8f7e94b3de136fa19ce23a04f45a6978553a",
+      "current_fingerprint": "ff87bdd89da4d594526a7e615429d313af1608a36cf56250f4703a89b7a53314",
       "current_matches_baseline_fingerprint": false,
-      "disposition": "needs_source",
-      "review_status_latest": "needs_source",
-      "review_report_latest": "early_us-special-addenda.json",
+      "disposition": "source_reviewed",
+      "review_status_latest": "corrected",
+      "review_report_latest": "root-reconstruction-20261029-results.json",
       "scope_fields_latest": [
-        "1950 sample name",
-        "INCTOT universe",
-        "METRO coding limitations",
-        "original extract 00001 DDI and codebook",
-        "actual selected variables",
-        "extract-specific METRO labels"
+        "headline value and structured amount/quantity bound to pinned aggregate or visual-transcription artifact",
+        "label, unit, reference year, source population, tier, notes and assumptions independently reviewed",
+        "method, geography, source identity and reproducible source-file/metadata hashes checked"
       ],
       "historical_findings": [
         {
@@ -18585,6 +18629,22 @@
             "url": "https://usa.ipums.org/usa/",
             "reason": "Recover the original weighted-median code and aggregate results, including family unit, sample-line universe, exact geography categories, income concept and reference year, missing/top-code handling and weights. Alternatively obtain a new authorized extract with FTOTINC and SLWT plus family and geography fields, then author and review a distinct 1949-income method. No raw records may be published."
           }
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "review_status": "corrected",
+          "review_fingerprint": "5f214d08c077eea79bd0cb760c57095402d965cf58ad7aa7ec48cd2211598ffd",
+          "matches_baseline_fingerprint": true,
+          "scope_fields": [
+            "headline value and structured amount/quantity bound to pinned aggregate or visual-transcription artifact",
+            "label, unit, reference year, source population, tier, notes and assumptions independently reviewed",
+            "method, geography, source identity and reproducible source-file/metadata hashes checked"
+          ],
+          "historical_findings": [],
+          "proposed_changes": {},
+          "proposed_audit": null,
+          "acquisition": "Four-host bounded original-artifact search followed by new source acquisition/reconstruction authorized by owner, 2026-10-29.",
+          "reviewed_current_fingerprint": "ff87bdd89da4d594526a7e615429d313af1608a36cf56250f4703a89b7a53314"
         }
       ],
       "evidence": [
@@ -18636,11 +18696,36 @@
           "sha256": "6aae35972daf1b9ca160cbd6f8c06382e3dc41da8458409bfb1e8b66b81e6542",
           "locator": "IPUMS-supplied statistical setup for extract 00001",
           "supporting_text": "Original extraction setup accompanies the DDI and codebook; this is not a family-income aggregate calculation."
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/usa_00003.csv.gz",
+          "sha256": "697a3b2fe3b095d9d080c65df96f7d771b3dda4d825548c8c7ae5ea3bcb5a6da",
+          "exactlocator": "Aggregate-only replay, unique sample-line head / primary unit of four / GQ1; geography-specific inverse SLWT-weighted CDF",
+          "shortsupportingtext": "New FTOTINC/SLWT reconstruction, not recovery of the invalid original household-sum results; independent implementation matches three medians and rank endpoints."
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/usa_00003.xml",
+          "sha256": "b7c6a48135e53031e1ec719eed2073f618b32f9f8dfa5c6f43b9a2da989a2bbb",
+          "exactlocator": "Selected sample identity and FTOTINC, SLWT, METRO, GQ, FAMUNIT, FAMSIZE, RELATE definitions",
+          "shortsupportingtext": "1950 1% sample, income reference 1949; CSV weights are decimal 330.0; category-midpoint income and identifiable outside-central-city population limits disclosed."
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/family-income-curator.json",
+          "sha256": "fbbf471b98f28b09933597e3448957fcad95e7255d70f68f8184edb2d58574a7",
+          "exactlocator": "/groups and selection, median rule, source hash guards",
+          "shortsupportingtext": "Group Ns 13734/9062/11788 and medians 3650/2650/3750; independent replay confirms ranks."
         }
       ],
       "numeric_field_binding": {
-        "status": "no_audit_ref",
-        "explanation": "No guarded numeric field binding is authored on this Fact."
+        "status": "bound_current",
+        "explanation": "The ledger entry fingerprint matches the current Fact; this binds transcription, not interpretation.",
+        "file": "reconstruction-20261029/ipums/family-income-curator.json",
+        "extractor": "json-pointer",
+        "locator": "/groups/metro/median_code",
+        "sample_sha256": "fbbf471b98f28b09933597e3448957fcad95e7255d70f68f8184edb2d58574a7"
       },
       "evidence_checks": [
         {
@@ -18677,6 +18762,21 @@
           "report": "early_us-special-addenda.json",
           "file": "remaining-audit-20261028/ipums-original-metadata/usa_00001.sts",
           "status": "normalized_relative_path"
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/usa_00003.csv.gz",
+          "status": "normalized_relative_path"
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/usa_00003.xml",
+          "status": "normalized_relative_path"
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/family-income-curator.json",
+          "status": "normalized_relative_path"
         }
       ]
     },
@@ -18688,18 +18788,15 @@
       "baseline_entity_type": "Fact",
       "gap_at_baseline": false,
       "entity_type": "Fact",
-      "current_fingerprint": "6e214396095daaae809563b79e8a1216ef6a324bbfc93bf62cda8daa136d850e",
+      "current_fingerprint": "a2502c1d76310a9082584c56dd415bd7ef58874fa504a3b62ad71d9c802cfb87",
       "current_matches_baseline_fingerprint": false,
-      "disposition": "needs_source",
-      "review_status_latest": "needs_source",
-      "review_report_latest": "early_us-special-addenda.json",
+      "disposition": "source_reviewed",
+      "review_status_latest": "corrected",
+      "review_report_latest": "root-reconstruction-20261029-results.json",
       "scope_fields_latest": [
-        "1950 sample name",
-        "INCTOT universe",
-        "METRO coding limitations",
-        "original extract 00001 DDI and codebook",
-        "actual selected variables",
-        "extract-specific METRO labels"
+        "headline value and structured amount/quantity bound to pinned aggregate or visual-transcription artifact",
+        "label, unit, reference year, source population, tier, notes and assumptions independently reviewed",
+        "method, geography, source identity and reproducible source-file/metadata hashes checked"
       ],
       "historical_findings": [
         {
@@ -18736,6 +18833,22 @@
             "url": "https://usa.ipums.org/usa/",
             "reason": "Recover the original weighted-median code and aggregate results, including family unit, sample-line universe, exact geography categories, income concept and reference year, missing/top-code handling and weights. Alternatively obtain a new authorized extract with FTOTINC and SLWT plus family and geography fields, then author and review a distinct 1949-income method. No raw records may be published."
           }
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "review_status": "corrected",
+          "review_fingerprint": "e398b88ad5e093b89a8fdbfe7794baf3d8260bd7364010261703467007cb03ed",
+          "matches_baseline_fingerprint": true,
+          "scope_fields": [
+            "headline value and structured amount/quantity bound to pinned aggregate or visual-transcription artifact",
+            "label, unit, reference year, source population, tier, notes and assumptions independently reviewed",
+            "method, geography, source identity and reproducible source-file/metadata hashes checked"
+          ],
+          "historical_findings": [],
+          "proposed_changes": {},
+          "proposed_audit": null,
+          "acquisition": "Four-host bounded original-artifact search followed by new source acquisition/reconstruction authorized by owner, 2026-10-29.",
+          "reviewed_current_fingerprint": "a2502c1d76310a9082584c56dd415bd7ef58874fa504a3b62ad71d9c802cfb87"
         }
       ],
       "evidence": [
@@ -18787,11 +18900,36 @@
           "sha256": "6aae35972daf1b9ca160cbd6f8c06382e3dc41da8458409bfb1e8b66b81e6542",
           "locator": "IPUMS-supplied statistical setup for extract 00001",
           "supporting_text": "Original extraction setup accompanies the DDI and codebook; this is not a family-income aggregate calculation."
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/usa_00003.csv.gz",
+          "sha256": "697a3b2fe3b095d9d080c65df96f7d771b3dda4d825548c8c7ae5ea3bcb5a6da",
+          "exactlocator": "Aggregate-only replay, unique sample-line head / primary unit of four / GQ1; geography-specific inverse SLWT-weighted CDF",
+          "shortsupportingtext": "New FTOTINC/SLWT reconstruction, not recovery of the invalid original household-sum results; independent implementation matches three medians and rank endpoints."
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/usa_00003.xml",
+          "sha256": "b7c6a48135e53031e1ec719eed2073f618b32f9f8dfa5c6f43b9a2da989a2bbb",
+          "exactlocator": "Selected sample identity and FTOTINC, SLWT, METRO, GQ, FAMUNIT, FAMSIZE, RELATE definitions",
+          "shortsupportingtext": "1950 1% sample, income reference 1949; CSV weights are decimal 330.0; category-midpoint income and identifiable outside-central-city population limits disclosed."
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/family-income-curator.json",
+          "sha256": "fbbf471b98f28b09933597e3448957fcad95e7255d70f68f8184edb2d58574a7",
+          "exactlocator": "/groups and selection, median rule, source hash guards",
+          "shortsupportingtext": "Group Ns 13734/9062/11788 and medians 3650/2650/3750; independent replay confirms ranks."
         }
       ],
       "numeric_field_binding": {
-        "status": "no_audit_ref",
-        "explanation": "No guarded numeric field binding is authored on this Fact."
+        "status": "bound_current",
+        "explanation": "The ledger entry fingerprint matches the current Fact; this binds transcription, not interpretation.",
+        "file": "reconstruction-20261029/ipums/family-income-curator.json",
+        "extractor": "json-pointer",
+        "locator": "/groups/nonmetro/median_code",
+        "sample_sha256": "fbbf471b98f28b09933597e3448957fcad95e7255d70f68f8184edb2d58574a7"
       },
       "evidence_checks": [
         {
@@ -18828,6 +18966,21 @@
           "report": "early_us-special-addenda.json",
           "file": "remaining-audit-20261028/ipums-original-metadata/usa_00001.sts",
           "status": "normalized_relative_path"
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/usa_00003.csv.gz",
+          "status": "normalized_relative_path"
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/usa_00003.xml",
+          "status": "normalized_relative_path"
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/family-income-curator.json",
+          "status": "normalized_relative_path"
         }
       ]
     },
@@ -18839,18 +18992,15 @@
       "baseline_entity_type": "Fact",
       "gap_at_baseline": false,
       "entity_type": "Fact",
-      "current_fingerprint": "7fdc22e16f1919ad78b0e439c6f1ea6efd05e738a242f1df92a3fed38e3a9f45",
+      "current_fingerprint": "ba525a0aaedff8fe51a15d5129785d7a424e67edcef8bef797d6fe9573423b83",
       "current_matches_baseline_fingerprint": false,
-      "disposition": "needs_source",
-      "review_status_latest": "needs_source",
-      "review_report_latest": "early_us-special-addenda.json",
+      "disposition": "source_reviewed",
+      "review_status_latest": "corrected",
+      "review_report_latest": "root-reconstruction-20261029-results.json",
       "scope_fields_latest": [
-        "1950 sample name",
-        "INCTOT universe",
-        "METRO coding limitations",
-        "original extract 00001 DDI and codebook",
-        "actual selected variables",
-        "extract-specific METRO labels"
+        "headline value and structured amount/quantity bound to pinned aggregate or visual-transcription artifact",
+        "label, unit, reference year, source population, tier, notes and assumptions independently reviewed",
+        "method, geography, source identity and reproducible source-file/metadata hashes checked"
       ],
       "historical_findings": [
         {
@@ -18887,6 +19037,22 @@
             "url": "https://usa.ipums.org/usa/",
             "reason": "Recover the original weighted-median code and aggregate results, including family unit, sample-line universe, exact geography categories, income concept and reference year, missing/top-code handling and weights. Alternatively obtain a new authorized extract with FTOTINC and SLWT plus family and geography fields, then author and review a distinct 1949-income method. No raw records may be published."
           }
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "review_status": "corrected",
+          "review_fingerprint": "3f66b688e661baad097fe9dd9300d131c5dd1fb886f67529a86ff8cc0f728d97",
+          "matches_baseline_fingerprint": true,
+          "scope_fields": [
+            "headline value and structured amount/quantity bound to pinned aggregate or visual-transcription artifact",
+            "label, unit, reference year, source population, tier, notes and assumptions independently reviewed",
+            "method, geography, source identity and reproducible source-file/metadata hashes checked"
+          ],
+          "historical_findings": [],
+          "proposed_changes": {},
+          "proposed_audit": null,
+          "acquisition": "Four-host bounded original-artifact search followed by new source acquisition/reconstruction authorized by owner, 2026-10-29.",
+          "reviewed_current_fingerprint": "ba525a0aaedff8fe51a15d5129785d7a424e67edcef8bef797d6fe9573423b83"
         }
       ],
       "evidence": [
@@ -18938,11 +19104,36 @@
           "sha256": "6aae35972daf1b9ca160cbd6f8c06382e3dc41da8458409bfb1e8b66b81e6542",
           "locator": "IPUMS-supplied statistical setup for extract 00001",
           "supporting_text": "Original extraction setup accompanies the DDI and codebook; this is not a family-income aggregate calculation."
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/usa_00003.csv.gz",
+          "sha256": "697a3b2fe3b095d9d080c65df96f7d771b3dda4d825548c8c7ae5ea3bcb5a6da",
+          "exactlocator": "Aggregate-only replay, unique sample-line head / primary unit of four / GQ1; geography-specific inverse SLWT-weighted CDF",
+          "shortsupportingtext": "New FTOTINC/SLWT reconstruction, not recovery of the invalid original household-sum results; independent implementation matches three medians and rank endpoints."
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/usa_00003.xml",
+          "sha256": "b7c6a48135e53031e1ec719eed2073f618b32f9f8dfa5c6f43b9a2da989a2bbb",
+          "exactlocator": "Selected sample identity and FTOTINC, SLWT, METRO, GQ, FAMUNIT, FAMSIZE, RELATE definitions",
+          "shortsupportingtext": "1950 1% sample, income reference 1949; CSV weights are decimal 330.0; category-midpoint income and identifiable outside-central-city population limits disclosed."
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/family-income-curator.json",
+          "sha256": "fbbf471b98f28b09933597e3448957fcad95e7255d70f68f8184edb2d58574a7",
+          "exactlocator": "/groups and selection, median rule, source hash guards",
+          "shortsupportingtext": "Group Ns 13734/9062/11788 and medians 3650/2650/3750; independent replay confirms ranks."
         }
       ],
       "numeric_field_binding": {
-        "status": "no_audit_ref",
-        "explanation": "No guarded numeric field binding is authored on this Fact."
+        "status": "bound_current",
+        "explanation": "The ledger entry fingerprint matches the current Fact; this binds transcription, not interpretation.",
+        "file": "reconstruction-20261029/ipums/family-income-curator.json",
+        "extractor": "json-pointer",
+        "locator": "/groups/outside_central_identified/median_code",
+        "sample_sha256": "fbbf471b98f28b09933597e3448957fcad95e7255d70f68f8184edb2d58574a7"
       },
       "evidence_checks": [
         {
@@ -18978,6 +19169,21 @@
         {
           "report": "early_us-special-addenda.json",
           "file": "remaining-audit-20261028/ipums-original-metadata/usa_00001.sts",
+          "status": "normalized_relative_path"
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/usa_00003.csv.gz",
+          "status": "normalized_relative_path"
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/usa_00003.xml",
+          "status": "normalized_relative_path"
+        },
+        {
+          "report": "root-reconstruction-20261029-results.json",
+          "file": "reconstruction-20261029/ipums/family-income-curator.json",
           "status": "normalized_relative_path"
         }
       ]

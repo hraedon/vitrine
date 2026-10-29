@@ -72,8 +72,8 @@ Julia A. Rivera Drew, Stephanie Richards, Renae Rodgers, Jonathan Schroeder,
 and Kari C.W. Williams. IPUMS USA: Version 16.0 [dataset]. Minneapolis, MN:
 IPUMS, 2025. https://doi.org/10.18128/D010.V16.0
 
-Used for locale income split (metro/non-metro/suburban) via 1% sample
-microdata. Vitrine computes weighted aggregate statistics (medians) from
+Used for 1949 primary-family income by metropolitan residence via the 1950
+1% sample. The outside-central-city subset includes identifiable cases only. Vitrine computes weighted aggregate statistics (medians) from
 IPUMS extracts; raw microdata is never redistributed (see
 `docs/ipums-compliance.md`). Used for Tier B facts.
 
@@ -102,19 +102,14 @@ in scanned publications not text-extractable.
   `pdftoppm` (poppler-utils). These are preliminary sample estimates; their
   uncertainty depends on the particular estimate and denominator. No single
   percentage describes every field's sampling variability.
-- **IPUMS income status:** The three 1950 locale medians and their dependent
-  difference are withdrawn pending a valid, reproducible extract specification
-  and aggregation. Original extract 00001 metadata was recovered from the
-  research host; it contains neither FTOTINC nor SLWT. No original aggregation
-  code or aggregate output was found. Its income reference year is 1949.
-  In 1950, INCTOT's sample-line universe does not cover every
-  family member; a sum of observed nonmissing values is not demonstrated total
-  family income. METRO 3+4 also excludes identifiable central-city households.
-  See the publisher's [INCTOT universe](https://usa.ipums.org/usa-action/variables/INCTOT),
-  [FTOTINC definition](https://usa.ipums.org/usa-action/variables/FTOTINC),
-  and [METRO comparability](https://usa.ipums.org/usa-action/variables/METRO).
-  No replacement estimator has been silently substituted. Other IPUMS-derived
-  records retain their own separate audit and methodology obligations.
+- **IPUMS income status:** The former three locale medians remain withdrawn.
+  Following a bounded four-host search, new extract 00003 supports a distinct
+  reconstruction using FTOTINC and SLWT. Income refers to 1949, with the
+  primary-family-unit, period-household and category-midpoint restrictions
+  documented in [the reconstruction record](reconstruction-20261029.md).
+  The identifiable outside-central-city subset is not every suburban family.
+  The dependent difference is calculated in the core. Other IPUMS-derived
+  records retain their separate audit and methodology obligations.
 - **CPI adjustment:** Real income comparisons use CPIAUCNS (CPI-U, not
   seasonally adjusted, 1982-84=100). The ratio of 2024 annual average
   (313.7) to 1950 annual average (24.1) = 13.03 is used for all nominal-to-

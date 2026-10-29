@@ -151,3 +151,8 @@ statement = "The displayed 1947 BLS hourly rate retains its source precision of 
 id = "imls-state-reference-sum"
 title = "Imls state reference sum"
 statement = "Sum FY2020 Public Libraries Survey state-summary reference-transaction totals for the 50 states and District of Columbia, including flagged imputed values, then divide by one million and round once to one decimal using half-up."
+
+[[assumption]]
+id = "ipums-1950-primary-family-median"
+title = "Primary-family income from the 1950 sample"
+statement = "A distinct 1949-income estimate from the 1950 1% sample. Select a unique household head (RELATE=1), FAMUNIT=1, head FAMSIZE=4 and exactly four primary-unit person records, in GQ=1 households. Use positive SLWT and valid FTOTINC, not summed personal incomes or HHWT. The median is the smallest coded income whose cumulative weight reaches half; no interpolation. FTOTINC uses income-category midpoints and excludes income below age fourteen; its primary-family universe differs from all CPS families. The net-loss code is categorical, missing codes are excluded, and the upper category is top-coded. METRO 3, 4 and 5 form metro, 1 is nonmetro; 2 is excluded. Only code 3 identifies residence outside the central city; it cannot represent every suburban family. These observations are separate from the room’s 1950 CPS income anchor. The project requires thirty records per released median; rare ancillary diagnostics receive complementary suppression, which is a project release choice, not an asserted IPUMS rule."

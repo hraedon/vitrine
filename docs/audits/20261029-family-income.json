@@ -1,0 +1,88 @@
+{
+  "extract_id": "usa_00003",
+  "ddi_sha256": "b7c6a48135e53031e1ec719eed2073f618b32f9f8dfa5c6f43b9a2da989a2bbb",
+  "data_sha256": "697a3b2fe3b095d9d080c65df96f7d771b3dda4d825548c8c7ae5ea3bcb5a6da",
+  "sample": "1950 1%",
+  "income_reference_year": 1949,
+  "unit": "nominal USD, reported income-category midpoints",
+  "population": "IPUMS primary family units of four people in GQ=1 households with a sample-line head",
+  "selection": "RELATE=1; FAMUNIT=1; head FAMSIZE=4; four FAMUNIT=1 records per household; GQ=1; unique household head; SLWT>0",
+  "weight": "SLWT CSV decimal value; DDI fixed-width field has two implied decimals; no second division",
+  "median_rule": "smallest ordered value whose cumulative SLWT is at least half the total; no interpolation",
+  "geography": "METRO 1 nonmetro; 2 indeterminable/excluded; 3 outside central city; 4 city status indeterminable; 5 central city; metro combines 3, 4, 5",
+  "income_codes": "0 is no income; -1 is a net-loss category, not a literal dollar amount; 9999998/9999999 are missing; 10000 is top-coded",
+  "limitations": "FTOTINC covers primary family income as available for the sample-line head; income below age 14 is not included. IPUMS family-unit definitions can differ from Census family definitions; this is not all CPS families. The identifiable outside-central-city subset excludes metropolitan households with undetermined central-city status.",
+  "source_documentation": {
+    "ftotinc": "https://usa.ipums.org/usa-action/variables/FTOTINC",
+    "slwt": "https://usa.ipums.org/usa-action/variables/SLWT",
+    "metro": "https://usa.ipums.org/usa-action/variables/METRO",
+    "famsize": "https://usa.ipums.org/usa-action/variables/FAMSIZE",
+    "famunit": "https://usa.ipums.org/usa-action/variables/FAMUNIT",
+    "gq": "https://usa.ipums.org/usa-action/variables/GQ",
+    "relate": "https://usa.ipums.org/usa-action/variables/RELATE"
+  },
+  "documentation_sha256": {
+    "ftotinc": "3b4ca7579d01a932eae4addb29ee98ddec65a005e66cdadde90a4ada6861660e",
+    "slwt": "909c576740194da1bfe7b358cdab1b3493b7156c27e9848af570720e120f9699"
+  },
+  "counts": {
+    "ambiguous_household_heads": 0,
+    "four_person_primary_heads": null,
+    "geography_central_city": 0,
+    "geography_central_city_indeterminate": null,
+    "geography_metro_indeterminate": 0,
+    "geography_nonmetro": null,
+    "geography_outside_central_identified": null,
+    "income_not_applicable": 0,
+    "income_not_ascertained": 0,
+    "net_loss_code": null,
+    "not_sample_line": null,
+    "primary_unit_size_mismatch": 0,
+    "sample_line_heads": null,
+    "top_code": null,
+    "valid_income": null
+  },
+  "suppressed_counts": [
+    "four_person_primary_heads",
+    "geography_central_city_indeterminate",
+    "geography_nonmetro",
+    "geography_outside_central_identified",
+    "net_loss_code",
+    "not_sample_line",
+    "sample_line_heads",
+    "top_code",
+    "valid_income"
+  ],
+  "groups": {
+    "metro": {
+      "unweighted_count": 13734,
+      "median_code": 3650,
+      "weight_below": "2166780.0",
+      "weight_at_or_below": "2288220.0",
+      "total_weight": "4532220.0",
+      "half_rank_exact_boundary": false,
+      "bottom_code_is_net_loss": false,
+      "top_code_reached": false
+    },
+    "nonmetro": {
+      "unweighted_count": 9062,
+      "median_code": 2650,
+      "weight_below": "1467510.0",
+      "weight_at_or_below": "1530540.0",
+      "total_weight": "2990460.0",
+      "half_rank_exact_boundary": false,
+      "bottom_code_is_net_loss": false,
+      "top_code_reached": false
+    },
+    "outside_central_identified": {
+      "unweighted_count": 11788,
+      "median_code": 3750,
+      "weight_below": "1897500.0",
+      "weight_at_or_below": "1966800.0",
+      "total_weight": "3890040.0",
+      "half_rank_exact_boundary": false,
+      "bottom_code_is_net_loss": false,
+      "top_code_reached": false
+    }
+  }
+}

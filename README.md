@@ -88,7 +88,7 @@ not cryptographic.
 
 <!-- The marked line is machine-checked by tests/test_docs_sync.py;
      regenerate with `python scripts/sync_readme_status.py` after curating. -->
-Corpus: <!-- corpus-status:begin -->27 decade rooms (1900s–2020s), 770 facts, 28 derived facts, 10 Tier D estimates, 75 rendered gaps<!-- corpus-status:end --> (US decade coverage runs
+Corpus: <!-- corpus-status:begin -->27 decade rooms (1900s–2020s), 769 facts, 29 derived facts, 10 Tier D estimates, 70 rendered gaps<!-- corpus-status:end --> (US decade coverage runs
 1900s–2020s; the world collections below extend it). The Tier D estimates are
 disclosed scholarly reconstructions kept honest by the tier rule
 (`vitrine gaps` prints the mechanical inventory). Gap notes distinguish
