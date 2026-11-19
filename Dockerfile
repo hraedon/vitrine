@@ -2,17 +2,18 @@
 #
 # Stage 1 (builder): install the package with the [site] extra, run the gate,
 # and render the static site to /out.
-# Stage 2 (runtime): nginx:alpine serving /out — no Python, no app server.
+# Stage 2 (runtime): nginx stable-alpine serving /out — no Python, no app server.
 #
 # The site is a pure projection of the curated data/: inline-styled HTML, no
 # JS, no external assets. nginx just serves files.
 #
 # The runtime base image is pinned to an immutable digest for reproducibility.
 # To bump: pull the latest manifest-list digest with
-#   docker buildx imagetools inspect nginx:alpine --format '{{.manifest.digest}}'
+#   docker buildx imagetools inspect nginx:<stable>-alpine --format '{{.manifest.digest}}'
 # and replace the digest below, then rebuild and verify.
 
-FROM python:3.13-slim AS builder
+# python:3.13-slim pinned 2026-11-19 (build-only stage; index digest).
+FROM python:3.13-slim@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90 AS builder
 
 WORKDIR /build
 
