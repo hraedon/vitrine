@@ -28,9 +28,10 @@ RUN pip install --no-cache-dir uv==0.12.5 \
 # fails the image build — no unverifiable site ships.
 RUN .venv/bin/vitrine build --out /out
 
-# nginx:alpine pinned 2026-08-09 — sha256 is the OCI image-index digest
-# (covers amd64/arm64/arm/386/ppc64le/riscv64/s390x). See header note to bump.
-FROM nginx:alpine@sha256:4a73073bd557c65b759505da037898b61f1be6cbcc3c2c3aeac22d2a470c1752
+# nginx stable branch 1.30.7 pinned 2026-11-19 (security audit: the 1.31.x
+# mainline was affected by 2026 advisories; stable 1.30.7 is not). sha256 is
+# the OCI image-index digest. Stay on the stable branch; see header note to bump.
+FROM nginx:1.30.7-alpine@sha256:bef154735288bc38d99fac41ae63730684bcc661503673a04a0f9bc526ba8598
 
 # Strip the default nginx config that serves /usr/share/nginx/html and
 # replace it with a minimal static-file server for /out.
