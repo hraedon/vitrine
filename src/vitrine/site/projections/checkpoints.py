@@ -8,7 +8,7 @@ from markupsafe import Markup
 
 from vitrine.model import Corpus
 from vitrine.site import svg
-from vitrine.site.context import ArcSection
+from vitrine.site.context import ArcSection, ChartTable, ChartTableRow
 from vitrine.site.curation.checkpoints import CHECKPOINT_ARCS, CheckpointArc
 from vitrine.site.curation.rooms import COMPARATIVE_COUNTRIES
 from vitrine.site.projections.facts import GAP_PREFIX, FactRef
@@ -90,5 +90,16 @@ def checkpoint_sections(
             caveats=arc.caveats,
             coverage=coverage,
             chart=Markup(svg.checkpoint_chart(points, arc.axis_unit, arc.label, arc.falling)),
+            tables=(ChartTable(
+                title="Sampling-period records", unit=arc.axis_unit,
+                population=arc.source_population,
+                note="Periods are survey categories, not points on a calendar scale.",
+                rows=tuple(ChartTableRow(
+                    period=point.period,
+                    value=str(point.quantity) if point.quantity is not None else "Not plotted",
+                    label=point.label, href=f"#{point.fact_id}--modal", tier=point.tier,
+                    plotted=point.quantity is not None,
+                ) for point in points),
+            ),),
         ))
     return tuple(sections)

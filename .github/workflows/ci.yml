@@ -37,6 +37,8 @@ jobs:
         run: .venv/bin/mypy
       - name: Tests
         run: .venv/bin/pytest -q --ignore=tests/test_browser.py --ignore=tests/test_display_layout.py
+      - name: Remaining-record review inventory
+        run: .venv/bin/python scripts/record_review_report.py --check
       - name: Provenance gate
         run: .venv/bin/vitrine check
       - name: Build renders
@@ -50,10 +52,37 @@ jobs:
       - name: Cross-check (source-topic consistency)
         run: .venv/bin/python scripts/cross_check.py
 
+  windows:
+    name: Windows CLI and core
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: ["3.13", "3.14"]
+    env:
+      # Tests read the UTF-8 corpus and fixtures. The portability suite also
+      # launches real CLI subprocesses with UTF-8 mode disabled and cp1252.
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+          cache-suffix: windows-${{ matrix.python-version }}
+      - name: Install
+        run: uv sync --locked --extra dev
+      - name: Core, publication, recovery and legacy-encoding checks
+        run: >-
+          uv run pytest -q tests/test_publication_portability.py
+          tests/test_cli_export.py tests/test_architecture.py tests/test_gate.py
+          tests/test_series.py tests/test_derive.py tests/test_monetary_rates.py
+      - name: Provenance gate
+        run: uv run vitrine check
+
   build-and-push:
     name: Publish tested image
     if: github.event_name == 'push'
-    needs: test
+    needs: [test, windows]
     runs-on: ubuntu-latest
     permissions:
       contents: read

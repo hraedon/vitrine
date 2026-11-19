@@ -15,6 +15,7 @@ income_anchor = "uk-2000s-household-income"
 
 [[fact]]
 id = "uk-2000s-weekly-earnings"
+audit = { file = "30-uk-income/ons-earnings-1938-2025.xlsx", extractor = "xlsx-cell", locator = "Average Gross Weekly Earnings!I83", scale = "100", target = "amount_minor", guards = [{ locator = "Average Gross Weekly Earnings!E4", value = "Mean gross weekly earnings for Adult Full-Time Employees in Great Britain whose pay for the survey period was not affected by absence" }, { locator = "Average Gross Weekly Earnings!G7", value = "Adult Male" }, { locator = "Average Gross Weekly Earnings!I9", value = "\"All\"" }, { locator = "Average Gross Weekly Earnings!I11", value = "\u00a3" }, { locator = "Average Gross Weekly Earnings!B83", value = "2000" }] }
 basis = "weekly"
 amount_minor = 47360
 currency = "GBP"
@@ -26,11 +27,12 @@ value = "£473.60"
 unit = "GBP per week, nominal (mean gross weekly earnings, male full-time)"
 source = "ons-earnings-1938-2025"
 tier = "A"
-notes = "From the ONS long-run earnings series. 2000 (April sample, ASHE from 2004 back-cast; 2000 reported under NES methodology): adult male full-time £473.60/week; adult female full-time £345.80/week. Great Britain. Individual earnings, not family income."
+notes = "From the ONS long-run mean gross weekly earnings table, April 2000, adult male full-time employees, Great Britain. The table excludes employees whose pay was affected by absence. This is individual employee pay, not a household income or a real-wage comparison; the nominal series alone cannot establish an inflation-adjusted historical ranking."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "uk-2000s-household-income"
+audit = { file = "30-uk-income/etb-hhldtype.xlsx", extractor = "xlsx-cell", locator = "2000-01!I33", scale = "100", guards = [{ locator = "2000-01!A1", value = "Summary of the effects of taxes and benefits, by household type,1 2000/01" }, { locator = "2000-01!B22", value = "Non-Retired households" }, { locator = "2000-01!I24", value = "2 adults" }, { locator = "2000-01!I25", value = "with 2" }, { locator = "2000-01!I26", value = "children" }, { locator = "2000-01!A33", value = "Disposable income" }], target = "amount_minor" }
 basis = "annual"
 amount_minor = 3018100
 currency = "GBP"
@@ -47,6 +49,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "uk-2000s-hourly-pay"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/ashe/2000/hourly/value", scale = "100", target = "amount_minor", guards = [{ locator = "/ashe/2000/hourly/year", value = "2000" }, { locator = "/ashe/2000/hourly/title", value = "Table 1.5a Hourly pay - Gross (\u00a3) - For all employee jobsa: United Kingdom, 2000" }, { locator = "/ashe/2000/hourly/heading", value = "Median" }, { locator = "/ashe/2000/hourly/population", value = "All Employees" }, { locator = "/ashe/2000/hourly/sheet", value = "All" }, { locator = "/ashe/2000/hourly/archive_sha256", value = "0b393f2c122068240fa40cc58629eb87ca7814f86047ae8ca8d70c505795f7c7" }, { locator = "/ashe/2000/hourly/member", value = "All Employees 1.5a   Hourly pay - Gross 2000.xls" }, { locator = "/ashe/2000/hourly/member_sha256", value = "ca701523ce2a13ce3fb9ad29b65a10a8e02e7ce731ab50827f5da57a7994ada4" }, { locator = "/ashe/2000/hourly/cell", value = "All!R6C4" }] }
 basis = "hourly"
 amount_minor = 793
 currency = "GBP"
@@ -65,6 +68,7 @@ assumptions = ["nominal-values", "uk-wage-anchor-all-employees", "affordability-
 
 [[fact]]
 id = "uk-2000s-tenure"
+audit = { file = "32-uk-housing/ons-century-homeownership.csv", extractor = "csv-cell", locator = "R9:C2", guards = [{ locator = "R1:C1", value = "group" }, { locator = "R1:C2", value = "Owned" }, { locator = "R1:C3", value = "Private rented" }, { locator = "R1:C4", value = "Socially rented" }, { locator = "R9:C1", value = "2001" }, { locator = "R9:C3", value = "12" }, { locator = "R9:C4", value = "19" }], target = "quantity" }
 quantity = 69
 panel = "home"
 label = "Tenure of households, England and Wales, 2001"
@@ -79,16 +83,17 @@ assumptions = ["composite-family"]
 id = "uk-2000s-housing-amenities-gap"
 panel = "home"
 label = "Rooms, floor area, amenities (bath, WC, central heating)"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The GHS recorded central-heating and appliance ownership into the 2000s, but the fuller GHS durable-goods table (central heating, refrigerator, washing machine, vacuum, dishwasher) is not in the archive for transcription."
+notes = "The General Household Survey recorded household central heating and other amenities, and an ONS historical summary contains selected heating observations. Relevant measures have not yet been transcribed and qualified for this room."
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
 [[fact]]
 id = "uk-2000s-colour-tv"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R18:C2", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C2", value = "Colour television" }, { locator = "R18:C1", value = "2002" }], target = "quantity" }
 quantity = 99
 panel = "diffusion"
 label = "Households with a colour television, 2002"
@@ -101,6 +106,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-2000s-computer"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R18:C3", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C3", value = "Home computer" }, { locator = "R18:C1", value = "2002" }], target = "quantity" }
 quantity = 54
 panel = "diffusion"
 label = "Households with a home computer, 2002"
@@ -113,6 +119,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-2000s-telephone"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R18:C4", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C4", value = "Telephone" }, { locator = "R18:C1", value = "2002" }], target = "quantity" }
 quantity = 99
 panel = "diffusion"
 label = "Households with a telephone, 2002"
@@ -125,6 +132,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-2000s-car"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R18:C5", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C5", value = "Car or van" }, { locator = "R18:C1", value = "2002" }], target = "quantity" }
 quantity = 73
 panel = "diffusion"
 label = "Households with a car or van, 2002"
@@ -139,6 +147,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-2000s-paid-hours"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/ashe/2000/hours/value", target = "quantity", guards = [{ locator = "/ashe/2000/hours/year", value = "2000" }, { locator = "/ashe/2000/hours/title", value = "Table 1.9a Hours worked - Total - For all employee jobsa: United Kingdom, 2000" }, { locator = "/ashe/2000/hours/heading", value = "Median" }, { locator = "/ashe/2000/hours/population", value = "All Employees" }, { locator = "/ashe/2000/hours/sheet", value = "All" }, { locator = "/ashe/2000/hours/archive_sha256", value = "0b393f2c122068240fa40cc58629eb87ca7814f86047ae8ca8d70c505795f7c7" }, { locator = "/ashe/2000/hours/member", value = "All Employees 1.9a   Hours worked - Total 2000.xls" }, { locator = "/ashe/2000/hours/member_sha256", value = "e915c9823686af5415d4493f880dc87f0ae811fc3b7938d6a438728f05c3426c" }, { locator = "/ashe/2000/hours/cell", value = "All!R6C4" }] }
 quantity = 37
 panel = "day"
 label = "Paid hours worked in a week, all employee jobs, April 2000"
@@ -155,16 +164,17 @@ assumptions = ["composite-family"]
 id = "uk-2000s-food-basket-gap"
 panel = "table"
 label = "The food basket, 2000s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The National Food Survey (NFS) ran to 2000 and was succeeded by Defra's Family Food module of the Living Costs and Food Survey; the 2000s data is not in the archive. (Archive holds NFS 1940–49 and 2023–24 Family Food, but not the 2000s.)"
+notes = "The National Food Survey was succeeded by the Expenditure and Food Survey and later the Family Food module. An archived Family Food report includes some 2000s estimates, but a suitable food basket has not yet been transcribed and qualified for this room."
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]
 id = "uk-2000s-house-price"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/housing/2000/value", scale = "100", target = "amount_minor", guards = [{ locator = "/housing/2000/year", value = "2000" }, { locator = "/housing/2000/title", value = "Table 31 Housing market: simple average house prices, United Kingdom (chart) 1, 2, 3 Previously DLUHC Table 571" }, { locator = "/housing/2000/heading", value = "Unadjusted" }, { locator = "/housing/2000/sha256", value = "73d680bc718472953d7e09a0b6e4640777e70981aa6dbca7293ecabb499d1c9d" }, { locator = "/housing/2000/cell", value = "Table 31!R13C2" }] }
 basis = "total"
 amount_minor = 10155000
 currency = "GBP"

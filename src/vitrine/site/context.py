@@ -73,6 +73,26 @@ class PanelSection:
 
 
 @dataclass(frozen=True, slots=True)
+class ChartTableRow:
+    period: str
+    value: str
+    label: str
+    href: str
+    tier: str
+    plotted: bool = True
+
+
+@dataclass(frozen=True, slots=True)
+class ChartTable:
+    title: str
+    unit: str
+    rows: tuple[ChartTableRow, ...]
+    note: str = ""
+    population: str = ""
+    sources: tuple[tuple[str, str], ...] = ()
+
+
+@dataclass(frozen=True, slots=True)
 class ArcSection:
     """One charted arc or arc-group in the corridor atlas directory."""
 
@@ -82,6 +102,7 @@ class ArcSection:
     caveats: tuple[str, ...]
     coverage: str
     chart: Markup
+    tables: tuple[ChartTable, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -105,6 +126,8 @@ class CompositionRow:
     decade: str
     fact_id: str
     segments: tuple[ShareSegment, ...]
+    gap: bool = False
+    value: str = ""
 
 
 # ── pairwise ──────────────────────────────────────────────────────────────────
@@ -222,6 +245,7 @@ class AffordabilityDashboardSection:
     metric: Metric
     chart: Markup
     note: str
+    tables: tuple[ChartTable, ...] = ()
 
 
 # ── lobby: the record at a glance (corpus metadata matrix) ───────────────────
@@ -271,6 +295,7 @@ class EssayBlockView:
     chart_unit: str
     caveats: tuple[str, ...]
     note: str = ""  # documented reason the chart is empty, when it is
+    tables: tuple[ChartTable, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -502,6 +527,7 @@ class DataPage:
     sources: int
     assumptions: int
     quantified_facts: int
+    schema_version: int
 
 
 @dataclass(frozen=True, slots=True)

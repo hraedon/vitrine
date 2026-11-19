@@ -30,7 +30,7 @@ EXPECTED = {
     "1990s": "34 of 49",
     "2000s": "38 of 54",
     "2010s": "42 of 54",
-    "2020s": "41 of 52",
+    "2020s": "42 of 52",  # Raspberries print as 1.0 at source precision.
 }
 
 
@@ -61,11 +61,7 @@ def test_variety_count_agrees_with_committed_series() -> None:
     seen: set[str] = set()
     for room, derived in _variety_derived(corpus):
         tracked = [sid for sid in derived.count_series if derived.at_year in committed[sid]]
-        n = sum(
-            1
-            for sid in tracked
-            if committed[sid][derived.at_year] >= derived.threshold
-        )
+        n = sum(1 for sid in tracked if committed[sid][derived.at_year] >= derived.threshold)
         computed = evaluate(room, derived, series=series)
         assert computed.value == f"{n} of {len(tracked)}"
         assert computed.value == EXPECTED[room.decade]
@@ -95,9 +91,9 @@ def test_no_variety_fact_before_the_record_begins() -> None:
     early = {"1900s", "1910s", "1920s", "1930s", "1940s", "1950s"}
     for room in corpus.rooms:
         if room.country == "us" and room.decade in early:
-            assert not any(
-                d.id.endswith("-produce-variety-count") for d in room.derived
-            ), f"{room.decade}: the record does not reach this decade"
+            assert not any(d.id.endswith("-produce-variety-count") for d in room.derived), (
+                f"{room.decade}: the record does not reach this decade"
+            )
 
 
 def test_every_variety_fact_names_the_rule_assumption() -> None:
@@ -121,4 +117,4 @@ def test_input_unit_is_farm_weight_pounds() -> None:
     series = load_series(DATA)
     for room, derived in _variety_derived(corpus):
         computed = evaluate(room, derived, series=series)
-        assert computed.input_unit == "pounds per person per year (farm weight)"
+        assert computed.input_unit == "pounds per person per source year (farm weight)"

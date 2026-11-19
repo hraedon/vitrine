@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% from "macros/placards.html" import calculation_badge, source_calculation %}
 {% block title %}{{ page.source.id }} · source collection — vitrine{% endblock %}
 {% block body %}
 <p class="eyebrow"><a href="../../bibliography.html">All sources</a> · source collection</p>
 <h1>{{ page.source.title }}</h1>
-<p class="sub">{{ page.source.publisher }} · {{ page.source.year }}</p>
+<p class="sub">{{ page.source.publisher }} · {{ page.source.year if page.source.year else 'undated' }}</p>
 <div class="collection-intro">
   <p class="story-kicker">Population measured</p>
   <p>{{ page.source.population }}</p>
@@ -20,9 +21,10 @@
   <article class="source-record" data-source-fact-id="{{ item.fact.id }}">
     <div><span class="tchip" style="background:{{ T.TIER_COLORS[item.fact.tier.value] }}">{{ item.fact.tier.value }}</span> <a href="../../rooms/{{ group.room.slug }}.html#{{ item.fact.id }}">{{ item.fact.label }}</a></div>
     <p>{{ item.fact.value }}</p><p class="case-sub">{{ item.fact.unit }}</p>
+    {{ calculation_badge(item.fact) }}
     <small>{% if item.audited %}{% if item.fact.audit and item.fact.audit.calculation %}Calculation replayed{% else %}Transcription checked{% endif %} · {{ item.audited }}{% else %}No current source audit{% endif %}</small>
-    {% if item.fact.audit and item.fact.audit.calculation %}{% set calculation = item.fact.audit.calculation %}
-    <details class="audit-method"><summary>Calculation method &amp; rounding</summary><p>{{ calculation.method }}</p><p>{% if calculation.op.value == 'mean' %}Arithmetic mean{% else %}Percentage of the denominator{% endif %}, rounded to {{ calculation.precision }} decimal places before unit scaling. Exact halfway cases round {% if calculation.rounding.value == 'half_even' %}to the nearest even digit{% else %}away from zero{% endif %}.</p><p>{{ calculation.operands|length + 1 }} source operands; the source audit records their pinned file and addresses.</p></details>
+    {% if item.fact.audit and item.fact.audit.calculation %}
+    <details class="audit-method"><summary>Calculation method &amp; rounding</summary>{{ source_calculation(item.fact) }}</details>
     {% endif %}
   </article>
   {% endfor %}

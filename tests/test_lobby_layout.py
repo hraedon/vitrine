@@ -31,12 +31,12 @@ def test_inventory_is_optional_with_visible_separate_totals(lobby: str) -> None:
     """A visitor can understand collection coverage without opening the matrix."""
     before, inventory = lobby.split('<details class="inventory-disclosure">', 1)
     assert 'aria-label="curated collection totals"' in before
-    assert "Sourced observations" in before
-    assert "Calculations from sourced inputs" in before
+    assert "Sourced records" in before
+    assert "Derived exhibits" in before
     assert "Documented gaps" in before
     assert "they are counted separately and never mean zero" in before
     assert inventory.index('class="record-matrix"') < inventory.index("</details>")
-    assert "Observation counts exclude documented gaps" in inventory
+    assert "Sourced-record counts exclude documented gaps" in inventory
     assert "US wing ·" not in lobby
 
 
@@ -63,13 +63,13 @@ def test_matrix_labels_each_count_without_including_gaps_as_observations(lobby: 
                 assert text == "No records"
                 continue
             observations = cell.facts - cell.gaps
-            expected = f"{observations} observation{'s' if observations != 1 else ''}"
+            expected = f"{observations} sourced record{'s' if observations != 1 else ''}"
             if cell.computed:
-                expected += f" {cell.computed} calculation{'s' if cell.computed != 1 else ''}"
+                expected += f" {cell.computed} derived exhibit{'s' if cell.computed != 1 else ''}"
             if cell.gaps:
                 expected += f" {cell.gaps} documented gap{'s' if cell.gaps != 1 else ''}"
             assert text == expected, (row.slug, text, expected)
     footer = table.split("<tfoot>", 1)[1]
-    assert f"{totals.facts - totals.gaps}</b> observations" in footer
-    assert f"{totals.computed} calculations" in footer
+    assert f"{totals.facts - totals.gaps}</b> sourced records" in footer
+    assert f"{totals.computed} derived exhibits" in footer
     assert f"{totals.gaps} documented gaps" in footer

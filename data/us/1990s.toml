@@ -13,6 +13,10 @@ income_anchor = "us-1990s-median-income-four-person"
 
 [[fact]]
 id = "us-1990s-median-family-income"
+amount_minor = 3535000
+currency = "USD"
+price_year = 1990
+basis = "annual"
 audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C46", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A46", value = "1990" }, { locator = "f08ar!C8", value = "Median income" }, { locator = "f08ar!C9", value = "Current\ndollars" }] }
 quantity = 35350
 panel = "budget"
@@ -67,15 +71,16 @@ notes = "From Census F-8. Down from 3.27 in 1980. By 2000: 3.14."
 
 [[fact]]
 id = "us-1990s-expenditure-shares"
+audit = { file = "59-workbook-review/cex-food-observations.json", extractor = "json-pointer", locator = "/1996/values/housing", target = "quantity", guards = [{ locator = "/1996/year", value = "1996" }, { locator = "/1996/source_sha256", value = "f85753e37acc96a31070183e18db7993c52613149df550c3469d9e3f9ba5eca5" }, { locator = "/1996/file", value = "02-cex/cusize-1996.pdf" }, { locator = "/1996/population", value = "Four-person consumer units" }, { locator = "/1996/statistic", value = "Annual expenditure means" }, { locator = "/1996/source_header", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996\nItem\nAll\nconsumer\nunits\nOne\nperson\nTwo or\nmore\npersons\nTwo\npersons\nThree\npersons\nFour\npersons\nFive or\nmore\npersons" }, { locator = "/1996/budget_placard", value = "Housing 31.3%, transportation 18.7%, food 15.0%, insurance/pensions 10.1%, entertainment 6.0%, healthcare 4.3%, apparel 5.7%, cash contributions 2.1%, education 1.8%" }], calculation = { op = "pct_of", operands = ["/1996/values/total"], precision = 1, rounding = "half_up", method = "Housing mean divided by total annual expenditure mean for four-person consumer units; times one hundred, rounded once half up to one decimal place. Companion category shares are reproduced by the same source extractor and full-value guard." } }
 quantity = 31.3
 panel = "budget"
-label = "Expenditure breakdown, 4-person families, 1996"
+label = "Expenditure breakdown, four-person consumer units, 1996"
 value = "Housing 31.3%, transportation 18.7%, food 15.0%, insurance/pensions 10.1%, entertainment 6.0%, healthcare 4.3%, apparel 5.7%, cash contributions 2.1%, education 1.8%"
 unit = "% of total annual expenditure"
-source = "bls-cex"
+source = "bls-cex-four-person-1996"
 tier = "A"
-notes = "From the 1996 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 15,261 thousand 4-person CUs. Total expenditures: $43,670. Income before taxes: $50,836. Expenditure = 86% of gross income. Housing crossed 31% for the first time. Source: BLS CEX Table 4, 1996 (cusize.pdf via Wayback Machine, web.archive.org)."
-assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
+notes = "Ratios of published annual category expenditure means to the total-expenditure mean for four-person consumer units, rounded once half up to one decimal place by scripts/cex_food_review.py. These are not published individual budget distributions or the mean of unit-level budget shares. The archived table provides expenditure means; the audit checks the housing ratio and the full reproduced category-share string."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values", "cex-ratios-of-means"]
 
 [[fact]]
 id = "us-1990s-poverty-rate"
@@ -86,13 +91,13 @@ value = "13.5% (33.6 million people in poverty)"
 unit = "% of all people below official poverty level"
 source = "census-poverty-historical"
 tier = "A"
-notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 13.5%. Family poverty: 12.0%. The 1990-91 recession pushed poverty up; the 1990s expansion brought it down to 11.3% by 2000."
+notes = "Historical Poverty Tables (Census API histpov2), all-races U.S. population. In 1990, 13.5% (33.6 million) of all people were below the official poverty threshold; family poverty rate was 12.0%. The response reports 33,590,000 people and 248,600,000 population."
 
 [[fact]]
 id = "us-1990s-cex-total-expenditures"
 audit = { file = "02-cex/cusize-1996.txt", extractor = "text-regex", locator = "^Average annual expenditures[ .]+(\\$[\\d,]+)", guards = [{ locator = "^(Table 4\\. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996)$", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996" }] }
 panel = "budget"
-label = "Average annual household expenditures, 1996"
+label = "Average annual consumer-unit expenditures, 1996"
 quantity = 33797
 value = "$33,797"
 unit = "USD per consumer unit, nominal"
@@ -118,7 +123,7 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-1990s-cex-healthcare-share"
 audit = { file = "02-cex/cusize-1996.txt", extractor = "text-regex", locator = "^ Health care[ .]+([\\d,]+)", guards = [{ locator = "^(Table 4\\. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996)$", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996" }], calculation = { op = "pct_of", operands = ["^Average annual expenditures[ .]+(\\$[\\d,]+)"], precision = 1, rounding = "half_up", method = "All consumer units, 1996: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
-label = "Healthcare share of household budget, 1996"
+label = "Healthcare share of consumer-unit expenditure, 1996"
 quantity = 5.2
 value = "5.2% of total expenditures ($1,770)"
 unit = "% of total annual expenditures; USD nominal"
@@ -172,14 +177,17 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1990s-plumbing"
-quantity = 1.1
+audit = { file = "remaining-audit-20261028/world-housing1990-extract.json", extractor = "json-pointer", locator = "/plumbing/yes", scale = "1", guards = [{ locator = "/provenance", value = "Curator extraction from pinned Census 1990 historical tables" }, { locator = "/plumbing/population", value = "all housing units" }], calculation = { op = "pct_of", operands = ["/plumbing/total"], precision = 1, rounding = "half_up", method = "Positive category count divided by same-universe total, rounded once." } }
+quantity = 98.9
 panel = "home"
 label = "Complete plumbing facilities, 1990"
-value = "98.9% of homes had complete plumbing (1.1% lacked)"
-unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
-source = "census-hist-housing-plumbing"
+value = "98.9% of housing units had complete plumbing"
+unit = "% of housing units with complete plumbing facilities"
+source = "census-hist-housing-plumbing-reporting"
 tier = "A"
-notes = "From Census Historical Housing Tables: Plumbing (plumbing-tab.txt, US row: 1,101,696 of 102,263,678 occupied units lacking). Down from 2.7% lacking in 1980."
+notes = "Census Historical Housing Tables report 101,161,982 housing units with complete plumbing and 1,101,696 lacking it in 1990. The complete share is calculated from those counts and rounded once; the universe includes vacant units."
+
+assumptions = ["recent-published-count-share"]
 
 [[fact]]
 id = "us-1990s-heating-fuel"
@@ -187,12 +195,15 @@ panel = "home"
 label = "House heating fuel, 1993 RECS"
 value = "Natural gas 53.2%, electricity 25.8%, fuel oil 10.5%, LPG 4.8%"
 unit = "% of U.S. households using each fuel as main space heating source (weighted, RECS 1993 microdata)"
-source = "eia-recs"
-tier = "A"
-notes = "Computed from RECS 1993 microdata (file2_asc.txt, FUELHEAT variable, weighted with NWEIGHT). 7,111 households sampled. Gas: 53.2% (up from 55% in 1980 Census — roughly stable). Electricity: 25.8% (up from 18% in 1980). Fuel oil: 10.5% (down from 19% in 1980). LPG: 4.8%. Other (wood, kerosene, etc.): 4.8%. None: 0.9%. The 1990s were a transition decade: fuel oil declining, electricity rising. By 2001: gas 55.2%, electricity 28.9%, fuel oil 7.5%. By 2009: gas 49%, electricity 34%, fuel oil 6%."
+source = "eia-recs-1993-heating-microdata"
+tier = "B"
+notes = "Calculated from EIA 1993 RECS public-use File 2, using final NWEIGHT and FUELHEAT. The 7,111 sampled primary occupied housing units represent an estimated 96,631,492 households. Shares are rounded once after weighting. The File 2 codebook prints a solar-fuel frequency, but the pinned raw File 2 has no FUELHEAT solar records; the displayed estimates use the raw records."
+
+assumptions = ["recent-published-count-share"]
 
 [[fact]]
 id = "us-1990s-median-home-size"
+audit = { file = "remaining-audit-20261028/world-newhome-extract.json", extractor = "json-pointer", locator = "/years/1990/median_sqft", scale = "1", guards = [{ locator = "/provenance", value = "Curator extraction from pinned Census new-house median workbook" }, { locator = "/years/1990/population", value = "new single-family houses completed" }] }
 quantity = 1905
 panel = "home"
 label = "Median square footage of new single-family homes, 1990"
@@ -200,7 +211,7 @@ value = "1,905 sq ft (new construction)"
 unit = "median square feet of floor area, new single-family houses completed"
 source = "census-soc-new-housing"
 tier = "A"
-notes = "From the Census Bureau's Survey of Construction (C-25 annual report). New homes crossed 1,900 sq ft for the first time in 1990 — up from 1,595 in 1980 (+19%). The 1990s saw steady growth: 1995 was 1,920, 1999 was 2,028. By 2000: 2,057. Source: c25ann2003.pdf."
+notes = "Census Survey of Construction reports the median floor area of new one-family houses completed in 1990. This measures new construction, not the existing housing stock."
 
 [[fact]]
 id = "us-1990s-median-gross-rent"
@@ -211,18 +222,18 @@ value = "$447/month"
 unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
 source = "census-hist-housing-rents"
 tier = "A"
-notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $243 in 1980. In 2000 dollars: $571/month. Cross-verified: NHGIS 1990 national median gross rent was $447 (FA4001, STF 4b)."
+notes = "Census Historical Housing Tables report the median monthly gross rent for renter-occupied housing units in 1990."
 
 [[fact]]
 id = "us-1990s-energy-expenditure"
 quantity = 123.91
 panel = "home"
 label = "Household energy expenditures, 1993 (RECS)"
-value = "$123.91 billion total ($1,620 per household/year, ~4.6% of median family income)"
+value = "$123.91 billion total ($1,282 per household/year)"
 unit = "billion USD, nominal"
-source = "eia-recs"
+source = "eia-recs-1993-consumption"
 tier = "A"
-notes = "From RECS 1993, Table 5.3 (Total Expenditures). Electricity: $81.08B (65.4%), natural gas: $32.04B (25.9%), fuel oil: $6.61B, LPG: $3.81B, kerosene: $0.37B. Average per household: $1,620/year. With 1990 median family income at $35,350 (Census F-8), energy was ~4.6% of median family income. 76.5 million households. Source: recs-1993-consumption-expenditures.pdf, Table 5.3."
+notes = "EIA RECS 1993 Table 5.3 reports $123.91 billion total major-energy expenditures; Table 5.1 reports $1,282 per household across 96.6 million households. The distinct $1,620 figure is per residential building."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -230,11 +241,11 @@ id = "us-1990s-energy-per-household"
 quantity = 103.6
 panel = "home"
 label = "Average household energy consumption, 1993 (RECS)"
-value = "103.6 million Btu per household ($1,620/year)"
+value = "103.6 million Btu per household ($1,282/year)"
 unit = "million Btu per household per year"
-source = "eia-recs"
+source = "eia-recs-1993-consumption"
 tier = "A"
-notes = "From RECS 1993, Table 5.1 (Consumption and Expenditures). Average across all 76.5 million households. Total site energy: 10.01 quadrillion Btu. Per household member: 40 million Btu. Source: recs-1993-consumption-expenditures.pdf, Table 5.1."
+notes = "EIA RECS 1993 Table 5.1 reports 103.6 million Btu and $1,282 per household, across an estimated 96.6 million households. The table separately reports 76.5 million residential buildings."
 assumptions = ["composite-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -246,9 +257,9 @@ panel = "day"
 label = "Life expectancy at birth, 1990"
 value = "71.8 male, 78.8 female (75.4 total, all races)"
 unit = "years"
-source = "nchs-nvss"
+source = "nchs-final-deaths-2005-life-table"
 tier = "A"
-notes = "From NCHS National Vital Statistics System. Up from 70.0/77.5 in 1980. The 1990s saw further gains from HIV treatment breakthroughs (HAART, 1996) and declining cardiovascular mortality."
+notes = "NCHS period life expectancy at birth, all races and both sexes; sex-specific values are shown separately. These values use the 2008 life-table report vintage."
 
 [[fact]]
 id = "us-1990s-wages"
@@ -276,7 +287,7 @@ value = "~14% of adults (1995), rising to ~46% by 2000"
 unit = "% of adults who use the internet"
 source = "pew-internet-broadband"
 tier = "A"
-notes = "From Pew Research Center Internet & American Life Project. The World Wide Web went public ~1993-94. By 1995, ~14% of adults used the internet; by 2000, ~46%. The 1990s were the decade when the internet entered American homes — initially via dial-up modem."
+notes = "Pew Research Center Internet Use Over Time: 14% of U.S. adults used the internet in June 1995; 46% did in March 2000."
 
 [[fact]]
 id = "us-1990s-air-conditioning"
@@ -285,20 +296,23 @@ panel = "diffusion"
 label = "Homes with air conditioning, 1993 (RECS)"
 value = "68%"
 unit = "% of occupied housing units with AC"
-source = "eia-recs"
+source = "eia-recs-2009-ac"
 tier = "A"
-notes = "RECS 1993: 68% of all occupied housing units had AC. Rose to 87% by 2009 RECS. EIA: 'As recently as 1993, only 68% of all occupied housing units had AC. The latest results from the 2009 RECS show that 87% of U.S. households are now equipped with AC.' (EIA.gov/consumption/residential/reports.php). South region: 89% in 1993 (65% central, 27% room)."
+notes = "EIA reports 68% of occupied housing units had air conditioning in 1993 and 87% of U.S. households had it in 2009."
 
 [[fact]]
 id = "us-1990s-telephone"
+audit = { file = "remaining-audit-20261028/world-housing1990-extract.json", extractor = "json-pointer", locator = "/telephone/yes", scale = "1", guards = [{ locator = "/provenance", value = "Curator extraction from pinned Census 1990 historical tables" }, { locator = "/telephone/population", value = "occupied housing units" }], calculation = { op = "pct_of", operands = ["/telephone/total"], precision = 1, rounding = "half_up", method = "Positive category count divided by same-universe total, rounded once." } }
 quantity = 94.8
 panel = "diffusion"
 label = "Housing units with telephone, 1990"
-value = "94.8%"
+value = "94.8% of occupied housing units had telephone service"
 unit = "% of occupied housing units with telephone"
 source = "census-hist-housing-phone"
 tier = "A"
-notes = "1990 Census: 5.2% of housing units without telephone. Down from 7.1% in 1980. By 2000: only 2.4% without telephone. Census notes: 'Increased cell phone usage probably played a major role in this dramatic change.'"
+notes = "Census Historical Housing Tables report 87,129,953 occupied units with a telephone and 4,817,457 without one in 1990. The displayed share is calculated from those counts and rounded once."
+
+assumptions = ["recent-published-count-share"]
 
 [[fact]]
 id = "us-1990s-cell-phone"
@@ -317,9 +331,9 @@ panel = "diffusion"
 label = "Households with cable TV, 1992"
 value = "59.3% of TV households (55.2M subscribers)"
 unit = "% of U.S. TV households with cable TV subscription"
-source = "fcc-video-competition"
+source = "fcc-tv-household-penetration"
 tier = "A"
-notes = "FCC Fourth Annual Report on Video Competition (FCC 97-423, adopted Dec 1997), Table B-1, p.142: 'Cable Television Industry Growth: 1990-June 1997.' Year-by-year data: 1990: 55.5% (51.7M), 1991: 58.0% (53.4M), 1992: 59.3% (55.2M), 1993: 60.7% (57.2M), 1994: 62.6% (59.7M), 1995: 64.8% (62.1M). Cable penetration crossed 60% in mid-1991 (60.3% per Nielsen, CSMonitor June 1991). TV Household data from A.C. Nielsen via Veronis Suhler; subscriber data from Paul Kagan Associates. Previous source attribution (ncta-cable-history) was incorrect — the NCTA timeline does not contain year-by-year penetration percentages. Verified against local PDF: ~/vitrine-research/09-fcc/fcc97423.pdf."
+notes = "From FCC 97-423, Appendix B, Table B-1, “Cable Television Industry Growth: 1990–June 1997.” In 1992 the table reports 55.2 million subscribers and cable service in 59.3% of U.S. television households (the distinct homes-passed penetration measure is 61.5%)."
 
 [[fact]]
 id = "us-1990s-computer"
@@ -330,39 +344,42 @@ value = "36.6%"
 unit = "% of households with a computer"
 source = "census-cps-computer"
 tier = "A"
-notes = "Census Bureau, Current Population Reports P20-522, 'Computer Use in the United States: October 1997' (Sept 1999). 37.4M households (36.6%) had computers in Oct 1997. Historical trend: 8.2% (1984), 15.0% (1989), 22.8% (1993), 36.6% (1997). The 1997 CPS was the first to include Internet questions. NTIA 'Falling Through the Net' reports ~42% computer ownership (1998) and ~51% (2000). Internet access: ~18% of households (1997, NTIA), ~26% (1998), ~41% (2000). Internet figures are widely cited from NTIA/CPS but the exact household-level percentage hasn't been directly transcribed from the primary Census table in this session."
+notes = "October 1997 Current Population Survey: 37.4 million U.S. households (36.6%) had a computer. The Census report lists 8.2% (1984), 15.0% (1989), and 22.8% (1993); its 1997 survey also asked Internet questions. NTIA/CPS reports computer presence at 42.1% in 1998 and 51.0% in 2000."
 
 [[fact]]
 id = "us-1990s-internet-households"
 panel = "diffusion"
 label = "Households with internet access, 1997-1998"
-value = "~18% (1997) → ~26% (1998)"
+value = "18.6% (1997) → 26.2% (1998)"
 unit = "% of households with internet access"
 source = "ntia-fttn-2000"
 tier = "C"
-notes = "NTIA 'Falling Through the Net' series, based on Census CPS supplements (Nov 1994, Oct 1997, Dec 1998, Aug 2000). Internet access was first measured in the 1997 CPS. The 2000s room carries 'Internet: 46% (2000)' from Pew. The Census P20-522 report (Table C) shows 70.9% of adults with a home computer used the Internet somewhere (home/work/school), but this is individual-level use, not household penetration."
+notes = "NTIA reports that 18.6% of U.S. households had internet access in 1997 and 26.2% in 1998, based on CPS supplements. The Census 70.9% internet-use estimate refers to adults with a computer at home, a different population."
 
 [[fact]]
 id = "us-1990s-vehicle-ownership"
+audit = { file = "remaining-audit-20261028/world-recent-vehicle-extract.json", extractor = "json-pointer", locator = "/years/1990/one_or_more_percent", scale = "1", guards = [{ locator = "/provenance", value = "Curator complement from pinned BTS Figure 2-6" }, { locator = "/years/1990/population", value = "occupied housing units" }] }
 quantity = 88.5
 panel = "diffusion"
 label = "Households with at least one vehicle, 1990"
-value = "88.5% (11.5% with no vehicle); avg 1.8 vehicles per household"
+value = "88.5% (11.5% with no vehicle)"
 unit = "% of occupied housing units with 1+ vehicles"
 source = "bts-vehicle-availability"
 tier = "A"
-notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1990). 11.5% had no vehicle, 33.8% had one, 37.4% had two, 17.3% had three or more. Two-vehicle households (37.4%) now exceeded one-vehicle households (33.8%) — car dependency peaked. By 2000: 89.7%. Population: all occupied housing units."
+notes = "BTS Figure 2-6 reports 11.5% of occupied housing units with no vehicle, 33.7% with one, 37.4% with two, and 17.4% with three or more. The percentage with at least one is the complement of the no-vehicle share."
+
+assumptions = ["recent-vehicle-complement"]
 
 [[fact]]
 id = "us-1990s-new-home-ac"
-quantity = 56
+quantity = 76
 panel = "diffusion"
 label = "Air conditioning in new homes, 1990"
-value = "56% of new single-family homes had AC (up from 40% in 1973, 52% in 1980)"
+value = "76% of new one-family houses completed had air conditioning"
 unit = "% of new single-family houses completed with air conditioning"
-source = "census-soc-new-housing"
+source = "census-c25-2003-ac"
 tier = "A"
-notes = "From Census C-25 annual report (c25ann-2003.pdf), 'Presence of Air-Conditioning in New One-Family Houses Completed.' AC in new homes: 1973: 40%, 1980: 52%, 1990: 56%, 1995: 72%, 2000: 81%, 2003: 82%. New homes crossed 50% AC in 1980. By 2000, AC was standard in 81% of new homes. Distinct from RECS data on all housing units (68% in 1993)."
+notes = "Census C-25 reports 76% for new one-family houses completed in the United States in 1990; the 1973 and 2000 values were 49% and 85%, respectively."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -372,9 +389,9 @@ panel = "diffusion"
 label = "Cable TV subscribers, 1997"
 value = "64.2 million cable subscribers (87% of MVPD market)"
 unit = "million subscribers (% cable share of MVPD)"
-source = "fcc-video-competition"
+source = "fcc-mvpd-subscriber-households"
 tier = "A"
-notes = "From FCC 4th Annual Video Competition Report (FCC 97-423, data as of June 1997). 73.6 million MVPD households total; cable's share was 87%. DBS was still niche at ~5 million subscribers (6.85% of MVPD). Average monthly cable rate: $28.83 (July 1997), up 8.5% from $26.57 in July 1996 — cable rates rose >4x CPI."
+notes = "From FCC 97-423, report summary and Appendix B, Table B-1. As of June 1997, the report gives 64.2 million cable subscribers, 73.6 million MVPD households, and an 87% cable share of MVPD subscribers."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -394,6 +411,8 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1990s-nhe-total"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1990/gdp_share", target = "quantity", guards = [{ locator = "/cms/1990/year", value = "1990" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 12.1
 panel = "table"
 label = "Healthcare spending, 1990"
@@ -401,10 +420,12 @@ value = "$718.7 billion (12.1% of GDP)"
 unit = "USD billions, nominal; NHE as % of GDP"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01. NHE: $718.7B. GDP: $5,963.1B. Per capita: $2,835. Healthcare crossed 12% of GDP — up from 8.9% in 1980. The 1980s saw rapid medical cost inflation and the spread of managed care."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1990. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1990s-nhe-out-of-pocket-share"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1990/out_of_pocket", target = "quantity", guards = [{ locator = "/cms/1990/year", value = "1990" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }], calculation = { op = "pct_of", operands = ["/cms/1990/total"], precision = 1, rounding = "half_up", method = "Same-year out-of-pocket spending divided by total NHE, times one hundred." } }
+assumptions = ["cms-nhe-shares"]
 quantity = 18.6
 panel = "budget"
 label = "Out-of-pocket share of health spending, 1990"
@@ -412,10 +433,12 @@ value = "18.6% of national health expenditures paid out of pocket"
 unit = "% of total NHE"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02. Out of pocket: $133,752M of $718,689M total. Managed care expansion in the 1990s continued the shift from out-of-pocket to insurance."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1990. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1990s-nhe-per-capita"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1990/per_capita", target = "quantity", guards = [{ locator = "/cms/1990/year", value = "1990" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 2835
 panel = "table"
 label = "National health spending per person, 1990"
@@ -423,10 +446,12 @@ value = "$2,835 per capita ($2,413 for personal health care)"
 unit = "USD per person, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE per capita: $2,835. Personal Health Care per capita: $2,413. Population: 254M."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1990. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1990s-nhe-medicare"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1990/medicare", target = "quantity", guards = [{ locator = "/cms/1990/year", value = "1990" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 110182
 panel = "table"
 label = "Medicare spending, 1990"
@@ -434,10 +459,12 @@ value = "$110,182 million (15.3% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Medicare: $110,182M of $718,689M total."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1990. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1990s-nhe-medicaid"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1990/medicaid", target = "quantity", guards = [{ locator = "/cms/1990/year", value = "1990" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 73661
 panel = "table"
 label = "Medicaid spending, 1990"
@@ -445,10 +472,12 @@ value = "$73,661 million (10.2% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Medicaid: $73,661M of $718,689M total."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1990. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1990s-nhe-prescription-drugs"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1990/prescription_drugs", target = "quantity", guards = [{ locator = "/cms/1990/year", value = "1990" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 40290
 panel = "table"
 label = "Prescription drug spending, 1990"
@@ -456,10 +485,11 @@ value = "$40,290 million (5.6% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $40,290M of $718,689M total."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1990. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1990s-heart-disease-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R92:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R92:C1", value = "1990" }, { locator = "R92:C2", value = "Heart Disease" }] }
 quantity = 321.8
 panel = "table"
 label = "Heart disease age-adjusted death rate, 1990"
@@ -467,11 +497,12 @@ value = "321.8 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS. Down 45% from the 1950 peak. ACE inhibitors, aspirin prophylaxis, and angioplasty became standard. Statins (lovastatin FDA-approved 1987) were entering widespread use."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1990s-cancer-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R211:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R211:C1", value = "1990" }, { locator = "R211:C2", value = "Cancer" }] }
 quantity = 216.0
 panel = "table"
 label = "Cancer age-adjusted death rate, 1990"
@@ -479,7 +510,7 @@ value = "216.0 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS. This is the all-time U.S. peak for cancer mortality. After 1990, cancer death rates began a sustained decline driven by smoking cessation, early detection, and improved treatments."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -491,60 +522,65 @@ value = "60.4%"
 unit = "% surviving 5 years after diagnosis (relative survival, SEER 9)"
 source = "seer-csr-1975-2017"
 tier = "A"
-notes = "From NCI SEER Cancer Statistics Review 1975-2017, Table 2.9. Major jump from the 1980s — driven by PSA testing, mammography, and combination chemotherapy."
+notes = "National Cancer Institute SEER Cancer Statistics Review 1975–2017, Table 2.9. All Cancer Sites (Invasive), SEER 9 areas, all races, males and females; five-year relative survival for the selected diagnosis period is 60.4%. The table reports survival, not treatment causation."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1990s-food-basket"
+audit = { file = "59-workbook-review/cex-food-observations.json", extractor = "json-pointer", locator = "/1996/values/food", target = "quantity", guards = [{ locator = "/1996/year", value = "1996" }, { locator = "/1996/source_sha256", value = "f85753e37acc96a31070183e18db7993c52613149df550c3469d9e3f9ba5eca5" }, { locator = "/1996/file", value = "02-cex/cusize-1996.pdf" }, { locator = "/1996/population", value = "Four-person consumer units" }, { locator = "/1996/statistic", value = "Annual expenditure means" }, { locator = "/1996/source_header", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure Survey, 1996\nItem\nAll\nconsumer\nunits\nOne\nperson\nTwo or\nmore\npersons\nTwo\npersons\nThree\npersons\nFour\npersons\nFive or\nmore\npersons" }, { locator = "/1996/placard", value = "Food $6,535/yr (15.0% of expenditure). Food at home $4,046. Food away from home $2,489. Key items: meats/poultry/fish/eggs $1,064, cereals/bakery $658, fruits/vegetables $638, dairy $448, beef $319. Total expenditure: $43,670." }], calculation = { op = "pct_of", operands = ["/1996/values/total"], precision = 1, rounding = "half_up", method = "Four-person consumer units: ratio of same-table published food and total annual expenditure means, times one hundred, rounded once to one decimal place; not a mean of unit-level shares." } }
 quantity = 15
 panel = "table"
-label = "Food basket and expenditure breakdown, 1996 (CEX)"
-value = "Food $6,535/yr (15.0% of expenditure). Food at home $4,046 (62% of food), food away from home $2,489 (38%). Key items: meats/poultry/fish/eggs $1,064, cereals/bakery $658, fruits/vegetables $638, dairy $448, beef $319. Total expenditure: $43,670."
-unit = "USD per family per year, nominal"
-source = "bls-cex"
+label = "Food expenditure, four-person consumer units, 1996 (CEX)"
+value = "Food $6,535/yr (15.0% of expenditure). Food at home $4,046. Food away from home $2,489. Key items: meats/poultry/fish/eggs $1,064, cereals/bakery $658, fruits/vegetables $638, dairy $448, beef $319. Total expenditure: $43,670."
+unit = "USD per four-person consumer unit per year, nominal"
+source = "bls-cex-four-person-1996"
 tier = "A"
-notes = "From the 1996 CEX, Table 4. 15,261 thousand 4-person CUs. Food at home share: 62%, food away: 38%. Source: BLS CEX Table 4, 1996 (via Wayback Machine)."
-assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
+notes = "Annual expenditure means for four-person consumer units, not a median-income Census family. The recorded category amounts are reproduced from the original 1996 size-of-consumer-unit table by scripts/cex_food_review.py. Food share is the ratio of published food and total-expenditure means, rounded once to one decimal place; it is not the mean of individual consumer units' budget shares. Published rounded component means need not add exactly to their rounded totals."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values", "cex-ratios-of-means"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
-[[fact]]
+[[derived]]
 id = "us-1990s-home-as-income-years"
 panel = "work-buys"
-label = "Median home value as years of median family income, 1990"
-value = "2.24 years ($79,100 home vs $35,350 income)"
-unit = "years of median family income (nominal)"
-source = "census-historical-housing-values"
-tier = "C"
-notes = "Computed: 1990 median home value ($79,100) / 1990 median family income ($35,350). Flat from 2.24 in 1980 — both home values and incomes roughly doubled in the 1980s."
-assumptions = ["affordability-normalization", "nominal-values"]
+label = "Median home value relative to annual family income, 1990"
+op = "ratio"
+numerator = "us-1990s-median-home-value"
+denominator = "us-1990s-median-family-income"
+unit = "years of median family income, nominal"
+precision = 2
+notes = "The medians describe different surveyed populations and do not describe a matched family or an actual purchase."
+assumptions = ["nominal-values", "housing-median-income-ratio"]
 
 [[fact]]
 id = "us-1990s-cpi"
+audit = { file = "remaining-audit-20261028/bls-cpi-annual-1990-1999.json", extractor = "json-pointer", locator = "/Results/series/0/data/117/value", scale = "1", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/0/seriesID", value = "CUUR0000SA0" }, { locator = "/Results/series/0/data/117/year", value = "1990" }, { locator = "/Results/series/0/data/117/period", value = "M13" }] }
 quantity = 130.7
 price_year = 1990
 panel = "work-buys"
-label = "Consumer Price Index and purchasing power, 1990"
-value = "CPI 130.7 (1990) → 313.7 (2024) = 2.4x. $1 in 1990 = $2.40 in 2024. Real median family income grew 1.25x."
+label = "Consumer Price Index, 1990"
+value = "130.7"
 unit = "CPI-U (1982-84=100), annual average"
 source = "bls-cpi"
 tier = "A"
-notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1990: 130.7. 2024: 313.7. Ratio: 2.40x. Nominal median family income: $35,350 (1990) → $105,800 (2024) = 2.99x. Real growth: 2.99/2.40 = 1.25x. Real income growth was slowing — the 1990s-2020s saw the lowest real gains in the century."
+notes = "BLS CPI-U series CUUR0000SA0, all items U.S. city average, annual average for 1990."
 assumptions = ["nominal-values", "affordability-normalization"]
 
-[[fact]]
+[[derived]]
 id = "us-1990s-week-of-work-buys"
 panel = "work-buys"
-label = "What a week of work bought, 1990"
-value = "$349.86/week — a full year of it (×52) ≈ 51% of median family income"
-unit = "weekly earnings vs annual median family income"
-source = "fred-ahetpi"
-tier = "A"
-notes = "The product of the rounded hourly wage and weekly-hours observations for total-private production and nonsupervisory employees is $349.86. Assuming 52 paid weeks gives $18,192.72, or 51.5% of the all-family median income of $35,350 (Census F-8). Worker and family survey populations differ. This illustrative ratio does not establish household needs, income sufficiency, or the number of earners in a family."
-assumptions = ["composite-family", "nominal-values"]
+label = "Illustrative weekly earnings, 1990"
+op = "product"
+numerator = "us-1990s-wages"
+denominator = "us-1990s-weekly-hours-total-private"
+unit = "USD per week, nominal; product of rounded annual average hourly earnings and weekly hours"
+precision = 2
+notes = "Calculated from hourly earnings and weekly hours for total-private production and nonsupervisory employees. This illustrative product is not annual income or a measured family income."
+assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1990s-car-price"
+audit = { file = "remaining-audit-20261028/ornl-car-price-extract.json", extractor = "json-pointer", locator = "/years/1990/total_current_dollars", target = "amount_minor", scale = "100", guards = [{ locator = "/provenance", value = "Curator extraction from pinned ORNL TEDB Edition 39 Table 11.13" }, { locator = "/source_sha256", value = "f0f041b1b9c844136e10f2d455c3082fe7c3f5f631e4894e9f402c816747b0b1" }, { locator = "/column", value = "Total, current dollars" }, { locator = "/years/1990/population", value = "Average new car, excluding pickups, vans and sport utility vehicles" }] }
 panel = "work-buys"
 label = "Average new car transaction price, 1990"
 value = "$15,033"
@@ -555,7 +591,7 @@ amount_minor = 1503300
 currency = "USD"
 price_year = 1990
 basis = "total"
-notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13). Prices nearly doubled in the 1980s as cars gained features (airbags, ABS, fuel injection, electronics). The 1990s would see the rise of SUVs and minivans, though this series excludes those categories. Population: all new passenger cars sold in the US."
+notes = "ORNL Transportation Energy Data Book, Edition 39, Table 11.13: the BEA total is the average price of a new car in current dollars. The table excludes pickups, vans, and sport utility vehicles."
 assumptions = ["nominal-values"]
 
 [[fact]]
@@ -566,7 +602,7 @@ value = "no reliable record accessible online"
 unit = "hours per week, prime-age women (ages 18–64)"
 source = "ramey-2009"
 tier = "D"
-notes = "Ramey (2009) does not report a 1990s benchmark. She explicitly excludes the 1992-94 time use survey ('I do not use the 1992-94 survey because of key missing data such as marital status and the problems with that survey discussed by Robinson and Godbey'). The series jumps from 1985 (28.4 hrs) to 2003 (29.7 hrs). Interpolation would be misleading given the non-monotonic trend. ATUS begins 2003 but measures all adults, not women-specifically."
+notes = "No 1990s value is reported in Ramey (2009) Table 6; the paper omits the 1992–94 survey for missing key data and methodology problems. This documents a gap in this reconstruction, not all possible time-use sources."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -577,19 +613,20 @@ value = "no reliable record accessible online"
 unit = "hours per week, prime-age men (ages 18–64)"
 source = "ramey-2009"
 tier = "D"
-notes = "Ramey (2009) does not report a 1990s benchmark for men (same gap as women: 1992-94 survey excluded). Series jumps from 1985 (13.9 hrs) to 2003 (17.2 hrs)."
+notes = "No 1990s value is reported in Ramey (2009) Table 7; the paper omits the 1992–94 survey for missing key data and methodology problems. This documents a gap in this reconstruction, not all possible time-use sources."
 assumptions = ["composite-family"]
 
 
 [[fact]]
 id = "us-1990s-food-prices"
+assumptions = ["food-price-display-rounding"]
 panel = "table"
 label = "Retail food prices, December 1990"
-value = "Bread $0.70/lb, ground beef $2.02/lb, bacon $2.28/lb, eggs $1.00/doz, lettuce $0.58/lb"
+value = "Bread $0.70/lb, ground chuck $2.02/lb, bacon $2.28/lb, eggs $1.00/doz, lettuce $0.58/lb"
 unit = "USD, retail prices (December 1990, BLS API)"
 source = "bls-api"
 tier = "A"
-notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, per lb), APU0000704111 (bacon, per lb), APU0000708111 (eggs, per doz), APU0000712211 (lettuce, per lb). Values are December 1990 monthly averages. CORRECTION 2026-07-08: previous version had mismatched labels (same error as 2020s room). Food price inflation moderated in the 1980s after the Volcker disinflation. Bread up 35% from 1980 ($0.52→$0.70), ground beef up 9% ($1.86→$2.02)."
+notes = "December 1990 monthly U.S. city-average prices from the BLS public API, series APU0000702111 (white pan bread per pound), APU0000703111 (100% ground chuck per pound), APU0000704111 (sliced bacon per pound), APU0000708111 (large Grade A eggs per dozen), APU0000712211 (iceberg lettuce per pound). Original response bytes were newly retrieved on 2026-10-28 and saved; this vintage is not a reconstruction of the earlier download. scripts/food_price_review.py reproduces the displayed prices using decimal half-up rounding to the nearest cent. Series identities and units were independently checked against the BLS-sourced FRED series pages. These observations describe price levels for the stated month; average-price ratios are not a constant-quality inflation index."
 
 [[fact]]
 id = "us-1990s-cigarette-consumption"
@@ -599,9 +636,9 @@ label = "Adult per capita cigarette consumption, 1990"
 value = "2,817 cigarettes per adult per year"
 unit = "cigarettes per adult (≥18 years) per year"
 price_year = 1990
-source = "cdc-mmwr-tobacco-surveillance"
+source = "cdc-mmwr-cigarette-consumption-table1"
 tier = "A"
-notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Consumption had fallen sharply from the 1980 level of 3,849. The 1990s saw the Master Settlement Agreement (1998) between major tobacco companies and 46 states."
+notes = "CDC MMWR Table 1 reports USDA-derived total cigarette consumption divided by the population aged eighteen and older. It is not an NHIS smoking-prevalence estimate or an adult-only consumption numerator. The observation year is retained in the chart-year field."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -619,55 +656,59 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1990s-availability-grapes"
-quantity = 7.91
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1990s-availability-grapes/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1990s-availability-grapes/year", value = "1990" }, { locator = "/availability/us-1990s-availability-grapes/file", value = "46-diet-variety/ers-fads-fruit-fresh.xlsx" }, { locator = "/availability/us-1990s-availability-grapes/sha256", value = "6988e35a4a4b8700a6f9255de0e29708afc01f91662ce28394973a0cc740069c" }, { locator = "/availability/us-1990s-availability-grapes/title", value = "Fresh grapes: Supply and use1" }, { locator = "/availability/us-1990s-availability-grapes/cell", value = "Grapes!I27" }, { locator = "/availability/us-1990s-availability-grapes/population_heading", value = "U.S. population, January 1 of following year3" }, { locator = "/availability/us-1990s-availability-grapes/population_definition", value = "3Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1990s-availability-grapes/number_format", value = "#,##0.0" }], calculation = { op = "ratio", operands = ["/availability/us-1990s-availability-grapes/population_millions"], precision = 1, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
+quantity = 7.9
 panel = "table"
 label = "Grapes available per person, 1990"
-value = "7.91 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "7.9 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1990
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh grapes. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 2.7 times the 1970 figure."
-assumptions = ["composite-family"]
+notes = "Fresh grapes: Supply and use1; source year 1990, Grapes!I27. Original population heading: U.S. population, January 1 of following year (footnote 3). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (1 decimal places). The source retail-weight conversion is not applied. The source year follows a fruit marketing year: July–June before 1990/91 and beginning in May from 1990 onward. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-1990s-availability-avocados"
-quantity = 1.42
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1990s-availability-avocados/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1990s-availability-avocados/year", value = "1990" }, { locator = "/availability/us-1990s-availability-avocados/file", value = "46-diet-variety/ers-fads-fruit-fresh.xlsx" }, { locator = "/availability/us-1990s-availability-avocados/sha256", value = "6988e35a4a4b8700a6f9255de0e29708afc01f91662ce28394973a0cc740069c" }, { locator = "/availability/us-1990s-availability-avocados/title", value = "Fresh avocados: Supply and use1" }, { locator = "/availability/us-1990s-availability-avocados/cell", value = "Avocados!I27" }, { locator = "/availability/us-1990s-availability-avocados/population_heading", value = "U.S. population, July 1 of following year3" }, { locator = "/availability/us-1990s-availability-avocados/population_definition", value = "3Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1990s-availability-avocados/number_format", value = "#,##0.0" }], calculation = { op = "ratio", operands = ["/availability/us-1990s-availability-avocados/population_millions"], precision = 1, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
+quantity = 1.4
 panel = "table"
 label = "Avocados available per person, 1990"
-value = "1.42 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "1.4 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1990
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh avocados. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 3.2 times the 1970 figure."
-assumptions = ["composite-family"]
+notes = "Fresh avocados: Supply and use1; source year 1990, Avocados!I27. Original population heading: U.S. population, July 1 of following year (footnote 3). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (1 decimal places). The source retail-weight conversion is not applied. The source combines commodity marketing seasons with calendar-year trade; California and Florida seasons differ and their definitions change in 2002. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-1990s-availability-bell-peppers"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1990s-availability-bell-peppers/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1990s-availability-bell-peppers/year", value = "1990" }, { locator = "/availability/us-1990s-availability-bell-peppers/file", value = "46-diet-variety/ers-fads-vegetables-fresh.xlsx" }, { locator = "/availability/us-1990s-availability-bell-peppers/sha256", value = "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e" }, { locator = "/availability/us-1990s-availability-bell-peppers/title", value = "Fresh bell peppers: Supply and use" }, { locator = "/availability/us-1990s-availability-bell-peppers/cell", value = "Peppers!H37" }, { locator = "/availability/us-1990s-availability-bell-peppers/population_heading", value = "U.S. population, July 11" }, { locator = "/availability/us-1990s-availability-bell-peppers/population_definition", value = "1Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1990s-availability-bell-peppers/number_format", value = "0.00" }], calculation = { op = "ratio", operands = ["/availability/us-1990s-availability-bell-peppers/population_millions"], precision = 2, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 5.88
 panel = "table"
 label = "Bell peppers available per person, 1990"
-value = "5.88 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "5.88 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1990
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh bell peppers. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 2.8 times the 1960 figure."
-assumptions = ["composite-family"]
+notes = "Fresh bell peppers: Supply and use; source year 1990, Peppers!H37. Original population heading: U.S. population, July 1 (footnote 1). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (2 decimal places). The source retail-weight conversion is not applied. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-1990s-availability-broccoli"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1990s-availability-broccoli/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1990s-availability-broccoli/year", value = "1990" }, { locator = "/availability/us-1990s-availability-broccoli/file", value = "46-diet-variety/ers-fads-vegetables-fresh.xlsx" }, { locator = "/availability/us-1990s-availability-broccoli/sha256", value = "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e" }, { locator = "/availability/us-1990s-availability-broccoli/title", value = "Fresh broccoli: Supply and use" }, { locator = "/availability/us-1990s-availability-broccoli/cell", value = "Broccoli!H37" }, { locator = "/availability/us-1990s-availability-broccoli/population_heading", value = "U.S. population, July 11" }, { locator = "/availability/us-1990s-availability-broccoli/population_definition", value = "1Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1990s-availability-broccoli/number_format", value = "#,##0.00" }], calculation = { op = "ratio", operands = ["/availability/us-1990s-availability-broccoli/population_millions"], precision = 2, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 3.37
 panel = "table"
 label = "Broccoli available per person, 1990"
-value = "3.37 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "3.37 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1990
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 8.4 times the 1960 figure."
-assumptions = ["composite-family"]
+notes = "Fresh broccoli: Supply and use; source year 1990, Broccoli!H37. Original population heading: U.S. population, July 1 (footnote 1). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (2 decimal places). The source retail-weight conversion is not applied. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[derived]]
 id = "us-1990s-produce-variety-count"
@@ -733,7 +774,7 @@ count_series = [
 ]
 threshold = 1.0
 at_year = 1990
-notes = "Every fresh fruit and vegetable commodity sheet in the two ERS fresh workbooks, counted when the food supply provided at least a full pound per person that year, farm weight. The total is the commodities ERS tracked that year: series that had not yet begun or had already ended are outside the count, so a widening record cannot masquerade as rising variety. Availability is a disappearance estimate — what the supply made available, not what anyone ate; the rule and its rationale are in the assumption ledger (produce-variety-rule)."
+notes = "The curated fresh fruit and vegetable series are counted when the publisher's displayed farm-weight availability estimate is at least one pound per person in the source year. Values are rounded to each source cell's displayed precision before comparison, so estimates near the threshold depend on that precision. The count is out of the commodities tracked in the selected series for that year; availability is a supply measure, not food actually eaten."
 assumptions = ["produce-variety-rule", "composite-family"]
 
 [[fact]]
@@ -759,18 +800,18 @@ unit = "live births per 1,000 women aged 15-19"
 price_year = 1990
 source = "nchs-hus-2019-table1"
 tier = "A"
-notes = "The rate rose. 59.9 in 1990 against 53.0 in 1980 is the one reversal in the published series, and it is the reason this arc is not marked as a falling line."
+notes = "NCHS reports 59.9 live births per 1,000 women aged 15–19 in 1990; the corresponding 1980 rate was 53.0 in the same table."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1990s-workplace-death-rate"
 panel = "day"
 label = "Deaths at work per 100,000 workers, 1990s"
-value = "no reliable record — the federal census of workplace deaths began in 1992, and its rate basis changed in 2006"
+value = "no reliable record for a comparable hours-based rate in the 1990s (CFOI fatality counts begin in 1992; the hours-based FTE-rate series begins in 2006)"
 unit = "fatal work injuries per 100,000 full-time-equivalent workers"
 source = "bls-cfoi-hours-based-rates"
 tier = "A"
-notes = "The Census of Fatal Occupational Injuries has covered all fifty states and the District of Columbia only since 1992. For the nine decades before that the United States kept no federal count of the people killed at work; the century-long figures usually quoted come from a private safety council's estimates, not a government census. The rates CFOI itself published from 1992 to 2005 were computed against employment rather than hours worked, and BLS replaced that basis in 2006 — so they measure something else and are not shown on the same axis. This gap is not an archive limitation. It is the absence of the counting."
+notes = "BLS reports that CFOI national fatal work injury counts have been collected since 1992. Its hours-based rate series, expressed per 100,000 full-time-equivalent workers, begins in 2006. The 1990s gap is in this comparable rate measure, not in federal fatality counting."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -781,9 +822,9 @@ label = "Adult cigarette smoking prevalence, 1990"
 value = "25.5% of adults smoked (28.4% of men, 22.8% of women)"
 unit = "% of adults ≥18 who currently smoke (NHIS)"
 price_year = 1990
-source = "cdc-nhis-smoking-prevalence"
+source = "cdc-mmwr-nhis-smoking-prevalence"
 tier = "A"
-notes = "From CDC NHIS (compiled by American Lung Association). Smoking prevalence fell below 30% for the first time. Down from 33.2% in 1980."
+notes = "From CDC MMWR Table 2, NHIS estimates for adults: 25.5% overall, 28.4% of men, and 22.8% of women were current cigarette smokers in 1990. The survey reported 33.2% overall in 1980."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -793,9 +834,9 @@ panel = "day"
 label = "Infant mortality rate, 1990"
 value = "9.2 per 1,000 live births"
 unit = "deaths under age 1 per 1,000 live births"
-source = "nchs-nvss"
+source = "nchs-hus-2016-infant-table11"
 tier = "A"
-notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 5.8; postneonatal: 3.4. The 1990s decline was driven by a 50%+ reduction in SIDS rates (back-to-sleep campaign) and improved survival of low-birthweight infants."
+notes = "NCHS Health, United States, 2016, Table 11 reports 9.2 infant deaths per 1,000 live births in 1990, including 5.8 neonatal and 3.4 postneonatal deaths."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────
@@ -809,7 +850,7 @@ value = "Men: 26.1, Women: 23.9"
 unit = "years (median age at first marriage)"
 source = "census-table-ms2"
 tier = "A"
-notes = "From Census Table MS-2. CPS ASEC. Men crossed 26 — back to the 1890 level after the mid-century dip. Women at 23.9, up 3.6 years from the 1950/1960 low of 20.3. The four-person composite family was forming later."
+notes = "Census Table MS-2 reports estimated median age at first marriage by sex. These medians describe first marriage, not the formation of a particular four-person family."
 
 # ── Married women's labor force participation ─────────────────────────────
 
@@ -822,20 +863,21 @@ value = "58.4%"
 unit = "% of married women (spouse present) in the civilian labor force"
 source = "statab-lfpr-marital"
 tier = "A"
-notes = "From Statistical Abstract Table 596 (11s0596.xls, BLS CPS annual averages). Up from 49.8% in 1980. Peaked at 61.6% in 1997 before leveling off. The 1990s were the last decade of rapid growth in married women's LFPR."
+notes = "The BLS Current Population Survey annual average reports 58.4% for married women with spouse present in 1990, among the civilian noninstitutional population age 16 and over. The labor force participation rate includes employed and unemployed people."
 
 # ── Education ─────────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-1990s-education"
+audit = { file = "22-census-historical-tables/taba-2-pct-high-school.xlsx", extractor = "xlsx-cell", locator = "hst_attain02!B41", scale = "1", guards = [{ locator = "hst_attain02!A41", value = "1990" }, { locator = "hst_attain02!A6", value = "25 Years and Over, Completed 4 Years of High School or more" }, { locator = "hst_attain02!B4", value = "All people" }, { locator = "hst_attain02!B5", value = "Total" }] }
 quantity = 77.6
 panel = "day"
 label = "Educational attainment, 1990"
-value = "HS grad or more: 77.6%, Bachelor's or more: 21.3%, Less than 9th grade: 11.2%. Median school years: 12.7."
-unit = "% of population 25+ (all races, both sexes); median years completed"
+value = "Four or more years of high school: 77.6%; four or more years of college: 21.3%"
+unit = "% of civilian noninstitutionalized people aged 25 and over"
 source = "census-table-a1-a2"
 tier = "A"
-notes = "From Census Table A-1. Decennial census. HS graduation approaching 80%. Less-than-9th-grade down to 11% — from 60% in 1940. Bachelor's or more crossed 21%. Median school years: 12.7."
+notes = "Census Table A-2, March Current Population Survey: 1990 classification records years of schooling completed. Starting in 1992 the question changed to credentials, so the measures are not identical across the seam."
 
 # ── Net worth (median family) ────────────────────────────────────────────
 
@@ -848,7 +890,7 @@ value = "$87,500 (87.5 thousand, 2016 dollars)"
 unit = "median net worth, all families (SCF)"
 source = "fed-scf"
 tier = "A"
-notes = "From SCF Chartbook (bulletincharts.pdf, Table: Median value of net worth for families with holdings, all families). 1989 survey, in 2016 dollars. The SCF Chartbook provides a consistent real-dollar series from 1989-2016. By 1998: $105,800; by 2001: $117,300 — median wealth rose sharply in the late 1990s boom."
+notes = "All-family median net worth in the 1989 survey is $87.5 thousand in 2016 dollars; chart table also lists 1998 $105.8 thousand. The survey family is the unit of observation; the source values are expressed in 2016 dollars."
 
 [[fact]]
 id = "us-1990s-weekly-hours-total-private"
@@ -927,7 +969,7 @@ value = "From February 25, 1990 smoking was unlawful on scheduled flight segment
 unit = "legal status of smoking aboard scheduled domestic flight segments (federal statute)"
 source = "us-public-law-101-164-sec-335"
 tier = "A"
-notes = "Pub. L. 101-164 § 335 (approved Nov. 21, 1989; 103 Stat. 1098-1099) rewrote 49 U.S.C. App. 1374(d)(1)(A) to cover the segments named in its clauses (i)-(iii) and struck the 1987 ban's 28-month sunset; by its terms it takes effect 'upon the commencement of the 96th day following the date of enactment' — February 25, 1990. The statute reaches scheduled flights only: nonscheduled and charter operations were outside it, and the single-entity-charter blanket waiver DOT had applied since 1982 was codified in the implementing rule (55 FR 4991, Feb. 13, 1990). The scope is the statute's own — the over-six-hour segments to or from Alaska and Hawaii were closed only by the 2000 law."
+notes = "Public Law 101-164 §335 made smoking unlawful on the scheduled flight segments specified in its text, including segments within the contiguous states, D.C., Puerto Rico, the Virgin Islands, Alaska, and Hawaii, plus qualifying links to or between Alaska and Hawaii scheduled for six hours or less. The statute took effect February 25, 1990, the 96th day after November 21, 1989."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -938,7 +980,7 @@ value = "Under a California statute, no employer shall knowingly or intentionall
 unit = "legal status of smoking in enclosed places of employment (California statute)"
 source = "california-labor-code-6404-5"
 tier = "A"
-notes = "AB 13 (T. Friedman), Chapter 310, Statutes of 1994, approved July 21, 1994, adding Labor Code § 6404.5; the chaptered text defers the operative date to the act's constitutional effective date — January 1, 1995 under the state Constitution's January 1 rule. Subdivision (d) also excepts 65 percent of hotel and motel guest rooms and designated lobby areas, tobacco shops and private smokers' lounges, truck cabs without nonsmoking employees, large warehouses with twenty or fewer employees, theatrical smoking, medical research or treatment sites, and employer breakrooms exhausted directly to the outside. This is one state's statute — a record of what one jurisdiction did, not a national event, and a restriction on workplace conduct, not a measure of how many people smoked at work."
+notes = "California AB 13, Chapter 310 (1994), added Labor Code §6404.5. It prohibited smoking in enclosed places of employment, with specified exceptions; gaming clubs and bars/taverns could allow smoking until January 1, 1997, subject to the statute’s conditions. The law operated statewide beginning January 1, 1995."
 assumptions = ["composite-family"]
 
 [[fact]]

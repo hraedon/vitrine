@@ -1,291 +1,338 @@
-#!/usr/bin/env python3
-"""
-IPUMS USA data extraction client for vitrine.
+"""IPUMS extract API v2 client; raw downloads belong in ignored samples/.
 
-Rate-limited to 50 requests/minute (half the 100/min limit) to be a good citizen.
-
-Usage:
-    IPUMS_API_KEY=... python ipums_extract.py --submit  # submit an extract
-    IPUMS_API_KEY=... python ipums_extract.py --status   # check extract status
-    IPUMS_API_KEY=... python ipums_extract.py --download # download completed extract
-
-Raw microdata is saved to samples/ (gitignored). Only aggregate statistics
-computed from the microdata are published as Facts in data/.
-
-See docs/ipums-compliance.md for compliance details.
+This tool does not submit a request unless explicitly invoked with --submit.
+Read docs/ipums-compliance.md before using IPUMS material.
 """
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
-import sys
+import re
+import tempfile
 import time
 from pathlib import Path
-
-import requests
-
-# ── Configuration ───────────────────────────────────────────────────────────
+from urllib.error import HTTPError, URLError
+from urllib.parse import unquote, urlencode, urlsplit
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 API_BASE = "https://api.ipums.org"
-RATE_LIMIT_DELAY = 1.2  # seconds between requests (50/min, half the 100/min limit)
+RATE_LIMIT_DELAY = 1.2
 SAMPLES_DIR = Path(__file__).parent.parent / "samples"
 
-# ── Rate-limited HTTP client ───────────────────────────────────────────────
+
+class _NoRedirect(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):  # type: ignore[no-untyped-def]
+        return None
+
+
+def _open(request: Request):  # type: ignore[no-untyped-def]
+    try:
+        return build_opener(_NoRedirect).open(request, timeout=30)
+    except HTTPError as exc:
+        raise RuntimeError(f"HTTP request failed (status {exc.code})") from None
+    except (URLError, OSError, ValueError):
+        raise RuntimeError("HTTP request failed") from None
+
+
+def _safe_download(url: str, collection: str, number: int) -> str:
+    parts = urlsplit(url)
+    host = (parts.hostname or "").lower()
+    try:
+        port = parts.port
+    except ValueError:
+        raise ValueError("Invalid download location") from None
+    if (
+        parts.scheme != "https"
+        or not (host == "ipums.org" or host.endswith(".ipums.org"))
+        or parts.username is not None
+        or parts.password is not None
+        or port not in (None, 443)
+    ):
+        raise ValueError("Invalid download location")
+    path = unquote(parts.path)
+    if "\\" in path or any(p in (".", "..") for p in path.split("/")):
+        raise ValueError("Invalid download path")
+    name = path.rsplit("/", 1)[-1]
+    stem = re.escape(f"{collection}_{number:05d}")
+    if not re.fullmatch(stem + r"\.(?:csv\.gz|dat\.gz|csv|dat|xml|cbk|do|sas|sps|sts|R|txt)", name):
+        raise ValueError("Invalid extract filename")
+    return name
+
+
+def _safe_directory(path: Path) -> Path:
+    absolute = path.absolute()
+    for part in (absolute, *absolute.parents):
+        if part.is_symlink():
+            raise ValueError("Destination must not contain symbolic links")
+    absolute.mkdir(parents=True, exist_ok=True)
+    return absolute
 
 
 class IpumsClient:
-    """Rate-limited IPUMS API client."""
+    """Rate-limited client with origin- and path-restricted download authentication."""
 
     def __init__(self, api_key: str, collection: str = "usa"):
+        if not re.fullmatch(r"[a-z0-9]+", collection):
+            raise ValueError("Invalid collection")
         self.api_key = api_key
         self.collection = collection
-        self.session = requests.Session()
-        self.session.headers.update({
-            "Authorization": api_key,
-            "Content-Type": "application/json",
-        })
         self._last_request = 0.0
 
     def _throttle(self) -> None:
-        """Enforce rate limit: wait at least RATE_LIMIT_DELAY between requests."""
-        elapsed = time.monotonic() - self._last_request
-        if elapsed < RATE_LIMIT_DELAY:
-            time.sleep(RATE_LIMIT_DELAY - elapsed)
+        remaining = RATE_LIMIT_DELAY - (time.monotonic() - self._last_request)
+        if remaining > 0:
+            time.sleep(remaining)
         self._last_request = time.monotonic()
 
-    def _request(self, method: str, path: str, **kwargs) -> requests.Response:
+    def _request(self, method: str, path: str, *, body: dict | None = None) -> object:
         self._throttle()
-        url = f"{API_BASE}{path}"
-        r = self.session.request(method, url, timeout=30, **kwargs)
-        if r.status_code == 429:
-            retry_after = int(r.headers.get("Retry-After", 60))
-            print(f"  Rate limited — waiting {retry_after}s...")
-            time.sleep(retry_after)
-            self._throttle()
-            r = self.session.request(method, url, timeout=30, **kwargs)
-        return r
+        query = {"collection": self.collection, "version": "2"}
+        path, _, extra = path.partition("?")
+        if extra:
+            from urllib.parse import parse_qsl
 
-    # ── Extract lifecycle ───────────────────────────────────────────────
+            query.update(dict(parse_qsl(extra)))
+        request = Request(
+            API_BASE + path + "?" + urlencode(query),
+            data=None if body is None else json.dumps(body).encode("utf-8"),
+            headers={"Authorization": self.api_key, "Content-Type": "application/json"},
+            method=method,
+        )
+        try:
+            with _open(request) as response:
+                return json.load(response)
+        except (json.JSONDecodeError, UnicodeDecodeError, OSError):
+            raise RuntimeError("Invalid API response") from None
 
     def list_extracts(self, limit: int = 10) -> list[dict]:
-        """List previous extract requests."""
-        r = self._request("GET", f"/extracts?collection={self.collection}&limit={limit}")
-        r.raise_for_status()
-        return r.json()
+        if limit < 1 or limit > 100:
+            raise ValueError("Invalid page size")
+        result = self._request("GET", f"/extracts?pageSize={limit}")
+        if isinstance(result, dict):
+            result = result.get("data")
+        if not isinstance(result, list) or not all(isinstance(item, dict) for item in result):
+            raise RuntimeError("Invalid API response")
+        return result
 
-    def submit_extract(self, sample_ids: list[str], variables: list[str],
-                       description: str = "", data_format: str = "csv") -> dict:
-        """Submit a new extract request.
-
-        Args:
-            sample_ids: IPUMS sample IDs (e.g., ["us1950a"]).
-            variables: IPUMS variable names (e.g., ["METRO", "INCTOT", "FAMSIZE"]).
-            description: Human-readable description.
-            data_format: "csv" or "fixed" or "stata" or "spss" or "sas".
-
-        Returns:
-            Extract definition dict with extractId.
-        """
+    def submit_extract(
+        self,
+        sample_ids: list[str],
+        variables: list[str],
+        description: str = "",
+        data_format: str = "csv",
+    ) -> dict:
         body = {
             "dataStructure": {"rectangular": {"on": "P"}},
             "samples": {sid: {} for sid in sample_ids},
             "variables": {var: {} for var in variables},
-            "description": description or f"vitrine extract: {', '.join(sample_ids)}",
+            "description": description or "vitrine extract",
             "dataFormat": data_format,
         }
-        r = self._request(
-            "POST",
-            f"/extracts?collection={self.collection}",
-            json=body,
-        )
-        if r.status_code not in (200, 201):
-            raise RuntimeError(f"Submit failed ({r.status_code}): {r.text}")
-        return r.json()
+        result = self._request("POST", "/extracts", body=body)
+        if not isinstance(result, dict):
+            raise RuntimeError("Invalid API response")
+        return result
 
     def get_status(self, extract_id: int) -> dict:
-        """Check the status of an extract."""
-        r = self._request("GET", f"/extracts/{extract_id}?collection={self.collection}")
-        r.raise_for_status()
-        return r.json()
+        if extract_id < 1:
+            raise ValueError("Invalid extract number")
+        result = self._request("GET", f"/extracts/{extract_id}")
+        if not isinstance(result, dict):
+            raise RuntimeError("Invalid API response")
+        return result
 
-    def wait_for_completion(self, extract_id: int, poll_interval: int = 60,
-                            max_wait: int = 3600) -> dict:
-        """Poll until extract is complete or timeout.
-
-        Args:
-            extract_id: The extract ID to poll.
-            poll_interval: Seconds between status checks.
-            max_wait: Maximum seconds to wait.
-
-        Returns:
-            Final extract status dict.
-        """
-        elapsed = 0
-        while elapsed < max_wait:
-            status = self.get_status(extract_id)
-            state = status.get("status", "unknown")
-            print(f"  [{elapsed}s] Status: {state}")
+    def wait_for_completion(
+        self, extract_id: int, poll_interval: int = 60, max_wait: int = 3600
+    ) -> dict:
+        if not 1 <= poll_interval <= 60 or max_wait < 0:
+            raise ValueError("Invalid polling interval")
+        deadline = time.monotonic() + max_wait
+        while time.monotonic() < deadline:
+            result = self.get_status(extract_id)
+            state = result.get("status")
             if state in ("completed", "complete"):
-                return status
+                return result
             if state in ("failed", "error", "canceled"):
-                raise RuntimeError(f"Extract {extract_id} {state}: {status}")
-            time.sleep(poll_interval)
-            elapsed += poll_interval
-        raise TimeoutError(f"Extract {extract_id} not completed after {max_wait}s")
+                raise RuntimeError("Extract failed")
+            time.sleep(min(poll_interval, max(0, deadline - time.monotonic())))
+        raise TimeoutError("Extract did not complete before the deadline")
 
     def download_extract(self, extract_id: int, dest_dir: Path | None = None) -> list[Path]:
-        """Download all files from a completed extract.
-
-        Returns:
-            List of downloaded file paths.
-        """
-        if dest_dir is None:
-            dest_dir = SAMPLES_DIR
-        dest_dir.mkdir(parents=True, exist_ok=True)
-
         status = self.get_status(extract_id)
         if status.get("status") not in ("completed", "complete"):
-            raise RuntimeError(f"Extract {extract_id} not completed: {status.get('status')}")
-
+            raise RuntimeError("Extract is not complete")
+        definition = status.get("extractDefinition", {})
+        links = status.get(
+            "downloadLinks",
+            definition.get("downloadLinks") if isinstance(definition, dict) else None,
+        )
+        if not isinstance(links, dict) or not links:
+            raise RuntimeError("Invalid download metadata")
+        directory = _safe_directory(dest_dir or SAMPLES_DIR)
         downloaded = []
-        for link in status.get("downloadLinks", []):
-            url = link.get("url") if isinstance(link, dict) else link
-            if not url:
-                continue
-            if isinstance(link, dict):
-                filename = link.get("fileName", url.split("/")[-1])
-            else:
-                filename = url.split("/")[-1]
-            dest = dest_dir / filename
-            print(f"  Downloading {filename}...")
+        for item in links.values():
+            if not isinstance(item, dict) or not isinstance(item.get("url"), str):
+                raise RuntimeError("Invalid download metadata")
+            name = _safe_download(item["url"], self.collection, extract_id)
+            size, digest = item.get("bytes"), item.get("sha256")
+            if size is not None and (
+                not isinstance(size, int) or isinstance(size, bool) or size < 0
+            ):
+                raise RuntimeError("Invalid download metadata")
+            if digest is not None and (
+                not isinstance(digest, str) or not re.fullmatch(r"[a-fA-F0-9]{64}", digest)
+            ):
+                raise RuntimeError("Invalid download metadata")
+            dest = directory / name
+            if dest.exists() or dest.is_symlink():
+                raise FileExistsError("Download destination already exists")
             self._throttle()
-            r = self.session.get(url, timeout=300, stream=True)
-            r.raise_for_status()
-            with open(dest, "wb") as f:
-                for chunk in r.iter_content(chunk_size=8192):
-                    f.write(chunk)
-            downloaded.append(dest)
-            print(f"    Saved to {dest} ({dest.stat().st_size:,} bytes)")
+            parts = urlsplit(item["url"])
+            protected_path = (
+                rf"/downloads/{re.escape(self.collection)}/api/v1/extracts/"
+                rf"[0-9]+/{re.escape(name)}"
+            )
+            headers = {}
+            if f"{parts.scheme}://{parts.netloc}" == API_BASE and re.fullmatch(
+                protected_path, parts.path
+            ):
+                headers["Authorization"] = self.api_key
+            request = Request(item["url"], headers=headers, method="GET")
+            tmp = None
+            try:
+                with (
+                    _open(request) as response,
+                    tempfile.NamedTemporaryFile(dir=directory, delete=False) as out,
+                ):
+                    tmp = Path(out.name)
+                    hasher = hashlib.sha256()
+                    count = 0
+                    while chunk := response.read(65536):
+                        count += len(chunk)
+                        if size is not None and count > size:
+                            raise RuntimeError("Download size mismatch")
+                        hasher.update(chunk)
+                        out.write(chunk)
+                if size is not None and count != size:
+                    raise RuntimeError("Download size mismatch")
+                if digest is not None and hasher.hexdigest() != digest.lower():
+                    raise RuntimeError("Download digest mismatch")
+                os.link(tmp, dest)
+                downloaded.append(dest)
+            except FileExistsError:
+                raise FileExistsError("Download destination already exists") from None
+            except OSError:
+                raise RuntimeError("Download failed") from None
+            finally:
+                if tmp is not None:
+                    tmp.unlink(missing_ok=True)
         return downloaded
 
 
-# ── Vitrine extract definitions ────────────────────────────────────────────
-
-# Variables needed for vitrine's locale split analysis
 VITRINE_VARIABLES = {
-    "income": ["INCTOT", "INCWAGE"],        # Total income, wage income
-    "family": ["FAMSIZE", "RELATE", "NCHILD"],  # Family composition
-    "geography": ["METRO", "URBAN", "REGION"],  # Locale classification
-    "housing": ["OWNERSHP", "ROOMS", "PLUMBING", "ELECTRIC", "RADIO",
-                "TV", "REFRIG", "PHONE", "AUTOS"],  # Housing/diffusion
-    "work": ["HOURS", "WKSWORK1", "LABFORCE", "OCC"],  # Work hours/occupation
+    "income": ["INCTOT", "INCWAGE"],
+    "family": ["FAMSIZE", "RELATE", "NCHILD"],
+    "geography": ["METRO", "URBAN", "REGION"],
+    "housing": [
+        "OWNERSHP",
+        "ROOMS",
+        "PLUMBING",
+        "ELECTRIC",
+        "RADIO",
+        "TV",
+        "REFRIG",
+        "PHONE",
+        "AUTOS",
+    ],
+    "work": ["HOURS", "WKSWORK1", "LABFORCE", "OCC"],
 }
+VITRINE_SAMPLES = {str(y): [f"us{y}a"] for y in (1940, 1950, 1960, 1970, 1980, 1990, 2000)}
 
-# Sample IDs by decade (IPUMS sample codes)
-VITRINE_SAMPLES = {
-    "1940": ["us1940a"],  # Full count
-    "1950": ["us1950a"],  # Full count
-    "1960": ["us1960a"],  # 1% sample
-    "1970": ["us1970a"],  # 1% sample (Form 1)
-    "1980": ["us1980a"],  # 5% sample
-    "1990": ["us1990a"],  # 5% sample
-    "2000": ["us2000a"],  # 5% sample
-}
+
+def build_1950_family_income_extract() -> dict:
+    """1950 sample-line family income, referring to income in 1949."""
+    return {
+        "sample_ids": ["us1950a"],
+        "variables": [
+            "YEAR",
+            "SAMPLE",
+            "SERIAL",
+            "PERNUM",
+            "GQ",
+            "FAMUNIT",
+            "FAMSIZE",
+            "RELATE",
+            "METRO",
+            "FTOTINC",
+            "SLWT",
+        ],
+    }
 
 
 def build_vitrine_extract(decade: str, variables: list[str] | None = None) -> dict:
-    """Build an extract request for a specific decade."""
     if decade not in VITRINE_SAMPLES:
-        raise ValueError(f"Unknown decade: {decade}. Available: {list(VITRINE_SAMPLES.keys())}")
-    sample_ids = VITRINE_SAMPLES[decade]
-    if variables is None:
-        # Flatten all variable groups
-        variables = [v for group in VITRINE_VARIABLES.values() for v in group]
-    return {"sample_ids": sample_ids, "variables": variables}
+        raise ValueError("Unknown decade")
+    if decade == "1950" and variables is None:
+        raise ValueError("Choose explicit 1950 variables or the 1950-family-income extract")
+    return {
+        "sample_ids": VITRINE_SAMPLES[decade],
+        "variables": variables
+        if variables is not None
+        else [v for group in VITRINE_VARIABLES.values() for v in group],
+    }
 
 
-# ── CLI ────────────────────────────────────────────────────────────────────
-
-
-def main():
-    parser = argparse.ArgumentParser(description="IPUMS USA extraction client for vitrine")
-    parser.add_argument("--submit", metavar="DECADE", help="Submit extract for decade (e.g., 1950)")
-    parser.add_argument(
-        "--status", type=int, metavar="EXTRACT_ID",
-        help="Check extract status")
-    parser.add_argument(
-        "--download", type=int, metavar="EXTRACT_ID",
-        help="Download completed extract")
-    parser.add_argument("--list", action="store_true", help="List previous extracts")
-    parser.add_argument("--test", action="store_true", help="Test API key validity")
+def main() -> None:
+    parser = argparse.ArgumentParser(description="IPUMS USA API v2 client")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("--submit", metavar="DECADE_OR_1950-family-income")
+    group.add_argument("--status", type=int)
+    group.add_argument("--download", type=int)
+    group.add_argument("--list", action="store_true")
+    group.add_argument("--test", action="store_true")
     args = parser.parse_args()
-
-    api_key = os.environ.get("IPUMS_API_KEY")
-    if not api_key:
-        # Try reading from .env
-        env_path = Path.home() / ".hermes" / ".env"
-        if env_path.exists():
-            for line in env_path.read_text().splitlines():
-                if line.startswith("IPUMS_API_KEY="):
-                    api_key = line.split("=", 1)[1].strip()
-                    break
-    if not api_key:
-        print("ERROR: IPUMS_API_KEY not found in environment or ~/.hermes/.env")
-        sys.exit(1)
-
-    client = IpumsClient(api_key)
-
-    if args.test:
-        print("Testing API key...")
-        try:
-            extracts = client.list_extracts(limit=1)
-            print(f"✅ API key valid! Previous extracts: {len(extracts)}")
-        except Exception as e:
-            print(f"❌ API key invalid: {e}")
-            sys.exit(1)
-
-    elif args.list:
-        print("Listing previous extracts...")
-        extracts = client.list_extracts(limit=10)
-        for ext in extracts:
-            print(f"  ID: {ext.get('extractId', '?')}, Status: {ext.get('status', '?')}, "
-                  f"Description: {ext.get('description', '?')[:60]}")
-
-    elif args.submit:
-        decade = args.submit
-        print(f"Building extract for {decade}...")
-        spec = build_vitrine_extract(decade)
-        print(f"  Samples: {spec['sample_ids']}")
-        print(f"  Variables: {', '.join(spec['variables'])}")
-        print(f"  Rate limit: {RATE_LIMIT_DELAY}s between requests (50/min)")
-        result = client.submit_extract(
-            spec["sample_ids"], spec["variables"],
-            description=f"vitrine: {decade} locale split + diffusion"
-        )
-        extract_id = result.get("extractId", result.get("id"))
-        print(f"\n✅ Extract submitted! ID: {extract_id}")
-        print(f"   Poll with: python {sys.argv[0]} --status {extract_id}")
-        print(f"   Download with: python {sys.argv[0]} --download {extract_id}")
-
-    elif args.status:
-        print(f"Checking status of extract {args.status}...")
-        status = client.get_status(args.status)
-        print(f"  Status: {status.get('status', 'unknown')}")
-        print(f"  Info: {json.dumps(status, indent=2)[:500]}")
-
-    elif args.download:
-        print(f"Downloading extract {args.download}...")
-        files = client.download_extract(args.download)
-        print(f"\n✅ Downloaded {len(files)} files:")
-        for f in files:
-            print(f"  {f} ({f.stat().st_size:,} bytes)")
-        print(f"\nRaw data saved to {SAMPLES_DIR}/ (gitignored)")
-        print("Compute aggregate statistics and publish as Tier B Facts.")
-
-    else:
+    if not any((args.submit, args.status, args.download, args.list, args.test)):
         parser.print_help()
+        return
+    key = os.environ.get("IPUMS_API_KEY")
+    if not key:
+        parser.exit(1, "IPUMS_API_KEY is required\n")
+    client = IpumsClient(key)
+    try:
+        if args.submit:
+            spec = (
+                build_1950_family_income_extract()
+                if args.submit == "1950-family-income"
+                else build_vitrine_extract(args.submit)
+            )
+            result = client.submit_extract(
+                **spec,
+                description="vitrine: 1949 family income"
+                if args.submit == "1950-family-income"
+                else "vitrine extract",
+            )
+            number = result.get("number")
+            if not isinstance(number, int) or isinstance(number, bool) or number < 1:
+                raise RuntimeError("Invalid API response")
+            print(f"Extract submitted: {number}")
+        elif args.status:
+            status = client.get_status(args.status).get("status")
+            print(
+                "Status:",
+                status
+                if status
+                in ("completed", "complete", "started", "queued", "failed", "error", "canceled")
+                else "unknown",
+            )
+        elif args.download:
+            print(f"Downloaded {len(client.download_extract(args.download))} files")
+        else:
+            print(f"Extracts returned: {len(client.list_extracts(limit=1 if args.test else 10))}")
+    except (RuntimeError, ValueError, OSError, TimeoutError) as exc:
+        parser.exit(1, f"{exc}\n")
 
 
 if __name__ == "__main__":

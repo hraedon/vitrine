@@ -23,7 +23,7 @@ from vitrine.model import (
     normalized_unit,
     weakest_tier,
 )
-from vitrine.series import Series
+from vitrine.series import Series, representation_problems
 
 
 @dataclass(frozen=True, slots=True)
@@ -136,6 +136,10 @@ def evaluate(
         missing = [sid for sid in derived.count_series if sid not in series]
         if missing:
             raise DeriveError(f"{ctx}: count_series {missing[0]!r} not found")
+        for sid in derived.count_series:
+            candidate = series[sid]
+            if representation_problems(candidate) or candidate.monetary:
+                raise DeriveError(f"{ctx}: COUNT_ABOVE requires valid non-monetary quantities")
         if not derived.threshold > 0:
             raise DeriveError(f"{ctx}: COUNT_ABOVE requires threshold > 0")
         if not derived.at_year:
@@ -179,7 +183,9 @@ def evaluate(
         if series is None or derived.inflate_series not in series:
             raise DeriveError(f"{ctx}: inflate_series {derived.inflate_series!r} not available")
         s = series[derived.inflate_series]
-        vals = s.values_minor if s.values_minor else s.values
+        if representation_problems(s) or s.monetary:
+            raise DeriveError(f"{ctx}: INFLATE requires a valid non-monetary index series")
+        vals = s.values
         from_year = derived.inflate_from_year
         to_year = derived.inflate_to_year
         if from_year not in vals:

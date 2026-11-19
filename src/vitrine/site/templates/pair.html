@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% from "macros/placards.html" import placard_overlay %}
-{% from "macros/charts.html" import composition_details %}
+{% from "macros/charts.html" import composition_details, composition_rows %}
 {% block title %}{{ page.a }} ↔ {{ page.b }} — vitrine corridors{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · corridor · pairwise</p>
@@ -28,7 +28,7 @@
 {% endfor %}
 {% if page.comp_rows %}
 <h2 class="case-title">Budget composition</h2>
-<div class="chart-panel">{% for row in page.comp_rows %}{{ row.bar }}{% endfor %}</div>
+<div class="chart-panel">{{ composition_rows(page.comp_rows) }}</div>
 {{ composition_details(page.comp_rows) }}
 {% endif %}
 {% for fam in page.families %}

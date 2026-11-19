@@ -13,6 +13,39 @@
   let active = null;
   let origin = null;
 
+  const recordPanels = [...document.querySelectorAll(".record-panel")];
+  const readingControls = document.querySelector(".record-reading-controls");
+  if (recordPanels.length && readingControls) {
+    readingControls.hidden = false;
+    readingControls.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-record-action]");
+      if (!button) return;
+      const expand = button.dataset.recordAction === "expand";
+      for (const panel of recordPanels) panel.open = expand;
+    });
+  }
+
+  function revealRecord(target) {
+    // Native fragment navigation reveals descendants of closed details even
+    // without JavaScript. Enhancement also handles the topic's outer anchor
+    // and nested disclosures before placing it beneath the sticky topic map.
+    if (!target) return;
+    const panel = target.matches(".panel-group")
+      ? target.querySelector(".record-panel")
+      : target.closest(".record-panel");
+    if (!panel) return;
+    for (let ancestor = target.parentElement; ancestor; ancestor = ancestor.parentElement) {
+      if (ancestor.tagName === "DETAILS") ancestor.open = true;
+    }
+    panel.open = true;
+    requestAnimationFrame(() => {
+      const focusTarget = target.matches(".panel-group")
+        ? panel.querySelector(":scope > summary") : target;
+      focusTarget?.focus({ preventScroll: true });
+      target.scrollIntoView({ block: "start" });
+    });
+  }
+
   const focusableSelector = [
     "a[href]",
     "button:not([disabled])",
@@ -89,12 +122,20 @@
   }
 
   function syncWithHash() {
-    const id = decodeURIComponent(location.hash.slice(1));
-    const target = id.endsWith(overlaySuffix) ? document.getElementById(id) : null;
+    let id;
+    try {
+      id = decodeURIComponent(location.hash.slice(1));
+    } catch {
+      // A malformed external fragment must not disable the reading controls
+      // or source-card state machine.
+      id = location.hash.slice(1);
+    }
+    const target = document.getElementById(id);
     if (target?.classList.contains("placard-overlay")) {
       openOverlay(target);
     } else {
       closeOverlay({ restoreFocus: false });
+      revealRecord(target);
     }
   }
 
@@ -103,6 +144,13 @@
     if (!link) return;
     const href = link.getAttribute("href") || "";
     if (href.startsWith("#") && href.endsWith(overlaySuffix)) origin = link;
+    if (href.startsWith("#") && !href.endsWith(overlaySuffix)) {
+      try {
+        revealRecord(document.getElementById(decodeURIComponent(href.slice(1))));
+      } catch {
+        // Malformed external fragments have no record to reveal.
+      }
+    }
     if (active && (link.classList.contains("overlay-close") || link.classList.contains("overlay-backdrop"))) {
       event.preventDefault();
       dismissOverlay();

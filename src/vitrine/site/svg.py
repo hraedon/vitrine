@@ -238,10 +238,6 @@ def arc_chart(
             f'<text class="ylab" x="{pad_l - 8}" y="{gy + 3:.1f}">{_fmt(q_top * frac)}</text>'
         )
     out.append(f'<text class="unit" x="{pad_l}" y="{pad_t - 4}">{escape(unit)}</text>')
-    # reserve the bottom 22px of plot area for x-axis labels; don't place a
-    # value label below this band when it would overlap.
-    x_label_ceiling = height - pad_b + 4  # just above the decade label row
-
     # connecting line: solid between adjacent sourced points, dashed across gaps
     prev: tuple[int, ArcPoint] | None = None
     for i, p in enumerate(points):
@@ -298,7 +294,7 @@ def arc_chart(
         show_label = label_all or (p.quantity in extremes) or i in (0, n - 1)
         # label above the dot by default; if there's no room, place it below
         label_y = cy - 9
-        if show_label and label_y < x_label_ceiling:
+        if show_label and label_y < pad_t + 10:
             label_y = cy + 18
         out.append(
             f'<a href={quoteattr(f"#{p.fact_id}--modal")}><g data-fact-id={quoteattr(p.fact_id)}>'
@@ -662,6 +658,8 @@ class MetricMarker:
     label: str
     value: str
     quantity: float | None
+    period: str = ""
+    approximate_position: bool = False
 
 
 def affordability_chart(
@@ -740,8 +738,17 @@ def affordability_chart(
         out.append(f'<text class="xlab" x="{tx:.1f}" y="{height - 26}">{tick_year}</text>')
 
     # the ratio line + dots (computed — data-metric-id, never data-fact-id)
-    if len(years) > 1:
-        path = " ".join(f"{x_of(yr):.1f},{y_of(values[yr]):.1f}" for yr in years)
+    # A solid line requires consecutive annual observations. Isolated census
+    # checkpoints keep their dots; missing years never acquire a trajectory.
+    runs: list[list[int]] = []
+    for year in years:
+        if not runs or year != runs[-1][-1] + 1:
+            runs.append([])
+        runs[-1].append(year)
+    for run in runs:
+        if len(run) < 2:
+            continue
+        path = " ".join(f"{x_of(yr):.1f},{y_of(values[yr]):.1f}" for yr in run)
         out.append(
             f'<polyline class="series-line" points="{path}" fill="none" '
             f'stroke="{stroke}" stroke-width="2"/>'
@@ -775,12 +782,15 @@ def affordability_chart(
     label_all = len(markers) <= 8
     for m in markers:
         mx = x_of(m.year)
+        period = m.period or str(m.year)
+        position_note = " (illustrative decade position)" if m.approximate_position else ""
+        record_title = f"{period}{position_note}: {m.label}: {m.value}"
         tier_color = tokens.TIER_COLORS.get(m.tier, tokens.GAP)
         if m.quantity is None:
             gy = pad_t + plot_h
             out.append(
                 f'<a href={quoteattr(m.href)}><g data-fact-id={quoteattr(m.fact_id)}>'
-                f'<title>{escape(m.label)}: {escape(m.value)} — see the placard</title>'
+                f'<title>{escape(record_title)} — not plotted; see the placard</title>'
                 f'<circle class="gapdot" cx="{mx:.1f}" cy="{gy:.1f}" r="5"/>'
                 f'<text class="gaplab" x="{mx:.1f}" y="{height - 12}">gap</text></g></a>'
             )
@@ -788,7 +798,7 @@ def affordability_chart(
         my = y_of(m.quantity)
         out.append(
             f'<a href={quoteattr(m.href)}><g data-fact-id={quoteattr(m.fact_id)}>'
-            f"<title>{escape(m.label)}: {escape(m.value)} — Tier {m.tier}</title>"
+            f"<title>{escape(record_title)} — Tier {m.tier}</title>"
             f'<circle class="dot" cx="{mx:.1f}" cy="{my:.1f}" r="4.5" '
              f'fill="{tokens.CASE}" stroke="{stroke}" stroke-width="2"/>'
             + (f'<text class="vlab" x="{mx:.1f}" y="{my - 9:.1f}">{_fmt(m.quantity)}</text>'

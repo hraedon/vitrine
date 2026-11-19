@@ -81,6 +81,19 @@ def test_csv_guarded_audit_and_deterministic_ledger(tmp_path: Path) -> None:
     assert "1 current" in coverage_report(audited)
 
 
+@pytest.mark.parametrize("newline", ["\n", "\r\n", "\r"])
+def test_csv_preserves_publisher_line_endings(tmp_path: Path, newline: str) -> None:
+    """Publisher CSVs with CR-only records must not need an archive conversion."""
+    import hashlib
+
+    blob = f'Year,Earnings{newline}1950,"$12.34"{newline}'.encode()
+    (tmp_path / "table.csv").write_bytes(blob)
+    entries, errors = run_audit(specimen(csv_ref()), tmp_path)
+    assert not errors and len(entries) == 1
+    assert entries[0].extracted == "12.34"
+    assert entries[0].sample_sha256 == hashlib.sha256(blob).hexdigest()
+
+
 @pytest.mark.parametrize(
     "field,value",
     [

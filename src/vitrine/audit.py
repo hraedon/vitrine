@@ -112,12 +112,15 @@ def validate_ref(ref: AuditRef) -> None:
         if len(set(locators)) != len(locators):
             raise ValueError("audit calculation operands must have distinct addresses")
         match calc.op:
+            case AuditOperation.ROUND:
+                if len(locators) != 1:
+                    raise ValueError("round needs exactly one source value")
             case AuditOperation.MEAN:
                 if len(locators) < 2:
                     raise ValueError("mean needs at least two source operands")
-            case AuditOperation.PCT_OF:
+            case AuditOperation.PCT_OF | AuditOperation.RATIO:
                 if len(locators) != 2:
-                    raise ValueError("pct_of needs a numerator and denominator")
+                    raise ValueError(f"{calc.op.value} needs a numerator and denominator")
             case _:
                 assert_never(calc.op)
         for locator in calc.operands:
@@ -263,12 +266,18 @@ def calculate(ref: AuditRef, values: tuple[Decimal, ...]) -> Decimal:
         raise ValueError("audit calculation operand count changed")
     operands = tuple(Fraction(value) for value in values)
     match calc.op:
+        case AuditOperation.ROUND:
+            result = operands[0]
         case AuditOperation.MEAN:
             result = sum(operands, Fraction()) / len(operands)
         case AuditOperation.PCT_OF:
             if operands[1] <= 0:
                 raise ValueError("pct_of denominator must be positive")
             result = operands[0] * 100 / operands[1]
+        case AuditOperation.RATIO:
+            if operands[1] <= 0:
+                raise ValueError("ratio denominator must be positive")
+            result = operands[0] / operands[1]
         case _:
             assert_never(calc.op)
     scaled = result * 10 ** calc.precision
@@ -346,7 +355,7 @@ def _extract(blob: bytes, ref: AuditRef) -> tuple[tuple[object, ...], tuple[obje
     values: list[object] = []
     match ref.extractor:
         case Extractor.CSV_CELL:
-            rows = list(csv.reader(io.StringIO(blob.decode(ref.encoding))))
+            rows = list(csv.reader(io.StringIO(blob.decode(ref.encoding), newline="")))
             for locator in locators:
                 row, col = (int(n) for n in re.findall(r"\d+", locator))
                 values.append(rows[row - 1][col - 1])

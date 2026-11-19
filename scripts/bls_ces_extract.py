@@ -10,8 +10,8 @@ Emits:
 Both are CES production/nonsupervisory manufacturing employees, monthly. The
 API does not return M13 annual rows for these CES series, so we annualize
 ourselves as the arithmetic mean of the 12 monthly values for each complete year
-(Jan-Dec present), 1939-2024. Both are wage RATES in dollars -> ``values``
-(floats).
+(Jan-Dec present), 1939-2024. Both are monetary rates in major USD, retained
+in ``values`` with explicit currency and time basis to preserve subcent means.
 
 The existing fact ``us-1950s-hourly-earnings-manufacturing`` (amount_minor 132 =
 $1.32) was itself computed by averaging the 12 monthly 1950 values, so this
@@ -51,6 +51,7 @@ SERIES = [
         "label": "Average hourly earnings, manufacturing production/nonsupervisory",
         "source": "fred-ces-manuf-earnings",
         "unit": "USD per hour, nominal (annual mean of 12 monthly values)",
+        "rate_basis": "hourly",
         "notes": (
             "BLS CES series CES3000000008 (Average Hourly Earnings of Production and "
             "Nonsupervisory Employees, Manufacturing), monthly, annualized as the mean "
@@ -63,6 +64,7 @@ SERIES = [
         "label": "Average weekly earnings, manufacturing production/nonsupervisory",
         "source": "fred-ces-manuf-weekly-earnings",
         "unit": "USD per week, nominal (annual mean of 12 monthly values)",
+        "rate_basis": "weekly",
         "notes": (
             "BLS CES series CES3000000030 (Average Weekly Earnings of Production and "
             "Nonsupervisory Employees, Manufacturing), monthly, annualized as the mean "
@@ -166,6 +168,9 @@ def _emit(spec: dict, values: dict[int, Decimal]) -> Path:
         f'label = "{spec["label"]}"',
         f'source = "{spec["source"]}"',
         'tier = "A"',
+        'kind = "monetary_rate"',
+        'currency = "USD"',
+        f'rate_basis = "{spec["rate_basis"]}"',
         f'unit = "{spec["unit"]}"',
         'population = "Production and nonsupervisory employees in manufacturing"',
         f'notes = "{spec["notes"]}"',
@@ -176,7 +181,7 @@ def _emit(spec: dict, values: dict[int, Decimal]) -> Path:
         lines.append(f"{y} = {values[y]:.4f}")
     lines.append("")
     out = OUT_DIR / f'{spec["id"]}.toml'
-    out.write_text("\n".join(lines))
+    out.write_text("\n".join(lines), encoding="utf-8", newline="\n")
     return out
 
 

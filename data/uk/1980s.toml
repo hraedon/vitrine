@@ -13,6 +13,7 @@ income_anchor = "uk-1980s-household-income"
 
 [[fact]]
 id = "uk-1980s-weekly-earnings"
+audit = { file = "30-uk-income/ons-earnings-1938-2025.xlsx", extractor = "xlsx-cell", locator = "Average Gross Weekly Earnings!I59", scale = "100", target = "amount_minor", guards = [{ locator = "Average Gross Weekly Earnings!E4", value = "Mean gross weekly earnings for Adult Full-Time Employees in Great Britain whose pay for the survey period was not affected by absence" }, { locator = "Average Gross Weekly Earnings!G7", value = "Adult Male" }, { locator = "Average Gross Weekly Earnings!I9", value = "\"All\"" }, { locator = "Average Gross Weekly Earnings!I11", value = "\u00a3" }, { locator = "Average Gross Weekly Earnings!B59", value = "1980" }] }
 basis = "weekly"
 amount_minor = 12450
 currency = "GBP"
@@ -24,11 +25,12 @@ value = "£124.50"
 unit = "GBP per week, nominal (mean gross weekly earnings, male full-time)"
 source = "ons-earnings-1938-2025"
 tier = "A"
-notes = "From the ONS long-run earnings series. 1980 (April sample, NES): adult male full-time £124.50/week; adult female full-time £78.80/week. Great Britain. Individual earnings, not family income. High inflation through the decade (RPI roughly doubled 1980→1990) drove rapid nominal growth — male full-time reached £192.40 by 1985."
+notes = "From the ONS long-run mean gross weekly earnings table, April 1980, adult male full-time employees, Great Britain. The table excludes employees whose pay was affected by absence. This is individual employee pay, not a household income or a real-wage comparison; the nominal series alone cannot establish an inflation-adjusted historical ranking."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "uk-1980s-household-income"
+audit = { file = "30-uk-income/etb-hhldtype.xlsx", extractor = "xlsx-cell", locator = "1980!G38", scale = "100", guards = [{ locator = "1980!A1", value = "Summary of the effects of taxes and benefits, by household type,1 1980" }, { locator = "1980!B27", value = "Non-Retired households" }, { locator = "1980!G29", value = "2 adults" }, { locator = "1980!G30", value = "with 2" }, { locator = "1980!G31", value = "children" }, { locator = "1980!A38", value = "Disposable income" }], target = "amount_minor" }
 basis = "annual"
 amount_minor = 688800
 currency = "GBP"
@@ -47,6 +49,7 @@ assumptions = ["composite-family", "four-person-normalization", "nominal-values"
 
 [[fact]]
 id = "uk-1980s-tenure"
+audit = { file = "32-uk-housing/ons-century-homeownership.csv", extractor = "csv-cell", locator = "R7:C2", guards = [{ locator = "R1:C1", value = "group" }, { locator = "R1:C2", value = "Owned" }, { locator = "R1:C3", value = "Private rented" }, { locator = "R1:C4", value = "Socially rented" }, { locator = "R7:C1", value = "1981" }, { locator = "R7:C3", value = "11" }, { locator = "R7:C4", value = "31" }], target = "quantity" }
 quantity = 58
 panel = "home"
 label = "Tenure of households, England and Wales, 1981"
@@ -61,16 +64,17 @@ assumptions = ["composite-family"]
 id = "uk-1980s-housing-amenities-gap"
 panel = "home"
 label = "Rooms, floor area, amenities (bath, WC, central heating)"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "ons-ghs-40yr"
 tier = "D"
-notes = "The GHS recorded central-heating and appliance ownership through the 1980s, and the 1981 Census asked about hot water, fixed bath, and inside WC, but neither the census amenity tables nor the fuller GHS durable-goods table (central heating, refrigerator, washing machine, vacuum, dishwasher) is in the archive for transcription."
+notes = "The General Household Survey recorded household central heating and other amenities, and an ONS historical summary contains selected heating observations. Relevant measures have not yet been transcribed and qualified for this room."
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
 [[fact]]
 id = "uk-1980s-colour-tv"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R11:C2", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C2", value = "Colour television" }, { locator = "R11:C1", value = "1981" }], target = "quantity" }
 quantity = 74
 panel = "diffusion"
 label = "Households with a colour television, 1981"
@@ -78,11 +82,12 @@ value = "74%"
 unit = "% of households with a colour television"
 source = "ons-ghs-40yr"
 tier = "A"
-notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Colour TV spread quickly after its 1968 launch: 61% in 1978, 74% in 1981, 83% by 1984. Total TV access (black-and-white plus colour) was near-universal."
+notes = "From GHS 40-year overview, Figure 40.2 (unweighted). Colour-TV ownership was 61% in 1978, 74% in 1981 and 83% in 1984. These figures measure colour-set ownership, not ownership of any television."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-1980s-telephone"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R11:C4", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C4", value = "Telephone" }, { locator = "R11:C1", value = "1981" }], target = "quantity" }
 quantity = 75
 panel = "diffusion"
 label = "Households with a telephone, 1981"
@@ -95,6 +100,7 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "uk-1980s-car"
+audit = { file = "33-uk-diffusion/ghs-data-chart3.csv", extractor = "csv-cell", locator = "R11:C5", guards = [{ locator = "R1:C1", value = "Figure 40.2: Percentage of consumer durables and cars, 1972 to 2011" }, { locator = "R4:C2", value = "1. Unweighted data" }, { locator = "R5:C2", value = "Percentage" }, { locator = "R7:C5", value = "Car or van" }, { locator = "R11:C1", value = "1981" }], target = "quantity" }
 quantity = 59
 panel = "diffusion"
 label = "Households with a car or van, 1981"
@@ -111,23 +117,49 @@ assumptions = ["composite-family"]
 id = "uk-1980s-work-hours-gap"
 panel = "day"
 label = "Weekly work hours, 1980s"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "ons-earnings-1938-2025"
 tier = "D"
-notes = "The 1980s fall in a gap between two sources that do carry UK hours. The British Labour Statistics Year Books, which republished the New Earnings Survey's hours tables, end with the 1976 volume; ASHE's hours tables begin in 1997. The LFS ran through the decade but its per-worker averages start only in 1992. Without hours, weekly earnings cannot be converted to an hourly wage, so no wage anchor is set for this room — the income anchor is."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
 id = "uk-1980s-food-basket-gap"
 panel = "table"
-label = "The food basket, 1980s"
-value = "no reliable record accessible online"
+label = "Complete food basket and expenditure breakdown, 1980s"
+value = "no reliable record transcribed here"
 unit = "n/a"
-source = "ons-ghs-40yr"
+source = "maff-nfs-1984"
 tier = "D"
-notes = "The National Food Survey (NFS) ran continuously 1940–2000; the 1980s NFS data is not in the archive. (Archive holds NFS 1940–49 and 2023–24, but not the 1980s.)"
+notes = "The archived National Food Survey report for 1984 now supports separate milk and egg observations below. A complete basket, food expenditure amounts and household-type breakdowns have not been transcribed and qualified for this room. The two selected food-at-home acquisition measures do not describe total diet or a four-person household."
+
+[[fact]]
+id = "uk-1980s-full-price-whole-milk"
+panel = "table"
+label = "Full-price liquid whole milk entering homes, Great Britain, 1984"
+quantity = 3.53
+value = "3.53 pints per person per week"
+unit = "pints per person per week, annual average household food acquisitions"
+source = "maff-nfs-1984"
+tier = "A"
+notes = "From NFS 1984, Table 8, printed page 28 (PDF page 40), Consumption: Yearly average column. The report calls this consumption, but Appendix A, page 145, defines records as food entering the household, not amounts actually eaten. The sample covers private households in mainland Great Britain and the Isle of Wight, excluding the Scilly Isles and Scottish islands, with one-week diaries; quantities are annual averages per person. Meals out, pet food, confectionery and alcoholic drinks are outside the main food record; soft drinks were recorded separately and excluded from these main tables. This is liquid whole milk at full price, not all milk or all dairy products. Pints retain the source's British imperial unit; no conversion or four-person scaling is applied."
+assumptions = ["composite-family"]
+audit = { file = "59-workbook-review/nfs-1984-observations.json", extractor = "json-pointer", locator = "/milk/value", target = "quantity", guards = [{ locator = "/source_sha256", value = "b462e25868b77ba74e17eabeac4679837d5b0fe4382a977861886bbba04a72b2" }, { locator = "/year", value = "1984" }, { locator = "/table", value = "8" }, { locator = "/printed_page", value = "28" }, { locator = "/pdf_page", value = "40" }, { locator = "/column", value = "Consumption: Yearly average" }, { locator = "/population", value = "Private households in mainland Great Britain and Isle of Wight; excludes Scilly Isles and Scottish islands; one-week food diaries" }, { locator = "/definition", value = "Food entering the household, not amounts actually eaten" }, { locator = "/milk/unit", value = "pints per person per week" }, { locator = "/milk/item", value = "Liquid whole milk, full price" }, { locator = "/milk/source_row", value = "Liquid wholemilk,full price (pt) 3-73 3-53 3-46 3-41 3-53 3-<7" }] }
+
+[[fact]]
+id = "uk-1980s-eggs-at-home"
+panel = "table"
+label = "Eggs entering homes, Great Britain, 1984"
+quantity = 3.21
+value = "3.21 eggs per person per week"
+unit = "eggs per person per week, annual average household food acquisitions"
+source = "maff-nfs-1984"
+tier = "A"
+notes = "From NFS 1984, Table 8, printed page 28 (PDF page 40), Consumption: Yearly average column. The report calls this consumption, but Appendix A, page 145, defines records as food entering the household, not amounts actually eaten. The sample covers private households in mainland Great Britain and the Isle of Wight, excluding the Scilly Isles and Scottish islands, with one-week diaries; quantities are annual averages per person. Meals out, pet food, confectionery and alcoholic drinks are outside the main food record; soft drinks were recorded separately and excluded from these main tables. The number of eggs retains the source's unit; no four-person scaling is applied."
+assumptions = ["composite-family"]
+audit = { file = "59-workbook-review/nfs-1984-observations.json", extractor = "json-pointer", locator = "/eggs/value", target = "quantity", guards = [{ locator = "/source_sha256", value = "b462e25868b77ba74e17eabeac4679837d5b0fe4382a977861886bbba04a72b2" }, { locator = "/year", value = "1984" }, { locator = "/table", value = "8" }, { locator = "/printed_page", value = "28" }, { locator = "/pdf_page", value = "40" }, { locator = "/column", value = "Consumption: Yearly average" }, { locator = "/population", value = "Private households in mainland Great Britain and Isle of Wight; excludes Scilly Isles and Scottish islands; one-week food diaries" }, { locator = "/definition", value = "Food entering the household, not amounts actually eaten" }, { locator = "/eggs/unit", value = "number per person per week" }, { locator = "/eggs/item", value = "Eggs" }, { locator = "/eggs/source_row", value = "EGGS (no) 3-30 3-22 3 25 307 3-21 310" }] }
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
@@ -135,8 +167,8 @@ notes = "The National Food Survey (NFS) ran continuously 1940–2000; the 1980s 
 id = "uk-1980s-work-buys-gap"
 panel = "work-buys"
 label = "Affordability comparisons, 1980s"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "ons-hpi-annual-tables"
 tier = "D"
-notes = "A household income is now in hand (£6,888, 1980) but nothing to divide by it: the official ONS house-price series begins in 1986, and the only UK series reaching 1980 is the Nationwide lender index, which is not an official statistic and is not transcribed here. No hourly wage exists for the decade either, so the hours axis is doubly blocked."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."

@@ -6,6 +6,7 @@ import argparse
 import sys
 from dataclasses import replace
 from pathlib import Path
+from typing import TextIO
 
 from vitrine.audit import coverage_report, run_audit, write_ledger
 from vitrine.check import (
@@ -22,16 +23,32 @@ from vitrine.publish import OutputError, copy_existing_tree, staged_directory
 from vitrine.series import SeriesError, load_series
 
 
+def _print(message: str, *, file: TextIO | None = None) -> None:
+    """Keep legacy consoles from turning a completed publication into failure.
+
+    Unsupported characters in paths/diagnostics are escaped for that console;
+    the generated corpus and site remain UTF-8. Do not change the process's
+    global stream configuration when main() is called as a library function.
+    """
+    stream = sys.stdout if file is None else file
+    try:
+        print(message, file=stream)
+    except UnicodeEncodeError:
+        codec = stream.encoding or "utf-8"
+        safe = message.encode(codec, errors="backslashreplace").decode(codec)
+        print(safe, file=stream)
+
+
 def _cmd_check(data_dir: Path, build_dir: Path | None = None) -> int:
     try:
         corpus = load_corpus(data_dir)
     except LoadError as exc:
-        print(f"LOAD ERROR: {exc}", file=sys.stderr)
+        _print(f"LOAD ERROR: {exc}", file=sys.stderr)
         return 1
     try:
         series = load_series(data_dir)
     except SeriesError as exc:
-        print(f"LOAD ERROR: {exc}", file=sys.stderr)
+        _print(f"LOAD ERROR: {exc}", file=sys.stderr)
         return 1
     problems = check_corpus(corpus, series)
     problems.extend(check_series(series, corpus))
@@ -40,20 +57,20 @@ def _cmd_check(data_dir: Path, build_dir: Path | None = None) -> int:
         problems.extend(check_render_coverage(corpus, build_dir))
         problems.extend(check_mark_coverage(corpus, build_dir))
     for problem in problems:
-        print(f"FAIL: {problem}", file=sys.stderr)
+        _print(f"FAIL: {problem}", file=sys.stderr)
     if problems:
-        print(f"{len(problems)} problem(s).", file=sys.stderr)
+        _print(f"{len(problems)} problem(s).", file=sys.stderr)
         return 1
     n_facts = sum(len(room.facts) for room in corpus.rooms)
     n_derived = sum(len(room.derived) for room in corpus.rooms)
-    print(
+    _print(
         f"ok: {len(corpus.rooms)} room(s), {n_facts} fact(s), {n_derived} derived, "
         f"{len(corpus.sources)} source(s), {len(corpus.assumptions)} assumption(s), "
         f"{len(series)} series, {len(corpus.essays)} essay(s)"
     )
     if build_dir is not None:
-        print(f"render-coverage: verified ({n_facts + n_derived} exhibits match build)")
-        print("mark-coverage: every rendered mark resolves to a curated fact")
+        _print(f"render-coverage: verified ({n_facts + n_derived} exhibits match build)")
+        _print("mark-coverage: every rendered mark resolves to a curated fact")
     return 0
 
 
@@ -65,7 +82,7 @@ def _cmd_build(data_dir: Path, out_dir: Path) -> int:
     try:
         from vitrine.site.build import build_site as render_site
     except ImportError:
-        print(
+        _print(
             "build requires the [site] extra: uv pip install -e '.[site]'",
             file=sys.stderr,
         )
@@ -75,9 +92,9 @@ def _cmd_build(data_dir: Path, out_dir: Path) -> int:
     try:
         render_site(corpus, out_dir, series, data_dir)
     except (OutputError, OSError) as exc:
-        print(f"OUTPUT ERROR: {exc}", file=sys.stderr)
+        _print(f"OUTPUT ERROR: {exc}", file=sys.stderr)
         return 1
-    print(f"built → {out_dir}")
+    _print(f"built -> {out_dir}")
     return 0
 
 
@@ -85,10 +102,10 @@ def _cmd_gaps(data_dir: Path) -> int:
     try:
         corpus = load_corpus(data_dir)
     except LoadError as exc:
-        print(f"LOAD ERROR: {exc}", file=sys.stderr)
+        _print(f"LOAD ERROR: {exc}", file=sys.stderr)
         return 1
-    print(format_report(room_gaps(corpus)))
-    print(coverage_report(corpus))
+    _print(format_report(room_gaps(corpus)))
+    _print(coverage_report(corpus))
     return 0
 
 
@@ -96,26 +113,26 @@ def _cmd_audit(data_dir: Path, samples: Path, coverage: bool, pin: bool) -> int:
     try:
         corpus = load_corpus(data_dir)
         if coverage:
-            print(coverage_report(corpus))
+            _print(coverage_report(corpus))
             return 0
         entries, problems = run_audit(corpus, samples, accept_changed_samples=pin)
         if not problems:
             audited_corpus = replace(corpus, audit_ledger=entries)
             problems.extend(check_corpus(audited_corpus, load_series(data_dir)))
         for problem in problems:
-            print(f"FAIL: {problem}", file=sys.stderr)
+            _print(f"FAIL: {problem}", file=sys.stderr)
         if problems:
-            print("Ledger unchanged.", file=sys.stderr)
+            _print("Ledger unchanged.", file=sys.stderr)
             return 1
         if not entries:
-            print("No audit locators; ledger unchanged.")
+            _print("No audit locators; ledger unchanged.")
             return 0
         write_ledger(data_dir / "audit-ledger.toml", entries)
     except (LoadError, SeriesError, ValueError, OSError) as exc:
-        print(f"AUDIT ERROR: {exc}", file=sys.stderr)
+        _print(f"AUDIT ERROR: {exc}", file=sys.stderr)
         return 1
     calculations = sum(bool(entry.operands) for entry in entries)
-    print(
+    _print(
         f"ok: {len(entries)} source checks against pinned sample bytes "
         f"({len(entries) - calculations} literals, {calculations} calculations)"
     )
@@ -130,7 +147,7 @@ def _cmd_export(data_dir: Path, out_dir: Path) -> int:
     try:
         from vitrine.site.build import build_data_page
     except ImportError:
-        print(
+        _print(
             "export requires the [site] extra: uv pip install -e '.[site]'",
             file=sys.stderr,
         )
@@ -139,7 +156,7 @@ def _cmd_export(data_dir: Path, out_dir: Path) -> int:
         corpus = load_corpus(data_dir)
         series = load_series(data_dir)
     except (LoadError, SeriesError) as exc:
-        print(f"LOAD ERROR: {exc}", file=sys.stderr)
+        _print(f"LOAD ERROR: {exc}", file=sys.stderr)
         return 1
     try:
         with staged_directory(
@@ -157,9 +174,9 @@ def _cmd_export(data_dir: Path, out_dir: Path) -> int:
             )
             build_data_page(corpus, staging)
     except (OutputError, OSError) as exc:
-        print(f"OUTPUT ERROR: {exc}", file=sys.stderr)
+        _print(f"OUTPUT ERROR: {exc}", file=sys.stderr)
         return 1
-    print(f"exported → {out_dir}")
+    _print(f"exported -> {out_dir}")
     return 0
 
 

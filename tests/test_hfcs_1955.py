@@ -82,14 +82,14 @@ def test_fact_value_is_the_verified_broccoli_cell() -> None:
     assert fact.quantity == TRIPLETS["broccoli (col 6, all sources)"][0]
 
 
-def test_notes_carry_the_companions_and_disclosures() -> None:
-    """The companions quoted on the card stay the verified values, and the
-    used-not-eaten / spring-week / all-sources disclosures stay stated."""
-    notes = _fact().notes
-    for companion in ("51.5", "21.0", "69.4"):
-        assert companion in notes, f"companion {companion} dropped from notes"
-    for disclosure in ("fed to pets", "spring week", "home gardens"):
-        assert disclosure in notes, f"disclosure {disclosure!r} dropped"
+def test_record_names_use_period_and_both_population_denominators() -> None:
+    """A household-use measure is not food intake or one matched family."""
+    fact = _fact()
+    assert "households using" in fact.label.lower()
+    assert "4.6% of households" in fact.value
+    assert "2.8% of one-person households" in fact.value
+    for disclosure in ("all sources", "one survey week", "April–June", "housekeeping"):
+        assert disclosure in fact.notes
 
 
 def test_source_registry_entry() -> None:

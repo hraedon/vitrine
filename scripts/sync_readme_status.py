@@ -30,7 +30,7 @@ def main() -> int:
     if updated == text:
         print("README status block already current")
         return 0
-    readme_path.write_text(updated, encoding="utf-8")
+    readme_path.write_text(updated, encoding="utf-8", newline="\n")
     print(f"README status block updated: {line}")
     return 0
 

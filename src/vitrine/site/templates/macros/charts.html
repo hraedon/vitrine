@@ -6,6 +6,7 @@
   {% for row in rows %}
     <div class="composition-decade">
       <a href="#{{ row.fact_id }}--modal">{{ row.decade }}</a>
+      {% if row.gap %}<p class="gapv">{{ row.value }}</p>{% endif %}
       {% for segment in row.segments %}
       <div><b>{{ segment.slot }}</b>:
         {% for name, pct in segment.breakdown %}{{ name }} {{ pct|round(2) }}%{% if not loop.last %} + {% endif %}{% endfor %}
@@ -16,4 +17,32 @@
   </div>
 </details>
 {% endif %}
+{% endmacro %}
+
+{% macro composition_rows(rows) %}
+{% for row in rows %}
+{% if row.gap %}<a class="composition-gap" href="#{{ row.fact_id }}--modal" data-fact-id="{{ row.fact_id }}"><b>{{ row.decade }}</b><span>{{ row.value }} · open the source record</span></a>
+{% else %}{{ row.bar }}{% endif %}
+{% endfor %}
+{% endmacro %}
+
+{% macro chart_tables(tables) %}
+{% for table in tables %}
+<details class="chart-data">
+  <summary>Read as a table · {{ table.title }}</summary>
+  <p class="chart-data-note">{{ table.note }}</p>
+  {% if table.population %}<p class="chart-data-note"><b>Population:</b> {{ table.population }}</p>{% endif %}
+  {% if table.sources %}<p class="chart-data-note"><b>Source series:</b> {% for label, href in table.sources %}<a href="{{ href }}">{{ label }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
+  <div class="chart-table-wrap" role="region" aria-label="{{ table.title }}" tabindex="0">
+    <table class="chart-value-table">
+      <caption>{{ table.title }} · {{ table.unit }}</caption>
+      <thead><tr><th scope="col">Period</th><th scope="col">Chart value</th><th scope="col">Evidence</th></tr></thead>
+      <tbody>{% for row in table.rows %}<tr{% if not row.plotted %} class="unplotted-row"{% endif %}>
+        <th scope="row">{{ row.period }}</th><td>{{ row.value }}</td>
+        <td>{% if row.href %}<a href="{{ row.href }}">{{ row.label }}</a>{% else %}{{ row.label }}{% endif %}{% if row.tier %}<span class="table-tier">Tier {{ row.tier }}</span>{% endif %}</td>
+      </tr>{% endfor %}</tbody>
+    </table>
+  </div>
+</details>
+{% endfor %}
 {% endmacro %}

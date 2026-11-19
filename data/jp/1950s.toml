@@ -14,6 +14,7 @@ decade = "1950s"
 
 [[fact]]
 id = "jp-1950s-fies-workers-income"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/1955/income/value", target = "amount_minor", guards = [{ locator = "/fies/1955/income/year", value = "1955" }, { locator = "/fies/1955/income/title", value = "Annual Average of Monthly Household Receipts and Disbursements - Workers' Households of All Cities (1948\uff5e1962)" }, { locator = "/fies/1955/income/heading", value = "Income" }, { locator = "/fies/1955/income/unit", value = "(Value in yen)" }, { locator = "/fies/1955/income/file", value = "36-jp-income/fies-18-02-a.xls" }, { locator = "/fies/1955/income/sha256", value = "91ea0aec3fee6b088a7297fb378bc00222535b0d5a8957d472bb2857734fd95d" }, { locator = "/fies/1955/income/cell", value = "18-2-a!R17C6" }] }
 panel = "budget"
 label = "Workers' household monthly income, 1955"
 value = "¥29,169"
@@ -25,7 +26,7 @@ amount_minor = 29169
 currency = "JPY"
 price_year = 1955
 basis = "monthly"
-notes = "From the FIES long-run tables. 1955: workers' households (two-or-more-person), all cities. The pre-1962 FIES covered cities only — rural and agricultural households are excluded. This is a workers' household average, not a four-person family median."
+notes = "From the archived FIES long-run table, 1955, 18-2-a!R17C6. This is annual-average monthly income of workers' households, not a median or a four-person family estimate. This earlier table covers workers' households in all cities."
 assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-kakei-1962-seam"]
 
 [[fact]]
@@ -34,14 +35,14 @@ panel = "budget"
 label = "Average monthly wage, establishments with 30+ workers, 1955"
 value = "¥18,300"
 quantity = 18300
-unit = "JPY per month, nominal (all industries, establishments with 30 or more regular workers)"
+unit = "JPY per month, nominal (industries covered, establishments with 30 or more regular workers)"
 source = "jp-jsy"
 tier = "A"
 amount_minor = 18300
 currency = "JPY"
 price_year = 1955
 basis = "monthly"
-notes = "From the Japan Statistical Yearbook historical wage tables. 1955: average monthly cash earnings for all industries, establishments with 30 or more regular workers. Establishment-based payroll data, not household income."
+notes = "From the Japan Statistical Yearbook historical wage tables. 1955: average monthly cash earnings for industries covered, establishments with 30 or more regular workers. Establishment-based payroll data, not household income."
 assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-kakei-1962-seam"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
@@ -50,11 +51,11 @@ assumptions = ["composite-family", "nominal-values", "jp-household-not-family", 
 id = "jp-1950s-home-gap"
 panel = "home"
 label = "Housing tenure, floor area, and amenities, 1950s"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "jp-hls"
 tier = "D"
-notes = "The Housing and Land Survey summary results used by this project are extracted from the Japan Statistical Yearbook, which begins English-language housing tables in 1988. The 1950s HLS data is not in the archive."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
@@ -63,11 +64,11 @@ assumptions = ["composite-family", "jp-household-not-family"]
 id = "jp-1950s-diffusion-gap"
 panel = "diffusion"
 label = "Household durable goods and communications, 1950s"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "jp-nsfiie"
 tier = "D"
-notes = "The National Survey of Family Income and Expenditure publishes English durable-goods summaries from 1999 onward. Earlier survey waves (including the 1950s) are not in the archive in English."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -76,11 +77,11 @@ assumptions = ["composite-family", "jp-household-not-family"]
 id = "jp-1950s-day-gap"
 panel = "day"
 label = "Working hours, 1950s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "jp-mls"
 tier = "D"
-notes = "The Monthly Labour Survey all-industry total (30+ regular workers) begins in 1970. Scanned yearbook data gives 1955/1965 wages but not hours. Without hours, no hourly wage or affordability anchor can be computed."
+notes = "An official historical monthly-hours series for 1955 in establishments with at least 30 workers is now in the archive; it excludes service industries. Its population and wage basis have not yet been qualified against the yearbook earnings figure, and item-price comparisons have not been transcribed. No work-to-afford calculation is shown."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
@@ -89,11 +90,11 @@ assumptions = ["composite-family", "jp-household-not-family"]
 id = "jp-1950s-table-gap"
 panel = "table"
 label = "Consumption and food share, 1950s"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "jp-fies"
 tier = "D"
-notes = "The FIES all-household consumption and food-share series used by this project begins in 1965. The 1955 food basket is not in the archive."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."
 assumptions = ["composite-family", "jp-household-not-family", "jp-kakei-1962-seam"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
@@ -102,9 +103,9 @@ assumptions = ["composite-family", "jp-household-not-family", "jp-kakei-1962-sea
 id = "jp-1950s-work-buys-gap"
 panel = "work-buys"
 label = "Affordability comparisons, 1950s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "jp-mls"
 tier = "D"
-notes = "Without an hourly wage (no hours data) or durable-goods prices in the archive, hours-of-work-to-afford comparisons cannot be computed for the 1950s. The monthly wage figures above are the available wage references."
+notes = "An official historical monthly-hours series for 1955 in establishments with at least 30 workers is now in the archive; it excludes service industries. Its population and wage basis have not yet been qualified against the yearbook earnings figure, and item-price comparisons have not been transcribed. No work-to-afford calculation is shown."
 assumptions = ["composite-family", "jp-household-not-family"]

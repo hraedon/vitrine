@@ -64,6 +64,54 @@ def test_rounding_is_explicit_and_exact_at_positive_and_negative_ties() -> None:
         calculate(even, (Decimal(1), Decimal(0)))
 
 
+def test_unscaled_ratio_is_not_a_percentage_and_replays_exact_rounding(tmp_path: Path) -> None:
+    raw = {
+        "file": "availability.csv", "extractor": "csv-cell", "locator": "R2:C2",
+        "calculation": {
+            "op": "ratio", "operands": ["R3:C2"], "precision": 1,
+            "rounding": "half_up", "method": "Food availability divided by population.",
+        },
+    }
+    ref = parse_ref(raw)
+    assert calculate(ref, (Decimal("92.7"), Decimal("205.052"))) == Decimal("0.5")
+    for denominator in (Decimal(0), Decimal(-1)):
+        with pytest.raises(ValueError, match="denominator must be positive"):
+            calculate(ref, (Decimal(1), denominator))
+    (tmp_path / "availability.csv").write_text(
+        "Measure,Value\nAvailability,92.7\nPopulation,205.052\n", encoding="utf-8"
+    )
+    corpus = specimen(ref, quantity=0.5)
+    entries, errors = run_audit(corpus, tmp_path)
+    assert not errors
+    assert entries[0].operands == ("92.7", "205.052")
+    assert check_audits(replace(corpus, audit_ledger=entries)) == []
+    corrupted = replace(entries[0], operands=("92.7", "300"))
+    assert "does not reproduce" in check_audits(replace(corpus, audit_ledger=(corrupted,)))[0]
+
+
+def test_subcent_source_can_explicitly_audit_rounded_minor_unit_anchor(tmp_path: Path) -> None:
+    raw = {
+        "file": "earnings.csv", "extractor": "csv-cell", "locator": "R2:C2",
+        "target": "amount_minor", "scale": "100",
+        "calculation": {
+            "op": "round", "operands": [], "precision": 2, "rounding": "half_up",
+            "method": "Keep the source rate visible; round its anchor once to currency cents.",
+        },
+    }
+    ref = parse_ref(raw)
+    (tmp_path / "earnings.csv").write_text("Year,USD per hour\n1947,1.131\n", encoding="utf-8")
+    corpus = specimen(ref, amount_minor=113, currency="USD")
+    entries, errors = run_audit(corpus, tmp_path)
+    assert not errors
+    assert entries[0].operands == ("1.131",)
+    assert entries[0].extracted == "1.13"
+    corrupt = replace(entries[0], operands=("1.139",))
+    assert "does not reproduce" in check_audits(replace(corpus, audit_ledger=(corrupt,)))[0]
+    raw["calculation"]["operands"] = ["R2:C3"]
+    with pytest.raises(ValueError, match="exactly one source value"):
+        parse_ref(raw)
+
+
 def monthly_ref() -> AuditRef:
     base = "/Results/series/0"
     guards = [{"locator": base + "/seriesID", "value": "CES3000000008"}]

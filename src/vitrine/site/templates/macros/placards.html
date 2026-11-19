@@ -1,13 +1,27 @@
+{% macro calculation_badge(fact) %}{% if fact.audit and fact.audit.calculation %}<span class="record-kind calculation-kind">Includes a calculated value</span>{% endif %}{% endmacro %}
+
+{% macro source_calculation(fact) %}
+{% if fact.audit and fact.audit.calculation %}{% set calculation = fact.audit.calculation %}
+<div class="source-calculation">
+  <b>{{ audit_target_label(fact.audit.target) }}</b>
+  <p>{{ calculation.method }}</p>
+  <p>{{ audit_operation_label(calculation.op) }}, rounded to {{ calculation.precision }} decimal places before unit scaling. Exact halfway cases round {{ audit_rounding_label(calculation.rounding) }}.</p>
+  <p>This method and its source check cover the declared calculated value. They do not validate every other number or claim in a compound record.</p>
+</div>
+{% endif %}
+{% endmacro %}
+
 {% macro _shared_drawer(fact, sources, assumptions, affordability, root) %}
   {% set src = sources[fact.source] %}
   <b>{{ src.title }}</b><br>
-  {{ src.publisher }}, {{ src.year }} · <a href="{{ src.url }}">source</a><br>
+  {{ src.publisher }}, {{ src.year if src.year else 'undated' }} · <a href="{{ src.url }}">source</a><br>
   <em>Confidence:</em> {{ fact.tier.value }} — {{ tier_label(fact.tier) }}
   {% if fact.basis is not none %}<br><em>Basis:</em> {{ basis_label(fact.basis) }}{% endif %}
   {% if fact.id in affordability and affordability[fact.id].anchor_note %}<br><em>Affordability anchors:</em> {{ affordability[fact.id].anchor_note }}{% endif %}
   {% if fact.id in affordability and affordability[fact.id].measures %}<br><em>Denominators measure:</em> {{ affordability[fact.id].measures }}{% endif %}
   {% if fact.notes %}<br><em>Curator note:</em> {{ fact.notes }}{% endif %}
   {% if src.notes %}<br><em>Source note:</em> {{ src.notes }}{% endif %}
+  {{ source_calculation(fact) }}
   {% for aid in fact.assumptions %}<br><em>Assumption:</em> <a href="{{ root }}methodology.html#{{ aid }}">{{ assumptions[aid].title }}</a>{% endfor %}
 {% endmacro %}
 
@@ -24,14 +38,14 @@
 {% macro fact_row(fact, sources, assumptions, affordability, root) %}
 {% set src = sources[fact.source] %}
 {% set is_gap = fact.value.strip().lower().startswith('no reliable record') %}
-<div class="fact-row{% if is_gap %} gap-row{% endif %}" id="{{ fact.id }}">
+<div class="fact-row{% if is_gap %} gap-row{% endif %}" id="{{ fact.id }}" tabindex="-1">
   <div class="f-val">{{ fact.value }}<span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}" title="{{ tier_label(fact.tier) }}">{{ fact.tier.value }}</span></div>
   <div class="f-body">
-    <p class="f-lab">{{ fact.label }}<span class="record-kind">{% if is_gap %}documented gap{% else %}observed record{% endif %}</span></p>
+    <p class="f-lab">{{ fact.label }}<span class="record-kind">{% if is_gap %}documented gap{% else %}sourced record{% endif %}</span>{{ calculation_badge(fact) }}</p>
     <p class="f-unit">{{ fact.unit }}</p>
     <div class="f-ev">
       <span><span class="mk">Population measured</span><span class="ev">{{ src.population }}</span></span>
-      <span><span class="mk">Source record</span><span class="ev">{{ src.publisher }} · {{ src.year }} · Tier {{ fact.tier.value }}</span></span>
+      <span><span class="mk">Source record</span><span class="ev">{{ src.publisher }} · {{ src.year if src.year else 'undated' }} · Tier {{ fact.tier.value }}</span></span>
     </div>
     <details class="f-drawer"><summary>Full record</summary><div class="drawer">
       {{ _shared_drawer(fact, sources, assumptions, affordability, root) }}
@@ -43,10 +57,10 @@
 {% endmacro %}
 
 {% macro derived_row(cf, assumptions, root) %}
-<div class="fact-row computed-row" id="{{ cf.id }}">
+<div class="fact-row computed-row" id="{{ cf.id }}" tabindex="-1">
   <div class="f-val">{{ cf.value }}<span class="tchip" style="background:{{ T.TIER_COLORS[cf.tier.value] }}" title="{{ tier_label(cf.tier) }} (weakest input)">{{ cf.tier.value }}</span></div>
   <div class="f-body">
-    <p class="f-lab">{{ cf.label }}<span class="record-kind">computed exhibit</span></p>
+    <p class="f-lab">{{ cf.label }}<span class="record-kind">derived exhibit</span></p>
     <p class="f-unit">{{ cf.unit }}</p>
     <div class="f-ev">
       <span><span class="mk">Method</span><span class="ev">Computed by vitrine · {{ cf.op.value }}</span></span>
@@ -84,7 +98,7 @@
   {% set src = sources[fact.source] %}
   {% set is_gap = fact.value.strip().lower().startswith('no reliable record') %}
   <div class="placard-head">
-    <div class="ceyebrow">{{ panel_title(fact.panel) }} · {{ room.decade }}<span class="record-kind">{% if is_gap %}documented gap{% else %}observed record{% endif %}</span></div>
+    <div class="ceyebrow">{{ panel_title(fact.panel) }} · {{ room.decade }}<span class="record-kind">{% if is_gap %}documented gap{% else %}sourced record{% endif %}</span>{{ calculation_badge(fact) }}</div>
     <span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}" title="{{ tier_label(fact.tier) }}">Tier {{ fact.tier.value }}</span>
   </div>
   <div class="cval">{{ fact.value }}</div>
@@ -92,7 +106,7 @@
   <p class="cunit">{{ fact.unit }}</p>
   <div class="evidence-grid">
     <div class="evidence-cell"><span class="mk">Population measured</span><span class="ev">{{ src.population }}</span></div>
-    <div class="evidence-cell"><span class="mk">Source record</span><span class="ev">{{ src.publisher }} · {{ src.year }} · Tier {{ fact.tier.value }}</span></div>
+    <div class="evidence-cell"><span class="mk">Source record</span><span class="ev">{{ src.publisher }} · {{ src.year if src.year else 'undated' }} · Tier {{ fact.tier.value }}</span></div>
   </div>
   {{ _afford_box(fact, affordability) }}
   <details>

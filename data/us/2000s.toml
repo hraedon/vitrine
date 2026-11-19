@@ -13,6 +13,10 @@ income_anchor = "us-2000s-median-income-four-person"
 
 [[fact]]
 id = "us-2000s-median-family-income"
+amount_minor = 5073000
+currency = "USD"
+price_year = 2000
+basis = "annual"
 audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C36", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A36", value = "2000 (30)" }, { locator = "f08ar!C8", value = "Median income" }, { locator = "f08ar!C9", value = "Current\ndollars" }] }
 quantity = 50730
 panel = "budget"
@@ -67,32 +71,33 @@ notes = "From Census F-8. Down from 3.18 in 1990. By 2010: 3.14 (flat)."
 
 [[fact]]
 id = "us-2000s-expenditure-shares"
+audit = { file = "59-workbook-review/cex-food-observations.json", extractor = "json-pointer", locator = "/2005/values/housing", target = "quantity", guards = [{ locator = "/2005/year", value = "2005" }, { locator = "/2005/source_sha256", value = "09571721f46ca8af45a1dd398a74e44c743507134047f7a2da7cf209ba18127e" }, { locator = "/2005/file", value = "02-cex/cusize-2005.pdf" }, { locator = "/2005/population", value = "Four-person consumer units" }, { locator = "/2005/statistic", value = "Annual expenditure means" }, { locator = "/2005/source_header", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure\nSurvey, 2005\nItem\nAll\nconsumer\nunits\nOne\nperson\nTwo or more persons\nTotal Two\npersons\nThree\npersons\nFour\npersons\nFive or\nmore\npersons" }, { locator = "/2005/budget_placard", value = "Housing 32.3%, transportation 18.6%, food 13.9%, insurance/pensions 12.1%, entertainment 5.1%, healthcare 4.5%, apparel 4.6%, cash contributions 2.6%, education 2.4%" }], calculation = { op = "pct_of", operands = ["/2005/values/total"], precision = 1, rounding = "half_up", method = "Housing mean divided by total annual expenditure mean for four-person consumer units; times one hundred, rounded once half up to one decimal place. Companion category shares are reproduced by the same source extractor and full-value guard." } }
 quantity = 32.3
 panel = "budget"
-label = "Expenditure breakdown, 4-person families, 2005"
+label = "Expenditure breakdown, four-person consumer units, 2005"
 value = "Housing 32.3%, transportation 18.6%, food 13.9%, insurance/pensions 12.1%, entertainment 5.1%, healthcare 4.5%, apparel 4.6%, cash contributions 2.6%, education 2.4%"
 unit = "% of total annual expenditure"
-source = "bls-cex"
+source = "bls-cex-four-person-2005"
 tier = "A"
-notes = "From the 2005 Consumer Expenditure Survey, Table 4 (Size of consumer unit). 15,807 thousand 4-person CUs. Total expenditures: $62,215. Income before taxes: $78,183. Expenditure = 80% of gross income. Insurance/pensions crossed 12%. Source: BLS CEX Table 4, 2005 (cusize.pdf via Wayback Machine, web.archive.org)."
-assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
+notes = "Ratios of published annual category expenditure means to the total-expenditure mean for four-person consumer units, rounded once half up to one decimal place by scripts/cex_food_review.py. These are not published individual budget distributions or the mean of unit-level budget shares. The archived table provides expenditure means; the audit checks the housing ratio and the full reproduced category-share string."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values", "cex-ratios-of-means"]
 
 [[fact]]
 id = "us-2000s-poverty-rate"
 quantity = 11.3
 panel = "budget"
 label = "Official poverty rate, 2000"
-value = "11.3% (31.5 million people in poverty)"
+value = "11.3% (31.6 million people in poverty)"
 unit = "% of all people below official poverty level"
 source = "census-poverty-historical"
 tier = "A"
-notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 11.3%. Family poverty: 9.6%. Near the pre-recession low. The 2008-09 Great Recession would push poverty to 15.1% by 2010."
+notes = "Historical Poverty Tables (Census API histpov2), all-races U.S. population. In 2000, 11.3% of all people were below the official poverty threshold; family poverty rate was 9.6%. This is the accessed API vintage. No recession/recovery causal attribution or unverified trend values."
 
 [[fact]]
 id = "us-2000s-cex-total-expenditures"
 audit = { file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx", extractor = "xlsx-cell", locator = "multiyr2000-05!B28", guards = [{ locator = "multiyr2000-05!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Survey, 2000-2005" }, { locator = "multiyr2000-05!A28", value = "Average annual expenditures" }, { locator = "multiyr2000-05!B3", value = "2000" }] }
 panel = "budget"
-label = "Average annual household expenditures, 2000"
+label = "Average annual consumer-unit expenditures, 2000"
 quantity = 38045
 value = "$38,045"
 unit = "USD per consumer unit, nominal"
@@ -118,7 +123,7 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-2000s-cex-food-share"
 audit = { file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx", extractor = "xlsx-cell", locator = "multiyr2000-05!B29", guards = [{ locator = "multiyr2000-05!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Survey, 2000-2005" }, { locator = "multiyr2000-05!B3", value = "2000" }, { locator = "multiyr2000-05!A29", value = "Food" }, { locator = "multiyr2000-05!A28", value = "Average annual expenditures" }], calculation = { op = "pct_of", operands = ["multiyr2000-05!B28"], precision = 1, rounding = "half_up", method = "All consumer units, 2000: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
-label = "Food share of household budget, 2000"
+label = "Food share of consumer-unit expenditure, 2000"
 quantity = 13.6
 value = "13.6% of total expenditures"
 unit = "% of total annual expenditures"
@@ -131,7 +136,7 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-2000s-cex-healthcare-share"
 audit = { file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx", extractor = "xlsx-cell", locator = "multiyr2000-05!B107", guards = [{ locator = "multiyr2000-05!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Survey, 2000-2005" }, { locator = "multiyr2000-05!B3", value = "2000" }, { locator = "multiyr2000-05!A107", value = "Healthcare" }, { locator = "multiyr2000-05!A28", value = "Average annual expenditures" }], calculation = { op = "pct_of", operands = ["multiyr2000-05!B28"], precision = 1, rounding = "half_up", method = "All consumer units, 2000: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
-label = "Healthcare share of household budget, 2000"
+label = "Healthcare share of consumer-unit expenditure, 2000"
 quantity = 5.4
 value = "5.4% of total expenditures ($2,066)"
 unit = "% of total annual expenditures; USD nominal"
@@ -144,7 +149,7 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-2000s-cex-apparel-share"
 audit = { file = "19-cpi-tables/cu-all-multi-year-2000-2005.xlsx", extractor = "xlsx-cell", locator = "multiyr2000-05!B85", guards = [{ locator = "multiyr2000-05!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Survey, 2000-2005" }, { locator = "multiyr2000-05!B3", value = "2000" }, { locator = "multiyr2000-05!A85", value = "Apparel and services" }, { locator = "multiyr2000-05!A28", value = "Average annual expenditures" }], calculation = { op = "pct_of", operands = ["multiyr2000-05!B28"], precision = 1, rounding = "half_up", method = "All consumer units, 2000: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
-label = "Apparel share of household budget, 2000"
+label = "Apparel share of consumer-unit expenditure, 2000"
 quantity = 4.9
 value = "4.9% of total expenditures ($1,856)"
 unit = "% of total annual expenditures"
@@ -185,27 +190,31 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-2000s-plumbing"
-quantity = 99.5
+audit = { file = "remaining-audit-20261028/world-recent-plumbing-extract.json", extractor = "json-pointer", locator = "/complete", scale = "1", guards = [{ locator = "/provenance", value = "Curator sum from pinned Census 2000 SF3 H048 API response" }, { locator = "/population", value = "United States occupied housing units" }], calculation = { op = "pct_of", operands = ["/total"], precision = 1, rounding = "half_up", method = "Complete-plumbing count divided by all occupied housing units, rounded once." } }
+quantity = 99.4
 panel = "home"
 label = "Complete plumbing facilities, 2000"
-value = "~99.5% of homes had complete plumbing (~0.5% lacked)"
+value = "99.4% of occupied housing units had complete plumbing"
 unit = "% of occupied housing units"
-source = "census-hist-housing-plumbing"
+source = "census-2000-sf3-h048"
 tier = "A"
-notes = "From Census Historical Housing Tables: Plumbing. Estimated from the series: 1990: 1% lacked, approaching 0% by 2000. Plumbing was universally available."
+notes = "The 2000 Census Summary File 3 H048 counts 104,809,115 occupied units with complete plumbing out of 105,480,101 occupied units. The displayed percentage is calculated from those counts and rounded once."
+
+assumptions = ["recent-published-count-share"]
 
 [[fact]]
 id = "us-2000s-heating-fuel"
 panel = "home"
 label = "House heating fuel, 2009 (RECS)"
-value = "Natural gas 49%, electricity 34%, fuel oil 6%, propane 5%, other 6%"
+value = "Natural gas 49%, electricity 34%, fuel oil about 6%"
 unit = "% of homes using each fuel as main space heating source"
-source = "eia-recs"
+source = "eia-recs-2009-overview"
 tier = "A"
-notes = "From the 2009 RECS. Natural gas remained the dominant heating fuel but was declining (from 51% in 2005). Electricity continued its long-term rise (from 29% in 2005 to 34% in 2009). Fuel oil was down to ~6% (from 10%+ in 1993), concentrated in the Northeast. Coal was gone as a heating fuel. Source: EIA RECS 2009."
+notes = "EIA reports natural gas as the main heating fuel in 49% of homes, electricity in 34%, and fuel oil in about 6% in the 2009 RECS."
 
 [[fact]]
 id = "us-2000s-median-home-size"
+audit = { file = "remaining-audit-20261028/world-newhome-extract.json", extractor = "json-pointer", locator = "/years/2000/median_sqft", scale = "1", guards = [{ locator = "/provenance", value = "Curator extraction from pinned Census new-house median workbook" }, { locator = "/years/2000/population", value = "new single-family houses completed" }] }
 quantity = 2057
 panel = "home"
 label = "Median square footage of new single-family homes, 2000"
@@ -213,7 +222,7 @@ value = "2,057 sq ft (new construction)"
 unit = "median square feet of floor area, new single-family houses completed"
 source = "census-soc-new-housing"
 tier = "A"
-notes = "From the Census Bureau's Survey of Construction (C-25 annual report). New homes crossed 2,000 sq ft in 1998 (2,000) and continued rising through the housing boom: 2005 peaked at 2,227 before the crash. 2009 fell to 2,135 (recession). By 2010: 2,169. Source: c25ann2009.pdf."
+notes = "Census Survey of Construction reports the median floor area of new one-family houses completed in 2000. This measures new construction, not the existing housing stock."
 
 [[fact]]
 id = "us-2000s-median-gross-rent"
@@ -224,17 +233,17 @@ value = "$602/month"
 unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
 source = "census-hist-housing-rents"
 tier = "A"
-notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $447 in 1990. Cross-verified: NHGIS 2000 block-group-level data (208,790 BGs) shows median-of-BG-medians of $561, consistent with the Census national figure of $602."
+notes = "Census Historical Housing Tables report the median monthly gross rent for renter-occupied housing units in 2000."
 
 [[fact]]
 id = "us-2000s-heating-fuel-recs2001"
 panel = "home"
 label = "House heating fuel, 2001 (RECS)"
-value = "Natural gas 55.2%, electricity 29.0%, fuel oil 7.5%, LPG 4.7%, wood 1.9%, kerosene 0.7%"
+value = "Natural gas 55.2%, electricity 28.9%, fuel oil 7.5%, LPG 4.6%, wood 1.9%, kerosene 0.8%"
 unit = "% of U.S. households using each fuel as main space heating source"
-source = "eia-recs"
+source = "eia-recs-2001-heating-hc3"
 tier = "A"
-notes = "From the 2001 RECS, Table HC3-1b. 107.0 million total households. Natural gas: 59.3M (55.2%). Electricity: 31.1M (29.0%) — including heat pumps. Fuel oil: 8.0M (7.5%). LPG: 5.0M (4.7%). Wood: 2.0M (1.9%). Kerosene: 0.8M (0.7%). Source: recs-2001-alltables.pdf, Table HC1-1a and recs-2001-hc3.pdf, Table HC3-1b."
+notes = "EIA RECS 2001 Table HC3-1b reports percentages for occupied primary housing units. It also reports 0.2% other fuel and 0.9% no heating equipment."
 assumptions = ["composite-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -246,9 +255,9 @@ panel = "day"
 label = "Life expectancy at birth, 2000"
 value = "74.3 male, 79.7 female (77.0 total, all races)"
 unit = "years"
-source = "nchs-nvss"
+source = "nchs-final-deaths-2005-life-table"
 tier = "A"
-notes = "From NCHS National Vital Statistics System. Up from 71.8/78.8 in 1990. Life expectancy would peak at 78.9 in 2014 before the opioid crisis and COVID-19."
+notes = "NCHS period life expectancy at birth, all races and both sexes; sex-specific values are shown separately. These values use the 2008 life-table report vintage."
 
 [[fact]]
 id = "us-2000s-wages"
@@ -271,11 +280,11 @@ id = "us-2000s-atus-time-use"
 quantity = 8.57
 panel = "day"
 label = "How Americans spend their day, 2003 (ATUS)"
-value = "Sleeping 8.57 hrs, working 3.69 hrs, leisure 5.11 hrs, watching TV 2.58 hrs"
+value = "Sleeping 8.57 hrs, working and work-related activities 3.69 hrs, leisure and sports 5.11 hrs, watching TV 2.58 hrs"
 unit = "hours per day, civilian population ages 15+ (annual average)"
 source = "bls-atus"
 tier = "A"
-notes = "From BLS American Time Use Survey, Table A-1 (2003 annual averages). First year of ATUS. Sleeping rose to 9.04 hrs by 2024; TV watching peaked at 2.82 in 2009 then declined to 2.60 by 2024; working declined to 3.32 by 2025. Percent working fell from 46.2% (2003) to 37.3% (2024), reflecting aging population."
+notes = "From BLS American Time Use Survey, Table A-1 (2003 annual averages), which reports daily averages for persons age 15 and over. The table reports 8.57 hours sleeping, 3.69 hours in working and work-related activities, 5.11 hours in leisure and sports, and 2.58 hours watching TV."
 assumptions = ["composite-family"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
@@ -284,71 +293,80 @@ assumptions = ["composite-family"]
 id = "us-2000s-internet"
 panel = "diffusion"
 label = "Internet and broadband adoption, 2000s"
-value = "Internet: 46% (2000) → 79% (2009). Broadband: ~5% (2000) → 63% (2009)."
+value = "Internet: 46% (March 2000) → 79% (April 2009). Home broadband: 1% (March 31, 2000) → 62% (2009 survey dates)."
 unit = "% of adults"
 source = "pew-internet-broadband"
 tier = "A"
-notes = "From Pew Research Center. Internet adoption crossed 50% around 2001. Broadband (DSL/cable) replaced dial-up through the 2000s. By 2009, 63% of adults had home broadband. The smartphone era began with the iPhone (2007) but mass adoption belongs to the 2010s."
+notes = "Pew Research Center date-specific survey points: internet use was 46% in March 2000 and 79% in April 2009; home broadband subscription was 1% on March 31, 2000 and 62% in April, June, and September 2009."
 
 [[fact]]
 id = "us-2000s-cellphone"
 panel = "diffusion"
 label = "Cell phone adoption, 2000s"
-value = "~40% (2000) → ~85% (2009)"
+value = "53% (May 2000) → 85% (April 2009)"
 unit = "% of adults who own a cell phone"
 source = "pew-internet-broadband"
 tier = "A"
-notes = "From Pew Research Center. Cell phone adoption was rapid: ~40% in 2000, ~65% in 2004, ~85% by 2009. The iPhone (2007) and Android (2008) began the smartphone transition."
+notes = "Pew Research Center, Mobile Device Ownership Over Time: 53% of U.S. adults owned a cellphone in May 2000; 68% in May 2004; 85% in April 2009. These are cellphone, not smartphone, ownership measures."
 
 [[fact]]
 id = "us-2000s-air-conditioning"
 quantity = 87
 panel = "diffusion"
 label = "Air conditioning, 2009 (RECS)"
-value = "87% of homes had AC (61% central AC)"
+value = "87% of homes had air conditioning"
 unit = "% of occupied housing units with air conditioning"
-source = "eia-recs"
+source = "eia-recs-2009-ac"
 tier = "A"
-notes = "From the 2009 RECS. 87% of US homes used air conditioning — up from 68% in 1993. Central AC alone reached 61% (nearly tripled from 23% in 1978). AC was approaching universality. By 2015, AC remained at 87%, and by 2020, reached 88%. Source: EIA RECS 2009."
+notes = "EIA reports 87% of U.S. households had air-conditioning equipment in 2009, compared with 68% in 1993."
 
 [[fact]]
 id = "us-2000s-cable-tv"
+audit = { file = "remaining-audit-20261028/world-cable2006-extract.json", extractor = "json-pointer", locator = "/basic_cable_millions", scale = "1", guards = [{ locator = "/provenance", value = "Curator extraction from pinned FCC 07-206" }, { locator = "/population", value = "June 2006 TV households and basic cable subscribers" }], calculation = { op = "pct_of", operands = ["/tv_households_millions"], precision = 0, rounding = "half_up", method = "Published basic-cable subscribers divided by published TV households, rounded once." } }
 quantity = 59
 panel = "diffusion"
 label = "Households with cable TV, 2006"
-value = "65.3 million basic cable subscribers (~59% of TV households)"
-unit = "subscribers (% of TV households with cable, FCC 13th Report)"
-source = "fcc-video-competition"
+value = "65.3 million basic cable subscribers (about 59% of TV households)"
+unit = "% of TV households with basic cable, calculated from published counts"
+source = "fcc-tv-household-penetration"
 tier = "A"
-notes = "From FCC 13th Annual Video Competition Report (FCC 07-206, data as of June 2006). 110.2M TV households, 95.8M subscribed to MVPD (87%). Cable's share of MVPD: 68.2% = 65.3M basic subscribers. Cable penetration of all TV households: ~59%. This was near the peak — cord-cutting began around 2013. Up from 60% (1992). By 2015: 53.2M subscribers (declining)."
+notes = "FCC 07-206 reports 65.3 million basic cable subscribers and 110.2 million television households as of June 2006. The displayed percentage is their ratio, rounded once; it differs from cable’s 68.2% share of MVPD subscribers."
+
+assumptions = ["recent-published-count-share"]
 
 [[fact]]
 id = "us-2000s-vehicle-ownership"
+audit = { file = "remaining-audit-20261028/world-recent-vehicle-extract.json", extractor = "json-pointer", locator = "/years/2000/one_or_more_percent", scale = "1", guards = [{ locator = "/provenance", value = "Curator complement from pinned BTS Figure 2-6" }, { locator = "/years/2000/population", value = "occupied housing units" }] }
 quantity = 89.7
 panel = "diffusion"
 label = "Households with at least one vehicle, 2000"
-value = "89.7% (10.3% with no vehicle); avg 1.9 vehicles per household"
+value = "89.7% (10.3% with no vehicle)"
 unit = "% of occupied housing units with 1+ vehicles"
 source = "bts-vehicle-availability"
 tier = "A"
-notes = "From BTS Figure 2-7 (Census Bureau decennial census, 2000). 10.3% had no vehicle, 34.2% had one, 38.4% had two, 17.1% had three or more. Near-saturation — only one in ten households remained car-free. By 2010: 90.9%. Population: all occupied housing units."
+notes = "BTS Figure 2-6 reports 10.3% of occupied housing units with no vehicle, 34.2% with one, 38.4% with two, and 17.1% with three or more. The percentage with at least one is the complement of the no-vehicle share."
+
+assumptions = ["recent-vehicle-complement"]
 
 [[fact]]
 id = "us-2000s-dvr-penetration"
-quantity = 38
+price_year = 2008
+quantity = 19
 panel = "diffusion"
-label = "DVR penetration, 2010-11"
-value = "38% of households had a DVR (2010-11), up from 19% in 2007-08"
-unit = "% of households with digital video recorder"
-source = "fcc-video-competition"
-tier = "B"
-notes = "From FCC 15th Video Competition Report (FCC 12-81). DVR penetration doubled in three years. HDTV households reached 64% in 2010-11, up from 25% in 2007-08. DTV average price fell from $3,147 (1998) to $1,043 (2006), a 67% decline."
+label = "DVR penetration, 2007–08 television season"
+value = "19% of households in 2007–08; 38% in the later 2010–11 season"
+unit = "percent of households in the publisher’s DVR penetration estimate"
+source = "fcc-dvr-household-penetration"
+tier = "C"
+notes = "FCC 12-81, Fourteenth Report, paragraph 8, reproduces Nielsen DVR-penetration estimates. The room’s headline uses the 2007–08 season; the later season remains explicitly dated context. It is not an estimate of DVR ownership among MVPD subscribers."
 assumptions = ["composite-family"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-2000s-nhe-total"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2000/gdp_share", target = "quantity", guards = [{ locator = "/cms/2000/year", value = "2000" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 13.3
 panel = "table"
 label = "Healthcare spending, 2000"
@@ -356,10 +374,12 @@ value = "$1,365.2 billion (13.3% of GDP)"
 unit = "USD billions, nominal; NHE as % of GDP"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01. NHE: $1,365.2B. GDP: $10,251.0B. Per capita: $4,842. Healthcare spending nearly doubled in the 1990s but GDP share growth slowed (managed care restraint)."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2000. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2000s-nhe-out-of-pocket-share"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2000/out_of_pocket", target = "quantity", guards = [{ locator = "/cms/2000/year", value = "2000" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }], calculation = { op = "pct_of", operands = ["/cms/2000/total"], precision = 1, rounding = "half_up", method = "Same-year out-of-pocket spending divided by total NHE, times one hundred." } }
+assumptions = ["cms-nhe-shares"]
 quantity = 14.5
 panel = "budget"
 label = "Out-of-pocket share of health spending, 2000"
@@ -367,10 +387,12 @@ value = "14.5% of national health expenditures paid out of pocket"
 unit = "% of total NHE"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02. Out of pocket: $197,580M of $1,365,184M total."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2000. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2000s-nhe-per-capita"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2000/per_capita", target = "quantity", guards = [{ locator = "/cms/2000/year", value = "2000" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 4842
 panel = "table"
 label = "National health spending per person, 2000"
@@ -378,10 +400,12 @@ value = "$4,842 per capita ($4,101 for personal health care)"
 unit = "USD per person, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE per capita: $4,842. Personal Health Care per capita: $4,101. Population: 282M."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2000. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2000s-nhe-medicare"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2000/medicare", target = "quantity", guards = [{ locator = "/cms/2000/year", value = "2000" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 224829
 panel = "table"
 label = "Medicare spending, 2000"
@@ -389,10 +413,12 @@ value = "$224,829 million (16.5% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Medicare: $224,829M of $1,365,184M total."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2000. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2000s-nhe-medicaid"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2000/medicaid", target = "quantity", guards = [{ locator = "/cms/2000/year", value = "2000" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 200367
 panel = "table"
 label = "Medicaid spending, 2000"
@@ -400,10 +426,12 @@ value = "$200,367 million (14.7% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Medicaid: $200,367M of $1,365,184M total."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2000. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2000s-nhe-prescription-drugs"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2000/prescription_drugs", target = "quantity", guards = [{ locator = "/cms/2000/year", value = "2000" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 122003
 panel = "table"
 label = "Prescription drug spending, 2000"
@@ -411,10 +439,11 @@ value = "$122,003 million (8.9% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $122,003M of $1,365,184M total."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2000. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2000s-heart-disease-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R102:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R102:C1", value = "2000" }, { locator = "R102:C2", value = "Heart Disease" }] }
 quantity = 257.6
 panel = "table"
 label = "Heart disease age-adjusted death rate, 2000"
@@ -422,7 +451,7 @@ value = "257.6 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS. Down 56% from the 1950 peak. Statins became one of the most prescribed drug classes in America. Drug-eluting stents introduced 2003."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -434,60 +463,65 @@ value = "66.0%"
 unit = "% surviving 5 years after diagnosis (relative survival, SEER 9)"
 source = "seer-csr-1975-2017"
 tier = "A"
-notes = "From NCI SEER Cancer Statistics Review 1975-2017, Table 2.9. Targeted therapies entering the clinic: trastuzumab (Herceptin, 1998) for HER2+ breast cancer, imatinib (Gleevec, 2001) for CML."
+notes = "National Cancer Institute SEER Cancer Statistics Review 1975–2017, Table 2.9. All Cancer Sites (Invasive), SEER 9 areas, all races, males and females; five-year relative survival for the selected diagnosis period is 66.0%. The table reports survival, not treatment causation."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2000s-food-basket"
+audit = { file = "59-workbook-review/cex-food-observations.json", extractor = "json-pointer", locator = "/2005/values/food", target = "quantity", guards = [{ locator = "/2005/year", value = "2005" }, { locator = "/2005/source_sha256", value = "09571721f46ca8af45a1dd398a74e44c743507134047f7a2da7cf209ba18127e" }, { locator = "/2005/file", value = "02-cex/cusize-2005.pdf" }, { locator = "/2005/population", value = "Four-person consumer units" }, { locator = "/2005/statistic", value = "Annual expenditure means" }, { locator = "/2005/source_header", value = "Table 4. Size of consumer unit: Average annual expenditures and characteristics, Consumer Expenditure\nSurvey, 2005\nItem\nAll\nconsumer\nunits\nOne\nperson\nTwo or more persons\nTotal Two\npersons\nThree\npersons\nFour\npersons\nFive or\nmore\npersons" }, { locator = "/2005/placard", value = "Food $8,622/yr (13.9% of expenditure). Food at home $4,846. Food away from home $3,776. Key items: meats/poultry/fish/eggs $1,140, fruits/vegetables $780, cereals/bakery $666, dairy $556, beef $344. Total expenditure: $62,215." }], calculation = { op = "pct_of", operands = ["/2005/values/total"], precision = 1, rounding = "half_up", method = "Four-person consumer units: ratio of same-table published food and total annual expenditure means, times one hundred, rounded once to one decimal place; not a mean of unit-level shares." } }
 quantity = 13.9
 panel = "table"
-label = "Food basket and expenditure breakdown, 2005 (CEX)"
-value = "Food $8,622/yr (13.9% of expenditure). Food at home $4,846 (56% of food), food away from home $3,776 (44%). Key items: meats/poultry/fish/eggs $1,140, fruits/vegetables $780, cereals/bakery $666, dairy $556, beef $344. Total expenditure: $62,215."
-unit = "USD per family per year, nominal"
-source = "bls-cex"
+label = "Food expenditure, four-person consumer units, 2005 (CEX)"
+value = "Food $8,622/yr (13.9% of expenditure). Food at home $4,846. Food away from home $3,776. Key items: meats/poultry/fish/eggs $1,140, fruits/vegetables $780, cereals/bakery $666, dairy $556, beef $344. Total expenditure: $62,215."
+unit = "USD per four-person consumer unit per year, nominal"
+source = "bls-cex-four-person-2005"
 tier = "A"
-notes = "From the 2005 CEX, Table 4. 15,807 thousand 4-person CUs. Food at home share: 56%, food away: 44%. Food away from home approaching half of food spending. Source: BLS CEX Table 4, 2005 (via Wayback Machine)."
-assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
+notes = "Annual expenditure means for four-person consumer units, not a median-income Census family. The recorded category amounts are reproduced from the original 2005 size-of-consumer-unit table by scripts/cex_food_review.py. Food share is the ratio of published food and total-expenditure means, rounded once to one decimal place; it is not the mean of individual consumer units' budget shares. Published rounded component means need not add exactly to their rounded totals."
+assumptions = ["composite-family", "income-vs-consumption", "nominal-values", "cex-ratios-of-means"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
-[[fact]]
+[[derived]]
 id = "us-2000s-home-as-income-years"
 panel = "work-buys"
-label = "Median home value as years of median family income, 2000"
-value = "2.36 years ($119,600 home vs $50,730 income)"
-unit = "years of median family income (nominal)"
-source = "census-historical-housing-values"
-tier = "C"
-notes = "Computed: 2000 median home value ($119,600) / 2000 median family income ($50,730). The housing bubble (2002-2006) would push this ratio far higher before the crash."
-assumptions = ["affordability-normalization", "nominal-values"]
+label = "Median home value relative to annual family income, 2000"
+op = "ratio"
+numerator = "us-2000s-median-home-value"
+denominator = "us-2000s-median-family-income"
+unit = "years of median family income, nominal"
+precision = 2
+notes = "The medians describe different surveyed populations and do not describe a matched family or an actual purchase."
+assumptions = ["nominal-values", "housing-median-income-ratio"]
 
 [[fact]]
 id = "us-2000s-cpi"
+audit = { file = "remaining-audit-20261028/bls-cpi-annual-2000-2009.json", extractor = "json-pointer", locator = "/Results/series/0/data/117/value", scale = "1", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/0/seriesID", value = "CUUR0000SA0" }, { locator = "/Results/series/0/data/117/year", value = "2000" }, { locator = "/Results/series/0/data/117/period", value = "M13" }] }
 quantity = 172.2
 price_year = 2000
 panel = "work-buys"
-label = "Consumer Price Index and purchasing power, 2000"
-value = "CPI 172.2 (2000) → 313.7 (2024) = 1.8x. $1 in 2000 = $1.82 in 2024. Real median family income grew 1.14x."
+label = "Consumer Price Index, 2000"
+value = "172.2"
 unit = "CPI-U (1982-84=100), annual average"
 source = "bls-cpi"
 tier = "A"
-notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 2000: 172.2. 2024: 313.7. Ratio: 1.82x. Nominal median family income: $50,730 (2000) → $105,800 (2024) = 2.09x. Real growth: 2.09/1.82 = 1.14x — the weakest real income growth of any postwar decade, reflecting two recessions (2001, 2008-09) and the housing crash."
+notes = "BLS CPI-U series CUUR0000SA0, all items U.S. city average, annual average for 2000."
 assumptions = ["nominal-values", "affordability-normalization"]
 
-[[fact]]
+[[derived]]
 id = "us-2000s-week-of-work-buys"
 panel = "work-buys"
-label = "What a week of work bought, 2000"
-value = "$480.54/week — a full year of it (×52) ≈ 49% of median family income"
-unit = "weekly earnings vs annual median family income"
-source = "fred-ahetpi"
-tier = "A"
-notes = "The product of the rounded hourly wage and weekly-hours observations for total-private production and nonsupervisory employees is $480.54. Assuming 52 paid weeks gives $24,988.08, or 49.3% of the all-family median income of $50,730 (Census F-8). Worker and family survey populations differ. This illustrative ratio does not establish household needs, income sufficiency, or the number of earners in a family."
-assumptions = ["composite-family", "nominal-values"]
+label = "Illustrative weekly earnings, 2000"
+op = "product"
+numerator = "us-2000s-wages"
+denominator = "us-2000s-weekly-hours-total-private"
+unit = "USD per week, nominal; product of rounded annual average hourly earnings and weekly hours"
+precision = 2
+notes = "Calculated from hourly earnings and weekly hours for total-private production and nonsupervisory employees. This illustrative product is not annual income or a measured family income."
+assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-2000s-car-price"
+audit = { file = "remaining-audit-20261028/ornl-car-price-extract.json", extractor = "json-pointer", locator = "/years/2000/total_current_dollars", target = "amount_minor", scale = "100", guards = [{ locator = "/provenance", value = "Curator extraction from pinned ORNL TEDB Edition 39 Table 11.13" }, { locator = "/source_sha256", value = "f0f041b1b9c844136e10f2d455c3082fe7c3f5f631e4894e9f402c816747b0b1" }, { locator = "/column", value = "Total, current dollars" }, { locator = "/years/2000/population", value = "Average new car, excluding pickups, vans and sport utility vehicles" }] }
 panel = "work-buys"
 label = "Average new car transaction price, 2000"
 value = "$21,030"
@@ -498,7 +532,7 @@ amount_minor = 2103000
 currency = "USD"
 price_year = 2000
 basis = "total"
-notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13). Steady price increases continued, driven by technology content and safety features. Note: this series excludes SUVs and light trucks, which captured an increasing market share in the 2000s — the average transaction price including all vehicle types would be higher. Population: all new passenger cars sold in the US."
+notes = "ORNL Transportation Energy Data Book, Edition 39, Table 11.13: the BEA total is the average price of a new car in current dollars. The table excludes pickups, vans, and sport utility vehicles."
 assumptions = ["nominal-values"]
 
 
@@ -518,7 +552,7 @@ value = "29.3"
 unit = "hours per week, prime-age women (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+notes = "Ramey’s home-production study, Table 6, All Prime Age Women column (ages 18–64): 29.3 hours/week in 2005. The paper links historical diary studies to nationally representative surveys from 1965 onward and cautions that some estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -530,7 +564,7 @@ value = "16.8"
 unit = "hours per week, prime-age men (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+notes = "Ramey’s home-production study, Table 7, All Prime Age Men column (ages 18–64): 16.8 hours/week in 2005. The paper cautions that some estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 
@@ -543,19 +577,20 @@ value = "49"
 unit = "hours per week, all household members combined"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009), aggregate home-production hours divided by number of households. Fell from 78 hrs/week (1900) to 49 hrs/week (2005), a 37% decline. Household size fell 45% (4.7→2.6 persons) over the same period, so per-household hours fell proportionally less than household size. Per-capita (all ages) was 18.5 hrs/week — slightly higher in 2005 than 1900 because fewer children (who do little home production) are in the population."
+notes = "Ramey (2010), Figure 3 and conclusion: estimated home-production hours per household fell from 78 hours/week in 1900 to 49 in 2005; the author reports a 38% decline. Average household size fell from 4.7 to 2.6 persons (44%). Per-capita time was virtually unchanged."
 assumptions = ["composite-family"]
 
 
 [[fact]]
 id = "us-2000s-food-prices"
+assumptions = ["food-price-display-rounding"]
 panel = "table"
 label = "Retail food prices, December 2000"
-value = "Bread $0.99/lb, ground beef $1.98/lb, bacon $3.03/lb, eggs $0.96/doz, lettuce $0.85/lb"
+value = "Bread $0.99/lb, ground chuck $1.98/lb, bacon $3.03/lb, eggs $0.96/doz, lettuce $0.85/lb"
 unit = "USD, retail prices (December 2000, BLS API)"
 source = "bls-api"
 tier = "A"
-notes = "From BLS API: APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, per lb), APU0000704111 (bacon, per lb), APU0000708111 (eggs, per doz), APU0000712211 (lettuce, per lb). Values are December 2000 monthly averages. CORRECTION 2026-07-08: previous version had mismatched labels. Bread up 41% from 1990 ($0.70→$0.99), bacon up 33% ($2.28→$3.03). Ground beef actually decreased slightly ($2.02→$1.98), reflecting changes in beef production. The 2000s saw rising global food demand and the beginning of biofuel-driven corn price increases."
+notes = "December 2000 monthly U.S. city-average prices from the BLS public API, series APU0000702111 (white pan bread per pound), APU0000703111 (100% ground chuck per pound), APU0000704111 (sliced bacon per pound), APU0000708111 (large Grade A eggs per dozen), APU0000712211 (iceberg lettuce per pound). Original response bytes were newly retrieved on 2026-10-28 and saved; this vintage is not a reconstruction of the earlier download. scripts/food_price_review.py reproduces the displayed prices using decimal half-up rounding to the nearest cent. Series identities and units were independently checked against the BLS-sourced FRED series pages. These observations describe price levels for the stated month; average-price ratios are not a constant-quality inflation index."
 
 [[fact]]
 id = "us-2000s-cigarette-consumption"
@@ -585,55 +620,59 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2000s-availability-grapes"
-quantity = 7.52
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-2000s-availability-grapes/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-2000s-availability-grapes/year", value = "2000" }, { locator = "/availability/us-2000s-availability-grapes/file", value = "46-diet-variety/ers-fads-fruit-fresh.xlsx" }, { locator = "/availability/us-2000s-availability-grapes/sha256", value = "6988e35a4a4b8700a6f9255de0e29708afc01f91662ce28394973a0cc740069c" }, { locator = "/availability/us-2000s-availability-grapes/title", value = "Fresh grapes: Supply and use1" }, { locator = "/availability/us-2000s-availability-grapes/cell", value = "Grapes!I37" }, { locator = "/availability/us-2000s-availability-grapes/population_heading", value = "U.S. population, January 1 of following year3" }, { locator = "/availability/us-2000s-availability-grapes/population_definition", value = "3Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-2000s-availability-grapes/number_format", value = "#,##0.0" }], calculation = { op = "ratio", operands = ["/availability/us-2000s-availability-grapes/population_millions"], precision = 1, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
+quantity = 7.5
 panel = "table"
 label = "Grapes available per person, 2000"
-value = "7.52 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "7.5 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 2000
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh grapes. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 2.6 times the 1970 figure."
-assumptions = ["composite-family"]
+notes = "Fresh grapes: Supply and use1; source year 2000, Grapes!I37. Original population heading: U.S. population, January 1 of following year (footnote 3). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (1 decimal places). The source retail-weight conversion is not applied. The source year follows a fruit marketing year: July–June before 1990/91 and beginning in May from 1990 onward. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-2000s-availability-avocados"
-quantity = 2.26
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-2000s-availability-avocados/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-2000s-availability-avocados/year", value = "2000" }, { locator = "/availability/us-2000s-availability-avocados/file", value = "46-diet-variety/ers-fads-fruit-fresh.xlsx" }, { locator = "/availability/us-2000s-availability-avocados/sha256", value = "6988e35a4a4b8700a6f9255de0e29708afc01f91662ce28394973a0cc740069c" }, { locator = "/availability/us-2000s-availability-avocados/title", value = "Fresh avocados: Supply and use1" }, { locator = "/availability/us-2000s-availability-avocados/cell", value = "Avocados!I37" }, { locator = "/availability/us-2000s-availability-avocados/population_heading", value = "U.S. population, July 1 of following year3" }, { locator = "/availability/us-2000s-availability-avocados/population_definition", value = "3Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-2000s-availability-avocados/number_format", value = "#,##0.0" }], calculation = { op = "ratio", operands = ["/availability/us-2000s-availability-avocados/population_millions"], precision = 1, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
+quantity = 2.3
 panel = "table"
 label = "Avocados available per person, 2000"
-value = "2.26 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "2.3 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 2000
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh avocados. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 5.0 times the 1970 figure."
-assumptions = ["composite-family"]
+notes = "Fresh avocados: Supply and use1; source year 2000, Avocados!I37. Original population heading: U.S. population, July 1 of following year (footnote 3). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (1 decimal places). The source retail-weight conversion is not applied. The source combines commodity marketing seasons with calendar-year trade; California and Florida seasons differ and their definitions change in 2002. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-2000s-availability-bell-peppers"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-2000s-availability-bell-peppers/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-2000s-availability-bell-peppers/year", value = "2000" }, { locator = "/availability/us-2000s-availability-bell-peppers/file", value = "46-diet-variety/ers-fads-vegetables-fresh.xlsx" }, { locator = "/availability/us-2000s-availability-bell-peppers/sha256", value = "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e" }, { locator = "/availability/us-2000s-availability-bell-peppers/title", value = "Fresh bell peppers: Supply and use" }, { locator = "/availability/us-2000s-availability-bell-peppers/cell", value = "Peppers!H47" }, { locator = "/availability/us-2000s-availability-bell-peppers/population_heading", value = "U.S. population, July 11" }, { locator = "/availability/us-2000s-availability-bell-peppers/population_definition", value = "1Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-2000s-availability-bell-peppers/number_format", value = "0.00" }], calculation = { op = "ratio", operands = ["/availability/us-2000s-availability-bell-peppers/population_millions"], precision = 2, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 8.19
 panel = "table"
 label = "Bell peppers available per person, 2000"
-value = "8.19 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "8.19 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 2000
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh bell peppers. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 3.9 times the 1960 figure."
-assumptions = ["composite-family"]
+notes = "Fresh bell peppers: Supply and use; source year 2000, Peppers!H47. Original population heading: U.S. population, July 1 (footnote 1). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (2 decimal places). The source retail-weight conversion is not applied. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-2000s-availability-broccoli"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-2000s-availability-broccoli/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-2000s-availability-broccoli/year", value = "2000" }, { locator = "/availability/us-2000s-availability-broccoli/file", value = "46-diet-variety/ers-fads-vegetables-fresh.xlsx" }, { locator = "/availability/us-2000s-availability-broccoli/sha256", value = "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e" }, { locator = "/availability/us-2000s-availability-broccoli/title", value = "Fresh broccoli: Supply and use" }, { locator = "/availability/us-2000s-availability-broccoli/cell", value = "Broccoli!H47" }, { locator = "/availability/us-2000s-availability-broccoli/population_heading", value = "U.S. population, July 11" }, { locator = "/availability/us-2000s-availability-broccoli/population_definition", value = "1Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-2000s-availability-broccoli/number_format", value = "#,##0.00" }], calculation = { op = "ratio", operands = ["/availability/us-2000s-availability-broccoli/population_millions"], precision = 2, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 5.89
 panel = "table"
 label = "Broccoli available per person, 2000"
-value = "5.89 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "5.89 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 2000
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 14.7 times the 1960 figure."
-assumptions = ["composite-family"]
+notes = "Fresh broccoli: Supply and use; source year 2000, Broccoli!H47. Original population heading: U.S. population, July 1 (footnote 1). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (2 decimal places). The source retail-weight conversion is not applied. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[derived]]
 id = "us-2000s-produce-variety-count"
@@ -699,7 +738,7 @@ count_series = [
 ]
 threshold = 1.0
 at_year = 2000
-notes = "Every fresh fruit and vegetable commodity sheet in the two ERS fresh workbooks, counted when the food supply provided at least a full pound per person that year, farm weight. The total is the commodities ERS tracked that year: series that had not yet begun or had already ended are outside the count, so a widening record cannot masquerade as rising variety. Availability is a disappearance estimate — what the supply made available, not what anyone ate; the rule and its rationale are in the assumption ledger (produce-variety-rule)."
+notes = "The curated fresh fruit and vegetable series are counted when the publisher's displayed farm-weight availability estimate is at least one pound per person in the source year. Values are rounded to each source cell's displayed precision before comparison, so estimates near the threshold depend on that precision. The count is out of the commodities tracked in the selected series for that year; availability is a supply measure, not food actually eaten."
 assumptions = ["produce-variety-rule", "composite-family"]
 
 [[fact]]
@@ -725,7 +764,7 @@ unit = "live births per 1,000 women aged 15-19"
 price_year = 2000
 source = "nchs-hus-2019-table1"
 tier = "A"
-notes = "Below the 1980 low for the first time, and falling faster than in any earlier stretch of the published table."
+notes = "NCHS reports 47.7 live births per 1,000 women aged 15–19 in 2000."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -738,7 +777,7 @@ unit = "fatal work injuries per 100,000 full-time-equivalent workers"
 price_year = 2006
 source = "bls-cfoi-hours-based-rates"
 tier = "A"
-notes = "The first year the federal government published this measure. Before 2006 the rate was computed against employment rather than hours worked, and before 1992 there was no federal census of workplace deaths at all — so 2006 is where the line can start, not where the risk began."
+notes = "BLS CFOI chart data report an all-worker fatal work injury rate of 4.2 per 100,000 full-time-equivalent workers in 2006. The chart defines this rate using fatal injuries and annual hours worked."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -750,8 +789,8 @@ value = "23.3% of adults smoked (25.7% of men, 21.0% of women)"
 unit = "% of adults ≥18 who currently smoke (NHIS)"
 price_year = 2000
 source = "cdc-nhis-smoking-prevalence"
-tier = "A"
-notes = "From CDC NHIS (compiled by American Lung Association). Note: NHIS survey was redesigned in 1997, so pre-1997 and post-1997 data may not be directly comparable. Smoking continued its steady decline."
+tier = "B"
+notes = "From the American Lung Association analysis of NHIS public-use files, “Adult Smoking Rate Trends By Sex, Race, and Age”: 23.3% overall, 25.7% of men, and 21.0% of women in 2000. The source flags the 1997 NHIS redesign when comparing earlier and later estimates; Vitrine transcribes the ALA analysis and does not recompute raw NHIS microdata."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -761,9 +800,9 @@ panel = "day"
 label = "Infant mortality rate, 2000"
 value = "6.9 per 1,000 live births"
 unit = "deaths under age 1 per 1,000 live births"
-source = "nchs-nvss"
+source = "nchs-hus-2016-infant-table11"
 tier = "A"
-notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 4.6; postneonatal: 2.3. The rate was essentially flat from 2000-2005 before resuming decline."
+notes = "NCHS Health, United States, 2016, Table 11 reports 6.9 infant deaths per 1,000 live births in 2000, including 4.6 neonatal and 2.3 postneonatal deaths."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────
@@ -777,7 +816,7 @@ value = "Men: 26.8, Women: 25.1"
 unit = "years (median age at first marriage)"
 source = "census-table-ms2"
 tier = "A"
-notes = "From Census Table MS-2. CPS ASEC. Women crossed 25 — up nearly 5 years from the mid-century low. The composite family was forming 3-4 years later than in the 1950s."
+notes = "Census Table MS-2 reports estimated median age at first marriage by sex. These medians describe first marriage, not the formation of a particular four-person family."
 
 # ── Married women's labor force participation ─────────────────────────────
 
@@ -790,20 +829,21 @@ value = "61.1%"
 unit = "% of married women (spouse present) in the civilian labor force"
 source = "statab-lfpr-marital"
 tier = "A"
-notes = "From Statistical Abstract Table 596 (11s0596.xls, BLS CPS annual averages). The peak era — 61.1% in 2000, essentially flat through 2009 (61.4%). LFPR plateaued in the 2000s after decades of rapid growth. From 5.6% (1900) to 61.1% (2000) — an elevenfold increase across the century."
+notes = "The BLS Current Population Survey annual average reports 61.1% for married women with spouse present in 2000, among the civilian noninstitutional population age 16 and over. The labor force participation rate includes employed and unemployed people."
 
 # ── Education ─────────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-2000s-education"
+audit = { file = "22-census-historical-tables/taba-2-pct-high-school.xlsx", extractor = "xlsx-cell", locator = "hst_attain02!B31", scale = "1", guards = [{ locator = "hst_attain02!A31", value = "2000" }, { locator = "hst_attain02!A6", value = "25 Years and Over, Completed 4 Years of High School or more" }, { locator = "hst_attain02!B4", value = "All people" }, { locator = "hst_attain02!B5", value = "Total" }] }
 quantity = 84.1
 panel = "day"
 label = "Educational attainment, 2000"
-value = "HS grad or more: 84.1%, Bachelor's or more: 25.6%, Less than 9th grade: 7.0%"
-unit = "% of population 25+ (all races, both sexes)"
+value = "High school graduate or more: 84.1%; bachelor’s degree or more: 25.6%"
+unit = "% of civilian noninstitutionalized people aged 25 and over"
 source = "census-table-a1-a2"
 tier = "A"
-notes = "From Census Table A-1. Decennial census. HS graduation crossed 84%. Less-than-9th-grade fell to 7% — down from 60% in 1940. Bachelor's or more crossed 25%. Median school years no longer reported after 1991 (Census switched to percentage-only measures)."
+notes = "Census Table A-2 reports educational attainment for the civilian noninstitutionalized population aged 25 and over. Beginning in 1992, the survey question records credentials rather than years of schooling."
 
 # ── Net worth (median family) ────────────────────────────────────────────
 
@@ -816,7 +856,7 @@ value = "$139,700 (139.7 thousand, 2016 dollars)"
 unit = "median net worth, all families (SCF)"
 source = "fed-scf"
 tier = "A"
-notes = "From SCF Chartbook (bulletincharts.pdf). 2007 survey, in 2016 dollars. The peak before the Great Recession — up from $117,300 in 2001. The housing bubble inflated median net worth to its highest level in the SCF series. By 2010 it would collapse to $85,400 (−39%) as home values and stock markets crashed."
+notes = "All-family median net worth in the 2007 survey is $139.7 thousand in 2016 dollars; chart table lists 2010 $85.4 thousand. The survey family is the unit of observation; the source values are expressed in 2016 dollars."
 
 [[fact]]
 id = "us-2000s-weekly-hours-total-private"
@@ -917,7 +957,7 @@ value = "From June 4, 2000 smoking was prohibited on all scheduled passenger fli
 unit = "legal status of smoking aboard scheduled passenger flights (federal statute)"
 source = "dot-ost-2000-smoking-aboard-aircraft"
 tier = "A"
-notes = "§ 708 of Pub. L. 106-181 (approved Apr. 5, 2000) recodified the prohibition at 49 U.S.C. 41706: subsection (a) covers scheduled passenger interstate and intrastate air transportation with no duration limit, subsection (b) extends the prohibition to scheduled passenger foreign air transportation, and subsection (c) provides the foreign-objection waiver mechanism — effective 60 days after enactment. The companion FAA rule states that the former Department provisions allowing smoking on flights over 6 hours in duration are superseded by the new legislation. The implementing rule recites that at publication 97.7 percent of scheduled passenger segments to and from the United States were already smoke-free; the statute closed the remaining schedule. A legal prohibition records what the rule now requires, not what any flight's passengers had done."
+notes = "Section 708 of Public Law 106-181 prohibited smoking on scheduled passenger interstate and intrastate air transportation and required foreign air carriers to prohibit smoking on scheduled passenger foreign air transportation, subject to its foreign-government waiver provision. The law took effect 60 days after enactment; DOT’s final rule gives June 4, 2000 as the effective date."
 assumptions = ["composite-family"]
 
 [[fact]]

@@ -82,8 +82,9 @@ def _build_metrics(index: dict[str, FactRef], overlay_ids: list[str]) -> tuple[W
         stop_facts = [(d, arc.fact_ids.get(d)) for d in curation.WALKTHROUGH_STOPS]
         quantities = [
             q
-            for _, mfid in stop_facts
-            if mfid is not None and (q := index[mfid].fact.quantity) is not None
+            for decade, mfid in stop_facts
+            if mfid is not None
+            and (q := arc.quantity_for(decade, index[mfid].fact.quantity)) is not None
         ]
         q_max = max(quantities) if quantities else 1.0
         cells: list[WalkthroughMetricCell] = []
@@ -103,6 +104,7 @@ def _build_metrics(index: dict[str, FactRef], overlay_ids: list[str]) -> tuple[W
                 )
                 continue
             fact = index[mfid].fact
+            quantity = arc.quantity_for(decade, fact.quantity)
             overlay_ids.append(mfid)
             cells.append(
                 WalkthroughMetricCell(
@@ -110,11 +112,15 @@ def _build_metrics(index: dict[str, FactRef], overlay_ids: list[str]) -> tuple[W
                     fact_id=mfid,
                     href=f"#{mfid}--modal",
                     tier=fact.tier.value,
-                    gap=fact.quantity is None,
-                    text="see the placard" if fact.quantity is None else f"{fact.quantity:g}",
+                    gap=quantity is None,
+                    text=(
+                        "not comparable on this axis — open the archived record"
+                        if decade in arc.plot_gaps else
+                        "see the placard" if quantity is None else f"{quantity:g}"
+                    ),
                     bar=0
-                    if fact.quantity is None or q_max == 0
-                    else round(100 * fact.quantity / q_max),
+                    if quantity is None or q_max == 0
+                    else round(100 * quantity / q_max),
                 )
             )
         metrics.append(
@@ -140,7 +146,7 @@ def _build_meter(index: dict[str, FactRef], overlay_ids: list[str]) -> Markup:
                 tier=fact.tier.value,
                 label=fact.label,
                 value=fact.value,
-                quantity=(None if decade in women_arc.plot_gaps else fact.quantity),
+                quantity=women_arc.quantity_for(decade, fact.quantity),
                 note=(
                     "different unit and concept — see the placard"
                     if decade in women_arc.plot_gaps

@@ -1,0 +1,2 @@
+# Keep authored text and deterministic generated-source inputs stable across hosts.
+* text=auto eol=lf

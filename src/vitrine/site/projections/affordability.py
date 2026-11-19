@@ -19,6 +19,7 @@ from vitrine.model import Basis, Corpus, Measure, Room, measure_label
 from vitrine.series import Series
 from vitrine.site import curation, svg
 from vitrine.site.context import AffordabilityDashboardSection, AffordabilityPage
+from vitrine.site.projections.chart_tables import metric_tables
 from vitrine.site.projections.facts import FactRef, placard_href
 from vitrine.site.projections.metrics import metric_markers, resolve_metric
 
@@ -58,12 +59,12 @@ def afford_fact_ids(corpus: Corpus, pattern: str) -> dict[str, str]:
     return ids
 
 
-def afford_arc_chart(
+def afford_arc_points(
     comparison: Comparison,
     ids: dict[str, str],
     index: dict[str, FactRef],
     root: str,
-) -> str:
+) -> tuple[svg.ArcPoint, ...]:
     """Project an affordability comparison onto the arc chart (hours axis).
 
     Decades whose fact exists but can't compute hours (no structured amount,
@@ -103,7 +104,18 @@ def afford_arc_chart(
                 quantity=round(hours, 1),
             )
         )
-    return svg.arc_chart(tuple(points), "hours of work to afford", falling=False)
+    return tuple(points)
+
+
+def afford_arc_chart(
+    comparison: Comparison,
+    ids: dict[str, str],
+    index: dict[str, FactRef],
+    root: str,
+) -> str:
+    return svg.arc_chart(
+        afford_arc_points(comparison, ids, index, root), "hours of work to afford", falling=False,
+    )
 
 
 def _format_hours(hours: float) -> str:
@@ -210,6 +222,9 @@ def project_affordability_dashboard(
             zero_baseline=metric.zero_baseline,
         )
         sections.append(
-            AffordabilityDashboardSection(metric=metric, chart=Markup(chart), note=note)
+            AffordabilityDashboardSection(
+                metric=metric, chart=Markup(chart), note=note,
+                tables=metric_tables(metric, values, markers, series, "../"),
+            )
         )
     return AffordabilityPage(sections=tuple(sections), recession_url=recession_url)

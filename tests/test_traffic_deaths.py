@@ -106,8 +106,8 @@ def test_absolute_deaths_really_did_not_fall_like_the_rate() -> None:
     )
 
 
-def test_the_thin_1900_exposure_is_disclosed() -> None:
-    """A rate resting on 36 deaths must not be presented like the rest."""
+def test_the_1900_historical_estimate_is_caveated() -> None:
+    """The rate alone does not independently establish its exposure or count."""
     card = _facts()["1900s"]
-    assert "36" in card.notes  # type: ignore[attr-defined]
-    assert "back-cast" in card.notes or "estimate" in card.notes  # type: ignore[attr-defined]
+    assert "historical series" in card.notes  # type: ignore[attr-defined]
+    assert "earlier estimates have limitations" in card.notes  # type: ignore[attr-defined]

@@ -8,8 +8,11 @@ parsed data in.
 
 from __future__ import annotations
 
+from typing import assert_never
+
 from vitrine import money
-from vitrine.series import Series
+from vitrine.model import SeriesKind
+from vitrine.series import Series, representation_problems
 from vitrine.site import curation, svg
 from vitrine.site.projections.facts import FactRef, placard_href
 
@@ -17,11 +20,18 @@ from vitrine.site.projections.facts import FactRef, placard_href
 def series_numeric(s: Series) -> dict[int, float]:
     """A series's values in canonical units: major units for monetary series
     (values_minor scaled by the currency's minor digits — cents for USD, whole
-    yen for JPY), raw floats otherwise (CPI index, hours)."""
-    if s.values_minor:
-        minor_digits = money.get(s.currency).minor_digits
-        return {y: v / (10**minor_digits) for y, v in s.values_minor.items()}
-    return dict(s.values)
+    yen for JPY). Monetary rates already use major currency units per their
+    explicit time basis; quantities keep their own units."""
+    if problems := representation_problems(s):
+        raise ValueError(f"series {s.id!r}: {'; '.join(problems)}")
+    match s.kind:
+        case SeriesKind.MONETARY_AMOUNT:
+            minor_digits = money.get(s.currency).minor_digits
+            return {y: v / (10**minor_digits) for y, v in s.values_minor.items()}
+        case SeriesKind.QUANTITY | SeriesKind.MONETARY_RATE:
+            return dict(s.values)
+        case _ as unreachable:
+            assert_never(unreachable)
 
 
 def resolve_metric(
@@ -42,6 +52,25 @@ def resolve_metric(
     if metric.base_year is not None and metric.percent:
         return {}, "metric sets both base_year and percent (mutually exclusive)"
 
+    # Monetary operands must stay within one currency across both chains.
+    # A currency-free index (e.g. CPI) may still deflate monetary earnings.
+    currencies = {
+        series[sid].currency
+        for sid in (*metric.numerator, *metric.denominator)
+        if sid in series and series[sid].currency
+    }
+    if len(currencies) > 1:
+        raise ValueError(
+            f"metric {metric.slug!r}: currency mismatch {sorted(currencies)} — "
+            "annual ratios must stay within one currency"
+        )
+    for side, ids in (("numerator", metric.numerator), ("denominator", metric.denominator)):
+        dimensions = {(series[sid].kind, series[sid].rate_basis) for sid in ids if sid in series}
+        if len(dimensions) > 1:
+            raise ValueError(
+                f"metric {metric.slug!r}: {side} chain changes numeric kind or rate_basis"
+            )
+
     num: dict[int, float] = {}
     for sid in metric.numerator:
         if sid not in series:
@@ -58,7 +87,14 @@ def resolve_metric(
     for sid in metric.denominator:
         if sid not in series:
             return {}, f"denominator series {sid!r} not found"
-        den.update(series_numeric(series[sid]))
+        new_vals = series_numeric(series[sid])
+        overlap = set(den) & set(new_vals)
+        if overlap:
+            return {}, (
+                f"denominator series {sid!r} overlaps {sorted(overlap)} with an "
+                f"earlier denominator series — merge is ambiguous"
+            )
+        den.update(new_vals)
 
     years = sorted(set(num) & set(den))
     if not years:
@@ -108,7 +144,9 @@ def metric_markers(
                 tier=fact.tier.value,
                 label=fact.label,
                 value=fact.value,
-                quantity=fact.quantity,
+                quantity=arc.quantity_for(decade, fact.quantity),
+                period=str(fact.price_year) if fact.price_year else decade,
+                approximate_position=fact.price_year is None,
             )
         )
     return tuple(markers)

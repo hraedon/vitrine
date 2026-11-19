@@ -1,4 +1,11 @@
-# Verification Log — evidence of source-checked facts
+# Historical verification working log
+
+> The remaining-record audit (Plan 034) found wrong columns, mixed
+> populations and an adjustment to force rounded shares to sum to one hundred
+> in this log. Earlier "verified" labels are not current source certification.
+> Read the pinned publisher evidence and dated audit reports; do not reuse these
+> notes as the truth path. The log is retained to explain earlier authorship,
+> not to endorse the methods or claims subsequently corrected.
 
 This file is the evidence ledger for Plan 008. Every verification produces an
 entry here: what was checked, against what source, by what method, and the

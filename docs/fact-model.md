@@ -24,7 +24,7 @@ The atomic exhibit unit. One claim, one source, one tier.
 | `assumptions` | list[str] | Ids resolving into `data/assumptions.toml` |
 | `amount_minor` | int? | Structured value in integer minor units (cents) — no float drift |
 | `currency` | str | ISO 4217 code, e.g. `"USD"`; required iff `amount_minor` is set. Must be registered in `vitrine.money.CURRENCIES` — an unknown code is a red `vitrine check`. `vitrine.money` also formats amounts per-currency; **no FX** — the museum never converts between currencies as a truth-path number. |
-| `price_year` | int? | Year the amount is quoted in |
+| `price_year` | int? | Year of the amount; also the legacy observation-year field for non-monetary chart markers |
 | `basis` | Basis? | What the amount is measured against (closed set, below); required iff `amount_minor` is set |
 | `quantity` | float? | Headline non-monetary numeric for chart projection (a percentage, hours, a rate); must appear verbatim in `value` — gate-enforced |
 
@@ -36,12 +36,40 @@ axis (see `src/vitrine/affordability.py`) and cross-decade comparators. A fact
 with no structured amount still renders; it just carries no derived
 affordability figure.
 
+The field name `price_year` predates non-monetary charts. Plan 007 also uses
+it to place a rate or other quantity at its observed year. Such a record has
+no monetary amount or affordability result. Keep a verified observation year:
+removing it would place the marker at an illustrative mid-decade position.
+
+The gate also requires a structured monetary amount to occur as a complete
+currency-marked number in the display value after conversion from minor units.
+Factory sales counts and wholesale totals therefore cannot hide an unexplained
+per-car price that feeds affordability. A source-bound `round` operation targeting
+`amount_minor` may retain the more precise published rate in the display; its
+current audit, original source operand in the display, disclosed method and
+rounding rule remain mandatory. This checks
+visibility and replay, rather than certifying the economic meaning of a price.
+
 `quantity` (Plan 007) extends the same additional-never-a-replacement pattern
 to non-monetary numerics: it is the one number a chart mark may project from
 this fact (a diffusion percentage, weekly hours, a mortality rate). The gate
-enforces that the quantity appears verbatim in `value` — it is a transcription
-of the displayed datum, so the chart cannot drift from the placard. A fact
-whose `value` carries no single honest headline number (a multi-series string,
+enforces that an approved rendering of the quantity appears as a complete numeric
+token in `value` — it is a transcription of the displayed datum, so the chart
+cannot drift from the placard. The existing spellings are Python `g` formatting
+(six significant digits), plus plain and comma-grouped integers. An explicit
+positive sign and trailing decimal zeros preserve display precision (`36.00`,
+`12.300`). Precision normalization requires a single decimal point, an integer
+part and fractional digits: malformed `1.5.0` cannot become `1.5`. No arithmetic,
+locale conversion, tolerance or alternate scientific spelling is inferred. For
+example, `1` cannot be supplied by `21%` or `1e+06`,
+and positive `5` cannot be supplied by `-5%` or `1.5%`.
+
+Dash-joined numeric ranges and ambiguous adjoining signs or numeric punctuation
+are conservative non-matches, rather than a choice of endpoint or an inferred
+sign. Ordinary prose punctuation and currency/unit delimiters remain supported.
+This check proves appearance in the placard, not correctness of the cited source
+or which of several independent numbers is the headline; those remain editorial
+review. A fact whose `value` carries no single honest headline number (a multi-series string,
 a range) simply has no `quantity`, and charts render it as the gap it is.
 
 A fact whose honest value is "the record is silent" is written with
@@ -64,7 +92,7 @@ An entry in the global registry `data/sources.toml`.
 | `id` | str | Stable slug, e.g. `census-p60-hist-f8` |
 | `title` | str | Full citation title |
 | `publisher` | str | Census Bureau / BLS / GUS / NBS / IPUMS / scholar |
-| `year` | int | Publication year of the source document |
+| `year` | int | Publication year of the source document; zero for an undated source (renders as "undated"). A model/observation year is not substituted for a missing publication date. |
 | `url` | str | Where a visitor can verify (stable/archival link preferred) |
 | `population` | str | **Who was actually measured** — the anti-composite field |
 | `notes` | str | Access date, edition, table number, caveats |
@@ -181,7 +209,7 @@ unhandled site.
 | `A` | Official statistical series for the stated population | Census P-60 median family income, 1947→ |
 | `B` | Official microdata; statistic computed by this project | IPUMS 1940 census extract |
 | `C` | Reconstruction from contemporaneous surveys of a proxy population | 1901 BLS cost-of-living survey |
-| `D` | Scholarly estimate or narrative; no contemporaneous survey | Soviet-era living-standards reconstructions |
+| `D` | Scholarly estimate or reconstruction, with method and limitations disclosed | Historical estimates assembled from incomplete or indirectly weighted evidence |
 
 Tiering rule: when in doubt, tier down and say why in `notes`.
 
@@ -252,9 +280,13 @@ The gate loads everything under `data/` and fails on any of:
 4. Empty `label`, `value`, `unit`, or (on sources) `population`.
 5. A source registered but with an empty `url` (facts must be verifiable).
 6. Malformed tier/panel values (rejected at parse — the enums are the schema).
-7. (Once the renderer lands) render coverage: the set of facts rendered must
-   equal the set of facts checked — nothing displayed that wasn't gated,
-   nothing curated that silently vanished.
+7. Render coverage: the build manifest must name exactly the curated facts,
+   and each canonical room inventory must contain exactly one record row for
+   every authored fact and derived exhibit belonging to that room. Missing
+   room pages, omitted rows, borrowed rows and duplicate rows fail. Modal
+   copies and highlights cannot stand in for a missing inventory record.
+   This checks row presence and membership, not full semantic or visual
+   equivalence of the HTML to the source.
 8. A declared `wage_anchor`/`income_anchor` whose source declares no `measure`,
    or whose measure sits on the wrong axis (a wage anchor measuring an income
    concept, or vice versa). You cannot divide by a denominator without saying
@@ -316,8 +348,12 @@ an object was historically absent.
 An audit may add `calculation = { op, operands, precision, rounding, method }`.
 The main `locator` is the first operand; `operands` lists subsequent addresses
 in the same pinned source file. `mean` computes their arithmetic mean;
-`pct_of` computes the first divided by the second, multiplied by one hundred.
-Only a positive percentage denominator is accepted. `precision` is the number
+`pct_of` computes the first divided by the second, multiplied by one hundred;
+`ratio` divides without percentage scaling. Both require a positive denominator.
+`round` accepts one source value and applies the declared display rounding;
+it is used where a subcent source rate supplies an explicitly rounded monetary
+anchor, while the original published rate remains visible.
+`precision` is the number
 of decimal places (zero through eight), and `rounding` is explicitly
 `half_even` or `half_up`. `method` records the population, aggregation and
 rounding rationale. The rounded result is scaled into the target unit last.
@@ -341,3 +377,30 @@ Research holdings, focused exhibits and guided rooms express a curation
 choice. A record count does not grant confidence or imply a matched household.
 The Japan thematic collection selects dated observations while keeping their
 source populations separate and all decade records accessible.
+
+### Annual monetary rates
+
+Annual series distinguish three numeric representations (`SeriesKind`):
+non-monetary `quantity` observations in `values`; `monetary_amount`
+observations in integer `values_minor`; and `monetary_rate` observations in
+`values`, expressed in major currency units per `rate_basis`.
+
+A rate declaration requires `kind = "monetary_rate"`, a registered `currency`
+and a `rate_basis` of `hourly`, `weekly`, `monthly` or `annual`. `total` is
+invalid for a rate. This retains subcent annual means without rounding them
+to integer cents. Ordinary quantities still cannot declare a currency.
+Existing amount and quantity files may omit `kind`: their storage determines
+it. The normalized `Series.kind` property derives it from storage and rate
+metadata; validation rejects empty/mixed maps and contradictory metadata
+before projection or export. No prose-unit parsing invents a classification.
+
+Annual metrics cannot mix currencies. Each merged numerator or denominator
+chain preserves its numeric kind and rate basis.
+Their explicit numerator scale still owns conversions such as weekly rates
+times a full year; time basis never implies observed annual employment.
+Splices preserve currency, kind and rate basis. Inflation and threshold-count
+derivations reject both kinds of money. Rate/fact drift checks compare only
+matching currency/time bases using the currency registry's scale and half a
+minor unit of display-rounding tolerance. The three existing USD earnings
+series retain every numeric observation; their generators emit the same
+explicit metadata. JSON export version 2 records the new representation.

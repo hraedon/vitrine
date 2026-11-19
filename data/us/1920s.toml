@@ -18,7 +18,7 @@ value = "no reliable record accessible online"
 unit = "n/a"
 source = "census-hist-income-families"
 tier = "D"
-notes = "No national income survey before 1947. Manufacturing wages provide a proxy: $0.55/hr, ~47.4 hrs/week in 1920 ($26.02/week, ~$1,353/yr). By 1929: wages were similar in nominal terms but real wages had risen due to deflation. The NBER and Simon Kuznets produced retrospective national income estimates for the 1920s, but these are aggregate, not family-level."
+notes = "A suitable decade-specific national median family income has not been verified for this room."
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -31,7 +31,7 @@ value = "45.6%"
 unit = "% of occupied dwelling units (owner-occupied)"
 source = "census-homeownership-historical"
 tier = "A"
-notes = "From Census Bureau decennial time series (owner.pdf). The low point of the early-century decline. Homeownership had been falling since 1900 (46.7%) as urbanization and renting increased. The 1920s boom would start the recovery."
+notes = "The Census historical homeownership series reports 45.6% of occupied housing units owner-occupied in 1920."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -42,7 +42,7 @@ value = "no reliable record accessible online"
 unit = "n/a"
 source = "census-decennial-pubs"
 tier = "D"
-notes = "No Census of Housing until 1940. Urban electrification was spreading rapidly in the 1920s; by 1930, ~85% of urban/non-farm homes had electricity. Rural electrification remained minimal (~11% of farms by 1935). Indoor plumbing was standard in new urban construction but rare in rural areas."
+notes = "Suitable decade-specific measures of rooms, plumbing, and heating have not been transcribed for this room."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -52,9 +52,9 @@ panel = "day"
 label = "Life expectancy at birth, 1919-21"
 value = "56.3 male, 58.5 female (white)"
 unit = "years"
-source = "hist-stats-colonial-1970"
+source = "hist-stats-life-expectancy-white"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series B 116-117 (white population, at birth). Up from 50.2/53.6 in 1909-11 — a gain of ~6 years in a decade. The 1920s would see further gains as public health measures (clean water, sanitation) expanded. By 1929-31: 59.1 male, 62.7 female."
+notes = "Period life expectancy at birth for the white population, by sex, 1919–21. Coverage: the 1920 death-registration area: 34 states and the District of Columbia."
 
 [[fact]]
 id = "us-1920s-manufacturing-wages"
@@ -68,7 +68,7 @@ amount_minor = 55
 currency = "USD"
 price_year = 1920
 basis = "hourly"
-notes = "From Historical Statistics Vol 1, Series D 802-804 (all manufacturing). Hourly: $0.55 (55 cents, exact), weekly hours: 47.4, weekly earnings: $26.02. By 1925: $0.54/hr, 44.5 hrs/week, $24.11/wk. By 1929: $0.56/hr, 44.2 hrs/week, $24.76/wk. The 1920s saw flat nominal wages but rising real wages (deflation) and shorter hours."
+notes = "Historical Statistics Series D 802–804 reports average hourly earnings, weekly hours, and weekly earnings of manufacturing production workers in 1920."
 assumptions = ["nominal-values", "manufacturing-wage-proxy"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
@@ -77,21 +77,23 @@ assumptions = ["nominal-values", "manufacturing-wage-proxy"]
 id = "us-1920s-telephone"
 panel = "diffusion"
 label = "Telephone diffusion, 1920s"
-value = "~33 per 1,000 population (1925)"
+value = "144.6 per 1,000 population (1925)"
 unit = "telephones per 1,000 population"
-source = "hist-stats-colonial-1970"
+source = "hist-stats-telephones-r1-r3"
 tier = "A"
-notes = "From Historical Statistics Vol 2, Series R 1-2. In 1925: ~33 per 1,000 population (~14.4 million total phones). Household percentage not directly reported until 1944. The 1920s saw rapid telephone expansion — the Bell System nearly tripled its subscriber base."
+quantity = 144.6
+audit = { file = "remaining-audit-20261028/early_us-telephone-extract.json", extractor = "json-pointer", locator = "/rows/1925/per_1000_population", target = "quantity", guards = [{ locator = "/source_sha256", value = "0e209a421af0cf48af7261f6fbd7a599c27a0afce5b7523f2bc89a7d18647fa5" }, { locator = "/series", value = "R 1–12" }, { locator = "/population", value = "Telephone instruments and extensions per total population" }] }
+notes = "Historical Statistics Series R 2, 1925. Telephones are instruments and extensions per 1,000 people, including business instruments; through 1930 the count also includes telegraph and teletypewriter stations, and through 1934 private-line telephones."
 
 [[fact]]
 id = "us-1920s-radio-automobile"
 panel = "diffusion"
-label = "Radio and automobile, 1920s"
-value = "Radio: commercial broadcasting began 1920, ~40% of households by 1930. Automobile: ~26M registrations by 1930."
-unit = "n/a"
-source = "hist-stats-colonial-1970"
+label = "Motor vehicle registrations, 1930"
+value = "26,749.8 thousand motor vehicles; 23,034.7 thousand automobiles"
+unit = "thousands of registered vehicles"
+source = "hist-stats-auto-factory-q148"
 tier = "A"
-notes = "From Historical Statistics Vol 2. Commercial radio began with KDKA (Pittsburgh) in November 1920. By 1930, ~40% of households had a radio — one of the fastest technology diffusions in history. Automobile registrations: 1910: ~458K, 1920: ~8.1M, 1930: ~26.7M. The Model T (1908-1927) made car ownership accessible to the middle class."
+notes = "Historical Statistics Series Q 152–155 reports total motor vehicles and the automobile component in 1930."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
@@ -103,7 +105,7 @@ value = "no reliable record accessible online"
 unit = "n/a"
 source = "bls-bulletin-49-1903"
 tier = "D"
-notes = "No consumer expenditure survey for the 1920s. The 1918-19 wartime study and the 1934-36 study bracket the decade. BLS retail food price data exists for the 1920s but not in a household basket format."
+notes = "A suitable food basket for this decade remains untranscribed."
 
 [[fact]]
 id = "us-1920s-cigarette-consumption"
@@ -115,7 +117,7 @@ unit = "cigarettes per adult (≥18 years) per year"
 price_year = 1920
 source = "cdc-mmwr-tobacco-surveillance"
 tier = "A"
-notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Cigarette smoking became mainstream in the 1920s. Consumption more than quadrupled from 151 in 1910. Total U.S. consumption was 44.6 billion cigarettes in 1920."
+notes = "Estimated manufactured cigarette consumption per person aged 18 or older, from CDC MMWR Table 1. Total and per-capita measures have different overseas-military coverage in some years. The numerator is total manufactured-cigarette consumption; dividing by the population aged eighteen and older does not restrict the numerator to cigarettes smoked by adults."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -139,7 +141,7 @@ unit = "deaths per 100 million vehicle-miles travelled"
 price_year = 1920
 source = "fhwa-fi200-2023"
 tier = "A"
-notes = "Twelve thousand people a year were being killed by then. The rate was already falling, because travel was growing faster than the toll."
+notes = "FHWA FI-200 reports motor-vehicle traffic fatalities per 100 million vehicle-miles in 1920. The table is a historical series and its earlier estimates have limitations."
 assumptions = ["composite-family"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
@@ -152,21 +154,17 @@ value = "no reliable record accessible online"
 unit = "n/a"
 source = "hist-stats-colonial-1970"
 tier = "D"
-notes = "No national median family income figure exists for this decade, so a share-of-income comparison cannot be computed. The hourly manufacturing-wage anchor does support hours-to-afford calculations for the priced records that follow."
+notes = "A suitable decade-specific median family income has not been verified for a share-of-income comparison."
 
 [[fact]]
 id = "us-1920s-car-price"
 panel = "work-buys"
-label = "Average new car price, 1920"
-value = "~$949 (average wholesale, computed from factory sales)"
-unit = "USD, nominal (wholesale value per passenger car)"
-source = "hist-stats-colonial-1970"
+label = "Passenger-car factory sales, 1920"
+value = "1,905,500 passenger cars; wholesale value $1,809 million"
+unit = "factory sales and wholesale value, nominal"
+source = "hist-stats-auto-factory-q148"
 tier = "A"
-amount_minor = 94900
-currency = "USD"
-price_year = 1920
-basis = "total"
-notes = "Computed from Historical Statistics, Series Q 148-162. 1920: 1,905,500 passenger cars sold at $1,809 million wholesale value = ~$949 average per car. The Model T (1908-1927) drove prices down — by 1920 a new Model T cost ~$395 (retail), but the average wholesale across all cars was higher due to luxury models. Wholesale value; retail/transaction price would be higher. Population: all US factory sales of passenger cars."
+notes = "Historical Statistics Series Q 148–149 reports passenger cars sold by factories and their wholesale value in 1920; the figures are not retail prices."
 assumptions = ["nominal-values"]
 
 
@@ -186,7 +184,7 @@ value = "44.5"
 unit = "hours per week, prime-age women (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+notes = "Ramey Table 6A estimates average weekly home-production hours for all women aged 18–64 in 1920. Some estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -198,18 +196,18 @@ value = "3.9"
 unit = "hours per week, prime-age men (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+notes = "Ramey Table 7 estimates average weekly home-production hours for all men aged 18–64 in 1920. Some estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1920s-home-production-components"
 panel = "day"
-label = "How a 1920s housewife's week broke down (Wilson study)"
-value = "Food prep 19.9, house cleaning 9.3, clothing care 11.5, childcare 7.2, purchasing/mgmt/travel 4.4 hrs/week"
-unit = "hours per week by activity category, nonemployed town housewives"
+label = "Home-production hours among town housewives"
+value = "Food preparation 19.9, care and cleaning of house and grounds 9.3, care of clothing 11.5, care of children and adults 7.2, purchasing, management, travel and other 4.4 hours/week"
+unit = "hours per week by activity category, town housewives"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 3, '1920s Town Housewives, Wilson Study' column. Total home production: 52.4 hrs/week. Wilson's time-diary study (conducted ~1920s, published 193-). For comparison, 1965 housewives (AHTUS) spent less on food prep (16.5) and clothing care (6.9) but more on purchasing/management/travel (10.4) — market substitution shifted time between categories, not eliminated it. Farm housewives (USDA 1944) spent even more on food prep (23.5 hrs) due to preservation and from-scratch cooking."
+notes = "Ramey Table 3 reports the Wilson study’s 1920s town-housewife estimates; categories have the source definitions shown."
 assumptions = ["composite-family"]
 
 # ── Married women's labor force participation ─────────────────────────────
@@ -218,12 +216,12 @@ assumptions = ["composite-family"]
 id = "us-1920s-married-women-lfpr"
 quantity = 9.0
 panel = "day"
-label = "Married women's labor force participation, 1920"
+label = "Married women in the labor force"
 value = "~9.0%"
-unit = "% of married women (husband present) in the civilian labor force"
-source = "hist-stats-colonial-1970"
+unit = "% of married women aged 15 and older"
+source = "hist-stats-married-women-lfpr-early"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series D 49-62. Down from ~10.7% in 1910 (the 1910 figure had enumerator-instruction issues; this 1920 figure is more reliable). Total female LFPR was 23.7%. The 'flapper' era saw more women working, but married women with husbands present remained mostly at home."
+notes = "Historical Statistics Series D 60 reports married women total in the civilian labor force as a percentage of married women aged 15 and older. The historical gainful-worker and modern labor-force measures are not identical."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────
@@ -237,7 +235,7 @@ value = "Men: 24.6, Women: 21.2"
 unit = "years (median age at first marriage)"
 source = "census-table-ms2"
 tier = "A"
-notes = "From Census Table MS-2. Decennial census. Both men and women marrying slightly younger than in 1910. The 1920s prosperity made earlier family formation possible."
+notes = "Estimated median age at first marriage, separately for men and women, from Census Table MS-2. The table identifies the historical figures as decennial-census estimates."
 
 # ── Net worth (aggregate household sector) ────────────────────────────────
 
@@ -250,7 +248,7 @@ value = "$406 billion"
 unit = "aggregate net worth of nonfarm household sector, current dollars"
 source = "goldsmith-balance-sheet"
 tier = "D"
-notes = "From Goldsmith, Lipsey & Mendelson (1963), Table 1, Sector I.1 (Nonfarm households). Total assets: $448B. Tangible assets: $158B. Financial assets: $291B. Debt: $42B. Net worth: $406B. The 1920s boom inflated financial assets to 65% of total — stocks and securities surged. After the 1929 crash, net worth would fall to $341B by 1939 (−16%). Aggregate — NOT median."
+notes = "Goldsmith Table 1 estimates the aggregate net worth of nonfarm households in 1929. This is not a household median."
 
 # ── Price components: the decade food and rent moved in opposite directions ─
 
@@ -263,7 +261,8 @@ value = "16.5 in 1929, down from 21.0 in 1920"
 unit = "CPI-U food index (1982-84=100), annual average"
 source = "bls-api"
 tier = "A"
-notes = "BLS series CUUR0000SAF1. The postwar collapse was abrupt: food fell from 21.0 in 1920 to 15.9 in 1921, a 24% drop in a single year, and never regained its wartime peak — 16.5 by 1929. For a family, the 1920s were a decade in which eating got cheaper while the rent did not (rent rose 17% over the same span). The often-told story of 1920s prosperity is usually an income story; on the price side the decade was deflationary."
+audit = { file = "remaining-audit-20261028/early_us-cpi-annual-extract.json", extractor = "json-pointer", locator = "/values/CUUR0000SAF1/1929", target = "quantity", guards = [{ locator = "/values/CUUR0000SAF1/1920", value = "21.0" }, { locator = "/period", value = "M13" }, { locator = "/population", value = "CPI-U U.S. city average" }, { locator = "/seasonality", value = "Not Seasonally Adjusted" }, { locator = "/original_sha256/bls-cpi-annual-1913-1929.json", value = "68290db70bebfdc3d071602f8d2d4c947aa6377e9ef3a310fedd1e1fbc597715" }, { locator = "/original_sha256/bls-cpi-annual-1930-1939.json", value = "fd3f869ca3b15fc26d236d4830065a4defed004fb6c049abb56af094eb2ba8a7" }] }
+notes = "BLS CUUR0000SAF1 annual averages for food in the U.S. city average. The index measures price change, not household expenditure or affordability."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -275,7 +274,8 @@ value = "32.1 in 1929, up from 27.4 in 1920"
 unit = "CPI-U rent-of-primary-residence index (1982-84=100), annual average"
 source = "bls-api"
 tier = "A"
-notes = "BLS series CUUR0000SEHA. Rent kept rising for five years after other prices crashed, peaking at 34.6 in 1925 — the wartime housing shortage worked its way through leases and construction with a long lag — before easing to 32.1 by 1929. Across the decade rent rose 17% while food fell 21%: shelter took a visibly larger share of the household budget in 1929 than in 1920, without any change in what the family occupied."
+audit = { file = "remaining-audit-20261028/early_us-cpi-annual-extract.json", extractor = "json-pointer", locator = "/values/CUUR0000SEHA/1929", target = "quantity", guards = [{ locator = "/values/CUUR0000SEHA/1920", value = "27.4" }, { locator = "/period", value = "M13" }, { locator = "/population", value = "CPI-U U.S. city average" }, { locator = "/seasonality", value = "Not Seasonally Adjusted" }, { locator = "/original_sha256/bls-cpi-annual-1913-1929.json", value = "68290db70bebfdc3d071602f8d2d4c947aa6377e9ef3a310fedd1e1fbc597715" }, { locator = "/original_sha256/bls-cpi-annual-1930-1939.json", value = "fd3f869ca3b15fc26d236d4830065a4defed004fb6c049abb56af094eb2ba8a7" }] }
+notes = "BLS CUUR0000SEHA annual averages for rent of primary residence in the U.S. city average. The index measures price change, not household expenditure or affordability."
 assumptions = ["composite-family"]
 
 # ── Plan 027 WI-8: children and work ──────────────────────────────────────

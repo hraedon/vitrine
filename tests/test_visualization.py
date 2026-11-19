@@ -164,9 +164,9 @@ def test_index_matrix_counts_match_the_corpus(site: Path, corpus: Corpus) -> Non
     html = (site / "index.html").read_text()
     for row in rows:
         assert f'href="rooms/{row.slug}.html"' in html
-    assert f'<b>{totals.facts - totals.gaps}</b> observations' in html
+    assert f'<b>{totals.facts - totals.gaps}</b> sourced records' in html
     assert f'<dd>{totals.computed}</dd>' in html
-    assert "Observation counts exclude documented gaps" in html
+    assert "Sourced-record counts exclude documented gaps" in html
 
 
 def test_lobby_distinguishes_full_collection_from_comparative_wing(
@@ -406,7 +406,7 @@ def test_placards_lead_with_evidence_hierarchy(site: Path) -> None:
     html = (site / "rooms" / "us-1950s.html").read_text()
     assert "Population measured" in html
     assert "Source record" in html
-    assert "observed record" in html
+    assert "sourced record" in html
     assert "Open source record" in html
 
 
@@ -562,9 +562,17 @@ def test_chart_deep_links_resolve(site: Path) -> None:
     Click targets are now in-page overlays (``#fact-id--modal``); the deep link
     to the room placard is preserved as the fallback path when a path is given.
     """
+    scans: dict[Path, _Scanner] = {}
+
+    def scan(path: Path) -> _Scanner:
+        resolved = path.resolve()
+        if resolved not in scans:
+            scans[resolved] = _scan(resolved)
+        return scans[resolved]
+
     for page in [site / "corridors" / "index.html", site / "walkthrough.html"]:
         base = page.parent
-        for href in _scan(page).hrefs:
+        for href in scan(page).hrefs:
             if (
                 "#" not in href
                 or href.startswith("http")
@@ -574,11 +582,11 @@ def test_chart_deep_links_resolve(site: Path) -> None:
             path, _, anchor = href.partition("#")
             if not path:
                 # in-page CSS-only overlay anchor; must exist on the same page
-                assert anchor in _scan(page).anchor_ids, f"{page.name}: dead overlay anchor {href}"
+                assert anchor in scan(page).anchor_ids, f"{page.name}: dead overlay anchor {href}"
                 continue
             target = (base / path).resolve()
             assert target.is_file(), f"{page.name}: dead link {href}"
-            assert anchor in _scan(target).anchor_ids, f"{page.name}: dead anchor {href}"
+            assert anchor in scan(target).anchor_ids, f"{page.name}: dead anchor {href}"
 
 
 def test_modal_close_target_preserves_position(site: Path) -> None:
@@ -735,10 +743,10 @@ def test_budget_composition_exposes_folded_categories(site: Path) -> None:
     corridor = (site / "corridors" / "index.html").read_text()
     assert 'class="composition-key"' in corridor
     assert "Inspect the folded categories" in corridor
-    assert "fuel &amp; light 5.25%" in corridor
-    assert "liquor/sickness/amusements 14.51%" in corridor
+    assert "fuel and light 5.25%" in corridor
+    assert "specified other purposes 14.51%" in corridor
     # The same breakdown rides in the SVG's native hover/focus tooltip.
-    assert "other: 30.47% — 1900s (fuel &amp; light 5.25%" in corridor
+    assert "other: 30.47% — 1900s (fuel and light 5.25%" in corridor
 
 
 def test_wage_budget_illustration_keeps_separate_populations(
@@ -847,8 +855,8 @@ def test_transport_note_is_right_anchored_inside_stage(site: Path) -> None:
 
 def test_sparse_japan_leads_with_observations_not_an_empty_house(site: Path) -> None:
     html = (site / "rooms/jp-1950s.html").read_text()
-    assert '<dt>Recorded observations</dt><dd>2</dd>' in html
-    assert '<dt>Calculated exhibits</dt><dd>0</dd>' in html
+    assert '<dt>Sourced records</dt><dd>2</dd>' in html
+    assert '<dt>Derived exhibits</dt><dd>0</dd>' in html
     assert '<dt>Documented gaps</dt><dd>5</dd>' in html
     assert 'class="house"' not in html
     assert "The complete room" not in html

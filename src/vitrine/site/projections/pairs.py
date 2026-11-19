@@ -22,7 +22,7 @@ from vitrine.site.context import (
 )
 from vitrine.site.projections.affordability import afford_fact_ids
 from vitrine.site.projections.arcs import fold_shares
-from vitrine.site.projections.facts import FactRef, overlay_facts, placard_href
+from vitrine.site.projections.facts import GAP_PREFIX, FactRef, overlay_facts, placard_href
 
 
 def pair_families(
@@ -36,7 +36,14 @@ def pair_families(
         for decade in (a, b):
             fid = arc.fact_ids[decade]
             fact = index[fid].fact
-            gap = fact.quantity is None
+            excluded = decade in arc.plot_gaps
+            gap = arc.quantity_for(decade, fact.quantity) is None
+            if excluded:
+                text = "not comparable on this axis — open the archived record"
+            elif gap and not fact.value.strip().lower().startswith(GAP_PREFIX):
+                text = "no comparable value on this axis — open the archived record"
+            else:
+                text = fact.value
             cells.append(
                 PairCell(
                     decade=decade,
@@ -44,7 +51,7 @@ def pair_families(
                     href=placard_href(index, fid, root),
                     overlay_href=f"#{fid}--modal",
                     tier=fact.tier.value,
-                    text=fact.value if not gap else f"{fact.value} — see the placard",
+                    text=text,
                     gap=gap,
                 )
             )
@@ -128,15 +135,16 @@ def project_pair(
             overlay_ids.append(curation.COMPOSITIONS[decade])
             fact = index[curation.COMPOSITIONS[decade]].fact
             segments = fold_shares(fact, index, root)
-            if segments:
-                comp_rows.append(
-                    CompositionRow(
-                        bar=Markup(svg.composition_bar(decade, segments)),
-                        decade=decade,
-                        fact_id=curation.COMPOSITIONS[decade],
-                        segments=segments,
-                    )
+            comp_rows.append(
+                CompositionRow(
+                    bar=Markup(svg.composition_bar(decade, segments)) if segments else Markup(""),
+                    decade=decade,
+                    fact_id=curation.COMPOSITIONS[decade],
+                    segments=segments,
+                    gap=not segments,
+                    value=fact.value,
                 )
+            )
     families = pair_families(index, a, b, root)
     for fam in families:
         overlay_ids.extend(cell.fact_id for cell in fam.cells)

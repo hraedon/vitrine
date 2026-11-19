@@ -13,6 +13,10 @@ income_anchor = "us-1970s-median-income-four-person"
 
 [[fact]]
 id = "us-1970s-median-family-income"
+basis = "annual"
+price_year = 1970
+currency = "USD"
+amount_minor = 986700
 audit = { file = "06-acs-csv/f08ar.xlsx", extractor = "xlsx-cell", locator = "f08ar!C66", scale = "1", guards = [{ locator = "f08ar!A7", value = "All Families" }, { locator = "f08ar!A66", value = "1970" }, { locator = "f08ar!C8", value = "Median income" }, { locator = "f08ar!C9", value = "Current\ndollars" }] }
 panel = "budget"
 label = "Median family income, all families, 1970"
@@ -68,37 +72,36 @@ notes = "From Census F-8. Declining from 3.64 in 1947. By 1980: 3.27."
 [[fact]]
 id = "us-1970s-expenditure-shares"
 panel = "budget"
-label = "Expenditure breakdown, 4-person families, 1972-73"
-quantity = 26.0
-value = "Housing 26.0%, transportation 17.6%, food 17.1%, insurance/pensions 8.7%, entertainment 7.8%, healthcare 5.3%, apparel 6.4%, cash contributions 3.7%, education 1.5%"
+label = "Expenditure breakdown, four-person consumer units, 1972-73"
+value = "no reliable record verified for this comparison"
 unit = "% of total annual expenditure"
-source = "bls-cex"
-tier = "A"
-notes = "From the 1972-73 Consumer Expenditure Survey, Bulletin 1992, Table 2 (by family size). 10,668 thousand 4-person families. Total expenditures: $12,226 (current consumption $10,710 + personal insurance/pensions $1,063 + gifts/contributions $453). Income before taxes: $16,155. Expenditure = 76% of gross income. Source: BLS Bulletin 1992, Table 2, accessed via FRASER (fraser.stlouisfed.org)."
+source = "bls-cex-four-person-1972-73"
+tier = "D"
+notes = "The cited Bulletin 1992 Table 2 prints current consumption expenses separately from personal insurance/retirement/pensions and gifts/contributions. The previously displayed percentages used an undocumented constructed total rather than a publisher-printed total with a verified comparable definition. Those shares have been withdrawn pending an explicitly justified denominator. Literal food-category means remain available in us-1970s-food-basket. This is a verification gap, not proof that no expenditure data exist."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
 id = "us-1970s-cex-apparel-share"
 panel = "budget"
-label = "Apparel share of expenditure, four-person families, 1972-73"
-quantity = 6.4
-value = "6.4% of total expenditures"
+label = "Apparel share of expenditure, four-person consumer units, 1972-73"
+value = "no reliable record verified for this comparison"
 unit = "% of total annual expenditures"
-source = "bls-cex"
-tier = "A"
-notes = "From the 1972-73 Consumer Expenditure Survey, Bulletin 1992, Table 2 (by family size). 4-person families. Apparel and services: $782 of $12,226 total expenditure. Population differs from 2000s+ facts (all consumer units)."
+source = "bls-cex-four-person-1972-73"
+tier = "D"
+notes = "The cited Bulletin 1992 Table 2 prints current consumption expenses separately from personal insurance/retirement/pensions and gifts/contributions. The previously displayed percentages used an undocumented constructed total rather than a publisher-printed total with a verified comparable definition. Those shares have been withdrawn pending an explicitly justified denominator. Literal food-category means remain available in us-1970s-food-basket. This is a verification gap, not proof that no expenditure data exist."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1970s-poverty-rate"
+audit = { file = "remaining-audit-20261028/census-poverty-1970.json", extractor = "json-pointer", locator = "/1/1", target = "quantity", guards = [{ locator = "/0/0", value = "NAME" }, { locator = "/0/1", value = "PCTPOV" }, { locator = "/0/2", value = "POV" }, { locator = "/0/3", value = "POP" }, { locator = "/0/4", value = "PCTFAMPOV" }, { locator = "/0/5", value = "FAMPOV" }, { locator = "/0/6", value = "FAM" }, { locator = "/0/7", value = "YEAR" }, { locator = "/0/8", value = "RACE" }, { locator = "/0/9", value = "RACE" }, { locator = "/0/10", value = "time" }, { locator = "/0/11", value = "us" }, { locator = "/1/0", value = "United States" }, { locator = "/1/7", value = "1970" }, { locator = "/1/8", value = "1" }, { locator = "/1/9", value = "1" }, { locator = "/1/10", value = "1970" }, { locator = "/1/11", value = "1" }, { locator = "/1/2", value = "25420000" }] }
 quantity = 12.6
 panel = "budget"
 label = "Official poverty rate, 1970"
-value = "12.6% (25.5 million people in poverty)"
-unit = "% of all people below official poverty level"
+value = "12.6% (25.4 million people in poverty)"
+unit = "percent of people in the Census official-poverty universe"
 source = "census-poverty-historical"
 tier = "A"
-notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 12.6%. Family poverty: 10.9%. Down sharply from 22.4% (1959) — War on Poverty programs (Medicaid, food stamps, expanded Social Security) and economic growth cut poverty nearly in half."
+notes = "Census histpov2 all-race national row, retrieved for this source review. The people count is rounded once to one decimal million by the source qualifier. The API PCTFAMPOV is a percentage of people in families, not a percentage of family units. These descriptive rates do not identify causes; no family-unit rate is inferred from them."
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -111,7 +114,7 @@ value = "62.9%"
 unit = "% of occupied dwelling units (owner-occupied)"
 source = "census-homeownership-historical"
 tier = "A"
-notes = "From Census Bureau decennial time series (owner.pdf). Up from 61.9% in 1960."
+notes = "Census historical homeownership rate for 1970. The rate describes owner-occupied housing among occupied units."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -132,24 +135,26 @@ assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1970s-plumbing"
-quantity = 94
+audit = { file = "remaining-audit-20261028/world-middle-housing-extract.json", extractor = "json-pointer", locator = "/years/1970/plumbing/complete_count", target = "quantity", guards = [{ locator = "/publisher_sha256/plumbing-tab.txt", value = "56dcbdabfcdb340ccf23b988779725a3165b0e150d62795848a9ddd4b767132b" }, { locator = "/years/1970/plumbing/population_basis", value = "all year-round housing units" }], calculation = { op = "pct_of", operands = ["/years/1970/plumbing/total_reporting"], precision = 1, rounding = "half_up", method = "1970 Census reporting dwelling units: published complete count divided by all reporting count, times 100, rounded once to one decimal." } }
+assumptions = ["census-housing-source-count-shares"]
+quantity = 93.1
 panel = "home"
 label = "Complete plumbing facilities, 1970"
-value = "94% of homes had complete plumbing (6% lacked)"
-unit = "% of occupied housing units"
-source = "census-hist-housing-plumbing"
+value = "93.1% had complete plumbing facilities (6.9% lacked)"
+unit = "% of all year-round housing units reporting plumbing status"
+source = "census-hist-housing-plumbing-reporting"
 tier = "A"
-notes = "From Census Historical Housing Tables: Plumbing. Down from 17% lacking in 1960 to 6% lacking in 1970. By 1980: ~3% lacked."
+notes = "Census reported 67,656,566 year-round housing units. The complete share is computed from the printed complete and lacking counts, rounded once to one decimal. The source prints the lacking share separately."
 
 [[fact]]
 id = "us-1970s-heating-fuel"
 panel = "home"
 label = "House heating fuel, 1970"
-value = "Utility gas 55%, fuel oil/kerosene 26%, electricity 8%, bottled/LP gas 6%, coal 3%, wood 1%"
+value = "Utility gas 55.2%, bottled/LP gas 6.0%, electricity 7.7%, fuel oil/kerosene 26.0%, coal/coke 2.9%, wood 1.3%, other fuel 0.4%, no fuel 0.6%"
 unit = "% of occupied housing units reporting heating fuel"
 source = "census-hist-housing-fuels"
 tier = "A"
-notes = "From the 1970 Census of Housing. Gas was now the majority heating fuel at 55%. Coal was nearly eliminated at 3% (down from 55% in 1940). Electricity was rising (7.7%, up from 1.8% in 1960). Source: fuels1970.txt, www2.census.gov."
+notes = "Census historical housing table for 1970, occupied dwelling units reporting their main heating fuel. Percentages are as printed; categories may not sum to exactly 100% because of rounding."
 
 [[fact]]
 id = "us-1970s-median-home-size"
@@ -160,7 +165,7 @@ value = "1,525 sq ft (new construction)"
 unit = "median square feet of floor area, new single-family houses completed"
 source = "census-soc-new-housing"
 tier = "A"
-notes = "From the Census Bureau's Survey of Construction (C-25 annual report, Series H-150). 1973 is the first year of data. New-construction median was 1,525 sq ft — this is NOT the median of all existing homes (which would be smaller, as older stock persists). By 1980: 1,595 sq ft. The 2020s room shows 1,500 sq ft for the existing stock (AHS 2023) — new homes grew 60% from 1973 to 2024, but the existing stock median is lower because older, smaller homes remain."
+notes = "Census Survey of Construction reports the median floor area of new single-family houses completed in 1973. This is not a median for the existing housing stock."
 
 [[fact]]
 id = "us-1970s-median-gross-rent"
@@ -171,7 +176,7 @@ value = "$108/month"
 unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
 source = "census-hist-housing-rents"
 tier = "A"
-notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $71 in 1960. In 2000 dollars: $415/month."
+notes = "Census historical table reports the 1970 national median gross rent for specified renter-occupied units paying cash rent, in nominal dollars."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -180,11 +185,11 @@ id = "us-1970s-life-expectancy"
 quantity = 70.8
 panel = "day"
 label = "Life expectancy at birth, 1970"
-value = "67.1 male, 74.8 female (70.8 total, all races)"
+value = "67.1 male, 74.7 female (70.8 total, all races)"
 unit = "years"
 source = "nchs-nvss"
 tier = "A"
-notes = "From NCHS National Vital Statistics System (all races). Up from 66.6/73.1 in 1960. The white-only figure from Historical Statistics Vol 1 was 68.0/75.6 — the all-races figure is lower due to lower nonwhite life expectancy."
+notes = "NCHS National Vital Statistics Reports 56(10), 2008, Table 8: period life expectancy at birth, all races, 1970."
 
 [[fact]]
 id = "us-1970s-manufacturing-earnings"
@@ -194,11 +199,13 @@ value = "$8,150"
 unit = "USD per year, nominal (full-time equivalent)"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series D 740. Up from $3,302 in 1950. Manufacturing was still a major employer, but the 1970s would begin the long decline of US manufacturing employment."
+notes = "Historical Statistics Series D 740 reports average annual earnings per full-time equivalent employee in manufacturing in 1970."
 assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1970s-hourly-earnings"
+audit = { file = "remaining-audit-20261028/middle_bls_hourly_extract.json", extractor = "json-pointer", locator = "/1970", target = "quantity", guards = [{ locator = "/source_sha256", value = "576c7b81afc613cc4313644e367739c14c06f83dd003ea88c032ea1d835b305b" }, { locator = "/population", value = "Production or nonsupervisory workers on private nonagricultural payrolls" }, { locator = "/unit", value = "current dollars per hour" }] }
+quantity = 3.23
 panel = "day"
 label = "Average hourly earnings, production/nonsupervisory workers, 1970"
 value = "$3.23"
@@ -209,7 +216,7 @@ amount_minor = 323
 currency = "USD"
 price_year = 1970
 basis = "hourly"
-notes = "From BLS Bulletin 1312-12, Vol. II, p. 287, 'Average Hourly Earnings of Production or Nonsupervisory Workers on Private Nonagricultural Payrolls, TOTAL PRIVATE, in Current Dollars.' 1970 annual average: $3.23. Predecessor series to FRED AHETPI (which begins 1964)."
+notes = "BLS Bulletin 1312-12 reports average hourly earnings of production or nonsupervisory workers on private nonagricultural payrolls in 1970."
 assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency"]
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
@@ -223,10 +230,12 @@ value = "90.5%"
 unit = "% of households with telephone"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "From Historical Statistics Vol 2, Series R 3. 120,218 thousand total phones (583.4 per 1,000 population). Up from 78.3% in 1960. Telephone was nearly universal by 1970."
+notes = "Historical Statistics Series R 3 estimates households with telephones. This is a different measure from Series R 2, telephone instruments per 1,000 people."
 
 [[fact]]
 id = "us-1970s-telephone-census"
+audit = { file = "remaining-audit-20261028/world-middle-housing-extract.json", extractor = "json-pointer", locator = "/years/1970/telephone/with_phone_count", target = "quantity", guards = [{ locator = "/publisher_sha256/phone-tab.txt", value = "f0029b5ad7a1974e90d69e24f19584548a23c6343efdd033dee3f872f31e1a27" }, { locator = "/years/1970/telephone/population_basis", value = "occupied housing units reporting telephone status" }], calculation = { op = "pct_of", operands = ["/years/1970/telephone/total_reporting"], precision = 1, rounding = "half_up", method = "1970 occupied housing units reporting telephone status: with-phone count divided by total reporting, times 100, rounded once to one decimal." } }
+assumptions = ["census-housing-source-count-shares"]
 quantity = 87
 panel = "diffusion"
 label = "Telephone in housing unit, 1970"
@@ -234,21 +243,23 @@ value = "87.0% (13.0% without telephone)"
 unit = "% of occupied housing units with telephone"
 source = "census-hist-housing-phone"
 tier = "A"
-notes = "From the 1970 Census of Housing, Historical Census of Housing Tables: Telephones. Note: this figure (87.0%) differs from the Historical Statistics Vol 2 figure (90.5%) because the Census measures 'telephone in unit' (housing units) while Hist Stats measures 'households with telephone.' Up from 78.5% (1960), reaching 92.9% by 1980. Source: phone-tab.txt, www2.census.gov."
+notes = "Census historical telephone table, 1970: the share lacking telephone is printed for occupied units. The displayed share with telephone is calculated from source counts and rounded once. The measure is telephone in the unit."
 
 [[fact]]
 id = "us-1970s-air-conditioning"
+audit = { file = "remaining-audit-20261028/early_us-final-eia-extract.json", extractor = "json-pointer", locator = "/central/1978", target = "quantity", guards = [{ locator = "/source_sha256", value = "5c61b3b9dc35738fc92b0add2bea1797af37abe61f25af4bc7f6ab9585d09e11" }, { locator = "/both_systems", value = "central" }, { locator = "/population", value = "U.S. households" }] }
 quantity = 23
 panel = "diffusion"
 label = "Air conditioning, 1978 (first RECS)"
 value = "23% of households had central AC"
 unit = "% of households with central air-conditioning equipment"
-source = "eia-recs"
+source = "eia-recs-central-ac"
 tier = "A"
-notes = "From the 1978 RECS — the first Residential Energy Consumption Survey. 23% of households had central AC. Total AC (including window/wall units) was 56% (23% central + 33% window/wall); 44% had no AC. Verified via EIA Annual Energy Review, Table 2.6 ('Household End Uses: Fuel Types, Appliances, and Electronics, Selected Years, 1978-2009'), which republishes the 1978 RECS data with explicit source attribution: '1978 and 1979 — EIA, Form EIA-84, RECS.' Available at https://www.eia.gov/totalenergy/data/annual/xls/stb0206.xls. Trajectory: 17% central AC (1973 AHS) → 23% (1978 RECS) → 27% (1980 RECS) → 44% (1993 AHS). By 1993, total AC reached 68%. The 1978 RECS is the closest available data point for the decade."
+notes = "EIA reports that 23% of U.S. households had central air conditioning in 1978. Households with both central and window or wall units are counted under central."
 
 [[fact]]
 id = "us-1970s-vehicle-ownership"
+audit = { file = "remaining-audit-20261028/world-recent-vehicle-extract.json", extractor = "json-pointer", locator = "/years/1970/one_or_more_percent", scale = "1", guards = [{ locator = "/provenance", value = "Curator complement from pinned BTS Figure 2-6" }, { locator = "/years/1970/population", value = "occupied housing units" }] }
 quantity = 82.5
 panel = "diffusion"
 label = "Households with at least one vehicle, 1970"
@@ -256,23 +267,26 @@ value = "82.5% (17.5% with no vehicle)"
 unit = "% of occupied housing units with 1+ vehicles"
 source = "bts-vehicle-availability"
 tier = "A"
-notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1970). 17.5% had no vehicle, 47.7% had one, 29.3% had two, 5.5% had three or more. The CEX 1972-73 (Bulletin 1992, Table 1) reports a complementary figure: 80.1% of families had at least one automobile (avg 1.3 per family) — the difference reflects source (Census housing units vs CEX families) and timing (1970 vs 1972-73). This fact uses the BTS/Census figure for series consistency with other decades. By 1980: 87.1%. Population: all occupied housing units."
+notes = "BTS Figure 2-6 reports 17.5% of occupied housing units with no vehicle in 1970. The share with at least one is its complement; the source groups three or more vehicles together."
+assumptions = ["recent-vehicle-complement"]
 
 [[fact]]
 id = "us-1970s-appliance-ownership"
 quantity = 70.5
 panel = "diffusion"
 label = "Household appliance ownership, 1978"
-value = "Refrigerator 99.7%, color TV (NA in 1978), clothes washer 70.5%, clothes dryer 45.0%, dishwasher 34.6%, microwave 7.8%, freezer 35.2%"
+value = "Refrigerator 99.7%, color TV (NA in 1978), electric clothes washer 70.5%, electric clothes dryer 45.0%, dishwasher 34.6%, microwave 7.8%, freezer 35.2%"
 unit = "% of households with each appliance"
-source = "eia-aer-appliances"
+source = "statab-1990-electrical-appliances"
 tier = "A"
-notes = "From EIA Annual Energy Review 1988, Table 8.3 (republished in Census Bureau, USSR/USA Statistical Abstract 1990). Data sourced from RECS (Form EIA-84). 1978 is the first RECS survey. Refrigerator was already universal (99.7%). The microwave oven was just beginning its diffusion (7.8%). Compare 1960s: TV 91.4%, refrigerator 84.7%, washing machine 70.0%. The 1970s saw refrigerator reach saturation; color TV data starts in 1980 (82.1%)."
+notes = "The 1990 Statistical Abstract reports household appliance ownership in 1978 and 1980. The washer and dryer percentages refer to electric appliances; color television is unavailable for 1978."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-1970s-nhe-total"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1970/gdp_share", target = "quantity", guards = [{ locator = "/cms/1970/year", value = "1970" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 6.9
 panel = "table"
 label = "Healthcare spending, 1970"
@@ -280,10 +294,12 @@ value = "$74.1 billion (6.9% of GDP)"
 unit = "USD billions, nominal; NHE as % of GDP"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01. NHE: $74.1B. GDP: $1,073.3B. Per capita: $353. Medicare (enacted 1965) and Medicaid were now operational — health spending nearly tripled in a decade."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1970. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1970s-nhe-out-of-pocket-share"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1970/out_of_pocket", target = "quantity", guards = [{ locator = "/cms/1970/year", value = "1970" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }], calculation = { op = "pct_of", operands = ["/cms/1970/total"], precision = 1, rounding = "half_up", method = "Same-year out-of-pocket spending divided by total NHE, times one hundred." } }
+assumptions = ["cms-nhe-shares"]
 quantity = 32.7
 panel = "budget"
 label = "Out-of-pocket share of health spending, 1970"
@@ -291,10 +307,12 @@ value = "32.7% of national health expenditures paid out of pocket"
 unit = "% of total NHE"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02. Out of pocket: $24,208M of $74,077M total. Down from 47.1% in 1960 — Medicare and Medicaid shifted costs to insurance/government."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1970. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1970s-nhe-per-capita"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1970/per_capita", target = "quantity", guards = [{ locator = "/cms/1970/year", value = "1970" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 353
 panel = "table"
 label = "National health spending per person, 1970"
@@ -302,10 +320,12 @@ value = "$353 per capita ($297 for personal health care)"
 unit = "USD per person, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01. NHE per capita: $353. Personal Health Care per capita: $297. Population: 210M."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1970. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1970s-nhe-medicare"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1970/medicare", target = "quantity", guards = [{ locator = "/cms/1970/year", value = "1970" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 7672
 panel = "table"
 label = "Medicare spending, 1970"
@@ -313,10 +333,12 @@ value = "$7,672 million (10.4% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02. Medicare: $7,672M. Medicare did not exist before 1966 (enacted 1965). By 1970 it already accounted for over 10% of all health spending."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1970. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1970s-nhe-medicaid"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1970/medicaid", target = "quantity", guards = [{ locator = "/cms/1970/year", value = "1970" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 5290
 panel = "table"
 label = "Medicaid spending, 1970"
@@ -324,10 +346,12 @@ value = "$5,290 million (7.1% of NHE); Federal $2,842M, State/Local $2,447M"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02. Medicaid (Title XIX): $5,290M total. Federal share: $2,842M. State/Local share: $2,447M. Medicaid did not exist before 1966."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1970. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1970s-nhe-prescription-drugs"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1970/prescription_drugs", target = "quantity", guards = [{ locator = "/cms/1970/year", value = "1970" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 5497
 panel = "table"
 label = "Prescription drug spending, 1970"
@@ -335,10 +359,11 @@ value = "$5,497 million (7.4% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $5,497M of $74,077M total."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1970. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1970s-heart-disease-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R72:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R72:C1", value = "1970" }, { locator = "R72:C2", value = "Heart Disease" }] }
 quantity = 492.7
 panel = "table"
 label = "Heart disease age-adjusted death rate, 1970"
@@ -346,11 +371,12 @@ value = "492.7 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS. The decline is underway — down 16% from the 1950 peak. Coronary care units, CPR, and new blood pressure medications were beginning to have impact."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1970s-cancer-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R191:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R191:C1", value = "1970" }, { locator = "R191:C2", value = "Cancer" }] }
 quantity = 198.6
 panel = "table"
 label = "Cancer age-adjusted death rate, 1970"
@@ -358,11 +384,12 @@ value = "198.6 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS. Cancer mortality continued to rise. The National Cancer Act of 1971 declared the 'War on Cancer.' Combination chemotherapy was proving effective for some cancers."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1970s-stroke-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R429:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R429:C1", value = "1970" }, { locator = "R429:C2", value = "Stroke" }] }
 quantity = 147.7
 panel = "table"
 label = "Stroke age-adjusted death rate, 1970"
@@ -370,72 +397,74 @@ value = "147.7 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS. The decline began with the introduction of effective blood pressure medications. The VA Cooperative Study (1967-1970) proved hypertension treatment saved lives."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1970s-cancer-survival"
+audit = { file = "remaining-audit-20261028/special-seer-extract.json", extractor = "json-pointer", locator = "/1975-1979", target = "quantity", guards = [{ locator = "/1980-1984", value = "50.2" }, { locator = "/source_sha256", value = "8049fb982770d59f9c6e7cadf0f0fa3fcd10da458dc2e88cf10c9ffa36feb21c" }, { locator = "/table", value = "2.9" }, { locator = "/measure", value = "five-year relative survival percent" }, { locator = "/population", value = "SEER 9 areas; all races; males and females; invasive cancer" }] }
 quantity = 48.9
 panel = "table"
 label = "Cancer 5-year relative survival rate, 1975-1979"
 value = "48.9%"
-unit = "% surviving 5 years after diagnosis (relative survival, SEER 9)"
+unit = "five-year relative survival percentage (SEER 9)"
 source = "seer-csr-1975-2017"
 tier = "A"
-notes = "From NCI SEER Cancer Statistics Review 1975-2017, Table 2.9. All races, both sexes, all cancer sites. SEER 9 registries cover ~10% of US population."
+notes = "SEER Cancer Statistics Review Table 2.9 reports five-year relative survival for invasive cancers diagnosed in 1975-1979, all races and both sexes, in the nine SEER registry areas. Relative survival compares observed survival with expected survival."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1970s-food-basket"
-quantity = 17.1
 panel = "table"
-label = "Food basket and expenditure breakdown, 1972-73 (CEX)"
-value = "Food $2,089/yr (17.1% of expenditure). Food at home $1,543 (74% of food), food away from home $546 (26%). Key items: beef $242, bakery $139, fresh milk $130, pork $134, poultry $69, other meats $61, fish $40, eggs $37, cereals $46. Total expenditure: $12,226."
-unit = "USD per family per year, nominal"
-source = "bls-cex"
+label = "Annual food-category expenditure, four-person consumer units, 1972-73"
+value = "Food $2,088.85/yr; food at home $1,542.58; food away from home $524.63; meals as pay $21.64. Selected food-at-home categories: beef $242.31, bakery $139.02, fresh milk and cream $130.20, pork $134.09, poultry $69.18, other meats $61.25, fish and seafood $39.93, eggs $36.59, cereals $45.75."
+unit = "USD per four-person consumer unit per year, nominal"
+source = "bls-cex-four-person-1972-73"
 tier = "A"
-notes = "From the 1972-73 CEX, Bulletin 1992, Table 2. 10,668 thousand 4-person families. Food at home share: 74%, food away: 26%. Beef was the largest single food item at $242/yr. Source: BLS Bulletin 1992, accessed via FRASER."
+notes = "Bulletin 1992, Table 2, printed page 37 (PDF page 44), 4 Persons column, annual means. The table covers urban and rural families and single consumers; its family terminology uses the consumer-unit concept described in the report. The Food total includes separately listed meals as pay. The old away-from-home amount incorrectly combined that category with meals as pay. Original cents precision is retained without whole-dollar rounding. A share of comparable total annual expenditure is not supplied: the table separates current consumption, personal insurance/pensions and gifts/contributions, and this review has not established a harmonized total. These category means are not a matched family diet."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
-[[fact]]
+[[derived]]
 id = "us-1970s-home-as-income-years"
 panel = "work-buys"
-label = "Median home value as years of median family income, 1970"
-value = "1.72 years ($17,000 home vs $9,867 income)"
-unit = "years of median family income (nominal)"
-source = "census-historical-housing-values"
-tier = "C"
-notes = "Computed: 1970 median home value ($17,000) / 1970 median family income ($9,867). Up from 0.97 in 1947. The 1970s inflation would push this ratio higher."
-assumptions = ["affordability-normalization", "nominal-values"]
+label = "Median home value relative to annual family income, 1970"
+op = "ratio"
+numerator = "us-1970s-median-home-value"
+denominator = "us-1970s-median-family-income"
+unit = "years of median family income, nominal"
+precision = 2
+notes = "The medians describe different surveyed populations and do not describe a matched family or an actual purchase."
+assumptions = ["nominal-values", "housing-median-income-ratio"]
 
 [[fact]]
 id = "us-1970s-cpi"
 quantity = 38.8
 price_year = 1970
 panel = "work-buys"
-label = "Consumer Price Index and purchasing power, 1970"
-value = "CPI 38.8 (1970) → 313.7 (2024) = 8.1x. $1 in 1970 = $8.09 in 2024. Real median family income grew 1.33x."
-unit = "CPI-U (1982-84=100), annual average"
+label = "Consumer Price Index"
+value = "38.8"
+unit = "index, 1982–84=100"
 source = "bls-cpi"
 tier = "A"
-notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1970: 38.8. 2024: 313.7. Ratio: 8.09x. Nominal median family income: $9,867 (1970) → $105,800 (2024) = 10.7x. Real growth: 10.7/8.1 = 1.33x. For comparison: 1960-2024 real growth was 1.77x, and 1950-2024 was 3.1x — the 1970s-2020s saw the slowest real income growth of the postwar era."
+notes = "The BLS annual average Consumer Price Index for All Urban Consumers, U.S. city average, was 38.8 in 1970 (1982–84=100)."
 assumptions = ["nominal-values", "affordability-normalization"]
 
 [[fact]]
 id = "us-1970s-week-of-work-buys"
 panel = "work-buys"
-label = "What a week of manufacturing work bought, 1970"
-value = "$156.73/week — a full year of it (×52) ≈ 83% of median family income"
-unit = "weekly manufacturing earnings vs annual median family income"
+label = "Average annual manufacturing earnings, 1970"
+value = "$8,150 per full-time-equivalent employee"
+unit = "USD per year, nominal, average per full-time-equivalent employee"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "Computed: manufacturing FTE annual earnings ($8,150, Historical Statistics Series D740) ÷ 52 = $156.73/week. × 52 = $8,150, which is 82.6% of the all-family median income ($9,867, Census F-8). Still above 80% — the single manufacturing wage could nearly support a family. But this is the last decade it would do so. Compare 1960: 95%, 1980: 60%. Source: same D740 series as 1940s and 1960s."
+notes = "Historical Statistics Series D 740 reports average annual earnings per full-time-equivalent manufacturing employee in 1970. This is not median family income."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1970s-car-price"
+audit = { file = "remaining-audit-20261028/ornl-car-price-extract.json", extractor = "json-pointer", locator = "/years/1970/total_current_dollars", target = "amount_minor", scale = "100", guards = [{ locator = "/provenance", value = "Curator extraction from pinned ORNL TEDB Edition 39 Table 11.13" }, { locator = "/source_sha256", value = "f0f041b1b9c844136e10f2d455c3082fe7c3f5f631e4894e9f402c816747b0b1" }, { locator = "/column", value = "Total, current dollars" }, { locator = "/years/1970/population", value = "Average new car, excluding pickups, vans and sport utility vehicles" }] }
 panel = "work-buys"
 label = "Average new car transaction price, 1970"
 value = "$3,543"
@@ -446,7 +475,7 @@ amount_minor = 354300
 currency = "USD"
 price_year = 1970
 basis = "total"
-notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13, Edition 40). Measures the average price consumers actually paid (not wholesale/list). Covers domestic + import passenger cars, excluding pickups, vans, and SUVs. Cross-check: CEX 1972-73 implies ~$3,552 average net outlay per new vehicle purchase ($440.41 annual expenditure / 12.4% reporting), closely matching the BEA figure. The Historical Statistics wholesale average for 1970 was ~$2,214 — the ~60% markup to transaction price reflects dealer margin, options, and taxes."
+notes = "ORNL Transportation Energy Data Book, Edition 39, Table 11.13: the BEA total is the average price of a new car in current dollars. The table excludes pickups, vans, and sport utility vehicles."
 assumptions = ["nominal-values"]
 
 
@@ -466,7 +495,7 @@ value = "32.1"
 unit = "hours per week, prime-age women (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+notes = "Ramey Table 6 estimates weekly home-production hours for all women ages 18–64 in 1975. Italicized early estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -478,7 +507,7 @@ value = "12.1"
 unit = "hours per week, prime-age men (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+notes = "Ramey Table 7 estimates weekly home-production hours for all men ages 18–64 in 1975. Italicized early estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 
@@ -486,14 +515,15 @@ assumptions = ["composite-family"]
 id = "us-1970s-food-prices"
 panel = "table"
 label = "Retail food prices, April 1970"
-value = "Bread 23.9¢/lb, round steak 133¢/lb, milk 65.5¢/qt, potatoes 9.0¢/lb, eggs 57.3¢/doz"
-unit = "retail food prices (cents per pound/quart/dozen, April 1970)"
+value = "Bread 23.9¢/lb, round steak 133.3¢/lb, milk 65.5¢/half-gallon, potatoes 9.0¢/lb, eggs 57.3¢/doz"
+unit = "retail food prices (cents per pound/half-gallon/dozen, April 1970)"
 source = "statab-food-prices"
 tier = "A"
-notes = "From 1970 Statistical Abstract Table 530 (BLS data, April 1970 — most recent available). Milk is per quart, delivered. By April 1970, food inflation was accelerating: bread up 18% from 1960, round steak up 26%, milk up 152% (from 26.0¢ to 65.5¢/qt). The 1970s would bring double-digit food price inflation, especially after the 1973-74 oil shock and Soviet grain purchases."
+notes = "Retail food prices are annual averages for 1960 and April observations for 1970; milk is per quart in 1960 and per half gallon in 1970."
 
 [[fact]]
 id = "us-1970s-cigarette-consumption"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/cdc/cigarettes_per_adult/1970", target = "quantity", guards = [{ locator = "/cdc/source_sha256", value = "02e4e219a65571dd287ca9e6d13dae1d3138c290f410550ea63eea33c85bb277" }, { locator = "/cdc/adult_age", value = "18 and older" }, { locator = "/cdc/military", value = "Overseas military included in per-capita consumption 1930-1994" }] }
 quantity = 3985
 panel = "table"
 label = "Adult per capita cigarette consumption, 1970"
@@ -502,73 +532,78 @@ unit = "cigarettes per adult (≥18 years) per year"
 price_year = 1970
 source = "cdc-mmwr-tobacco-surveillance"
 tier = "A"
-notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. Consumption had declined from the 1963 peak of 4,345 but remained high. The 1971 broadcast ad ban and 1972 health warning labels were early tobacco control measures."
+notes = "CDC MMWR Table 1 estimates total manufactured cigarette consumption per person aged 18 or older in 1970. This is a population-based ratio, not a count of cigarettes smoked only by adults. The per-capita estimate includes U.S. military personnel overseas."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1970s-ethanol-per-capita"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/niaaa/all_beverages/1970", target = "quantity", guards = [{ locator = "/niaaa/source_sha256", value = "71f1e8531f2de32138f99d20b239ec78215a23b50070294fbb80671507bc222a" }, { locator = "/niaaa/age_basis", value = "15 and older before 1970; 14 and older from 1970" }, { locator = "/niaaa/unit", value = "gallons ethanol per person per year" }] }
 quantity = 2.52
 panel = "table"
 label = "Alcohol consumed per person, 1970"
 value = "2.52 gallons of pure ethanol per person per year"
-unit = "gallons of pure ethanol per person per year"
+unit = "gallons of ethanol per person aged 14 and older per year"
 price_year = 1970
 source = "niaaa-surveillance-122"
 tier = "A"
-notes = "The population basis changes here: figures from 1970 onward are computed over ages 14 and older, before that over ages 15 and older. The change slightly raises the denominator and is not corrected for."
+notes = "NIAAA Table 1 reports apparent ethanol consumption per person aged 14 or older in 1970. The denominator includes people who do not drink."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1970s-availability-grapes"
-quantity = 2.92
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1970s-availability-grapes/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1970s-availability-grapes/year", value = "1970" }, { locator = "/availability/us-1970s-availability-grapes/file", value = "46-diet-variety/ers-fads-fruit-fresh.xlsx" }, { locator = "/availability/us-1970s-availability-grapes/sha256", value = "6988e35a4a4b8700a6f9255de0e29708afc01f91662ce28394973a0cc740069c" }, { locator = "/availability/us-1970s-availability-grapes/title", value = "Fresh grapes: Supply and use1" }, { locator = "/availability/us-1970s-availability-grapes/cell", value = "Grapes!I7" }, { locator = "/availability/us-1970s-availability-grapes/population_heading", value = "U.S. population, January 1 of following year3" }, { locator = "/availability/us-1970s-availability-grapes/population_definition", value = "3Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1970s-availability-grapes/number_format", value = "#,##0.0" }], calculation = { op = "ratio", operands = ["/availability/us-1970s-availability-grapes/population_millions"], precision = 1, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
+quantity = 2.9
 panel = "table"
 label = "Grapes available per person, 1970"
-value = "2.92 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "2.9 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1970
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh grapes. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. The first year ERS publishes for this commodity."
-assumptions = ["composite-family"]
+notes = "Fresh grapes: Supply and use1; source year 1970, Grapes!I7. Original population heading: U.S. population, January 1 of following year (footnote 3). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (1 decimal places). The source retail-weight conversion is not applied. The source year follows a fruit marketing year: July–June before 1990/91 and beginning in May from 1990 onward. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-1970s-availability-avocados"
-quantity = 0.45
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1970s-availability-avocados/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1970s-availability-avocados/year", value = "1970" }, { locator = "/availability/us-1970s-availability-avocados/file", value = "46-diet-variety/ers-fads-fruit-fresh.xlsx" }, { locator = "/availability/us-1970s-availability-avocados/sha256", value = "6988e35a4a4b8700a6f9255de0e29708afc01f91662ce28394973a0cc740069c" }, { locator = "/availability/us-1970s-availability-avocados/title", value = "Fresh avocados: Supply and use1" }, { locator = "/availability/us-1970s-availability-avocados/cell", value = "Avocados!I7" }, { locator = "/availability/us-1970s-availability-avocados/population_heading", value = "U.S. population, July 1 of following year3" }, { locator = "/availability/us-1970s-availability-avocados/population_definition", value = "3Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1970s-availability-avocados/number_format", value = "#,##0.0" }], calculation = { op = "ratio", operands = ["/availability/us-1970s-availability-avocados/population_millions"], precision = 1, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
+quantity = 0.5
 panel = "table"
 label = "Avocados available per person, 1970"
-value = "0.45 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "0.5 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1970
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh avocados. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. The first year ERS publishes for this commodity."
-assumptions = ["composite-family"]
+notes = "Fresh avocados: Supply and use1; source year 1970, Avocados!I7. Original population heading: U.S. population, July 1 of following year (footnote 3). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (1 decimal places). The source retail-weight conversion is not applied. The source combines commodity marketing seasons with calendar-year trade; California and Florida seasons differ and their definitions change in 2002. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-1970s-availability-bell-peppers"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1970s-availability-bell-peppers/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1970s-availability-bell-peppers/year", value = "1970" }, { locator = "/availability/us-1970s-availability-bell-peppers/file", value = "46-diet-variety/ers-fads-vegetables-fresh.xlsx" }, { locator = "/availability/us-1970s-availability-bell-peppers/sha256", value = "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e" }, { locator = "/availability/us-1970s-availability-bell-peppers/title", value = "Fresh bell peppers: Supply and use" }, { locator = "/availability/us-1970s-availability-bell-peppers/cell", value = "Peppers!H17" }, { locator = "/availability/us-1970s-availability-bell-peppers/population_heading", value = "U.S. population, July 11" }, { locator = "/availability/us-1970s-availability-bell-peppers/population_definition", value = "1Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1970s-availability-bell-peppers/number_format", value = "0.00" }], calculation = { op = "ratio", operands = ["/availability/us-1970s-availability-bell-peppers/population_millions"], precision = 2, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 2.16
 panel = "table"
 label = "Bell peppers available per person, 1970"
-value = "2.16 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "2.16 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1970
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh bell peppers. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it."
-assumptions = ["composite-family"]
+notes = "Fresh bell peppers: Supply and use; source year 1970, Peppers!H17. Original population heading: U.S. population, July 1 (footnote 1). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (2 decimal places). The source retail-weight conversion is not applied. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-1970s-availability-broccoli"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1970s-availability-broccoli/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1970s-availability-broccoli/year", value = "1970" }, { locator = "/availability/us-1970s-availability-broccoli/file", value = "46-diet-variety/ers-fads-vegetables-fresh.xlsx" }, { locator = "/availability/us-1970s-availability-broccoli/sha256", value = "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e" }, { locator = "/availability/us-1970s-availability-broccoli/title", value = "Fresh broccoli: Supply and use" }, { locator = "/availability/us-1970s-availability-broccoli/cell", value = "Broccoli!H17" }, { locator = "/availability/us-1970s-availability-broccoli/population_heading", value = "U.S. population, July 11" }, { locator = "/availability/us-1970s-availability-broccoli/population_definition", value = "1Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1970s-availability-broccoli/number_format", value = "#,##0.00" }], calculation = { op = "ratio", operands = ["/availability/us-1970s-availability-broccoli/population_millions"], precision = 2, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 0.53
 panel = "table"
 label = "Broccoli available per person, 1970"
-value = "0.53 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "0.53 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1970
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it."
-assumptions = ["composite-family"]
+notes = "Fresh broccoli: Supply and use; source year 1970, Broccoli!H17. Original population heading: U.S. population, July 1 (footnote 1). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (2 decimal places). The source retail-weight conversion is not applied. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[derived]]
 id = "us-1970s-produce-variety-count"
@@ -634,11 +669,12 @@ count_series = [
 ]
 threshold = 1.0
 at_year = 1970
-notes = "Every fresh fruit and vegetable commodity sheet in the two ERS fresh workbooks, counted when the food supply provided at least a full pound per person that year, farm weight. The total is the commodities ERS tracked that year: series that had not yet begun or had already ended are outside the count, so a widening record cannot masquerade as rising variety. Availability is a disappearance estimate — what the supply made available, not what anyone ate; the rule and its rationale are in the assumption ledger (produce-variety-rule)."
+notes = "The curated fresh fruit and vegetable series are counted when the publisher's displayed farm-weight availability estimate is at least one pound per person in the source year. Values are rounded to each source cell's displayed precision before comparison, so estimates near the threshold depend on that precision. The count is out of the commodities tracked in the selected series for that year; availability is a supply measure, not food actually eaten."
 assumptions = ["produce-variety-rule", "composite-family"]
 
 [[fact]]
 id = "us-1970s-traffic-death-rate"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/fhwa/rows/1970/per_100m_vmt", target = "quantity", guards = [{ locator = "/fhwa/source_sha256", value = "e5cb5e304b9c86f3124543e27dd4e9e0e18f2d1d8a40bc9891805332f88490d6" }, { locator = "/fhwa/table", value = "FI-200" }] }
 quantity = 4.85
 panel = "day"
 label = "Road deaths per 100 million vehicle-miles, 1970"
@@ -647,7 +683,7 @@ unit = "deaths per 100 million vehicle-miles travelled"
 price_year = 1970
 source = "fhwa-fi200-2023"
 tier = "A"
-notes = "Absolute deaths peaked in this decade, at 55,600 in 1972 — the highest figure in the table's 124 years."
+notes = "FHWA Table FI-200 reports traffic fatalities per 100 million vehicle-miles travelled in 1970. This rate covers all persons killed in motor-vehicle traffic crashes."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -660,20 +696,21 @@ unit = "live births per 1,000 women aged 15-19"
 price_year = 1970
 source = "nchs-hus-2019-table1"
 tier = "A"
-notes = "The fall from the 1960 peak is already a quarter of the way down, and it happens before the shift in who was giving birth: the married share of these mothers falls across the following decades while the rate itself keeps dropping."
+notes = "NCHS Health, United States, 2019, Table 1: live births per 1,000 women aged 15–19, 1970. The 1950 estimate is adjusted for underregistration; geographic and resident coverage change across years."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1970s-smoking-prevalence"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/cdc/smoking_prevalence/1970/total", target = "quantity", guards = [{ locator = "/cdc/source_sha256", value = "02e4e219a65571dd287ca9e6d13dae1d3138c290f410550ea63eea33c85bb277" }, { locator = "/cdc/adult_age", value = "18 and older" }, { locator = "/cdc/smoking_prevalence/1970/male", value = "44.1" }, { locator = "/cdc/smoking_prevalence/1970/female", value = "31.5" }] }
 quantity = 37.4
 panel = "table"
 label = "Adult cigarette smoking prevalence, 1970"
 value = "37.4% of adults smoked (44.1% of men, 31.5% of women)"
 unit = "% of adults ≥18 who currently smoke (NHIS)"
 price_year = 1970
-source = "cdc-nhis-smoking-prevalence"
+source = "cdc-mmwr-nhis-smoking-prevalence"
 tier = "A"
-notes = "From CDC NHIS (compiled by American Lung Association). Down from 42.4% in 1965. Men's smoking declined faster than women's during this period."
+notes = "CDC National Health Interview Survey estimates for civilian noninstitutionalized adults aged 18 and older in 1970. Current smokers reported at least 100 cigarettes in their lifetime and were smoking at the time of the survey."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -685,7 +722,7 @@ value = "20.0 per 1,000 live births"
 unit = "deaths under age 1 per 1,000 live births"
 source = "nchs-nvss"
 tier = "A"
-notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 15.1; postneonatal: 4.9. The 1970s saw the steepest decade decline (37%, from 20.0 to 12.6) driven by neonatal medicine advances and regionalization of perinatal services."
+notes = "NCHS Health, United States, 2016, Table 11: all-races infant deaths per 1,000 live births in 1970. Neonatal and postneonatal rates are published separately."
 assumptions = ["composite-family"]
 
 # ── Married women's labor force participation ─────────────────────────────
@@ -699,7 +736,7 @@ value = "40.8%"
 unit = "% of married women (husband present) in the civilian labor force"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series D 63-74. With children under 6: 30.3% (1970). With children 6-17 only: 30.2%. No children under 18: 30.5%. Crossed 40% — two in five married women were in the labor force. From 5.6% (1900) to 40.8% (1970), married women's LFPR increased more than sevenfold across seven decades. The single-earner family was no longer the norm."
+notes = "Historical Statistics reports the share of married women with husband present in the civilian labor force, 1970 annual survey."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────
@@ -713,7 +750,7 @@ value = "Men: 23.2, Women: 20.8"
 unit = "years (median age at first marriage)"
 source = "census-table-ms2"
 tier = "A"
-notes = "From Census Table MS-2. CPS ASEC. Marriage ages began rising from the mid-century low. By 1980: 24.7/22.0 — the beginning of a multi-decade increase that would push both past 28 by the 2020s."
+notes = "Census Table MS-2 reports the estimated median age at first marriage by sex for 1970."
 
 # ── Education ─────────────────────────────────────────────────────────────
 
@@ -721,25 +758,26 @@ notes = "From Census Table MS-2. CPS ASEC. Marriage ages began rising from the m
 id = "us-1970s-education"
 quantity = 55.2
 panel = "day"
-label = "Educational attainment, 1970"
-value = "HS grad or more: 55.2%, Bachelor's or more: 11.0%, Less than 9th grade: 27.7%. Median school years: 12.2."
-unit = "% of population 25+ (all races, both sexes); median years completed"
+label = "Years of school completed, adults aged 25 and over, 1970"
+value = "Four or more years of high school: 55.2%; four or more years of college: 11.0%; median school years: 12.2."
+unit = "% of people aged 25 and over; median years completed"
 source = "census-table-a1-a2"
 tier = "A"
-notes = "From Census Table A-1. Decennial census. HS graduation crossed 50% — the majority of adults now had a diploma. Less-than-9th-grade fell below 30%. Median school years: 12.2 — just past high school. Bachelor's or more crossed 11%."
+notes = "Census A-1 reports the median years completed; NCES reports the historical percentages for 1970. Before the classification change, categories describe completed years, not necessarily diplomas or degrees."
 
 # ── Net worth (aggregate household sector) ────────────────────────────────
 
 [[fact]]
 id = "us-1970s-household-net-worth"
-quantity = 3876
+audit = { file = "remaining-audit-20261028/z1-full-selected.json", extractor = "json-pointer", locator = "/observations/1970/FL152090005.Q/value", target = "quantity", guards = [{ locator = "/source_sha256", value = "83b8eded0bc7f9b74c0269ef503a863cee88312460fd7eef076284b98fc28c06" }, { locator = "/unit", value = "millions of US dollars" }, { locator = "/period", value = "Q4" }, { locator = "/population", value = "Households and nonprofit organizations" }, { locator = "/observations/1970/FL152090005.Q/date", value = "1970-12-31" }, { locator = "/observations/1970/FL152090005.Q/series_name", value = "Z1/Z1/FL152090005.Q" }, { locator = "/observations/1970/FL152090005.Q/currency", value = "United States / United States Dollar" }, { locator = "/observations/1970/FL152090005.Q/frequency", value = "Quarterly" }, { locator = "/observations/1970/FL152090005.Q/unit", value = "Currency" }, { locator = "/observations/1970/FL152090005.Q/unit_mult", value = "Millions" }, { locator = "/observations/1970/FL152090005.Q/series_sector", value = "Households and nonprofit organizations (S14+S15)" }, { locator = "/observations/1970/FL152090005.Q/series_prefix", value = "Level, not seasonally adjusted (NSA)" }, { locator = "/observations/1970/FL152090005.Q/series_instrument", value = "Net worth" }] }
+quantity = 3876748
 panel = "day"
 label = "Household sector net worth, 1970"
-value = "$3,876 billion"
-unit = "aggregate net worth, households + nonprofit organizations, current dollars"
-source = "fed-z1"
+value = "$3,876,748 million"
+unit = "millions of current U.S. dollars, aggregate quarter-end net worth"
+source = "fed-z1-quarter-end-balances-2026q2"
 tier = "A"
-notes = "From FRED TNWBSHNO (Fed Z.1 Table B.101.h, Q4 1970). Total assets: $4,354B. Total liabilities: $479B. Net worth: $3,876B. Up from $2,091B in 1960. Liabilities grew to 11% of assets — mortgage debt expanding as homeownership rose. Aggregate — NOT median. From 1945 ($592B Goldsmith / $807B Z.1) to 1970 ($3,876B), household wealth grew 5x in 25 years."
+notes = "Federal Reserve Z.1, September 11, 2026 release: December 31, 1970, households and nonprofit organizations. This sector stock includes nonprofit organizations and is not median household wealth or a family budget. The curator reproduces the original release and checks net worth against total assets less liabilities. Historical figures are release-dependent."
 
 # Lead exposure: the source's sampling period, filed by its starting decade.
 [[fact]]
@@ -771,11 +809,11 @@ guards = [
 id = "us-1970s-airline-smoking-separation"
 panel = "day"
 label = "Smoking sections aboard, 1973"
-value = "Smoking stayed lawful aboard, but the Civil Aeronautics Board's first smoking rule (ER-800, May 10, 1973) required scheduled air carriers to separate smokers from nonsmokers"
+value = "In 1973 the Civil Aeronautics Board required separation of smoking and nonsmoking passengers on air carrier flights."
 unit = "legal status of smoking aboard scheduled air carrier flights (federal regulation)"
 source = "dot-ost-2000-smoking-aboard-aircraft"
 tier = "A"
-notes = "ER-800, 38 FR 12207 (May 10, 1973), as recited by the DOT Office of the Secretary in the 2000 final rule that implements the 2000 statute: 'In its initial form, the rule required the separation of smoking passengers from no-smoking passengers.' A separation rule is a restriction, not a ban — this card records where the on-board permission began to erode. The 38 FR 12207 document itself was not separately retrieved; the 2000 rule's recitation is the record held here."
+notes = "The Department of Transportation’s 2000 final rule recounts the original 1973 CAB separation rule, ER-800."
 assumptions = ["composite-family"]
 
 [[fact]]

@@ -29,9 +29,9 @@ from vitrine.publish import (
     staged_directory,
     validate_destination,
 )
-from vitrine.series import Series
+from vitrine.series import Series, representation_problems
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 RAW_CSV_FILENAME = "facts-raw.csv"
 SAFE_CSV_FILENAME = "facts.csv"
 CSV_FIELDS = (
@@ -83,6 +83,8 @@ def _series_payload(series: Series) -> dict[str, object]:
         "tier": series.tier.value,
         "unit": series.unit,
         "population": series.population,
+        "kind": series.kind.value,
+        "rate_basis": series.rate_basis.value if series.rate_basis is not None else None,
         "values": {
             str(year): value for year, value in sorted(series.values.items())
         },
@@ -236,6 +238,9 @@ def corpus_payload(
     evaluates them here from the supplied series.
     """
     series_by_id = {} if series is None else dict(series)
+    for sid, candidate in series_by_id.items():
+        if problems := representation_problems(candidate):
+            raise ValueError(f"series {sid!r}: {'; '.join(problems)}")
     if computed_by_room is None:
         computed_by_room = _computed_by_room(corpus, series_by_id)
 

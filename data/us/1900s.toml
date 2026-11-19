@@ -23,19 +23,21 @@ amount_minor = 82719
 currency = "USD"
 price_year = 1901
 basis = "annual"
-notes = "From BLS Bulletin No. 49, p.1138. This is an AVERAGE, not a median — the report did not compute medians. Population: 2,567 wage-earner families in 33 states, head earning ≤$1,200/year. NOTE: the University of Missouri guide cited this as $749 — the primary source says $827.19. The Missouri figure was wrong."
+audit = { file = "remaining-audit-20261028/early_us-bls49-extract.json", extractor = "json-pointer", locator = "/income", target = "quantity", guards = [{ locator = "/source_sha256", value = "34a9af272e6461a5074eb97797b3c77bb6ba249445adbc8a8ad4058581a42638" }, { locator = "/year", value = "1901" }, { locator = "/population", value = "2567 families in 33 states; head a wage worker or salaried man earning at most $1200" }, { locator = "/pdf_pages", value = "6,8,9" }] }
+notes = "Mean annual income from all sources among the surveyed families; it is not a median."
 assumptions = ["composite-family", "nominal-values", "income-vs-consumption", "affordability-normalization"]
 
 [[fact]]
 id = "us-1900s-survey-income-cap"
 quantity = 1200
 panel = "budget"
-label = "Survey income ceiling, 1901"
+label = "Survey ceiling on head earnings, 1901"
 value = "$1,200"
-unit = "USD per year — families earning more were excluded"
+unit = "USD per year in earnings of the family head"
 source = "bls-bulletin-49-1903"
 tier = "A"
-notes = "From BLS Bulletin No. 49, p.1138: 'the head of the family must be a wage worker or a salaried man earning not over $1,200 during the year.' This caps the survey at the lower/middle income range — upper-income families are not represented."
+audit = { file = "remaining-audit-20261028/early_us-bls49-extract.json", extractor = "json-pointer", locator = "/income_ceiling", target = "quantity", guards = [{ locator = "/source_sha256", value = "34a9af272e6461a5074eb97797b3c77bb6ba249445adbc8a8ad4058581a42638" }, { locator = "/year", value = "1901" }, { locator = "/population", value = "2567 families in 33 states; head a wage worker or salaried man earning at most $1200" }, { locator = "/pdf_pages", value = "6,8,9" }] }
+notes = "The report selected families whose head was a wage worker or salaried man earning at most $1,200 during the year."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -47,7 +49,12 @@ value = "$768.54"
 unit = "USD per year, nominal"
 source = "bls-bulletin-49-1903"
 tier = "A"
-notes = "From BLS Bulletin No. 49, p.1138. Average expenditure for all purposes. Families spent 93% of their income on average ($768.54 / $827.19), leaving a small surplus."
+amount_minor = 76854
+currency = "USD"
+price_year = 1901
+basis = "annual"
+audit = { file = "remaining-audit-20261028/early_us-bls49-extract.json", extractor = "json-pointer", locator = "/expenditure", target = "quantity", guards = [{ locator = "/source_sha256", value = "34a9af272e6461a5074eb97797b3c77bb6ba249445adbc8a8ad4058581a42638" }, { locator = "/year", value = "1901" }, { locator = "/population", value = "2567 families in 33 states; head a wage worker or salaried man earning at most $1200" }, { locator = "/pdf_pages", value = "6,8,9" }] }
+notes = "Mean annual expenditure for all purposes among the surveyed families."
 assumptions = ["composite-family", "nominal-values", "income-vs-consumption"]
 
 [[fact]]
@@ -59,7 +66,8 @@ value = "42.54%"
 unit = "share of total expenditure ($326.90 of $768.54)"
 source = "bls-bulletin-49-1903"
 tier = "A"
-notes = "From BLS Bulletin No. 49, p.1138: '$326.90 per family, or 42.54 per cent of the average expenditure for all purposes.' Food was the largest expenditure category. By comparison, food is under 15% of expenditure in the 2020s."
+audit = { file = "remaining-audit-20261028/early_us-bls49-extract.json", extractor = "json-pointer", locator = "/food_share", target = "quantity", guards = [{ locator = "/source_sha256", value = "34a9af272e6461a5074eb97797b3c77bb6ba249445adbc8a8ad4058581a42638" }, { locator = "/year", value = "1901" }, { locator = "/population", value = "2567 families in 33 states; head a wage worker or salaried man earning at most $1200" }, { locator = "/pdf_pages", value = "6,8,9" }] }
+notes = "Food expenditure as a percentage of total expenditure for the surveyed families."
 assumptions = ["composite-family", "income-vs-consumption"]
 
 [[fact]]
@@ -67,11 +75,11 @@ id = "us-1900s-expenditure-breakdown"
 quantity = 42.54
 panel = "budget"
 label = "Full expenditure breakdown, 1901"
-value = "Food 42.54%, rent 12.95%, clothing 14.04%, fuel & light 5.25%, furniture 3.42%, tobacco 1.42%, liquor/sickness/amusements 14.51%, misc 5.87%"
+value = "Food 42.54%, rent 12.95%, clothing 14.04%, fuel and light 5.25%, furniture 3.42%, tobacco 1.42%, specified other purposes 14.51%, unreported miscellaneous 5.87%"
 unit = "% of total family expenditure"
 source = "bls-bulletin-49-1903"
 tier = "A"
-notes = "From BLS Bulletin No. 49, pp.1140-1141. Rent was 12.95% — the Missouri guide cited 13%, which matches. The report notes that no retail prices were available for rent, clothing, fuel, furniture, or tobacco for the time series (only food had retail price data)."
+notes = "BLS Bulletin 49, pages 1140–1141, reports expenditure categories for the selected families. The 14.51% category combines the specified other purposes in the source."
 assumptions = ["composite-family", "income-vs-consumption"]
 
 [[fact]]
@@ -83,7 +91,8 @@ value = "5.31"
 unit = "persons per family"
 source = "bls-bulletin-49-1903"
 tier = "A"
-notes = "From BLS Bulletin No. 49, p.1138. 0.7 persons above the Census 1900 national average of 4.61. The report notes this was not due to intentional selection of larger families."
+audit = { file = "remaining-audit-20261028/early_us-bls49-extract.json", extractor = "json-pointer", locator = "/family_size", target = "quantity", guards = [{ locator = "/source_sha256", value = "34a9af272e6461a5074eb97797b3c77bb6ba249445adbc8a8ad4058581a42638" }, { locator = "/year", value = "1901" }, { locator = "/population", value = "2567 families in 33 states; head a wage worker or salaried man earning at most $1200" }, { locator = "/pdf_pages", value = "6,8,9" }] }
+notes = "Mean number of people per surveyed family."
 assumptions = ["composite-family"]
 
 # ── Home panel ────────────────────────────────────────────────────────────
@@ -97,18 +106,19 @@ value = "12.95%"
 unit = "% of total family expenditure"
 source = "bls-bulletin-49-1903"
 tier = "A"
-notes = "From BLS Bulletin No. 49, p.1140. The report notes no retail prices were available for rent across years, so rent is reported as a share but not as a dollar amount."
+audit = { file = "remaining-audit-20261028/early_us-bls49-extract.json", extractor = "json-pointer", locator = "/rent_share", target = "quantity", guards = [{ locator = "/source_sha256", value = "34a9af272e6461a5074eb97797b3c77bb6ba249445adbc8a8ad4058581a42638" }, { locator = "/year", value = "1901" }, { locator = "/population", value = "2567 families in 33 states; head a wage worker or salaried man earning at most $1200" }, { locator = "/pdf_pages", value = "6,8,9" }] }
+notes = "Rent as a percentage of total expenditure for the surveyed families."
 assumptions = ["composite-family", "income-vs-consumption"]
 
 [[fact]]
 id = "us-1900s-housing-rooms-rent"
 panel = "home"
-label = "Housing: rooms, rent, and tenure, 1901"
-value = "Renting: 4.73 rooms/family, $24.60/room/yr avg rent. Owning: 5.92 rooms/family. Rent was 12.95% of expenditure."
+label = "Housing: rooms and rent, 1901"
+value = "Renting: 4.73 rooms per family and $24.62 per room per year; owning: 5.92 rooms per family."
 unit = "rooms per family; USD per room per year"
-source = "commissioner-labor-18th-1903"
+source = "commissioner-labor-housing-1901"
 tier = "A"
-notes = "From the 18th Annual Report, Table III-K (p.370-371), OCR'd via GLM-OCR. Summary of families renting and owning homes by state and nativity. National narrative (p.73): families owning homes averaged 5.92 rooms vs 4.73 for renters; 1.16 rooms per individual (owners) vs 1.01 (renters). Average cost of rent per room was ~$24.60/yr ($24.66 native, $24.55 foreign). The survey covered 2,567 normal families in 33 states; families with boarders excluded from the housing table."
+notes = "The Commissioner of Labor report describes 23,447 qualifying families, of whom 19,090 rented and 4,357 owned. This housing population is distinct from the 2,567-family expenditure sample."
 assumptions = ["composite-family", "urban-rural-split"]
 
 [[fact]]
@@ -120,31 +130,33 @@ value = "~46.5% (national, all households)"
 unit = "% of occupied housing units owner-occupied"
 source = "census-homeownership-historical"
 tier = "A"
-notes = "From Census homeownership time series (owner.pdf). National rate ~1900. This is for ALL households, not just the wage-earner families surveyed by the Commissioner of Labor — those families were overwhelmingly urban renters."
+notes = "The Census historical homeownership series reports 46.5% owner-occupied housing units in 1900."
 assumptions = ["composite-family", "urban-rural-split"]
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-1900s-food-expenditure"
+quantity = 326.90
 panel = "table"
 label = "Average annual food expenditure, 1901"
 value = "$326.90"
 unit = "USD per family per year, nominal"
 source = "bls-bulletin-49-1903"
 tier = "A"
-notes = "From BLS Bulletin No. 49, p.1138. This is the total food expenditure per family per year — $6.29 per week. The report also collected retail prices for staple foods from 814 retail merchants in the same localities."
+audit = { file = "remaining-audit-20261028/early_us-bls49-extract.json", extractor = "json-pointer", locator = "/food", target = "quantity", guards = [{ locator = "/source_sha256", value = "34a9af272e6461a5074eb97797b3c77bb6ba249445adbc8a8ad4058581a42638" }, { locator = "/year", value = "1901" }, { locator = "/population", value = "2567 families in 33 states; head a wage worker or salaried man earning at most $1200" }, { locator = "/pdf_pages", value = "6,8,9" }] }
+notes = "Mean annual expenditure for food among the surveyed families."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1900s-food-basket"
 panel = "table"
-label = "Food basket: expenditure per family by item, 1901"
+label = "Selected food expenditures among purchasing families with native-born heads"
 value = "Beef (fresh) $46.38, beef (salt) $10.61, hog (fresh) $15.64, hog (salt) $17.60, other meat $13.29, poultry $9.91, fish $8.35, eggs $16.17, milk $20.03, butter $27.73"
-unit = "USD per family per year, nominal (avg among families buying each item)"
-source = "commissioner-labor-18th-1903"
+unit = "USD per purchasing family per year, nominal; denominators differ by item"
+source = "commissioner-labor-food-native-1901"
 tier = "A"
-notes = "From the 18th Annual Report, Table IV-M (p.499), OCR'd via GLM-OCR. Summary of expenditure per family for various items of food, by nativity of head of family. National totals for 1,578 families. These 10 categories total $185.71 — 56.8% of the $326.90 total food expenditure. The remainder covers flour, bread, vegetables, fruits, sugar, coffee, etc. Beef (fresh) was the single largest food expenditure at $46.38. Butter ($27.73) exceeded milk ($20.03) — reflecting the era's dietary patterns."
+notes = "Commissioner of Labor Table IV-M reports means for families with native-born heads who reported expenditure on each item. The purchaser population varies by item; these values cannot be summed into an all-family food total."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
@@ -157,7 +169,7 @@ unit = "cigarettes per adult (≥18 years) per year"
 price_year = 1900
 source = "cdc-mmwr-tobacco-surveillance"
 tier = "A"
-notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. USDA estimate based on federal cigarette tax data and Census adult population. Total U.S. consumption was 2.5 billion cigarettes in 1900. Cigarettes were a minor product — chewing tobacco and cigars were dominant."
+notes = "Estimated manufactured cigarette consumption per person aged 18 or older, from CDC MMWR Table 1. Total and per-capita measures have different overseas-military coverage in some years. The numerator is total manufactured-cigarette consumption; dividing by the population aged eighteen and older does not restrict the numerator to cigarettes smoked by adults."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -169,7 +181,7 @@ value = "2.39 gallons of pure ethanol per person per year (1901-1905 average)"
 unit = "gallons of pure ethanol per person per year"
 source = "niaaa-surveillance-122"
 tier = "A"
-notes = "Table 1 publishes no single-year figure this early: the record is grouped into five-year ranges, and 1901-1905 is the only one lying wholly inside the decade. Spirits still supplied more ethanol per head than beer had a generation earlier; the range is the level national Prohibition would interrupt."
+notes = "NIAAA Table 1 reports apparent ethanol consumption for 1901–1905. The pre-1970 denominator is people aged 15 and older; the estimate is not limited to drinkers."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -182,7 +194,7 @@ unit = "deaths per 100 million vehicle-miles travelled"
 price_year = 1900
 source = "fhwa-fi200-2023"
 tier = "A"
-notes = "The earliest year FHWA publishes, and the thinnest: the rate rests on 36 recorded deaths against an estimated 100 million vehicle-miles. It is a real published figure, not a reconstruction, but the exposure behind it is tiny and the travel estimate is a back-cast."
+notes = "FHWA FI-200 reports motor-vehicle traffic fatalities per 100 million vehicle-miles in 1900. The table is a historical series and its earlier estimates have limitations."
 assumptions = ["composite-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -194,24 +206,24 @@ panel = "day"
 label = "Average weekly hours, manufacturing, 1900"
 value = "59.0"
 unit = "hours per week"
-source = "hist-stats-colonial-1970"
-tier = "A"
-notes = "From Historical Statistics of the United States (Colonial Times to 1970), Series D 765, p.76 (OCR'd via GLM-OCR). Total manufacturing, all workers. Union workers averaged 53.0 hrs; payroll workers 62.1 hrs. By 1910, hours had fallen to 56.6. The previous Tier D figure of '56' from the Missouri guide was close but unsourced."
+source = "hist-stats-manufacturing-d765-d766"
+tier = "D"
+notes = "Historical Statistics Series D 765–766 republishes a historical reconstruction for total manufacturing industries from Paul H. Douglas, Real Wages in the United States, 1890–1926. It combines union scales with payroll-industry estimates. The compiler warns that the weighting makes the total average too high. The payroll component through 1913 uses selected occupations, omits most laborers and some other unskilled workers, and is extrapolated backward from 1914. It is not a complete observation of all manufacturing workers. "
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1900s-mens-weekly-wages"
 panel = "day"
 label = "Average hourly earnings, manufacturing, 1908"
-value = "$0.250/hour ($14.20/week at 56.8 hrs)"
+value = "$0.250/hour"
 unit = "USD per hour, nominal"
-source = "hist-stats-wages-manufacturing"
-tier = "A"
+source = "hist-stats-manufacturing-d765-d766"
+tier = "D"
 amount_minor = 25
 currency = "USD"
 price_year = 1908
 basis = "hourly"
-notes = "From Historical Statistics of the United States, Series D 766 (hourly earnings). The anchor year is 1908 ($0.250/hr = 25 cents, exact) because the 1900 figure ($0.216/hr) is not representable in integer cents — per Plan 013 D2, the anchor picks the in-decade year whose published figure lands on a cent boundary. Weekly earnings: $0.250 x 56.8 hrs = $14.20. The 1900 figure ($0.216, 59.0 hrs, $12.74/wk) is the decade's start; 1908 is mid-decade. The 8-year gap to the income anchor (1900-01) is flagged by the affordability comparator."
+notes = "Historical Statistics Series D 765–766 republishes a historical reconstruction for total manufacturing industries from Paul H. Douglas, Real Wages in the United States, 1890–1926. It combines union scales with payroll-industry estimates. The compiler warns that the weighting makes the total average too high. The payroll component through 1913 uses selected occupations, omits most laborers and some other unskilled workers, and is extrapolated backward from 1914. It is not a complete observation of all manufacturing workers. This wage describes a separate survey population from the family budget and does not establish the number of earners in a family."
 assumptions = ["nominal-values", "manufacturing-wage-proxy"]
 
 [[fact]]
@@ -220,9 +232,9 @@ panel = "day"
 label = "Average weekly earnings, wage-earning women, 1905"
 value = "$6.17"
 unit = "USD per week, nominal"
-source = "census-manufactures-1905"
+source = "census-manufacturing-wages-1904"
 tier = "A"
-notes = "From the 1905 Census of Manufactures, Part I, page lxxxix. Women earned $6.17/week vs men's $11.16/week — a 55% gap. Women's earnings were $4.17 above the minimum and $4.90 below the maximum. Confirmed by Hutchinson, 'Women's Wages' (archive.org) and Missouri Prices & Wages guide. Upgraded from Tier D to Tier A: figure is from an official Census Bureau statistical series."
+notes = "The Census of Manufactures reports mean weekly earnings of $6.17 for women aged 16 and older and $11.16 for men aged 16 and older in a selected busy or representative week of 1904."
 assumptions = ["nominal-values"]
 
 [[fact]]
@@ -231,9 +243,9 @@ panel = "day"
 label = "Life expectancy at birth, 1900-02"
 value = "48.2 years (white male), 51.1 years (white female)"
 unit = "years at birth"
-source = "hist-stats-colonial-1970"
+source = "hist-stats-life-expectancy-white"
 tier = "A"
-notes = "From Historical Statistics of the United States, Series B 116-117 (Expectation of Life at Specified Ages), p.76 (OCR'd via GLM-OCR). Period 1900-02. At age 20: male 42.2, female 43.8. At age 40: male 27.7, female 29.2. By 1909-11: male 50.2, female 53.6. The previous Tier D figure of '48 years' from the Missouri guide was accurate."
+notes = "Period life expectancy at birth for the white population, by sex, 1900–02. Coverage: the 1900 death-registration area: 20 states and the District of Columbia."
 assumptions = []
 
 [[fact]]
@@ -245,20 +257,21 @@ value = "~100 per 1,000 live births"
 unit = "deaths before age 1 per 1,000 live births"
 source = "cdc-mmwr-infant-mortality"
 tier = "A"
-notes = "From CDC MMWR Vol. 48, No. 38 (1999): 'approximately 100 infants died before age 1 year' per 1,000 live births at the beginning of the 20th century. In some U.S. cities, up to 30% of infants died before reaching their first birthday. The 1915 rate (first year of reliable national data) was 99.9 per 1,000. By 1997: 7.2 per 1,000 — a >90% decline. This is one of the great public health achievements of the 20th century: sanitation, milk pasteurization, antibiotics, and neonatal intensive care."
+notes = "CDC reports approximately 100 infant deaths per 1,000 live births at the beginning of the twentieth century. The 1915 figure refers to the birth-registration area, not the entire United States."
 
 # ── Diffusion panel ────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-1900s-diffusion"
-quantity = 5
+audit = { file = "remaining-audit-20261028/early_us-telephone-extract.json", extractor = "json-pointer", locator = "/rows/1900/per_1000_population", target = "quantity", guards = [{ locator = "/source_sha256", value = "0e209a421af0cf48af7261f6fbd7a599c27a0afce5b7523f2bc89a7d18647fa5" }, { locator = "/series", value = "R 1–12" }, { locator = "/population", value = "Telephone instruments and extensions per total population" }] }
+quantity = 17.6
 panel = "diffusion"
-label = "Technology diffusion: telephone, automobile, electricity (~1900)"
-value = "Telephone: 9.2 per 1,000 population (1898), ~5% of households. Automobile: <1% (registration incomplete pre-1910). Electricity: <5% of homes (urban only). Radio: not yet commercial."
-unit = "per 1,000 population or % of households"
-source = "hist-stats-colonial-1970"
+label = "Telephone instruments, 1900"
+value = "17.6 per 1,000 population"
+unit = "telephone instruments per 1,000 population"
+source = "hist-stats-telephones-r1-r3"
 tier = "A"
-notes = "From Historical Statistics Vol 2, Series R 1-2 (p.192, OCR'd via GLM-OCR): 1898 had 681,000 telephones = 9.2 per 1,000 population. With avg family size 5.31, this translates to roughly 5% of households. The report notes motor-vehicle registration data for early years is 'incomplete, largely because few States required their registration' (p.113). By 1907, telephone penetration reached ~7% of households. Electricity diffusion was limited to urban areas; rural electrification didn't begin until the 1930s. Radio broadcasting began ~1920."
+notes = "Historical Statistics Series R 2 reports telephone instruments and extensions per 1,000 people in 1900, including business instruments. Counts through 1930 also include telegraph and teletypewriter stations."
 assumptions = ["composite-family", "urban-rural-split"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
@@ -266,38 +279,38 @@ assumptions = ["composite-family", "urban-rural-split"]
 [[fact]]
 id = "us-1900s-weekly-earnings-context"
 panel = "work-buys"
-label = "What a week of work bought, 1900"
-value = "$12.74/week (manufacturing) = 1.66% of $768.54 annual expenditure → about 60 weeks of one worker's wages"
-unit = "ratio of weekly wages to annual expenditure"
-source = "hist-stats-colonial-1970"
-tier = "A"
-notes = "Hourly earnings $0.216 × 59.0 hours gives $12.74 weekly manufacturing earnings (Historical Statistics Series D 765-766). Annual expenditure $768.54 is from the 18th Annual Report (Bulletin No. 49, p.1138), a separate survey population. Their ratio is an illustration, not a reconstruction of how a particular family financed its budget; it does not establish the number of earners."
+label = "Manufacturing hours and hourly earnings, 1900"
+value = "59.0 hours per week; $0.216 per hour"
+unit = "hours per week and USD per hour, nominal"
+source = "hist-stats-manufacturing-d765-d766"
+tier = "D"
+notes = "Historical Statistics Series D 765–766 republishes a historical reconstruction for total manufacturing industries from Paul H. Douglas, Real Wages in the United States, 1890–1926. It combines union scales with payroll-industry estimates. The compiler warns that the weighting makes the total average too high. The payroll component through 1913 uses selected occupations, omits most laborers and some other unskilled workers, and is extrapolated backward from 1914. It is not a complete observation of all manufacturing workers. "
 assumptions = ["composite-family", "nominal-values"]
 
-[[fact]]
+[[derived]]
 id = "us-1900s-surplus"
 panel = "work-buys"
-label = "Income vs expenditure surplus, 1901"
-value = "$58.65 surplus ($827.19 income - $768.54 expenditure)"
+label = "Difference between mean income and expenditure, 1901"
+op = "diff"
+numerator = "us-1900s-annual-family-income"
+denominator = "us-1900s-average-expenditure"
 unit = "USD per year, nominal"
-source = "bls-bulletin-49-1903"
-tier = "A"
-notes = "Computed from primary source: average income ($827.19) minus average expenditure ($768.54) = $58.65. Families saved about 7% of income on average. This is a thin margin — sickness or unemployment could quickly push a family into deficit."
+notes = "Calculated as mean income minus mean expenditure for the surveyed families. This difference is not a direct measure of household saving."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1900s-car-price"
 panel = "work-buys"
-label = "New automobile price, 1901–1904"
-value = "$650 (Oldsmobile Curved Dash, best-selling) to $750 (Ford Model A)"
-unit = "USD, nominal (manufacturer list price)"
-source = "early-auto-prices"
+label = "1903 Oldsmobile Curved Dash listed cost"
+value = "$650 (1903 Oldsmobile Curved Dash)"
+unit = "USD, nominal (cost listed by the vehicle museum source)"
+source = "gm-oldsmobile-1903"
 tier = "C"
 amount_minor = 65000
 currency = "USD"
-price_year = 1901
+price_year = 1903
 basis = "total"
-notes = "The Oldsmobile Curved Dash Runabout was $650 from 1901–1904 and was the best-selling car in America (425 sold 1901, 2,500 in 1902, 3,924 in 1903). The Ford Model A (first Ford, 1903) was $750–$850. The Rambler was also $650. These are manufacturer list prices from primary company records, compiled by automotive historians. The previous Tier D figure ($750–$1,500 from Frank Leslie's Popular Monthly) is consistent but less precise. A $650 car = 51 weeks of manufacturing wages ($12.74/week) = ~80% of annual family income ($827.19)."
+notes = "General Motors lists a $650 cost for the 1903 Oldsmobile Curved Dash Runabout and reports 3,924 built."
 assumptions = ["nominal-values"]
 
 
@@ -317,7 +330,7 @@ value = "46.8"
 unit = "hours per week, prime-age women (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+notes = "Ramey Table 6 estimates average weekly home-production hours for all women aged 18–64 in 1900. Some estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -329,7 +342,7 @@ value = "3.9"
 unit = "hours per week, prime-age men (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+notes = "Ramey Table 7 estimates average weekly home-production hours for all men aged 18–64 in 1900. Some estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 
@@ -342,7 +355,7 @@ value = "78"
 unit = "hours per week, all household members combined"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009), aggregate home-production hours divided by number of households. Fell from 78 hrs/week (1900) to 49 hrs/week (2005), a 37% decline. Household size fell 45% (4.7→2.6 persons) over the same period, so per-household hours fell proportionally less than household size. Per-capita (all ages) was 16.4 hrs/week — slightly higher in 2005 than 1900 because fewer children (who do little home production) are in the population."
+notes = "Ramey estimates aggregate home-production hours divided by households. This all-age household estimate is distinct from the estimates for men and women aged 18–64."
 assumptions = ["composite-family"]
 
 # ── Married women's labor force participation ─────────────────────────────
@@ -351,12 +364,12 @@ assumptions = ["composite-family"]
 id = "us-1900s-married-women-lfpr"
 quantity = 5.6
 panel = "day"
-label = "Married women's labor force participation, 1900"
+label = "Married women in the labor force"
 value = "~5.6%"
-unit = "% of married women (husband present) in the civilian labor force"
-source = "hist-stats-colonial-1970"
+unit = "% of married women aged 15 and older"
+source = "hist-stats-married-women-lfpr-early"
 tier = "A"
-notes = "Population-level labor-force participation of married women, not the number of earners in an individual family. Historical gainful-worker measures and modern labor-force participation are not identical; neither this percentage nor marital status alone establishes household income sources."
+notes = "Historical Statistics Series D 60 reports married women total in the civilian labor force as a percentage of married women aged 15 and older. The historical gainful-worker and modern labor-force measures are not identical."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────
@@ -370,7 +383,7 @@ value = "Men: 25.9, Women: 21.9"
 unit = "years (median age at first marriage)"
 source = "census-table-ms2"
 tier = "A"
-notes = "From Census Table MS-2 (ms2-median-age-first-marriage.xls). Decennial census. Men married at 25.9, women at 21.9 — a 4-year gap. The composite four-person family typically formed in the early-to-mid 20s for the wife, late 20s for the husband. By 1950: 22.8/20.3 (mid-century low)."
+notes = "Estimated median age at first marriage, separately for men and women, from Census Table MS-2. The table identifies the historical figures as decennial-census estimates."
 
 # ── Education ─────────────────────────────────────────────────────────────
 
@@ -378,11 +391,11 @@ notes = "From Census Table MS-2 (ms2-median-age-first-marriage.xls). Decennial c
 id = "us-1900s-education"
 panel = "day"
 label = "Educational attainment, 1900"
-value = "Median school years completed: ~8.3 (estimated from 1940 trend)"
+value = "no reliable record"
 unit = "median years of school completed, persons 25+"
 source = "hist-stats-colonial-1970"
 tier = "C"
-notes = "Census Table A-1 begins at 1940 (median 8.6 years). The 1900 Census did not collect educational attainment in a comparable form. Estimated by linear backcast from 1940 (8.6) and 1950 (9.3). Tier C: estimate, not directly sourced."
+notes = "A directly sourced estimate for 1900 has not been established; the cited Census attainment table begins in 1940."
 
 # ── Net worth (aggregate household sector) ────────────────────────────────
 
@@ -395,18 +408,17 @@ value = "$57 billion"
 unit = "aggregate net worth of nonfarm household sector, current dollars"
 source = "goldsmith-balance-sheet"
 tier = "D"
-notes = "From Goldsmith, Lipsey & Mendelson (1963), Table 1, Sector I.1 (Nonfarm households). Total assets: $62B. Tangible assets: $29B (real estate, durables). Financial assets: $32B (deposits, securities, life insurance). Debt: $5B (mostly mortgages). Net worth: $57B. Aggregate — NOT median. Goldsmith reconstructed this from Census wealth data and Federal Reserve sources. In 1900, tangible assets (real estate) were 47% of household assets; financial assets were 53%."
+notes = "Goldsmith Table 1 estimates the aggregate net worth of nonfarm households in 1900. This is not a household median."
 
 [[fact]]
 id = "us-1900s-household-asset-composition"
-quantity = 47
 panel = "day"
 label = "Household asset composition, 1900"
-value = "Tangible 47% ($29B), Financial 53% ($32B)"
-unit = "% of total nonfarm household assets by type"
+value = "Tangible assets $29 billion; financial assets $32 billion"
+unit = "USD billions, nominal; nonfarm household assets"
 source = "goldsmith-balance-sheet"
 tier = "D"
-notes = "From Goldsmith (1963), Table 1. In 1900, households held roughly equal tangible and financial assets. Tangible = real estate + consumer durables. Financial = deposits + securities + life insurance + pension reserves. By contrast, in 1958 tangible fell to 39% as financial assets grew."
+notes = "Goldsmith Table 1 reports rounded aggregates for nonfarm households in 1900."
 
 # ── Plan 027 WI-8: children and work ──────────────────────────────────────
 

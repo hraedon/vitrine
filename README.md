@@ -15,8 +15,8 @@ build fails mechanically if any fact lacks one.
 
 - **v1 (US):** rooms from the 1900s through the 2020s, tier-badged (an 1890s
   room is planned; the 1890–91 Commissioner of Labor survey is already in the
-  source registry). Official median family income exists only from 1947
-  (Census P-60); the 1940s room leans on census microdata; the early rooms are
+  source registry). The selected Census P-60 median family-income series starts
+  in 1947; the 1940s room leans on census microdata; the early rooms are
   reconstructed from period cost-of-living surveys; the museum stops where the
   record does, and says so.
 - **World collections:** United Kingdom and Japan currently have decade
@@ -50,7 +50,7 @@ Putting those observations together does not make them a matched household.
 | A | Official statistical series for the stated population (e.g. Census P-60 median family income, 1947→) |
 | B | Official microdata; the statistic is computed by this project (e.g. IPUMS 1940 census) |
 | C | Reconstructed from contemporaneous surveys of a proxy population (e.g. 1901 BLS cost-of-living survey of urban wage-earners) |
-| D | Scholarly estimate or narrative; no contemporaneous survey exists |
+| D | Scholarly estimate or reconstruction; method and limitations are disclosed |
 
 ## Scope
 
@@ -80,21 +80,21 @@ not cryptographic.
 3. **The gate is mechanical.** `vitrine check` fails the build on any fact
    without a resolvable source, a tier, or a declared population — CI enforces
    what the charter promises.
-4. **Render the gap.** "No reliable record exists" is a valid, first-class
-   exhibit state.
+4. **Render the gap.** A missing or not-yet-verified record is a first-class
+   exhibit state. Its note explains the limit; a collection gap does not
+   establish that no survey exists.
 
 ## Status
 
 <!-- The marked line is machine-checked by tests/test_docs_sync.py;
      regenerate with `python scripts/sync_readme_status.py` after curating. -->
-Corpus: <!-- corpus-status:begin -->27 decade rooms (1900s–2020s), 778 facts, 16 derived facts, 6 Tier D estimates, 67 rendered gaps<!-- corpus-status:end --> (US decade coverage runs
+Corpus: <!-- corpus-status:begin -->27 decade rooms (1900s–2020s), 769 facts, 29 derived facts, 10 Tier D estimates, 70 rendered gaps<!-- corpus-status:end --> (US decade coverage runs
 1900s–2020s; the world collections below extend it). The Tier D estimates are
 disclosed scholarly reconstructions kept honest by the tier rule
-`vitrine gaps` prints the mechanical inventory). The rendered gaps are of
-two kinds: structural silences in the US record (pre-WWII
-income/housing/food for 1910s–1930s, 1940s wartime bifurcation, 1990s
-home-production data — see `docs/resource-hunt.md`) and archive-access
-limits in the v2 world rooms ("no reliable record accessible online").
+(`vitrine gaps` prints the mechanical inventory). Gap notes distinguish
+structural silences, archive-access limits and unfinished transcription or
+verification. A readable source can still require curation, and a published
+amount can remain unsuitable for a cross-decade percentage comparison.
 
 v2 world rooms in progress: the United Kingdom and Japan (1950s–2010s each)
 have been curated against their own official series (ONS, Statistics
@@ -116,8 +116,10 @@ collection in plan 031 — seven guided rooms with their own stories (1950s–20
 curated badges and the lobby matrix but not the decade-keyed analyses. The
 presentation is the "statistical atlas" (Plan 020): a light folio where
 every fact row carries its value, tier chip, measured population, and
-source record in one scan-line, and the index leads with a corpus matrix —
-rooms × cases with tier mixes and documented silences counted. Three static
+source record in one scan-line. The index leads with country entrances and
+retains a corpus matrix — rooms × cases with tier mixes and documented gaps.
+Native topic disclosures and source-linked chart tables offer shorter reading
+routes without removing records or citations. Three static
 surfaces — rooms, corridors (cross-decade plates plus the 78-page pairwise
 comparison set), and the walkthrough (the three-stop transect) — all
 pre-rendered, with one progressive-enhancement asset for accessible
@@ -130,7 +132,7 @@ validated palette: `docs/design-spec.md` / `src/vitrine/site/tokens.py`. See
 `docs/fact-model.md` (design spine) and `plans/` for the full series.
 
 The archive wing (Plan 024) exposes the corpus itself as a citable dataset:
-`vitrine export` writes `data/corpus.json` (schema version 1 — every
+`vitrine export` writes `data/corpus.json` (schema version 2 — every
 authored fact with its structured fields, the source register, the
 assumption ledger, and the complete series with their observations, so
 derived values are reproducible from the export alone) alongside the
@@ -154,13 +156,19 @@ review: `docs/publication-review.md`.
 ## Quick start
 
 ```bash
-uv venv && uv pip install -e ".[dev]"
-.venv/bin/vitrine check            # validate data/ against the fact model
-.venv/bin/vitrine build            # render the static site to _site/
-.venv/bin/vitrine export           # corpus as dataset → _site/data/ + data.html
-.venv/bin/vitrine gaps             # mechanical gap inventory (never hand-kept)
-.venv/bin/pytest -q
+uv sync --locked --extra dev
+uv run vitrine check            # validate data/ against the fact model
+uv run vitrine build            # render the static site to _site/
+uv run vitrine export           # corpus as dataset → _site/data/ + data.html
+uv run vitrine gaps             # mechanical gap inventory (never hand-kept)
+uv run python -X utf8 -m pytest -q
 ```
+
+The same commands work on Windows and POSIX. Generated files use UTF-8 with
+deterministic line endings; the test command explicitly enables UTF-8 for
+fixtures. Publication uses native cooperating-process locks on both platforms.
+Permission and recovery limits are described in
+[cross-platform builds](docs/cross-platform-builds.md).
 
 ## Deploying
 
@@ -188,6 +196,11 @@ source files and updates the committed ledger only when all checks pass.
 bindings through the normal provenance gate. Install `.[audit]` to read XLSX;
 `.[dev]` includes it. See [Plan 015](plans/015-transcription-audit.md) for scope
 and [the coverage snapshot](docs/transcription-audit-coverage.md) for omissions.
+
+The [remaining-record review](docs/remaining-record-audit-20261028.md) records
+source checks for all previously unbound records, the corrected source and
+population seams, and the specific missing evidence. Its committed inventory
+is checked offline with `python scripts/record_review_report.py --check`.
 
 Every bibliography entry now links to its source collection: all records that
 cite it, their measured populations, and available transcription-audit dates.

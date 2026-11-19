@@ -19,6 +19,7 @@ decade = "1980s"
 
 [[fact]]
 id = "jp-1980s-workers-income"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/1985/income/value", target = "amount_minor", guards = [{ locator = "/fies/1985/income/year", value = "1985" }, { locator = "/fies/1985/income/title", value = "18-2 Yearly Average of Monthly Receipts and Disbursements per Household for Workers' Households (1963\uff5e2017)" }, { locator = "/fies/1985/income/heading", value = "Income" }, { locator = "/fies/1985/income/unit", value = "(yen)" }, { locator = "/fies/1985/income/file", value = "36-jp-income/fies-a18-2.xls" }, { locator = "/fies/1985/income/sha256", value = "36407a833d72c661aaef7ca541405e16f5497b2624358a6a02f7a2ca8888379d" }, { locator = "/fies/1985/income/cell", value = "\u52e4\u52b4\u8005\u4e16\u5e2f!R37C8" }, { locator = "/fies/1985/income/exclusion", value = "\uff0a The data is not including agricultural, forestry and fisheries households." }] }
 basis = "monthly"
 amount_minor = 444846
 currency = "JPY"
@@ -29,7 +30,7 @@ value = "¥444,846 per month"
 unit = "JPY per month, nominal (actual monthly income, workers' households)"
 source = "jp-fies"
 tier = "A"
-notes = "From FIES long-run time-series (fies-a18-2.xls), 1985, column 実収入 (actual monthly income), workers' households. Annual average of monthly figures, current yen. This is the workers'-household income series; a long-run all-household income series was not located in the downloaded FIES tables. Two-or-more-person workers' households, Japan (national from 1963)."
+notes = "From the archived FIES long-run table, 1985, 勤労者世帯!R37C8. This is annual-average monthly income of workers' households, not a median or a four-person family estimate. The archived table excludes agricultural, forestry and fisheries households."
 assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
 
 [[fact]]
@@ -52,6 +53,7 @@ assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-1980s-homeownership"
+audit = { file = "38-jp-housing/world-hls-curator-extract.json", extractor = "json-pointer", locator = "/rows/1988/owned/value", target = "quantity", guards = [{ locator = "/rows/1988/year", value = "1988" }, { locator = "/rows/1988/owned/heading", value = "Ratio of owned houses" }, { locator = "/population", value = "Occupied dwellings" }, { locator = "/publisher_files_sha256/jsy2016-y652105000.xls", value = "8bcf5903fa5cb9cc46985e7324eae4f77ed16b8eeac6ba1c3db4418f4cf263b7" }] }
 quantity = 61.3
 panel = "home"
 label = "Homeownership rate, 1988"
@@ -64,6 +66,7 @@ assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-1980s-floor-area"
+audit = { file = "38-jp-housing/world-hls-curator-extract.json", extractor = "json-pointer", locator = "/rows/1988/area/value", target = "quantity", guards = [{ locator = "/rows/1988/year", value = "1988" }, { locator = "/rows/1988/area/heading", value = "Area of floor space per dwelling" }, { locator = "/population", value = "Occupied dwellings" }, { locator = "/publisher_files_sha256/jsy2016-y652101000.xls", value = "a66515ed7dc3d73dc0a440e3f36c3786e720c533cc561ef2894f0fb8c0e9c0de" }] }
 quantity = 89.29
 panel = "home"
 label = "Floor area per dwelling, 1988"
@@ -76,6 +79,7 @@ assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-1980s-rooms"
+audit = { file = "38-jp-housing/world-hls-curator-extract.json", extractor = "json-pointer", locator = "/rows/1988/rooms/value", target = "quantity", guards = [{ locator = "/rows/1988/year", value = "1988" }, { locator = "/rows/1988/rooms/heading", value = "Dwelling rooms per dwelling" }, { locator = "/population", value = "Occupied dwellings" }, { locator = "/publisher_files_sha256/jsy2016-y652101000.xls", value = "a66515ed7dc3d73dc0a440e3f36c3786e720c533cc561ef2894f0fb8c0e9c0de" }] }
 quantity = 4.86
 panel = "home"
 label = "Rooms per dwelling, 1988"
@@ -90,11 +94,11 @@ assumptions = ["composite-family", "jp-household-not-family"]
 id = "jp-1980s-housing-amenities-gap"
 panel = "home"
 label = "Dwelling facilities (bath, flush toilet, kitchen)"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "jp-hls"
 tier = "D"
-notes = "The HLS questionnaire includes 'Situation of facilities' (bath, toilet, kitchen), but this data is not published in the English Japan Statistical Yearbook tables — only aged-person and energy-saving facility tables appear. The HLS e-Stat statistical tables (Japanese interface) or printed reports would be needed. Basic bath/toilet facility prevalence is not transcribed."
+notes = "The English Japan Statistical Yearbook tables cover aged-person and energy-saving facilities. A Japanese-language Housing and Land Survey historical facilities chart covers this decade; its basic bath and toilet observations have not yet been transcribed and qualified for this room."
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -102,11 +106,11 @@ notes = "The HLS questionnaire includes 'Situation of facilities' (bath, toilet,
 id = "jp-1980s-diffusion-gap"
 panel = "diffusion"
 label = "Durable-goods diffusion, 1980s"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "jp-nsfiie"
 tier = "D"
-notes = "The NSFIIE is quinquennial (survey years 1978, 1983, 1988, 1989). The 1984 and 1989 NSFIIE English durable-goods summaries are not in the archive — English HTML summaries are available only from 1999 onward. The ICWP English summaries begin in 2001 (data ~1999–2000). No 1980s household durable-goods diffusion data is transcribed."
+notes = "The NSFIIE was conducted every five years from 1959. The 1984 and 1989 durable-goods summaries have not been transcribed for this room. The ICWP English summaries in the archive begin in 2001. No 1980s household durable-goods diffusion data is transcribed."
 
 # ── Day panel ─────────────────────────────────────────────────────────────
 
@@ -127,6 +131,7 @@ assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-1980s-consumption"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/1985/consumption/value", target = "amount_minor", guards = [{ locator = "/fies/1985/consumption/year", value = "1985" }, { locator = "/fies/1985/consumption/title", value = "18-1 Yearly Average of Monthly Disbursements per Household for Two-or-more-person Households (1963\uff5e2017)" }, { locator = "/fies/1985/consumption/heading", value = "Consumption expenditures" }, { locator = "/fies/1985/consumption/unit", value = "(yen)" }, { locator = "/fies/1985/consumption/file", value = "36-jp-income/fies-a18-1.xls" }, { locator = "/fies/1985/consumption/sha256", value = "35159f6fa73f09e786857f9aee43800f880a57126a0ec09c821b0d423cdbe172" }, { locator = "/fies/1985/consumption/cell", value = "\u4e8c\u4eba\u4ee5\u4e0a\u306e\u4e16\u5e2f!R36C7" }, { locator = "/fies/1985/consumption/exclusion", value = "\uff0a The data is not including agricultural, forestry and fisheries households." }] }
 basis = "monthly"
 amount_minor = 273114
 currency = "JPY"
@@ -137,11 +142,12 @@ value = "¥273,114 per month"
 unit = "JPY per month, nominal (consumption expenditure, all two-or-more-person households)"
 source = "jp-fies"
 tier = "A"
-notes = "From FIES long-run time-series (fies-a18-1.xls), 1985, all two-or-more-person households. Annual average of monthly consumption expenditure. Note the population differs from the income fact above (workers' households vs all two-or-more-person households)."
+notes = "From the archived FIES long-run table, 1985, 二人以上の世帯!R36C7. This is annual-average monthly total consumption expenditure, not a food basket. The expenditure population includes all household types within the stated survey scope; the income observations use workers' households. The archived table excludes agricultural, forestry and fisheries households."
 assumptions = ["composite-family", "nominal-values", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-1980s-food-share"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/1985/food/value", target = "quantity", guards = [{ locator = "/fies/1985/food/year", value = "1985" }, { locator = "/fies/1985/food/title", value = "18-1 Yearly Average of Monthly Disbursements per Household for Two-or-more-person Households (1963\uff5e2017)" }, { locator = "/fies/1985/food/heading", value = "Food" }, { locator = "/fies/1985/food/unit", value = "(yen)" }, { locator = "/fies/1985/food/file", value = "36-jp-income/fies-a18-1.xls" }, { locator = "/fies/1985/food/sha256", value = "35159f6fa73f09e786857f9aee43800f880a57126a0ec09c821b0d423cdbe172" }, { locator = "/fies/1985/food/cell", value = "\u4e8c\u4eba\u4ee5\u4e0a\u306e\u4e16\u5e2f!R36C8" }, { locator = "/fies/1985/food/exclusion", value = "\uff0a The data is not including agricultural, forestry and fisheries households." }, { locator = "/fies/1985/consumption/year", value = "1985" }, { locator = "/fies/1985/consumption/heading", value = "Consumption expenditures" }, { locator = "/fies/1985/consumption/sha256", value = "35159f6fa73f09e786857f9aee43800f880a57126a0ec09c821b0d423cdbe172" }, { locator = "/fies/1985/consumption/cell", value = "\u4e8c\u4eba\u4ee5\u4e0a\u306e\u4e16\u5e2f!R36C7" }], calculation = { op = "pct_of", operands = ["/fies/1985/consumption/value"], precision = 1, rounding = "half_up", method = "Food expenditure divided by total consumption expenditure in the same annual-average source row, times one hundred; same household population and year, rounded once to one decimal place." } }
 quantity = 27.0
 panel = "table"
 label = "Food share of consumption expenditure, 1985"
@@ -149,8 +155,8 @@ value = "27.0%"
 unit = "% of consumption expenditure spent on food"
 source = "jp-fies"
 tier = "A"
-notes = "From FIES (fies-a18-1.xls), 1985: food expenditure ¥73,735 ÷ consumption ¥273,114 = 27.0%. All two-or-more-person households. The Engel ratio had fallen from 38.1% (1965) and 32.0% (1975) as incomes rose."
-assumptions = ["composite-family", "jp-household-not-family"]
+notes = "Calculated from the archived FIES long-run table's Food and Consumption expenditures cells in the same 1985 annual-average row. The source's Food category is retained without relabelling it as food and non-alcoholic beverages. The percentage is rounded once to one decimal place; calculation operands and rounding are recorded in the audit. The archived table excludes agricultural, forestry and fisheries households."
+assumptions = ["composite-family", "jp-household-not-family", "jp-fies-food-share"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
@@ -158,8 +164,8 @@ assumptions = ["composite-family", "jp-household-not-family"]
 id = "jp-1980s-work-buys-gap"
 panel = "work-buys"
 label = "Affordability comparisons, 1980s"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "jp-mls"
 tier = "D"
-notes = "No item prices are in the archive for the 1980s, so hours-of-work-to-afford comparisons cannot be computed. The MLS wage (¥317,091/month, 1985) is the available wage reference."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."

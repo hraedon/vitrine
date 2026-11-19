@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% from "macros/placards.html" import placard_overlay %}
-{% from "macros/charts.html" import composition_details %}
+{% from "macros/charts.html" import composition_details, composition_rows, chart_tables %}
 {% from "macros/legends.html" import legend_block %}
 {% block title %}corridors — vitrine{% endblock %}
 {% block body %}
@@ -51,6 +51,7 @@
       <div class="exhibit-body">
         {% for caveat in item.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
         <div class="chart-panel" role="region" aria-label="Affordability chart; scroll horizontally on a small screen" tabindex="0">{{ item.chart }}</div>
+        {{ chart_tables(item.tables) }}
         <p class="case-sub">Tier letters carry the weakest input. The ratio is computed, never authored as a fact.</p>
       </div>
     </details>
@@ -58,11 +59,11 @@
     <details class="atlas-exhibit" id="budget-composition">
       <summary class="exhibit-summary">
         <span class="exhibit-title"><b>Budget composition</b><span>Share of household expenditure · fixed categories</span></span>
-        <span class="coverage">{{ page.comp_rows|length }} rooms charted</span>
+        <span class="coverage">{{ page.comp_rows|rejectattr('gap')|list|length }} rooms charted{% if page.comp_rows|selectattr('gap')|list|length %} · {{ page.comp_rows|selectattr('gap')|list|length }} documented gaps{% endif %}</span>
       </summary>
       <div class="exhibit-body">
         {% for caveat in page.comp_caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
-        <div class="chart-panel" role="region" aria-label="Budget composition chart; scroll horizontally on a small screen" tabindex="0">{% for row in page.comp_rows %}{{ row.bar }}{% endfor %}</div>
+        <div class="chart-panel" role="region" aria-label="Budget composition chart; scroll horizontally on a small screen" tabindex="0">{{ composition_rows(page.comp_rows) }}</div>
         {{ composition_details(page.comp_rows) }}
       </div>
     </details>
@@ -77,6 +78,7 @@
       <div class="exhibit-body">
         {% for caveat in arc.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
         <div class="chart-panel" role="region" aria-label="Trend chart; scroll horizontally on a small screen" tabindex="0">{{ arc.chart }}</div>
+        {{ chart_tables(arc.tables) }}
       </div>
     </details>
   {% endfor %}

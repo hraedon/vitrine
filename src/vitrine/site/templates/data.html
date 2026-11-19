@@ -11,7 +11,7 @@ exports. They are projections of the gated corpus, not a second source of truth.
     <span class="l-num" aria-hidden="true">↓</span>
     <div>
       <div class="l-title"><a href="data/corpus.json">corpus.json</a></div>
-      <div class="l-meta">schema version 1 · {{ page.rooms }} rooms · {{ page.facts }} facts · {{ page.derived }} derived</div>
+      <div class="l-meta">schema version {{ page.schema_version }} · {{ page.rooms }} rooms · {{ page.facts }} facts · {{ page.derived }} derived</div>
       <p class="l-body">The versioned record includes room metadata, every authored
       fact and all structured values, the computed results and operand ids for
       derived facts, the source register, and the assumption ledger.</p>

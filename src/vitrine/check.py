@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import math
 import re
+from decimal import Decimal, InvalidOperation
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -17,34 +18,88 @@ from vitrine import money
 from vitrine.audit import check_audits
 from vitrine.model import (
     INTERPOLATION_RE,
+    AuditOperation,
+    AuditTarget,
     Basis,
     BlockKind,
     Corpus,
     DerivedOp,
     Fact,
     Room,
+    SeriesKind,
     measure_axis,
     normalized_unit,
 )
-from vitrine.series import Series
+from vitrine.series import Series, representation_problems
+
+# Tokenize complete decimal/comma/scientific spellings. Keep dash-joined
+# numbers together: a range cannot supply a single headline quantity.
+_QUANTITY_NUMBER = r"[+\-\N{MINUS SIGN}]?(?:\d+(?:[.,]\d+)*|\.\d+)(?:[eE][+\-]?\d+)?"
+_QUANTITY_TOKENS = re.compile(
+    rf"{_QUANTITY_NUMBER}(?:\s*[-–—]\s*{_QUANTITY_NUMBER})*"
+)
+_QUANTITY_CONTINUATION = re.compile(r"(?:[.,eE+\-\N{MINUS SIGN}]+\d|[eE][+\-])")
+_QUANTITY_DECIMAL = re.compile(r"-?(?:\d+|\d{1,3}(?:,\d{3})+)\.\d+")
 
 
-def _quantity_renderings(quantity: float) -> set[str]:
+def _quantity_renderings(quantity: float | Decimal) -> set[str]:
     """The strings a structured quantity may appear as in the display value.
 
     The quantity is a transcription of the displayed datum; if none of these
     renderings occurs verbatim in ``value``, the two have drifted apart.
     """
+    if isinstance(quantity, Decimal):
+        quantity = quantity.normalize()
     renderings = {f"{quantity:g}"}
+    if isinstance(quantity, Decimal):
+        renderings.add(f"{quantity:,f}")
     if quantity == int(quantity):
         renderings.add(str(int(quantity)))
         renderings.add(f"{int(quantity):,}")
     return renderings
 
 
+def _quantity_in_value(
+    quantity: float | Decimal, value: str, currency: money.Currency | None = None,
+) -> bool:
+    """Match existing renderings as whole numeric tokens, without arithmetic."""
+    renderings = _quantity_renderings(quantity)
+    for match in _QUANTITY_TOKENS.finditer(value):
+        start, end = match.span()
+        token = match.group()
+        # Do not recover an inner number from malformed punctuation/signs,
+        # or interpret a word-attached hyphen as an unambiguous unary sign.
+        if start and (
+            value[start - 1] in "+-\N{MINUS SIGN}–—.,eE0123456789"
+            or (token[0] in "+-\N{MINUS SIGN}" and value[start - 1].isalnum())
+        ):
+            continue
+        if _QUANTITY_CONTINUATION.match(value, end):
+            continue
+        if currency is not None:
+            before, after = value[:start].rstrip(), value[end:].lstrip()
+            marked = (
+                (currency.symbol_before and before.endswith(currency.symbol))
+                or (not currency.symbol_before and after.startswith(currency.symbol))
+                or re.search(rf"\b{re.escape(currency.code)}$", before) is not None
+                or re.match(rf"{re.escape(currency.code)}\b", after) is not None
+            )
+            if not marked:
+                continue
+        token = token.removeprefix("+")
+        # Preserve display precision such as 36.00 and 12.300, but keep
+        # scientific notation literal: this is not a new equivalence parser.
+        if _QUANTITY_DECIMAL.fullmatch(token):
+            token = token.rstrip("0").rstrip(".")
+        if token in renderings:
+            return True
+    return False
+
+
 def check_corpus(corpus: Corpus, series: dict[str, Series] | None = None) -> list[str]:
     """Return all problems found; an empty list means the gate is green."""
     problems: list[str] = check_audits(corpus)
+    audit_by_id = {entry.fact_id: entry for entry in corpus.audit_ledger}
 
     for source in corpus.sources.values():
         if not source.url.strip():
@@ -94,6 +149,35 @@ def check_corpus(corpus: Corpus, series: dict[str, Series] | None = None) -> lis
                         f"{where}: unknown currency {fact.currency!r} — register it "
                         f"in vitrine.money.CURRENCIES"
                     )
+                else:
+                    currency = money.get(fact.currency)
+                    amount = Decimal(fact.amount_minor).scaleb(
+                        -currency.minor_digits,
+                    ).normalize()
+                    rounded_anchor = (
+                        fact.audit is not None
+                        and fact.audit.target is AuditTarget.AMOUNT_MINOR
+                        and fact.audit.calculation is not None
+                        and fact.audit.calculation.op is AuditOperation.ROUND
+                    )
+                    rounded_displayed = False
+                    entry = audit_by_id.get(fact.id)
+                    if rounded_anchor and entry is not None and len(entry.operands) == 1:
+                        try:
+                            operand = Decimal(entry.operands[0])
+                        except InvalidOperation:
+                            pass  # The audit gate separately diagnoses malformed operands.
+                        else:
+                            rounded_displayed = operand.is_finite() and _quantity_in_value(
+                                operand.normalize(), fact.value, currency,
+                            )
+                    if not rounded_displayed and not _quantity_in_value(
+                        amount, fact.value, currency,
+                    ):
+                        problems.append(
+                            f"{where}: structured monetary amount does not appear in value; "
+                            "remove the hidden amount or disclose a replayed rounding method"
+                        )
                 if fact.price_year is None:
                     problems.append(f"{where}: amount_minor set but price_year is missing")
                 if fact.basis is None:
@@ -106,7 +190,7 @@ def check_corpus(corpus: Corpus, series: dict[str, Series] | None = None) -> lis
             if fact.quantity is not None:
                 if not math.isfinite(fact.quantity):
                     problems.append(f"{where}: quantity is not a finite number")
-                elif not any(r in fact.value for r in _quantity_renderings(fact.quantity)):
+                elif not _quantity_in_value(fact.quantity, fact.value):
                     problems.append(
                         f"{where}: quantity {fact.quantity:g} does not appear in the "
                         f"display value — the structured quantity must transcribe "
@@ -243,13 +327,13 @@ def _check_derived(
             else:
                 s = series[derived.inflate_series] if series else None
                 if s is not None:
-                    if s.values_minor:
+                    if s.monetary:
                         # Plan 023 WI-3: INFLATE multiplies by a series *ratio*;
                         # a monetary series is an amount, not an index — using
                         # one as the ratio smuggles a currency into the result.
                         problems.append(
                             f"{where}: inflate_series {derived.inflate_series!r} "
-                            f"is monetary (values_minor) — INFLATE requires an "
+                            f"is monetary ({s.kind.value}) — INFLATE requires an "
                             f"index series (values)"
                         )
                     for yr, label in (
@@ -263,6 +347,11 @@ def _check_derived(
                                 f"{where}: {label} {yr} not in series "
                                 f"{derived.inflate_series!r}"
                             )
+                    if s.values.get(derived.inflate_from_year) == 0:
+                        problems.append(
+                            f"{where}: inflate_from_year value is zero — "
+                            "the index ratio would divide by zero"
+                        )
             continue
 
         # COUNT_ABOVE (Plan 027 WI-6): operands are series, not facts. The
@@ -305,10 +394,10 @@ def _check_derived(
                     f"a count is only meaningful over one dimension"
                 )
             for s in resolved:
-                if s.values_minor:
+                if s.monetary:
                     problems.append(
                         f"{where}: count_series {s.id!r} is monetary "
-                        f"(values_minor) — COUNT_ABOVE thresholds quantities"
+                        f"({s.kind.value}) — COUNT_ABOVE thresholds quantities"
                     )
             if resolved and not any(derived.at_year in s.values for s in resolved):
                 problems.append(
@@ -426,12 +515,26 @@ def _check_derived(
     return problems
 
 
+class _RecordScanner(HTMLParser):
+    """Read canonical inventory rows, excluding highlights and modal copies."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.record_ids: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        attributes = dict(attrs)
+        if "fact-row" in (attributes.get("class") or "").split():
+            self.record_ids.append(attributes.get("id") or "")
+
+
 def check_render_coverage(corpus: Corpus, build_dir: Path) -> list[str]:
     """Invariant 7: the set of facts rendered must equal the set curated.
 
-    Compares ``facts-manifest.txt`` in *build_dir* against the loaded corpus.
-    An empty list means every curated fact was rendered and nothing extra
-    was injected.
+    Check both the build manifest and actual canonical rows in each room.
+    A manifest alone only describes the renderer's intent: a template can
+    omit a row while the orchestrator still lists its id. This verifies row
+    presence and room membership, not source correctness or visual layout.
     """
     manifest_path = build_dir / "facts-manifest.txt"
     if not manifest_path.is_file():
@@ -441,7 +544,7 @@ def check_render_coverage(corpus: Corpus, build_dir: Path) -> list[str]:
 
     rendered_ids = {
         line.strip()
-        for line in manifest_path.read_text().splitlines()
+        for line in manifest_path.read_text(encoding="utf-8").splitlines()
         if line.strip()
     }
     curated_ids = {fact.id for room in corpus.rooms for fact in room.facts}
@@ -452,6 +555,24 @@ def check_render_coverage(corpus: Corpus, build_dir: Path) -> list[str]:
         problems.append(f"render-coverage: fact {fid!r} curated but not rendered")
     for fid in sorted(rendered_ids - curated_ids):
         problems.append(f"render-coverage: fact {fid!r} rendered but not curated")
+    for room in corpus.rooms:
+        page = build_dir / "rooms" / f"{room.slug}.html"
+        if not page.is_file():
+            problems.append(f"render-coverage: room page {page} not found")
+            continue
+        scanner = _RecordScanner()
+        scanner.feed(page.read_text(encoding="utf-8"))
+        expected = {fact.id for fact in room.facts} | {item.id for item in room.derived}
+        actual = set(scanner.record_ids)
+        for fid in sorted(expected - actual):
+            problems.append(f"render-coverage: fact {fid!r} missing record row in {room.slug}")
+        for fid in sorted(actual - expected):
+            problems.append(f"render-coverage: unexpected record row {fid!r} in {room.slug}")
+        seen: set[str] = set()
+        for fid in scanner.record_ids:
+            if fid in seen:
+                problems.append(f"render-coverage: duplicate record row {fid!r} in {room.slug}")
+            seen.add(fid)
     return problems
 
 
@@ -480,12 +601,7 @@ def check_series(series: dict[str, Series], corpus: Corpus) -> list[str]:
     for s in series.values():
         where = f"series {s.id!r}"
 
-        if not s.values and not s.values_minor:
-            problems.append(f"{where}: has neither 'values' nor 'values_minor'")
-        if s.values and s.values_minor:
-            problems.append(
-                f"{where}: has both 'values' and 'values_minor' — declare exactly one"
-            )
+        problems.extend(f"{where}: {problem}" for problem in representation_problems(s))
 
         if s.source not in corpus.sources:
             problems.append(f"{where}: unknown source {s.source!r}")
@@ -523,14 +639,12 @@ def check_series(series: dict[str, Series], corpus: Corpus) -> list[str]:
                 f"{series[s.splices_from].currency!r} but this series declares "
                 f"{s.currency!r} — a splice must stay within one currency"
             )
-
-        # Plan 023 WI-3: a monetary series must name a currency the money
-        # registry knows (same rule as a priced fact), so every consumer
-        # scales it by the registry's minor digits instead of assuming cents.
-        if s.values_minor and s.currency and not money.is_known(s.currency):
+        if s.splices_from in series and (
+            s.kind is not series[s.splices_from].kind
+            or s.rate_basis is not series[s.splices_from].rate_basis
+        ):
             problems.append(
-                f"{where}: unknown currency {s.currency!r} — register it in "
-                f"vitrine.money.CURRENCIES"
+                f"{where}: splices_from {s.splices_from!r} changes numeric kind or rate_basis"
             )
 
         # ── Drift detector (invariant 9) ───────────────────────────────────
@@ -549,15 +663,18 @@ def check_series(series: dict[str, Series], corpus: Corpus) -> list[str]:
             if (
                 fact.amount_minor is not None
                 and year in s.values_minor
-                and fact.amount_minor != s.values_minor[year]
             ):
-                problems.append(
-                    f"{where}: disagrees with fact {fact.id!r} for {year} "
-                    f"(series {s.values_minor[year]}, fact {fact.amount_minor}) "
-                    f"— the same number drifted in two places"
-                )
+                if fact.currency != s.currency:
+                    problems.append(f"{where}: currency mismatch with fact {fact.id!r}")
+                elif fact.amount_minor != s.values_minor[year]:
+                    problems.append(
+                        f"{where}: disagrees with fact {fact.id!r} for {year} "
+                        f"(series {s.values_minor[year]}, fact {fact.amount_minor}) "
+                        f"— the same number drifted in two places"
+                    )
             if (
-                fact.quantity is not None
+                s.kind is SeriesKind.QUANTITY
+                and fact.quantity is not None
                 and year in s.values
                 and not math.isclose(
                     fact.quantity, s.values[year], rel_tol=1e-3, abs_tol=0.05
@@ -571,27 +688,27 @@ def check_series(series: dict[str, Series], corpus: Corpus) -> list[str]:
                     f"(series {s.values[year]:g}, fact quantity "
                     f"{fact.quantity:g}) — the same number drifted in two places"
                 )
-            # Cross-unit agreement: a wage series carries its annual mean in
-            # ``values`` (float dollars, sub-cent precision that ``values_minor``
-            # can't represent), while the matching fact stores the rounded
-            # display value in ``amount_minor`` (cents). Compare dollars to
-            # cents-to-dollars with cent-rounding tolerance so a drifted wage
-            # is caught even though the two live in different unit fields. The
-            # basis guard skips a weekly-earnings fact that shares the hourly
-            # series's source but is a different concept (hourly ≠ weekly).
+            # Rate observations retain subminor precision in major units.
+            # Only matching currency/time bases describe the same number.
             if (
-                fact.amount_minor is not None
-                and fact.basis is Basis.HOURLY
+                s.kind is SeriesKind.MONETARY_RATE
+                and fact.amount_minor is not None
+                and fact.basis is s.rate_basis
                 and year in s.values
-                and not math.isclose(
-                    s.values[year], fact.amount_minor / 100.0, rel_tol=1e-3, abs_tol=0.01
-                )
             ):
-                problems.append(
-                    f"{where}: disagrees with fact {fact.id!r} for {year} "
-                    f"(series {s.values[year]:g}, fact ${fact.amount_minor / 100:.2f}) "
-                    f"— the same number drifted in two places"
-                )
+                if fact.currency != s.currency:
+                    problems.append(f"{where}: currency mismatch with fact {fact.id!r}")
+                elif money.is_known(s.currency):
+                    scale = 10 ** money.get(s.currency).minor_digits
+                    fact_major = fact.amount_minor / scale
+                    if not math.isclose(
+                        s.values[year], fact_major, rel_tol=0, abs_tol=0.5 / scale + 1e-12,
+                    ):
+                        problems.append(
+                            f"{where}: disagrees with fact {fact.id!r} for {year} "
+                            f"(series {s.values[year]:g}, fact {fact_major:g} {s.currency}) "
+                            f"— the same number drifted in two places"
+                        )
 
     return problems
 
@@ -730,7 +847,7 @@ def check_mark_coverage(corpus: Corpus, build_dir: Path) -> list[str]:
     n_marks = 0
     for page in pages:
         scanner = _MarkScanner()
-        scanner.feed(page.read_text())
+        scanner.feed(page.read_text(encoding="utf-8"))
         n_marks += len(scanner.mark_ids)
         for mark_id in sorted(set(scanner.mark_ids) - curated_ids):
             problems.append(

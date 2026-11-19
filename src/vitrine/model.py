@@ -44,6 +44,14 @@ class Basis(enum.Enum):
     ANNUAL = "annual"    # an annual figure ($3,319/yr)
 
 
+class SeriesKind(enum.Enum):
+    """Numeric representation of annual observations — closed set."""
+
+    QUANTITY = "quantity"  # indices, hours, shares, counts; no currency
+    MONETARY_AMOUNT = "monetary_amount"  # integer currency minor units
+    MONETARY_RATE = "monetary_rate"  # major currency units per explicit time basis
+
+
 class Measure(enum.Enum):
     """What economic quantity an affordability *anchor* measures — closed set.
 
@@ -255,6 +263,8 @@ class Extractor(enum.Enum):
 class AuditOperation(enum.Enum):
     MEAN = "mean"
     PCT_OF = "pct_of"
+    RATIO = "ratio"
+    ROUND = "round"
 
 
 class AuditRounding(enum.Enum):
@@ -314,7 +324,7 @@ class Fact:
     assumptions: tuple[str, ...] = field(default=())
     amount_minor: int | None = None  # integer minor units (cents) — no float drift
     currency: str = ""  # "USD"; required iff amount_minor is set
-    price_year: int | None = None  # year the amount is quoted in
+    price_year: int | None = None  # amount year; legacy observation-year field on numeric charts
     basis: Basis | None = None  # required iff amount_minor is set
     quantity: float | None = None  # headline numeric for chart projection; must
     # appear verbatim in ``value`` (gate-enforced) — a transcription of the

@@ -18,13 +18,15 @@ data_as_of = "2024"
 
 [[fact]]
 id = "us-2020s-expenditure-breakdown-4p"
+audit = { file = "02-cex/cu-size-2024-means-wayback.xlsx", extractor = "xlsx-cell", locator = "Table 1400!G52", scale = "1", guards = [{ locator = "Table 1400!G4", value = "Four\npeople" }, { locator = "Table 1400!A51", value = "Average annual expenditures" }, { locator = "Table 1400!A52", value = "Mean" }, { locator = "Table 1400!A56", value = "Food" }, { locator = "Table 1400!G57", value = "14543.0" }, { locator = "Table 1400!G58", value = "13.3" }, { locator = "Table 1400!A193", value = "Housing" }, { locator = "Table 1400!G194", value = "34389.0" }, { locator = "Table 1400!G195", value = "31.5" }] }
+quantity = 109002
 panel = "budget"
 label = "Expenditure breakdown, four-person consumer units, 2024"
-value = "no reliable record verified for this comparison"
-unit = "% of total annual expenditure"
-source = "bls-cex-four-person-2024-aggregate"
-tier = "D"
-notes = "The archived 2024 Table 1400 contains rounded shares of national aggregate spending by consumer-unit size, not published within-budget mean expenditure shares. Its income mean also differs from the previous transcription. Exact four-person expenditure amounts and budget shares previously shown here cannot be reproduced from this file and have been withdrawn pending the correct annual-means table. The direct official means-table download returned HTTP 403 on 2026-09-07. Historical comparisons also mix survey populations; 1901 rent is narrower than modern housing expenditure. All-consumer-unit 2024 figures remain separately available and audited."
+value = "Total $109,002; food $14,543 (13.3%); housing $34,389 (31.5%)"
+unit = "2024 nominal USD; parenthetical values are shares of total annual expenditure"
+source = "bls-cex-four-person-2024-mean"
+tier = "A"
+notes = "BLS Table 1400 reports annual mean expenditures for four-person consumer units. Food and housing amounts and shares are also table means; the historical comparisons use distinct populations and categories."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
@@ -32,10 +34,10 @@ id = "us-2020s-food-share-comparison"
 panel = "budget"
 label = "Food-share comparison with 1901: verification gap"
 value = "no reliable record verified for this comparison"
-unit = "% of total family expenditure"
+unit = "% of total consumer-unit expenditure"
 source = "bls-cex-four-person-2024-aggregate"
 tier = "D"
-notes = "The archived 2024 Table 1400 contains rounded shares of national aggregate spending by consumer-unit size, not published within-budget mean expenditure shares. Its income mean also differs from the previous transcription. Exact four-person expenditure amounts and budget shares previously shown here cannot be reproduced from this file and have been withdrawn pending the correct annual-means table. The direct official means-table download returned HTTP 403 on 2026-09-07. Historical comparisons also mix survey populations; 1901 rent is narrower than modern housing expenditure. All-consumer-unit 2024 figures remain separately available and audited."
+notes = "The 2024 four-person consumer-unit mean food share is 13.3%. A compatible 1901 comparison has not been established."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
@@ -43,10 +45,10 @@ id = "us-2020s-housing-share-comparison"
 panel = "budget"
 label = "Housing-share comparison with 1901: incompatible categories"
 value = "no reliable record verified for this comparison"
-unit = "% of total family expenditure"
+unit = "% of total consumer-unit expenditure"
 source = "bls-cex-four-person-2024-aggregate"
 tier = "D"
-notes = "The archived 2024 Table 1400 contains rounded shares of national aggregate spending by consumer-unit size, not published within-budget mean expenditure shares. Its income mean also differs from the previous transcription. Exact four-person expenditure amounts and budget shares previously shown here cannot be reproduced from this file and have been withdrawn pending the correct annual-means table. The direct official means-table download returned HTTP 403 on 2026-09-07. Historical comparisons also mix survey populations; 1901 rent is narrower than modern housing expenditure. All-consumer-unit 2024 figures remain separately available and audited."
+notes = "The 2024 four-person consumer-unit mean housing share is 31.5%. Historical rent is narrower than housing expenditure, and a compatible comparison has not been established."
 assumptions = ["composite-family", "income-vs-consumption", "nominal-values"]
 
 [[fact]]
@@ -113,7 +115,7 @@ assumptions = ["composite-family"]
 id = "us-2020s-cex-total-expenditures"
 audit = { file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx", extractor = "xlsx-cell", locator = "Table!E48", guards = [{ locator = "Table!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Surveys, 2021-2024" }, { locator = "Table!A48", value = "Average annual expenditures" }, { locator = "Table!E3", value = "2024.0" }] }
 panel = "budget"
-label = "Average annual household expenditures, 2024"
+label = "Average annual consumer-unit expenditures, 2024"
 quantity = 78535
 value = "$78,535"
 unit = "USD per consumer unit, nominal"
@@ -139,7 +141,7 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-2020s-cex-healthcare-share"
 audit = { file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx", extractor = "xlsx-cell", locator = "Table!E137", guards = [{ locator = "Table!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Surveys, 2021-2024" }, { locator = "Table!E3", value = "2024.0" }, { locator = "Table!A137", value = "Healthcare" }, { locator = "Table!A48", value = "Average annual expenditures" }], calculation = { op = "pct_of", operands = ["Table!E48"], precision = 1, rounding = "half_up", method = "All consumer units, 2024: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
-label = "Healthcare share of household budget, 2024"
+label = "Healthcare share of consumer-unit expenditure, 2024"
 quantity = 7.9
 value = "7.9% of total expenditures ($6,197)"
 unit = "% of total annual expenditures; USD nominal"
@@ -152,7 +154,7 @@ assumptions = ["composite-family", "nominal-values"]
 id = "us-2020s-cex-apparel-share"
 audit = { file = "19-cpi-tables/cu-all-multi-year-2021-2024.xlsx", extractor = "xlsx-cell", locator = "Table!E113", guards = [{ locator = "Table!A1", value = "Average annual expenditures and characteristics of all consumer units, Consumer Expenditure Surveys, 2021-2024" }, { locator = "Table!E3", value = "2024.0" }, { locator = "Table!A113", value = "Apparel and services" }, { locator = "Table!A48", value = "Average annual expenditures" }], calculation = { op = "pct_of", operands = ["Table!E48"], precision = 1, rounding = "half_up", method = "All consumer units, 2024: numerator mean divided by denominator mean, multiplied by 100, rounded once to one decimal place. This is a ratio of survey means, not the mean of individual household ratios." } }
 panel = "budget"
-label = "Apparel share of household budget, 2024"
+label = "Apparel share of consumer-unit expenditure, 2024"
 quantity = 2.5
 value = "2.5% of total expenditures"
 unit = "% of total annual expenditures"
@@ -165,6 +167,7 @@ assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-2020s-homeownership-rate"
+audit = { file = "remaining-audit-20261028/world-recent-extract.json", extractor = "json-pointer", locator = "/acs2024/owner_count", scale = "1", guards = [{ locator = "/acs2024/occupied_total", value = "132737146" }, { locator = "/provenance", value = "Curator extraction from pinned EIA microdata and 2024 Census ACS 1-year API response snapshots; not publisher artifact." }], calculation = { op = "pct_of", operands = ["/acs2024/occupied_total"], precision = 1, rounding = "half_up", method = "2024 ACS 1-year national occupied-unit count divided by occupied units; curator extraction from pinned source API responses, rounded once." } }
 quantity = 65.3
 panel = "home"
 label = "Homeownership rate, 2024"
@@ -172,23 +175,25 @@ value = "65.3%"
 unit = "% of occupied housing units that are owner-occupied"
 source = "census-acs"
 tier = "A"
-notes = "From Census Bureau, 2024 American Community Survey 1-Year Estimates (data.census.gov). The rate is ±0.1%. Up from 55.0% in 1950. (Source re-pointed from census-ahs 2026-07-07: this is ACS data, not AHS.)"
-assumptions = ["composite-family"]
+notes = "2024 ACS 1-year Table B25003 estimates 86,635,506 owner-occupied units out of 132,737,146 occupied units."
+assumptions = ["composite-family", "recent-published-count-share"]
 
 [[fact]]
 id = "us-2020s-housing-characteristics"
+audit = { file = "remaining-audit-20261028/recent_us-originals/AHS_TABLE2_2023_check.xlsx", extractor = "xlsx-cell", locator = "AHS!B73", scale = "1", guards = [{ locator = "AHS!A1", value = "2023 National — Rooms, Size, and Amenities — All Occupied Units" }, { locator = "AHS!A73", value = "Median (square feet)" }] }
 quantity = 1500
 panel = "home"
 label = "Housing characteristics, 2023 (AHS)"
-value = "Median 1,500 sq ft. 99.9% have complete bathroom. 89.3% public water, 80.9% public sewer. Median 5 rooms. 67.6% have garage/carport."
-unit = "percent of 133.2M occupied units (AHS 2023 National)"
+value = "Median 1,500 sq ft"
+unit = "square feet per occupied housing unit (median)"
 source = "census-ahs"
 tier = "A"
-notes = "From American Housing Survey 2023 National tables (AHS Table Creator, generated 2026-07-06). Data parsed from Excel exports. Total occupied units: 133,231 thousand. Complete bathroom: 133,096K (99.9%). Public water: 119,015K (89.3%). Public sewer: 107,884K (80.9%). Garage or carport: 90,044K (67.6%). Median square footage: 1,500 (mean: 1,809). For comparison with 1950 Census of Housing: near-universal plumbing and electricity, dramatically larger homes (1950 median ~1,000 sq ft estimated)."
+notes = "The 2023 American Housing Survey national table reports a median of 1,500 square feet for occupied housing units; medians are rounded for disclosure avoidance."
 assumptions = ["composite-family", "dwelling-size-metric"]
 
 [[fact]]
 id = "us-2020s-median-home-size"
+audit = { file = "remaining-audit-20261028/world-newhome-extract.json", extractor = "json-pointer", locator = "/years/2024/median_sqft", scale = "1", guards = [{ locator = "/provenance", value = "Curator extraction from pinned Census new-house median workbook" }, { locator = "/years/2024/population", value = "new single-family houses completed" }] }
 quantity = 2146
 panel = "home"
 label = "Median square footage of new single-family homes, 2024"
@@ -196,7 +201,7 @@ value = "2,146 sq ft (new construction)"
 unit = "median square feet of floor area, new single-family houses completed"
 source = "census-soc-new-housing"
 tier = "A"
-notes = "From the Census Bureau's Survey of Construction (Characteristics of New Housing, annual data, released 2026-07-01). Median floor area of new single-family houses completed in 2024: 2,146 sq ft, down from a 2022 peak of 2,299 sq ft as builders responded to higher interest rates by building smaller homes. This is new construction only; the existing stock median is 1,500 sq ft (AHS 2023)."
+notes = "Census Survey of Construction reports the median floor area of new single-family houses completed in 2024. This measures new construction, not the existing housing stock."
 assumptions = ["composite-family", "dwelling-size-metric"]
 
 [[fact]]
@@ -211,18 +216,18 @@ amount_minor = 36060000
 currency = "USD"
 price_year = 2024
 basis = "total"
-notes = "From Census ACS 1-Year Estimates, Table B25077 (Median value of owner-occupied housing units), 2024. Margin of error: ±$618. Time series: $179,900 (2010), $181,200 (2014), $240,500 (2019), $360,600 (2024) — doubled in 14 years. For comparison: $7,354 in 1950 (Tier C)."
+notes = "Census ACS 1-year Table B25077 reports the median value of owner-occupied housing units in 2024, with a margin of error of ±$618."
 assumptions = ["nominal-values", "dwelling-size-metric"]
 
 [[fact]]
 id = "us-2020s-housing-surge"
 panel = "home"
-label = "The pandemic housing surge: median home value 2019 vs 2024"
+label = "Median home value, 2019 and 2024"
 value = "$240,500 (2019) → $360,600 (2024)"
 unit = "USD, nominal (ACS B25077 median value of owner-occupied units)"
 source = "census-acs-homevalue"
 tier = "A"
-notes = "Both endpoints transcribed from Census ACS 1-Year Estimates, Table B25077 (Median value of owner-occupied housing units). 2019: $240,500 (±$1,034). 2024: $360,600 (±$618). The increase far exceeds the prior decade's rate ($179,900 in 2010 → $240,500 in 2019). The surge reflects pandemic-era demand, low mortgage rates (2020-21), and supply constraints. The percentage change is not stated here — it would be cross-fact arithmetic; the two endpoints speak for themselves."
+notes = "Census ACS 1-year Table B25077 reports median values of owner-occupied housing units: $240,500 in 2019 (±$451) and $360,600 in 2024 (±$618)."
 assumptions = ["nominal-values"]
 
 [[fact]]
@@ -234,12 +239,14 @@ value = "$1,487/month"
 unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
 source = "census-acs-gross-rent"
 tier = "A"
-notes = "From ACS Table B25064, 2024 1-year estimates (Census API). Up from $855 in 2010. The renter half of the housing story: rents rose faster than incomes in the 2020s. Arc: $602 (2000) → $855 (2010) → $1,097 (2019) → $1,487 (2024)."
+notes = "Census ACS 1-year Table B25064 reports the median monthly gross rent for renter-occupied housing units paying cash rent in 2024."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-2020s-nhe-total"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2024/gdp_share", target = "quantity", guards = [{ locator = "/cms/2024/year", value = "2024" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 18.0
 panel = "table"
 label = "Healthcare spending, 2024"
@@ -247,10 +254,12 @@ value = "$5,278.6 billion (18.0% of GDP)"
 unit = "USD billions, nominal; NHE as % of GDP"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE: $5,278.6B. GDP: $29,298.0B. Per capita: $15,474. Healthcare now consumes nearly one-fifth of GDP. From 5% in 1960 to 18% in 2024 — healthcare's share of the economy tripled."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2024. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2020s-nhe-out-of-pocket-share"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2024/out_of_pocket", target = "quantity", guards = [{ locator = "/cms/2024/year", value = "2024" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }], calculation = { op = "pct_of", operands = ["/cms/2024/total"], precision = 1, rounding = "half_up", method = "Same-year out-of-pocket spending divided by total NHE, times one hundred." } }
+assumptions = ["cms-nhe-shares"]
 quantity = 10.5
 panel = "budget"
 label = "Out-of-pocket share of health spending, 2024"
@@ -258,10 +267,12 @@ value = "10.5% of national health expenditures paid out of pocket"
 unit = "% of total NHE"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Out of pocket: $556,554M of $5,278,588M total. Down from 47.1% in 1960 — the share of health spending paid directly by families fell by more than three-quarters over six decades."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2024. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2020s-nhe-per-capita"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2024/per_capita", target = "quantity", guards = [{ locator = "/cms/2024/year", value = "2024" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 15474
 panel = "table"
 label = "National health spending per person, 2024"
@@ -269,21 +280,25 @@ value = "$15,474 per capita ($13,222 for personal health care)"
 unit = "USD per person, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE per capita: $15,474. Personal Health Care per capita: $13,222. Population: 341M. From $146 (1960) to $15,474 (2024) — a 106x increase in nominal terms."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2024. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2020s-nhe-gdp-share-arc"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2024/gdp_share", target = "quantity", guards = [{ locator = "/cms/2024/year", value = "2024" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 18.0
 panel = "table"
 label = "Healthcare's share of GDP: 1960 vs 2024"
-value = "5.0% (1960) → 18.0% (2024) — healthcare's GDP share more than tripled"
+value = "5.0% (1960) → 18.0% (2024)"
 unit = "NHE as % of GDP"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01. In 1960, healthcare was 5% of GDP; by 2024, it was 18% — nearly one-fifth of all economic output. The steepest jumps: 1970s (6.9→8.9%), 1990s (8.9→12.1%), 2000s (13.3→17.2%). Key drivers: Medicare/Medicaid (1965), medical technology, prescription drug spending, aging population."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2024. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2020s-nhe-medicare"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2024/medicare", target = "quantity", guards = [{ locator = "/cms/2024/year", value = "2024" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 1118000
 panel = "table"
 label = "Medicare spending, 2024"
@@ -291,21 +306,25 @@ value = "$1,118,000 million (21.2% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Medicare: $1,118,000M of $5,278,588M total. Up from $7,672M in 1970 — a 146x increase in nominal terms. Medicare now covers ~22% of all health spending."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2024. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2020s-nhe-medicaid"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2024/medicaid", target = "quantity", guards = [{ locator = "/cms/2024/year", value = "2024" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 931692
 panel = "table"
 label = "Medicaid spending, 2024"
-value = "$931,692 million (17.6% of NHE); Federal $596,694M, State/Local $334,998M"
+value = "$931,692 million (17.7% of NHE); Federal $596,694M, State/Local $334,998M"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Medicaid total: $931,692M. Federal: $596,694M. State/Local: $334,998M. Up from $5,290M in 1970. Federal share grew from 53.7% (1970) to 64.0% (2024)."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2024. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2020s-nhe-prescription-drugs"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/2024/prescription_drugs", target = "quantity", guards = [{ locator = "/cms/2024/year", value = "2024" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 466968
 panel = "table"
 label = "Prescription drug spending, 2024"
@@ -313,7 +332,7 @@ value = "$466,968 million (8.8% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Prescription drugs: $466,968M of $5,278,588M total. Up from $2,676M in 1960 — a 174x increase. The 2000s saw the largest jump ($122B→$253B) after Medicare Part D (2006)."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 2024. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-2020s-heart-disease-mortality"
@@ -324,7 +343,7 @@ value = "157.6 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-db548"
 tier = "A"
-notes = "From NCHS Data Brief No. 548 (Jan 2026), final 2024 mortality data. Down 73% from the 1950 peak of 588.8. The COVID-19 pandemic caused a temporary increase (2019: 161.5 → 2021: ~173), but rates have since declined below pre-pandemic levels."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -336,7 +355,7 @@ value = "139.4 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-db548"
 tier = "A"
-notes = "From NCHS Data Brief No. 548 (Jan 2026). Down 35% from the 1990 peak. Immunotherapy (checkpoint inhibitors, CAR-T) has transformed treatment of melanoma, lung, and other cancers."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -348,7 +367,7 @@ value = "38.6 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-db548"
 tier = "A"
-notes = "From NCHS Data Brief No. 548 (Jan 2026). Down 79% from the 1950 rate of 180.7. Driven by hypertension control, statins, clot-busting drugs (tPA, 1996), and mechanical thrombectomy."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -360,29 +379,31 @@ value = "70.5%"
 unit = "% surviving 5 years after diagnosis (relative survival, SEER)"
 source = "seer-statfacts-all-sites"
 tier = "A"
-notes = "From NCI SEER Cancer Stat Facts (seer.cancer.gov/statfacts/html/all.html). Up from 48.9% in 1975-1979 — a 44% relative improvement. ACS Facts & Figures 2025 reports 69% for 2014-2020 diagnoses (all races)."
+notes = "NCI SEER reports 70.5% five-year relative survival for cancer of any site based on diagnoses in SEER 21 excluding Illinois, 2016–2022. Relative survival compares observed patient survival with expected survival in the general population; it describes the registry population and is not an individual prognosis."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-food-prices"
 panel = "table"
 label = "Retail food prices, December 2024"
-value = "Bread $1.91/lb, ground beef $5.58/lb, bacon $6.92/lb, eggs $4.15/doz, lettuce $1.71/lb, bananas $0.62/lb"
+value = "Bread $1.91/lb, ground chuck $5.58/lb, bacon $6.92/lb, eggs $4.15/doz, lettuce $1.71/lb, bananas $0.62/lb"
 unit = "USD, nominal, BLS average price survey (APU series, December 2024)"
 source = "bls-api"
 tier = "A"
-notes = "From BLS Public Data API v2, series APU0000702111 (bread, white, pan, per lb), APU0000703111 (ground chuck, 100% beef, per lb), APU0000704111 (bacon, sliced, per lb), APU0000708111 (eggs, grade A, large, per doz), APU0000712211 (lettuce, iceberg, per lb), APU0000711211 (bananas, per lb). Values are December 2024 monthly averages, verified via BLS API catalog endpoint. CORRECTION 2026-07-08: the previous version of this fact had mismatched labels — APU0000712211 was labeled 'bread' but is actually lettuce; APU0000702111 was labeled 'flour' but is actually bread; APU0000703111 was labeled 'round steak' but is actually ground chuck; APU0000704111 was labeled 'milk' but is actually bacon; APU0000708111 was labeled 'potatoes' but is actually eggs; APU0000711211 was labeled 'coffee' but is actually bananas. The note claiming 'eggs, butter, bananas, sugar returned N/A' was also wrong — eggs and bananas both returned valid data. For comparison with 1950: bread 14.3¢→$1.91/lb (13.4x), ground beef ~93.6¢→$5.58/lb (6.0x), eggs 60.4¢→$4.15/doz (6.9x)."
-assumptions = ["nominal-values"]
+notes = "December 2024 monthly U.S. city-average prices from the BLS public API, series APU0000702111 (white pan bread per pound), APU0000703111 (100% ground chuck per pound), APU0000704111 (sliced bacon per pound), APU0000708111 (large Grade A eggs per dozen), APU0000712211 (iceberg lettuce per pound), and APU0000711211 (bananas per pound). Original response bytes were newly retrieved on 2026-10-28 and saved; this vintage is not a reconstruction of the earlier download. scripts/food_price_review.py reproduces the displayed prices using decimal half-up rounding to the nearest cent. Series identities and units were independently checked against the BLS-sourced FRED series pages. These observations describe price levels for the stated month; average-price ratios are not a constant-quality inflation index."
+assumptions = ["nominal-values", "food-price-display-rounding"]
 
 [[fact]]
 id = "us-2020s-food-expenditure-share"
+audit = { file = "02-cex/cu-size-2024-means-wayback.xlsx", extractor = "xlsx-cell", locator = "Table 1400!G58", scale = "1", guards = [{ locator = "Table 1400!G4", value = "Four\npeople" }, { locator = "Table 1400!A56", value = "Food" }, { locator = "Table 1400!A58", value = "Share" }] }
+quantity = 13.3
 panel = "table"
 label = "Food expenditure share, four-person consumer units, 2024"
-value = "no reliable record verified for this comparison"
-unit = "% share of total annual expenditure"
-source = "bls-cex-four-person-2024-aggregate"
-tier = "D"
-notes = "The archived 2024 Table 1400 contains rounded shares of national aggregate spending by consumer-unit size, not published within-budget mean expenditure shares. Its income mean also differs from the previous transcription. Exact four-person expenditure amounts and budget shares previously shown here cannot be reproduced from this file and have been withdrawn pending the correct annual-means table. The direct official means-table download returned HTTP 403 on 2026-09-07. Historical comparisons also mix survey populations; 1901 rent is narrower than modern housing expenditure. All-consumer-unit 2024 figures remain separately available and audited."
+value = "$14,543 (13.3%)"
+unit = "2024 nominal USD; share of total annual expenditure"
+source = "bls-cex-four-person-2024-mean"
+tier = "A"
+notes = "BLS Table 1400 reports mean food expenditure and its share of mean total expenditures for four-person consumer units in 2024."
 assumptions = ["income-vs-consumption"]
 
 [[fact]]
@@ -413,42 +434,45 @@ assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-availability-grapes"
-quantity = 8.22
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-2020s-availability-grapes/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-2020s-availability-grapes/year", value = "2020" }, { locator = "/availability/us-2020s-availability-grapes/file", value = "46-diet-variety/ers-fads-fruit-fresh.xlsx" }, { locator = "/availability/us-2020s-availability-grapes/sha256", value = "6988e35a4a4b8700a6f9255de0e29708afc01f91662ce28394973a0cc740069c" }, { locator = "/availability/us-2020s-availability-grapes/title", value = "Fresh grapes: Supply and use1" }, { locator = "/availability/us-2020s-availability-grapes/cell", value = "Grapes!I57" }, { locator = "/availability/us-2020s-availability-grapes/population_heading", value = "U.S. population, January 1 of following year3" }, { locator = "/availability/us-2020s-availability-grapes/population_definition", value = "3Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-2020s-availability-grapes/number_format", value = "#,##0.0" }], calculation = { op = "ratio", operands = ["/availability/us-2020s-availability-grapes/population_millions"], precision = 1, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
+quantity = 8.2
 panel = "table"
 label = "Grapes available per person, 2020"
-value = "8.22 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "8.2 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 2020
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh grapes. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 2.8 times the 1970 figure."
-assumptions = ["composite-family"]
+notes = "Fresh grapes: Supply and use1; source year 2020, Grapes!I57. Original population heading: U.S. population, January 1 of following year (footnote 3). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (1 decimal places). The source retail-weight conversion is not applied. The source year follows a fruit marketing year: July–June before 1990/91 and beginning in May from 1990 onward. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-2020s-availability-bell-peppers"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-2020s-availability-bell-peppers/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-2020s-availability-bell-peppers/year", value = "2020" }, { locator = "/availability/us-2020s-availability-bell-peppers/file", value = "46-diet-variety/ers-fads-vegetables-fresh.xlsx" }, { locator = "/availability/us-2020s-availability-bell-peppers/sha256", value = "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e" }, { locator = "/availability/us-2020s-availability-bell-peppers/title", value = "Fresh bell peppers: Supply and use" }, { locator = "/availability/us-2020s-availability-bell-peppers/cell", value = "Peppers!H67" }, { locator = "/availability/us-2020s-availability-bell-peppers/population_heading", value = "U.S. population, July 11" }, { locator = "/availability/us-2020s-availability-bell-peppers/population_definition", value = "1Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-2020s-availability-bell-peppers/number_format", value = "0.00" }], calculation = { op = "ratio", operands = ["/availability/us-2020s-availability-bell-peppers/population_millions"], precision = 2, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 10.73
 panel = "table"
 label = "Bell peppers available per person, 2020"
-value = "10.73 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "10.73 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 2020
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh bell peppers. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 5.2 times the 1960 figure."
-assumptions = ["composite-family"]
+notes = "Fresh bell peppers: Supply and use; source year 2020, Peppers!H67. Original population heading: U.S. population, July 1 (footnote 1). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (2 decimal places). The source retail-weight conversion is not applied. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-2020s-availability-broccoli"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-2020s-availability-broccoli/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-2020s-availability-broccoli/year", value = "2020" }, { locator = "/availability/us-2020s-availability-broccoli/file", value = "46-diet-variety/ers-fads-vegetables-fresh.xlsx" }, { locator = "/availability/us-2020s-availability-broccoli/sha256", value = "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e" }, { locator = "/availability/us-2020s-availability-broccoli/title", value = "Fresh broccoli: Supply and use" }, { locator = "/availability/us-2020s-availability-broccoli/cell", value = "Broccoli!H67" }, { locator = "/availability/us-2020s-availability-broccoli/population_heading", value = "U.S. population, July 11" }, { locator = "/availability/us-2020s-availability-broccoli/population_definition", value = "1Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-2020s-availability-broccoli/number_format", value = "#,##0.00" }], calculation = { op = "ratio", operands = ["/availability/us-2020s-availability-broccoli/population_millions"], precision = 2, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 5.86
 panel = "table"
 label = "Broccoli available per person, 2020"
-value = "5.86 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "5.86 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 2020
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. 14.7 times the 1960 figure."
-assumptions = ["composite-family"]
+notes = "Fresh broccoli: Supply and use; source year 2020, Broccoli!H67. Original population heading: U.S. population, July 1 (footnote 1). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (2 decimal places). The source retail-weight conversion is not applied. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[derived]]
 id = "us-2020s-produce-variety-count"
@@ -514,7 +538,7 @@ count_series = [
 ]
 threshold = 1.0
 at_year = 2020
-notes = "Every fresh fruit and vegetable commodity sheet in the two ERS fresh workbooks, counted when the food supply provided at least a full pound per person that year, farm weight. The total is the commodities ERS tracked that year: series that had not yet begun or had already ended are outside the count, so a widening record cannot masquerade as rising variety. Availability is a disappearance estimate — what the supply made available, not what anyone ate; the rule and its rationale are in the assumption ledger (produce-variety-rule)."
+notes = "The curated fresh fruit and vegetable series are counted when the publisher's displayed farm-weight availability estimate is at least one pound per person in the source year. Values are rounded to each source cell's displayed precision before comparison, so estimates near the threshold depend on that precision. The count is out of the commodities tracked in the selected series for that year; availability is a supply measure, not food actually eaten."
 assumptions = ["produce-variety-rule", "composite-family"]
 
 [[fact]]
@@ -540,7 +564,7 @@ unit = "live births per 1,000 women aged 15-19"
 price_year = 2020
 source = "nchs-nvsr-72-1"
 tier = "A"
-notes = "15.0 — a sixth of the 1960 rate, and lower than any figure NCHS has published for this measure. From Table 2 of Births: Final Data for 2021, because the Health, United States trend table does not reach 2020."
+notes = "NCHS Births: Final Data for 2021, Table 2 reports 15.0 live births per 1,000 women aged 15–19 in 2020 and 13.9 in 2021. These are the rates in that report’s revised population vintage."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -553,7 +577,7 @@ unit = "fatal work injuries per 100,000 full-time-equivalent workers"
 price_year = 2020
 source = "bls-cfoi-hours-based-rates"
 tier = "A"
-notes = "The pandemic year. The rate rose to 3.7 by 2022 before easing to 3.3 in 2024, the joint-lowest figure in the series."
+notes = "BLS CFOI releases report an all-worker fatal work injury rate of 3.4 per 100,000 FTE workers in 2020, 3.7 in 2022, and 3.3 in 2024."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -563,9 +587,9 @@ panel = "table"
 label = "Adult cigarette smoking prevalence, 2020"
 value = "12.5% of adults smoked (14.1% of men, 11.0% of women)"
 unit = "% of adults ≥18 who currently smoke (NHIS)"
-source = "cdc-nhis-smoking-prevalence"
+source = "cdc-mmw-r2020"
 tier = "A"
-notes = "From CDC NHIS (compiled by American Lung Association). Smoking prevalence fell below 15% for the first time. By 2025, preliminary CDC data showed 9.1% — the lowest ever recorded. The gap between male and female smoking continued to narrow."
+notes = "CDC analysis of the 2020 NHIS reports current cigarette smoking among 12.5% of civilian noninstitutionalized adults aged 18 and older, including 14.1% of men and 11.0% of women. Current smoking means at least 100 lifetime cigarettes and smoking every day or some days."
 assumptions = ["composite-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -587,7 +611,7 @@ assumptions = ["composite-family"]
 id = "us-2020s-hourly-earnings"
 audit = { file = "50-calculation-inputs/bls-ces-earnings-hours-2024-response.json", extractor = "json-pointer", locator = "/Results/series/3/data/0/value", target = "amount_minor", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/3/seriesID", value = "CES0500000008" }, { locator = "/Results/series/3/data/0/year", value = "2024" }, { locator = "/Results/series/3/data/0/period", value = "M12" }, { locator = "/Results/series/3/data/1/year", value = "2024" }, { locator = "/Results/series/3/data/1/period", value = "M11" }, { locator = "/Results/series/3/data/2/year", value = "2024" }, { locator = "/Results/series/3/data/2/period", value = "M10" }, { locator = "/Results/series/3/data/3/year", value = "2024" }, { locator = "/Results/series/3/data/3/period", value = "M09" }, { locator = "/Results/series/3/data/4/year", value = "2024" }, { locator = "/Results/series/3/data/4/period", value = "M08" }, { locator = "/Results/series/3/data/5/year", value = "2024" }, { locator = "/Results/series/3/data/5/period", value = "M07" }, { locator = "/Results/series/3/data/6/year", value = "2024" }, { locator = "/Results/series/3/data/6/period", value = "M06" }, { locator = "/Results/series/3/data/7/year", value = "2024" }, { locator = "/Results/series/3/data/7/period", value = "M05" }, { locator = "/Results/series/3/data/8/year", value = "2024" }, { locator = "/Results/series/3/data/8/period", value = "M04" }, { locator = "/Results/series/3/data/9/year", value = "2024" }, { locator = "/Results/series/3/data/9/period", value = "M03" }, { locator = "/Results/series/3/data/10/year", value = "2024" }, { locator = "/Results/series/3/data/10/period", value = "M02" }, { locator = "/Results/series/3/data/11/year", value = "2024" }, { locator = "/Results/series/3/data/11/period", value = "M01" }], calculation = { op = "mean", operands = ["/Results/series/3/data/1/value", "/Results/series/3/data/2/value", "/Results/series/3/data/3/value", "/Results/series/3/data/4/value", "/Results/series/3/data/5/value", "/Results/series/3/data/6/value", "/Results/series/3/data/7/value", "/Results/series/3/data/8/value", "/Results/series/3/data/9/value", "/Results/series/3/data/10/value", "/Results/series/3/data/11/value"], precision = 2, rounding = "half_up", method = "Arithmetic mean of the twelve seasonally adjusted monthly CES0500000008 observations for 2024; each month weighted equally, rounded once to 2 decimal places." }, scale = "100" }
 panel = "day"
-label = "Average hourly earnings, all private-sector production workers, 2024"
+label = "Average hourly earnings, total private production and nonsupervisory employees, 2024"
 value = "$30.12"
 unit = "USD per hour, nominal"
 source = "fred-ahetpi"
@@ -619,7 +643,7 @@ value = "Sleeping 9.04 hrs, working 3.13 hrs (men 3.56, women 2.73), household a
 unit = "hours per day, civilian population (annual average)"
 source = "bls-atus"
 tier = "A"
-notes = "From BLS American Time Use Survey, Table A-1 (2024 annual averages), a1-2024.pdf. Text layer extracted directly via pypdf — no OCR needed. 'Working' = 3.13 hrs (the narrower detailed activity; 'Working and work-related activities' = 3.43 hrs). 'Sleeping' = 9.04 hrs. 'Household activities' = 2.01 hrs (includes housework, food prep, lawn/garden). The 2025 table (a1-2025.pdf) also exists but is not used: the room's income/wage anchors are 2024, and a 2025 time-use fact would sit ahead of every comparison denominator."
+notes = "From BLS American Time Use Survey, Table A-1 (2024 annual averages), which reports daily averages for persons age 15 and over. The table distinguishes “Working” (3.13 hours total) from “Working and work-related activities” (3.43 hours total); household activities average 2.01 hours."
 assumptions = ["composite-family"]
 
 # ── Diffusion panel ────────────────────────────────────────────────────────
@@ -633,7 +657,7 @@ value = "96%"
 unit = "% of U.S. adults who use the internet (at least occasionally)"
 source = "pew-internet-broadband"
 tier = "A"
-notes = "From Pew Research Center Internet/Broadband Fact Sheet, data extracted from embedded JSON (survey data through June 2025). Up from 52% in 2000 (first Pew measurement). By community type (2024): Urban 96%, Suburban 98%, Rural 95%. By age (2025): 18-29: 99%, 30-49: 99%, 50-64: 96%, 65+: 90%."
+notes = "Pew Research Center Internet/Broadband Fact Sheet, November 2025: 96% of U.S. adults reported internet use in 2025. The survey mode changed in 2023. Adult internet use is distinct from a household internet subscription or home connection."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -645,34 +669,36 @@ value = "78%"
 unit = "% of U.S. adults with home broadband subscription"
 source = "pew-internet-broadband"
 tier = "A"
-notes = "From Pew Research Center Internet/Broadband Fact Sheet, data extracted from embedded JSON (survey June 2025). Down from 80% in 2023 — broadband adoption has plateaued. By race (2025): White 81%, Black 71%, Hispanic 68%, Asian 86%. The gap between internet use (96%) and home broadband (78%) reflects mobile-only access."
+notes = "Pew Research Center reports 78% of U.S. adults subscribed to home broadband in June 2025, versus 80% in September 2023. The survey mode changed in 2023."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-phone-vehicle-diffusion"
+audit = { file = "remaining-audit-20261028/recent_us-originals/AHS_TABLE2_2023_check.xlsx", extractor = "xlsx-cell", locator = "AHS!B118", scale = "1", guards = [{ locator = "AHS!A1", value = "2023 National — Rooms, Size, and Amenities — All Occupied Units" }, { locator = "AHS!A118", value = "Cell phone available" }, { locator = "AHS!A9", value = "Total" }], calculation = { op = "pct_of", operands = ["AHS!B9"], precision = 1, rounding = "half_up", method = "Cell-phone count divided by occupied housing-unit count; source counts rounded to thousands." } }
 quantity = 92.7
 panel = "diffusion"
-label = "Phone service and vehicle access, 2023 (AHS)"
-value = "Cell phone 92.7%, landline 20.1%, garage/carport 67.6%"
-unit = "percent of 133.2M occupied units"
+label = "Cell phone available, 2023 (AHS)"
+value = "92.7% of occupied housing units"
+unit = "% of occupied housing units with a cell phone available"
 source = "census-ahs"
 tier = "A"
-notes = "From AHS 2023 National Table 2 (Rooms, Size, and Amenities). Cell phone available: 123,462K (92.7%). Landline available: 26,749K (20.1%) — landline has become a secondary channel. Garage or carport: 90,044K (67.6%). No complete bathroom: only 135K units (0.1%). For comparison with 1950: telephone was not asked in the 1950 Census (added 1960); automobile was also not asked (added 1960). The 1950 Census did ask about radio (95.6%), TV (12.3%), refrigerator (80.0%)."
-assumptions = ["composite-family"]
+notes = "The 2023 American Housing Survey estimates 123,462 thousand occupied units with a cell phone available out of 133,231 thousand occupied units. The percentage is calculated from the published rounded-thousand estimates and rounded once."
+assumptions = ["composite-family", "recent-published-count-share"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-2020s-cpi"
-quantity = 313.7
+audit = { file = "remaining-audit-20261028/bls-cpi-annual-2020-2024.json", extractor = "json-pointer", locator = "/Results/series/0/data/0/value", scale = "1", guards = [{ locator = "/status", value = "REQUEST_SUCCEEDED" }, { locator = "/Results/series/0/seriesID", value = "CUUR0000SA0" }, { locator = "/Results/series/0/data/0/year", value = "2024" }, { locator = "/Results/series/0/data/0/period", value = "M13" }] }
+quantity = 313.689
 price_year = 2024
 panel = "work-buys"
 label = "Consumer Price Index, 2024"
-value = "313.7"
+value = "313.689"
 unit = "CPI-U, 1982-84=100, annual average"
-source = "fred-cpiaucns"
+source = "bls-cpi"
 tier = "A"
-notes = "From FRED CPIAUCNS (not seasonally adjusted). Annual average of 12 monthly observations for 2024."
+notes = "BLS CPI-U series CUUR0000SA0, all items U.S. city average, annual average for 2024."
 assumptions = ["nominal-values"]
 
 [[derived]]
@@ -711,19 +737,21 @@ precision = 1
 notes = "From Table F-8's own 2024-dollar column (C-CPI-U-RS adjusted): 1950 all-family median = $35,290 in 2024 dollars vs 2024 median = $105,800, a factor of 3.0. Alternative deflator: using raw CPI-U (CPIAUCNS, 13.02x per us-2020s-purchasing-power-comparison) gives $3,319 x 13.02 = $43,236, a factor of 2.4x — CPI-U-RS corrects known overstatement of early inflation, so the published 3.0x is primary. Cross-room derived fact: denominator is in the 1950s room. CORRECTION 2026-07-07: this fact previously displayed '3.1x ($25,633 -> $79,490)', figures traceable to no source in the registry."
 assumptions = ["composite-family", "nominal-values"]
 
-[[fact]]
+[[derived]]
 id = "us-2020s-week-of-work-buys"
 panel = "work-buys"
-label = "What a week of work bought, 2024"
-value = "$1,015.04/week — a full year of it (×52) ≈ 50% of median family income"
-unit = "weekly earnings vs annual median family income"
-source = "fred-ahetpi"
-tier = "A"
-notes = "Computed: $30.12 per hour × 33.7 weekly hours = $1,015.04, using total-private production and nonsupervisory employees for both operands. Assuming 52 paid weeks gives $52,782.08, or 49.9% of the all-family median income of $105,800. These describe separate worker and family populations; the ratio does not measure household needs, sufficiency, or the number of family earners. The former value mixed total-private wages with manufacturing hours and has been withdrawn."
-assumptions = ["composite-family", "nominal-values"]
+label = "Illustrative weekly earnings, 2024"
+op = "product"
+numerator = "us-2020s-hourly-earnings"
+denominator = "us-2020s-weekly-hours-total-private"
+unit = "USD per week, nominal; product of rounded annual average hourly earnings and weekly hours"
+precision = 2
+notes = "Calculated from hourly earnings and weekly hours for total-private production and nonsupervisory employees. This illustrative product is not annual income or a measured family income."
+assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-2020s-car-price"
+audit = { file = "remaining-audit-20261028/ornl-car-price-extract.json", extractor = "json-pointer", locator = "/years/2020/total_current_dollars", target = "amount_minor", scale = "100", guards = [{ locator = "/provenance", value = "Curator extraction from pinned ORNL TEDB Edition 39 Table 11.13" }, { locator = "/source_sha256", value = "f0f041b1b9c844136e10f2d455c3082fe7c3f5f631e4894e9f402c816747b0b1" }, { locator = "/column", value = "Total, current dollars" }, { locator = "/years/2020/population", value = "Average new car, excluding pickups, vans and sport utility vehicles" }] }
 panel = "work-buys"
 label = "Average new car transaction price, 2020"
 value = "$27,366"
@@ -734,7 +762,7 @@ amount_minor = 2736600
 currency = "USD"
 price_year = 2020
 basis = "total"
-notes = "From BEA Average Transaction Price per New Car (ORNL TEDB Table 11.13, Edition 40 — last published year). The BEA notes: 'The average price for cars increased from 2019 to 2020.' Post-2020 prices are not available in this series; industry sources (NADA, KBB) report average new car prices exceeding $47,000 by 2023, but those figures include SUVs and trucks. Population: all new passenger cars sold in the US."
+notes = "ORNL Transportation Energy Data Book, Edition 39, Table 11.13: the BEA total is the average price of a new car in current dollars. The table excludes pickups, vans, and sport utility vehicles."
 assumptions = ["nominal-values"]
 
 # CPI-inflated 2024 estimate from the 2020 BEA base (Plan 012 WI-1).
@@ -766,36 +794,39 @@ panel = "day"
 label = "Life expectancy at birth, 2024"
 value = "76.5 male, 81.4 female (79.0 total)"
 unit = "years"
-source = "nchs-nvss"
+source = "nchs-deaths-2024-final"
 tier = "A"
-notes = "From NCHS Data Brief No. 548 (Jan 2026), final 2024 mortality data. Male: 76.5 (up 0.7 from 75.8 in 2023). Female: 81.4 (up 0.3 from 81.1 in 2023). Total 79.0 (up 0.4 from 78.6 in 2023). The 2020-21 COVID decline (78.8 -> 76.1) has fully recovered and exceeded the pre-pandemic level. For cross-decade comparison: 1900-02: 48.2M/51.1F; 1939-41: 62.8M/67.3F; 1949-51: 66.3M/72.0F; 1960: 66.6M/73.1F (white)."
+notes = "From NCHS Data Brief No. 548 (January 2026), final 2024 mortality data, Figure 1 and Table 1. Total life expectancy at birth was 79.0 years in 2024, compared with 78.4 in 2023, an increase of 0.6 year as stated in the report. Female life expectancy was 81.4 and male life expectancy was 76.5. The original publisher HTML was re-read and saved on 2026-10-28; this note follows that document rather than quoting unmatched historical or population-specific comparisons."
 
 [[fact]]
 id = "us-2020s-infant-mortality"
-quantity = 5.525
+quantity = 552.5
 price_year = 2024
 panel = "day"
 label = "Infant mortality rate, 2024"
-value = "5.525 per 1,000 live births (552.5 per 100,000)"
-unit = "deaths before age 1 per 1,000 live births"
-source = "nchs-nvss"
+value = "552.5 per 100,000 live births"
+unit = "deaths before age 1 per 100,000 live births"
+source = "nchs-deaths-2024-final"
 tier = "A"
-notes = "From NCHS Data Brief No. 548 (Jan 2026), final 2024 mortality data. 2024 rate: 552.5 infant deaths per 100,000 live births (5.525 per 1,000) — not significantly different from 2023 (560.2 per 100,000 = 5.602 per 1,000). For cross-decade comparison: 1900: ~100 per 1,000; 1915: 99.9; 1997: 7.2. The century-long decline exceeds 90% — one of the greatest public health achievements. Persistent racial disparities: Black infant mortality is ~2x the national average."
+notes = "NCHS reports 552.5 infant deaths per 100,000 live births in 2024, not significantly different from 560.2 in 2023."
 
 # ── Diffusion panel: vehicle ownership ───────────────────────────────────
 
 [[fact]]
 id = "us-2020s-vehicle-ownership"
+audit = { file = "remaining-audit-20261028/world-recent-extract.json", extractor = "json-pointer", locator = "/acs2024/one_or_more_vehicle_count", scale = "1", guards = [{ locator = "/acs2024/occupied_total", value = "132737146" }, { locator = "/provenance", value = "Curator extraction from pinned EIA microdata and 2024 Census ACS 1-year API response snapshots; not publisher artifact." }], calculation = { op = "pct_of", operands = ["/acs2024/occupied_total"], precision = 1, rounding = "half_up", method = "2024 ACS 1-year national occupied-unit count divided by occupied units; curator extraction from pinned source API responses, rounded once." } }
 quantity = 91.5
 panel = "diffusion"
-label = "Households with at least one vehicle, 2023"
+label = "Households with at least one vehicle, 2024"
 value = "91.5% (8.5% with no vehicle)"
 unit = "% of occupied households"
 source = "census-acs-vehicle"
 tier = "A"
-notes = "From ACS Table B25045 (latest 5-year estimates via Census Reporter). 132.7M households total. No vehicle: 11.3M (8.5%). Owner-occupied no-vehicle: 2.88M (3.3% of owners). Renter-occupied no-vehicle: 8.43M (18.3% of renters). Vehicle access tracks tenure and income — car-free households are concentrated in dense urban areas and among renters."
+notes = "2024 ACS 1-year Table B25045 estimates 132,737,146 occupied units, including 2,879,504 owner-occupied and 8,431,169 renter-occupied units with no vehicle available."
 
 # ── Budget panel: poverty rate ────────────────────────────────────────────
+
+assumptions = ["recent-published-count-share"]
 
 [[fact]]
 id = "us-2020s-poverty-rate"
@@ -806,7 +837,7 @@ value = "10.6% (35.9 million people)"
 unit = "% of U.S. population below official poverty threshold"
 source = "census-p60-287"
 tier = "A"
-notes = "From Census P-60 No. 287 (Sep 2025). Official poverty rate: 10.6% (down from 11.1% in 2023). 35.9M people in poverty. Supplemental Poverty Measure (SPM): 12.9% (unchanged from 2023). For families: married-couple 3.5%, female-householder 18.6%. The official poverty threshold for a 4-person family with 2 children was ~$32,000 in 2024."
+notes = "Census P-60 No. 287 (2025 CPS ASEC), Table A-1: the 2024 official poverty rate was 10.6% (35.9 million people), down from 11.1% in 2023. Table B-3: the 2024 SPM rate was 12.9%, unchanged from 2023. Table A-2: poverty rates for primary married-couple families were 4.3% and female-householder families 21.8%. Table B-1: the official threshold for two adults and two children was $31,812. Keep these figures tied to the P-60-287 population vintage."
 assumptions = ["composite-family"]
 
 # ── Diffusion: air conditioning and heating fuel ────────────────────────
@@ -816,21 +847,23 @@ id = "us-2020s-air-conditioning"
 quantity = 88
 panel = "diffusion"
 label = "Households using air conditioning, 2020"
-value = "88% (two-thirds central AC)"
+value = "88% (two-thirds use central AC or a central heat pump)"
 unit = "% of households"
-source = "eia-recs"
+source = "eia-recs-2020-ac"
 tier = "A"
-notes = "From 2020 RECS (EIA). 88% of US households use AC. Two-thirds use central AC or central heat pump as main AC equipment. By region: Midwest 92%, South 93%, Northeast lower (older housing stock). In 1960, only 18.8% of households had AC — the diffusion arc is one of the steepest material improvements in the museum."
+notes = "EIA reports 88% of U.S. households used air conditioning in 2020. Two-thirds used central AC or a central heat pump as their main AC equipment; the Midwest and South rates were 92% and 93%, respectively."
 
 [[fact]]
 id = "us-2020s-heating-fuel"
 panel = "diffusion"
 label = "Primary heating fuel, 2024"
-value = "Natural gas 47%, electricity 42%, other 11%"
-unit = "% of households by primary space heating fuel"
+value = "Utility gas 47%, electricity 42%"
+unit = "% of occupied housing units by house heating fuel"
 source = "census-acs"
 tier = "A"
-notes = "From 2024 ACS 1-year estimates, Table B25040 (House Heating Fuel). Natural gas: 47% (down from 49% in 2010). Electricity: 42% (up sharply, gaining on gas). Other: propane, fuel oil, wood. (Source re-pointed from eia-recs 2026-07-07: the figures are ACS, not RECS.) The shift from coal to gas to electricity is a century-long arc: in 1940 coal was dominant, by 1950 gas and oil were replacing it, by 2020s electricity is gaining. Fuel oil heating is now <5% nationally but persists in older Northeast housing stock."
+notes = "2024 ACS 1-year Table B25040 distinguishes utility gas from bottled or tank gas. The shares are rounded from estimated occupied-unit counts."
+
+assumptions = ["recent-published-count-share"]
 
 [[fact]]
 id = "us-2020s-tv-watching-decline"
@@ -841,18 +874,19 @@ value = "72.8% of population watched TV on an average day (2024), down from 78.8
 unit = "% of population watching TV on an average day"
 source = "bls-atus"
 tier = "A"
-notes = "From BLS American Time Use Survey, Table A-1 (2024 annual averages). The decline from 78.8% (2003) to 72.8% (2024) reflects cord-cutting and the shift to streaming and online video. Average daily TV watching time declined from 2.58 hrs (2003) to 2.60 hrs (2024), having peaked at 2.82 hrs in 2009. By 2017, ~411 million mobile wireless connections existed (FCC 18-181)."
+notes = "From BLS American Time Use Survey, Table A-1 (2024 annual averages). The share of the civilian noninstitutionalized population age 15 and over watching TV on an average day was 78.8% in 2003 and 72.8% in 2024. Average daily TV-watching time across that whole population was 2.58 hours in 2003, 2.82 hours in 2009 and 2.60 hours in 2024. These tables do not establish why participation changed."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-2020s-home-production-splice"
+quantity = 2.01
 panel = "day"
-label = "Home-production hours: Ramey endpoint vs ATUS (concept splice)"
-value = "Ramey 2005: women 29.3, men 16.8 hrs/week (ages 18–64) → ATUS 2024: household activities 2.01 hrs/day, all adults 15+"
-unit = "hours per week vs hours per day — not directly comparable"
-source = "ramey-2009"
-tier = "C"
-notes = "Concept splice (Plan 004 Measure guard): Ramey measures unpaid home production (food prep, cleaning, clothing care, childcare, purchasing, management) for prime-age women and men separately, ages 18-64, in hours/week. ATUS (us-2020s-time-use, source bls-atus, 2024 annual averages) measures 'household activities' for all adults 15+ in hrs/day, without gender breakdown in the headline figure. The two series are NOT directly comparable: (1) different activity definitions (Ramey's 'home production' is broader than ATUS 'household activities'), (2) different populations (prime-age vs all-adult), (3) different units (weekly vs daily). When plotted on the same axis, this splice must carry a caveat banner. The Ramey series is the thesis spine (women's hours falling); ATUS is the modern anchor point."
+label = "Household activities, 2024 (ATUS; differs from the earlier home-production series)"
+value = "2.01 hours per day, civilian population aged 15 and older"
+unit = "hours per day, civilian population aged 15 and older"
+source = "bls-atus"
+tier = "A"
+notes = "BLS ATUS Table A-1, 2024 annual averages, Total column, Household activities row. This narrower activity category uses a different age population and unit from the earlier Ramey home-production records. The earlier observations remain in their rooms; this daily estimate does not continue their weekly prime-age series. Both comparison charts retain this record as a linked gap."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────
@@ -866,7 +900,7 @@ value = "Men: 30.2, Women: 28.4"
 unit = "years (median age at first marriage)"
 source = "census-table-ms2"
 tier = "A"
-notes = "From Census Table MS-2. CPS ASEC. Men crossed 30 for the first time in the series — up from 22.8 in 1950. Women at 28.4, up from 20.3. The composite four-person family now forms 8 years later than at mid-century. Same-sex marriages included starting 2019. This is why the 2020s room notes the median household is no longer this family — the four-person married-couple household with young children is no longer the statistical norm."
+notes = "Census Table MS-2 reports estimated median age at first marriage by sex. These medians describe first marriage, not the formation of a particular four-person family."
 
 # ── Married women's labor force participation ─────────────────────────────
 
@@ -879,20 +913,21 @@ value = "56.9%"
 unit = "% of married women (spouse present) in the civilian labor force"
 source = "bls-womens-databook"
 tier = "A"
-notes = "Population-level labor-force participation of married women. The rate includes employment and unemployment, and does not identify the number of earners in a particular family. These figures alone do not separate demographic composition changes from changes within groups."
+notes = "The BLS Current Population Survey annual average reports 56.9% for married women with spouse present in 2021, among the civilian noninstitutional population age 16 and over. The labor force participation rate includes employed and unemployed people."
 
 # ── Education ─────────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-2020s-education"
+audit = { file = "22-census-historical-tables/taba-2-pct-high-school.xlsx", extractor = "xlsx-cell", locator = "hst_attain02!B7", scale = "1", guards = [{ locator = "hst_attain02!A7", value = "2024" }, { locator = "hst_attain02!A6", value = "25 Years and Over, Completed 4 Years of High School or more" }, { locator = "hst_attain02!B4", value = "All people" }, { locator = "hst_attain02!B5", value = "Total" }] }
 quantity = 91.4
 panel = "day"
 label = "Educational attainment, 2024"
-value = "HS grad or more: 91.4%, Bachelor's or more: 38.7%, Less than 9th grade: 3.5%"
-unit = "% of population 25+ (all races, both sexes)"
+value = "High school graduate or more: 91.4%; bachelor’s degree or more: 38.7%"
+unit = "% of civilian noninstitutionalized people aged 25 and over"
 source = "census-table-a1-a2"
 tier = "A"
-notes = "From Census Table A-1. CPS ASEC 2024. HS graduation above 91%. Less-than-9th-grade at 3.5% — down from 60% in 1940. Bachelor's or more approaching 39% — nearly 4 in 10 adults have a college degree, up from 1 in 20 in 1940. 2020 ACS data quality affected by COVID-19 data collection disruptions."
+notes = "Census Table A-2 reports educational attainment for the civilian noninstitutionalized population aged 25 and over. Beginning in 1992, the survey question records credentials rather than years of schooling."
 
 # ── Net worth (median family) ────────────────────────────────────────────
 
@@ -905,7 +940,7 @@ value = "$192,900 (192.9 thousand, 2022 dollars)"
 unit = "median net worth, all families (SCF)"
 source = "fed-scf"
 tier = "A"
-notes = "From SCF 2022 Bulletin (scf23.pdf, October 2023, Table 2). 2022 survey, in 2022 dollars. Up 37% from 2019 ($141,100 in 2022 dollars) — the largest 3-year increase in SCF history. Driven by surging home values and stock market gains. This is the highest median family net worth in the SCF series. Note: 2022 dollars, not directly comparable to 2016-dollar SCF Chartbook figures for earlier years."
+notes = "Federal Reserve Survey of Consumer Finances, 2022 Bulletin, Table 2: median net worth among all families was $192,900 in the 2022 survey and $141,100 in the 2019 survey, both expressed in 2022 dollars. The published change between surveys was 37%. Earlier selected SCF facts use a different price base."
 
 [[fact]]
 id = "us-2020s-weekly-hours-total-private"
@@ -922,24 +957,27 @@ audit = { file = "50-calculation-inputs/bls-ces-earnings-hours-2024-response.jso
 
 [[fact]]
 id = "us-2020s-public-library-reference-transactions"
+audit = { file = "remaining-audit-20261028/world-imls2020-extract.json", extractor = "json-pointer", locator = "/reference_transactions", scale = "1", guards = [{ locator = "/provenance", value = "Curator sum of pinned IMLS FY2020 state summaries" }, { locator = "/population", value = "50 states and District of Columbia" }], calculation = { op = "ratio", operands = ["/million"], precision = 1, rounding = "half_up", method = "State summary sum divided by one million and rounded once." } }
+quantity = 139.3
 panel = "table"
-label = "Reference questions answered at public libraries, 2020s"
-value = "no comparable record — the series ends with its fiscal 2019 value; the FY2020 collection was disrupted by pandemic closures and the survey's publication format changed after FY2019, and no later national total was fetched on the annual-count basis this record uses"
-unit = "reference transactions, millions of information contacts per fiscal year"
+label = "Public-library reference transactions, FY2020"
+value = "139.3 million"
+unit = "millions of reference transactions in fiscal year 2020"
 price_year = 2020
-source = "imls-public-libraries-survey"
+source = "imls-pls-2020-state-reference"
 tier = "A"
-notes = "The gap is the record's end, not evidence that nobody asks librarians anything. The FY2020 research brief records libraries expanding virtual reference while their buildings were shut, and the survey's own documentation treats FY2020 as disrupted; no FY2020-or-later national total was fetched, so nothing is chained onto the series."
-assumptions = ["composite-family"]
+notes = "The Public Libraries Survey FY2020 state-summary totals for the 50 states and District of Columbia sum to 139,263,801 reference transactions, rounded to 139.3 million. Forty-two state totals include some imputed detail and one is fully imputed. The survey permits typical-week annualization; FY2020 was affected by COVID-19 disruption."
+assumptions = ["composite-family", "imls-state-reference-sum"]
 
 [[fact]]
 id = "us-2020s-mail-pieces-handled"
+quantity = 108695
 panel = "table"
-label = "Pieces of mail handled, 2020s"
-value = "no chained value — the series ends with its fiscal 2019 value; the total's composition shifts toward packages while first-class mail keeps falling, so the continuing 10-K record is not the same measure of mailed communication this arc tracks"
-unit = "pieces of mail handled, millions per fiscal year"
-price_year = 2020
-source = "us-postal-mail-volume"
+label = "Total USPS mail and package volume, FY2025"
+value = "108,695 million pieces"
+unit = "million USPS mail and package pieces per fiscal year"
+price_year = 2025
+source = "usps-2025-total-volume"
 tier = "A"
-notes = "The gap is a boundary, not a silence: the Form 10-K record continues past fiscal 2019, but the volume it counts is increasingly Shipping and Packages rather than the letters and flats this wing's communication story is about. Nothing is chained onto the series; a class-level arc would be a different exhibit with its own acceptance review."
+notes = "USPS FY2025 Form 10-K reports total volume across service categories, including mail, shipping and packages, and USPS internal or free mail. This broad network-volume measure does not isolate personal correspondence; changes in the mix of service categories affect interpretation."
 assumptions = ["composite-family"]

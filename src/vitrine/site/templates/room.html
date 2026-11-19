@@ -32,7 +32,7 @@
 </section>
 {% elif page.story and not page.compact %}
 <section class="room-overture" aria-labelledby="room-story-title">
-  <div class="story-label"><div><p class="story-kicker">Selected observations</p><h2 id="room-story-title">{{ page.story.title }}</h2><p class="story-question">{{ page.story.question }}</p></div></div>
+  <div class="story-label"><div><p class="story-kicker">Selected records</p><h2 id="room-story-title">{{ page.story.title }}</h2><p class="story-question">{{ page.story.question }}</p></div></div>
   <div class="story-trail">{% for fact in page.story.facts %}<a class="story-stop" href="#{{ fact.id }}--modal" data-fact-id="{{ fact.id }}"><span class="stop-meta">{{ panel_title(fact.panel) }}</span><span class="stop-main"><span class="stop-value">{{ fact.value|truncate(72, true, '…') }}</span><span class="stop-label">{{ fact.label }}</span></span><span class="tchip" style="background:{{ T.TIER_COLORS[fact.tier.value] }}">{{ fact.tier.value }}</span></a>{% endfor %}</div>
 </section>
 {% else %}
@@ -51,10 +51,12 @@
 {% if page.house_supported %}</details>{% endif %}
 {% endif %}
 {% if page.essay_links %}<p class="case-sub docent-crosslink">Follow a tour: {% for link in page.essay_links %}<a href="../essays/{{ link.slug }}.html">{{ link.title }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</p>{% endif %}
-<div class="collection-head" id="collection-records"><div><p class="story-kicker">Inspect the evidence</p><h2>Browse the records</h2><p>Every observation includes its measured population and source. Calculations identify their inputs; gaps explain what remains unavailable or unverified.</p></div></div>
-<dl class="evidence-counts"><div><dt>Recorded observations</dt><dd>{{ page.observed_count }}</dd></div><div><dt>Calculated exhibits</dt><dd>{{ page.computed_count }}</dd></div><div><dt>Documented gaps</dt><dd>{{ page.gap_count }}</dd></div></dl>
-<p class="count-explanation">These are counts of collection entries, not people or households. Observations exclude gaps; calculated exhibits are counted separately. A gap is an unanswered or unverified item, not a zero value.</p>
-<nav class="exhibit-map" aria-label="Room display cases">{% for ps in page.panels %}<a href="#panel-{{ ps.panel.value }}"><b>{{ panel_title(ps.panel) }}</b><span>{{ ps.observed_count }} observations{% if ps.computed %} · {{ ps.computed|length }} calculated{% endif %}{% if ps.gap_count %} · {{ ps.gap_count }} gaps{% endif %}</span></a>{% endfor %}</nav>
+<div class="collection-head" id="collection-records"><div><p class="story-kicker">Inspect the evidence</p><h2>Browse the records</h2><p>Every sourced record includes its measured population and source. Derived exhibits identify their inputs; gaps explain what remains unavailable or unverified.</p></div></div>
+<dl class="evidence-counts"><div><dt>Sourced records</dt><dd>{{ page.observed_count }}</dd></div><div><dt>Derived exhibits</dt><dd>{{ page.computed_count }}</dd></div><div><dt>Documented gaps</dt><dd>{{ page.gap_count }}</dd></div></dl>
+<p class="count-explanation">These are counts of collection entries, not people or households. Sourced records exclude gaps and may include a value calculated from published source inputs; its record card states the method. Derived exhibits combine curated records or series and are counted separately. A gap is an unanswered or unverified item, not a zero value.</p>
+<nav class="exhibit-map" aria-label="Room display cases">{% for ps in page.panels %}<a href="#panel-{{ ps.panel.value }}"><b>{{ panel_title(ps.panel) }}</b><span>{{ ps.observed_count }} sourced records{% if ps.computed %} · {{ ps.computed|length }} derived{% endif %}{% if ps.gap_count %} · {{ ps.gap_count }} gaps{% endif %}</span></a>{% endfor %}</nav>
+<div class="record-reading-controls" hidden><span>Reading options</span><button type="button" data-record-action="expand">Expand all topics</button><button type="button" data-record-action="collapse">Collapse all topics</button></div>
+<p class="record-reading-hint">Open a topic to read its records. A direct link to a record opens its topic automatically.</p>
 {% set gap_heading = namespace(shown=false) %}
 {% for ps in page.panels %}
 {% if page.compact and not ps.observed_count and not ps.computed and not gap_heading.shown %}
@@ -63,11 +65,15 @@
 {% set gap_heading.shown = true %}
 {% endif %}
 <section class="panel-group" id="panel-{{ ps.panel.value }}" aria-labelledby="panel-{{ ps.panel.value }}-title">
-{% set exhibit_count = ps.facts|length + ps.computed|length %}<div class="panel-head"><h3 id="panel-{{ ps.panel.value }}-title">{{ panel_title(ps.panel) }}</h3><span>{{ ps.observed_count }} observations · {{ ps.gap_count }} gaps{% if ps.computed %} · {{ ps.computed|length }} computed{% endif %}</span></div>
+<details class="record-panel">
+{% set exhibit_count = ps.facts|length + ps.computed|length %}<summary class="panel-head"><h3 id="panel-{{ ps.panel.value }}-title"><span class="panel-title">{{ panel_title(ps.panel) }}</span><span class="panel-counts">{{ ps.observed_count }} sourced records · {{ ps.gap_count }} gaps{% if ps.computed %} · {{ ps.computed|length }} derived{% endif %}</span></h3></summary>
+<div class="record-panel-body">
 {% if not ps.facts and not ps.computed %}<p class="case-sub"><em>Not yet curated.</em></p>{% endif %}
 {% for fact in ps.facts %}{{ fact_row(fact, page.sources, page.assumptions, page.affordability, root) }}{% endfor %}
 {% for cf in ps.computed %}{{ derived_row(cf, page.assumptions, root) }}{% endfor %}
 {% if ps.panel.value == "work-buys" and ps.facts and page.comparative %}<p class="case-sub"><a href="{{ root }}affordability/index.html">See this metric across all decades →</a></p>{% endif %}
+</div>
+</details>
 </section>
 {% endfor %}
 {{ legend_block() }}

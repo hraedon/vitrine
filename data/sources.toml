@@ -125,7 +125,7 @@ title = "Consumer Expenditure Survey (CEX)"
 publisher = "U.S. Bureau of Labor Statistics"
 year = 2024
 url = "https://www.bls.gov/cex/"
-population = "Consumer units (households) in the civilian noninstitutionalized population"
+population = "Consumer units in the civilian noninstitutionalized population. Table-specific subsets, including four-person consumer units, are identified in each selected record; these are not Census families or a matched median-income family."
 notes = "Continuous since 1980 (Interview + Diary surveys). Earlier surveys: 1960-61, 1972-73. Historical predecessors date to Commissioner of Labor surveys. FRASER has 1980-81 and 1982-83 reports. BLS 403-blocks automated requests — URL valid, access via browser."
 
 [[source]]
@@ -176,7 +176,7 @@ year = 2024
 url = "https://usa.ipums.org/usa/"
 short_cite = "IPUMS USA, University of Minnesota, www.ipums.org"
 population = "Decennial census respondents (sample or full count, depending on year) + ACS 2001-present"
-notes = "Harmonized census microdata 1850-2020 + ACS. Tier B: statistics computed by this project from microdata. COMPLIANCE: See docs/ipums-compliance.md. IPUMS USA Sample data: may publish subsets for journal requirements; contact IPUMS for other redistribution. IPUMS USA Full Count data (1850-1950): WILL NOT BE REPUBLISHED. Vitrine publishes only derived aggregate statistics (medians, percentages), never raw microdata. Raw IPUMS extracts live in gitignored samples/ and are never committed. PREFERRED CITATION: Steven Ruggles, Sarah Flood, Matthew Sobek, Daniel Backman, Grace Cooper, Julia A. Rivera Drew, Stephanie Richards, Renae Rodgers, Jonathan Schroeder, and Kari C.W. Williams. IPUMS USA: Version 16.0 [dataset]. Minneapolis, MN: IPUMS, 2025. https://doi.org/10.18128/D010.V16.0. Add publication to IPUMS bibliography at https://www.ipums.org/bibliography."
+notes = "Historical registry for the withdrawn 1950 locale estimates. Extract 00001 lacks FTOTINC and SLWT, and the original aggregation program/output was not recovered in the bounded four-host search. A distinct FTOTINC/SLWT reconstruction is now cited under ipums-1950-primary-family-income-1949; see docs/reconstruction-20261029.md. Raw microdata is never published."
 
 [[source]]
 id = "ipums-1940-census"
@@ -197,8 +197,8 @@ publisher = "U.S. Department of Commerce and Labor, Bureau of Labor"
 year = 1903
 url = "https://fraser.stlouisfed.org/title/annual-report-commissioner-labor-6306/eighteenth-annual-report-commissioner-labor-608452"
 short_cite = "U.S. Bureau of Labor, Bulletin No. 49 (1903)"
-population = "2,567 wage-earner families in 33 states, head earning <=$1,200/year, year 1901"
-notes = "Primary source for 1900s room. Average income $827.19, average expenditure $768.54, food $326.90 (42.54%). Rent 12.95%, clothing 14.04%, fuel and light 5.25%. Average family size 5.31. NOTE: the University of Missouri guide cited average income as $749 — the primary source says $827.19. The $749 figure is WRONG; this is the correct figure from the report itself. File: bls_v08_0049_1903.pdf (268 pages, text-extractable via pdftotext)."
+population = "2,567 surveyed families in 33 states; the head was a wage worker or salaried man earning at most $1,200 during 1901"
+notes = "BLS Bulletin 49, printed pages 1138–1141. The earnings ceiling applies to the head, not total family income."
 measure = "survey_family_income"
 
 [[source]]
@@ -244,7 +244,7 @@ id = "hist-stats-colonial-1970"
 title = "Historical Statistics of the United States, Colonial Times to 1970 (Bicentennial Edition)"
 publisher = "U.S. Census Bureau"
 year = 1975
-url = "https://archive.org/details/HistoricalStatisticsOfTheUnitedStatesColonialTimesTo1970/page/n1231/mode/2up"
+url = "https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html"
 population = "Various national aggregates (depends on table)"
 notes = "Free on Internet Archive. Contains population, labor, prices, housing, and diffusion series spanning colonial times to 1970. Essential for pre-1940 decades where no dedicated survey exists. Predecessor to the Millennial Edition."
 
@@ -254,7 +254,7 @@ title = "Historical Statistics: Average Hourly Earnings of Manufacturing Product
 short_cite = "U.S. Census Bureau, Historical Statistics (Series D)"
 publisher = "U.S. Census Bureau"
 year = 1975
-url = "https://archive.org/details/HistoricalStatisticsOfTheUnitedStatesColonialTimesTo1970/page/n1231/mode/2up"
+url = "https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html"
 population = "Production workers in manufacturing (national average, payroll data)"
 notes = "Series D 766 (hourly earnings 1890-1914), D 765-767 (manufacturing production workers 1909-1929), D 802-804 (all manufacturing 1919-1948). Pre-FRED CES wage data. Used as the wage anchor for 1900s-1930s rooms (Plan 013). The population skews urban, industrial, male — see the manufacturing-wage-proxy assumption."
 measure = "hourly_earnings"
@@ -400,8 +400,8 @@ publisher = "U.S. Bureau of Labor Statistics"
 year = 2024
 url = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 short_cite = "U.S. Bureau of Labor Statistics, Public Data API"
-population = "Depends on series (CPI: all urban consumers; food prices: urban consumers)"
-notes = "Direct API access to BLS time series. Used for: average food prices (APU series), CPI-U (CUUR0000SA0), wage and hours data. API key registered. Food price series (APU) available from ~1970s onward — no 1950 data. Rate limit: 100 queries/day for registered users."
+population = "Depends on series: CPI indexes cover urban consumers; APU food prices are retail price observations for the U.S. city average, not a household expenditure survey."
+notes = "Direct official API time-series responses. The selected food-price observations were newly retrieved through the public API without a key or contact address on 2026-10-28. Original JSON responses and BLS-sourced FRED identity/unit pages are saved in samples/59-workbook-review/. scripts/food_price_review.py checks exact December years/periods/series identities and reproduces nearest-cent half-up display rounding. The API response did not supply catalog metadata, so item identities were checked separately at https://fred.stlouisfed.org/series/APU0000702111 and the corresponding pages for each cited ID. The BLS series notes reproduced there advise using category CPI indexes for price change, rather than treating average-price observations as a constant-quality inflation series."
 
 # ── BLS Bulletin 1055 ─────────────────────────────────────────────────────
 
@@ -468,20 +468,20 @@ short_cite = "NCHS, National Vital Statistics System"
 publisher = "National Center for Health Statistics (CDC)"
 year = 2024
 url = "https://www.cdc.gov/nchs/nvss/life-expectancy.htm"
-population = "U.S. resident population (death certificates)"
-notes = "NCHS publishes annual life tables via the National Vital Statistics Reports series. Life expectancy at birth (all races): 1960: 69.7 total / 66.6M / 73.1F; 1970: 70.8 / 67.1M / 74.8F; 1980: 73.7 / 70.0M / 77.5F; 1990: 75.4 / 71.8M / 78.8F; 2000: 77.0 / 74.3M / 79.7F; 2010: 78.7 / 76.2M / 81.0F; 2023: 78.4 / 75.8M / 81.1F (Data Brief No. 521). 2024 provisional: 79.0 / 76.5M / 81.4F. Infant mortality rates (all races, per 1,000 live births) from Health, United States, 2016, Table 11: 1950: 29.2; 1960: 26.0; 1970: 20.0; 1980: 12.6; 1990: 9.2; 2000: 6.9; 2010: 6.1; 2015: 5.9. URL for infant mortality table: https://www.cdc.gov/nchs/data/hus/2016/011.pdf"
+population = "Births and deaths in the geographic and residency universe specified by each NCHS table"
+notes = "NCHS publishes life tables and infant mortality through multiple dated publications. Historical values and population controls can change across vintages. Use each fact’s identified publication and geographic universe; separate resident-only observations from historical tables that include nonresident births or deaths. Final 2024 mortality has a separate source card. No undifferentiated provisional historical list is asserted by this registry entry."
 
 # ── Census ACS (via Census Reporter) ─────────────────────────────────────
 
 [[source]]
 id = "census-acs-vehicle"
-title = "ACS Table B25045: Tenure by Vehicles Available by Age of Householder"
-short_cite = "U.S. Census Bureau, American Community Survey (latest 5-year estimates)"
+title = "2024 ACS 1-year Table B25045: Tenure by Vehicles Available by Age of Householder"
+short_cite = "U.S. Census Bureau, 2024 American Community Survey 1-year estimates"
 publisher = "U.S. Census Bureau"
-year = 2023
-url = "https://censusreporter.org/tables/B25045/"
-population = "All occupied housing units in the United States"
-notes = "Retrieved via Census Reporter API. 132.7M households: 91.5% with 1+ vehicles, 8.5% with no vehicle. Owner no-vehicle: 2.88M (3.3% of owners). Renter no-vehicle: 8.43M (18.3% of renters)."
+year = 2024
+url = "https://api.census.gov/data/2024/acs/acs1/groups/B25045.html"
+population = "Occupied housing units in the United States, 2024 ACS 1-year estimates"
+notes = "The curator uses the 2024 ACS 1-year national table, not a 2023 five-year estimate. Availability of a vehicle does not establish vehicle ownership. Shares retain the occupied-unit denominator and source vintage."
 
 [[source]]
 id = "census-acs-homevalue"
@@ -530,14 +530,14 @@ notes = "Oldsmobile Curved Dash Runabout: $650 (1901–1904), best-selling car i
 
 [[source]]
 id = "ramey-2009"
-title = "Time Spent in Home Production in the Twentieth-Century United States: New Estimates from Old Data"
+title = "Time Spent in Home Production in the 20th Century: New Estimates from Old Data"
 expect = ["Home Production", "Valerie A. Ramey"]
-short_cite = "Ramey, J. Econ. History 69(1), 2009"
-publisher = "Cambridge University Press (Journal of Economic History)"
-year = 2009
+short_cite = "Ramey, NBER Working Paper 13985, May 2008"
+publisher = "National Bureau of Economic Research"
+year = 2008
 url = "https://www.nber.org/system/files/working_papers/w13985/w13985.pdf"
 population = "Prime-age women and men, ages 18–64 (benchmark years 1900–2005); also all-ages per-capita and per-household aggregates"
-notes = "Valerie A. Ramey, JEconHist 69(1), March 2009, pp. 1–47. Reconstruction from historical time-diary studies (Purnell Act studies 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS modern surveys. Draft version: NBER Working Paper w13985 (May 2008, 63pp) — data tables are numerically identical to the published version; differences are prose tightening and table reformatting (5→5A/5B, etc.). Tier C (period-survey reconstruction). Key tables: Table 5A (nonemployed women), Table 6A (all women, prime-age), Table 7 (men, prime-age), Table 8A (all ages), Table 3 (component breakdown). Note: Ramey does not use the 1992-94 survey (missing data), so no 1990s benchmark. Splice point to ATUS: Ramey measures women-specific home production ages 18-64; ATUS measures all-adult household activities age 15+ — a concept splice that must caveat (Plan 004 Measure guard)."
+notes = "The linked document is Valerie A. Ramey's NBER Working Paper 13985, dated May 2008. A 2009 journal publication is a separate version; the linked working paper is the source read here. It reconstructs historical time-diary estimates and links them to later surveys. Tables 6 and 7 report home-production estimates for prime-age women and men. The paper omits the 1992–94 survey because of missing data and methodological problems. Its home-production measure differs in population, activities, and units from the later ATUS household-activities measure."
 
 [[source]]
 id = "ramey-2008-nber"
@@ -589,8 +589,8 @@ title = "Residential Energy Consumption Survey (RECS)"
 publisher = "U.S. Energy Information Administration"
 year = 2020
 url = "https://www.eia.gov/consumption/residential/index.php"
-population = "U.S. housing units (sampled)"
-notes = "Started 1978, triennial/quadrennial. Tracks appliance ownership (refrigerator, washing machine, air conditioning) and housing characteristics. AC diffusion: 1993 RECS 68%, 2009 RECS 87%, 2015 RECS 87%. Useful for diffusion and home panels as complement to AHS."
+population = "Occupied primary U.S. housing units sampled by RECS; denominators vary by table"
+notes = "RECS begins in 1978. Distinguish households from residential buildings, and equipment present from equipment used. The 2015 main-heating-fuel percentages refer to heated homes; air-conditioning totals use all occupied primary homes. The 1993 microdata estimate has its own source card, codebook, weighting and Tier B classification. No common denominator is inferred across these tables."
 
 [[source]]
 id = "census-poverty-historical"
@@ -599,8 +599,8 @@ short_cite = "U.S. Census Bureau, Historical Poverty Tables"
 publisher = "U.S. Census Bureau"
 year = 2024
 url = "https://api.census.gov/data/timeseries/poverty/histpov2.html"
-population = "All U.S. population (official poverty measure, CPS ASEC)"
-notes = "Official poverty rate from the Current Population Survey Annual Social and Economic Supplement (CPS ASEC), accessed via Census API endpoint histpov2. Covers 1959-present. PCTPOV = percentage of all people below poverty level. PCTFAMPOV = percentage of people in families below poverty level. The official poverty measure uses pre-tax money income vs. poverty thresholds by family size and age. Data starts 1959 (first year of official poverty measure)."
+population = "All-race U.S. people in the Census CPS ASEC official-poverty universe; not the entire resident population and not a count of family units"
+notes = "Census histpov2 supplies PCTPOV and POV for people below the official poverty threshold. PCTFAMPOV/FAMPOV/FAM refer to persons in families, not family-unit poverty rates. Historical population controls and revisions are vintage-dependent; pinned responses and dated publications may differ. Do not combine estimates across vintages or silently change their universe."
 
 [[source]]
 id = "fcc-video-competition"
@@ -619,8 +619,8 @@ short_cite = "Statistical Abstract, Table: Average Retail Prices of Selected Foo
 publisher = "U.S. Census Bureau (data from BLS)"
 year = 1970
 url = "https://www.census.gov/library/publications/time-series/statistical_abstracts.html"
-population = "U.S. urban households, retail food prices collected by BLS in 51-56 cities"
-notes = "Table 530 in the 1970 Statistical Abstract (91st edition). Data originally from BLS Retail Food Prices by Cities. Prices in cents per pound unless otherwise indicated. Covers 1950-1970 (April). Milk in cents per quart (delivered). Eggs in cents per dozen. Coffee in cents per 10 oz. Cross-checked against BLS Bulletin 1055 for 1950 values — exact match."
+population = "Retail prices reported by dealers in selected U.S. cities; city coverage and item specifications vary by date and commodity. These are price observations, not a household survey population."
+notes = "Table 530 in the 1970 Statistical Abstract (91st edition), printed page 349, annual observations and April 1970. Prices are cents per pound unless otherwise indicated. Fresh delivered milk is per quart through 1960 and per half-gallon thereafter (footnote 4); eggs are per dozen. Selected-city averages are not a national household food basket. The archive contains the original scan in 01-statistical-abstracts/1970.zip, member 1970-05.pdf, PDF page 13."
 
 [[source]]
 id = "bls-bulletin-1312-12"
@@ -645,13 +645,13 @@ notes = "CDC Morbidity and Mortality Weekly Report article summarizing 20th-cent
 
 [[source]]
 id = "bts-vehicle-availability"
-title = "Share of Households by Vehicles Available: 1960-2023 (BTS Figure 2-7)"
-short_cite = "U.S. DOT, BTS, 2024 Transportation Statistics Annual Report, Figure 2-7"
+title = "Share of Households by Vehicles Available: 1960–2023 (BTS Figure 2-6)"
+short_cite = "U.S. DOT, BTS, 2024 Transportation Statistics Annual Report, Figure 2-6"
 publisher = "U.S. Department of Transportation, Bureau of Transportation Statistics"
 year = 2024
 url = "https://www.bts.gov/browse-statistical-products-and-data/info-gallery/share-household-vehicles-available-1960-2023"
 population = "All U.S. occupied housing units"
-notes = "Data compiled by BTS from U.S. Census Bureau Decennial Census (1960-2000) and American Community Survey (2010-2023). Table B08201 (Household Size by Vehicles Available). Excel file: F2-7 Share of Household by Vehicle Available.xlsx. Figures verified against the Census Bureau source data. The 1960-2000 data are from the decennial census long form; 2010+ from ACS. The concept is consistent across the span: '% of occupied housing units with N vehicles available.'"
+notes = "Archived Figure 2-6 workbook compiles Census decennial and ACS observations. Its unit is occupied housing units by vehicles available, rather than the population owning cars. Decennial census and ACS observations retain their source vintages; publication in one workbook does not remove survey differences."
 
 [[source]]
 id = "eia-aer-appliances"
@@ -702,7 +702,7 @@ publisher = "Centers for Medicare & Medicaid Services, Office of the Actuary"
 year = 2024
 url = "https://www.cms.gov/data-research/statistics-trends-and-reports/national-health-expenditure-data"
 expect = ["National Health Expenditure"]
-population = "US resident population and total national health spending (all payers)"
+population = "United States national health expenditures, all payers; per-capita figures use the Census resident-based population less armed forces overseas and outlying areas"
 notes = "CMS NHE tables cover calendar years 1960-2024. Table 01: aggregate amounts, per capita, percent of GDP. Table 02: by type of service and source of funds. Dollar amounts in current (nominal) dollars. Updated annually. Source files: NHE24_Summary.csv, NHE2024.csv. URL CORRECTION 2026-07-28: CMS changed the page slug from statistics-trends-reports to statistics-trends-and-reports (old URL 404s); content re-verified as the NHE data page."
 
 [[source]]
@@ -713,7 +713,7 @@ publisher = "National Center for Health Statistics (CDC)"
 year = 2020
 url = "https://data.cdc.gov/National-Center-for-Health-Statistics/NCHS-Age-adjusted-Death-Rates-for-Selected-Major-C/6rkc-nb2q"
 population = "U.S. resident population (death certificates, all causes)"
-notes = "Covers 1900-2018 for 5 causes: Heart Disease, Cancer, Stroke, Accidents, Influenza/Pneumonia. Rates for 1900-1998 from NCHS Historical Data; 1999-2018 calculated using 2000 U.S. standard population. Citation: Bastian B, Tejada Vera B, Arias E, et al. Mortality trends in the United States, 1900-2018. NCHS. 2020."
+notes = "Covers 1900-2018 for 5 causes: Heart Disease, Cancer, Stroke, Accidents, Influenza/Pneumonia. Rates for 1900-1998 from NCHS Historical Data; 1999-2018 calculated using 2000 U.S. standard population. Citation: Bastian B, Tejada Vera B, Arias E, et al. Mortality trends in the United States, 1900-2018. NCHS. 2020. The historical source page https://www.cdc.gov/nchs/nvss/mortality/hist293.htm also specifies adjustment to the 2000 U.S. standard population. Historical coverage before 1933 is the changing Death Registration States, not all states; the selected cause-specific observations here begin after that coverage boundary. ICD revisions and revisions to population denominators can introduce discontinuities, so the recorded rates alone do not establish a seamless cause-specific trend."
 
 [[source]]
 id = "nchs-db548"
@@ -743,8 +743,8 @@ short_cite = "NCI SEER, Cancer Stat Facts — All Sites"
 publisher = "National Cancer Institute (NIH)"
 year = 2026
 url = "https://seer.cancer.gov/statfacts/html/all.html"
-population = "Patients diagnosed with cancer (all sites) in SEER registry areas"
-notes = "5-year relative survival 70.5% for 2016-2022 diagnoses. Updated annually."
+population = "People diagnosed with cancer in SEER 21 registry areas excluding Illinois, 2016–2022"
+notes = "The page accessed in 2026 reports five-year relative survival for diagnoses in 2016–2022, across SEER 21 registry areas excluding Illinois. It is not a nationwide matched cohort, and its coverage differs from earlier SEER 9 series. The descriptive contrast does not isolate the effect of treatment."
 
 [[source]]
 id = "nchs-hus2016-table37"
@@ -768,13 +768,13 @@ notes = "Key statement: 'The 5-year relative survival rate for all cancers combi
 
 [[source]]
 id = "bea-new-car-price"
-title = "Average Transaction Price per New Car (Domestic and Import), 1970-2020"
-short_cite = "U.S. Bureau of Economic Analysis, Average Transaction Price per New Car (ORNL TEDB Table 11.13)"
-publisher = "U.S. Department of Commerce, Bureau of Economic Analysis"
+title = "Transportation Energy Data Book, Edition 39, Table 11.13: Average Price of a New Car"
+short_cite = "ORNL, Transportation Energy Data Book, Edition 39, Table 11.13"
+publisher = "Oak Ridge National Laboratory, U.S. Department of Energy"
 year = 2021
-url = "https://tedb.ornl.gov/data/"
-population = "All new passenger cars sold in the United States (domestic and import), excluding pickups, vans, and SUVs"
-notes = "Compiled in Oak Ridge National Laboratory, Transportation Energy Data Book, Edition 40, Table 11.13. Data are based on an average car and do not include prices for pickups, vans, or sport utility vehicles. Annual average transaction prices in current dollars. Total (domestic + import) current-dollar prices: 1970 $3,543, 1980 $7,557, 1990 $15,033, 2000 $21,030, 2010 $24,907, 2020 $27,366."
+url = "https://info.ornl.gov/sites/publications/Files/Pub147659.pdf"
+population = "Average new car, domestic and imported; excludes pickups, vans and sport utility vehicles"
+notes = "Table 11.13, updated April 2021, reports BEA average transaction prices. The figures use the Total / Current dollars column; the neighbouring column is in constant 2020 dollars."
 
 [[source]]
 id = "census-table-a1-a2"
@@ -794,8 +794,8 @@ short_cite = "U.S. Census Bureau, Table MS-2"
 publisher = "U.S. Census Bureau"
 year = 2023
 url = "https://www.census.gov/data/tables/time-series/demo/families/marital.html"
-population = "U.S. civilian noninstitutionalized population (CPS/decennial census)"
-notes = "Table MS-2: Median age at first marriage by sex, 1890 to present. Decennial census data 1890-2000; CPS data for intervening years and 2010+. File: ms2-median-age-first-marriage.xls. The median age at first marriage declined from ~26 (men) / ~22 (women) in 1890 to a mid-century low of ~22.5 / 20.3 in 1956, then rose steadily to ~30+ / ~28+ by 2023."
+population = "U.S. median age at first marriage by sex; decennial Census through 1940 and CPS thereafter"
+notes = "Historical MS-2 spans decennial Census and Current Population Survey observations with their respective universes. These are sex-specific median-age estimates, not a timeline of the composite family. Retain source-year, age and survey seams; do not infer a continuous matched cohort."
 
 [[source]]
 id = "statab-lfpr-marital"
@@ -883,13 +883,13 @@ notes = "Dataset on data.cdc.gov. Annual per capita cigarette consumption 2000-2
 
 [[source]]
 id = "cdc-nhis-smoking-prevalence"
-title = "National Health Interview Survey: Adult Cigarette Smoking Prevalence, 1965-2022"
-short_cite = "CDC NCHS, NHIS Adult Smoking Prevalence (compiled by American Lung Association)"
-publisher = "National Center for Health Statistics (CDC)"
-year = 2024
+title = "Adult Smoking Rate Trends by Sex, Race, and Age: NHIS compilation and analysis"
+short_cite = "American Lung Association, NCHS/NHIS smoking-rate tables and public-use analysis"
+publisher = "American Lung Association, compiling NCHS data and analysing NHIS public-use files"
+year = 0
 url = "https://www.lung.org/research/trends-in-lung-disease/tobacco-trends-brief/data-tables/ad-cig-smoke-rate-sex-race-age"
 population = "U.S. civilian noninstitutionalized adults ≥18 years (NHIS household interview survey)"
-notes = "NHIS data 1965-2022. Pre-1997 from published NCHS Series 10 reports; 1997-2022 from ALA analysis of NHIS public-use files using SPSS. Current smoker defined as smoked ≥100 cigarettes and currently smoking every day or some days. 2025 preliminary: 9.1% (CDC FastStats). Survey redesign in 1997 means pre/post may not be directly comparable."
+notes = "Publication date is not stated in the inspected compilation. Its data extend through 2022. Pre-1997 estimates come from published NCHS reports; the later estimates are American Lung Association analysis of NHIS public-use files. The museum transcribes that analysis and has not independently recomputed the raw NHIS estimates. The 1997 redesign limits comparisons across the break; the later records use Tier B."
 
 # ── v2 world rooms: United Kingdom (uk) ────────────────────────────────────
 
@@ -943,8 +943,8 @@ publisher = "Statistics Bureau, Ministry of Internal Affairs and Communications 
 year = 2025
 url = "https://www.stat.go.jp/english/data/kakei/"
 expect = ["Family Income and Expenditure Survey"]
-population = "Two-or-more-person households (workers' households and all households), Japan. Urban-only before 1962; national from 1963."
-notes = "Monthly survey of household income and expenditure, continuous from 1946. Three universes: workers' households, all two-or-more-person households, one-person households. Expenditure classification revised in 1981 (methodology seam). Long-run Excel tables downloaded: fies-18-02-a.xls (workers' households, all cities, 1948–1962), fies-a18-2.xls (workers' households, 1963–2017), fies-a18-1.xls (all two-or-more-person households, 1963–2017). Before 1962 the survey covered cities only — pre-1962 facts carry the urban-rural-split caveat. URL CORRECTION 2026-08-14: the Statistics Bureau reorganized the English site and the old /data/kakei/tsuki/ deep link 404s; repointed at the FIES English landing page, which links the outline, results, and Q&A pages (1560–1563). The long-run Excel tables cited above remain in samples/."
+population = "Workers' households in all cities for the 1948-1962 table; the 1963-2017 tables cover two-or-more-person households excluding agricultural, forestry and fisheries households, Japan. Income uses workers' households; consumption and food shares use all household types within that stated scope."
+notes = "Monthly survey of household income and expenditure, continuous from 1946. Three universes: workers' households, all two-or-more-person households, one-person households. Expenditure classification revised in 1981 (methodology seam). Long-run Excel tables downloaded: fies-18-02-a.xls (workers' households, all cities, 1948–1962), fies-a18-2.xls (workers' households, 1963–2017), fies-a18-1.xls (all two-or-more-person households, 1963–2017). Before 1962 the survey covered cities only — pre-1962 facts carry the urban-rural-split caveat. URL CORRECTION 2026-08-14: the Statistics Bureau reorganized the English site and the old /data/kakei/tsuki/ deep link 404s; repointed at the FIES English landing page, which links the outline, results, and Q&A pages (1560–1563). The long-run Excel tables cited above remain in samples/. The English footnotes in fies-a18-1.xls and fies-a18-2.xls explicitly exclude agricultural, forestry and fisheries households; national geographical coverage does not mean every household type is included."
 
 [[source]]
 id = "jp-nsfiie"
@@ -1093,7 +1093,7 @@ short_cite = "BLS, Census of Fatal Occupational Injuries (hours-based rates)"
 publisher = "U.S. Bureau of Labor Statistics, Injuries, Illnesses, and Fatalities program"
 year = 2025
 url = "https://www.bls.gov/iif/fatal-injuries-tables.htm"
-population = "All US workers, employed and self-employed, measured against total hours worked as estimated by the Current Population Survey — not employed persons, which was the pre-2006 denominator"
+population = "Matched worker groups in the CFOI numerator and CPS hours denominator; persons under 16, volunteers, and resident military are excluded from both"
 expect = ["Fatal injury rates (hours-based)", "Census of Fatal Occupational Injuries"]
 notes = "Transcribed from the nineteen per-year workbooks this page links (fatal-occupational-injuries-hours-based-rates-YYYY.xlsx, 2006-2024), Total row, 'Fatal injury rate' column. The workbooks' column layout changes three times across the span, so the extraction locates that column by header text; a fixed index silently reads total hours as the rate for 2017 and 2018. Values cross-checked against the data labels on the rate chart in the archived CFOI charts package (1992-2017): all twelve overlapping years reproduce exactly. Rate = (fatal work injuries / total hours worked) x 200,000,000, the base for 100,000 full-time equivalents. Two limits are structural, not archival: CFOI has covered all 50 states and DC only since 1992, so no federal census of workplace deaths exists before then; and BLS moved the rate from an employment basis to an hours basis in 2006, so earlier rates measure something else and are not chained here. NOTE ON THE LINK CHECK: bls.gov returns 403 to clients whose User-Agent carries no contact address, so CI reports this source as bot-blocked and its expect-markers are NOT verified there — they were verified locally on 2026-09-01 against the served page."
 
@@ -1126,9 +1126,9 @@ short_cite = "USDA ERS, Food Availability (Per Capita) Data System"
 publisher = "U.S. Department of Agriculture, Economic Research Service"
 year = 2024
 url = "https://www.ers.usda.gov/data-products/food-availability-per-capita-data-system"
-population = "The whole US resident population — a supply-side average per person, not a measure of what anyone ate or of who ate it"
+population = "U.S. resident population plus Armed Forces overseas; commodity-specific population reference dates and fruit marketing seasons are defined in each source sheet. Supply-side availability per person, not intake or a household basket"
 expect = ["Food Availability (Per Capita) Data System"]
-notes = "Per-commodity sheets of the fresh-fruit and fresh-vegetable workbooks, farm-weight 'Per capita availability' column. Availability is a disappearance estimate: production plus imports, less exports, non-food use and (for fruit) shipments to US territories, divided by population. It measures what the food supply made available per person, not intake — ERS publishes a separate loss-adjusted series for consumption-like figures and this is not it. Each sheet also prints a retail-weight column derived by a stated conversion factor (0.92 broccoli and peppers, 0.94 avocados, 0.91 grapes); the unadjusted farm-weight column is taken and the factor is disclosed rather than applied. The two workbooks do not share a layout — the fruit sheets carry an extra 'Shipments to U.S. Territories' column and print the 'Farm' sub-header a row lower — so the extraction locates every column by its printed label and then verifies the result arithmetically: farm per-capita must equal food availability divided by population, for every year. Pointed one column right, at the retail figures, that check rejects all four commodities."
+notes = "The archived fresh-fruit and fresh-vegetable workbooks provide farm-weight supply/use formulas and a separate retail-weight column. The curator reproducer pins the original bytes, literal inputs, selected formulas, population footnotes and cell precision. Fruit displays one decimal place; selected vegetables display two. Previous extra fruit digits were hidden cache precision, not printed precision. The historical summary sheets can start earlier than the detailed commodity sheets; the first detailed row does not establish the first published observation. Availability is not loss-adjusted consumption. Fruit trade/marketing periods and population reference dates must not be relabelled as one homogeneous calendar-year household series."
 
 [[source]]
 id = "usda-ers-aib758"
@@ -1262,6 +1262,17 @@ expect = ["Section 6404.5 is added to the Labor Code", "bars and taverns", "Janu
 population = "Enclosed spaces at places of employment in California; employer and employee conduct within the meaning of § 6404.5(b)-(f)"
 notes = "AB 13 (T. Friedman), approved July 21, 1994, adds Labor Code § 6404.5. Subdivision (b): 'No employer shall knowingly or intentionally permit, and no person shall engage in, the smoking of tobacco products in an enclosed space at a place of employment.' Subdivision (a) declares a uniform statewide standard; subdivision (d) excepts from 'place of employment', among others, 65 percent of hotel and motel guest rooms and designated lobby areas, meeting and banquet rooms outside food or beverage functions, retail or wholesale tobacco shops and private smokers' lounges, truck cabs where no nonsmoking employee is present, warehouses over 100,000 square feet with twenty or fewer full-time employees, gaming clubs, bars and taverns (permitted by subdivision (f) until the earlier of January 1, 1997 or an adopted ETS exposure regulation), theatrical production sites, medical research or treatment sites, private residences (family day care hours excepted), patient smoking areas in long-term health care facilities, and employer smoking breakrooms exhausted directly to the outside. SEC. 2 defers the operative date to the act's constitutional effective date (the California Constitution's January 1 rule; the section operated statewide from January 1, 1995). The old leginfo.ca.gov host is retired and leginfo.legislature.ca.gov 403s scripted clients, so the archived official chaptered text is the citation; the section's later amendment history (including the bar/tavern extension) is visible in the archived official section display pinned in the samples archive (51-smoking-legal/)."
 
+[[source]]
+id = "dclg-ehs-homes-2011"
+title = "English Housing Survey: Homes 2011 (with the publisher's errata)"
+short_cite = "DCLG, EHS Homes 2011, pp. 10, 18-19, 90-91; size-definition errata"
+publisher = "Department for Communities and Local Government"
+year = 2013
+url = "https://assets.publishing.service.gov.uk/media/5a7c381eed915d76e2ebbe26/EHS_HOMES_REPORT_2011.pdf"
+expect = ["English Housing Survey", "Annex Table 4.2"]
+population = "All dwellings in England, occupied or vacant; EHS physical dwelling sample, fieldwork April 2010 to March 2012, midpoint April 2011"
+notes = "Official National Statistics, published 10 July 2013. The dwelling sample differs from the 2011-12 full household interview sample; neither is a UK-wide four-person-family population. The report publishes rounded means and percentages. Read the publisher's errata, https://assets.publishing.service.gov.uk/media/5a7d9c13ed915d497af70732/EHS_2011_Homes_Report_errata.pdf : integral garages and integral balconies ARE included in usable floor area, contrary to the original glossary. Central heating is specifically boiler-fed radiators, excluding warm-air, underfloor, ceiling and electric storage systems. Publication and original annex workbooks: https://www.gov.uk/government/statistics/english-housing-survey-2011-homes-report . Original PDFs and chapter 1/4 XLS files are archived in samples/58-uk-housing-review/ under the Open Government Licence; only selected facts are published. Audit bindings target a hash-guarded extraction artifact reproduced from both original PDFs by scripts/uk_housing_extract.py, not independent source bytes."
+
 # ── Plan 027 WI-10: finding information — daily newspaper circulation ────
 
 [[source]]
@@ -1295,4 +1306,444 @@ year = 2019
 url = "https://web.archive.org/web/20111020120726id_/https://www.census.gov/prod/2011pubs/12statab/trans.pdf"
 expect = ["Pieces of mail handled", "170,574"]
 population = "All mail handled by the Post Office Department / U.S. Postal Service — every class plus free and penalty mail; fiscal years ended June 30 through 1976 (the 1976 transition quarter printed separately), September 30 from fiscal 1977; Alaska, Hawaii, and outlying areas in the 1960 edition, Puerto Rico and outlying areas later"
-notes = "Tier A: the underlying counts are the Department's and the Postal Service's own annual-report statistics — official federal data wherever the Census Bureau reprinted it; the compiler does not make it trade data. Vehicles used, and the years each provides: the 1960 edition's No. 654 (printed p. 507; 1900-1959, exact, millions, pre-1930 flagged as estimates by the edition's own note, 1915 and 1920 printed as dashes), the 1976 edition's No. 868 (printed p. 529; 1900-1975 quinquennial then annual 1970-1976, exact, 'handled est.'), the 1985 edition's No. 918 (printed p. 538; 1900-1983, billions at 0.1 precision — the edition that revised the whole 1970s onto the basis the later prints carry, and the one that documents the 1976 transition quarter), the 1990 edition's No. 911 (printed p. 549; 1970, 1980, 1985, 1987, 1988, exact), the 2012 edition's Table 1127 (printed p. 706; 1990-2010 selected years, exact, clean text layer), and the USPS Form 10-K 'Total volume' tables (FY2012, FY2015, FY2016, FY2017, FY2018, FY2019 — 2011-2019 exact, with between-edition reclassification revisions recorded). The 1994 edition dropped the postal volume table, so 1984, 1986, and 1989 are absent. Scan editions are pinned by zip sha256 (samples/01-statistical-abstracts/); the 2012 section PDF and the six 10-Ks are pinned in samples/54-mail/ with the transcription dump (mail-pieces-dump.txt). All documents fetched October 2026 from Wayback Machine captures of census.gov and about.usps.com."
+notes = "Tier A: the underlying counts are the Department's and the Postal Service's own annual-report statistics — official federal data wherever the Census Bureau reprinted it; the compiler does not make it trade data. Vehicles used, and the years each provides: the 1960 edition's No. 654 (printed p. 507; 1900-1959, exact, millions, pre-1930 flagged as estimates by the edition's own note, 1915 and 1920 printed as dashes), the 1976 edition's No. 868 (printed p. 529; 1900-1975 quinquennial then annual 1970-1976, exact, 'handled est.'), the 1985 edition's No. 918 (printed p. 538; 1900-1983, billions at 0.1 precision — the edition that revised the whole 1970s onto the basis the later prints carry, and the one that documents the 1976 transition quarter), the 1990 edition's No. 911 (printed p. 549; 1970, 1980, 1985, 1987, 1988, exact), the 2012 edition's Table 1127 (printed p. 706; 1990-2010 selected years, exact, clean text layer), and the USPS Form 10-K 'Total volume' tables (FY2012, FY2015, FY2016, FY2017, FY2018, FY2019 — 2011-2019 exact, with between-edition reclassification revisions recorded). The 1994 edition dropped the postal volume table, so 1984, 1986, and 1989 are absent. Scan editions are pinned by zip sha256 (samples/01-statistical-abstracts/); the 2012 section PDF and the six 10-Ks are pinned in samples/54-mail/ with the transcription dump (mail-pieces-dump.txt). All documents fetched October 2026 from Wayback Machine captures of census.gov and about.usps.com. The curated historical annual series ends in 2019 and retains its source vintages and historical fiscal-year changes. This is an archive and curation endpoint, not a claim that USPS stopped reporting volume. The separately cited FY2025 Form 10-K observation includes mail and packages; it is not silently joined to the historical line or interpreted as personal correspondence."
+
+[[source]]
+id = "maff-nfs-1984"
+title = "Household Food Consumption and Expenditure: 1984 — Annual Report of the National Food Survey Committee"
+short_cite = "MAFF, National Food Survey 1984, Table 8, p. 28; Appendix A, pp. 145-146"
+publisher = "Ministry of Agriculture, Fisheries and Food"
+year = 1986
+url = "https://assets.publishing.service.gov.uk/media/5a8050e8ed915d74e622dbf3/Domestic_Food_Consumption_and_Expenditure_1984.pdf"
+population = "Private households in mainland Great Britain and the Isle of Wight (excluding the Scilly Isles and Scottish islands); one-week voluntary household diaries recording food entering the home, annual averages per person. These are food-at-home acquisitions, not individual ingestion or a median four-person family diet."
+notes = "Table 8 reports annual and quarterly averages with separate Consumption and Purchases columns. The selected records use annual Consumption, defined in Appendix A (printed page 145) as food entering the household, not amounts actually eaten; it can include food later discarded or fed to pets. Main records exclude meals out, pet food, confectionery and alcoholic drinks. Soft drinks were separately collected but excluded from the main tables and estimates. Source units are preserved, including imperial pints for milk. The original report is archived in samples/31-uk-expenditure/; scripts/nfs_1984_extract.py reproduces the selected visually checked cells from its pinned OCR text layer. Audits target a hash-guarded extraction artifact, not independent publisher bytes. The original is Crown copyright; only selected factual observations are transcribed, not a bulk report reproduction."
+
+[[source]]
+id = "bls-cex-urban-1960-61"
+title = "Consumer Expenditure Survey, 1960-61 — urban consumer units"
+short_cite = "Consumer Expenditure Survey, 1960-61 — urban consumer units"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 2014
+url = "https://www.bls.gov/cex/1961/Standard/ce_196061_tables.pdf"
+population = "Urban consumer units in the 1960-61 Consumer Expenditure Survey, United States; not restricted to four-person units or median-income families."
+notes = "The archived Appendix B Table B-11 (ce_196061_tables.pdf, PDF page 8, printed pages 94-95) explicitly identifies consumer units in the urban sample. Its United States mean expenditure rows supply the selected food, housing and total amounts. Source units are consumer units, not Census families. Some records retain this later checkpoint in the 1950s archive room with the observation year explicit; it must not become a separate 1950 observation. The publication year here is the digital tables' October 2014 posting stated in the original PDF metadata; it is not the original survey-report publication date. Automated BLS page access is blocked for the checker without an owner-authorized contact user agent; no expect markers are claimed verified by CI."
+
+[[source]]
+id = "bls-cex-four-person-1972-73"
+title = "Consumer Expenditure Survey, 1972-73 — four-person consumer units"
+short_cite = "Consumer Expenditure Survey, 1972-73 — four-person consumer units"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 1978
+url = "https://www.bls.gov/cex/tables.htm"
+population = "Four-person consumer units, United States, 1972-73 Consumer Expenditure Survey. These are survey means for a size-defined population, not the median-income family."
+notes = "Bulletin 1992, Integrated Diary and Interview Survey Data, Table 2. The introduction and glossary identify the consumer-unit concept; references to families in the narrative do not change the measured unit. The original integrated report is archived as 02-cex/cex-1972-73-integrated.pdf. The linked BLS table index is not direct historical-file verification. Automated BLS page access is blocked for the checker without an owner-authorized contact user agent; no expect markers are claimed verified by CI."
+
+[[source]]
+id = "bls-cex-four-person-2005"
+title = "Consumer Expenditure Survey, 2005 — four-person consumer units"
+short_cite = "Consumer Expenditure Survey, 2005 — four-person consumer units"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 2006
+url = "https://www.bls.gov/cex/tables.htm"
+population = "Four-person consumer units in the U.S. civilian noninstitutionalized population; annual expenditure means, not median family amounts."
+notes = "The source year names the digital table edition timestamp in the original file metadata, not the survey reference year. Table 4, Size of consumer unit. Original cusize-2005.pdf is archived in 02-cex/. The Four persons column is distinct from all consumer units and the two-or-more-person subtotal. Food means are rounded publisher estimates and may not sum exactly. The linked BLS table index is not direct historical-file verification. Automated BLS page access is blocked for the checker without an owner-authorized contact user agent; no expect markers are claimed verified by CI."
+
+[[source]]
+id = "bls-cex-four-person-2013"
+title = "Consumer Expenditure Survey, 2013 — four-person consumer units, annual means"
+short_cite = "Consumer Expenditure Survey, 2013 — four-person consumer units, annual means"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 2014
+url = "https://www.bls.gov/cex/tables.htm"
+population = "Four-person consumer units in the U.S. civilian noninstitutionalized population; annual expenditure means, not median family amounts."
+notes = "The source year names the digital table edition timestamp in the original file metadata, not the survey reference year. Table 1400, annual expenditure means variant, archived as 19-cpi-tables/cu-size-2013.xlsx, sheet Table 1400, Four people column G. This is not an aggregate-share table. The worksheet declares dimension A1 despite containing later rows; explicit cell access reads the original literal cells. Food means are rounded publisher estimates and may not sum exactly. The linked BLS table index is not direct historical-file verification. Automated BLS page access is blocked for the checker without an owner-authorized contact user agent; no expect markers are claimed verified by CI."
+
+[[source]]
+id = "bls-ces-1961-urban-durables"
+title = "CES 1961 urban durable ownership — Appendix B, Table B-20, reprinted from Monthly Labor Review, October 1964"
+short_cite = "BLS, CES 1961 urban durable ownership, Table B-20, p. 108"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 1964
+url = "https://www.bls.gov/cex/1961/Standard/ce_196061_tables.pdf"
+population = "CES urban families, 1961 (publisher's term). This review has not harmonized that definition with Census families, consumer units in other tables, or the national Consumer Buying Intentions population; not restricted to four-person or median-income families."
+notes = "Appendix B Table B-20, printed page 108 (PDF page 15), explicitly labels the CES rows urban and the measurement percent of families. Selected records use the 1961 CES row, not the adjacent 1960 CES, Census of Housing, or Consumer Buying Intentions rows. The table identifies itself as a reprint of Monthly Labor Review, October 1964, Table 1, page 1132. The archived digital appendix PDF metadata records an October 2014 posting. Automated BLS page access remains blocked for the checker without an owner-authorized contact user agent; no content-marker verification is claimed by CI."
+
+[[source]]
+title = "Financial Accounts of the United States: historical sector balance sheets, 2026 Q2 release"
+short_cite = "Federal Reserve, Z.1, September 11, 2026 release, FL152090005.Q"
+publisher = "Board of Governors of the Federal Reserve System"
+year = 2026
+url = "https://www.federalreserve.gov/releases/z1/data/FRB_Z1_csv.zip"
+population = "U.S. households and nonprofit organizations, aggregate sector balance sheet"
+notes = "September 11, 2026 release. Historical quarterly net worth is FL152090005.Q, in millions of current U.S. dollars, not seasonally adjusted. Selected December 31 observations are quarter-end stocks, not annual income or median family wealth. The original ZIP is pinned in the private archive; the curator streams selected series and checks assets less liabilities against net worth. Historical estimates may be revised in subsequent releases."
+id = "fed-z1-quarter-end-balances-2026q2"
+
+[[source]]
+title = "Eighteenth Annual Report of the Commissioner of Labor, 1903: Cost of Living and Retail Prices of Food"
+publisher = "U.S. Department of Labor, Commissioner of Labor (Carroll D. Wright)"
+year = 1903
+url = "https://fraser.stlouisfed.org/title/annual-report-commissioner-labor-6306"
+population = "23,447 qualifying surveyed families in 1901, including 19,090 renting and 4,357 owning"
+notes = "Eighteenth Annual Report, printed pages 72–73: rooms per family and rent per room; this housing population differs from the Bulletin 49 expenditure sample."
+id = "commissioner-labor-housing-1901"
+
+[[source]]
+title = "Eighteenth Annual Report of the Commissioner of Labor, 1903: Cost of Living and Retail Prices of Food"
+publisher = "U.S. Department of Labor, Commissioner of Labor (Carroll D. Wright)"
+year = 1903
+url = "https://fraser.stlouisfed.org/title/annual-report-commissioner-labor-6306"
+population = "Families with native-born heads reporting each specific food expenditure, 1901"
+notes = "Eighteenth Annual Report, Table IV-M, printed page 498; purchaser denominators differ by food item."
+id = "commissioner-labor-food-native-1901"
+
+[[source]]
+title = "Historical Statistics of the United States, Colonial Times to 1970 (Bicentennial Edition)"
+publisher = "U.S. Census Bureau"
+year = 1975
+url = "https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html"
+population = "Telephone instruments and extensions per 1,000 total population; includes business instruments"
+notes = "Historical Statistics, Series R 1–12, printed page 783 / PDF page 191, 1975 volume 2. Counts include telegraph and teletypewriter stations through 1930 and private-line telephones through 1934. R 2 is a per-person instrument rate, not a household-ownership percentage."
+id = "hist-stats-telephones-r1-r3"
+
+[[source]]
+title = "Historical Statistics of the United States, Colonial Times to 1970 (Bicentennial Edition)"
+publisher = "U.S. Census Bureau"
+year = 1975
+url = "https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html"
+population = "White population, by sex, in each period life table; geographical coverage varies by period"
+notes = "Historical Statistics Series B 116–125, printed page 56. Registration areas cover 20 states and DC in 1900–02 and 1909–11, 34 states and DC in 1919–21; 1929–31 covers conterminous United States."
+id = "hist-stats-life-expectancy-white"
+
+[[source]]
+title = "Historical Statistics of the United States, Colonial Times to 1970 (Bicentennial Edition)"
+publisher = "U.S. Census Bureau"
+year = 1975
+url = "https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html"
+population = "Married women aged 15 and older in the civilian labor force, all marital subtypes counted in the married total"
+notes = "Historical Statistics Series D 49–62, printed page 133, column D 60; early observations refer to married women total, not necessarily husband-present."
+id = "hist-stats-married-women-lfpr-early"
+
+[[source]]
+title = "Historical Statistics of the United States, Colonial Times to 1970 (Bicentennial Edition)"
+publisher = "U.S. Census Bureau"
+year = 1975
+url = "https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html"
+population = "U.S. passenger-car factory sales and wholesale values; vehicle registrations include all types where specified"
+notes = "Historical Statistics Series Q 148–162, printed page 716 / PDF page 124, volume 2. Wholesale factory values are not retail prices."
+id = "hist-stats-auto-factory-q148"
+
+[[source]]
+title = "Census of Manufactures, 1905: Part I"
+short_cite = "U.S. Census Bureau, Census of Manufactures, 1905"
+publisher = "U.S. Census Bureau"
+year = 1907
+url = "https://www2.census.gov/prod2/decennial/documents/03421399v4ch6.pdf"
+population = "Manufacturing wage earners aged 16 and older, by sex, for a selected busy or representative week in 1904"
+notes = "Census of Manufactures, Chapter 6, printed page 673; methodology on printed pages 643–644. The weekly averages are published directly."
+id = "census-manufacturing-wages-1904"
+
+[[source]]
+title = "1903 Oldsmobile Curved Dash Runabout"
+publisher = "General Motors Heritage"
+year = 0
+url = "https://www.gm.com/heritage/collection/oldsmobile/1903-oldsmobile-curved-dash-runabout"
+population = "1903 Oldsmobile Curved Dash Runabout, Model R"
+notes = "GM lists cost $650 and 3,924 built. The page supports this model and year, not a market-wide price or sales figure. The publisher web page is undated; 1903 is the vehicle model year, not a claimed publication year."
+id = "gm-oldsmobile-1903"
+
+[[source]]
+title = "Historical Census of Housing Tables: Plumbing"
+short_cite = "U.S. Census Bureau, Historical Census of Housing Tables: Plumbing"
+publisher = "U.S. Census Bureau"
+year = 2000
+url = "https://www.census.gov/data/tables/time-series/dec/coh-plumbing.html"
+population = "All reporting dwelling units in the United States, 1940"
+notes = "Historical Census of Housing Tables, plumbing, 1940: private bath and private flush toilet. The reporting population includes occupied and vacant units and is distinct from later complete plumbing definitions."
+id = "census-hist-housing-private-bath-1940"
+
+[[source]]
+title = "Historical Census of Housing Tables: Plumbing"
+short_cite = "U.S. Census Bureau, Historical Census of Housing Tables: Plumbing"
+publisher = "U.S. Census Bureau"
+year = 2000
+url = "https://www.census.gov/data/tables/time-series/dec/coh-plumbing.html"
+population = "All reporting dwelling units in the United States, each decennial census"
+notes = "Historical Census of Housing Tables: complete plumbing facility counts among all reporting units; reported lacking percentages and complete shares calculated from original counts may differ in the final decimal because of rounding."
+id = "census-hist-housing-plumbing-reporting"
+
+[[source]]
+title = "Residential Energy Consumption Survey (RECS)"
+publisher = "U.S. Energy Information Administration"
+year = 2020
+url = "https://www.eia.gov/consumption/residential/index.php"
+population = "U.S. households, selected Residential Energy Consumption Survey years"
+notes = "EIA Annual Energy Review Table 2.6. Households with both central and window or wall equipment are classified as central; estimates are independently rounded."
+id = "eia-recs-central-ac"
+
+[[source]]
+title = "EIA Annual Energy Review: Household Appliances (Table 8.3 / Table 2.6)"
+short_cite = "EIA Annual Energy Review 1988, Table 8.3 (republished in Census Bureau, 1991)"
+publisher = "U.S. Energy Information Administration"
+year = 1988
+url = "https://www.eia.gov/totalenergy/data/annual/"
+population = "Households reported in 1978 and 1980 appliance survey tables"
+notes = "Statistical Abstract 1990, Table 8.3, printed p. 8-4: washer and dryer rows are electric appliances. These vintage figures differ from later revised EIA tables."
+id = "statab-1990-electrical-appliances"
+
+[[source]]
+title = "Surveillance for Selected Tobacco-Use Behaviors -- United States, 1900-1994"
+short_cite = "CDC MMWR Surveillance Summary, Tobacco Use 1900-1994"
+publisher = "Centers for Disease Control and Prevention (CDC)"
+year = 1994
+url = "https://www.cdc.gov/mmwr/preview/mmwrhtml/00033881.htm"
+population = "Civilian noninstitutionalized adults aged 18 and over, National Health Interview Survey"
+notes = "CDC MMWR Surveillance Summary 43(SS-3), Table 2; cigarette smoking prevalence, by sex. Separate source identity prevents conflation with per-capita cigarette consumption in Table 1."
+id = "cdc-mmwr-nhis-smoking-prevalence"
+
+[[source]]
+title = "Statistical Abstract of the United States: 1953, Table 615"
+publisher = "U.S. Census Bureau"
+year = 1953
+url = "https://www2.census.gov/library/publications/1953/compendia/statab/74ed/1953-05.pdf"
+population = "Passenger-car factory sales, including foreign assembly from U.S. parts, 1950"
+notes = "Table 615, printed p. 533 / PDF p. 61, 1950 passenger-car columns: 6,666 thousand cars and $8,633,272 thousand wholesale value."
+id = "statab-1953-car-factory-sales"
+
+[[source]]
+title = "Housing Characteristics: 2010 (C2010BR-07)"
+publisher = "U.S. Census Bureau"
+year = 2011
+url = "https://www.census.gov/library/publications/2011/dec/c2010br-07.html"
+population = "Occupied housing units in the 2010 Census"
+id = "census-housing-characteristics-2010"
+
+[[source]]
+title = "2000 Census Summary File 3, H048: Tenure by Plumbing Facilities"
+publisher = "U.S. Census Bureau"
+year = 2000
+url = "https://api.census.gov/data/2000/dec/sf3/groups/H048.html"
+population = "Occupied housing units in the 2000 Census sample"
+id = "census-2000-sf3-h048"
+
+[[source]]
+title = "Tobacco Product Use Among Adults — United States, 2020"
+publisher = "Centers for Disease Control and Prevention, MMWR"
+year = 2022
+url = "https://www.cdc.gov/mmwr/volumes/71/wr/mm7111a1.htm"
+population = "U.S. civilian noninstitutionalized adults aged 18 years and older"
+id = "cdc-mmw-r2020"
+
+[[source]]
+title = "Consumer Expenditures in 2024: Consumer Unit Size, Annual Means"
+publisher = "U.S. Bureau of Labor Statistics"
+year = 2025
+url = "https://www.bls.gov/cex/tables/calendar-year/mean/cu-size-2024.pdf"
+population = "Four-person consumer units in the 2024 Consumer Expenditure Survey"
+id = "bls-cex-four-person-2024-mean"
+
+[[source]]
+title = "Deaths: Final Data for 2005, NVSR volume 56 number 10"
+publisher = "National Center for Health Statistics"
+year = 2008
+url = "https://www.cdc.gov/nchs/data/nvsr/nvsr56/nvsr56_10.pdf"
+population = "U.S. residents, period life expectancy at birth; Table 8 historical years include indicated geographic and nonresident seams"
+notes = "Original title page: April 24, 2008. Table 8 PDF page 26 supplies 1990 and 2000 life expectancy; source SHA-256 9d26f2ad059bdc8c2dbd8ba5beb8cc6b08f93e60233d09ec3f601a88ca7c22f2."
+id = "nchs-final-deaths-2005-life-table"
+
+[[source]]
+title = "United States Life Tables, 2010, NVSR volume 63 number 7"
+publisher = "National Center for Health Statistics"
+year = 2014
+url = "https://stacks.cdc.gov/view/cdc/26010/cdc_26010_DS1.pdf"
+population = "United States residents, period life expectancy at birth, all races and origins"
+notes = "Table 19, printed page 45, 2010 row; source SHA-256 2aa0d28170be0fb5420e0c8c2c485c5bfb2cef276442fad232c7f3ed0af17528."
+id = "nchs-life-tables-2010"
+
+[[source]]
+title = "Mortality in the United States, 2024, NCHS Data Brief 548"
+publisher = "National Center for Health Statistics"
+year = 2026
+url = "https://www.cdc.gov/nchs/products/databriefs/db548.htm"
+population = "U.S. resident deaths and live births, final 2024 mortality statistics"
+notes = "Figure 1 and Table 1 report 2024 period life expectancy; infant mortality is reported per 100,000 live births."
+id = "nchs-deaths-2024-final"
+
+[[source]]
+title = "Health, United States, 2016, Table 11: Infant, Neonatal, and Postneonatal Mortality Rates"
+publisher = "National Center for Health Statistics"
+year = 2017
+url = "https://www.cdc.gov/nchs/data/hus/2016/011.pdf"
+population = "Infant deaths and live births in the United States; footnotes describe geographic and nonresident differences across years"
+notes = "For the 1990, 2000 and 2010 facts. Earlier 1950 and 1960 observations include nonresident births and deaths, so must not be described uniformly as resident-only."
+id = "nchs-hus-2016-infant-table11"
+
+[[source]]
+title = "1993 RECS Public Use Data, File 2: Home Heating"
+publisher = "U.S. Energy Information Administration"
+year = 2003
+url = "https://www.eia.gov/consumption/residential/data/1993/index.php?view=microdata"
+population = "Primary occupied housing units, 50 states and the District of Columbia; 7,111 sample records weighted to estimated households"
+notes = "Final NWEIGHT and FUELHEAT are aggregated in the curator reproducer; Tier B. The codebook lists a solar frequency not present in the archived data file, which should not be silently reconciled."
+id = "eia-recs-1993-heating-microdata"
+
+[[source]]
+title = "2001 RECS Housing Characteristics, Table HC3-1b: Main Space Heating Fuel"
+publisher = "U.S. Energy Information Administration"
+year = 0
+url = "https://www.eia.gov/consumption/residential/data/2001/index.php?view=characteristics"
+population = "Occupied primary housing units in the United States, 2001 RECS"
+notes = "Published percentage rows; PDF page 2 of recs-2001-hc3.pdf. Publication date not stated; PDF creation metadata is April 2004 and is not proof of publication date."
+id = "eia-recs-2001-heating-hc3"
+
+[[source]]
+title = "Air Conditioning in Nearly 100 Million U.S. Homes"
+publisher = "U.S. Energy Information Administration"
+year = 2011
+url = "https://www.eia.gov/consumption/residential/reports/2009/air-conditioning.php"
+population = "Occupied primary U.S. housing units, 1993 and 2009 RECS"
+notes = "Describes 68% of occupied units with AC in 1993 and 87% equipped in 2009."
+id = "eia-recs-2009-ac"
+
+[[source]]
+title = "2009 RECS: What's New in How We Use Energy in Our Homes"
+publisher = "U.S. Energy Information Administration"
+year = 2011
+url = "https://www.eia.gov/consumption/residential/reports/2009/overview.php"
+population = "Occupied primary U.S. housing units in 2009 RECS"
+notes = "Reports main heating fuel shares 49% gas, 34% electricity and about 6% fuel oil."
+id = "eia-recs-2009-overview"
+
+[[source]]
+title = "Results from the 2015 Residential Energy Consumption Survey"
+publisher = "U.S. Energy Information Administration"
+year = 2018
+url = "https://www.eia.gov/consumption/residential/reports/2015/overview/index.php"
+population = "Occupied primary U.S. housing units; main heating fuel percentages specifically refer to homes that are heated"
+notes = "2015 main heat 51% gas, 36% electricity, 4% propane among heated homes; 87% any AC and 64% central use among all homes."
+id = "eia-recs-2015-overview"
+
+[[source]]
+title = "Nearly 90% of U.S. households used air conditioning in 2020"
+publisher = "U.S. Energy Information Administration"
+year = 2022
+url = "https://www.eia.gov/todayinenergy/detail.php?id=52558"
+population = "U.S. households in the 2020 RECS"
+notes = "Two-thirds used central AC or a central heat pump as their main AC equipment."
+id = "eia-recs-2020-ac"
+
+[[source]]
+title = "Characteristics of New Housing: 2003, Presence of Air-Conditioning in New One-Family Houses Completed"
+publisher = "U.S. Census Bureau"
+year = 2004
+url = "https://www.census.gov/construction/chars/pdf/c25ann2003.pdf"
+population = "New one-family houses completed in the United States"
+notes = "PDF page 4 U.S. national rows; page 5 is Northeast, a distinct geographic population."
+id = "census-c25-2003-ac"
+
+[[source]]
+title = "Public Libraries Survey FY2020 Public-Use Data and Documentation"
+publisher = "Institute of Museum and Library Services"
+year = 2022
+url = "https://www.imls.gov/sites/default/files/2022-07/pls_fy2020_csv.zip"
+population = "Public libraries in the 50 states and District of Columbia, FY2020"
+notes = "The displayed national count is a curator sum of 51 state-summary REFERENC rows; 42 contain partly imputed data and one is fully imputed. No source-printed national total is claimed."
+id = "imls-pls-2020-state-reference"
+
+[[source]]
+title = "United States Postal Service FY2025 Form 10-K: Operating Revenue and Volume"
+publisher = "United States Postal Service"
+year = 2025
+url = "https://about.usps.com/what/financials/10k-reports/fy2025.pdf"
+population = "Total USPS volume across service categories in fiscal 2025, including mail, packages, and internal or free mail"
+notes = "PDF page 23: total volume 108,695 million pieces. Categories are a broad network-volume measure and do not isolate personal correspondence."
+id = "usps-2025-total-volume"
+
+[[source]]
+title = "1993 RECS Detailed Tables: Energy Consumption and Expenditures"
+publisher = "U.S. Energy Information Administration"
+year = 0
+url = "https://www.eia.gov/consumption/residential/data/1993/index.php?view=consumption"
+population = "Occupied primary U.S. housing units in the 1993 RECS; residential buildings are a separate unit"
+notes = "PDF page 6 Table 5.1 identifies 96.6 million households and 76.5 million buildings, with $1,282 per household and $1,620 per building. Table 5.3 reports total major-energy expenditures."
+id = "eia-recs-1993-consumption"
+
+[[source]]
+title = "Television Licences (Statistics), written answer, 25 March 1986"
+short_cite = "Hansard, Television Licences (Statistics), 25 March 1986"
+publisher = "UK Parliament, House of Commons"
+year = 1986
+url = "https://api.parliament.uk/historic-hansard/written-answers/1986/mar/25/tv-licences-statistics"
+population = "Television licences in force at 31 March of each listed year, United Kingdom; administrative counts without a household denominator"
+notes = "Primary government answer reproduces 1955 4,503,766 and 1965 13,253,045. Licence counts are not household ownership percentages and do not identify why take-up changed. Archived original HTML and exact table are recorded in the remaining-record review."
+id = "hansard-tv-licences-1986"
+
+[[source]]
+id = "hist-stats-manufacturing-d765-d766"
+title = "Historical Statistics: Average Hours and Earnings, Total Manufacturing Industries, 1890–1926"
+short_cite = "U.S. Census Bureau, Historical Statistics, Series D 765–766"
+publisher = "U.S. Census Bureau"
+year = 1975
+url = "https://www.census.gov/library/publications/1975/compendia/hist_stats_colonial-1970.html"
+population = "Historical total-manufacturing reconstruction combining union scales and selected payroll occupations; not a complete workforce census"
+notes = "D 765–766, printed table p.168 / PDF p.188. The methodological headnote in Part 1, PDF p.171, attributes the series to Paul H. Douglas, Real Wages in the United States, 1890–1926 (1930). It warns of upward bias from union-industry weighting. Payroll estimates through 1913 cover selected occupations, excluding most laborers and some other unskilled workers, and are extrapolated backward from 1914. The museum uses Tier D for this republished scholarly reconstruction, including its 1908 wage anchor."
+measure = "hourly_earnings"
+
+[[source]]
+id = "fcc-tv-household-penetration"
+title = "FCC annual cable competition tables: television-household penetration"
+short_cite = "FCC 97-423 Table B-1 and FCC 07-206"
+publisher = "Federal Communications Commission"
+year = 2009
+url = "https://www.fcc.gov/general/media-bureau-reports-industry"
+population = "U.S. television households; cable-subscriber count divided by the published TV-household universe."
+notes = "FCC 97-423 was released January 13, 1998; FCC 07-206 was released January 16, 2009. These television-household penetration measures are distinct from cable share of MVPD subscribers. The 2006 record calculates its share from the two published counts."
+
+[[source]]
+id = "fcc-mvpd-subscriber-households"
+title = "FCC video-competition reports: MVPD subscriber households and market shares"
+short_cite = "FCC annual reports, MVPD subscriber counts"
+publisher = "Federal Communications Commission"
+year = 2017
+url = "https://www.fcc.gov/general/media-bureau-reports-industry"
+population = "U.S. households subscribing to one or more MVPD services; cable market share uses total MVPD subscriber households."
+notes = "Use the MVPD-subscriber universe for these counts, rather than all television households. A percentage separately stated in report prose need not reconcile with the displayed count table; the 2015 record explicitly identifies that publication discrepancy."
+
+[[source]]
+id = "fcc-dvr-household-penetration"
+title = "FCC 12-81, Fourteenth Video Competition Report: DVR penetration"
+short_cite = "FCC 12-81, paragraph 8, released July 20, 2012"
+publisher = "Federal Communications Commission"
+year = 2012
+url = "https://www.fcc.gov/general/media-bureau-reports-industry"
+population = "Households in Nielsen television-season DVR penetration estimates reproduced by FCC"
+notes = "The original cover says Fourteenth Report, released July 20, 2012. Paragraph 8 reports Nielsen household DVR penetration for the 2007–08 and 2010–11 television seasons. These are commercial survey estimates republished by FCC, not an official-microdata computation by the museum. The record therefore uses Tier C."
+
+[[source]]
+title = "Surveillance for Selected Tobacco-Use Behaviors, Table 1: cigarette consumption"
+short_cite = "CDC MMWR 43(SS-3), Table 1, USDA consumption estimates"
+publisher = "Centers for Disease Control and Prevention, reporting USDA estimates"
+year = 1994
+url = "https://www.cdc.gov/mmwr/preview/mmwrhtml/00033881.htm"
+population = "Total manufactured-cigarette consumption divided by the population aged 18 and older under USDA Table 1 definitions; not NHIS smoking prevalence"
+notes = "Table 1 reports a population ratio, not cigarettes known to have been smoked only by adults. Its footnotes include consumption by U.S. military forces overseas in 1930–1994 estimates. The same report’s NHIS prevalence tables describe a different survey universe."
+id = "cdc-mmwr-cigarette-consumption-table1"
+
+[[source]]
+title = "How American Buying Habits Change"
+publisher = "U.S. Department of Labor, Bureau of Labor Statistics"
+year = 1959
+url = "https://fraser.stlouisfed.org/docs/publications/dol/dol_americanBuyingHabits_1959.pdf"
+population = "Wage-earner and clerical-worker families of two or more persons in urban places of 2,500 or more, 1950 survey."
+notes = "Table 6, printed pp. 46–47, reports current-consumption expenditure means and shares for the all-income population. Housing is narrower than the modern total-housing category; fuel, operations and furnishings are separately reported. Table reproduced from the BLS/Wharton 1950 survey."
+short_cite = "BLS, How American Buying Habits Change (1959), Table 6"
+id = "bls-buying-habits-1959-1950-worker-families"
+
+[[source]]
+title = "IPUMS USA, Version 16.0: 1950 sample, primary-family income in 1949"
+publisher = "IPUMS, University of Minnesota"
+year = 2025
+url = "https://doi.org/10.18128/D010.V16.0"
+short_cite = "IPUMS USA 16.0; vitrine aggregate calculation"
+population = "U.S. primary family units of four people in households under the period census definition, with one identified head selected for the detailed income questions and usable family income. 1950 1% sample; income in 1949."
+notes = "Steven Ruggles, Sarah Flood, Matthew Sobek, Daniel Backman, Grace Cooper, Julia A. Rivera Drew, Stephanie Richards, Renae Rodgers, Jonathan Schroeder, and Kari C.W. Williams. IPUMS USA: Version 16.0 [dataset]. Minneapolis, MN: IPUMS, 2025. https://doi.org/10.18128/D010.V16.0. New extract 00003, acquired 2026-10-29. Uses FTOTINC and SLWT; excludes unknown metro status and does not sum personal INCTOT. Income-category midpoint coding, primary-unit definition and identifiable central-city coverage limit interpretation. See docs/reconstruction-20261029.md and scripts/ipums_family_income_1950.py. Raw microdata is never published."
+id = "ipums-1950-primary-family-income-1949"

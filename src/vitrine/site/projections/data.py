@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from vitrine.export import quantified_fact_count
+from vitrine.export import SCHEMA_VERSION, quantified_fact_count
 from vitrine.model import Corpus
 from vitrine.site.context import DataPage
 
@@ -16,6 +16,7 @@ def project_data(corpus: Corpus) -> DataPage:
         sources=len(corpus.sources),
         assumptions=len(corpus.assumptions),
         quantified_facts=quantified_fact_count(corpus),
+        schema_version=SCHEMA_VERSION,
     )
 
 

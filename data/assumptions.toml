@@ -34,8 +34,8 @@ statement = "Where the urban/rural divide dominates the distribution (China, Ind
 
 [[assumption]]
 id = "metropolitan-definition"
-title = "Metropolitan area definition"
-statement = "The IPUMS METRO variable classifies households as in/not-in a metropolitan area based on Census-defined metropolitan statistical areas (MSAs). MSAs did not exist before 1949; pre-1950 metro classification uses retrospective assignments. 'Suburban' is operationalized as METRO code 3 (in metro area, not central city), which is a derived category — the Census does not use 'suburban' as an official classification. Metro/non-metro income splits use IPUMS 1% sample microdata (Tier B), weighted by HHWT."
+title = "Metropolitan geography and unresolved income estimates"
+statement = "The recovered extract 00001 DDI defines METRO as nonmetropolitan (1), indeterminable (2), metropolitan outside principal city (3), metropolitan principal-city status indeterminate (4), and metropolitan in principal city (5). A 3+4 selection does not represent all metropolitan households, and unknown central-city status is not evidence of suburban location. Availability and comparability vary by census/sample. The 1950 locale family-income medians are withdrawn until a valid family unit, income construction, universe, missing-value treatment and weights are specified and reproduced from an authorized extract. Do not infer total family income by summing sample-line personal income observations."
 
 [[assumption]]
 id = "affordability-normalization"
@@ -75,7 +75,7 @@ statement = "Japan's Family Income and Expenditure Survey (FIES) publishes by ho
 [[assumption]]
 id = "jp-kakei-1962-seam"
 title = "FIES was urban-only before 1962"
-statement = "The Family Income and Expenditure Survey covered only cities before 1962; national coverage (including rural and agricultural households) began in 1963. Pre-1962 income and expenditure facts are urban-only and carry the urban-rural-split caveat. The 1962 extension is a methodology seam — series chaining across it must flag the population change."
+statement = "The archived early FIES income table covers workers' households in all cities. The later tables extend geographical coverage nationally from 1963 but explicitly exclude agricultural, forestry and fisheries households throughout their 1963–2017 span. National geographical coverage does not mean every household type is represented. Pre-1962 income facts retain the urban-rural-split caveat; chaining across the geographical seam must preserve the population difference."
 
 [[assumption]]
 id = "jp-deflation-lost-decades"
@@ -90,9 +90,69 @@ statement = "The UK has no published counterpart to the US Census four-person-fa
 [[assumption]]
 id = "uk-wage-anchor-all-employees"
 title = "The UK wage anchor is the median over all employee jobs"
-statement = "The UK hourly-wage anchor is ASHE's median gross hourly pay across all employee jobs — full- and part-time, both sexes. It is deliberately not the full-time median, which is the figure usually quoted as 'the' UK wage and runs roughly 12% higher; the all-jobs median is the one that describes the hour of work actually available in the labour market. Every fact using it carries the full-time median beside it so the gap is visible rather than implied. Because it is a median and the US anchor is a mean of a narrower population, the two are different measures and are not chained."
+statement = "The UK hourly-wage anchor is ASHE's median gross hourly pay across all employee jobs, full- and part-time, both sexes. It is not a full-time-only median, a wage offered to people outside sampled jobs, or a household income. Full-time figures cited as context retain their own source population. The US anchor is a mean for a different worker population; the two are different measures and are not chained."
 
 [[assumption]]
 id = "produce-variety-rule"
-title = "The produce-variety count and its one-pound rule"
-statement = "The derived produce-variety fact counts, for one stated year per decade, how many fresh fruit and vegetable commodities the US food supply provided at least a full pound of per person — farm-weight availability, as ERS publishes it. The candidate set is every commodity sheet in the two ERS fresh workbooks, enumerated by id in the derivation, never a filename convention. The count is computed by the build from those committed series, never authored. Commodities whose ERS series had not begun or had ended by the stated year are outside both the count and the displayed total, so a widening record cannot masquerade as rising variety: the value always shows count of tracked. Availability is a disappearance estimate — what the supply made available, not what anyone ate."
+title = "The produce-variety count and its published one-pound threshold"
+statement = "For the stated source year, count the selected fresh commodity series whose published per-person farm-weight availability estimate is at least one pound, at the precision printed in that source cell. The inclusive threshold is applied by the existing build calculation to source-formatted estimates, not to hidden cached digits. Near-threshold estimates can round to one pound; this count does not establish an unrounded minimum physical supply. The candidate series are enumerated explicitly. A series outside its selected year window contributes to neither the count nor the displayed tracked total; those windows are curation choices rather than proof of publisher absence. Source years can follow commodity-specific marketing periods, and population reference dates differ. This is a count over the selected source estimates, not market assortment, a diet, or a matched household. Availability includes resident population and Armed Forces overseas and is not intake."
+
+[[assumption]]
+id = "food-price-display-rounding"
+title = "Average food prices display at the nearest cent"
+statement = "The selected BLS APU compound placards retain original December API observations in the research archive. scripts/food_price_review.py uses exact decimal half-up rounding to two decimal places for display in dollars. Values are price levels for the stated month, not a fixed-quality inflation index or a family food budget; item identities and original package units remain explicit."
+
+[[assumption]]
+id = "jp-fies-food-share"
+title = "FIES food shares use same-row expenditure operands"
+statement = "Food shares divide the archived FIES Food expenditure by total Consumption expenditures in the same annual-average row and household population, multiply by one hundred, and round once to one decimal place using decimal half-up rounding. The audit stores the raw source operands and replays the operation. The source tables exclude agricultural, forestry and fisheries households; income observations use a different workers-household population."
+
+[[assumption]]
+id = "cex-ratios-of-means"
+title = "CEX budget shares are ratios of published means"
+statement = "The selected compound food records divide the published food-expenditure mean by the published total-expenditure mean for the same four-person consumer-unit population and year, multiply by one hundred and round once to one decimal place, half up. This is not the mean of individual units' budget shares. Independently rounded published components may not add to totals; missing cells are not reconstructed by subtraction."
+
+[[assumption]]
+id = "cms-nhe-shares"
+title = "Shares of national health expenditure totals"
+statement = "Companion shares divide an aggregate service/funding amount by total national health expenditures for the same source year and multiply by one hundred, rounded once to one decimal place, half up. These are shares of national spending, not average household budget shares. The pinned CMS source files and compound qualifier retain all operands. Publisher dashes are not converted to zero."
+
+[[assumption]]
+id = "ers-availability-source-formulas"
+title = "ERS supply formulas and displayed precision"
+statement = "Farm-weight per-capita availability replays the selected publisher workbook formulas from literal supply/use and population inputs, checks the cached result, and rounds once to the publisher cell format: one decimal for the selected fruit sheets and two for vegetables. The source numerator and denominator both use millions, so their ratio is pounds per person. Excel SUM ignores the source text NA only where that exact source formula uses SUM; NA is never generally imputed as zero. Population includes Armed Forces overseas, and fruit marketing-year definitions differ by commodity and period. This is food availability, not food eaten, and the retail-weight factor is not applied."
+
+[[assumption]]
+id = "census-housing-source-count-shares"
+title = "Census housing percentages from reporting-unit counts"
+statement = "Calculate the share as 100 times the published category count divided by the published reporting-unit count; round once to one decimal using half-up rounding. The 1940 private-bath/private-toilet definition differs from later complete plumbing definitions."
+
+[[assumption]]
+id = "housing-median-income-ratio"
+title = "Comparing housing value and annual family income"
+statement = "Divide the published median value of specified owner-occupied homes by the published median annual family income, and round the ratio once to two decimal places. The medians come from different populations; the 1940 home value is compared with 1947 family income."
+
+[[assumption]]
+id = "recent-published-count-share"
+title = "Recent published count share"
+statement = "Divide specified source counts or survey-weight sums by the stated source population, multiply by 100, and round once using decimal half-up to the displayed precision. Each derived value must name its operands and source vintage."
+
+[[assumption]]
+id = "recent-vehicle-complement"
+title = "Recent vehicle complement"
+statement = "Subtract the published no-vehicle percentage from 100 to express the corresponding percentage with at least one vehicle; both measures retain the published precision and occupied-unit population."
+
+[[assumption]]
+id = "source-rate-cent-rounding"
+title = "Explicit cent rounding for a subcent wage anchor"
+statement = "The displayed 1947 BLS hourly rate retains its source precision of three decimals. The integer-minor-unit affordability anchor is rounded once to cents, half up, by an audit round operation, then scaled to cents. This explicitly describes the existing storage approximation, not a changed observation or a replacement for precise annual monetary-rate series. Wage ratios using the anchor inherit it."
+
+[[assumption]]
+id = "imls-state-reference-sum"
+title = "Imls state reference sum"
+statement = "Sum FY2020 Public Libraries Survey state-summary reference-transaction totals for the 50 states and District of Columbia, including flagged imputed values, then divide by one million and round once to one decimal using half-up."
+
+[[assumption]]
+id = "ipums-1950-primary-family-median"
+title = "Primary-family income from the 1950 sample"
+statement = "A distinct 1949-income estimate from the 1950 1% sample. Select a unique household head (RELATE=1), FAMUNIT=1, head FAMSIZE=4 and exactly four primary-unit person records, in GQ=1 households. Use positive SLWT and valid FTOTINC, not summed personal incomes or HHWT. The median is the smallest coded income whose cumulative weight reaches half; no interpolation. FTOTINC uses income-category midpoints and excludes income below age fourteen; its primary-family universe differs from all CPS families. The net-loss code is categorical, missing codes are excluded, and the upper category is top-coded. METRO 3, 4 and 5 form metro, 1 is nonmetro; 2 is excluded. Only code 3 identifies residence outside the central city; it cannot represent every suburban family. These observations are separate from the room’s 1950 CPS income anchor. The project requires thirty records per released median; rare ancillary diagnostics receive complementary suppression, which is a project release choice, not an asserted IPUMS rule."

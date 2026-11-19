@@ -177,6 +177,8 @@ def test_country_directory_without_javascript(
     nojs_page.goto(f"{server_url}{LOBBY}")
     nojs_page.get_by_role("link", name="Choose a room", exact=True).click()
     assert nojs_page.url.endswith("#choose-room")
+    for archive in nojs_page.locator(".wing-archive").all():
+        archive.locator("summary").click()
     links = nojs_page.locator(".wing-decades a")
     assert links.count() == 27
     for link in links.all():
@@ -621,7 +623,7 @@ def test_japan_collection_observations_work_without_javascript(
     lens.locator("summary").click()
     fact_id = "jp-2010s-flat-tv"
     record = nojs_page.locator(f"#selection-{fact_id}")
-    expect(record).to_contain_text("Observed 2009")
+    expect(record).to_contain_text("Record date 2009")
     expect(record).to_contain_text("Filed in the 2010s archive")
     record.locator(".observation-link").click()
     expect(nojs_page.locator(f"#{fact_id}--modal")).to_be_visible()
@@ -636,7 +638,7 @@ def test_lead_checkpoint_periods_fit_and_open_their_sources(
     page.set_viewport_size({"width": width, "height": height})
     page.goto(server_url + CORRIDORS)
     exhibit = page.locator("#blood-lead-median")
-    exhibit.locator("summary").click()
+    exhibit.locator(":scope > summary").click()
     chart = exhibit.locator("svg.checkpoint-chart")
     expect(chart).to_be_visible()
     assert chart.locator(".unit").evaluate(
@@ -684,8 +686,8 @@ def test_lead_checkpoint_sources_work_without_javascript(
 ) -> None:
     nojs_page.goto(server_url + CORRIDORS)
     exhibit = nojs_page.locator("#blood-lead-median")
-    exhibit.locator("summary").click()
+    exhibit.locator(":scope > summary").click()
     fact_id = "us-2010s-blood-lead-median-2017-2020"
-    exhibit.locator(f'a[href="#{fact_id}--modal"]').click()
+    exhibit.locator(f'svg.checkpoint-chart a[href="#{fact_id}--modal"]').click()
     expect(nojs_page.locator(f"#{fact_id}--modal")).to_be_visible()
     expect(nojs_page.locator(f"#{fact_id}--modal")).to_contain_text("2017–March 2020")

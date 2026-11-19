@@ -77,7 +77,7 @@ def _facts() -> dict[str, object]:
     return out
 
 
-def test_every_decade_has_a_marker_and_the_2020s_is_a_gap() -> None:
+def test_historical_markers_and_separately_sourced_2025_volume() -> None:
     facts = _facts()
     assert set(facts) >= set(MARKERS)
     for decade, spec in MARKERS.items():
@@ -87,9 +87,13 @@ def test_every_decade_has_a_marker_and_the_2020s_is_a_gap() -> None:
         assert fact.quantity == spec["quantity"]
         assert fact.price_year == spec["year"]
         assert fact.source == SOURCE_ID
-    gap = facts["2020s"]
-    assert gap.quantity is None
-    assert gap.value.strip().lower().startswith("no chained value")
+    current = facts["2020s"]
+    assert current.quantity == 108695
+    assert current.price_year == 2025
+    assert current.source == "usps-2025-total-volume"
+    assert "packages" in current.notes
+    # The new observation does not imply an annual bridge over the missing years.
+    assert 2025 not in load_series(DATA)[SERIES_ID].values
 
 
 def test_quantities_match_the_series_values() -> None:

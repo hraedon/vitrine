@@ -33,22 +33,21 @@ panel = "budget"
 label = "Average annual expenditure, 1960-61"
 quantity = 5393
 value = "$5,393"
-unit = "USD per family per year, nominal (urban families)"
-source = "bls-cex"
+unit = "USD per urban consumer unit per year, nominal (urban consumer units)"
+source = "bls-cex-urban-1960-61"
 tier = "A"
-notes = "From the 1960-61 Consumer Expenditure Survey data tables (ce_196061_tables.pdf, p.8), OCR'd via GLM-OCR. US average for all urban families. By region: Northeast $5,834, North Central $5,272, South $4,769, West $5,777."
+notes = "BLS reports mean annual current-consumption expenditures of U.S. urban consumer units in 1960–61."
 assumptions = ["composite-family", "nominal-values", "income-vs-consumption"]
 
 [[fact]]
 id = "us-1960s-expenditure-breakdown"
 panel = "budget"
 label = "Expenditure breakdown, 1960-61"
-quantity = 24.3
-value = "Food 24.3%, housing 29.6%, food away from home 5.1%, local telephone $69/yr"
-unit = "% of total expenditure ($5,393)"
-source = "bls-cex"
+value = "Food $1,309; housing $1,594; food away from home $274; local telephone $69; total current consumption $5,393 per year"
+unit = "USD per urban consumer unit per year, nominal"
+source = "bls-cex-urban-1960-61"
 tier = "A"
-notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.8). Food $1,309 (24.3%), housing $1,594 (29.6%), shelter/fuel/light $991, food away from home $274, household operations $319, local telephone $69. Housing became the largest category — up from 12.95% in 1901. Food dropped from 42.54% (1901) to 24.3%."
+notes = "BLS 1960–61 Consumer Expenditure Survey Table B-11 reports mean annual current-consumption expenditures of U.S. urban consumer units. Food away from home is part of the food amount."
 assumptions = ["composite-family", "nominal-values", "income-vs-consumption"]
 
 [[fact]]
@@ -77,14 +76,15 @@ notes = "From Census F-8 (Table F-8). Down from 3.54 in 1950 — families were s
 
 [[fact]]
 id = "us-1960s-poverty-rate"
+audit = { file = "remaining-audit-20261028/census-poverty-1960.json", extractor = "json-pointer", locator = "/1/1", target = "quantity", guards = [{ locator = "/0/0", value = "NAME" }, { locator = "/0/1", value = "PCTPOV" }, { locator = "/0/2", value = "POV" }, { locator = "/0/3", value = "POP" }, { locator = "/0/4", value = "PCTFAMPOV" }, { locator = "/0/5", value = "FAMPOV" }, { locator = "/0/6", value = "FAM" }, { locator = "/0/7", value = "YEAR" }, { locator = "/0/8", value = "RACE" }, { locator = "/0/9", value = "RACE" }, { locator = "/0/10", value = "time" }, { locator = "/0/11", value = "us" }, { locator = "/1/0", value = "United States" }, { locator = "/1/7", value = "1960" }, { locator = "/1/8", value = "1" }, { locator = "/1/9", value = "1" }, { locator = "/1/10", value = "1960" }, { locator = "/1/11", value = "1" }, { locator = "/1/2", value = "39850000" }] }
 quantity = 22.2
 panel = "budget"
 label = "Official poverty rate, 1960"
 value = "22.2% (39.9 million people in poverty)"
-unit = "% of all people below official poverty level"
+unit = "percent of people in the Census official-poverty universe"
 source = "census-poverty-historical"
 tier = "A"
-notes = "From Census Historical Poverty Tables (API: histpov2). Official poverty rate: 22.2%. Family poverty: 20.7%. First year of the official poverty measure (1959: 22.4%). The War on Poverty (1964+) would cut this nearly in half by 1970."
+notes = "Census histpov2 all-race national row, retrieved for this source review. The people count is rounded once to one decimal million by the source qualifier. The API PCTFAMPOV is a percentage of people in families, not a percentage of family units. These descriptive rates do not identify causes; no family-unit rate is inferred from them."
 
 # ── Home panel ────────────────────────────────────────────────────────────
 
@@ -97,29 +97,31 @@ value = "61.9%"
 unit = "% of occupied housing units owner-occupied"
 source = "census-homeownership-historical"
 tier = "A"
-notes = "From Census homeownership time series (owner.pdf). Up from 55.0% in 1950 and 43.6% in 1940. The postwar boom and suburbanization drove homeownership above 60% for the first time."
+notes = "Census historical homeownership rate for 1960. The rate describes owner-occupied housing among occupied units."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1960s-plumbing"
+audit = { file = "remaining-audit-20261028/world-middle-housing-extract.json", extractor = "json-pointer", locator = "/years/1960/plumbing/complete_count", target = "quantity", guards = [{ locator = "/publisher_sha256/plumbing-tab.txt", value = "56dcbdabfcdb340ccf23b988779725a3165b0e150d62795848a9ddd4b767132b" }, { locator = "/years/1960/plumbing/population_basis", value = "all housing units" }], calculation = { op = "pct_of", operands = ["/years/1960/plumbing/total_reporting"], precision = 1, rounding = "half_up", method = "1960 Census reporting dwelling units: published complete count divided by all reporting count, times 100, rounded once to one decimal." } }
+assumptions = ["census-housing-source-count-shares"]
 quantity = 83.2
 panel = "home"
 label = "Complete plumbing facilities, 1960"
-value = "83.2% of homes had complete plumbing (16.8% lacked)"
-unit = "% of occupied housing units with hot/cold water + flush toilet + bathtub"
-source = "census-hist-housing-plumbing"
+value = "83.2% had complete plumbing facilities (16.8% lacked)"
+unit = "% of all housing units reporting plumbing status"
+source = "census-hist-housing-plumbing-reporting"
 tier = "A"
-notes = "From Census Historical Housing Tables: Plumbing (plumbing-tab.txt, US row: 9,777,783 of 58,314,784 occupied units lacking). Down from 35.5% lacking in 1950 to 16.8% lacking in 1960 — the suburban building boom was closing the gap rapidly. One in six American homes still lacked complete plumbing in 1960. By 1970: 6.9% lacked (93.1% had). Figures verified against the Census time-series file 2026-07-07."
+notes = "Census reported 58,314,784 housing units. The complete share is computed from the printed complete and lacking counts, rounded once to one decimal. The source prints the lacking share separately."
 
 [[fact]]
 id = "us-1960s-heating-fuel"
 panel = "home"
 label = "House heating fuel, 1960"
-value = "Utility gas 43%, fuel oil/kerosene 32%, bottled/LP gas 5%, coal 12%, wood 4%, electricity 2%"
+value = "Utility gas 43.1%, bottled/LP gas 5.1%, electricity 1.8%, fuel oil/kerosene 32.4%, coal/coke 12.2%, wood 4.2%, other fuel 0.4%, no fuel 0.9%"
 unit = "% of occupied housing units reporting heating fuel"
 source = "census-hist-housing-fuels"
 tier = "A"
-notes = "From the 1960 Census of Housing. Gas overtook coal as the dominant heating fuel between 1950 and 1960. Coal dropped from 55% (1940) to 12% (1960). Electricity was just emerging (1.8%). Source: fuels1960.txt, www2.census.gov."
+notes = "Census historical housing table for 1960, occupied dwelling units reporting their main heating fuel. Percentages are as printed; categories may not sum to exactly 100% because of rounding."
 
 [[fact]]
 id = "us-1960s-median-home-value"
@@ -146,12 +148,14 @@ value = "$71/month"
 unit = "USD, nominal (median gross rent, specified renter-occupied housing units paying cash rent)"
 source = "census-hist-housing-rents"
 tier = "A"
-notes = "From Census Historical Housing Tables: Gross Rents (grossrents-unadj.txt). Up from $42 in 1950. In 2000 dollars: $350/month. Cross-verified: NHGIS 1960 tract-level rent distribution (12.4M renter units) shows median falling in the $70-$79 bin."
+notes = "Census historical table reports the 1960 national median gross rent for specified renter-occupied units paying cash rent, in nominal dollars."
 
 # ── Table panel ───────────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-1960s-nhe-total"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1960/gdp_share", target = "quantity", guards = [{ locator = "/cms/1960/year", value = "1960" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 5.0
 panel = "table"
 label = "Healthcare spending, 1960"
@@ -159,10 +163,12 @@ value = "$27.1 billion (5.0% of GDP)"
 unit = "USD billions, nominal; NHE as % of GDP"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE: $27.1B. GDP: $542.4B. Per capita: $146. In 1960, healthcare was 5% of the economy — before Medicare and Medicaid (enacted 1965)."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1960. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1960s-nhe-out-of-pocket-share"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1960/out_of_pocket", target = "quantity", guards = [{ locator = "/cms/1960/year", value = "1960" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }], calculation = { op = "pct_of", operands = ["/cms/1960/total"], precision = 1, rounding = "half_up", method = "Same-year out-of-pocket spending divided by total NHE, times one hundred." } }
+assumptions = ["cms-nhe-shares"]
 quantity = 47.1
 panel = "budget"
 label = "Out-of-pocket share of health spending, 1960"
@@ -170,10 +176,12 @@ value = "47.1% of national health expenditures paid out of pocket"
 unit = "% of total NHE"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02 (NHE2024.csv). Out of pocket: $12,778M of $27,122M total. In 1960, families paid nearly half of all healthcare costs directly."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1960. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1960s-nhe-per-capita"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1960/per_capita", target = "quantity", guards = [{ locator = "/cms/1960/year", value = "1960" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 146
 panel = "table"
 label = "National health spending per person, 1960"
@@ -181,20 +189,23 @@ value = "$146 per capita ($124 for personal health care)"
 unit = "USD per person, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 01 (NHE24_Summary.csv). NHE per capita: $146. Personal Health Care per capita: $124. Population: 186M."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1960. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1960s-nhe-medicare"
+assumptions = ["cms-nhe-shares"]
 panel = "table"
 label = "Medicare spending, 1960"
-value = "$0 — Medicare did not exist until 1966"
+value = "Not reported for 1960 — the source prints a dash"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02. Medicare was enacted in 1965 (Social Security Amendments, Title XVIII). No Medicare spending occurred before 1966. By 1970: $7.7B (10.4% of NHE)."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1960. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables. The original prints a dash for this year; the first numeric entry in this archived Medicare row is 1966. The dash is not a measured zero."
 
 [[fact]]
 id = "us-1960s-nhe-prescription-drugs"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1960/prescription_drugs", target = "quantity", guards = [{ locator = "/cms/1960/year", value = "1960" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 2676
 panel = "table"
 label = "Prescription drug spending, 1960"
@@ -202,10 +213,12 @@ value = "$2,676 million (9.9% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02. Prescription drugs: $2,676M of $27,122M total. In 1960, drugs were less than 10% of health spending."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1960. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1960s-nhe-hospital"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/cms/1960/hospital", target = "quantity", guards = [{ locator = "/cms/1960/year", value = "1960" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE24_Summary.csv", value = "8642644377858cc6a9fe2d09bf63e89a03282c5e43501a414fc649dacb1a765d" }, { locator = "/source_hashes/23-cms-health-expenditure~1NHE2024.csv", value = "74e80287bb5e946ad9f2637ee708266988716d2991af93ee0dc6e9c5747a3df3" }] }
+assumptions = ["cms-nhe-shares"]
 quantity = 8985
 panel = "table"
 label = "Hospital care spending, 1960"
@@ -213,10 +226,11 @@ value = "$8,985 million (33.1% of NHE)"
 unit = "USD millions, nominal"
 source = "cms-nhe"
 tier = "A"
-notes = "From CMS NHE Table 02. Hospital care: $8,985M of $27,122M total. Hospital care was the largest single category of health spending."
+notes = "Archived CMS NHE24_Summary.csv and NHE2024.csv, calendar year 1960. Table 1 supplies national aggregates, GDP shares and per-capita amounts; the service/funding table supplies national spending in millions. Companion percentages are calculated from the same-year national total under cms-nhe-shares, not from household budgets. The compound qualifier reproduces every displayed amount and share. Current nominal dollars; rounded components may not add to totals. No causal effect is identified by these descriptive tables."
 
 [[fact]]
 id = "us-1960s-heart-disease-mortality"
+audit = { file = "60-mortality-review/nchs-cause-mortality-6rkc-nb2q-867d39e039b9ecb9843be3e8b3473250fec03050dc62d7d4409c1f737b731160.csv", extractor = "csv-cell", locator = "R62:C3", target = "quantity", guards = [{ locator = "R1:C1", value = "Year" }, { locator = "R1:C2", value = "Cause" }, { locator = "R1:C3", value = "Age Adjusted Death Rate" }, { locator = "R62:C1", value = "1960" }, { locator = "R62:C2", value = "Heart Disease" }] }
 quantity = 559.0
 panel = "table"
 label = "Heart disease age-adjusted death rate, 1960"
@@ -224,7 +238,7 @@ value = "559.0 per 100,000"
 unit = "age-adjusted deaths per 100,000 population"
 source = "nchs-mortality-trends"
 tier = "A"
-notes = "From CDC NCHS. Near the peak — rates plateaued in the early 1960s before beginning their long decline after 1968. The Framingham Heart Study was identifying smoking, blood pressure, and cholesterol as risk factors."
+notes = "The cited NCHS source reports this age-adjusted death rate for the cause and year named above. The rate is descriptive; it does not identify treatment effects or the causes of changes across years. Historical comparisons must retain the source vintage, age adjustment and cause-of-death classification."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -233,22 +247,21 @@ quantity = 39
 panel = "table"
 label = "Cancer 5-year relative survival rate, early 1960s"
 value = "39% (White population)"
-unit = "% surviving 5 years after diagnosis (relative survival)"
+unit = "five-year relative survival percentage (White population)"
 source = "acs-cancer-facts-figures-2024"
 tier = "D"
-notes = "From American Cancer Society, Cancer Facts & Figures 2024. Pre-SEER data from the NCI End Results Group (predecessor to SEER, 1956-72). Tier D: scholarly estimate based on pre-SEER registries."
+notes = "The American Cancer Society reports an early-1960s five-year relative survival estimate for White people with cancer. Relative survival compares observed survival with expected survival."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1960s-food-basket"
-quantity = 24.3
 panel = "table"
-label = "Food expenditure and basket, 1960-61"
-value = "Food $1,309/yr (24.3% of expenditure). Food away from home $274 (20.9% of food). Local telephone $69/yr."
-unit = "USD per family per year, nominal"
-source = "bls-cex"
+label = "Food expenditure, urban consumer units, 1960-61"
+value = "Food $1,309; housing $1,594; food away from home $274; local telephone $69; total current consumption $5,393 per year"
+unit = "USD per urban consumer unit per year, nominal"
+source = "bls-cex-urban-1960-61"
 tier = "A"
-notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.8). Food was 24.3% of total expenditure — down from 42.54% in 1901. Housing was the largest category at 29.6%. The survey also shows durable goods ownership (p.15): TV 91.4%, refrigerator 84.7%, washing machine 70.0%, air conditioner 18.8%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%."
+notes = "BLS 1960–61 Consumer Expenditure Survey Table B-11 reports mean annual current-consumption expenditures of U.S. urban consumer units. Food away from home is part of the food amount."
 assumptions = ["nominal-values", "income-vs-consumption"]
 
 
@@ -256,14 +269,15 @@ assumptions = ["nominal-values", "income-vs-consumption"]
 id = "us-1960s-food-prices"
 panel = "table"
 label = "Retail food prices, 1960"
-value = "Bread 20.3¢/lb, round steak 106¢/lb, milk 26.0¢/qt, potatoes 7.2¢/lb, eggs 57.3¢/doz"
+value = "Bread 20.3¢/lb, round steak 105.5¢/lb, milk 26.0¢/qt, potatoes 7.2¢/lb, eggs 57.3¢/doz"
 unit = "retail food prices (cents per pound/quart/dozen, 1960 annual average)"
 source = "statab-food-prices"
 tier = "A"
-notes = "From 1970 Statistical Abstract Table 530 (BLS Retail Food Prices by Cities). 1960 annual averages for 51 cities. Milk is per quart, delivered. Bread 20.3¢/lb vs 14.3¢/lb in 1950 (+42%). Round steak $1.06/lb vs $0.94/lb in 1950 (+13%). Potatoes 7.2¢/lb vs 4.6¢/lb in 1950 (+57%). The 1950→1960 food price increase was modest compared to the inflation that followed in the 1970s."
+notes = "Retail food prices are annual averages for 1960 and April observations for 1970; milk is per quart in 1960 and per half gallon in 1970."
 
 [[fact]]
 id = "us-1960s-cigarette-consumption"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/cdc/cigarettes_per_adult/1963", target = "quantity", guards = [{ locator = "/cdc/source_sha256", value = "02e4e219a65571dd287ca9e6d13dae1d3138c290f410550ea63eea33c85bb277" }, { locator = "/cdc/adult_age", value = "18 and older" }, { locator = "/cdc/military", value = "Overseas military included in per-capita consumption 1930-1994" }] }
 quantity = 4345
 panel = "table"
 label = "Adult per capita cigarette consumption, 1963 (peak)"
@@ -272,47 +286,50 @@ unit = "cigarettes per adult (≥18 years) per year"
 price_year = 1963
 source = "cdc-mmwr-tobacco-surveillance"
 tier = "A"
-notes = "From CDC MMWR Surveillance Summary Vol. 43 No. SS-3, Table 1. 1963 was the all-time U.S. peak for per capita cigarette consumption. The Surgeon General's Report on Smoking and Health (January 1964) triggered a sharp decline — consumption fell to 4,194 in 1964 and continued declining."
+notes = "CDC MMWR Table 1 estimates total manufactured cigarette consumption per person aged 18 or older in 1963. This is a population-based ratio, not a count of cigarettes smoked only by adults. The per-capita estimate includes U.S. military personnel overseas."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1960s-ethanol-per-capita"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/niaaa/all_beverages/1960", target = "quantity", guards = [{ locator = "/niaaa/source_sha256", value = "71f1e8531f2de32138f99d20b239ec78215a23b50070294fbb80671507bc222a" }, { locator = "/niaaa/age_basis", value = "15 and older before 1970; 14 and older from 1970" }, { locator = "/niaaa/unit", value = "gallons ethanol per person per year" }] }
 quantity = 2.07
 panel = "table"
 label = "Alcohol consumed per person, 1960"
 value = "2.07 gallons of pure ethanol per person per year"
-unit = "gallons of pure ethanol per person per year"
+unit = "gallons of ethanol per person aged 15 and older per year"
 price_year = 1960
 source = "niaaa-surveillance-122"
 tier = "A"
-notes = "Beer and wine were near-flat across the decade; the rise that followed came from spirits, which reached 1.11 gallons per head by 1970."
+notes = "NIAAA Table 1 reports apparent ethanol consumption per person aged 15 or older in 1960. The denominator includes people who do not drink."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1960s-availability-bell-peppers"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1960s-availability-bell-peppers/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1960s-availability-bell-peppers/year", value = "1960" }, { locator = "/availability/us-1960s-availability-bell-peppers/file", value = "46-diet-variety/ers-fads-vegetables-fresh.xlsx" }, { locator = "/availability/us-1960s-availability-bell-peppers/sha256", value = "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e" }, { locator = "/availability/us-1960s-availability-bell-peppers/title", value = "Fresh bell peppers: Supply and use" }, { locator = "/availability/us-1960s-availability-bell-peppers/cell", value = "Peppers!H7" }, { locator = "/availability/us-1960s-availability-bell-peppers/population_heading", value = "U.S. population, July 11" }, { locator = "/availability/us-1960s-availability-bell-peppers/population_definition", value = "1Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1960s-availability-bell-peppers/number_format", value = "0.00" }], calculation = { op = "ratio", operands = ["/availability/us-1960s-availability-bell-peppers/population_millions"], precision = 2, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 2.08
 panel = "table"
 label = "Bell peppers available per person, 1960"
-value = "2.08 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "2.08 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1960
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh bell peppers. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. The first year ERS publishes for this commodity."
-assumptions = ["composite-family"]
+notes = "Fresh bell peppers: Supply and use; source year 1960, Peppers!H7. Original population heading: U.S. population, July 1 (footnote 1). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (2 decimal places). The source retail-weight conversion is not applied. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[fact]]
 id = "us-1960s-availability-broccoli"
+audit = { file = "remaining-audit-20261028/middle-us-health-food.json", extractor = "json-pointer", locator = "/availability/us-1960s-availability-broccoli/food_million_pounds", target = "quantity", guards = [{ locator = "/availability/us-1960s-availability-broccoli/year", value = "1960" }, { locator = "/availability/us-1960s-availability-broccoli/file", value = "46-diet-variety/ers-fads-vegetables-fresh.xlsx" }, { locator = "/availability/us-1960s-availability-broccoli/sha256", value = "199e19b8fe8f24279949a02a7053f8d761bccb2dd0b425d71753d34444e0108e" }, { locator = "/availability/us-1960s-availability-broccoli/title", value = "Fresh broccoli: Supply and use" }, { locator = "/availability/us-1960s-availability-broccoli/cell", value = "Broccoli!H7" }, { locator = "/availability/us-1960s-availability-broccoli/population_heading", value = "U.S. population, July 11" }, { locator = "/availability/us-1960s-availability-broccoli/population_definition", value = "1Resident population plus the Armed Forces overseas." }, { locator = "/availability/us-1960s-availability-broccoli/number_format", value = "#,##0.00" }], calculation = { op = "ratio", operands = ["/availability/us-1960s-availability-broccoli/population_millions"], precision = 2, rounding = "half_up", method = "Replay the publisher food-availability total divided by its population; million-pound and million-person units cancel. Round once to the selected source cell display precision." } }
 quantity = 0.4
 panel = "table"
 label = "Broccoli available per person, 1960"
-value = "0.4 pounds per person per year"
-unit = "pounds per person per year (farm weight)"
+value = "0.40 pounds per person per source year"
+unit = "pounds per person per source year (farm weight)"
 price_year = 1960
 source = "usda-ers-fads"
 tier = "A"
-notes = "Fresh broccoli. Food availability, not intake: production plus imports less exports and non-food use, over population. Farm weight, as ERS publishes it. The first year ERS publishes for this commodity."
-assumptions = ["composite-family"]
+notes = "Fresh broccoli: Supply and use; source year 1960, Broccoli!H7. Original population heading: U.S. population, July 1 (footnote 1). The source defines population as resident population plus Armed Forces overseas. Farm-weight food availability is a supply measure, not intake. The guarded qualifier replays the publisher supply/use formulas, checks the cached ratio and retains the cell's displayed precision (2 decimal places). The source retail-weight conversion is not applied. See the source footnotes retained with the extraction artifact."
+assumptions = ["composite-family", "ers-availability-source-formulas"]
 
 [[derived]]
 id = "us-1960s-produce-variety-count"
@@ -378,11 +395,12 @@ count_series = [
 ]
 threshold = 1.0
 at_year = 1960
-notes = "Every fresh fruit and vegetable commodity sheet in the two ERS fresh workbooks, counted when the food supply provided at least a full pound per person that year, farm weight. The total is the commodities ERS tracked that year: series that had not yet begun or had already ended are outside the count, so a widening record cannot masquerade as rising variety. Availability is a disappearance estimate — what the supply made available, not what anyone ate; the rule and its rationale are in the assumption ledger (produce-variety-rule)."
+notes = "The curated fresh fruit and vegetable series are counted when the publisher's displayed farm-weight availability estimate is at least one pound per person in the source year. Values are rounded to each source cell's displayed precision before comparison, so estimates near the threshold depend on that precision. The count is out of the commodities tracked in the selected series for that year; availability is a supply measure, not food actually eaten."
 assumptions = ["produce-variety-rule", "composite-family"]
 
 [[fact]]
 id = "us-1960s-traffic-death-rate"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/fhwa/rows/1960/per_100m_vmt", target = "quantity", guards = [{ locator = "/fhwa/source_sha256", value = "e5cb5e304b9c86f3124543e27dd4e9e0e18f2d1d8a40bc9891805332f88490d6" }, { locator = "/fhwa/table", value = "FI-200" }] }
 quantity = 5.06
 panel = "day"
 label = "Road deaths per 100 million vehicle-miles, 1960"
@@ -391,7 +409,7 @@ unit = "deaths per 100 million vehicle-miles travelled"
 price_year = 1960
 source = "fhwa-fi200-2023"
 tier = "A"
-notes = "Before the National Traffic and Motor Vehicle Safety Act of 1966, the federal government set no crash standards for cars at all."
+notes = "FHWA Table FI-200 reports traffic fatalities per 100 million vehicle-miles travelled in 1960. This rate covers all persons killed in motor-vehicle traffic crashes."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -404,20 +422,21 @@ unit = "live births per 1,000 women aged 15-19"
 price_year = 1960
 source = "nchs-hus-2019-table1"
 tier = "A"
-notes = "The highest figure NCHS publishes in this table, and it is not in the distant past: 89.1 in 1960, against 34.2 in 2010 and 15.0 in 2020. The peak of American teenage childbearing is the decade usually remembered for its families."
+notes = "NCHS Health, United States, 2019, Table 1: live births per 1,000 women aged 15–19, 1960. The 1950 estimate is adjusted for underregistration; geographic and resident coverage change across years."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1960s-smoking-prevalence"
+audit = { file = "remaining-audit-20261028/early_us-consumption-extract.json", extractor = "json-pointer", locator = "/cdc/smoking_prevalence/1965/total", target = "quantity", guards = [{ locator = "/cdc/source_sha256", value = "02e4e219a65571dd287ca9e6d13dae1d3138c290f410550ea63eea33c85bb277" }, { locator = "/cdc/adult_age", value = "18 and older" }, { locator = "/cdc/smoking_prevalence/1965/male", value = "51.9" }, { locator = "/cdc/smoking_prevalence/1965/female", value = "33.9" }] }
 quantity = 42.4
 panel = "table"
 label = "Adult cigarette smoking prevalence, 1965"
 value = "42.4% of adults smoked (51.9% of men, 33.9% of women)"
 unit = "% of adults ≥18 who currently smoke (NHIS)"
 price_year = 1965
-source = "cdc-nhis-smoking-prevalence"
+source = "cdc-mmwr-nhis-smoking-prevalence"
 tier = "A"
-notes = "From CDC NHIS (compiled by American Lung Association). First NHIS tobacco survey in 1965, one year after the Surgeon General's Report. 42.4% overall: 51.9% of men and 33.9% of women were current smokers. Definition: smoked ≥100 cigarettes and currently smoking."
+notes = "CDC National Health Interview Survey estimates for civilian noninstitutionalized adults aged 18 and older in 1965. Current smokers reported at least 100 cigarettes in their lifetime and were smoking at the time of the survey."
 assumptions = ["composite-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -431,21 +450,23 @@ value = "66.6 male, 73.1 female (69.7 total, all races)"
 unit = "years at birth"
 source = "nchs-nvss"
 tier = "A"
-notes = "From NCHS National Vital Statistics System (all races). The Historical Statistics Vol 1 (white) shows 67.4 male / 74.1 female for 1960 — the all-races figure is lower. Up from 66.3/72.0 (1949-51). By 1970: 67.1/74.8."
+notes = "NCHS National Vital Statistics Reports 56(10), 2008, Table 8: period life expectancy at birth, all races, 1960."
 
 [[fact]]
 id = "us-1960s-wages"
 panel = "day"
-label = "Manufacturing earnings and CPI, 1960"
-value = "Manufacturing: $5,352/yr. CPI: 29.6 (1982-84=100)."
-unit = "USD/year (earnings) and index (CPI)"
+label = "Manufacturing annual earnings, 1960"
+value = "$5,352 per year"
+unit = "USD per year, full-time-equivalent manufacturing earnings"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "Manufacturing annual earnings from Historical Statistics Vol 1, Series D 740 (p.186): $5,352 in 1960, rising to $8,150 by 1970. CPI from BLS series CUUR0000SA0 (confirmed via BLS API): 29.6 in 1960, rising to 38.8 by 1970. CPI ratio 1960 to 2024: 313.7/29.6 = 10.6x. Real income growth 1960 to 2024: $5,620 to $105,800 = 18.8x nominal / 10.6x CPI = 1.77x real."
+notes = "Historical Statistics Series D 740 reports average annual manufacturing earnings on a full-time-equivalent employment basis. It is an earnings measure, not family income. The separately sourced CPI index is not included in this source card."
 assumptions = ["nominal-values"]
 
 [[fact]]
 id = "us-1960s-hourly-earnings"
+audit = { file = "remaining-audit-20261028/middle_bls_hourly_extract.json", extractor = "json-pointer", locator = "/1960", target = "quantity", guards = [{ locator = "/source_sha256", value = "576c7b81afc613cc4313644e367739c14c06f83dd003ea88c032ea1d835b305b" }, { locator = "/population", value = "Production or nonsupervisory workers on private nonagricultural payrolls" }, { locator = "/unit", value = "current dollars per hour" }] }
+quantity = 2.09
 panel = "day"
 label = "Average hourly earnings, production/nonsupervisory workers, 1960"
 value = "$2.09"
@@ -456,7 +477,7 @@ amount_minor = 209
 currency = "USD"
 price_year = 1960
 basis = "hourly"
-notes = "From BLS Bulletin 1312-12, Vol. II, p. 287, 'Average Hourly Earnings of Production or Nonsupervisory Workers on Private Nonagricultural Payrolls, TOTAL PRIVATE, in Current Dollars.' 1960 annual average: $2.09. Predecessor series to FRED AHETPI (which begins 1964)."
+notes = "BLS Bulletin 1312-12 reports average hourly earnings of production or nonsupervisory workers on private nonagricultural payrolls in 1960."
 assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-consistency"]
 
 # ── Diffusion panel ────────────────────────────────────────────────────────
@@ -465,23 +486,25 @@ assumptions = ["nominal-values", "affordability-normalization", "wage-anchor-con
 id = "us-1960s-television"
 quantity = 91.4
 panel = "diffusion"
-label = "Television in the home, 1960-61"
-value = "91.4% of households had TV"
-unit = "% of urban families with television"
-source = "bls-cex"
+label = "Television among urban families, 1961"
+value = "91.4% of urban families had TV"
+unit = "% of CES urban families (publisher's term) with television"
+source = "bls-ces-1961-urban-durables"
 tier = "A"
-notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.15, OCR'd via GLM-OCR). TV adoption exploded in the 1950s: up from 12.3% in 1950 to 91.4% in 1960-61 — one of the fastest technology diffusions in American history. Census 1960 confirms: TV 90.5%."
+notes = "The 1961 Consumer Expenditure Survey reports ownership among urban families; air conditioning includes central and room units."
 
 [[fact]]
 id = "us-1960s-vehicle-ownership"
+audit = { file = "remaining-audit-20261028/world-recent-vehicle-extract.json", extractor = "json-pointer", locator = "/years/1960/one_or_more_percent", scale = "1", guards = [{ locator = "/provenance", value = "Curator complement from pinned BTS Figure 2-6" }, { locator = "/years/1960/population", value = "occupied housing units" }] }
 quantity = 78.5
 panel = "diffusion"
 label = "Households with at least one vehicle, 1960"
-value = "78.5% (21.5% with no vehicle); avg 1.1 vehicles per household"
+value = "78.5% (21.5% with no vehicle)"
 unit = "% of occupied housing units with 1+ vehicles"
 source = "bts-vehicle-availability"
 tier = "A"
-notes = "From BTS Figure 2-7 (Census Bureau decennial census, 1960). 21.5% of households had no vehicle, 56.9% had one, 19.0% had two, 2.5% had three or more. The automobile had not yet saturated — one in five households was car-free. By 1970: 82.5%, 1980: 87.1%. Population: all occupied housing units."
+notes = "BTS Figure 2-6 reports 21.5% of occupied housing units with no vehicle in 1960. The share with at least one is its complement; the source groups three or more vehicles together."
+assumptions = ["recent-vehicle-complement"]
 
 [[fact]]
 id = "us-1960s-telephone"
@@ -489,69 +512,66 @@ quantity = 78.3
 panel = "diffusion"
 label = "Telephone diffusion, 1960s"
 value = "78.3% of households had telephone"
-unit = "% of households with telephone (estimated from phones per 1,000 population)"
+unit = "% of households with telephone"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "From Historical Statistics Vol 2, Series R 1-3 (p.191, OCR'd via GLM-OCR): 1960 had 74,342K telephones = 407.8 per 1,000 population = 78.3% of households. Up from ~55% in 1950. Census 1960 reports 78.5% (housing units with telephone). Reaching 87.0% by 1970."
+notes = "Historical Statistics Series R 3 estimates households with telephones. This is a different measure from Series R 2, telephone instruments per 1,000 people."
 
 [[fact]]
 id = "us-1960s-air-conditioning"
 quantity = 18.8
 panel = "diffusion"
-label = "Air conditioning, 1960-61"
-value = "18.8% of households had air conditioning"
-unit = "% of urban families with air conditioner"
-source = "bls-cex"
+label = "Air conditioning among urban families, 1961"
+value = "18.8% of urban families had air conditioning"
+unit = "% of CES urban families (publisher's term) with air conditioner"
+source = "bls-ces-1961-urban-durables"
 tier = "A"
-notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.15, OCR'd via GLM-OCR). AC was still a luxury in 1960 — mostly window units. By 1978 (first RECS), 23% had central AC alone. The diffusion arc: 18.8% (1960) → 68% (1993) → 87% (2009) → 88% (2020)."
+notes = "The 1961 Consumer Expenditure Survey reports ownership among urban families; air conditioning includes central and room units."
 
 [[fact]]
 id = "us-1960s-household-appliances"
 panel = "diffusion"
-label = "Household appliances, 1960-61"
-value = "Refrigerator 84.7%, washing machine 70.0%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%"
-unit = "% of urban families with each appliance"
-source = "bls-cex"
+label = "Appliance ownership, CES urban families, 1961"
+value = "Refrigerator 82.7%, washing machine 70.0%, clothes dryer 18.4%, dishwasher 5.7%, food freezer 15.3%"
+unit = "% of CES urban families (publisher's term) with each appliance"
+source = "bls-ces-1961-urban-durables"
 tier = "A"
-notes = "From CEX 1960-61 (ce_196061_tables.pdf, p.15, OCR'd via GLM-OCR). Census 1960 confirms: refrigerator 86.1%, washing machine 72.2%. The refrigerator was nearly universal. The clothes dryer (18.4%) and dishwasher (5.7%) were still early-stage adoption — they would become common in the 1970s-80s."
+notes = "The 1961 Consumer Expenditure Survey reports ownership among urban families; air conditioning includes central and room units."
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
 [[fact]]
 id = "us-1960s-affordability"
+quantity = 29.6
 panel = "work-buys"
-label = "Consumer Price Index and real income growth, 1960-2024"
-value = "CPI 29.6 (1960) → 313.7 (2024) = 10.6x. Real median family income grew 1.77x."
-unit = "CPI index (1982-84=100) and real growth factor"
+label = "Consumer Price Index, 1960"
+value = "29.6"
+unit = "index, 1982–84=100"
 source = "bls-cpi"
 tier = "A"
-notes = "CPI from BLS series CUUR0000SA0 (confirmed via BLS API). 1960: 29.6. 2024: 313.7. Ratio: 10.6x. Nominal median family income: $5,620 (1960) → $105,800 (2024) = 18.8x. Real growth: 18.8/10.6 = 1.77x. For comparison: 1950-2024 CPI ratio was 13.0x, real growth 3.1x — the 1960s-2020s saw slower real income growth than the 1950s-2020s."
+notes = "The BLS annual average Consumer Price Index for All Urban Consumers, U.S. city average, was 29.6 in 1960 (1982–84=100)."
 assumptions = ["nominal-values", "affordability-normalization"]
 
 [[fact]]
 id = "us-1960s-week-of-work-buys"
 panel = "work-buys"
-label = "What a week of manufacturing work bought, 1960"
-value = "$102.92/week — a full year of it (×52) ≈ 95% of median family income"
-unit = "weekly manufacturing earnings vs annual median family income"
+label = "Average annual manufacturing earnings, 1960"
+value = "$5,352 per full-time-equivalent employee"
+unit = "USD per year, nominal, average per full-time-equivalent employee"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "Computed: manufacturing FTE annual earnings ($5,352, Historical Statistics Series D740) ÷ 52 = $102.92/week. × 52 = $5,352, which is 95.2% of the all-family median income ($5,620, Census F-8). A single manufacturing wage almost exactly matched the median family income — the peak of the single-earner era. Compare 1950: 83%, 1970: 83%. Source: same D740 series as 1940s and 1970s."
+notes = "Historical Statistics Series D 740 reports average annual earnings per full-time-equivalent manufacturing employee in 1960. This is not median family income."
 assumptions = ["composite-family", "nominal-values"]
 
 [[fact]]
 id = "us-1960s-car-price"
 panel = "work-buys"
-label = "Average new car price, 1960"
-value = "~$1,822 (average wholesale, computed from factory sales)"
-unit = "USD, nominal (wholesale value per passenger car)"
-source = "hist-stats-colonial-1970"
+label = "Passenger-car factory sales, 1960"
+value = "6,674.7 thousand passenger cars; $12,164 million wholesale value"
+unit = "passenger cars sold; aggregate wholesale value in nominal USD"
+source = "hist-stats-auto-factory-q148"
 tier = "A"
-amount_minor = 182200
-currency = "USD"
-price_year = 1960
-basis = "total"
-notes = "Computed from Historical Statistics, Series Q 148-162. 1960: 6,674,700 passenger cars sold at $12,164 million wholesale value = ~$1,822 average per car. Wholesale value; retail/transaction price would be higher. The BEA transaction price series begins 1970 ($3,543), providing the first actual consumer-price benchmark. Population: all US factory sales of passenger cars."
+notes = "The source reports factory sales of passenger cars and aggregate wholesale value in 1960; these are not retail transaction prices. No average wholesale price is asserted here; it requires a documented calculation from these inputs. The factory-sales counts include military vehicle sales. Wholesale values exclude federal excise taxes and include standard equipment from 1937 onward."
 assumptions = ["nominal-values"]
 
 
@@ -571,7 +591,7 @@ value = "40.9"
 unit = "hours per week, prime-age women (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 6A, 'All Prime-Age Women' column. Reconstruction from historical time-diary studies (Purnell Act 1920s, Wilson 1929, USDA 1944) linked to AHTUS/BLS surveys from 1965. Includes food prep, house cleaning, clothing care, childcare, purchasing, and household management. Numbers in italics in source = partially extrapolated. Draft version (NBER w13985) has identical values. Splice caveat: Ramey measures women-specific home production ages 18-64; ATUS (2020s room) measures all-adult household activities age 15+ — a concept change that must caveat when plotted together."
+notes = "Ramey Table 6 estimates weekly home-production hours for all women ages 18–64 in 1965. Italicized early estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -583,19 +603,19 @@ value = "11.2"
 unit = "hours per week, prime-age men (ages 18–64)"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 7, 'All Prime-Age Men' column. Early estimates from Purnell Act studies and Lundberg et al. (1934); 1965+ from AHTUS/BLS. Men's hours rose 13 hrs/week across the century (3.9→16.8), partially offsetting women's decline. Numbers in italics in source = partially extrapolated."
+notes = "Ramey Table 7 estimates weekly home-production hours for all men ages 18–64 in 1965. Italicized early estimates are partly extrapolated."
 assumptions = ["composite-family"]
 
 [[fact]]
 id = "us-1960s-home-production-components"
 quantity = 51.8
 panel = "day"
-label = "How a 1965 housewife's week broke down (AHTUS)"
-value = "Total 51.8 hrs/week: food prep 16.5, house cleaning 9.5, clothing care 6.9, childcare 8.5, purchasing/mgmt/travel 10.4"
-unit = "hours per week by activity category, nonemployed housewives"
+label = "Home-production hours among housewives"
+value = "Total 51.8 hrs/week: food preparation 16.5, care and cleaning of house and grounds 9.5, care of clothing 6.9, care of children and adults 8.5, purchasing, management, travel and other 10.4"
+unit = "hours per week by activity category, housewives"
 source = "ramey-2009"
 tier = "C"
-notes = "Ramey (2009) Table 3, '1965 Housewives AHTUS' column. Total home production: 51.8 hrs/week. Based on Ramey's calculations from individual-level 1965 American Heritage Time Use Survey data. Population differs from the prime-age women aggregate (us-1960s-home-production-women) — this is nonemployed housewives only, while the aggregate includes employed women. For comparison with 1920s town housewives: food prep fell from 19.9 to 16.5 hrs/week, clothing care fell from 11.5 to 6.9, while childcare and purchasing/management/travel rose — market substitution shifted time between categories, not eliminated it."
+notes = "Ramey Table 3, based on 1965 time-use data for housewives. Categories use the source definitions."
 assumptions = ["composite-family"]
 
 [[fact]]
@@ -607,7 +627,7 @@ value = "26.0 per 1,000 live births"
 unit = "deaths under age 1 per 1,000 live births"
 source = "nchs-nvss"
 tier = "A"
-notes = "From NCHS, Health, United States, 2016, Table 11. All races. Neonatal: 18.7; postneonatal: 7.3. Decline slowed in the early 1960s before Medicaid and neonatal intensive care accelerated gains in the late 1960s."
+notes = "NCHS Health, United States, 2016, Table 11: all-races infant deaths per 1,000 live births in 1960. Neonatal and postneonatal rates are published separately. The historical figure includes births and deaths of nonresidents of the 50 states and DC."
 assumptions = ["composite-family"]
 
 # ── Married women's labor force participation ─────────────────────────────
@@ -621,7 +641,7 @@ value = "30.5%"
 unit = "% of married women (husband present) in the civilian labor force"
 source = "hist-stats-colonial-1970"
 tier = "A"
-notes = "From Historical Statistics Vol 1, Series D 63-74. Annual data: 1960: 30.5%, 1965: 35.4%. With children under 6: 18.6% (1960). With children 6-17 only: 18.2%. No children under 18: 18.9%. Crossed 30% for the first time — nearly a third of married women were in the labor force. By 1970: 40.8%. The week-of-work arc's single-earner assumption breaks down here: by mid-decade, over a third of married women worked."
+notes = "Historical Statistics reports the share of married women with husband present in the civilian labor force, 1960 annual survey."
 assumptions = ["composite-family"]
 
 # ── Median age at first marriage ──────────────────────────────────────────
@@ -635,7 +655,7 @@ value = "Men: 22.8, Women: 20.3"
 unit = "years (median age at first marriage)"
 source = "census-table-ms2"
 tier = "A"
-notes = "From Census Table MS-2. CPS ASEC. Same as 1950 — the mid-century low held through the 1960s. The baby boom family formed young. By 1970: 23.2/20.8 — the beginning of a long rise."
+notes = "Census Table MS-2 reports the estimated median age at first marriage by sex for 1960."
 
 # ── Education ─────────────────────────────────────────────────────────────
 
@@ -643,25 +663,26 @@ notes = "From Census Table MS-2. CPS ASEC. Same as 1950 — the mid-century low 
 id = "us-1960s-education"
 quantity = 41.0
 panel = "day"
-label = "Educational attainment, 1960"
-value = "HS grad or more: 41.0%, Bachelor's or more: 7.7%, Less than 9th grade: 39.7%. Median school years: 10.6."
-unit = "% of population 25+ (all races, both sexes); median years completed"
+label = "Years of school completed, adults aged 25 and over, 1960"
+value = "Four or more years of high school: 41.0%; four or more years of college: 7.7%; median school years: 10.6."
+unit = "% of people aged 25 and over; median years completed"
 source = "census-table-a1-a2"
 tier = "A"
-notes = "From Census Table A-1. Decennial census. HS graduation crossed 40% for the first time. Less-than-9th-grade dropped below 40%. Median school years: 10.6 — roughly through 10th grade. The GI Bill and expanding public education were transforming attainment."
+notes = "Census A-1 reports the median years completed; NCES reports the historical percentages for 1960. Before the classification change, categories describe completed years, not necessarily diplomas or degrees."
 
 # ── Net worth (aggregate household sector) ────────────────────────────────
 
 [[fact]]
 id = "us-1960s-household-net-worth"
-quantity = 2091
+audit = { file = "remaining-audit-20261028/z1-full-selected.json", extractor = "json-pointer", locator = "/observations/1960/FL152090005.Q/value", target = "quantity", guards = [{ locator = "/source_sha256", value = "83b8eded0bc7f9b74c0269ef503a863cee88312460fd7eef076284b98fc28c06" }, { locator = "/unit", value = "millions of US dollars" }, { locator = "/period", value = "Q4" }, { locator = "/population", value = "Households and nonprofit organizations" }, { locator = "/observations/1960/FL152090005.Q/date", value = "1960-12-31" }, { locator = "/observations/1960/FL152090005.Q/series_name", value = "Z1/Z1/FL152090005.Q" }, { locator = "/observations/1960/FL152090005.Q/currency", value = "United States / United States Dollar" }, { locator = "/observations/1960/FL152090005.Q/frequency", value = "Quarterly" }, { locator = "/observations/1960/FL152090005.Q/unit", value = "Currency" }, { locator = "/observations/1960/FL152090005.Q/unit_mult", value = "Millions" }, { locator = "/observations/1960/FL152090005.Q/series_sector", value = "Households and nonprofit organizations (S14+S15)" }, { locator = "/observations/1960/FL152090005.Q/series_prefix", value = "Level, not seasonally adjusted (NSA)" }, { locator = "/observations/1960/FL152090005.Q/series_instrument", value = "Net worth" }] }
+quantity = 2092257
 panel = "day"
 label = "Household sector net worth, 1960"
-value = "$2,091 billion"
-unit = "aggregate net worth, households + nonprofit organizations, current dollars"
-source = "fed-z1"
+value = "$2,092,257 million"
+unit = "millions of current U.S. dollars, aggregate quarter-end net worth"
+source = "fed-z1-quarter-end-balances-2026q2"
 tier = "A"
-notes = "From FRED TNWBSHNO (Fed Z.1 Table B.101.h, Q4 1960). Total assets: $2,316B. Total liabilities: $225B. Net worth: $2,091B. Up from $1,171B in 1950 — household wealth nearly doubled in a decade. Liabilities were only 10% of assets — the postwar debt-aversion era. Aggregate — NOT median."
+notes = "Federal Reserve Z.1, September 11, 2026 release: December 31, 1960, households and nonprofit organizations. This sector stock includes nonprofit organizations and is not median household wealth or a family budget. The curator reproduces the original release and checks net worth against total assets less liabilities. Historical figures are release-dependent."
 
 [[fact]]
 id = "us-1960s-daily-newspaper-circulation"

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "macros/charts.html" import chart_tables %}
 {% block title %}affordability — vitrine{% endblock %}
 {% block body %}
 <p class="eyebrow">vitrine · United States record · the affordability view</p>
@@ -11,6 +12,7 @@
 {% for caveat in item.metric.caveats %}<div class="caveat">⚠ {{ caveat }}</div>{% endfor %}
 {% if item.chart %}
 <div class="chart-panel" role="region" aria-label="Affordability chart; scroll horizontally on a small screen" tabindex="0">{{ item.chart }}</div>
+{{ chart_tables(item.tables) }}
 <p class="case-sub">{{ item.metric.caption }}</p>
 {% else %}
 <div class="chart-panel"><p class="case-sub gapv">{{ item.note }}</p></div>

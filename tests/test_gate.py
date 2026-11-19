@@ -1,5 +1,6 @@
 """The provenance gate: green on the committed corpus, red on broken data."""
 
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -14,6 +15,49 @@ def test_committed_corpus_is_green() -> None:
     corpus = load_corpus(DATA)
     assert check_corpus(corpus) == []
     assert corpus.rooms, "corpus must contain at least one room"
+
+
+def test_hidden_monetary_average_cannot_feed_affordability() -> None:
+    """A plausible undisplayed quotient is not a transcribed price."""
+    corpus = load_corpus(DATA)
+    room = next(room for room in corpus.rooms if room.slug == "us-1910s")
+    original = next(fact for fact in room.facts if fact.id == "us-1910s-car-price")
+    assert original.amount_minor is None
+    from vitrine.model import Basis
+
+    hidden = replace(original, amount_minor=118800, currency="USD", price_year=1910,
+                     basis=Basis.TOTAL)
+    changed = replace(room, facts=tuple(hidden if f.id == original.id else f for f in room.facts))
+    changed_corpus = replace(corpus, rooms=tuple(
+        changed if r.slug == room.slug else r for r in corpus.rooms
+    ))
+    assert any("structured monetary amount does not appear" in p
+               for p in check_corpus(changed_corpus))
+
+
+def test_an_observation_year_cannot_supply_a_monetary_amount() -> None:
+    from decimal import Decimal
+
+    from vitrine.check import _quantity_in_value
+    from vitrine.money import get
+
+    assert not _quantity_in_value(Decimal("1910"), "1910: factory sales $215 million", get("USD"))
+    assert _quantity_in_value(Decimal("1234.50"), "$1,234.50", get("USD"))
+
+
+def test_rounded_anchor_must_display_its_amount_or_audited_source_operand() -> None:
+    corpus = load_corpus(DATA)
+    room = next(room for room in corpus.rooms if room.slug == "us-1940s")
+    original = next(fact for fact in room.facts if fact.id == "us-1940s-hourly-earnings")
+    assert original.audit is not None and original.audit.calculation is not None
+    changed = replace(room, facts=tuple(
+        replace(fact, value="$0.99 per hour") if fact.id == original.id else fact
+        for fact in room.facts
+    ))
+    modified = replace(corpus, rooms=tuple(
+        changed if r.slug == room.slug else r for r in corpus.rooms
+    ))
+    assert any("structured monetary amount does not appear" in p for p in check_corpus(modified))
 
 
 def _write_minimal(tmp_path: Path, fact_source: str = "src-1") -> Path:
@@ -81,6 +125,10 @@ def test_render_coverage_passes_when_manifest_matches(tmp_path: Path) -> None:
     build_dir = tmp_path / "_site"
     build_dir.mkdir()
     (build_dir / "facts-manifest.txt").write_text("us-1950s-x\n")
+    (build_dir / "rooms").mkdir()
+    (build_dir / "rooms" / "us-1950s.html").write_text(
+        '<div class="fact-row" id="us-1950s-x">V</div>'
+    )
     assert check_render_coverage(corpus, build_dir) == []
 
 
@@ -415,6 +463,100 @@ def test_quantity_absent_from_display_value_fails(tmp_path: Path) -> None:
     )
     problems = check_corpus(load_corpus(data))
     assert any("does not appear in the display value" in p for p in problems)
+
+
+def _quantity_gate_problems(tmp_path: Path, quantity: float, value: str) -> list[str]:
+    data = _write_quantity_room(
+        tmp_path,
+        '[[fact]]\nid = "us-1950s-synthetic"\npanel = "diffusion"\nlabel = "Synthetic"\n'
+        'value = "1%"\nunit = "%"\nsource = "src-1"\ntier = "A"\nquantity = 1.0\n',
+    )
+    corpus = load_corpus(data)
+    room = corpus.rooms[0]
+    fact = replace(room.facts[0], quantity=quantity, value=value)
+    return check_corpus(replace(corpus, rooms=(replace(room, facts=(fact,)),)))
+
+
+@pytest.mark.parametrize(
+    "quantity,value",
+    [
+        (1, "21%"), (5, "15%"), (5, "-5%"), (5, "\N{MINUS SIGN}5%"),
+        (-5, "5%"), (-5, "-15%"), (5, "1.5%"), (5, "5.1%"), (0, "0.1"),
+        (3, "12.3"), (1, "1,500"), (500, "1,500"), (500, "1,500.0"),
+        (1500, "21,500"), (1, "1e+06"), (6, "1e+06"), (1e6, "1e+060"),
+        (1e-5, "1e-050"), (1, "1..5"), (5, "5.0.1"), (5, "--5"), (-5, "--5"),
+        (5, "3-5"), (3, "3–5"), (-5, "3-5"), (5, "3 - 5"), (5, "3—5"),
+        (5, "3+5"), (1, "1e++6"), (-5, "pre-5"), (5, "–5%"),
+        (1, "1e1e1"), (-5, "-5e+"),
+    ],
+)
+def test_quantity_rejects_numeric_fragments_and_sign_drift(
+    tmp_path: Path, quantity: float, value: str,
+) -> None:
+    problems = _quantity_gate_problems(tmp_path, quantity, value)
+    assert len(problems) == 1
+    assert "does not appear in the display value" in problems[0]
+
+
+@pytest.mark.parametrize(
+    "quantity,value",
+    [(1.5, "1.5.0%"), (-1.5, "-1.5.000%"), (12.3, "12.3.0%"), (0.5, "0.5.0000")],
+)
+def test_quantity_does_not_normalize_multiple_decimal_components(
+    tmp_path: Path, quantity: float, value: str,
+) -> None:
+    problems = _quantity_gate_problems(tmp_path, quantity, value)
+    assert len(problems) == 1
+    assert "does not appear in the display value" in problems[0]
+
+
+@pytest.mark.parametrize(
+    "quantity,value",
+    [
+        (5, "5%"), (5, "5.00%"), (5, "+5%"), (5, "+5.0%"),
+        (-5, "-5%"), (-5, "-5.00%"), (-5, "Change: -5%"), (0, "0.00"), (12.3, "12.300%"),
+        (1.5, "1.5000%"), (-1.5, "-1.5000%"), (12.3, "12.3000%"), (0.5, "0.5000"),
+        (1500, "Median 1,500 sq ft"), (1500, "1,500.000"), (1500, "1500"),
+        (1e6, "1e+06"), (1e-5, "1e-05"), (1.23456e-6, "1.23456e-06"),
+        (0.123456789, "0.1234570"), (123456789, "1.23457e+08"),
+        (36, "36.00 deaths per 100 million vehicle-miles travelled"),
+        (5, "5. Finally"), (5, "5, according to the source"), (5, "[5]"),
+        (5, "$5"), (5, "5eV"), (5, "~5%"), (5, "Earlier 21%; now 5%"),
+    ],
+)
+def test_quantity_preserves_existing_numeric_rendering_vocabulary(
+    tmp_path: Path, quantity: float, value: str,
+) -> None:
+    assert _quantity_gate_problems(tmp_path, quantity, value) == []
+
+
+@pytest.mark.parametrize(
+    "quantity,value", [(1000, "1e3"), (0.5, ".5"), (1500, "1 500"),
+                       (1e6, "1E+06"), (1e6, "1.0e+06")],
+)
+def test_quantity_does_not_add_new_numeric_equivalences(
+    tmp_path: Path, quantity: float, value: str,
+) -> None:
+    assert _quantity_gate_problems(tmp_path, quantity, value)
+
+
+@pytest.mark.parametrize("quantity,value", [(1, "21%"), (5, "-5%"), (5, "1.5%"), (5, "5.1%")])
+def test_quantity_drift_in_loaded_committed_corpus_is_refused(quantity: float, value: str) -> None:
+    corpus = load_corpus(DATA)
+    room_index, fact_index = next(
+        (ri, fi) for ri, room in enumerate(corpus.rooms) for fi, fact in enumerate(room.facts)
+        if fact.audit is None and fact.quantity is not None and fact.amount_minor is None
+    )
+    original_room = corpus.rooms[room_index]
+    original_fact = original_room.facts[fact_index]
+    facts = list(original_room.facts)
+    facts[fact_index] = replace(original_fact, quantity=quantity, value=value)
+    rooms = list(corpus.rooms)
+    rooms[room_index] = replace(original_room, facts=tuple(facts))
+    problems = check_corpus(replace(corpus, rooms=tuple(rooms)))
+    assert len(problems) == 1
+    assert "does not appear in the display value" in problems[0]
+    assert check_corpus(corpus) == []  # Neither the loaded objects nor data files changed.
 
 
 def test_quantity_must_be_numeric(tmp_path: Path) -> None:

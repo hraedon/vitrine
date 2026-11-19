@@ -78,9 +78,11 @@ If IPUMS interprets "republish" more broadly, vitrine will:
    This makes it clear to visitors that the number was computed, not
    transcribed from an official publication.
 
-4. **Source citation.** Every IPUMS-derived Fact references the `ipums-usa`
-   or `ipums-1940-census` source entry in `sources.toml`, which contains the
-   proper citation.
+4. **Source citation.** Every IPUMS-derived Fact references an appropriate
+   source entry in `sources.toml` carrying its citation and measured population.
+   The 1950 family-income reconstruction uses
+   `ipums-1950-primary-family-income-1949`, distinct from the historical
+   `ipums-usa` registry and the `ipums-1940-census` observations.
 
 5. **Bibliography.** When vitrine is published publicly, add it to the IPUMS
    bibliography at https://www.ipums.org/bibliography.
@@ -96,6 +98,16 @@ IPUMS requires the following citation for their data:
 
 This citation must appear on any page that presents IPUMS-derived statistics.
 The full citations list is at `docs/citations.md`.
+
+## Reconstructed 1950 sample analysis
+
+The original locale-income estimates remain withdrawn. An authorized new
+extract, `usa_00003`, now supports a distinct aggregate analysis of 1949
+primary-family income from the 1950 1% sample. It uses FTOTINC and SLWT,
+not summed available INCTOT or household weights. Only aggregates, calculation
+code and source metadata hashes are published. See
+[the reconstruction record](reconstruction-20261029.md) for the selection,
+category-midpoint and geography limitations, independent replay and citation.
 
 ## Preferred data strategy
 

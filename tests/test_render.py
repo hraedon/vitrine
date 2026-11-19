@@ -32,6 +32,19 @@ def test_render_committed_corpus(tmp_path: Path) -> None:
     for page in room_pages:
         assert disclaimer_fragment in page.read_text(), f"disclaimer missing from {page.name}"
 
+    # An observation's model/survey year cannot stand in for an undated
+    # publication. All three public citation surfaces name that uncertainty.
+    undated_sources = {sid for sid, source in corpus.sources.items() if source.year == 0}
+    assert undated_sources
+    bibliography = (tmp_path / "bibliography.html").read_text(encoding="utf-8")
+    assert "· undated" in bibliography
+    for sid in undated_sources:
+        source_page = (tmp_path / "archive/sources" / f"{sid}.html").read_text(
+            encoding="utf-8",
+        )
+        assert "· undated" in source_page
+    assert any("· undated · Tier" in page.read_text(encoding="utf-8") for page in room_pages)
+
     manifest = (tmp_path / "facts-manifest.txt").read_text().split()
     curated = sorted(
         [f.id for room in corpus.rooms for f in room.facts]

@@ -22,6 +22,7 @@ decade = "1990s"
 
 [[fact]]
 id = "jp-1990s-workers-income"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/1995/income/value", target = "amount_minor", guards = [{ locator = "/fies/1995/income/year", value = "1995" }, { locator = "/fies/1995/income/title", value = "18-2 Yearly Average of Monthly Receipts and Disbursements per Household for Workers' Households (1963\uff5e2017)" }, { locator = "/fies/1995/income/heading", value = "Income" }, { locator = "/fies/1995/income/unit", value = "(yen)" }, { locator = "/fies/1995/income/file", value = "36-jp-income/fies-a18-2.xls" }, { locator = "/fies/1995/income/sha256", value = "36407a833d72c661aaef7ca541405e16f5497b2624358a6a02f7a2ca8888379d" }, { locator = "/fies/1995/income/cell", value = "\u52e4\u52b4\u8005\u4e16\u5e2f!R47C8" }, { locator = "/fies/1995/income/exclusion", value = "\uff0a The data is not including agricultural, forestry and fisheries households." }] }
 basis = "monthly"
 amount_minor = 570817
 currency = "JPY"
@@ -32,7 +33,7 @@ value = "¥570,817 per month"
 unit = "JPY per month, nominal (actual monthly income, workers' households)"
 source = "jp-fies"
 tier = "A"
-notes = "From FIES long-run time-series (fies-a18-2.xls), 1995, column 実収入, workers' households. This is the peak of the workers'-household income series — nominal income would decline to ¥522,629 by 2005 and stagnate through 2015 (¥525,955), the lost-decades effect. Two-or-more-person workers' households, Japan."
+notes = "From the archived FIES long-run table, 1995, 勤労者世帯!R47C8. This is annual-average monthly income of workers' households, not a median or a four-person family estimate. The archived table excludes agricultural, forestry and fisheries households."
 assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-deflation-lost-decades"]
 
 [[fact]]
@@ -55,6 +56,7 @@ assumptions = ["composite-family", "nominal-values", "jp-household-not-family", 
 
 [[fact]]
 id = "jp-1990s-homeownership"
+audit = { file = "38-jp-housing/world-hls-curator-extract.json", extractor = "json-pointer", locator = "/rows/1993/owned/value", target = "quantity", guards = [{ locator = "/rows/1993/year", value = "1993" }, { locator = "/rows/1993/owned/heading", value = "Ratio of owned houses" }, { locator = "/population", value = "Occupied dwellings" }, { locator = "/publisher_files_sha256/jsy2016-y652105000.xls", value = "8bcf5903fa5cb9cc46985e7324eae4f77ed16b8eeac6ba1c3db4418f4cf263b7" }] }
 quantity = 59.8
 panel = "home"
 label = "Homeownership rate, 1993"
@@ -62,11 +64,12 @@ value = "59.8%"
 unit = "% of occupied dwellings owner-occupied"
 source = "jp-hls"
 tier = "A"
-notes = "From HLS 1993 via JSY 2016 Table 21-5 (jsy2016-y652105000.xls): 24,376 thousand owned ÷ 40,773 thousand occupied dwellings = 59.8% (homeownership ratio). The 1998 survey gave 60.3%. Homeownership held near 60% through the decade despite the post-bubble property-price collapse; it would not return above 61% until 2003. 1993 is the HLS year closest to the 1995 income anchor."
+notes = "HLS 1993, JSY 2016 Table 21-5: the source prints 59.8% owned among occupied dwellings. It separately reports 24,376 thousand owned and 40,773 thousand occupied dwellings; the displayed percentage is retained as published, not recalculated from rounded counts. The 1998 and 2003 published ratios are 60.3% and 61.2%. The survey year is 1993, not 1995."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-1990s-floor-area"
+audit = { file = "38-jp-housing/world-hls-curator-extract.json", extractor = "json-pointer", locator = "/rows/1993/area/value", target = "quantity", guards = [{ locator = "/rows/1993/year", value = "1993" }, { locator = "/rows/1993/area/heading", value = "Area of floor space per dwelling" }, { locator = "/population", value = "Occupied dwellings" }, { locator = "/publisher_files_sha256/jsy2016-y652101000.xls", value = "a66515ed7dc3d73dc0a440e3f36c3786e720c533cc561ef2894f0fb8c0e9c0de" }] }
 quantity = 91.92
 panel = "home"
 label = "Floor area per dwelling, 1993"
@@ -74,11 +77,12 @@ value = "91.92 m²"
 unit = "m² per dwelling (occupied dwellings, nationwide)"
 source = "jp-hls"
 tier = "A"
-notes = "From HLS 1993 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 91.92 m² floor space per dwelling (occupied dwellings). Up from 89.29 m² (1988); the 1998 survey gave 92.43 m². Floor area continued rising even as property prices fell."
+notes = "From HLS 1993 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 91.92 m² floor space per dwelling (occupied dwellings). Up from 89.29 m² (1988); the 1998 survey gave 92.43 m²."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-1990s-rooms"
+audit = { file = "38-jp-housing/world-hls-curator-extract.json", extractor = "json-pointer", locator = "/rows/1993/rooms/value", target = "quantity", guards = [{ locator = "/rows/1993/year", value = "1993" }, { locator = "/rows/1993/rooms/heading", value = "Dwelling rooms per dwelling" }, { locator = "/population", value = "Occupied dwellings" }, { locator = "/publisher_files_sha256/jsy2016-y652101000.xls", value = "a66515ed7dc3d73dc0a440e3f36c3786e720c533cc561ef2894f0fb8c0e9c0de" }] }
 quantity = 4.85
 panel = "home"
 label = "Rooms per dwelling, 1993"
@@ -86,18 +90,18 @@ value = "4.85 rooms"
 unit = "rooms per dwelling (occupied dwellings, nationwide)"
 source = "jp-hls"
 tier = "A"
-notes = "From HLS 1993 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 4.85 rooms per dwelling. The 1998 survey gave 4.79. Persons per room 0.62 (down from 0.66 in 1988) as household size fell. Nationwide."
+notes = "From HLS 1993 via JSY 2016 Table 21-1 (jsy2016-y652101000.xls): 4.85 rooms per dwelling. The 1998 survey gave 4.79. Persons per room 0.62 (down from 0.66 in 1988). Nationwide."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-1990s-housing-amenities-gap"
 panel = "home"
 label = "Dwelling facilities (bath, flush toilet, kitchen)"
-value = "no reliable record accessible online"
+value = "no reliable record transcribed here"
 unit = "n/a"
 source = "jp-hls"
 tier = "D"
-notes = "The HLS 'Situation of facilities' (bath, toilet, kitchen) data is not published in the English JSY tables — only aged-person and energy-saving facility tables appear. Basic facility prevalence for the 1990s is not transcribed; needs e-Stat (Japanese) or printed HLS reports."
+notes = "The English Japan Statistical Yearbook tables cover aged-person and energy-saving facilities. A Japanese-language Housing and Land Survey historical facilities chart covers this decade; its basic bath and toilet observations have not yet been transcribed and qualified for this room."
 
 # ── Diffusion panel ───────────────────────────────────────────────────────
 
@@ -110,7 +114,7 @@ value = "37.7%"
 unit = "% of two-or-more-person households"
 source = "jp-nsfiie"
 tier = "A"
-notes = "From NSFIIE 1999 summary (https://www.stat.go.jp/english/data/zensho/1999/1.html), narrative text: PC ownership rate 37.7% (485 units per 1,000 households). PCs had increased 2.6-fold from 1994. The 1994 NSFIIE English summary is not in the archive; 1999 is the earliest available English-language NSFIIE durable-goods data. Two-or-more-person households, nationwide, as of end of October."
+notes = "From NSFIIE 1999 summary (https://www.stat.go.jp/english/data/zensho/1999/1.html), narrative text: PC ownership rate 37.7% (485 units per 1,000 households). PCs had increased 2.6-fold from 1994. The 1994 NSFIIE English summary is not in the archive; 1999 is the earliest English-language NSFIIE durable-goods summary transcribed here. Two-or-more-person households, nationwide, as of end of October."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
@@ -122,7 +126,7 @@ value = "64.9%"
 unit = "% of two-or-more-person households"
 source = "jp-nsfiie"
 tier = "A"
-notes = "From NSFIIE 1999 summary, narrative text: mobile phones (including PHS) ownership rate 64.9% (1,061 units per 1,000 households — many households owned multiple). Mobile subscriptions had surged from 2.1M (1993) to 51.1M (1999) per ICWP. Two-or-more-person households, nationwide."
+notes = "From NSFIIE 1999 summary, narrative text: mobile phones ownership rate 64.9% (1,061 units per 1,000 households — many households owned multiple). Mobile subscriptions had surged from 2.1M (1993) to 51.1M (1999) per ICWP. Two-or-more-person households, nationwide."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
@@ -134,7 +138,7 @@ value = "33.1%"
 unit = "% of two-or-more-person households"
 source = "jp-nsfiie"
 tier = "A"
-notes = "From NSFIIE 1999 summary, narrative text: facsimile ownership rate 33.1% (337 units per 1,000 households). Faxes had increased 3.5-fold from 1994 — a distinctly Japanese diffusion pattern, as the fax remained common in Japan far longer than in the US/UK. Two-or-more-person households, nationwide."
+notes = "From NSFIIE 1999 summary, narrative text: facsimile ownership rate 33.1% (337 units per 1,000 households). Faxes had increased 3.5-fold from 1994. Two-or-more-person households, nationwide."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
@@ -146,7 +150,7 @@ value = "44.8%"
 unit = "% of two-or-more-person households"
 source = "jp-nsfiie"
 tier = "A"
-notes = "From NSFIIE 1999 summary, narrative text: word processor ownership rate 44.8% (508 units per 1,000 households). The standalone word processor (ワープロ) was a Japanese-market category that peaked in this era before being displaced by the PC. Two-or-more-person households, nationwide."
+notes = "From NSFIIE 1999 summary, narrative text: word processor ownership rate 44.8% (508 units per 1,000 households). Two-or-more-person households, nationwide."
 assumptions = ["composite-family", "jp-household-not-family"]
 
 # ── Day panel ─────────────────────────────────────────────────────────────
@@ -168,6 +172,7 @@ assumptions = ["composite-family", "jp-household-not-family"]
 
 [[fact]]
 id = "jp-1990s-consumption"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/1995/consumption/value", target = "amount_minor", guards = [{ locator = "/fies/1995/consumption/year", value = "1995" }, { locator = "/fies/1995/consumption/title", value = "18-1 Yearly Average of Monthly Disbursements per Household for Two-or-more-person Households (1963\uff5e2017)" }, { locator = "/fies/1995/consumption/heading", value = "Consumption expenditures" }, { locator = "/fies/1995/consumption/unit", value = "(yen)" }, { locator = "/fies/1995/consumption/file", value = "36-jp-income/fies-a18-1.xls" }, { locator = "/fies/1995/consumption/sha256", value = "35159f6fa73f09e786857f9aee43800f880a57126a0ec09c821b0d423cdbe172" }, { locator = "/fies/1995/consumption/cell", value = "\u4e8c\u4eba\u4ee5\u4e0a\u306e\u4e16\u5e2f!R46C7" }, { locator = "/fies/1995/consumption/exclusion", value = "\uff0a The data is not including agricultural, forestry and fisheries households." }] }
 basis = "monthly"
 amount_minor = 329062
 currency = "JPY"
@@ -178,11 +183,12 @@ value = "¥329,062 per month"
 unit = "JPY per month, nominal (consumption expenditure, all two-or-more-person households)"
 source = "jp-fies"
 tier = "A"
-notes = "From FIES long-run time-series (fies-a18-1.xls), 1995, all two-or-more-person households. Peak of the nominal consumption series; declined to ¥300,903 (2005) and ¥288,326 (2015) — nominal stagnation amid the lost decades. Population differs from the income fact (all households vs workers' households)."
+notes = "From the archived FIES long-run table, 1995, 二人以上の世帯!R46C7. This is annual-average monthly total consumption expenditure, not a food basket. The expenditure population includes all household types within the stated survey scope; the income observations use workers' households. The archived table excludes agricultural, forestry and fisheries households."
 assumptions = ["composite-family", "nominal-values", "jp-household-not-family", "jp-deflation-lost-decades"]
 
 [[fact]]
 id = "jp-1990s-food-share"
+audit = { file = "59-workbook-review/observations.json", extractor = "json-pointer", locator = "/fies/1995/food/value", target = "quantity", guards = [{ locator = "/fies/1995/food/year", value = "1995" }, { locator = "/fies/1995/food/title", value = "18-1 Yearly Average of Monthly Disbursements per Household for Two-or-more-person Households (1963\uff5e2017)" }, { locator = "/fies/1995/food/heading", value = "Food" }, { locator = "/fies/1995/food/unit", value = "(yen)" }, { locator = "/fies/1995/food/file", value = "36-jp-income/fies-a18-1.xls" }, { locator = "/fies/1995/food/sha256", value = "35159f6fa73f09e786857f9aee43800f880a57126a0ec09c821b0d423cdbe172" }, { locator = "/fies/1995/food/cell", value = "\u4e8c\u4eba\u4ee5\u4e0a\u306e\u4e16\u5e2f!R46C8" }, { locator = "/fies/1995/food/exclusion", value = "\uff0a The data is not including agricultural, forestry and fisheries households." }, { locator = "/fies/1995/consumption/year", value = "1995" }, { locator = "/fies/1995/consumption/heading", value = "Consumption expenditures" }, { locator = "/fies/1995/consumption/sha256", value = "35159f6fa73f09e786857f9aee43800f880a57126a0ec09c821b0d423cdbe172" }, { locator = "/fies/1995/consumption/cell", value = "\u4e8c\u4eba\u4ee5\u4e0a\u306e\u4e16\u5e2f!R46C7" }], calculation = { op = "pct_of", operands = ["/fies/1995/consumption/value"], precision = 1, rounding = "half_up", method = "Food expenditure divided by total consumption expenditure in the same annual-average source row, times one hundred; same household population and year, rounded once to one decimal place." } }
 quantity = 23.7
 panel = "table"
 label = "Food share of consumption expenditure, 1995"
@@ -190,8 +196,8 @@ value = "23.7%"
 unit = "% of consumption expenditure spent on food"
 source = "jp-fies"
 tier = "A"
-notes = "From FIES (fies-a18-1.xls), 1995: food ¥77,886 ÷ consumption ¥329,062 = 23.7%. All two-or-more-person households. The Engel ratio continued its long decline (38.1% in 1965 → 27.0% in 1985 → 23.7% in 1995) as affluence rose."
-assumptions = ["composite-family", "jp-household-not-family"]
+notes = "Calculated from the archived FIES long-run table's Food and Consumption expenditures cells in the same 1995 annual-average row. The source's Food category is retained without relabelling it as food and non-alcoholic beverages. The percentage is rounded once to one decimal place; calculation operands and rounding are recorded in the audit. The archived table excludes agricultural, forestry and fisheries households."
+assumptions = ["composite-family", "jp-household-not-family", "jp-fies-food-share"]
 
 # ── Work-buys panel ───────────────────────────────────────────────────────
 
@@ -199,8 +205,8 @@ assumptions = ["composite-family", "jp-household-not-family"]
 id = "jp-1990s-work-buys-gap"
 panel = "work-buys"
 label = "Affordability comparisons, 1990s"
-value = "no reliable record accessible online"
+value = "no reliable record curated for this measure"
 unit = "n/a"
 source = "jp-mls"
 tier = "D"
-notes = "No item prices are in the archive for the 1990s, so hours-of-work-to-afford comparisons cannot be computed. The MLS wage (¥408,864/month, 1995) is the available wage reference. Under deflation, nominal values stagnated while real values rose — the affordability axis (hours-to-afford) would be the more reliable comparator."
+notes = "A compatible observation has not yet been transcribed and qualified for this measure."
