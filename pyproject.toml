@@ -57,3 +57,6 @@ allowed-confusables = ["–", "’"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# tests import the one-off extract scripts as `scripts.*`; plain `pytest` (CI)
+# does not put the repo root on sys.path the way `python -m pytest` does.
+pythonpath = ["."]
